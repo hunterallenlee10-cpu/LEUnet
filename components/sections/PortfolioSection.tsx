@@ -1,0 +1,93 @@
+"use client";
+
+import Image from "next/image";
+import { sectionIds } from "@/data/navigation";
+
+const portfolioItems = [
+  {
+    id: "portfolio-1",
+    title: "Lee Marketing Mastery - Brand Growth Campaign",
+    category: "Digital Marketing",
+    image: "/placeholders/portfolio-1.png",
+    description: "Comprehensive marketing strategy driving measurable business growth and customer engagement.",
+  },
+  {
+    id: "portfolio-2",
+    title: "Pelican Power Wash - Property Transformation",
+    category: "Professional Services",
+    image: "/placeholders/portfolio-2.png",
+    description: "Professional cleaning delivering stunning property transformation and curb appeal.",
+  },
+  {
+    id: "portfolio-3",
+    title: "H1 Performance - Athlete Training Program",
+    category: "Athletic Training",
+    image: "/placeholders/portfolio-3.png",
+    description: "Elite training programs building strength, power, and athletic performance.",
+  },
+  {
+    id: "portfolio-4",
+    title: "Thread T-Shirts - Premium Apparel Collection",
+    category: "Fashion & Retail",
+    image: "/placeholders/portfolio-4.png",
+    description: "Premium t-shirt collection designed for everyday style and lasting quality.",
+  },
+];
+
+export function PortfolioSection() {
+  return (
+    <section
+      id={sectionIds.portfolio}
+      className="relative py-20 md:py-32 bg-neutral-950 overflow-hidden"
+    >
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/4 right-10 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="section-container">
+        {/* Header */}
+        <div className="text-center mb-16 md:mb-20">
+          <h2 className="heading-lg text-white mb-4">Our Portfolio</h2>
+          <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
+            Explore the diverse projects and services that showcase our commitment to excellence across all four ventures.
+          </p>
+        </div>
+
+        {/* Portfolio Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {portfolioItems.map((item) => (
+            <div
+              key={item.id}
+              className="group overflow-hidden rounded-lg backdrop-blur-md bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300"
+            >
+              {/* Image */}
+              <div className="relative h-64 md:h-72 overflow-hidden bg-neutral-900">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent" />
+              </div>
+
+              {/* Content */}
+              <div className="p-6 md:p-8">
+                <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">
+                  {item.category}
+                </p>
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-neutral-400 leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

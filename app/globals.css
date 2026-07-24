@@ -157,7 +157,128 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    @apply bg-neutral-950 scroll-smooth;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-neutral-950 text-white font-sans antialiased;
+  }
+
+  /* Smooth scrolling with reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Scroll margin for sticky header */
+  html {
+    scroll-padding-top: 80px;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-amber-400 text-neutral-950;
+  }
+}
+
+@layer components {
+  /* Glass card components */
+  .glass-card {
+    @apply backdrop-blur-md bg-white/8 border border-white/10 rounded-lg;
+  }
+
+  .glass-card-sm {
+    @apply backdrop-blur-md bg-white/8 border border-white/10 rounded-lg p-4;
+  }
+
+  .glass-card-md {
+    @apply backdrop-blur-md bg-white/8 border border-white/10 rounded-lg p-6;
+  }
+
+  .glass-card-lg {
+    @apply backdrop-blur-md bg-white/8 border border-white/10 rounded-lg p-8;
+  }
+
+  /* Venture-specific glass cards */
+  .venture-glass-card {
+    @apply backdrop-blur-sm border rounded-lg transition-all duration-300;
+  }
+
+  /* Typography utilities */
+  .text-glow {
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  }
+
+  .text-glow-amber {
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+  }
+
+  /* Button base styles */
+  .btn-primary {
+    @apply px-6 py-3 bg-amber-400 text-neutral-950 font-semibold rounded-lg hover:bg-amber-300 transition-all duration-200 transform hover:scale-105 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 border-2 border-amber-400 text-amber-400 font-semibold rounded-lg hover:bg-amber-400/10 transition-all duration-200;
+  }
+
+  .btn-tertiary {
+    @apply px-6 py-3 text-white font-semibold rounded-lg hover:text-amber-400 transition-colors duration-200;
+  }
+
+  /* Section utilities */
+  .section-padding {
+    @apply py-20 md:py-32;
+  }
+
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Heading styles */
+  .heading-xl {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+  }
+
+  .heading-lg {
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+  }
+
+  .heading-md {
+    @apply text-2xl md:text-3xl font-bold tracking-tight;
+  }
+
+  /* Grid utilities */
+  .grid-ventures {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+  }
+
+  .grid-services {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  .grid-2-cols {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-8;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 bg-clip-text text-transparent;
+  }
+
+  /* Icon styles */
+  .icon-circle {
+    @apply w-16 h-16 rounded-full flex items-center justify-center;
+  }
+
+  /* Line separator with gradient */
+  .gradient-separator {
+    @apply h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent;
   }
 }

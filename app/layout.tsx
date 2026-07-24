@@ -1,36 +1,50 @@
+import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
+const geistSans = Geist({ subsets: ['latin'] })
+const geistMono = Geist_Mono({ subsets: ['latin'] })
+
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
-  icons: {
-    icon: [
+  title: 'Lee Enterprises Unlimited | Premium Business Portfolio',
+  description: 'Lee Enterprises Unlimited is a holding company managing four distinct ventures: Lee Marketing Mastery, Pelican Power Wash, H1 Performance, and Thread T-Shirts. Each venture is dedicated to delivering premium value and measurable results.',
+  keywords: ['Lee Enterprises', 'marketing', 'power washing', 'athletic training', 'apparel', 'business portfolio'],
+  authors: [{ name: 'Lee Enterprises Unlimited' }],
+  creator: 'Lee Enterprises Unlimited',
+  publisher: 'Lee Enterprises Unlimited',
+  robots: 'index, follow',
+  openGraph: {
+    type: 'website',
+    url: 'https://leeenterprisesunlimited.com',
+    title: 'Lee Enterprises Unlimited',
+    description: 'A premium portfolio of four distinct business ventures dedicated to excellence.',
+    images: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/logos/leu-logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Lee Enterprises Unlimited Logo',
       },
     ],
-    apple: '/apple-icon.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Lee Enterprises Unlimited',
+    description: 'Premium business portfolio of four distinct ventures.',
+  },
+  icons: {
+    icon: '/logos/leu-logo.png',
   },
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: 'dark',
+  themeColor: '#0F0F0F',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 }
 
 export default function RootLayout({
@@ -39,8 +53,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased">
+    <html lang="en" className="bg-neutral-950">
+      <body className={`${geistSans.className} antialiased bg-neutral-950 text-white`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
