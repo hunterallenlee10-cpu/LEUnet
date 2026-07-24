@@ -36,28 +36,44 @@ export function HeroSection() {
       {/* Animated background - positioned absolutely behind all content */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
         {/* Top right large animated blob - most prominent */}
-        <div className="absolute -top-32 -right-48 w-96 h-96 rounded-full blur-3xl" style={{
-          background: 'radial-gradient(ellipse at center, rgba(251, 146, 60, 0.5) 0%, rgba(234, 179, 8, 0.3) 25%, transparent 70%)',
-          animation: 'float-1 22s ease-in-out infinite'
-        }} />
+        <div 
+          className="absolute -top-32 -right-48 w-96 h-96 rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(251, 146, 60, 0.5) 0%, rgba(234, 179, 8, 0.3) 25%, transparent 70%)',
+            animation: 'float-1 20s ease-in-out infinite',
+            willChange: 'transform'
+          }}
+        />
         
         {/* Top center animated blob */}
-        <div className="absolute top-0 left-1/3 -translate-x-1/2 w-80 h-80 rounded-full blur-3xl" style={{
-          background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.4) 0%, rgba(217, 119, 6, 0.2) 35%, transparent 65%)',
-          animation: 'float-2 26s ease-in-out infinite'
-        }} />
+        <div 
+          className="absolute top-0 left-1/3 -translate-x-1/2 w-80 h-80 rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.4) 0%, rgba(217, 119, 6, 0.2) 35%, transparent 65%)',
+            animation: 'float-2 24s ease-in-out infinite',
+            willChange: 'transform'
+          }}
+        />
         
         {/* Bottom left large animated blob */}
-        <div className="absolute -bottom-20 -left-32 w-96 h-96 rounded-full blur-3xl" style={{
-          background: 'radial-gradient(ellipse at center, rgba(245, 158, 11, 0.35) 0%, rgba(180, 83, 9, 0.15) 40%, transparent 70%)',
-          animation: 'float-3 28s ease-in-out infinite'
-        }} />
+        <div 
+          className="absolute -bottom-20 -left-32 w-96 h-96 rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(245, 158, 11, 0.35) 0%, rgba(180, 83, 9, 0.15) 40%, transparent 70%)',
+            animation: 'float-3 26s ease-in-out infinite',
+            willChange: 'transform'
+          }}
+        />
         
         {/* Bottom right accent blob */}
-        <div className="absolute -bottom-10 -right-20 w-72 h-72 rounded-full blur-3xl" style={{
-          background: 'radial-gradient(ellipse at center, rgba(217, 119, 6, 0.25) 0%, rgba(212, 175, 55, 0.1) 45%, transparent 70%)',
-          animation: 'float-1 30s ease-in-out infinite reverse'
-        }} />
+        <div 
+          className="absolute -bottom-10 -right-20 w-72 h-72 rounded-full blur-3xl"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(217, 119, 6, 0.25) 0%, rgba(212, 175, 55, 0.1) 45%, transparent 70%)',
+            animation: 'float-1 28s ease-in-out infinite reverse',
+            willChange: 'transform'
+          }}
+        />
       </div>
 
       <div className="section-container relative" style={{ zIndex: 1 }}>
