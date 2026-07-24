@@ -33,10 +33,12 @@ export function HeroSection() {
       id={sectionIds.hero}
       className="relative min-h-screen pt-24 pb-16 md:pb-32 overflow-hidden bg-neutral-950"
     >
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl opacity-30" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl opacity-20" />
+      {/* Animated background */}
+      <div className="hero-animated-bg">
+        <div className="hero-gradient-base" />
+        <div className="hero-gradient-blob-1" />
+        <div className="hero-gradient-blob-2" />
+        <div className="hero-gradient-blob-3" />
       </div>
 
       <div className="section-container">
