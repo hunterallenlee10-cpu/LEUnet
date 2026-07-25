@@ -36,7 +36,7 @@ export const ventures: Venture[] = [
     id: "h1",
     name: "H1 Performance",
     tagline: "Elite Training. Proven Results.",
-    logo: "/logos/h1-logo.png",
+    logo: "/logos/h1-performance-white.png",
     logoAlt: "H1 Performance logo",
     description:
       "Elite athletic training programs designed to help athletes build strength, increase power, and reach their full potential with expert coaching and proven training methods.",
