@@ -53,7 +53,7 @@ export function MainHeader() {
     >
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="#hero" className="flex items-center gap-2 group">
+        <Link href="#hero" className="flex items-center group">
           <div className="relative w-10 h-10">
             <Image
               src={companyInfo.logo}
@@ -62,9 +62,6 @@ export function MainHeader() {
               className="object-contain"
             />
           </div>
-          <span className="text-lg font-bold text-white hidden sm:inline group-hover:text-amber-400 transition-colors">
-            LEU
-          </span>
         </Link>
 
         {/* Desktop Navigation */}
