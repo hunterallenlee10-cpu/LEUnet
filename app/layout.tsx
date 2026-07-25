@@ -7,6 +7,7 @@ const geistSans = Geist({ subsets: ['latin'] })
 const geistMono = Geist_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://leeenterprisesunlimited.com'),
   title: 'Lee Enterprises Unlimited | Premium Business Portfolio',
   description: 'Lee Enterprises Unlimited is a holding company managing four distinct ventures: Lee Marketing Mastery, Pelican Power Wash, H1 Performance, and Thread T-Shirts. Each venture is dedicated to delivering premium value and measurable results.',
   keywords: ['Lee Enterprises', 'marketing', 'power washing', 'athletic training', 'apparel', 'business portfolio'],
