@@ -189,8 +189,7 @@ export function HeroSection() {
                 </div>
               </div>
 
-              {/* Decorative elements */}
-              <div className="absolute bottom-10 left-10 w-20 h-20 border-2 border-amber-400/20 rounded-full opacity-50" />
+
             </div>
           </div>
         </div>
