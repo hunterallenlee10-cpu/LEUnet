@@ -116,6 +116,20 @@ export const ventureServices = {
         "Stay healthy, move well, and recover so you can keep performing.",
       icon: "♻️",
     },
+    {
+      id: "h1-hitting",
+      title: "Hitting Development",
+      description:
+        "Build bat speed, improve exit velocity, and develop a more powerful, consistent swing.",
+      icon: "🎯",
+    },
+    {
+      id: "h1-programming",
+      title: "Individualized Programming",
+      description:
+        "Personalized training plans and progress tracking built around each athlete's goals.",
+      icon: "📈",
+    },
   ],
   thread: [
     {
