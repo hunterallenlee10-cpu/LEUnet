@@ -116,20 +116,34 @@ export const ventureServices = {
         "Stay healthy, move well, and recover so you can keep performing.",
       icon: "♻️",
     },
+    {
+      id: "h1-hitting",
+      title: "Diet & Growth Plan",
+      description:
+        "Structured nutrition and growth plans built to help athletes gain muscle mass, recover faster, and perform at their best.",
+      icon: "🍎",
+    },
+    {
+      id: "h1-programming",
+      title: "Supplement Resources",
+      description:
+        "Research-backed supplement education and personalized planning designed to help athletes support performance, recovery, and nutrition with informed, responsible decisions.",
+      icon: "🫙",
+    },
   ],
   thread: [
     {
       id: "thread-quality",
       title: "Premium Quality",
       description:
-        "Crafted with high-grade fabrics for lasting durability and style.",
+        "High-quality fabrics selected for lasting comfort, durability, and everyday wear.",
       icon: "✨",
     },
     {
       id: "thread-comfort",
       title: "Everyday Comfort",
       description:
-        "Soft, breathable materials designed for all-day ease.",
+        "Soft, breathable apparel designed to feel as good as it looks.",
       icon: "☁️",
     },
     {
@@ -141,10 +155,24 @@ export const ventureServices = {
     },
     {
       id: "thread-shipping",
-      title: "Fast Shipping",
+      title: "Fast, Reliable Shipping",
       description:
-        "Quick and reliable delivery straight to your door.",
+        "Quick, dependable delivery that gets your order to you without unnecessary delays.",
       icon: "📦",
+    },
+    {
+      id: "thread-custom",
+      title: "Custom Designs",
+      description:
+        "Original apparel designs created for individuals, brands, teams, businesses, and special events.",
+      icon: "✍️",
+    },
+    {
+      id: "thread-personal",
+      title: "Personalized Apparel",
+      description:
+        "Personalized apparel tailored to your vision, style, message, and intended audience. Contact us today to get started.",
+      icon: "👕",
     },
   ],
 };
@@ -207,51 +235,51 @@ export const ventureValuesProps = {
       id: "h1-focused",
       title: "Athlete Focused",
       description:
-        "Every program is customized to your goals, sport, and needs.",
+        "Every program is built around your goals, your sport, and the areas you need most to improve.",
     },
     {
       id: "h1-driven",
-      title: "Performance Driven",
+      title: "Results-Driven",
       description:
-        "We build strength, speed, and confidence that shows up when it matters.",
+        "We develop real strength, speed, power, and confidence that translate directly to performance.",
     },
     {
       id: "h1-expert",
       title: "Expert Coaching",
       description:
-        "Work with experienced coaches who push you and bring out your best.",
+        "Train with knowledgeable coaches who push you, guide you, and help bring out your best.",
     },
     {
       id: "h1-results",
-      title: "Real Results",
+      title: "Proven Development",
       description:
-        "Our athletes improve in the gym, in their sport, and in life.",
+        "Our athletes make measurable progress in the gym, in competition, and in their overall development.",
     },
   ],
   thread: [
     {
       id: "thread-fabric",
-      title: "Ultra-Soft Fabric",
+      title: "Premium Comfort",
       description:
-        "Premium materials that feel as good as they look.",
+        "Soft, breathable fabrics selected for all-day comfort and dependable everyday wear.",
     },
     {
       id: "thread-fit",
-      title: "Designed for Fit",
+      title: "Perfect, Reliable Fit",
       description:
-        "Perfect sizing and cut for comfortable, flattering wear.",
+        "Thoughtfully designed sizing and cuts that provide a comfortable, confident fit.",
     },
     {
       id: "thread-craft",
       title: "Quality Craftsmanship",
       description:
-        "Meticulous attention to detail you can trust.",
+        "Quality materials and careful construction designed to maintain their look, feel, and shape.",
     },
     {
       id: "thread-versatile",
       title: "Versatile Styles",
       description:
-        "Perfect for any occasion, any season, any lifestyle.",
+        "Clean, modern apparel made for everyday wear, special occasions, teams, brands, and events. ",
     },
   ],
 };

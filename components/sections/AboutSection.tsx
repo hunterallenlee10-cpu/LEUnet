@@ -69,7 +69,7 @@ export function AboutSection() {
             <div className="text-center space-y-6">
               <h3 className="heading-md text-white">Our Mission</h3>
               <p className="text-lg text-neutral-300 leading-relaxed">
-                To build and scale exceptional ventures that deliver measurable results, drive positive change, and set new standards for excellence in their respective industries. We are committed to empowering our clients, supporting our team members, and creating lasting value through innovation, integrity, and unwavering focus on results.
+                To build and scale exceptional ventures that deliver measurable results, drive positive change, and set new standards for excellence in their respective industries. At the heart of our mission is a commitment to helping others turn their ideas into reality and make their dreams of starting and growing a successful business come true. We are dedicated to empowering our clients, supporting our team members, and creating lasting value through innovation, integrity, and an unwavering focus on results. Contact us today to make your dreams come true.
               </p>
             </div>
           </GlassCardPadded>
