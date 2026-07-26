@@ -7,28 +7,28 @@ const portfolioItems = [
   {
     id: "portfolio-1",
     title: "Lee Marketing Mastery - Brand Growth Campaign",
-    category: "Digital Marketing",
+    category: "Automation & Digital Marketing",
     image: "/placeholders/portfolio-1.png",
     description: "Results-driven marketing and intelligent automation designed to increase customer engagement, streamline operations, and generate measurable revenue growth.",
   },
   {
     id: "portfolio-2",
     title: "Pelican Power Wash - Property Transformation",
-    category: "Professional Services",
+    category: "Professional Exterior Services",
     image: "/placeholders/portfolio-2.png",
     description: "Professional exterior cleaning that restores surfaces, transforms properties, and enhances curb appeal for residential and commercial clients.",
   },
   {
     id: "portfolio-3",
     title: "H1 Performance - Athlete Training Program",
-    category: "Athletic Training",
+    category: "Personal & Professional Athletic Training",
     image: "/placeholders/portfolio-3.png",
     description: "Elite development programs built to increase strength, explosive power, athleticism, for on & off field performance.",
   },
   {
     id: "portfolio-4",
     title: "Thread T-Shirts - Premium Apparel Collection",
-    category: "Fashion & Retail",
+    category: "Confidence & Meaning",
     image: "/placeholders/portfolio-4.png",
     description: "Premium apparel designed for everyday style and lasting quality, with custom designs created for individuals, brands, teams, and special events.",
   },
@@ -50,7 +50,7 @@ export function PortfolioSection() {
         <div className="text-center mb-16 md:mb-20">
           <h2 className="heading-lg text-white mb-4">Our Portfolio</h2>
           <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
-            Explore the diverse projects and services that showcase our commitment to excellence across all four ventures.
+            Explore the diverse projects and services that showcase our commitment to excellence across all ventures.
           </p>
         </div>
 
