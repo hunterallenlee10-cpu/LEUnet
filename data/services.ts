@@ -4,42 +4,42 @@ export const ventureServices = {
       id: "lmm-social",
       title: "Social Media Marketing",
       description:
-        "Build your brand and engage your audience across all major social platforms.",
+        "Strategic content and audience engagement that strengthen your brand, build trust, and turn attention into opportunity.",
       icon: "📱",
     },
     {
       id: "lmm-seo",
-      title: "Search Engine Optimization",
+      title: "Business Automation",
       description:
-        "Rank higher, get found, and drive organic traffic that converts.",
-      icon: "🔍",
+        "Custom automation systems that streamline operations, save time, improve follow-up, and create scalable revenue opportunities.",
+      icon: "⚙️",
     },
     {
       id: "lmm-paid",
       title: "Paid Ad Management",
       description:
-        "High-converting campaigns that bring in quality leads and sales.",
+        "Targeted advertising campaigns designed to generate qualified leads, increase conversions, and maximize performance.",
       icon: "📊",
     },
     {
       id: "lmm-content",
       title: "Content Creation",
       description:
-        "Scroll-stopping content that builds trust and positions your brand.",
+        "Scroll-stoping creative content that communicates your value, strengthens your brand, and captures attention.",
       icon: "✍️",
     },
     {
       id: "lmm-email",
-      title: "Email & SMS Marketing",
+      title: "Lead Nurturing Systems",
       description:
-        "Nurture leads and turn followers into loyal customers.",
-      icon: "📧",
+        "Strategic follow-up campaigns designed to build trust, improve conversions, and encourage repeat business.",
+      icon: "🌱",
     },
     {
       id: "lmm-analytics",
-      title: "Reporting & Analytics",
+      title: "Custom Growth Solutions",
       description:
-        "Transparent reporting so you always know what's working.",
+        "From lead-generation systems and website development to branding and automation, we build custom solutions designed around your business goals.",
       icon: "📈",
     },
   ],
@@ -60,9 +60,9 @@ export const ventureServices = {
     },
     {
       id: "pelican-roof",
-      title: "Roof Cleaning",
+      title: "Total Exterior Cleaning Package",
       description:
-        "Safely remove algae, moss, and stains to extend the life of your roof.",
+        "Transform your home's exterior with one complete cleaning package. Request your FREE quote today.",
       icon: "🏘️",
     },
     {
@@ -155,7 +155,7 @@ export const ventureValuesProps = {
       id: "lmm-results",
       title: "Results Driven",
       description:
-        "We focus on what matters most—real customers, real growth.",
+        "We focus on what matters most—real revenue, real growth.",
     },
     {
       id: "lmm-strategy",
@@ -173,15 +173,15 @@ export const ventureValuesProps = {
       id: "lmm-proven",
       title: "Proven Systems",
       description:
-        "Our tested systems and processes consistently deliver measurable results.",
+        "Our tested systems have delivered measurable growth across businesses of every size—from independent startups to nine-figure enterprises. Every strategy is built to scale, perform, and produce real results.",
     },
   ],
   pelican: [
     {
       id: "pelican-fast",
-      title: "Fast Response",
+      title: "Fast, Reliable Service",
       description:
-        "We respond quickly and show up on time, ready to get the job done.",
+        "We respond quickly, arrive on time, and make the entire process simple from quote to completion.",
     },
     {
       id: "pelican-quality",
@@ -191,15 +191,15 @@ export const ventureValuesProps = {
     },
     {
       id: "pelican-equipped",
-      title: "Fully Equipped",
+      title: "Commercial-Grade Equipment",
       description:
-        "We use powerful, professional equipment for safe and effective cleaning.",
+        "We use professional equipment and the right cleaning methods to safely treat each surface.",
     },
     {
       id: "pelican-reliable",
-      title: "Reliable Service",
+      title: "Honest, Dependable Care",
       description:
-        "You can count on us for honest service and results you&apos;ll love.",
+        "Expect clear communication, careful workmanship, and results you can feel confident about.",
     },
   ],
   h1: [
