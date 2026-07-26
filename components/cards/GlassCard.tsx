@@ -18,6 +18,12 @@ export function GlassCard({
   borderColor = "border-white/10",
   onClick,
 }: GlassCardProps) {
+  // Determine hover border color based on initial border color
+  const getHoverBorderColor = () => {
+    if (borderColor.includes("amber")) return "hover:border-amber-300";
+    return "hover:border-white/20";
+  };
+
   return (
     <div
       onClick={onClick}
@@ -25,7 +31,7 @@ export function GlassCard({
         "backdrop-blur-md rounded-lg border transition-all duration-300",
         glassOpacity,
         borderColor,
-        hover && "hover:border-white/20 hover:backdrop-blur-lg",
+        hover && `${getHoverBorderColor()} hover:backdrop-blur-lg hover:bg-white/15`,
         onClick && "cursor-pointer",
         className
       )}
