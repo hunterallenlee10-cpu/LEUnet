@@ -169,9 +169,9 @@ export function HeroSection() {
               <div className="grid grid-cols-3 gap-4 pt-2" style={{ maxWidth: "620px" }}>
                 <GlassCardPadded size="sm">
                   <div className="text-center">
-                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">4</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">1</p>
                     <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
-                      Distinct Ventures
+                      Unified Vision
                     </p>
                   </div>
                 </GlassCardPadded>

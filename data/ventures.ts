@@ -9,12 +9,12 @@ export const ventures: Venture[] = [
     logo: "/logos/lmm-logo.png",
     logoAlt: "Lee Marketing Mastery logo",
     description:
-      "Full-service marketing solutions to help you attract, convert, and retain more customers. We specialize in strategic marketing, content creation, paid advertising, and comprehensive reporting.",
+      "Marketing and automation systems built to generate leads, improve follow-up, increase conversions, and create long-term customer growth. From content and paid advertising to automated workflows and reporting, every solution is designed to save time and produce measurable results.",
     ctaPrimary: "Book a Free Strategy Call",
     ctaSecondary: "View Our Services",
     heroSubtitle: "Grow Your Brand. Master Your Market.",
     heroDescription:
-      "Done-For-You Marketing That Drives Leads, Builds Trust, and Scales Businesses.",
+      "Done-For-You Marketing & Systems That Drives Leads, Builds Trust, and Scales Businesses.",
     colors: VENTURE_COLORS.lmm,
   },
   {
@@ -24,12 +24,12 @@ export const ventures: Venture[] = [
     logo: "/logos/pelican-logo.png",
     logoAlt: "Pelican Power Wash mascot and logo",
     description:
-      "Professional power washing and exterior cleaning for residential and commercial properties. We deliver stunning results that protect your investment and enhance curb appeal.",
+      "Professional exterior cleaning that safely removes buildup, restores your property's appearance, and delivers lasting curb appeal for residential and commercial clients.",
     ctaPrimary: "Get a Free Quote",
     ctaSecondary: "View Services",
     heroSubtitle: "Make Your Property Shine. Power Washing That Gets Results.",
     heroDescription:
-      "Professional exterior cleaning for homes and businesses. We use high-quality equipment and proven techniques to deliver a deep, safe clean that enhances curb appeal and protects your investment.",
+      "Professional exterior cleaning that safely removes buildup, restores your property's appearance, and delivers lasting curb appeal for residential and commercial clients.",
     colors: VENTURE_COLORS.pelican,
   },
   {
@@ -39,12 +39,12 @@ export const ventures: Venture[] = [
     logo: "/logos/h1-performance-white.png",
     logoAlt: "H1 Performance logo",
     description:
-      "Elite athletic training programs designed to help athletes build strength, increase power, and reach their full potential with expert coaching and proven training methods.",
+      "Elite Training. Proven Results. H1 Performance develops stronger, faster, and more powerful athletes through focused training built to produce measurable on & off field performance.",
     ctaPrimary: "Book a Consultation",
     ctaSecondary: "View Programs",
     heroSubtitle: "Train Harder. Perform Higher.",
     heroDescription:
-      "Elite Training. Proven Results. H1 Performance helps athletes build strength, increase power, and reach their full potential.",
+      "Elite Training. Proven Results. H1 Performance develops stronger, faster, and more powerful athletes through focused training built to produce measurable on & off field performance.",
     colors: VENTURE_COLORS.h1,
   },
   {
