@@ -31,176 +31,244 @@ export function HeroSection() {
   return (
     <section
       id={sectionIds.hero}
-      className="relative min-h-screen pt-24 pb-16 md:pb-32 overflow-hidden bg-black"
+      className="relative overflow-hidden bg-black"
+      style={{ 
+        minHeight: "calc(100vh - 80px)",
+        height: "calc(100vh - 80px)",
+      }}
     >
-      {/* Animated background - positioned absolutely behind all content */}
+      {/* Animated background layers */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
-        {/* Top right large animated blob - most prominent */}
+        {/* Base dark gradient */}
+        <div className="absolute inset-0 bg-black" />
+
+        {/* Right side - Primary gold glow (behind logo) */}
         <div 
-          className="absolute -top-32 -right-48 w-96 h-96 rounded-full blur-3xl"
+          className="absolute blur-3xl"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(251, 146, 60, 0.5) 0%, rgba(234, 179, 8, 0.3) 25%, transparent 70%)',
-            animation: 'float-1 20s ease-in-out infinite',
+            right: "-15%",
+            top: "15%",
+            width: "550px",
+            height: "550px",
+            background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.35) 0%, rgba(212, 175, 55, 0.15) 35%, transparent 70%)',
+            animation: 'hero-glow-1 18s ease-in-out infinite',
             willChange: 'transform'
           }}
         />
-        
-        {/* Top center animated blob */}
+
+        {/* Right side - Secondary amber glow */}
         <div 
-          className="absolute top-0 left-1/3 -translate-x-1/2 w-80 h-80 rounded-full blur-3xl"
+          className="absolute blur-3xl"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.4) 0%, rgba(217, 119, 6, 0.2) 35%, transparent 65%)',
-            animation: 'float-2 24s ease-in-out infinite',
+            right: "-25%",
+            bottom: "-10%",
+            width: "450px",
+            height: "450px",
+            background: 'radial-gradient(ellipse at center, rgba(217, 119, 6, 0.2) 0%, rgba(180, 83, 9, 0.08) 40%, transparent 70%)',
+            animation: 'hero-glow-2 22s ease-in-out infinite',
             willChange: 'transform'
           }}
         />
-        
-        {/* Bottom left large animated blob */}
+
+        {/* Left side - Subtle accent glow */}
         <div 
-          className="absolute -bottom-20 -left-32 w-96 h-96 rounded-full blur-3xl"
+          className="absolute blur-3xl"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(245, 158, 11, 0.35) 0%, rgba(180, 83, 9, 0.15) 40%, transparent 70%)',
-            animation: 'float-3 26s ease-in-out infinite',
+            left: "-10%",
+            top: "30%",
+            width: "400px",
+            height: "400px",
+            background: 'radial-gradient(ellipse at center, rgba(244, 208, 63, 0.15) 0%, rgba(212, 175, 55, 0.05) 40%, transparent 70%)',
+            animation: 'hero-glow-3 24s ease-in-out infinite reverse',
             willChange: 'transform'
           }}
         />
-        
-        {/* Bottom right accent blob */}
+
+        {/* Center subtle glow for logo aura */}
         <div 
-          className="absolute -bottom-10 -right-20 w-72 h-72 rounded-full blur-3xl"
+          className="absolute blur-3xl"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(217, 119, 6, 0.25) 0%, rgba(212, 175, 55, 0.1) 45%, transparent 70%)',
-            animation: 'float-1 28s ease-in-out infinite reverse',
+            right: "8%",
+            top: "50%",
+            transform: 'translateY(-50%)',
+            width: "600px",
+            height: "600px",
+            background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.2) 0%, rgba(212, 175, 55, 0.08) 45%, transparent 75%)',
+            animation: 'hero-logo-aura 8s ease-in-out infinite',
             willChange: 'transform'
           }}
         />
       </div>
 
-      <div className="section-container relative" style={{ zIndex: 1 }}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div
-            className="space-y-6 md:space-y-8 z-10"
-            style={{
-              transform: `translateY(${scrollY * 0.3}px)`,
-            }}
-          >
-            {/* Logo mini */}
-            <div className="flex items-center gap-3 w-fit">
-              <div className="relative w-10 h-10">
+      {/* Content Container */}
+      <div 
+        className="relative flex flex-col justify-center h-full"
+        style={{ zIndex: 1 }}
+      >
+        <div 
+          className="mx-auto w-full flex items-center justify-center px-6 sm:px-8 lg:px-0"
+          style={{
+            maxWidth: "min(1440px, calc(100% - 64px))",
+            width: "100%",
+          }}
+        >
+          {/* Two Column Layout */}
+          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Column - 52% */}
+            <div className="w-full space-y-6 md:space-y-8">
+              {/* Eyebrow */}
+              <div className="flex items-center gap-3 w-fit">
+                <div className="relative w-10 h-10">
+                  <Image
+                    src={companyInfo.logo}
+                    alt={companyInfo.logoAlt}
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                </div>
+                <span className="text-xs sm:text-sm font-semibold text-amber-400 tracking-widest uppercase">
+                  Lee Enterprises
+                </span>
+              </div>
+
+              {/* Headline */}
+              <div className="space-y-3">
+                <h1 
+                  className="text-white font-bold leading-tight tracking-tight"
+                  style={{
+                    fontSize: "clamp(48px, 4.5vw, 76px)",
+                  }}
+                >
+                  {companyInfo.heroTitle}
+                </h1>
+
+                {/* Gold Subheading */}
+                <p 
+                  className="font-semibold text-amber-400 leading-tight"
+                  style={{
+                    fontSize: "clamp(22px, 2vw, 32px)",
+                  }}
+                >
+                  {companyInfo.heroSubtitle}
+                </p>
+              </div>
+
+              {/* Description */}
+              <p 
+                className="text-neutral-300 leading-relaxed max-w-xl"
+                style={{
+                  fontSize: "clamp(17px, 1.1vw, 20px)",
+                }}
+              >
+                {companyInfo.heroDescription}
+              </p>
+
+              {/* Statistic Cards - Horizontal Row */}
+              <div className="grid grid-cols-3 gap-4 pt-2" style={{ maxWidth: "620px" }}>
+                <GlassCardPadded size="sm">
+                  <div className="text-center">
+                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">4</p>
+                    <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
+                      Distinct Ventures
+                    </p>
+                  </div>
+                </GlassCardPadded>
+                <GlassCardPadded size="sm">
+                  <div className="text-center">
+                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">100%</p>
+                    <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
+                      Results Focused
+                    </p>
+                  </div>
+                </GlassCardPadded>
+                <GlassCardPadded size="sm">
+                  <div className="text-center">
+                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">∞</p>
+                    <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
+                      Growth Potential
+                    </p>
+                  </div>
+                </GlassCardPadded>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <button
+                  onClick={() => handleCTA(sectionIds.contact)}
+                  className="btn-primary flex items-center justify-center gap-2 text-sm sm:text-base"
+                >
+                  Get Started
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleCTA(sectionIds.ventureSnapshot)}
+                  className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
+                >
+                  Explore Ventures
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column - 48% - Logo */}
+            <div className="w-full flex items-center justify-center hidden lg:flex">
+              <div
+                className="relative"
+                style={{
+                  width: "clamp(360px, 38vw, 600px)",
+                  maxWidth: "100%",
+                  aspectRatio: "1",
+                  transform: `translateY(${scrollY * 0.1}px)`,
+                }}
+              >
+                {/* Logo Glow Layers */}
+                <div className="absolute inset-0 -z-10 flex items-center justify-center">
+                  {/* Pulsing logo glow */}
+                  <div
+                    className="absolute rounded-full blur-3xl"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.25) 0%, rgba(212, 175, 55, 0.08) 50%, transparent 80%)',
+                      animation: 'hero-logo-pulse 6s ease-in-out infinite',
+                      willChange: 'transform',
+                    }}
+                  />
+                </div>
+
+                {/* Main Logo */}
                 <Image
                   src={companyInfo.logo}
                   alt={companyInfo.logoAlt}
                   fill
                   className="object-contain"
+                  priority
                 />
               </div>
-              <span className="text-sm font-semibold text-amber-400 tracking-widest uppercase">
-                Lee Enterprises
-              </span>
-            </div>
-
-            {/* Main heading */}
-            <div className="space-y-4">
-              <h1 className="heading-xl text-white">
-                {companyInfo.heroTitle}
-              </h1>
-              <p className="text-xl md:text-2xl font-semibold text-amber-400 leading-tight">
-                {companyInfo.heroSubtitle}
-              </p>
-            </div>
-
-            {/* Description */}
-            <p className="text-lg text-neutral-300 leading-relaxed max-w-xl">
-              {companyInfo.heroDescription}
-            </p>
-
-            {/* Value Props */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-              <GlassCardPadded size="sm">
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-amber-400">4</p>
-                  <p className="text-sm text-neutral-300 mt-2">
-                    Distinct Ventures
-                  </p>
-                </div>
-              </GlassCardPadded>
-              <GlassCardPadded size="sm">
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-amber-400">100%</p>
-                  <p className="text-sm text-neutral-300 mt-2">
-                    Results Focused
-                  </p>
-                </div>
-              </GlassCardPadded>
-              <GlassCardPadded size="sm">
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-amber-400">∞</p>
-                  <p className="text-sm text-neutral-300 mt-2">
-                    Growth Potential
-                  </p>
-                </div>
-              </GlassCardPadded>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <button
-                onClick={() => handleCTA(sectionIds.contact)}
-                className="btn-primary flex items-center justify-center gap-2"
-              >
-                Get Started
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => handleCTA(sectionIds.ventureSnapshot)}
-                className="btn-secondary flex items-center justify-center gap-2"
-              >
-                Explore Ventures
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Right Side - Logo Animation */}
-          <div className="relative h-96 md:h-full flex items-center justify-center">
-            <div
-              className="relative w-full h-full max-w-md"
-              style={{
-                transform: `translateY(${scrollY * 0.1}px) scale(${1 + scrollY * 0.0005})`,
-              }}
-            >
-              {/* Floating gradient orbs */}
-              <div className="absolute inset-0 -z-10">
-                <div className="absolute top-20 right-20 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-20 left-10 w-48 h-48 bg-amber-400/5 rounded-full blur-3xl" />
-              </div>
-
-              {/* Main Logo */}
-              <div className="relative w-full h-full flex items-center justify-center">
-                <div className="w-80 h-80 relative">
-                  <Image
-                    src={companyInfo.logo}
-                    alt={companyInfo.logoAlt}
-                    fill
-                    className="object-contain filter drop-shadow-2xl"
-                    priority
-                  />
-                </div>
-              </div>
-
-
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+      {/* Scroll Indicator - Bottom */}
+      <div 
+        className="absolute left-1/2 transform -translate-x-1/2 z-20 pointer-events-none"
+        style={{ 
+          bottom: "24px",
+          animation: 'bounce 2s infinite',
+        }}
+      >
         <div className="flex flex-col items-center gap-2">
-          <p className="text-sm text-neutral-400">Scroll to explore</p>
-          <div className="w-6 h-10 border-2 border-amber-400/50 rounded-full flex justify-center">
-            <div className="w-1 h-2 bg-amber-400 rounded-full mt-2 animate-pulse" />
+          <p className="text-xs sm:text-sm text-neutral-400 font-medium">Scroll to explore</p>
+          <div className="w-6 h-10 border-2 border-amber-400/60 rounded-full flex justify-center">
+            <div 
+              className="w-1 h-2 bg-amber-400 rounded-full mt-2"
+              style={{
+                animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              }}
+            />
           </div>
         </div>
       </div>
