@@ -33,11 +33,11 @@ export function MainFooter() {
                 />
               </div>
               <div>
-                <h3 className="font-bold text-white text-lg">LEU</h3>
-                <p className="text-xs text-amber-400">Enterprises</p>
+                <h3 className="font-bold text-white text-lg"></h3>
+                <p className="text-xs text-amber-400">Lee Enterprises Unlimited</p>
               </div>
             </div>
-            <p className="text-neutral-400 text-sm">{companyInfo.tagline}</p>
+            <p className="text-neutral-400 text-sm">Empowering Excellence Across Distinct Ventures. Working to make others dreams come true.</p>
           </div>
 
           {/* Quick Links */}
