@@ -82,7 +82,7 @@ export function HelpSelectorSection() {
 
                   {/* CTA Text */}
                   <p className="text-sm font-semibold text-amber-400 group-hover:text-amber-300 transition-colors">
-                    Get {venture.ctaPrimary.toLowerCase()}
+                    {venture.ctaPrimary}
                   </p>
                 </div>
               </GlassCardPadded>
@@ -93,7 +93,7 @@ export function HelpSelectorSection() {
         {/* Alternative CTA */}
         <div className="text-center mt-12">
           <p className="text-neutral-400 mb-4">
-            Not sure which venture is right for you?
+            Not sure which venture is right for you? Want to start your own venture?
           </p>
           <button
             onClick={() => handleVentureSelect("other")}

@@ -136,14 +136,14 @@ export const ventureServices = {
       id: "thread-quality",
       title: "Premium Quality",
       description:
-        "Crafted with high-grade fabrics for lasting durability and style.",
+        "High-quality fabrics selected for lasting comfort, durability, and everyday wear.",
       icon: "✨",
     },
     {
       id: "thread-comfort",
       title: "Everyday Comfort",
       description:
-        "Soft, breathable materials designed for all-day ease.",
+        "Soft, breathable apparel designed to feel as good as it looks.",
       icon: "☁️",
     },
     {
@@ -155,9 +155,9 @@ export const ventureServices = {
     },
     {
       id: "thread-shipping",
-      title: "Fast Shipping",
+      title: "Fast, Reliable Shipping",
       description:
-        "Quick and reliable delivery straight to your door.",
+        "Quick, dependable delivery that gets your order to you without unnecessary delays.",
       icon: "📦",
     },
     {
@@ -169,9 +169,9 @@ export const ventureServices = {
     },
     {
       id: "thread-personal",
-      title: "Made for You",
+      title: "Personalized Apparel",
       description:
-        "Personalized apparel tailored to your vision, style, message, and intended audience.",
+        "Personalized apparel tailored to your vision, style, message, and intended audience. Contact us today to get started.",
       icon: "👕",
     },
   ],
@@ -259,27 +259,27 @@ export const ventureValuesProps = {
   thread: [
     {
       id: "thread-fabric",
-      title: "Ultra-Soft Fabric",
+      title: "Premium Comfort",
       description:
-        "Premium materials that feel as good as they look.",
+        "Soft, breathable fabrics selected for all-day comfort and dependable everyday wear.",
     },
     {
       id: "thread-fit",
-      title: "Designed for Fit",
+      title: "Perfect, Reliable Fit",
       description:
-        "Perfect sizing and cut for comfortable, flattering wear.",
+        "Thoughtfully designed sizing and cuts that provide a comfortable, confident fit.",
     },
     {
       id: "thread-craft",
       title: "Quality Craftsmanship",
       description:
-        "Meticulous attention to detail you can trust.",
+        "Quality materials and careful construction designed to maintain their look, feel, and shape.",
     },
     {
       id: "thread-versatile",
       title: "Versatile Styles",
       description:
-        "Perfect for any occasion, any season, any lifestyle.",
+        "Clean, modern apparel made for everyday wear, special occasions, teams, brands, and events. ",
     },
   ],
 };

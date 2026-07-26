@@ -54,7 +54,7 @@ export const ventures: Venture[] = [
     logo: "/logos/thread-logo.png",
     logoAlt: "Thread T-Shirts logo",
     description:
-      "Stylish, comfortable t-shirts crafted with high-grade fabrics for lasting durability and style. Designed for those who expect more from their everyday wear.",
+      "Thread creates premium everyday apparel and custom designs for individuals, brands, teams, businesses, and events. Every piece is built around lasting comfort, dependable quality, and a clean style you can wear with confidence.",
     ctaPrimary: "Shop Collection",
     ctaSecondary: "View Styles",
     heroSubtitle: "Wear Your Style. Elevate Everyday Essentials.",

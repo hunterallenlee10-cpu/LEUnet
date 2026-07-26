@@ -17,7 +17,7 @@ export const aboutSection = {
   title: "About Lee Enterprises Unlimited",
   subtitle: "Built on a Foundation of Excellence",
   description:
-    "Lee Enterprises Unlimited represents a strategic portfolio of businesses, each specializing in their respective markets. Our ventures share a commitment to quality, customer satisfaction, and measurable results.",
+    "Lee Enterprises Unlimited brings together a growing portfolio of specialized businesses under one vision: create value, deliver exceptional results, and build ventures designed to last. Whether you are interested in one of our services, a potential partnership, or launching a venture of your own, our team is ready to help you move forward. Contact us for a consultation on your vision.",
   values: [
     {
       id: "excellence",
