@@ -83,7 +83,7 @@ export const privacyPolicyContent = {
     {
       heading: "Introduction",
       content:
-        "Lee Enterprises Unlimited (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information.",
+        "Lee Enterprises Unlimited is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information.",
     },
     {
       heading: "Information We Collect",
