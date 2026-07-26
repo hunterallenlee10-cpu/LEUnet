@@ -67,14 +67,18 @@ export function MainHeader() {
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-8">
           {navigationItems.map((item) => (
-            <div key={item.id}>
+            <div key={item.id} className={item.featured ? "relative" : ""}>
               {item.featured ? (
                 <button
                   onClick={() => setVenturesDropdownOpen(!venturesDropdownOpen)}
                   className="flex items-center gap-1 text-white hover:text-amber-400 transition-colors relative group"
+                  aria-haspopup="true"
+                  aria-expanded={venturesDropdownOpen}
                 >
                   {item.label}
-                  <ChevronDown className="w-4 h-4" />
+                  <ChevronDown 
+                    className={`w-4 h-4 transition-transform duration-200 ${venturesDropdownOpen ? "rotate-180" : ""}`} 
+                  />
                   <span className="absolute bottom-0 left-0 w-0 group-hover:w-full h-0.5 bg-amber-400 transition-all duration-300" />
                 </button>
               ) : (
@@ -87,16 +91,27 @@ export function MainHeader() {
                 </button>
               )}
 
-              {/* Desktop Ventures Dropdown */}
+              {/* Desktop Ventures Dropdown - Premium Redesign */}
               {item.featured && venturesDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden backdrop-blur-md min-w-56">
-                  {ventureNavItems.map((ventureItem) => (
+                <div 
+                  className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-72 bg-neutral-950/95 backdrop-blur-md border border-neutral-800 border-t-amber-500/30 rounded-lg overflow-hidden shadow-2xl z-50 opacity-100 animate-fade-in"
+                  style={{
+                    animation: "fadeInSlide 200ms ease-out forwards"
+                  }}
+                  role="menu"
+                  aria-label="Ventures"
+                >
+                  {ventureNavItems.map((ventureItem, index) => (
                     <button
                       key={ventureItem.id}
                       onClick={() => handleNavClick(ventureItem.href, ventureItem.id)}
-                      className="w-full text-left px-4 py-3 text-white hover:bg-neutral-800 hover:text-amber-400 transition-colors border-b border-neutral-800 last:border-0"
+                      role="menuitem"
+                      className={`w-full text-left px-4 py-3.5 text-white hover:bg-neutral-900/80 hover:text-amber-400 hover:translate-x-0.5 transition-all duration-150 group flex items-center justify-between ${
+                        index !== ventureNavItems.length - 1 ? "border-b border-neutral-800/50" : ""
+                      }`}
                     >
-                      {ventureItem.label}
+                      <span className="font-medium text-sm">{ventureItem.label}</span>
+                      <span className="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">→</span>
                     </button>
                   ))}
                 </div>
