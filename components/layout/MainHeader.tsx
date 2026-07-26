@@ -13,6 +13,7 @@ export function MainHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [venturesDropdownOpen, setVenturesDropdownOpen] = useState(false);
+  const [closeTimeoutId, setCloseTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -22,6 +23,24 @@ export function MainHeader() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Handle hover interactions for desktop dropdown
+  const handleMouseEnter = () => {
+    // Clear any pending close timeout when entering
+    if (closeTimeoutId) {
+      clearTimeout(closeTimeoutId);
+      setCloseTimeoutId(null);
+    }
+    setVenturesDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Set a debounced close with 200ms delay to prevent flickering
+    const timeoutId = setTimeout(() => {
+      setVenturesDropdownOpen(false);
+    }, 200);
+    setCloseTimeoutId(timeoutId);
+  };
 
   const handleNavClick = (href: string, id: string) => {
     setMobileMenuOpen(false);
@@ -71,6 +90,8 @@ export function MainHeader() {
               {item.featured ? (
                 <button
                   onClick={() => setVenturesDropdownOpen(!venturesDropdownOpen)}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                   className="flex items-center gap-1 text-white hover:text-amber-400 transition-colors relative group"
                   aria-haspopup="true"
                   aria-expanded={venturesDropdownOpen}
@@ -100,6 +121,8 @@ export function MainHeader() {
                   }}
                   role="menu"
                   aria-label="Ventures"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
                   {ventureNavItems.map((ventureItem, index) => (
                     <button
