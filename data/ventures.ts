@@ -39,12 +39,12 @@ export const ventures: Venture[] = [
     logo: "/logos/h1-performance-white.png",
     logoAlt: "H1 Performance logo",
     description:
-      "Elite Training. Proven Results. H1 Performance develops stronger, faster, and more powerful athletes through focused training built to produce measurable on & off field performance.",
+      "Elite Training. Proven Results. H1 Performance delivers personalized athletic development designed to build strength, speed, power, and measurable performance on and off the field.",
     ctaPrimary: "Book a Consultation",
     ctaSecondary: "View Programs",
     heroSubtitle: "Train Harder. Perform Higher.",
     heroDescription:
-      "Elite Training. Proven Results. H1 Performance develops stronger, faster, and more powerful athletes through focused training built to produce measurable on & off field performance.",
+      "Elite Training. Proven Results. H1 Performance delivers personalized athletic development designed to build strength, speed, power, and measurable performance on and off the field.",
     colors: VENTURE_COLORS.h1,
   },
   {

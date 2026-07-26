@@ -118,17 +118,17 @@ export const ventureServices = {
     },
     {
       id: "h1-hitting",
-      title: "Hitting Development",
+      title: "Diet & Growth Plan",
       description:
-        "Build bat speed, improve exit velocity, and develop a more powerful, consistent swing.",
-      icon: "🎯",
+        "Structured nutrition and growth plans built to help athletes gain muscle mass, recover faster, and perform at their best.",
+      icon: "🍎",
     },
     {
       id: "h1-programming",
-      title: "Individualized Programming",
+      title: "Supplement Resources",
       description:
-        "Personalized training plans and progress tracking built around each athlete's goals.",
-      icon: "📈",
+        "Research-backed supplement education and personalized planning designed to help athletes support performance, recovery, and nutrition with informed, responsible decisions.",
+      icon: "🫙",
     },
   ],
   thread: [
@@ -159,6 +159,20 @@ export const ventureServices = {
       description:
         "Quick and reliable delivery straight to your door.",
       icon: "📦",
+    },
+    {
+      id: "thread-custom",
+      title: "Custom Designs",
+      description:
+        "Original apparel designs created for individuals, brands, teams, businesses, and special events.",
+      icon: "✍️",
+    },
+    {
+      id: "thread-personal",
+      title: "Made for You",
+      description:
+        "Personalized apparel tailored to your vision, style, message, and intended audience.",
+      icon: "👕",
     },
   ],
 };
@@ -221,25 +235,25 @@ export const ventureValuesProps = {
       id: "h1-focused",
       title: "Athlete Focused",
       description:
-        "Every program is customized to your goals, sport, and needs.",
+        "Every program is built around your goals, your sport, and the areas you need most to improve.",
     },
     {
       id: "h1-driven",
-      title: "Performance Driven",
+      title: "Results-Driven",
       description:
-        "We build strength, speed, and confidence that shows up when it matters.",
+        "We develop real strength, speed, power, and confidence that translate directly to performance.",
     },
     {
       id: "h1-expert",
       title: "Expert Coaching",
       description:
-        "Work with experienced coaches who push you and bring out your best.",
+        "Train with knowledgeable coaches who push you, guide you, and help bring out your best.",
     },
     {
       id: "h1-results",
-      title: "Real Results",
+      title: "Proven Development",
       description:
-        "Our athletes improve in the gym, in their sport, and in life.",
+        "Our athletes make measurable progress in the gym, in competition, and in their overall development.",
     },
   ],
   thread: [
