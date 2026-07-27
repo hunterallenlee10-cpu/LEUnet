@@ -37,64 +37,102 @@ export function HeroSection() {
         height: "calc(100vh - 80px)",
       }}
     >
-      {/* Animated background layers */}
+      {/* Animated background layers - Enhanced with blue/purple/cyan */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
         {/* Base dark gradient */}
         <div className="absolute inset-0 bg-black" />
 
-        {/* Right side - Primary gold glow (behind logo) */}
+        {/* Deep blue gradient base layer - adds richness */}
+        <div 
+          className="absolute inset-0 blur-2xl opacity-60"
+          style={{
+            background: 'linear-gradient(135deg, rgba(30, 58, 138, 0.25) 0%, rgba(12, 74, 110, 0.15) 50%, transparent 100%)',
+            animation: 'hero-base-drift 20s ease-in-out infinite'
+          }}
+        />
+
+        {/* Top-right - Deep blue primary glow */}
         <div 
           className="absolute blur-3xl"
           style={{
-            right: "-15%",
-            top: "15%",
-            width: "550px",
-            height: "550px",
-            background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.35) 0%, rgba(212, 175, 55, 0.15) 35%, transparent 70%)',
-            animation: 'hero-glow-1 18s ease-in-out infinite',
+            right: "-10%",
+            top: "5%",
+            width: "700px",
+            height: "700px",
+            background: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.4) 0%, rgba(30, 58, 138, 0.2) 30%, transparent 70%)',
+            animation: 'hero-glow-blue-1 16s ease-in-out infinite',
             willChange: 'transform'
           }}
         />
 
-        {/* Right side - Secondary amber glow */}
+        {/* Bottom-right - Cyan accent glow */}
         <div 
           className="absolute blur-3xl"
           style={{
-            right: "-25%",
-            bottom: "-10%",
-            width: "450px",
-            height: "450px",
-            background: 'radial-gradient(ellipse at center, rgba(217, 119, 6, 0.2) 0%, rgba(180, 83, 9, 0.08) 40%, transparent 70%)',
-            animation: 'hero-glow-2 22s ease-in-out infinite',
+            right: "-5%",
+            bottom: "-15%",
+            width: "650px",
+            height: "650px",
+            background: 'radial-gradient(ellipse at center, rgba(34, 211, 238, 0.25) 0%, rgba(6, 182, 212, 0.12) 35%, transparent 70%)',
+            animation: 'hero-glow-cyan 18s ease-in-out infinite',
             willChange: 'transform'
           }}
         />
 
-        {/* Left side - Subtle accent glow */}
+        {/* Left-center - Purple accent glow */}
         <div 
           className="absolute blur-3xl"
           style={{
-            left: "-10%",
-            top: "30%",
-            width: "400px",
-            height: "400px",
-            background: 'radial-gradient(ellipse at center, rgba(244, 208, 63, 0.15) 0%, rgba(212, 175, 55, 0.05) 40%, transparent 70%)',
-            animation: 'hero-glow-3 24s ease-in-out infinite reverse',
-            willChange: 'transform'
-          }}
-        />
-
-        {/* Center subtle glow for logo aura */}
-        <div 
-          className="absolute blur-3xl"
-          style={{
-            right: "8%",
-            top: "50%",
-            transform: 'translateY(-50%)',
+            left: "-15%",
+            top: "20%",
             width: "600px",
             height: "600px",
-            background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.2) 0%, rgba(212, 175, 55, 0.08) 45%, transparent 75%)',
-            animation: 'hero-logo-aura 8s ease-in-out infinite',
+            background: 'radial-gradient(ellipse at center, rgba(147, 51, 234, 0.2) 0%, rgba(88, 28, 135, 0.08) 40%, transparent 70%)',
+            animation: 'hero-glow-purple 19s ease-in-out infinite',
+            willChange: 'transform'
+          }}
+        />
+
+        {/* Center-right - Electric blue glow for logo area */}
+        <div 
+          className="absolute blur-3xl"
+          style={{
+            right: "15%",
+            top: "50%",
+            transform: 'translateY(-50%)',
+            width: "700px",
+            height: "700px",
+            background: 'radial-gradient(ellipse at center, rgba(96, 165, 250, 0.3) 0%, rgba(37, 99, 235, 0.15) 40%, transparent 75%)',
+            animation: 'hero-glow-electric 14s ease-in-out infinite',
+            willChange: 'transform'
+          }}
+        />
+
+        {/* Bottom-left - Subtle cyan accent */}
+        <div 
+          className="absolute blur-3xl"
+          style={{
+            left: "5%",
+            bottom: "-5%",
+            width: "500px",
+            height: "500px",
+            background: 'radial-gradient(ellipse at center, rgba(6, 182, 212, 0.15) 0%, rgba(14, 165, 233, 0.05) 40%, transparent 70%)',
+            animation: 'hero-glow-cyan-accent 22s ease-in-out infinite reverse',
+            willChange: 'transform'
+          }}
+        />
+
+        {/* Center subtle wave - light blue accent */}
+        <div 
+          className="absolute blur-2xl"
+          style={{
+            left: "50%",
+            top: "40%",
+            transform: 'translateX(-50%)',
+            width: "800px",
+            height: "400px",
+            background: 'radial-gradient(ellipse at center, rgba(100, 200, 255, 0.1) 0%, transparent 70%)',
+            animation: 'hero-wave-pulse 8s ease-in-out infinite',
             willChange: 'transform'
           }}
         />
