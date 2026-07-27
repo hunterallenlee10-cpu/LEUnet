@@ -6,7 +6,7 @@ export const ventures: Venture[] = [
     id: "lmm",
     name: "Lee Marketing Mastery",
     tagline: "Done-For-You Marketing That Drives Real Results",
-    logo: "/logos/lmm-logo.png",
+    logo: "/lee-marketing-mastery-logo.png",
     logoAlt: "Lee Marketing Mastery logo",
     description:
       "Marketing and automation systems built to generate leads, improve follow-up, increase conversions, and create long-term customer growth. From content and paid advertising to automated workflows and reporting, every solution is designed to save time and produce measurable results.",
