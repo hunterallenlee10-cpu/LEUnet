@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowRight, Send } from "lucide-react";
-import { contactFormFields, buildMailtoLink } from "@/data/contact";
+import { Send } from "lucide-react";
+import { contactFormFields } from "@/data/contact";
 import { ContactFormData } from "@/types";
 import { sectionIds } from "@/data/navigation";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
@@ -11,6 +11,7 @@ export function ContactSection() {
   const [formData, setFormData] = useState<Partial<ContactFormData>>({
     preferredContactMethod: "email",
   });
+  const [honeypot, setHoneypot] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,10 +41,10 @@ export function ContactSection() {
       newErrors.email = "Please enter a valid email address";
     }
 
-    // Phone validation
-    if (!formData.phone?.trim()) {
+    // Phone validation - only required if phone is preferred contact method
+    if (formData.preferredContactMethod === "phone" && !formData.phone?.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (!/^[\d\s\-().+]+$/.test(formData.phone) || formData.phone.length < 10) {
+    } else if (formData.phone?.trim() && (!/^[\d\s\-().+]+$/.test(formData.phone) || formData.phone.length < 10)) {
       newErrors.phone = "Please enter a valid phone number";
     }
 
@@ -102,7 +103,7 @@ export function ContactSection() {
     setFormData((prev) => ({ ...prev, preferredContactMethod: value as "email" | "phone" }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -111,20 +112,46 @@ export function ContactSection() {
 
     setIsSubmitting(true);
 
-    // Build mailto link and open it
-    const mailtoLink = buildMailtoLink(formData as Record<string, string>);
-    window.location.href = mailtoLink;
-
-    // Show success message
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        preferredContactMethod: "email",
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          honeypot,
+        }),
       });
-    }, 3000);
 
-    setIsSubmitting(false);
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Handle validation errors from API
+        if (data.errors) {
+          setErrors(data.errors);
+        } else {
+          setErrors({ form: data.error || "Failed to send message" });
+        }
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Show success message
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          preferredContactMethod: "email",
+        });
+        setHoneypot("");
+      }, 3000);
+    } catch (error) {
+      console.error("[v0] Contact form submission error:", error);
+      setErrors({ form: "An error occurred. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -380,6 +407,17 @@ export function ContactSection() {
                     ))}
                   </div>
                 </div>
+
+                {/* Honeypot field (hidden from users) */}
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  style={{ display: "none" }}
+                  autoComplete="off"
+                  tabIndex={-1}
+                />
 
                 {/* Submit Button */}
                 <div className="pt-6">
