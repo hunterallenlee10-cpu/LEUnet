@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Constructed per request rather than at module scope: the Resend constructor
+// throws when the key is missing, which fails `next build` on any environment
+// that doesn't expose RESEND_API_KEY at build time.
+function getResend(): Resend {
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 interface ContactFormRequest {
   fullName: string;
@@ -115,7 +120,7 @@ ${projectDescriptionTrimmed}
     const subject = `New Website Inquiry — ${body.ventureOfInterest} — ${fullNameTrimmed}`;
 
     // Send email via Resend
-    const response = await resend.emails.send({
+    const response = await getResend().emails.send({
       from: process.env.CONTACT_FROM_EMAIL || "noreply@leeenterprisesunlimited.com",
       to: process.env.CONTACT_TO_EMAIL || "ceo@leeenterprisesunlimited.com",
       replyTo: emailTrimmed,
