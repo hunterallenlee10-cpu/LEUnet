@@ -2,13 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { companyInfo, footerContent } from "@/data/company";
 import { sectionIds } from "@/data/navigation";
 import { ventures } from "@/data/ventures";
 
 export function MainFooter() {
+  // These all point at homepage sections, which don't exist on other routes.
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
   const handleLinkClick = (sectionId: string) => {
+    if (!isHome) {
+      window.location.assign(`/#${sectionId}`);
+      return;
+    }
+
     smoothScrollToElement(sectionId, { focus: true });
 
     if (typeof window !== "undefined") {
