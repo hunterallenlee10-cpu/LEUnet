@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Check, Loader2, Lock, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,7 @@ import { formatAmountCompact } from "@/lib/money";
 import {
   SUPPORT_MAX_CENTS,
   SUPPORT_MIN_CENTS,
+  SUPPORT_PRESET_CENTS,
   SUPPORT_PRESETS_CENTS,
 } from "@/lib/support-config";
 
@@ -61,51 +63,39 @@ export function SupportForm({ className, title = "Support our work" }: SupportFo
   }
 
   return (
-    <div className={cn("flex flex-col gap-5", className)}>
+    <div className={cn("flex flex-col", className)}>
       <div>
-        <h3 className="text-lg font-semibold text-white">{title}</h3>
-        <p className="mt-1 text-sm text-neutral-400">
+        <h2 className="text-xl font-semibold tracking-tight text-white">
+          {title}
+        </h2>
+        <p className="mt-1.5 text-sm text-neutral-400">
           One-time contribution. Choose an amount below.
         </p>
       </div>
 
-      <fieldset className="flex flex-wrap gap-2">
+      <fieldset className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <legend className="sr-only">Contribution amount</legend>
 
         {SUPPORT_PRESETS_CENTS.map((amount) => (
-          <button
+          <AmountOption
             key={amount}
-            type="button"
-            aria-pressed={selection === amount}
-            onClick={() => setSelection(amount)}
-            className={cn(
-              "rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
-              selection === amount
-                ? "border-amber-300 bg-amber-300/15 text-amber-200"
-                : "border-white/15 text-neutral-300 hover:border-white/30"
-            )}
-          >
-            {formatAmountCompact(amount)}
-          </button>
+            selected={selection === amount}
+            onSelect={() => setSelection(amount)}
+            label={formatAmountCompact(amount)}
+            note={amount === SUPPORT_PRESET_CENTS ? "Suggested" : undefined}
+          />
         ))}
 
-        <button
-          type="button"
-          aria-pressed={selection === "custom"}
-          onClick={() => setSelection("custom")}
-          className={cn(
-            "rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
-            selection === "custom"
-              ? "border-amber-300 bg-amber-300/15 text-amber-200"
-              : "border-white/15 text-neutral-300 hover:border-white/30"
-          )}
-        >
-          Other amount
-        </button>
+        <AmountOption
+          selected={selection === "custom"}
+          onSelect={() => setSelection("custom")}
+          label="Other"
+          note="You choose"
+        />
       </fieldset>
 
       {selection === "custom" && (
-        <p className="text-sm text-neutral-400">
+        <p className="mt-4 text-sm leading-relaxed text-neutral-400">
           You&apos;ll choose your amount on the next page — anywhere from{" "}
           {formatAmountCompact(SUPPORT_MIN_CENTS)} to{" "}
           {formatAmountCompact(SUPPORT_MAX_CENTS)}.
@@ -115,23 +105,120 @@ export function SupportForm({ className, title = "Support our work" }: SupportFo
       <Button
         onClick={startCheckout}
         disabled={isLoading}
-        size="lg"
         aria-busy={isLoading}
-        className="self-start"
+        className={cn(
+          "mt-7 h-12 w-full gap-2 rounded-xl px-6 text-base font-semibold",
+          "bg-gradient-to-b from-amber-300 to-amber-400 text-neutral-950",
+          "shadow-[0_8px_30px_-8px_rgba(212,175,55,0.55)]",
+          "transition-[transform,box-shadow,filter] duration-200",
+          "hover:from-amber-200 hover:to-amber-300",
+          "hover:shadow-[0_10px_36px_-8px_rgba(212,175,55,0.7)]",
+          "motion-safe:hover:-translate-y-0.5",
+          "focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900",
+          "disabled:opacity-70 disabled:shadow-none"
+        )}
       >
-        {isLoading ? "Redirecting…" : "Continue"}
+        {isLoading ? (
+          <>
+            <Loader2
+              className="size-4 motion-safe:animate-spin"
+              aria-hidden="true"
+            />
+            Redirecting…
+          </>
+        ) : (
+          "Continue to secure checkout"
+        )}
       </Button>
 
       {error && (
-        <p role="alert" className="text-sm text-red-400">
+        <p
+          role="alert"
+          className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300"
+        >
           {error}
         </p>
       )}
 
-      <p className="text-xs text-neutral-500">
-        Lee Enterprises Unlimited is a for-profit company. Contributions are not
-        tax-deductible charitable donations.
-      </p>
+      <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-neutral-400">
+        <span className="inline-flex items-center gap-1.5">
+          <Lock className="size-3.5 text-amber-300/80" aria-hidden="true" />
+          Secure checkout powered by Stripe
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <ShieldCheck className="size-3.5 text-amber-300/80" aria-hidden="true" />
+          Card details never touch this site
+        </span>
+      </div>
+
+      <div className="mt-6 border-t border-white/10 pt-5">
+        <p className="text-xs leading-relaxed text-neutral-500">
+          Lee Enterprises Unlimited is a for-profit company. Contributions are
+          not tax-deductible charitable donations.
+        </p>
+      </div>
     </div>
+  );
+}
+
+interface AmountOptionProps {
+  selected: boolean;
+  onSelect: () => void;
+  label: string;
+  note?: string;
+}
+
+/**
+ * One choice in the amount selector. Kept as a plain button with `aria-pressed`
+ * rather than a radio group so every option stays reachable with Tab — there
+ * are only four of them.
+ */
+function AmountOption({ selected, onSelect, label, note }: AmountOptionProps) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onSelect}
+      className={cn(
+        "relative flex h-20 flex-col items-center justify-center rounded-xl border",
+        "outline-none transition-all duration-200",
+        "focus-visible:ring-3 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900",
+        "motion-safe:hover:-translate-y-0.5",
+        selected
+          ? "border-amber-300/70 bg-amber-300/10 shadow-[0_0_0_1px_rgba(252,211,77,0.25),0_8px_24px_-12px_rgba(212,175,55,0.8)]"
+          : "border-white/10 bg-white/[0.03] hover:border-white/25 hover:bg-white/[0.06]"
+      )}
+    >
+      {selected && (
+        <span
+          className="absolute top-2 right-2 flex size-4 items-center justify-center rounded-full bg-amber-300 text-neutral-950"
+          aria-hidden="true"
+        >
+          <Check className="size-3" strokeWidth={3} />
+        </span>
+      )}
+
+      <span
+        className={cn(
+          "text-xl font-semibold tracking-tight transition-colors",
+          selected ? "text-amber-200" : "text-white"
+        )}
+      >
+        {label}
+      </span>
+
+      {/* Positioned rather than stacked so the amount stays optically centred
+          whether or not this option carries a note. */}
+      {note && (
+        <span
+          className={cn(
+            "absolute inset-x-0 bottom-2.5 text-[11px] font-medium tracking-wide uppercase transition-colors",
+            selected ? "text-amber-300/80" : "text-neutral-500"
+          )}
+        >
+          {note}
+        </span>
+      )}
+    </button>
   );
 }
