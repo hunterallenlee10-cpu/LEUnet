@@ -3,7 +3,7 @@ import type Stripe from "stripe";
 import { Resend } from "resend";
 
 import { getStripe } from "@/lib/stripe";
-import { formatAmount } from "@/lib/stripe-catalog";
+import { formatAmount } from "@/lib/money";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -73,21 +73,23 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
         return;
       }
 
-      await notify(
-        `Payment received — ${session.metadata?.ventureId ?? "LEU"} — ${formatAmount(
-          session.amount_total ?? 0,
-          session.currency ?? "usd"
-        )}`,
-        [
-          `Offering: ${session.metadata?.offering ?? "unknown"}`,
-          `Venture: ${session.metadata?.ventureId ?? "unknown"}`,
-          `Amount: ${formatAmount(session.amount_total ?? 0, session.currency ?? "usd")}`,
-          `Customer: ${session.customer_details?.name ?? "—"} <${session.customer_details?.email ?? "—"}>`,
-          `Phone: ${session.customer_details?.phone ?? "—"}`,
-          `Notes: ${session.metadata?.ventureContext || "—"}`,
-          `Session: ${session.id}`,
-        ]
+      const amount = formatAmount(
+        session.amount_total ?? 0,
+        session.currency ?? "usd"
       );
+
+      const customField = (key: string): string =>
+        session.custom_fields?.find((field) => field.key === key)?.text?.value ||
+        "—";
+
+      await notify(`Support received — ${amount}`, [
+        `Amount: ${amount}`,
+        `Chosen via: ${session.metadata?.amountMode ?? "unknown"}`,
+        `Supporter name: ${customField("supportername")}`,
+        `Message: ${customField("supportermessage")}`,
+        `Billing contact: ${session.customer_details?.name ?? "—"} <${session.customer_details?.email ?? "—"}>`,
+        `Session: ${session.id}`,
+      ]);
       return;
     }
 

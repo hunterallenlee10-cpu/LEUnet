@@ -1,158 +1,97 @@
 # Stripe Integration — Lee Enterprises Unlimited
 
-Payments and Invoicing for the LEU portfolio: Lee Marketing Mastery, Pelican
-Power Wash, H1 Performance, and Thread T-Shirts.
-
 - **Stripe API version:** `2026-06-24.dahlia` (pinned in `lib/stripe.ts`)
 - **SDK:** `stripe` 22.3.x for Node
 - **Framework:** Next.js 16 App Router, Node runtime for all Stripe routes
+- **Account model:** one Stripe account covering all four ventures
 
----
+Two flows are live in code:
 
-## 1. Why this shape
-
-The four ventures sell in two distinct ways, which maps cleanly onto the two
-Stripe products you asked for:
-
-| Sales motion | Example | Stripe product |
+| Flow | Route | Who calls it |
 | --- | --- | --- |
-| Fixed price, customer pays now | H1 session pack, Thread deposit, Pelican booking deposit | **Checkout Sessions** |
-| Quoted work, price agreed first | LMM retainer, Pelican whole-property job, Thread bulk order | **Invoicing** |
+| **Support** — one-time, pay-what-you-choose | `POST /api/stripe/support` | Public |
+| **Invoicing** — quoted work | `POST /api/stripe/invoice` | Internal only |
 
-Your existing site is a lead-generation funnel: the contact form collects a
-budget range and timeline, then you follow up. Invoicing slots directly into
-that flow — inquiry, quote, invoice, paid — while Checkout captures the
-customers who are ready to pay immediately without a conversation.
-
-### Deliberate choices
-
-- **Checkout Sessions, not raw PaymentIntents.** Stripe hosts the payment page,
-  handles 3DS/SCA, discounts, and adaptive pricing. Less code, less PCI scope.
-- **No `payment_method_types` anywhere.** Omitting it enables dynamic payment
-  methods, so Stripe picks the highest-converting eligible methods per customer.
-  You control which methods are available from the Dashboard, not from code.
-  Hardcoding `['card']` would silently disable everything else.
-- **Prices live on the server.** `lib/stripe-catalog.ts` is the only source of
-  truth for amounts. The browser sends an offering *slug*, never a price.
-- **Stripe Tax is off.** Enabling `automatic_tax` without an active tax
-  registration causes Stripe to collect **nothing** while appearing to work.
-  See §7 before turning it on.
+Nothing is wired into the site's pages yet. `SupportForm` and the
+`/support/*` pages exist and work, but no venture section links to them.
 
 ---
 
-## 2. What was built
+## 1. Support flow
 
-```
-lib/stripe.ts                       Stripe client, pinned API version, site URL
-lib/stripe-catalog.ts               Server-side offering catalog (prices)
-lib/admin-auth.ts                   Bearer-token guard for internal endpoints
-app/api/stripe/checkout/route.ts    POST — create a Checkout Session
-app/api/stripe/invoice/route.ts     POST — create + send an invoice (admin only)
-app/api/stripe/webhook/route.ts     POST — signed event receiver
-app/checkout/success/page.tsx       Post-payment confirmation
-app/checkout/canceled/page.tsx      Abandoned checkout
-components/payments/CheckoutButton.tsx  Client button that starts Checkout
-scripts/check-secrets.sh            Blocks committing Stripe keys
-.githooks/pre-commit                Runs the scanner on every commit
-```
+One-time contributions with a supporter-chosen amount. Bounds live in
+`lib/support-config.ts`:
 
----
-
-## 3. Setup
-
-### 3.1 Get keys
-
-If you don't have an account yet, you can generate working test keys with no
-registration:
-
-```bash
-npm i -g @stripe/cli
-stripe sandbox create
-```
-
-### 3.2 Use a restricted key, not a secret key
-
-Create a **restricted API key** (`rk_...`) at
-<https://dashboard.stripe.com/apikeys> rather than using the account secret key
-(`sk_...`). A leaked restricted key can do far less damage. Grant only:
-
-| Resource | Permission |
+| Setting | Value |
 | --- | --- |
-| Checkout Sessions | Write |
-| Customers | Write |
-| Invoices | Write |
-| Invoice Items | Write |
-| Products, Prices | Write |
-| PaymentIntents | Read |
+| Minimum | $5.00 |
+| Maximum | $2,500.00 |
+| Presets | $25 / $50 / $100 |
+| Prefilled on the custom page | $50 |
+| Statement descriptor suffix | `payment-L-E-U` |
 
-Use a **separate key per environment** (test / preview / production), and add an
-access policy to each so a stolen key is bound to your infrastructure.
+### How the amount stays safe
 
-### 3.3 Configure environment variables
+Pay-what-you-choose inverts the usual rule that a client must never send a
+price. Both paths are still bounded server-side:
 
-Copy `.env.example` to `.env.local` for local work. In production, set these in
-Vercel as **sensitive environment variables** so the values are write-only and
-never appear in logs or the dashboard UI.
+- **Presets** post `amountCents`, which the route re-validates against
+  `[SUPPORT_MIN_CENTS, SUPPORT_MAX_CENTS]` before building the line item.
+- **"Other amount"** posts *no* amount. Checkout uses a Stripe **Price** with
+  `custom_unit_amount`, and the supporter types the figure on Stripe's own
+  hosted page. The minimum and maximum are stored in Stripe, so nothing from
+  the browser can widen them.
 
-Required: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_ADMIN_TOKEN`,
-`NEXT_PUBLIC_SITE_URL`.
+`custom_unit_amount` exists only on the Prices API — Checkout's inline
+`price_data` does not support it. That is why a setup script is required.
 
-Generate the admin token with:
-
-```bash
-openssl rand -base64 32
-```
-
-### 3.4 Turn on the pre-commit key scanner
-
-One command per clone:
+### Create the custom-amount Price
 
 ```bash
-git config core.hooksPath .githooks
+STRIPE_SECRET_KEY=sk_test_... node scripts/stripe-setup.mjs
 ```
 
-Scan the whole repo at any time with `./scripts/check-secrets.sh --all`.
+It prints a `price_...` ID; put it in `STRIPE_PRICE_SUPPORT_CUSTOM`. The script
+is idempotent (it looks up `leu_support_custom_amount` before creating) and
+refuses to run against a live key.
 
----
+Without that variable, preset amounts still work and "Other amount" returns a
+503.
 
-## 4. Payments (Checkout)
+### Supporter details
 
-Offerings are defined in `lib/stripe-catalog.ts`. Drop a button anywhere:
+Name and message are collected as Checkout `custom_fields` on Stripe's page, so
+they never pass through LEU servers. Both are optional and arrive on the
+`checkout.session.completed` event.
+
+### Usage
 
 ```tsx
-import { CheckoutButton } from "@/components/payments/CheckoutButton";
+import { SupportForm } from "@/components/payments/SupportForm";
 
-<CheckoutButton
-  offering="pelican-service-deposit"
-  label="Reserve Your Cleaning — $99"
-/>
+<SupportForm />
 ```
 
-The browser posts only `{ offering, quantity?, email? }`. The server resolves
-the amount from the catalog, so a tampered request cannot change what is
-charged. Quantity is clamped to each offering's `maxQuantity`.
+### Not a donation
 
-> **Placeholder pricing.** The amounts in `lib/stripe-catalog.ts` are starting
-> values so the integration runs end to end. Replace them with your real pricing
-> before going live.
+LEU is a for-profit holding company, so contributions here are **not**
+tax-deductible charitable donations. Two deliberate consequences in the code:
 
-### Graduating to a Dashboard catalog
+- `submit_type` is `"pay"`, not `"donate"` — the latter would label the button
+  "Donate" and imply charity status.
+- The form and the success page both carry a plain-language disclaimer.
 
-Inline amounts are fine to start. When you want Stripe-side reporting, create a
-Product and Price in the Dashboard and paste the `price_...` ID into the matching
-`STRIPE_PRICE_*` variable. The route picks it up automatically — no code change.
-
-When you model products, **one Product per offering**. Don't put Starter /
-Professional / Enterprise prices on a single Product: every line item would show
-the same name and customers couldn't tell them apart.
+Keep that framing if you change the copy. Implying deductibility for a
+for-profit creates real tax and consumer-protection exposure, and Stripe's
+nonprofit features and rates don't apply.
 
 ---
 
-## 5. Invoicing
+## 2. Invoicing
 
-`POST /api/stripe/invoice` is **admin-only** — it emails real customers and
-creates real receivables, so it requires the bearer token and must never be
-called from the browser.
+`POST /api/stripe/invoice` is **admin-only** — it creates receivables and emails
+real customers, so it requires a bearer token and must never be called from a
+browser.
 
 ```bash
 curl https://leeenterprisesunlimited.com/api/stripe/invoice \
@@ -166,132 +105,175 @@ curl https://leeenterprisesunlimited.com/api/stripe/invoice \
     "description": "Total Exterior Cleaning Package — 123 Main St",
     "lines": [
       { "description": "House washing (2,400 sq ft)", "amountCents": 45000 },
-      { "description": "Driveway cleaning", "amountCents": 18000 },
-      { "description": "Deck & patio cleaning", "amountCents": 22000 }
+      { "description": "Driveway cleaning", "amountCents": 18000 }
     ]
   }'
 ```
 
-Response includes `hostedInvoiceUrl` (send it to the customer or let Stripe
-email it) and `invoicePdf`.
-
-What it does: finds or creates the Customer by email, opens a draft invoice with
+Finds or creates the Customer by email, opens a draft with
 `collection_method: "send_invoice"`, attaches each line, finalizes, and sends.
-Pass `"send": false` to leave it as a draft you review in the Dashboard first.
+Pass `"send": false` to review the draft in the Dashboard first. Response
+includes `hostedInvoiceUrl` and `invoicePdf`.
 
-Customers are reused by email, so each client accumulates one payment history
-rather than scattering across duplicate records.
+Customers are reused by email so each client accumulates one payment history.
+
+`ventureId` must be one of `lmm`, `pelican`, `h1`, `thread` — it tags the
+invoice for per-venture reporting inside the single shared account.
 
 ---
 
-## 6. Webhooks
+## 3. Setup
+
+### 3.1 Use a restricted key
+
+Create a **restricted API key** (`rk_...`) at
+<https://dashboard.stripe.com/apikeys> rather than using the account secret key.
+Grant only:
+
+| Resource | Permission |
+| --- | --- |
+| Checkout Sessions | Write |
+| Customers | Write |
+| Invoices | Write |
+| Invoice Items | Write |
+| Products, Prices | Write |
+| PaymentIntents | Read |
+
+Separate key per environment (test / preview / production), with an access
+policy on each.
+
+### 3.2 Environment variables
+
+`.env.local` locally; **sensitive** environment variables in Vercel for
+production, so values are write-only and never surface in logs.
+
+Required: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_ADMIN_TOKEN`,
+`NEXT_PUBLIC_SITE_URL`, `STRIPE_PRICE_SUPPORT_CUSTOM`.
+
+```bash
+openssl rand -base64 32   # STRIPE_ADMIN_TOKEN
+```
+
+### 3.3 Statement descriptor
+
+`payment-L-E-U` is sent as `statement_descriptor_suffix`. Cards **reject**
+`statement_descriptor` on a PaymentIntent outright, so the suffix is the only
+per-charge option.
+
+Your account prefix (Dashboard → Settings → Public details) plus this suffix
+must total **22 characters or fewer** or Stripe rejects the charge. With a
+13-character suffix, keep the prefix to 9 characters or fewer. Verify with a
+real test charge before going live.
+
+### 3.4 Pre-commit key scanner
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Audit any time with `./scripts/check-secrets.sh --all`.
+
+---
+
+## 4. Webhooks
 
 The webhook is the **only** trustworthy signal that money moved. The success
-page is just reassurance — a customer can close the tab, and asynchronous
-payment methods settle minutes or days later.
+page is reassurance — supporters close tabs, and some payment methods settle
+days later.
 
-### Local testing
+### Local
 
 ```bash
 stripe listen --forward-to localhost:3000/api/stripe/webhook
-# copy the whsec_... it prints into STRIPE_WEBHOOK_SECRET
+# copy the printed whsec_... into STRIPE_WEBHOOK_SECRET
 stripe trigger checkout.session.completed
 ```
 
 ### Production
 
-Add an endpoint at <https://dashboard.stripe.com/webhooks> pointing to
-`https://leeenterprisesunlimited.com/api/stripe/webhook`, subscribed to:
+Endpoint `https://leeenterprisesunlimited.com/api/stripe/webhook`, subscribed to:
 
 `checkout.session.completed`, `checkout.session.async_payment_failed`,
 `payment_intent.payment_failed`, `invoice.paid`, `invoice.payment_failed`
 
-Copy that endpoint's signing secret into `STRIPE_WEBHOOK_SECRET`.
-
 Every event is signature-verified against the raw request body before anything
-else happens. Handled events currently email `CONTACT_TO_EMAIL` via the Resend
-account the contact form already uses.
+else runs. Handled events email `CONTACT_TO_EMAIL` through the Resend account
+the contact form already uses.
 
-### Before you automate fulfillment
+### Before automating fulfillment
 
-The replay guard in the webhook is in-memory, which is best-effort on serverless
-where instances are recycled constantly. It is fine for sending notification
-emails. Before you make the webhook do anything that must not happen twice —
-charging, provisioning, shipping — back it with a persisted `processed_events`
-table keyed on `event.id`.
+The replay guard is in-memory, which is best-effort on serverless where
+instances recycle constantly. Fine for notification email. Before the webhook
+does anything that must not happen twice, back it with a persisted
+`processed_events` table keyed on `event.id`.
 
 ### Test cards
 
-`4242 4242 4242 4242` succeeds · `4000 0000 0000 0002` is declined ·
+`4242 4242 4242 4242` succeeds · `4000 0000 0000 0002` declines ·
 `4000 0025 0000 3155` requires 3D Secure. Any future expiry, any CVC.
 
 ---
 
-## 7. Tax
+## 5. Tax
 
 Stripe Tax is intentionally **not** enabled.
 
-Setting `automatic_tax: { enabled: true }` without an active tax registration
-means Stripe calculates and collects **no tax** and returns **no error** — you
-would believe tax was handled while it silently wasn't. This is the most common
-Stripe Tax mistake.
+Setting `automatic_tax: { enabled: true }` without an active registration means
+Stripe calculates and collects **nothing** and returns **no error** — you would
+believe tax was handled while it silently wasn't.
 
-To enable it properly: register in the jurisdictions where you have nexus, add
-those registrations at <https://dashboard.stripe.com/tax>, assign product tax
-codes, then turn on `automatic_tax` in the checkout and invoice routes. Power
-washing and training services in particular have state-specific taxability —
-confirm with your accountant before switching it on.
+Note that voluntary contributions to a for-profit are ordinary business revenue,
+not gifts. Confirm treatment with your accountant. To enable Stripe Tax
+properly: register where you have nexus, add registrations at
+<https://dashboard.stripe.com/tax>, assign product tax codes, then turn on
+`automatic_tax`.
 
 ---
 
-## 8. Security notes
+## 6. Security
 
-- Keys are never in source. The pre-commit hook enforces it; run
-  `./scripts/check-secrets.sh --all` to audit history-adjacent working state.
+- Keys never in source; pre-commit hook enforces it.
 - Restricted keys over secret keys, one per environment.
-- All Stripe calls happen server-side. Nothing but the publishable key should
-  ever reach the browser, and this integration doesn't need even that.
-- Webhook signatures are verified on the raw body before any handling.
-- CSP is set in `next.config.mjs` allowing `https://*.stripe.com` for
+- All Stripe calls are server-side.
+- Webhook signatures verified on the raw body before handling.
+- CSP in `next.config.mjs` allows `https://*.stripe.com` for
   script/frame/connect and `https://*.link.com` for Link. `'unsafe-inline'` is
-  present for Next's hydration bootstrap — to remove it, emit a per-request
-  nonce from middleware (a nonce and `'unsafe-inline'` cannot be combined;
-  browsers ignore the latter when a nonce is present).
-- Route errors are logged server-side and returned to the browser as generic
-  messages so Stripe/account details don't leak.
-- Rotate keys when anyone with access leaves. If a key is ever exposed, roll it
-  immediately at <https://dashboard.stripe.com/apikeys>, then review Workbench
-  request logs for unrecognized activity.
+  present for Next's hydration bootstrap; to remove it, emit a per-request nonce
+  from middleware (a nonce and `'unsafe-inline'` cannot be combined — browsers
+  ignore the latter when a nonce is present).
+- Route errors log server-side and return generic messages so account detail
+  doesn't leak.
+- If a key is ever exposed, roll it at <https://dashboard.stripe.com/apikeys>,
+  then review Workbench request logs for unrecognized activity.
 
 ---
 
-## 9. Go-live checklist
+## 7. Go-live checklist
 
-- [ ] Replace placeholder amounts in `lib/stripe-catalog.ts` with real pricing
+- [ ] Run `scripts/stripe-setup.mjs` against live and set the live Price ID
 - [ ] Swap test keys for live restricted keys (Vercel sensitive env vars)
 - [ ] Point `NEXT_PUBLIC_SITE_URL` at `https://leeenterprisesunlimited.com`
 - [ ] Register the production webhook endpoint and set its signing secret
+- [ ] Confirm account prefix + `payment-L-E-U` is ≤ 22 characters
 - [ ] Enable the payment methods you want in Dashboard → Payment methods
-- [ ] Set statement descriptor, business name, and support contact
-- [ ] Decide on Stripe Tax (§7) with your accountant
+- [ ] Decide on Stripe Tax (§5) with your accountant
 - [ ] Verify the CSP doesn't break the live site after deploy
 - [ ] Persist webhook idempotency before automating fulfillment
-- [ ] Run `git config core.hooksPath .githooks` on every clone
+- [ ] `git config core.hooksPath .githooks` on every clone
 - [ ] Review <https://docs.stripe.com/get-started/checklist/go-live>
 
 ---
 
-## 10. Not built yet
+## 8. Deferred
 
-Out of scope for this pass, worth knowing about:
-
-- **Subscriptions.** If LMM retainers become recurring, use Billing with
-  `mode: "subscription"` Checkout Sessions plus the Customer Portal for
-  self-service upgrades and cancellation — not a manual renewal loop.
-- **Usage-based billing.** If any venture bills on usage, use Metronome rather
-  than the Billing Meters API.
-- **Connect.** Only needed if LEU ever collects money on behalf of independent
-  operators. Standard accounts are the safe default — Express and Custom put
-  fraud and dispute liability on you.
-- **A database.** Payments currently notify by email and live in Stripe. Durable
-  order records and idempotent fulfillment need persistence.
+- **Fixed-price Checkout items.** H1 session packs, LMM onboarding, and
+  per-venture deposits were built and then removed — support-only for now. The
+  pattern is in git history if you want them back.
+- **Recurring support.** One-time only today. A monthly tier means Billing,
+  `mode: "subscription"`, and the Customer Portal for self-service management.
+- **Per-venture support routing.** Contributions are LEU-wide; nothing asks the
+  supporter to pick a venture.
+- **Connect.** Only relevant if LEU ever collects on behalf of independent
+  operators. Standard accounts are the safe default.
+- **A database.** Payments notify by email and live in Stripe. Durable records
+  and idempotent fulfillment need persistence.
