@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { navigationItems, ventureNavItems, sectionIds } from "@/data/navigation";
 import { companyInfo } from "@/data/company";
@@ -14,6 +15,11 @@ export function MainHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [venturesDropdownOpen, setVenturesDropdownOpen] = useState(false);
   const [closeTimeoutId, setCloseTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  // Every nav target is a section of the homepage. On any other route those
+  // elements don't exist, so scrolling to them would silently do nothing.
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -46,6 +52,13 @@ export function MainHeader() {
     setMobileMenuOpen(false);
     setVenturesDropdownOpen(false);
 
+    // Off the homepage, go there and let the browser resolve the hash on
+    // arrival rather than scrolling to an element that isn't on this page.
+    if (!isHome) {
+      window.location.assign(`/${href}`);
+      return;
+    }
+
     const sectionId = href.replace("#", "");
     smoothScrollToElement(sectionId, { focus: true });
 
@@ -72,7 +85,7 @@ export function MainHeader() {
     >
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="#hero" className="flex items-center group">
+        <Link href={isHome ? "#hero" : "/"} className="flex items-center group">
           <div className="relative w-10 h-10">
             <Image
               src={companyInfo.logo}
@@ -143,13 +156,25 @@ export function MainHeader() {
           ))}
         </nav>
 
-        {/* CTA Button - Desktop */}
-        <button
-          onClick={() => handleNavClick(`#${sectionIds.contact}`, "nav-contact")}
-          className="hidden sm:block px-6 py-2 bg-amber-400 text-neutral-950 rounded-lg font-semibold hover:bg-amber-300 transition-colors"
-        >
-          Get Started
-        </button>
+        {/* Support link + CTA Button - Desktop */}
+        <div className="hidden sm:flex items-center gap-6">
+          {/* A real route rather than a section, so this is a Link and not a
+              handleNavClick button like the rest of the nav. */}
+          <Link
+            href="/support"
+            className="text-white hover:text-amber-400 transition-colors relative group whitespace-nowrap"
+          >
+            Support Us
+            <span className="absolute bottom-0 left-0 w-0 group-hover:w-full h-0.5 bg-amber-400 transition-all duration-300" />
+          </Link>
+
+          <button
+            onClick={() => handleNavClick(`#${sectionIds.contact}`, "nav-contact")}
+            className="px-6 py-2 bg-amber-400 text-neutral-950 rounded-lg font-semibold hover:bg-amber-300 transition-colors"
+          >
+            Get Started
+          </button>
+        </div>
 
         {/* Mobile Menu Toggle */}
         <button
@@ -208,6 +233,15 @@ export function MainHeader() {
                 )}
               </div>
             ))}
+
+            {/* Mobile support link */}
+            <Link
+              href="/support"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block w-full px-4 py-3 text-white hover:bg-neutral-800 rounded-lg"
+            >
+              Support Us
+            </Link>
 
             {/* Mobile CTA */}
             <button

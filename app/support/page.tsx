@@ -1,5 +1,5 @@
-import Link from "next/link";
-
+import { MainHeader } from "@/components/layout/MainHeader";
+import { MainFooter } from "@/components/layout/MainFooter";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
 import { SupportForm } from "@/components/payments/SupportForm";
 import { companyInfo } from "@/data/company";
@@ -12,30 +12,32 @@ export const metadata = {
 
 export default function SupportPage() {
   return (
-    <main className="flex min-h-screen w-full items-center justify-center bg-neutral-950 px-6 py-24">
-      <div className="w-full max-w-lg">
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl font-semibold text-white">
+    <main className="w-full bg-neutral-950">
+      <MainHeader />
+
+      {/* pt-32 clears the fixed header. */}
+      <section className="mx-auto w-full max-w-2xl px-6 pt-32 pb-24">
+        <header className="text-center">
+          <h1 className="text-3xl font-semibold text-white sm:text-4xl">
             Support {companyInfo.name}
           </h1>
-          <p className="mt-3 text-sm text-neutral-400">
+          <p className="mt-3 text-sm text-amber-300/90">
             {companyInfo.heroSubtitle}
+          </p>
+          <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-neutral-400">
+            Every venture under Lee Enterprises Unlimited is built to deliver
+            real results for the people it serves. If the work has been valuable
+            to you and you&apos;d like to put something behind it, a one-time
+            contribution goes directly into building and improving what we do.
           </p>
         </header>
 
-        <GlassCardPadded size="lg">
+        <GlassCardPadded size="lg" className="mt-10">
           <SupportForm />
         </GlassCardPadded>
+      </section>
 
-        <p className="mt-8 text-center">
-          <Link
-            href="/"
-            className="text-sm text-amber-300 underline-offset-4 hover:underline"
-          >
-            Return to {companyInfo.name}
-          </Link>
-        </p>
-      </div>
+      <MainFooter />
     </main>
   );
 }
