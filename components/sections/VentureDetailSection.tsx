@@ -23,6 +23,15 @@ export function VentureDetailSection({ venture }: VentureDetailSectionProps) {
     }
   };
 
+  const handleLearnMore = () => {
+    // Navigate to venture-specific page if available
+    if (venture.id === "pelican") {
+      window.location.href = "/pelican-power-wash";
+    } else {
+      handleCTA();
+    }
+  };
+
   return (
     <section
       id={venture.id}
@@ -73,7 +82,7 @@ export function VentureDetailSection({ venture }: VentureDetailSectionProps) {
                 <ArrowRight className="w-4 h-4" />
               </button>
               <button
-                onClick={handleCTA}
+                onClick={handleLearnMore}
                 className="btn-secondary inline-flex items-center justify-center gap-2"
               >
                 Learn More
