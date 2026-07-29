@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, Phone, Mail } from "lucide-react";
+import Image from "next/image";
 import { Venture } from "@/types";
 
 interface PelicanCTASectionProps {
@@ -23,11 +24,26 @@ export function PelicanCTASection({ venture }: PelicanCTASectionProps) {
       </div>
 
       <div className="section-container relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Headline */}
-          <h2 className="heading-lg text-white mb-6">
-            Ready to Transform Your Property?
-          </h2>
+        <div className="flex flex-col lg:flex-row items-center gap-12 justify-between">
+          {/* Logo Section */}
+          <div className="w-full lg:w-1/3 flex justify-center lg:justify-start">
+            <div className="relative w-48 h-48">
+              <Image
+                src="/pelican/logo.png"
+                alt="Pelican Power Wash mascot"
+                width={300}
+                height={300}
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+
+          {/* Content Section */}
+          <div className="max-w-3xl mx-auto text-center lg:text-left lg:w-2/3">
+            {/* Headline */}
+            <h2 className="heading-lg text-white mb-6">
+              Ready to Transform Your Property?
+            </h2>
 
           {/* Subheading */}
           <p className="text-xl text-neutral-300 mb-8 leading-relaxed">
@@ -75,10 +91,11 @@ export function PelicanCTASection({ venture }: PelicanCTASectionProps) {
             </a>
           </div>
 
-          {/* Trust Statement */}
-          <p className="mt-8 text-neutral-400 text-sm">
-            Free quote, no obligation. We&apos;re available 7 days a week.
-          </p>
+            {/* Trust Statement */}
+            <p className="mt-8 text-neutral-400 text-sm">
+              Free quote, no obligation. We&apos;re available 7 days a week.
+            </p>
+          </div>
         </div>
       </div>
     </section>
