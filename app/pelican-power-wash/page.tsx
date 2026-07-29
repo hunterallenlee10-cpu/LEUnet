@@ -3,14 +3,16 @@ import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { getVentureById } from "@/data/ventures";
 import { PelicanHeroSection } from "@/components/pelican/PelicanHeroSection";
+import { PelicanTrustStrip } from "@/components/pelican/PelicanTrustStrip";
 import { PelicanServicesSection } from "@/components/pelican/PelicanServicesSection";
 import { PelicanBeforeAfterSection } from "@/components/pelican/PelicanBeforeAfterSection";
+import { PelicanProcessAndFAQSection } from "@/components/pelican/PelicanProcessAndFAQSection";
 import { PelicanWhyChooseSection } from "@/components/pelican/PelicanWhyChooseSection";
-import { PelicanEquipmentSection } from "@/components/pelican/PelicanEquipmentSection";
-import { PelicanProcessSection } from "@/components/pelican/PelicanProcessSection";
+import { PelicanOwnerStorySection } from "@/components/pelican/PelicanOwnerStorySection";
 import { PelicanPricingSection } from "@/components/pelican/PelicanPricingSection";
 import { PelicanServiceAreasSection } from "@/components/pelican/PelicanServiceAreasSection";
 import { PelicanTestimonialsSection } from "@/components/pelican/PelicanTestimonialsSection";
+import { PelicanQuoteForm } from "@/components/pelican/PelicanQuoteForm";
 import { PelicanCTASection } from "@/components/pelican/PelicanCTASection";
 
 export const metadata: Metadata = {
@@ -39,14 +41,18 @@ export default function PelicanPage() {
 
       <main className="pt-20">
         <PelicanHeroSection venture={venture} />
+        <PelicanTrustStrip venture={venture} />
         <PelicanServicesSection venture={venture} />
         <PelicanBeforeAfterSection venture={venture} />
+        <PelicanProcessAndFAQSection venture={venture} />
         <PelicanWhyChooseSection venture={venture} />
-        <PelicanEquipmentSection venture={venture} />
-        <PelicanProcessSection venture={venture} />
+        <PelicanOwnerStorySection venture={venture} />
         <PelicanPricingSection venture={venture} />
         <PelicanServiceAreasSection venture={venture} />
         <PelicanTestimonialsSection venture={venture} />
+        <div id="quote-form">
+          <PelicanQuoteForm venture={venture} />
+        </div>
         <PelicanCTASection venture={venture} />
       </main>
 

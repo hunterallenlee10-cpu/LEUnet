@@ -45,55 +45,60 @@ export function PelicanCTASection({ venture }: PelicanCTASectionProps) {
               Ready to Transform Your Property?
             </h2>
 
-          {/* Subheading */}
-          <p className="text-xl text-neutral-300 mb-8 leading-relaxed">
-            Get professional exterior cleaning services that deliver exceptional
-            results. Schedule your free consultation and quote today.
-          </p>
+            {/* Subheading */}
+            <p className="text-xl text-neutral-300 mb-8 leading-relaxed">
+              Get professional exterior cleaning services that deliver exceptional results. 
+              Contact us today for your free quote and 24/7 availability.
+            </p>
 
-          {/* Primary CTA */}
-          <button
-            onClick={() => {
-              window.location.href = "/#contact-section";
-            }}
-            className="inline-flex items-center gap-2 px-10 py-4 bg-cyan-400 text-neutral-950 rounded-lg font-bold hover:bg-cyan-300 transition-all duration-200 transform hover:scale-105 active:scale-95 mb-8 group"
-          >
-            Get Your Free Quote
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+            {/* Emphasis Line */}
+            <p className="text-cyan-400 font-semibold mb-8 text-lg">
+              24/7 Contact Availability • Free Quote • No Obligation
+            </p>
 
-          {/* Contact Options */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-12 border-t border-neutral-800">
+            {/* Primary CTA */}
             <a
-              href="tel:555-WASH-911"
-              className="flex items-center justify-center gap-3 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300 group"
+              href="tel:2409252609"
+              className="inline-flex items-center gap-2 px-10 py-4 bg-cyan-400 text-neutral-950 rounded-lg font-bold hover:bg-cyan-300 transition-all duration-200 transform hover:scale-105 active:scale-95 mb-8 group"
             >
-              <Phone className="w-5 h-5 text-cyan-400" />
-              <div className="text-left">
-                <p className="text-xs text-neutral-400">Call us</p>
-                <p className="text-white font-semibold group-hover:text-cyan-400 transition-colors">
-                  555-WASH-911
-                </p>
-              </div>
+              Call or Text: (240) 925-2609
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
 
-            <a
-              href="mailto:info@pelicanpowerash.com"
-              className="flex items-center justify-center gap-3 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300 group"
-            >
-              <Mail className="w-5 h-5 text-cyan-400" />
-              <div className="text-left">
-                <p className="text-xs text-neutral-400">Email us</p>
-                <p className="text-white font-semibold group-hover:text-cyan-400 transition-colors">
-                  info@pelican.local
-                </p>
-              </div>
-            </a>
-          </div>
+            {/* Contact Options */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-12 border-t border-neutral-800">
+              <button
+                onClick={() => {
+                  window.location.href = "/#quote-form";
+                }}
+                className="flex items-center justify-center gap-3 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300 group"
+              >
+                <div className="text-2xl">📝</div>
+                <div className="text-left">
+                  <p className="text-xs text-neutral-400">Get Your Quote</p>
+                  <p className="text-white font-semibold group-hover:text-cyan-400 transition-colors">
+                    Free Quote Form
+                  </p>
+                </div>
+              </button>
+
+              <a
+                href="mailto:ceo@leeenterprisesunlimited.com"
+                className="flex items-center justify-center gap-3 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300 group"
+              >
+                <Mail className="w-5 h-5 text-cyan-400" />
+                <div className="text-left">
+                  <p className="text-xs text-neutral-400">Email us</p>
+                  <p className="text-white font-semibold group-hover:text-cyan-400 transition-colors">
+                    Fastest Response
+                  </p>
+                </div>
+              </a>
+            </div>
 
             {/* Trust Statement */}
             <p className="mt-8 text-neutral-400 text-sm">
-              Free quote, no obligation. We&apos;re available 7 days a week.
+              Fastest service: Text us. All inquiries receive a response within 24 hours.
             </p>
           </div>
         </div>

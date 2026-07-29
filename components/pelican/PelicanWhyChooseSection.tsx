@@ -10,30 +10,30 @@ interface PelicanWhyChooseSectionProps {
 const reasons = [
   {
     id: 1,
-    title: "Expert Technicians",
+    title: "Faster Communication",
     description:
-      "Fully trained and certified professionals with extensive experience in all cleaning techniques.",
+      "24-hour response guarantee on all inquiries. Fastest response via text message.",
     icon: Award,
   },
   {
     id: 2,
-    title: "Quality Guaranteed",
+    title: "Satisfaction Guaranteed",
     description:
-      "We stand behind our work with a 100% satisfaction guarantee on all services.",
+      "100% satisfaction guarantee. Free touch-ups if we missed any area on your property.",
     icon: Shield,
   },
   {
     id: 3,
-    title: "Eco-Friendly Solutions",
+    title: "Locally Owned & Operated",
     description:
-      "We use environmentally responsible cleaning methods that are safe for families and pets.",
+      "Southern Maryland-based business focused on serving our community with pride and excellence.",
     icon: Check,
   },
   {
     id: 4,
-    title: "Customer-Focused Service",
+    title: "No Hidden Fees",
     description:
-      "Your satisfaction is our priority. We listen and deliver exceptional results every time.",
+      "Transparent pricing with all costs included upfront. Professional quotes with no surprises.",
     icon: Users,
   },
 ];
@@ -59,11 +59,10 @@ export function PelicanWhyChooseSection({
             </span>
           </div>
           <h2 className="heading-lg text-white mb-4">
-            What Sets Pelican Apart
+            Why Choose Pelican Power Wash
           </h2>
           <p className="text-lg text-neutral-400">
-            Discover why homeowners and businesses trust Pelican Power Wash for
-            their exterior cleaning needs.
+            Fast response, guaranteed satisfaction, locally owned expertise, and transparent pricing that sets us apart.
           </p>
         </div>
 

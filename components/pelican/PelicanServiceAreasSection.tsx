@@ -37,11 +37,11 @@ export function PelicanServiceAreasSection({
             </span>
           </div>
           <h2 className="heading-lg text-white mb-4">
-            Service Areas
+            Serving St. Mary's County & Surrounding Areas
           </h2>
           <p className="text-lg text-neutral-400">
-            We proudly serve multiple neighborhoods and districts. Don&apos;t see
-            your area listed? Contact us to check if we service your location.
+            We focus on St. Mary's County with service available throughout Southern Maryland. 
+            Contact us to confirm service availability for your location.
           </p>
         </div>
 
@@ -72,17 +72,24 @@ export function PelicanServiceAreasSection({
         {/* Bottom Section */}
         <div className="mt-16 max-w-2xl mx-auto text-center">
           <p className="text-neutral-300 mb-6">
-            Not sure if we service your area? We&apos;re expanding constantly and may
-            be able to accommodate special requests.
+            Not sure if we service your area? Contact us directly—we may be able to accommodate your location.
           </p>
-          <button
-            className="px-8 py-4 bg-cyan-400 text-neutral-950 rounded-lg font-bold hover:bg-cyan-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
-            onClick={() => {
-              window.location.href = "/#contact-section";
-            }}
-          >
-            Ask About Your Area
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="tel:2409252609"
+              className="px-8 py-4 bg-cyan-400 text-neutral-950 rounded-lg font-bold hover:bg-cyan-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
+            >
+              Call or Text: (240) 925-2609
+            </a>
+            <button
+              className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 rounded-lg font-bold hover:bg-cyan-400/10 transition-all duration-200"
+              onClick={() => {
+                window.location.href = "/#contact-section";
+              }}
+            >
+              Get a Free Quote
+            </button>
+          </div>
         </div>
       </div>
     </section>
