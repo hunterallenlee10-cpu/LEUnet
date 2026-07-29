@@ -12,8 +12,8 @@ Two flows are live in code:
 | **Support** — one-time, pay-what-you-choose | `POST /api/stripe/support` | Public |
 | **Invoicing** — quoted work | `POST /api/stripe/invoice` | Internal only |
 
-Nothing is wired into the site's pages yet. `SupportForm` and the
-`/support/*` pages exist and work, but no venture section links to them.
+Both are live. `/support` is linked from the site header ("Support Us"); no
+individual venture section links to it. Invoicing is admin-only and has no UI.
 
 ---
 
@@ -28,7 +28,7 @@ One-time contributions with a supporter-chosen amount. Bounds live in
 | Maximum | $2,500.00 |
 | Presets | $25 / $50 / $100 |
 | Prefilled on the custom page | $50 |
-| Statement descriptor suffix | `payment-L-E-U` |
+| Statement descriptor suffix | `SUPPORT` |
 
 ### How the amount stays safe
 
@@ -130,17 +130,32 @@ Create a **restricted API key** (`rk_...`) at
 <https://dashboard.stripe.com/apikeys> rather than using the account secret key.
 Grant only:
 
+The **support flow alone** needs only three, so a key scoped to the public site
+can stop here:
+
 | Resource | Permission |
 | --- | --- |
 | Checkout Sessions | Write |
+| Products | Write |
+| Prices | Write |
+
+Products and Prices are required because preset amounts use inline `price_data`
+with `product_data`, which makes Stripe create those objects per session. The
+"other amount" path only references an existing Price.
+
+Add these when you start **invoicing**:
+
+| Resource | Permission |
+| --- | --- |
 | Customers | Write |
 | Invoices | Write |
-| Invoice Items | Write |
-| Products, Prices | Write |
 | PaymentIntents | Read |
 
+Stripe has since folded invoice items into the **Invoices** permission — there
+is no longer a separate "Invoice Items" row to grant.
+
 Separate key per environment (test / preview / production), with an access
-policy on each.
+policy on each. Permissions can be edited after creation, so start narrow.
 
 ### 3.2 Environment variables
 
@@ -156,14 +171,19 @@ openssl rand -base64 32   # STRIPE_ADMIN_TOKEN
 
 ### 3.3 Statement descriptor
 
-`payment-L-E-U` is sent as `statement_descriptor_suffix`. Cards **reject**
+`SUPPORT` is sent as `statement_descriptor_suffix`. Cards **reject**
 `statement_descriptor` on a PaymentIntent outright, so the suffix is the only
 per-charge option.
 
-Your account prefix (Dashboard → Settings → Public details) plus this suffix
-must total **22 characters or fewer** or Stripe rejects the charge. With a
-13-character suffix, keep the prefix to 9 characters or fewer. Verify with a
-real test charge before going live.
+Your account prefix (Dashboard → Settings → Public details), the space Stripe
+inserts, and this suffix must total **22 characters or fewer** or Stripe
+rejects the charge. With a 7-character suffix the prefix can be up to 14.
+Stripe also enforces a **5-character minimum** on the descriptor, so `LEU`
+alone is rejected — `LEE ENT` gives `LEE ENT SUPPORT`.
+
+Setting an invalid prefix fails as an `invalid_request_error` on
+`POST /v1/account`, visible in Workbench → Health. Verify with a real charge
+and read your own bank statement before going live.
 
 ### 3.4 Pre-commit key scanner
 
@@ -191,7 +211,8 @@ stripe trigger checkout.session.completed
 
 ### Production
 
-Endpoint `https://leeenterprisesunlimited.com/api/stripe/webhook`, subscribed to:
+Endpoint `https://www.leeenterprisesunlimited.com/api/stripe/webhook`,
+subscribed to:
 
 `checkout.session.completed`, `checkout.session.async_payment_failed`,
 `payment_intent.payment_failed`, `invoice.paid`, `invoice.payment_failed`
@@ -199,6 +220,16 @@ Endpoint `https://leeenterprisesunlimited.com/api/stripe/webhook`, subscribed to
 Every event is signature-verified against the raw request body before anything
 else runs. Handled events email `CONTACT_TO_EMAIL` through the Resend account
 the contact form already uses.
+
+**The hostname must be canonical.** Stripe does not follow redirects. Register
+the apex when the site redirects apex → `www` and every delivery fails with a
+`308`, having never reached the route — the response time looks healthy because
+the edge answered, not the app. Match whatever `NEXT_PUBLIC_SITE_URL` uses.
+
+A `200` here does not prove the notification email sent. `notify()` returns
+silently when `RESEND_API_KEY` is unset and swallows Resend errors on purpose,
+so a failed email never fails the webhook. Confirm delivery by reading the
+inbox, not the status code.
 
 ### Before automating fulfillment
 
@@ -250,11 +281,16 @@ properly: register where you have nexus, add registrations at
 
 ## 7. Go-live checklist
 
-- [ ] Run `scripts/stripe-setup.mjs` against live and set the live Price ID
+- [ ] Create the live custom-amount Price **in the Dashboard** and set its ID.
+      `scripts/stripe-setup.mjs` refuses live keys by design (§1), so it cannot
+      do this step. Match `lib/support-config.ts` exactly: min $5, max $2,500,
+      preset $50 — if the bounds drift, the form promises a range Stripe rejects
 - [ ] Swap test keys for live restricted keys (Vercel sensitive env vars)
-- [ ] Point `NEXT_PUBLIC_SITE_URL` at `https://leeenterprisesunlimited.com`
+- [ ] Point `NEXT_PUBLIC_SITE_URL` at the canonical host, including `www`
 - [ ] Register the production webhook endpoint and set its signing secret
-- [ ] Confirm account prefix + `payment-L-E-U` is ≤ 22 characters
+- [ ] Redeploy — env vars do nothing until a fresh build, and `/support`
+      prerenders as static
+- [ ] Confirm account prefix + `SUPPORT` is ≤ 22 characters and ≥ 5 total
 - [ ] Enable the payment methods you want in Dashboard → Payment methods
 - [ ] Decide on Stripe Tax (§5) with your accountant
 - [ ] Verify the CSP doesn't break the live site after deploy

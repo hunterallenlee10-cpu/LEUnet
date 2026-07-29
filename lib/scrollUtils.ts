@@ -32,11 +32,9 @@ export function smoothScrollToElement(
 export function updateUrlHash(hash: string): void {
   if (typeof window === "undefined") return;
 
-  if (history.replaceState) {
-    window.history.replaceState(null, "", `#${hash}`);
-  } else {
-    window.location.hash = hash;
-  }
+  // No feature check: `replaceState` predates every browser this site targets,
+  // and testing a function that is always defined is a type error.
+  window.history.replaceState(null, "", `#${hash}`);
 }
 
 /**

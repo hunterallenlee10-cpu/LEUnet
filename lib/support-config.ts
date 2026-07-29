@@ -40,10 +40,15 @@ export const SUPPORT_PRODUCT_DESCRIPTION =
  * on a card statement. Cards reject `statement_descriptor` outright, so this
  * must be sent as `statement_descriptor_suffix`.
  *
- * The account prefix (set in Dashboard → Settings → Public details) plus this
- * suffix must total 22 characters or fewer, or Stripe rejects the charge.
+ * The account prefix (set in Dashboard → Settings → Public details), the space
+ * Stripe inserts, and this suffix must total 22 characters or fewer, or Stripe
+ * rejects the charge. At 7 characters that leaves 14 for the prefix.
+ *
+ * Keep it a plain word. A supporter reading their statement weeks later has to
+ * recognize the charge — an unrecognizable descriptor is a leading cause of
+ * chargebacks. "LEE ENT SUPPORT" reads as something they chose to pay for.
  */
-export const SUPPORT_STATEMENT_DESCRIPTOR_SUFFIX = "payment-L-E-U";
+export const SUPPORT_STATEMENT_DESCRIPTOR_SUFFIX = "SUPPORT";
 
 /**
  * Stripe Price ID (`price_...`) for the customer-entered amount. Created by
