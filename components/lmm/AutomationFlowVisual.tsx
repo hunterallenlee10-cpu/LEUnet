@@ -78,15 +78,17 @@ export function AutomationFlowVisual() {
             ))}
           </g>
 
-          {/* Connectors, left to right through the pipeline */}
+          {/* Connectors, left to right through the pipeline. Coordinates track
+              the card positions below: CRM spans roughly x 204-290, and the
+              right-hand column starts at x 350. */}
           {[
-            "M 70 60 L 140 60",
-            "M 70 60 C 105 60 110 186 140 186",
-            "M 235 60 C 255 60 250 123 265 123",
-            "M 235 186 C 255 186 250 123 265 123",
-            "M 340 123 C 370 123 375 42 400 42",
-            "M 340 123 L 400 144",
-            "M 340 123 C 370 123 375 246 400 246",
+            "M 66 60 L 130 60",
+            "M 66 60 C 100 60 105 192 130 192",
+            "M 228 60 C 250 60 245 126 204 126",
+            "M 228 192 C 250 192 245 126 204 126",
+            "M 290 126 C 320 126 325 33 350 33",
+            "M 290 126 C 320 126 325 165 350 165",
+            "M 290 126 C 320 126 325 264 350 264",
           ].map((d, i) => (
             <g key={i}>
               <path d={d} fill="none" stroke="url(#lmmLine)" strokeWidth="1.5" />
@@ -106,20 +108,25 @@ export function AutomationFlowVisual() {
         {/* Node cards positioned over the graph */}
         <div className="absolute inset-0">
           {/* The trailing column is anchored right rather than left so the
-              cards stay inside the panel instead of running past its edge. */}
+              cards stay inside the panel, and shares one fixed width so the
+              three line up as a column instead of ending raggedly.
+              CRM sits clear of it: at 51% the widest right-hand label came
+              within a pixel of overlapping it. */}
           {[
             { n: nodes[0], style: { left: "0%", top: "20%" } },
-            { n: nodes[1], style: { left: "27%", top: "20%" } },
-            { n: nodes[2], style: { left: "27%", top: "62%" } },
-            { n: nodes[3], style: { left: "51%", top: "41%" } },
-            { n: nodes[4], style: { right: "0%", top: "14%" } },
-            { n: nodes[5], style: { right: "0%", top: "48%" } },
-            { n: nodes[6], style: { right: "0%", top: "82%" } },
-          ].map(({ n, style }) => (
+            { n: nodes[1], style: { left: "25%", top: "20%" } },
+            { n: nodes[2], style: { left: "25%", top: "64%" } },
+            { n: nodes[3], style: { left: "39%", top: "42%" } },
+            { n: nodes[4], style: { right: "0%", top: "11%" }, fixed: true },
+            { n: nodes[5], style: { right: "0%", top: "55%" }, fixed: true },
+            { n: nodes[6], style: { right: "0%", top: "88%" }, fixed: true },
+          ].map(({ n, style, fixed }) => (
             <div
               key={n.id}
               style={style}
               className={`absolute flex -translate-y-1/2 items-center gap-2 rounded-lg border px-2.5 py-2 backdrop-blur-sm ${
+                fixed ? "w-[172px]" : ""
+              } ${
                 n.emphasis
                   ? "border-amber-400/45 bg-amber-400/10"
                   : "border-white/10 bg-neutral-900/80"
@@ -134,7 +141,7 @@ export function AutomationFlowVisual() {
                 {n.label}
               </span>
               <span
-                className={`lmm-status h-1.5 w-1.5 rounded-full ${
+                className={`lmm-status ml-auto h-1.5 w-1.5 shrink-0 rounded-full ${
                   n.emphasis ? "bg-amber-400" : "bg-slate-400"
                 }`}
               />
