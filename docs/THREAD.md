@@ -4,15 +4,16 @@ Execution plan for `/thread-t-shirts`. Every decision below is settled — this
 document exists so the build session writes components instead of re-deriving
 choices.
 
-**Status:** content and assets committed. Components not yet written.
+**Status:** built. The page is live on the branch and passes a production
+build; what remains is business confirmation, not code — see §10.
 
 | Done | File |
 | --- | --- |
 | ✅ | `data/thread.ts` — palette, 24-product catalog, all page copy |
 | ✅ | `types/index.ts` — Thread interfaces appended |
 | ✅ | `public/thread/*.svg` — 8 placeholder product images |
-| ⬜ | 16 components + 1 page + 1 API route (§4) |
-| ⬜ | 2 one-line edits outside the page (§7) |
+| ✅ | 15 components + 1 page + 1 API route (§4) |
+| ✅ | 2 one-line edits outside the page (§7) |
 
 ---
 
@@ -131,14 +132,16 @@ Page shell matches `app/pelican-power-wash/page.tsx`: `min-h-screen`,
 ```
 app/thread-t-shirts/page.tsx
 app/api/thread-order/route.ts
-components/thread/ThreadCartProvider.tsx      "use client"
-components/thread/ThreadCartDrawer.tsx        "use client"
-components/thread/ThreadProductCard.tsx       "use client"
-components/thread/ThreadCatalogSection.tsx    "use client"
-components/thread/ThreadCategoriesSection.tsx "use client"
-components/thread/ThreadFeaturedSection.tsx   "use client"
-components/thread/ThreadOrderRequestForm.tsx  "use client"
-components/thread/ThreadFAQSection.tsx        "use client"
+components/thread/ThreadCartProvider.tsx          "use client"
+components/thread/ThreadCatalogFilterProvider.tsx "use client"
+components/thread/ThreadCartDrawer.tsx            "use client"
+components/thread/ThreadProductCard.tsx           "use client"
+components/thread/ThreadCatalogSection.tsx        "use client"
+components/thread/ThreadCategoriesSection.tsx     "use client"
+components/thread/ThreadFeaturedSection.tsx       "use client"
+components/thread/ThreadOrderRequestForm.tsx      "use client"
+components/thread/ThreadFAQSection.tsx            "use client"
+components/thread/ThreadUI.tsx
 components/thread/ThreadHeroSection.tsx
 components/thread/ThreadBrandStorySection.tsx
 components/thread/ThreadQualitySection.tsx
@@ -147,6 +150,12 @@ components/thread/ThreadProcessSection.tsx
 components/thread/ThreadGroupOrderSection.tsx
 components/thread/ThreadCTASection.tsx
 ```
+
+Two files here weren't in the original plan. `ThreadUI.tsx` holds the shared
+button, heading, and section shells so twelve sections don't each re-declare
+the palette recipe. `ThreadCatalogFilterProvider.tsx` shares the active
+category between the categories section and the catalog grid, which are
+siblings — clicking a category card filters the grid and scrolls to it.
 
 ---
 
