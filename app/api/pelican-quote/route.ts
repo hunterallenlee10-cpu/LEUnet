@@ -8,8 +8,15 @@ function getResend(): Resend {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
+// Delivers to the site-wide contact address by default, matching the contact
+// form and the payment notifications. Resend refuses any recipient other than
+// the account's own address until a domain is verified, which is what stopped
+// quote requests reaching the Pelican inbox directly. Set PELICAN_TO_EMAIL to
+// route them somewhere else once a verified domain lifts that restriction.
 const PELICAN_TO_EMAIL =
-  process.env.PELICAN_TO_EMAIL || "llc.pelicanpowerwash@gmail.com";
+  process.env.PELICAN_TO_EMAIL ||
+  process.env.CONTACT_TO_EMAIL ||
+  "ceo@leeenterprisesunlimited.com";
 
 const fromAddress =
   process.env.CONTACT_FROM_EMAIL || "noreply@leeenterprisesunlimited.com";
