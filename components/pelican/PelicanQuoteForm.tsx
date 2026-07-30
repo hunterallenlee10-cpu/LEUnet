@@ -47,6 +47,7 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
 
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -69,19 +70,17 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage("");
 
     try {
-      // Send to email via API
-      const response = await fetch("/api/send-email", {
+      // Send to email via API - the recipient is set server side in
+      // app/api/pelican-quote/route.ts, not by the browser.
+      const response = await fetch("/api/pelican-quote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          to: "ceo@leeenterprisesunlimited.com",
-          subject: `New Pelican Power Wash Quote Request from ${formData.fullName}`,
-          formData: formData
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
@@ -105,9 +104,21 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
         });
         // Reset after 3 seconds
         setTimeout(() => setSubmitted(false), 3000);
+      } else {
+        const data = await response.json().catch(() => null);
+        const fieldErrors = data?.errors
+          ? Object.values(data.errors as Record<string, string>).join(" ")
+          : "";
+        setErrorMessage(
+          fieldErrors ||
+            "We couldn't send your request. Please try again, or call or text us at (240) 925-2609."
+        );
       }
     } catch (error) {
       console.error("[v0] Form submission error:", error);
+      setErrorMessage(
+        "We couldn't send your request. Please try again, or call or text us at (240) 925-2609."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -426,6 +437,16 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
                   placeholder="Any additional information we should know?"
                 />
               </div>
+
+              {/* Submission Error */}
+              {errorMessage && (
+                <p
+                  role="alert"
+                  className="text-sm text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3"
+                >
+                  {errorMessage}
+                </p>
+              )}
 
               {/* Submit Button */}
               <button
