@@ -2,6 +2,7 @@
 
 import { Venture } from "@/types";
 import { Heart, MapPin, Award } from "lucide-react";
+import { smoothScrollToElement } from "@/lib/scrollUtils";
 
 interface PelicanOwnerStoryProps {
   venture: Venture;
@@ -122,7 +123,7 @@ export function PelicanOwnerStorySection({ venture }: PelicanOwnerStoryProps) {
             <button
               className="w-full px-8 py-4 bg-cyan-400 text-neutral-950 rounded-lg font-bold hover:bg-cyan-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
               onClick={() => {
-                window.location.href = "/#contact-section";
+                smoothScrollToElement("quote-form");
               }}
             >
               Experience the Pelican Difference

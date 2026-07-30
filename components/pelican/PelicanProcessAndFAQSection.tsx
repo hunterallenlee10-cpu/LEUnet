@@ -3,6 +3,7 @@
 import { Venture } from "@/types";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { smoothScrollToElement } from "@/lib/scrollUtils";
 
 interface PelicanProcessAndFAQSectionProps {
   venture: Venture;
@@ -260,7 +261,7 @@ export function PelicanProcessAndFAQSection({
             <button
               className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 rounded-lg font-bold hover:bg-cyan-400/10 transition-all duration-200"
               onClick={() => {
-                window.location.href = "/#contact-section";
+                smoothScrollToElement("quote-form");
               }}
             >
               Get Free Quote

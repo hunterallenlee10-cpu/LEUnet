@@ -10,9 +10,8 @@ interface PelicanHeroSectionProps {
 }
 
 export function PelicanHeroSection({ venture }: PelicanHeroSectionProps) {
-  const handleContactScroll = () => {
-    // Navigate to homepage and scroll to contact
-    window.location.href = "/#contact-section";
+  const handleQuoteScroll = () => {
+    smoothScrollToElement("quote-form");
   };
 
   return (
@@ -66,7 +65,7 @@ export function PelicanHeroSection({ venture }: PelicanHeroSectionProps) {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <button
-                onClick={handleContactScroll}
+                onClick={handleQuoteScroll}
                 className="px-8 py-4 bg-cyan-400 text-neutral-950 rounded-lg font-bold hover:bg-cyan-300 transition-all duration-200 transform hover:scale-105 active:scale-95 inline-flex items-center justify-center gap-2 group"
               >
                 Refresh Your Property
