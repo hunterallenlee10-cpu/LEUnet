@@ -662,3 +662,67 @@
     transform: translateX(-50%) translateY(0);
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Lee Marketing Mastery - automation flow visual
+   Motion is decorative only: every animation below is disabled under
+   prefers-reduced-motion, leaving the diagram fully legible and static.
+--------------------------------------------------------------------------- */
+
+@keyframes lmmFlowDot {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes lmmDash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes lmmPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+}
+
+.lmm-dash {
+  stroke-dasharray: 4 8;
+  animation: lmmDash 1.6s linear infinite;
+}
+
+.lmm-packet {
+  animation: lmmFlowDot 4s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+}
+
+.lmm-status {
+  animation: lmmPulse 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lmm-dash,
+  .lmm-packet,
+  .lmm-status {
+    animation: none;
+  }
+
+  .lmm-packet {
+    opacity: 1;
+  }
+}
