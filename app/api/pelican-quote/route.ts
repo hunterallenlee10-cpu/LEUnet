@@ -11,6 +11,9 @@ function getResend(): Resend {
 const PELICAN_TO_EMAIL =
   process.env.PELICAN_TO_EMAIL || "llc.pelicanpowerwash@gmail.com";
 
+const fromAddress =
+  process.env.CONTACT_FROM_EMAIL || "noreply@leeenterprisesunlimited.com";
+
 interface PelicanQuoteRequest {
   fullName: string;
   email?: string;
@@ -111,10 +114,21 @@ ${body.notes?.trim() || "Not provided"}
 
     const subject = `New Pelican Power Wash Quote Request — ${fullNameTrimmed}`;
 
+    // Checked up front so a missing key is reported as itself rather than as a
+    // generic failure: the Resend constructor throws on an absent key, which
+    // would otherwise surface identically to a rejected send.
+    if (!process.env.RESEND_API_KEY) {
+      console.error(
+        "[v0] RESEND_API_KEY is not set - the quote form cannot send email."
+      );
+      return NextResponse.json(
+        { error: "Failed to send email", code: "email_not_configured" },
+        { status: 500 }
+      );
+    }
+
     const response = await getResend().emails.send({
-      from:
-        process.env.CONTACT_FROM_EMAIL ||
-        "noreply@leeenterprisesunlimited.com",
+      from: fromAddress,
       to: PELICAN_TO_EMAIL,
       ...(emailTrimmed ? { replyTo: emailTrimmed } : {}),
       subject: subject,
@@ -122,9 +136,17 @@ ${body.notes?.trim() || "Not provided"}
     });
 
     if (response.error) {
-      console.error("[v0] Resend error:", response.error);
+      // Logged field by field: Resend's error object stringifies to "[object
+      // Object]" through console.error on Vercel, hiding the actual reason.
+      console.error(
+        "[v0] Resend rejected the quote email.",
+        `name=${response.error.name}`,
+        `message=${response.error.message}`,
+        `from=${fromAddress}`,
+        `to=${PELICAN_TO_EMAIL}`
+      );
       return NextResponse.json(
-        { error: "Failed to send email" },
+        { error: "Failed to send email", code: "email_rejected" },
         { status: 500 }
       );
     }
