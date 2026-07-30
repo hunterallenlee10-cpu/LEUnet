@@ -104,7 +104,7 @@ export function PelicanPricingSection({
           {pricingPackages.map((pkg) => (
             <div
               key={pkg.id}
-              className={`relative rounded-lg backdrop-blur-sm transition-all duration-300 overflow-hidden ${
+              className={`relative flex flex-col rounded-lg backdrop-blur-sm transition-all duration-300 ${
                 pkg.highlighted
                   ? "ring-2 ring-cyan-400 bg-cyan-400/10 border border-cyan-400/50 transform md:col-span-2 lg:col-span-1"
                   : pkg.featured
@@ -152,7 +152,14 @@ export function PelicanPricingSection({
                       </div>
                     ))
                   ) : (
-                    <div className="text-4xl font-bold text-cyan-400">
+                    // Only an actual figure gets the display size. "Call or
+                    // Text for Quote" at text-4xl wrapped onto two lines and
+                    // made the card tower over its neighbours.
+                    <div
+                      className={`font-bold text-cyan-400 ${
+                        pkg.price?.startsWith("$") ? "text-4xl" : "text-2xl"
+                      }`}
+                    >
                       {pkg.price}
                     </div>
                   )}
@@ -161,7 +168,7 @@ export function PelicanPricingSection({
 
               {/* CTA Button */}
               <button
-                className={`w-full px-6 py-3 rounded-lg font-semibold mb-6 transition-all duration-200 ${
+                className={`w-full px-6 py-3 rounded-lg font-semibold mt-auto transition-all duration-200 ${
                   pkg.highlighted
                     ? "bg-cyan-400 text-neutral-950 hover:bg-cyan-300"
                     : pkg.featured
