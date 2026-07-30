@@ -79,16 +79,18 @@ export function AutomationFlowVisual() {
           </g>
 
           {/* Connectors, left to right through the pipeline. Coordinates track
-              the card positions below: CRM spans roughly x 204-290, and the
-              right-hand column starts at x 350. */}
+              the card edges below: the middle column spans x 154-322, CRM
+              x 204-289, and the trailing column starts at x 350. The middle
+              pair sits above and below CRM rather than beside it, so those two
+              connectors run vertically. */}
           {[
-            "M 66 60 L 130 60",
-            "M 66 60 C 100 60 105 192 130 192",
-            "M 228 60 C 250 60 245 126 204 126",
-            "M 228 192 C 250 192 245 126 204 126",
-            "M 290 126 C 320 126 325 33 350 33",
-            "M 290 126 C 320 126 325 165 350 165",
-            "M 290 126 C 320 126 325 264 350 264",
+            "M 130 61 L 152 61",
+            "M 65 79 C 65 150 92 211 152 211",
+            "M 238 79 C 238 92 246 96 246 109",
+            "M 238 193 C 238 180 246 176 246 145",
+            "M 289 127 C 320 127 325 33 350 33",
+            "M 289 127 L 350 165",
+            "M 289 127 C 320 127 325 264 350 264",
           ].map((d, i) => (
             <g key={i}>
               <path d={d} fill="none" stroke="url(#lmmLine)" strokeWidth="1.5" />
@@ -114,18 +116,18 @@ export function AutomationFlowVisual() {
               within a pixel of overlapping it. */}
           {[
             { n: nodes[0], style: { left: "0%", top: "20%" } },
-            { n: nodes[1], style: { left: "25%", top: "20%" } },
-            { n: nodes[2], style: { left: "25%", top: "64%" } },
+            { n: nodes[1], style: { left: "29.5%", top: "20%" }, width: "w-[168px]" },
+            { n: nodes[2], style: { left: "29.5%", top: "64%" }, width: "w-[168px]" },
             { n: nodes[3], style: { left: "39%", top: "42%" } },
-            { n: nodes[4], style: { right: "0%", top: "11%" }, fixed: true },
-            { n: nodes[5], style: { right: "0%", top: "55%" }, fixed: true },
-            { n: nodes[6], style: { right: "0%", top: "88%" }, fixed: true },
-          ].map(({ n, style, fixed }) => (
+            { n: nodes[4], style: { right: "0%", top: "11%" }, width: "w-[172px]" },
+            { n: nodes[5], style: { right: "0%", top: "55%" }, width: "w-[172px]" },
+            { n: nodes[6], style: { right: "0%", top: "88%" }, width: "w-[172px]" },
+          ].map(({ n, style, width }) => (
             <div
               key={n.id}
               style={style}
               className={`absolute flex -translate-y-1/2 items-center gap-2 rounded-lg border px-2.5 py-2 backdrop-blur-sm ${
-                fixed ? "w-[172px]" : ""
+                width ?? ""
               } ${
                 n.emphasis
                   ? "border-amber-400/45 bg-amber-400/10"
