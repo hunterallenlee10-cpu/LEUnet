@@ -48,6 +48,10 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  // Shown under the error as a support reference. The server sends a short
+  // non-sensitive code (email_not_configured, email_rejected) plus the HTTP
+  // status, which is what a failure report needs to be actionable.
+  const [errorReference, setErrorReference] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -71,6 +75,7 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
     e.preventDefault();
     setIsSubmitting(true);
     setErrorMessage("");
+    setErrorReference("");
 
     try {
       // Send to email via API - the recipient is set server side in
@@ -113,12 +118,18 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
           fieldErrors ||
             "We couldn't send your request. Please try again, or call or text us at (240) 925-2609."
         );
+        if (!fieldErrors) {
+          setErrorReference(
+            [data?.code || "unknown", `http_${response.status}`].join(" · ")
+          );
+        }
       }
     } catch (error) {
       console.error("[v0] Form submission error:", error);
       setErrorMessage(
         "We couldn't send your request. Please try again, or call or text us at (240) 925-2609."
       );
+      setErrorReference("network_error");
     } finally {
       setIsSubmitting(false);
     }
@@ -440,12 +451,17 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
 
               {/* Submission Error */}
               {errorMessage && (
-                <p
+                <div
                   role="alert"
                   className="text-sm text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-3"
                 >
-                  {errorMessage}
-                </p>
+                  <p>{errorMessage}</p>
+                  {errorReference && (
+                    <p className="mt-2 text-xs text-red-400/70 font-mono">
+                      Reference: {errorReference}
+                    </p>
+                  )}
+                </div>
               )}
 
               {/* Submit Button */}
