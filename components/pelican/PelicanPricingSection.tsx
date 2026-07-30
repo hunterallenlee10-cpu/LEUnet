@@ -2,6 +2,7 @@
 
 import { Venture } from "@/types";
 import { Check } from "lucide-react";
+import { smoothScrollToElement } from "@/lib/scrollUtils";
 
 interface PelicanPricingSectionProps {
   venture: Venture;
@@ -167,13 +168,7 @@ export function PelicanPricingSection({
                     ? "bg-orange-400/20 text-orange-300 border border-orange-400 hover:bg-orange-400/30"
                     : "border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
                 }`}
-                onClick={() => {
-                  if (pkg.price === "Call or Text for Quote" || pkg.price === "Free Quote") {
-                    window.location.href = "tel:2409252609";
-                  } else {
-                    window.location.href = "/#contact-section";
-                  }
-                }}
+                onClick={() => smoothScrollToElement("quote-form")}
               >
                 {pkg.price === "Call or Text for Quote" || pkg.price === "Free Quote"
                   ? "Get Your Free Quote"

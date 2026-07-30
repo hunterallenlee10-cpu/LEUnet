@@ -3,6 +3,7 @@
 import { ArrowRight, Phone, Mail } from "lucide-react";
 import Image from "next/image";
 import { Venture } from "@/types";
+import { smoothScrollToElement } from "@/lib/scrollUtils";
 
 interface PelicanCTASectionProps {
   venture: Venture;
@@ -69,7 +70,7 @@ export function PelicanCTASection({ venture }: PelicanCTASectionProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-12 border-t border-neutral-800">
               <button
                 onClick={() => {
-                  window.location.href = "/#quote-form";
+                  smoothScrollToElement("quote-form");
                 }}
                 className="flex items-center justify-center gap-3 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300 group"
               >
