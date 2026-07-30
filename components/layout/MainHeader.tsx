@@ -52,6 +52,13 @@ export function MainHeader() {
     setMobileMenuOpen(false);
     setVenturesDropdownOpen(false);
 
+    // A venture with its own page uses a real route rather than a homepage
+    // anchor, so it navigates directly from wherever the visitor happens to be.
+    if (href.startsWith("/")) {
+      window.location.assign(href);
+      return;
+    }
+
     // Off the homepage, go there and let the browser resolve the hash on
     // arrival rather than scrolling to an element that isn't on this page.
     if (!isHome) {

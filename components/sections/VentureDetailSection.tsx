@@ -12,6 +12,11 @@ interface VentureDetailSectionProps {
   venture: Venture;
 }
 
+const venturePages: Record<string, string> = {
+  lmm: "/lee-marketing-mastery",
+  pelican: "/pelican-power-wash",
+};
+
 export function VentureDetailSection({ venture }: VentureDetailSectionProps) {
   const services = ventureServices[venture.id as keyof typeof ventureServices] || [];
   const valueProps = ventureValuesProps[venture.id as keyof typeof ventureValuesProps] || [];
@@ -24,12 +29,13 @@ export function VentureDetailSection({ venture }: VentureDetailSectionProps) {
   };
 
   const handleLearnMore = () => {
-    // Navigate to venture-specific page if available
-    if (venture.id === "pelican") {
-      window.location.href = "/pelican-power-wash";
-    } else {
-      handleCTA();
+    // Ventures with a dedicated page go there; the rest fall back to contact.
+    const venturePage = venturePages[venture.id];
+    if (venturePage) {
+      window.location.href = venturePage;
+      return;
     }
+    handleCTA();
   };
 
   return (

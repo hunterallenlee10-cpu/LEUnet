@@ -24,15 +24,17 @@ export const navigationItems: NavItem[] = [
   },
 ];
 
+// Ventures with a dedicated page use a real route; the others are homepage
+// section anchors. MainHeader's handleNavClick distinguishes the two.
 export const ventureNavItems: NavItem[] = [
   {
     label: "Lee Marketing Mastery",
-    href: "#lmm",
+    href: "/lee-marketing-mastery",
     id: "nav-venture-lmm",
   },
   {
     label: "Pelican Power Wash",
-    href: "#pelican",
+    href: "/pelican-power-wash",
     id: "nav-venture-pelican",
   },
   {
