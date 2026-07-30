@@ -79,3 +79,97 @@ export interface SharedValue {
   description: string;
   icon: React.ReactNode;
 }
+
+// ---------------------------------------------------------------------------
+// Thread T-Shirts
+//
+// Content for these lives in data/thread.ts. Thread is pre-launch, so the
+// catalog is placeholder inventory — see that file's header before editing.
+// ---------------------------------------------------------------------------
+
+export interface ThreadSize {
+  id: string;
+  label: string;
+}
+
+export interface ThreadColorOption {
+  id: string;
+  name: string;
+  /** Approximate swatch color for the UI dot. Decoration, not a fabric spec. */
+  hex: string;
+}
+
+export interface ThreadCategory {
+  id: string;
+  name: string;
+  blurb: string;
+  image: string;
+}
+
+export interface ThreadProduct {
+  id: string;
+  name: string;
+  categoryId: string;
+  tagline: string;
+  description: string;
+  fabric: string;
+  fit: string;
+  /** Spec bullets shown in the product detail panel. */
+  details: string[];
+  image: string;
+  imageAlt: string;
+  /** Keys into THREAD_COLORS. Empty for design packages, which have no garment. */
+  colors: string[];
+  /** Keys into THREAD_SIZES. */
+  sizes: string[];
+  /**
+   * Price in CENTS, or null to render "Price coming soon". Never store dollars
+   * here — the formatter divides by 100.
+   */
+  priceCents: number | null;
+  featured: boolean;
+  /** Whether custom artwork can be printed on this piece. */
+  customizable: boolean;
+  /** True for design services rather than a physical garment. */
+  isPackage?: boolean;
+  /** What a package covers. Only meaningful when `isPackage` is true. */
+  includes?: string[];
+}
+
+export interface ThreadQualityPillar {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface ThreadUseCase {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface ThreadProcessStep {
+  id: string;
+  step: number;
+  title: string;
+  description: string;
+}
+
+export interface ThreadFaq {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+/** One configured line in the order-request cart. */
+export interface ThreadCartItem {
+  /** `${productId}:${colorId}:${sizeId}` — the variant identity. */
+  key: string;
+  productId: string;
+  productName: string;
+  colorId: string;
+  colorName: string;
+  sizeId: string;
+  sizeLabel: string;
+  quantity: number;
+}
