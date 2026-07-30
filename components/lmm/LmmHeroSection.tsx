@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { AutomationFlowVisual } from "@/components/lmm/AutomationFlowVisual";
@@ -15,11 +16,23 @@ export function LmmHeroSection() {
       <div className="section-container">
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
           <div>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-2">
-              <span className="h-2 w-2 rounded-full bg-amber-400" />
-              <span className="text-sm font-semibold tracking-wide text-amber-400">
-                LEE MARKETING MASTERY
-              </span>
+            <div className="mb-6 flex flex-wrap items-center gap-4">
+              {/* Decorative here: the eyebrow beside it already names the
+                  venture, so an alt would just repeat it to a screen reader. */}
+              <Image
+                src="/lee-marketing-mastery-logo.png"
+                alt=""
+                width={64}
+                height={64}
+                priority
+                className="h-14 w-14 shrink-0 rounded-full md:h-16 md:w-16"
+              />
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-2">
+                <span className="h-2 w-2 rounded-full bg-amber-400" />
+                <span className="text-sm font-semibold tracking-wide text-amber-400">
+                  LEE MARKETING MASTERY
+                </span>
+              </div>
             </div>
 
             <h1 className="heading-xl mb-6 text-white">

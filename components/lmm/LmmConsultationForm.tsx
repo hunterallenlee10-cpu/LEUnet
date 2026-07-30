@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const automationTypes = [
@@ -146,9 +147,22 @@ export function LmmConsultationForm() {
       aria-describedby="consultation-form-description"
       className="mx-auto max-w-3xl rounded-xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm md:p-10"
     >
-      <h3 className="mb-2 text-2xl font-bold text-white">
-        Request an Automation Consultation
-      </h3>
+      {/* Stacked on narrow screens so the heading keeps the full width
+          instead of wrapping to three lines beside the mark. */}
+      <div className="mb-2 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
+        {/* Decorative: the heading beside it names the service. */}
+        <Image
+          src="/lee-marketing-mastery-logo.png"
+          alt=""
+          width={48}
+          height={48}
+          loading="lazy"
+          className="h-12 w-12 shrink-0 rounded-full"
+        />
+        <h3 className="text-2xl font-bold text-white">
+          Request an Automation Consultation
+        </h3>
+      </div>
       <p id="consultation-form-description" className="mb-8 text-sm text-neutral-400">
         Fields marked with an asterisk are required. Tell us what is taking too
         much time and we will follow up to discuss the opportunity.

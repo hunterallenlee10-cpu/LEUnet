@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
@@ -12,6 +13,15 @@ export function LmmFinalCTA() {
       </div>
 
       <div className="section-container text-center">
+        {/* Named here, unlike the hero: no adjacent text identifies the brand. */}
+        <Image
+          src="/lee-marketing-mastery-logo.png"
+          alt="Lee Marketing Mastery"
+          width={80}
+          height={80}
+          loading="lazy"
+          className="mx-auto mb-8 h-20 w-20 rounded-full"
+        />
         <h2 className="heading-lg mx-auto mb-6 max-w-3xl text-white">
           Stop Letting Manual Work Limit Your Growth.
         </h2>
