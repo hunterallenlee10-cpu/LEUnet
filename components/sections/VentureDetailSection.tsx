@@ -15,6 +15,7 @@ interface VentureDetailSectionProps {
 const venturePages: Record<string, string> = {
   lmm: "/lee-marketing-mastery",
   pelican: "/pelican-power-wash",
+  thread: "/thread-t-shirts",
 };
 
 export function VentureDetailSection({ venture }: VentureDetailSectionProps) {

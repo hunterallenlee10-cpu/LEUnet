@@ -44,7 +44,7 @@ export const ventureNavItems: NavItem[] = [
   },
   {
     label: "Thread T-Shirts",
-    href: "#thread",
+    href: "/thread-t-shirts",
     id: "nav-venture-thread",
   },
 ];

@@ -771,6 +771,105 @@ export const threadProducts: ThreadProduct[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// Section copy
+//
+// Headings and intros live here rather than inline in components so the whole
+// page reads — and edits — from one file.
+// ---------------------------------------------------------------------------
+
+export const threadCopy = {
+  hero: {
+    badge: "Launching Soon",
+    title: "Wear Your Style.",
+    titleAccent: "Elevate Everyday Essentials.",
+    description:
+      "Thread is two things at once: an original apparel label, and a custom print service for anyone who needs their idea on a shirt. Premium blanks, careful prints, and a fit you can order for a whole team without guessing.",
+    primaryCta: "Browse the Collection",
+    secondaryCta: "Start a Custom Order",
+    note: "Pricing is being finalized. Requests are open now — no payment required.",
+  },
+  story: {
+    eyebrow: "Two Ways to Work With Thread",
+    title: "A Label and a Print Shop",
+    lead: "Most apparel companies do one or the other. Thread does both, and they make each other better — the same standards that go into the original line go into every custom order.",
+    paths: [
+      {
+        id: "shop",
+        title: "Shop the Collection",
+        description:
+          "Original Thread pieces designed around fabric that holds up and a fit that stays consistent from tee to hoodie. Ready to wear, nothing to design.",
+        cta: "Browse the Collection",
+        href: "#catalog",
+      },
+      {
+        id: "custom",
+        title: "Order Custom Apparel",
+        description:
+          "Your logo, your design, your roster. For businesses, teams, schools, events, organizations, fundraisers, or one idea you want to see printed.",
+        cta: "Start a Custom Order",
+        href: "#order-request",
+      },
+    ],
+  },
+  quality: {
+    eyebrow: "Why Thread",
+    title: "Built to Outlast the First Wash",
+    description:
+      "Apparel is easy to make cheaply and hard to make well. These are the four things Thread refuses to compromise on.",
+  },
+  featured: {
+    eyebrow: "Featured",
+    title: "Start Here",
+    description:
+      "The pieces most orders are built around, across every category Thread produces.",
+  },
+  categories: {
+    eyebrow: "Categories",
+    title: "Find Your Piece",
+    description:
+      "Eight categories covering everyday wear, performance, business apparel, and full custom production.",
+  },
+  catalog: {
+    eyebrow: "The Collection",
+    title: "Every Piece Thread Makes",
+    description:
+      "Pick your colors, sizes, and quantities, then send the whole thing over as one request. Nothing is charged and nothing is committed.",
+    allLabel: "All Products",
+  },
+  useCases: {
+    eyebrow: "Custom Apparel",
+    title: "Who Thread Prints For",
+    description:
+      "If it needs a logo, a roster, a date, or an idea on the front of it, Thread has printed something like it.",
+  },
+  process: {
+    eyebrow: "The Process",
+    title: "How an Order Works",
+    description:
+      "Five steps from first message to a box at your door. Nothing prints until you have seen it and approved it.",
+  },
+  faq: {
+    eyebrow: "Questions",
+    title: "Answers Before You Ask",
+    description:
+      "The things people want to know before sending a request. If yours is not here, ask in the form.",
+  },
+  order: {
+    eyebrow: "Order Request",
+    title: "Send Your Order Request",
+    description:
+      "Review what you picked, tell Thread how to reach you, and send it over. This takes no payment and no card details — you will get a written quote to approve first.",
+  },
+  finalCta: {
+    title: "Have an Idea? Send It Over.",
+    description:
+      "Whether you know exactly what you want or have nothing but a rough concept, the fastest way to find out what it costs is to ask.",
+    primaryCta: "Start Your Order",
+    secondaryCta: "Browse the Collection",
+  },
+};
+
+// ---------------------------------------------------------------------------
 // Supporting content
 // ---------------------------------------------------------------------------
 
