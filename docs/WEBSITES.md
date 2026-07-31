@@ -138,7 +138,10 @@ needed if website leads should route somewhere other than the shared inbox.
 One edit outside the new page: `components/lmm/LmmHeroSection.tsx`.
 
 A pill-style link sits in the hero's right-hand column, directly above the
-System Flow panel and aligned to its left edge.
+System Flow panel and aligned to its left edge. A second pill for the marketing
+page now sits beside it — both render from one `siblingOfferings` array in
+`components/lmm/LmmHeroSection.tsx`, so a third is a data edit rather than a
+layout edit. See `docs/MARKETING.md` §5.
 
 It is deliberately not a solid button — the two CTAs under the headline are that
 page's primary conversion, and a competing amber button would split them. The

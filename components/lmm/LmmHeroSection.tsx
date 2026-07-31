@@ -2,9 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Megaphone, Sparkles } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { AutomationFlowVisual } from "@/components/lmm/AutomationFlowVisual";
+
+const siblingOfferings = [
+  {
+    href: "/lee-marketing-mastery/websites",
+    label: "New Websites, Built with AI",
+    Icon: Sparkles,
+  },
+  {
+    href: "/lee-marketing-mastery/marketing",
+    label: "Traditional & Digital Marketing",
+    Icon: Megaphone,
+  },
+];
 
 export function LmmHeroSection() {
   return (
@@ -73,24 +86,32 @@ export function LmmHeroSection() {
           </div>
 
           <div>
-            {/* Sits above the System Flow panel rather than in the headline
-                column: three pills in the eyebrow row crowded the brand badge,
-                and the two CTAs under the headline are this page's primary
-                conversion. Deliberately a pill rather than a solid button for
-                the same reason - it routes to a sibling offering, it is not a
-                competing action. The hover fill and arrow keep it reading as a
-                link. */}
-            <Link
-              href="/lee-marketing-mastery/websites"
-              className="group mb-4 inline-flex items-center gap-2 rounded-full border border-amber-400/60 bg-amber-400/[0.14] px-4 py-2 text-sm font-semibold text-amber-200 transition-colors hover:bg-amber-400 hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
-            >
-              <Sparkles className="h-4 w-4" aria-hidden="true" />
-              New Websites, Built with AI
-              <ArrowRight
-                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                aria-hidden="true"
-              />
-            </Link>
+            {/* Routes to LMM's sibling offerings, sitting above the System Flow
+                panel rather than in the headline column: pills in the eyebrow
+                row crowded the brand badge, and the two CTAs under the headline
+                are this page's primary conversion. Pills rather than solid
+                buttons for the same reason - these are alternate destinations,
+                not competing actions. The hover fill and arrow keep them
+                reading as links.
+
+                They wrap to two lines below roughly 1400px, which is why the
+                row is flex-wrap rather than a fixed two-up grid. */}
+            <div className="mb-4 flex flex-wrap gap-3">
+              {siblingOfferings.map(({ href, label, Icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="group inline-flex items-center gap-2 rounded-full border border-amber-400/60 bg-amber-400/[0.14] px-4 py-2 text-sm font-semibold text-amber-200 transition-colors hover:bg-amber-400 hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
+                >
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                  {label}
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
+                </Link>
+              ))}
+            </div>
 
             <div className="rounded-xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm md:p-7">
               <div className="mb-5 flex items-center justify-between">
