@@ -173,3 +173,68 @@ export interface ThreadCartItem {
   sizeLabel: string;
   quantity: number;
 }
+
+// ---------------------------------------------------------------------------
+// H1 Performance (/h1-performance)
+// ---------------------------------------------------------------------------
+
+/** A published program result. Figures come from H1's own S&C document. */
+export interface H1Result {
+  id: string;
+  /** The number itself, e.g. "+15 MPH". Rendered at display size. */
+  figure: string;
+  label: string;
+  detail: string;
+}
+
+export interface H1ProgramFeature {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface H1Package {
+  id: string;
+  name: string;
+  /**
+   * Display string including the currency symbol, or null to render
+   * "Pricing on request". Null is a real state, not a placeholder bug.
+   */
+  price: string | null;
+  /** Billing period shown beside the price, e.g. "per month". */
+  period: string;
+  summary: string;
+  features: string[];
+  highlighted: boolean;
+  ctaLabel: string;
+}
+
+export interface H1ProcessStep {
+  id: string;
+  step: number;
+  title: string;
+  description: string;
+}
+
+export interface H1Coach {
+  id: string;
+  name: string;
+  role: string;
+  photo: string;
+  photoAlt: string;
+  credentials: string[];
+}
+
+export interface H1Testimonial {
+  id: string;
+  quote: string;
+  name: string;
+  /** Sport, position, or class year — whatever identifies the athlete. */
+  detail: string;
+}
+
+export interface H1Faq {
+  id: string;
+  question: string;
+  answer: string;
+}

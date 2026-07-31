@@ -107,6 +107,17 @@ export const websitePortfolio: WebsitePortfolioItem[] = [
     ],
   },
   {
+    name: "H1 Performance",
+    href: "/h1-performance",
+    summary:
+      "A coaching site that prices two remote training packages up front and qualifies athletes through a consultation request built around sport, goals, and available equipment.",
+    highlights: [
+      "Package pricing",
+      "Coach credentials",
+      "Athlete intake form",
+    ],
+  },
+  {
     name: "Lee Enterprises Unlimited",
     href: "/",
     summary:
