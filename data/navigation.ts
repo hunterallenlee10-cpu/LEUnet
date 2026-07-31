@@ -39,7 +39,7 @@ export const ventureNavItems: NavItem[] = [
   },
   {
     label: "H1 Performance",
-    href: "#h1",
+    href: "/h1-performance",
     id: "nav-venture-h1",
   },
   {

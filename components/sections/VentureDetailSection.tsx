@@ -15,6 +15,7 @@ interface VentureDetailSectionProps {
 const venturePages: Record<string, string> = {
   lmm: "/lee-marketing-mastery",
   pelican: "/pelican-power-wash",
+  h1: "/h1-performance",
   thread: "/thread-t-shirts",
 };
 
