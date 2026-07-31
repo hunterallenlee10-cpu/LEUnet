@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { AutomationFlowVisual } from "@/components/lmm/AutomationFlowVisual";
 
@@ -33,6 +34,23 @@ export function LmmHeroSection() {
                   LEE MARKETING MASTERY
                 </span>
               </div>
+
+              {/* Deliberately a pill rather than a third solid button: the two
+                  CTAs under the headline are the primary conversion, and this
+                  is a route to a sibling offering, not a competing action. The
+                  hover fill and arrow keep it readable as a link next to the
+                  static eyebrow badge it sits beside. */}
+              <Link
+                href="/lee-marketing-mastery/websites"
+                className="group inline-flex items-center gap-2 rounded-full border border-amber-400/60 bg-amber-400/[0.14] px-4 py-2 text-sm font-semibold text-amber-200 transition-colors hover:bg-amber-400 hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
+              >
+                <Sparkles className="h-4 w-4" aria-hidden="true" />
+                New Websites, Built with AI
+                <ArrowRight
+                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
             </div>
 
             <h1 className="heading-xl mb-6 text-white">
