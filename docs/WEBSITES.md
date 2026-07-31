@@ -137,14 +137,23 @@ needed if website leads should route somewhere other than the shared inbox.
 
 One edit outside the new page: `components/lmm/LmmHeroSection.tsx`.
 
-A pill-style link joins the logo and eyebrow badge in the hero's top-left row.
-It is deliberately not a third solid button — the two CTAs under the headline
-are that page's primary conversion, and a competing amber button above the
-headline would split them. The pill fills solid on hover and carries an arrow so
-it still reads as a link beside the static badge it sits next to.
+A pill-style link sits in the hero's right-hand column, directly above the
+System Flow panel and aligned to its left edge.
 
-The row is `flex-wrap`, so on narrow screens the pill wraps to its own line
-rather than crushing the eyebrow.
+It is deliberately not a solid button — the two CTAs under the headline are that
+page's primary conversion, and a competing amber button would split them. The
+pill fills solid on hover and carries an arrow so it still reads as a link.
+
+**Known tradeoff.** The hero grid is `lg:grid-cols-2`, so below the `lg`
+breakpoint the right column stacks *under* the headline column. At 390px the
+pill lands ~804px down — just past the fold on a typical phone, after both
+primary CTAs. Desktop visitors see it immediately; phone visitors have to
+scroll.
+
+If phone visibility matters later, the fix is to render it twice with
+responsive visibility (`lg:hidden` in the headline column, `hidden lg:block`
+above the panel) — the same two-layout duplication `AutomationFlowVisual`
+already uses for its mobile rail versus desktop graph.
 
 ---
 
