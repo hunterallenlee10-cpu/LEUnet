@@ -80,20 +80,25 @@ export function VentureDetailSection({ venture }: VentureDetailSectionProps) {
               {venture.heroDescription}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            {/* Wraps rather than shrinking: "Explore Lee Marketing Mastery" is
+                long enough that the pair exceeds the grid column, and flex
+                items shrink below their content width by default - which broke
+                both labels across two lines mid-phrase. Wrapping drops the
+                second button to its own row at full width instead. */}
+            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 pt-4">
               <button
                 onClick={handleCTA}
-                className="btn-primary inline-flex items-center justify-center gap-2"
+                className="btn-primary inline-flex items-center justify-center gap-2 whitespace-nowrap"
               >
                 {venture.ctaPrimary}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
               <button
                 onClick={handleLearnMore}
-                className="btn-secondary inline-flex items-center justify-center gap-2"
+                className="btn-secondary inline-flex items-center justify-center gap-2 whitespace-nowrap"
               >
-                Learn More
-                <ArrowRight className="w-4 h-4" />
+                Explore {venture.name}
+                <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
             </div>
           </div>
