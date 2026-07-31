@@ -307,7 +307,7 @@ export function H1ConsultationForm() {
                 aria-required="true"
                 aria-invalid={errors.goals ? "true" : undefined}
                 aria-describedby={errors.goals ? "goals-error" : undefined}
-                placeholder="Exit velocity, 40 time, adding size, staying healthy through the season — whatever matters most right now"
+                placeholder="Getting faster, adding size, jumping higher, staying healthy through the season — whatever matters most right now"
                 className={`${fieldClass} resize-none ${
                   errors.goals ? "border-red-500/60" : "border-neutral-700"
                 }`}

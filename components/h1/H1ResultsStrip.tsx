@@ -15,7 +15,9 @@ export function H1ResultsStrip() {
       }}
     >
       <div className="section-container">
-        <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+        {/* Three columns, not four: a 2-up mobile grid would leave the third
+            figure orphaned on its own row. */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
           {h1Results.map((result) => (
             <div key={result.id} className="text-center">
               <div

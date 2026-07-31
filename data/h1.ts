@@ -45,14 +45,12 @@ export const H1_PHONE_HREF = "tel:+12409252609";
  * Program results, quoted from H1's own Strength & Conditioning program
  * document. These are the client's published figures — do not round, embellish,
  * or add to them without a source.
+ *
+ * The document's fourth figure, "+15 MPH exit velo," is deliberately not here.
+ * It appears in the flyer as a result of the HLP hitting system, and this page
+ * carries no hitting content — see docs/H1.md §2.
  */
 export const h1Results: H1Result[] = [
-  {
-    id: "h1-result-exit-velo",
-    figure: "+15 MPH",
-    label: "Exit velocity",
-    detail: "Gained in three months of training.",
-  },
   {
     id: "h1-result-forty",
     figure: "5.1 → 4.5",
@@ -139,7 +137,7 @@ export const h1Packages: H1Package[] = [
   {
     id: "h1-committed",
     name: "Committed Strength Package",
-    price: null,
+    price: "$99",
     period: "per month",
     summary:
       "Everything in Basic, plus the full library of supplemental resources — nutrition, recovery, and the mental side of competing.",
@@ -190,12 +188,17 @@ export const h1ProcessSteps: H1ProcessStep[] = [
 /**
  * Credentials transcribed from the H1 flyer. Every line is the client's own
  * claim about their own record — do not add accolades that aren't on the flyer.
+ *
+ * Photo assignment confirmed by the client: Hunter in the Leonardtown uniform,
+ * Aaron in the St. Mary's Seahawks uniform.
  */
 export const h1Coaches: H1Coach[] = [
   {
     id: "h1-coach-hunter",
     name: "Hunter Lee",
     role: "Founder",
+    photo: "/h1/hunter-lee.jpg",
+    photoAlt: "Hunter Lee at bat in a Leonardtown High School uniform",
     credentials: [
       "2024 4A State Champion",
       "1st Team All-SMAC (Leonardtown)",
@@ -209,6 +212,9 @@ export const h1Coaches: H1Coach[] = [
     id: "h1-coach-aaron",
     name: "Aaron Wathen",
     role: "Co-Founder",
+    photo: "/h1/aaron-wathen.jpg",
+    photoAlt:
+      "Aaron Wathen on the field in a St. Mary's College of Maryland uniform",
     credentials: [
       "2021 American Legion World Series",
       "1st Team All-United East (St. Mary's)",
@@ -221,9 +227,9 @@ export const h1Coaches: H1Coach[] = [
 ];
 
 /**
- * Empty on purpose. The section renders nothing while this list is empty, so
- * the live page never shows an empty shell or a placeholder quote. Paste real
- * testimonials in here and the section appears on its own.
+ * Empty on purpose. While this list is empty, `H1TestimonialsSection` renders a
+ * designed placeholder that holds the space without inventing a quote; adding
+ * an entry here swaps it for the real grid with no other change.
  *
  * Shape:
  *   { id: "h1-testimonial-1", quote: "...", name: "First L.", detail: "Sport, class year" }

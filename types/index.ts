@@ -220,6 +220,8 @@ export interface H1Coach {
   id: string;
   name: string;
   role: string;
+  photo: string;
+  photoAlt: string;
   credentials: string[];
 }
 
