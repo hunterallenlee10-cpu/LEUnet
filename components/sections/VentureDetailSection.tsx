@@ -5,19 +5,12 @@ import { ArrowRight, Check } from "lucide-react";
 import { Venture } from "@/types";
 import { ventureServices, ventureValuesProps } from "@/data/services";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
-import { sectionIds } from "@/data/navigation";
+import { sectionIds, venturePages } from "@/data/navigation";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
 
 interface VentureDetailSectionProps {
   venture: Venture;
 }
-
-const venturePages: Record<string, string> = {
-  lmm: "/lee-marketing-mastery",
-  pelican: "/pelican-power-wash",
-  h1: "/h1-performance",
-  thread: "/thread-t-shirts",
-};
 
 export function VentureDetailSection({ venture }: VentureDetailSectionProps) {
   const services = ventureServices[venture.id as keyof typeof ventureServices] || [];
