@@ -16,6 +16,7 @@ export default function Home() {
       <MainHeader />
 
       <HeroSection />
+      <AboutSection />
       <VentureSnapshotSection />
       <PortfolioSection />
 
@@ -23,7 +24,6 @@ export default function Home() {
         <VentureDetailSection key={venture.id} venture={venture} />
       ))}
 
-      <AboutSection />
       <HelpSelectorSection />
       <ContactSection />
       <LegalSection />
