@@ -16,10 +16,15 @@ export function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Get selected venture from session storage
+  // Get selected venture from session storage. sessionStorage only exists in
+  // the browser, so this has to run after mount rather than as lazy initial
+  // state -- seeding the field during render would make the server and client
+  // emit different HTML and trip a hydration error. The one extra render on
+  // mount is the cost of that, hence the suppression below.
   useEffect(() => {
     const selectedVenture = sessionStorage.getItem("selectedVenture");
     if (selectedVenture && selectedVenture !== "other") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData((prev) => ({ ...prev, ventureOfInterest: selectedVenture }));
     }
   }, []);

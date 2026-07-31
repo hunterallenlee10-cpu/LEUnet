@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { companyInfo, footerContent } from "@/data/company";
-import { sectionIds } from "@/data/navigation";
+import { sectionIds, venturePages } from "@/data/navigation";
 import { ventures } from "@/data/ventures";
 
 export function MainFooter() {
@@ -85,16 +85,31 @@ export function MainFooter() {
           <div>
             <h4 className="font-semibold text-white mb-4">Our Ventures</h4>
             <ul className="space-y-2">
-              {ventures.map((venture) => (
-                <li key={venture.id}>
-                  <button
-                    onClick={() => handleLinkClick(venture.id)}
-                    className="text-neutral-400 hover:text-amber-400 transition-colors text-sm"
-                  >
-                    {venture.name}
-                  </button>
-                </li>
-              ))}
+              {/* A venture with its own page links straight to that route; one
+                  without still falls back to its homepage section anchor. */}
+              {ventures.map((venture) => {
+                const venturePage = venturePages[venture.id];
+
+                return (
+                  <li key={venture.id}>
+                    {venturePage ? (
+                      <Link
+                        href={venturePage}
+                        className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
+                      >
+                        {venture.name}
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={() => handleLinkClick(venture.id)}
+                        className="text-neutral-400 hover:text-amber-400 transition-colors text-sm"
+                      >
+                        {venture.name}
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

@@ -57,14 +57,14 @@ export const helpSelectorContent = {
   title: "What Can We Help You With?",
   subtitle: "Select a venture to learn more or get started",
   description:
-    "Choose the venture or service that matches your needs, and we&apos;ll connect you with the right team.",
+    "Choose the venture or service that matches your needs, and we'll connect you with the right team.",
 };
 
 export const ctaContent = {
   final: {
     title: "Ready to Get Started?",
     description:
-      "Whether you&apos;re interested in marketing services, property cleaning, athletic training, or premium apparel, we&apos;re here to help.",
+      "Whether you're interested in marketing services, property cleaning, athletic training, or premium apparel, we're here to help.",
     buttonText: "Contact Us Today",
   },
 };
