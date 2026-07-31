@@ -88,6 +88,9 @@ export function ThreadCartProvider({ children }: { children: ReactNode }) {
       if (raw) {
         const parsed: unknown = JSON.parse(raw);
         if (Array.isArray(parsed)) {
+          // Deliberate: the mount-time render this triggers is exactly how the
+          // hydration mismatch described above is avoided.
+          // eslint-disable-next-line react-hooks/set-state-in-effect
           setItems(
             parsed
               .filter(isCartItem)
