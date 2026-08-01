@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { Venture } from "@/types";
 import { ventureServices, ventureValuesProps } from "@/data/services";
@@ -80,13 +81,25 @@ export function VentureDetailSection({ venture }: VentureDetailSectionProps) {
                 both labels across two lines mid-phrase. Wrapping drops the
                 second button to its own row at full width instead. */}
             <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 pt-4">
-              <button
-                onClick={handleCTA}
-                className="btn-primary inline-flex items-center justify-center gap-2 whitespace-nowrap"
-              >
-                {venture.ctaPrimary}
-                <ArrowRight className="w-4 h-4 shrink-0" />
-              </button>
+              {/* A venture that names its own CTA destination links straight
+                  there; the rest scroll to the homepage contact section. */}
+              {venture.ctaPrimaryHref ? (
+                <Link
+                  href={venture.ctaPrimaryHref}
+                  className="btn-primary inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                >
+                  {venture.ctaPrimary}
+                  <ArrowRight className="w-4 h-4 shrink-0" />
+                </Link>
+              ) : (
+                <button
+                  onClick={handleCTA}
+                  className="btn-primary inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                >
+                  {venture.ctaPrimary}
+                  <ArrowRight className="w-4 h-4 shrink-0" />
+                </button>
+              )}
               <button
                 onClick={handleLearnMore}
                 className="btn-secondary inline-flex items-center justify-center gap-2 whitespace-nowrap"
