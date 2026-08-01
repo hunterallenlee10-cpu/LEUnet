@@ -473,95 +473,32 @@ export const threadProducts: ThreadProduct[] = [
   },
 
   // --- Custom Design Packages ---------------------------------------------
+  // Placeholder while the packages are worked out. Same treatment as Event
+  // Shirts: comingSoon strips the card down to the name, so the empty
+  // colors/sizes here are never read.
+  //
+  // The three packages this replaced (Starter, Brand Identity, Full Production
+  // Run) were the only products carrying `isPackage`. The rendering path for it
+  // is still in ThreadProductCard — the includes list, the "Estimated Pieces"
+  // label, and skipping the size picker — so restoring them is a data change
+  // and nothing more.
   {
-    id: "pkg-starter",
-    name: "Starter Design Package",
+    id: "custom-coming-soon",
+    name: "Custom Design Packages",
     categoryId: "custom",
-    tagline: "One design, one garment, done right",
-    description:
-      "For a first order with a clear idea. Thread handles the design work from your description, sends a proof, and prints once it is approved.",
-    fabric: "Garment selected during the quote",
-    fit: "Selected during the quote",
-    details: [
-      "One original design concept",
-      "Two rounds of revisions",
-      "Digital proof before anything is printed",
-      "Print-ready files kept on file for reorders",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/custom.svg",
-    imageAlt: "Starter Design Package — placeholder product image",
+    imageAlt: "Custom Design Packages — coming soon",
     colors: [],
-    sizes: ALL_SIZES,
-    priceCents: null,
-    featured: true,
-    customizable: true,
-    isPackage: true,
-    includes: [
-      "Design consultation",
-      "One original concept",
-      "Two revision rounds",
-      "Digital proof and approval",
-    ],
-  },
-  {
-    id: "pkg-brand",
-    name: "Brand Identity Package",
-    categoryId: "custom",
-    tagline: "A full apparel look, not one shirt",
-    description:
-      "For businesses and organizations building a consistent look across several pieces. One design system applied to tees, hoodies, and business apparel together.",
-    fabric: "Multiple garments selected during the quote",
-    fit: "Selected per garment",
-    details: [
-      "Design system applied across multiple garment types",
-      "Coordinated colorways across the run",
-      "Placement mapped per garment",
-      "Print-ready files kept on file for reorders",
-    ],
-    image: "/thread/custom.svg",
-    imageAlt: "Brand Identity Package — placeholder product image",
-    colors: [],
-    sizes: ALL_SIZES,
-    priceCents: null,
-    featured: true,
-    customizable: true,
-    isPackage: true,
-    includes: [
-      "Everything in the Starter Package",
-      "Design applied across up to three garment types",
-      "Coordinated color matching",
-      "Placement guide for future reorders",
-    ],
-  },
-  {
-    id: "pkg-fullrun",
-    name: "Full Production Run",
-    categoryId: "custom",
-    tagline: "Large orders, sorted and delivered",
-    description:
-      "For rosters, staff, and events ordering at volume. Sizes collected and sorted per person, then packed so distribution is not your problem.",
-    fabric: "Multiple garments selected during the quote",
-    fit: "Selected per garment",
-    details: [
-      "Size collection and per-person sorting",
-      "Individual names and numbers where needed",
-      "Packed for distribution on arrival",
-      "Reorder pricing held for the season",
-    ],
-    image: "/thread/custom.svg",
-    imageAlt: "Full Production Run — placeholder product image",
-    colors: [],
-    sizes: ALL_SIZES,
+    sizes: [],
     priceCents: null,
     featured: false,
-    customizable: true,
-    isPackage: true,
-    includes: [
-      "Everything in the Brand Identity Package",
-      "Size collection and sorting",
-      "Names and numbers per piece",
-      "Packed and labeled for distribution",
-    ],
+    customizable: false,
+    comingSoon: true,
   },
 ];
 
