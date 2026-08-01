@@ -4,7 +4,7 @@ export const ventureServices = {
       id: "lmm-websites",
       title: "AI Website Design",
       description:
-        "Modern, mobile-ready business websites built with AI-assisted production, hand-reviewed before launch and delivered without the months-long timeline or agency price tag.",
+        "Professional, world-class websites delivered at lightning speed. Built with cutting-edge technology and seamless integrations—without the long wait. Upgrade your online presence and start driving more revenue today.",
       icon: "💻",
     },
     {
