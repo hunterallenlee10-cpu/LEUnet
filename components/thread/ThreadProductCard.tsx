@@ -61,6 +61,46 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
       Math.min(MAX_QUANTITY, Math.max(1, current + delta))
     );
 
+  // Nothing to configure or add yet, so the placeholder stops at the name.
+  // Rendering the swatches and a request button would invite an order for a
+  // line that does not exist.
+  if (product.comingSoon) {
+    return (
+      <div
+        className="flex flex-col overflow-hidden rounded-lg border"
+        style={threadCardStyle}
+      >
+        <div
+          className="relative aspect-square w-full"
+          style={{ backgroundColor: THREAD_PALETTE.ink }}
+        >
+          <Image
+            src={product.image}
+            alt={product.imageAlt}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover"
+          />
+        </div>
+
+        <div className="flex flex-1 flex-col p-6">
+          <h3
+            className="text-lg font-bold"
+            style={{ color: THREAD_PALETTE.bone }}
+          >
+            {product.name}
+          </h3>
+          <p
+            className="mt-1 text-sm font-semibold"
+            style={{ color: THREAD_PALETTE.champagne }}
+          >
+            Coming soon
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="flex flex-col overflow-hidden rounded-lg border"
