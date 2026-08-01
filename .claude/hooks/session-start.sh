@@ -13,21 +13,25 @@ fi
 
 cd "${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel)}"
 
-# 1. Git identity.
+# 1. Git identity: deliberately left alone.
 #
-# Web containers default to Claude <noreply@anthropic.com>. Vercel refuses to
-# build a private-repo commit whose author is not a project member, and the
-# Hobby plan cannot add members, so every commit authored that way blocks its
-# own deployment. Author as the repo owner instead; the Co-Authored-By trailer
-# in the commit message still records that Claude wrote the code.
+# Do not set user.email to hunterallenlee10@gmail.com here. It looks like the
+# right thing to do and it breaks every deployment:
 #
-# Only replaces the Anthropic default, so a real contributor's identity in a
-# session of their own is left untouched.
-current_email="$(git config user.email 2>/dev/null || echo "")"
-if [ -z "$current_email" ] || [ "$current_email" = "noreply@anthropic.com" ]; then
-  git config --local user.name "hunterallenlee10-cpu"
-  git config --local user.email "hunterallenlee10@gmail.com"
-fi
+#   be279cb  author Claude <noreply@anthropic.com>       -> Vercel deployed OK
+#   e8c9cc5  author hunterallenlee10@gmail.com           -> Vercel blocked
+#     "Git author hunterallenlee10-cpu must have access to the project"
+#
+# Vercel resolves a commit author's email to a GitHub account and then requires
+# that account to have access to the project. The gmail address resolves to
+# GitHub user hunterallenlee10-cpu, which is not a member of the Vercel scope
+# that owns this project (acmerwhwrthwrth), so the build is refused. The
+# Anthropic address resolves to no GitHub account at all, so the check finds no
+# author to reject and the build proceeds.
+#
+# The real fix is on Vercel's side: link GitHub account hunterallenlee10-cpu to
+# the Vercel account that owns the project. Until that is done, leaving the
+# container default in place is what keeps deployments working.
 
 # 2. Stripe secret guard.
 #
