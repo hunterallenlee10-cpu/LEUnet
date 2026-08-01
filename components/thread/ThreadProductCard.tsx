@@ -14,7 +14,6 @@ import { useThreadCart } from "@/components/thread/ThreadCartProvider";
 import {
   threadCardStyle,
   threadPrimaryButtonClass,
-  threadPrimaryButtonStyle,
 } from "@/components/thread/ThreadUI";
 
 const MAX_QUANTITY = 1000;
@@ -200,13 +199,8 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
                     title={color.name}
                     aria-label={color.name}
                     aria-pressed={selected}
-                    className="h-8 w-8 rounded-full border-2 transition-transform duration-150 hover:scale-110"
-                    style={{
-                      backgroundColor: color.hex,
-                      borderColor: selected
-                        ? THREAD_PALETTE.bone
-                        : THREAD_PALETTE.border,
-                    }}
+                    className="thread-swatch h-8 w-8 rounded-full"
+                    style={{ backgroundColor: color.hex }}
                   />
                 );
               })}
@@ -231,18 +225,7 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
                     type="button"
                     onClick={() => setSizeId(size.id)}
                     aria-pressed={selected}
-                    className="min-w-11 rounded-md border px-3 py-1.5 text-sm font-semibold transition-colors duration-150"
-                    style={{
-                      borderColor: selected
-                        ? THREAD_PALETTE.bone
-                        : THREAD_PALETTE.border,
-                      backgroundColor: selected
-                        ? THREAD_PALETTE.bone
-                        : "transparent",
-                      color: selected
-                        ? THREAD_PALETTE.ink
-                        : THREAD_PALETTE.muted,
-                    }}
+                    className="thread-toggle min-w-11 rounded-md px-3 py-1.5 text-sm font-semibold"
                   >
                     {size.label}
                   </button>
@@ -259,17 +242,13 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
           >
             {isPackage ? "Estimated Pieces" : "Quantity"}
           </span>
-          <div
-            className="inline-flex items-center rounded-md border"
-            style={{ borderColor: THREAD_PALETTE.border }}
-          >
+          <div className="thread-stepper inline-flex items-center overflow-hidden rounded-md">
             <button
               type="button"
               onClick={() => adjust(-1)}
               disabled={quantity <= 1}
               aria-label="Decrease quantity"
-              className="px-3 py-2 disabled:opacity-30"
-              style={{ color: THREAD_PALETTE.bone }}
+              className="thread-stepper__button self-stretch px-3 py-2"
             >
               <Minus className="h-4 w-4" />
             </button>
@@ -295,8 +274,7 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
               onClick={() => adjust(1)}
               disabled={quantity >= MAX_QUANTITY}
               aria-label="Increase quantity"
-              className="px-3 py-2 disabled:opacity-30"
-              style={{ color: THREAD_PALETTE.bone }}
+              className="thread-stepper__button self-stretch px-3 py-2"
             >
               <Plus className="h-4 w-4" />
             </button>
@@ -309,8 +287,7 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
           type="button"
           onClick={handleAdd}
           disabled={needsSize}
-          className={`${threadPrimaryButtonClass} w-full disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100`}
-          style={threadPrimaryButtonStyle}
+          className={`${threadPrimaryButtonClass} w-full`}
         >
           {justAdded ? (
             <>

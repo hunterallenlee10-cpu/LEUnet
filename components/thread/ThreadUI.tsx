@@ -11,22 +11,18 @@ import { THREAD_PALETTE } from "@/data/thread";
  * runs on THREAD_PALETTE instead — see docs/THREAD.md §2.
  */
 
+/**
+ * Colour, depth, and every interactive state come from `ThreadStyles`, which
+ * the page renders once. They cannot live in an inline `style` object here:
+ * inline styles outrank class selectors, so an inline `borderColor` would make
+ * the hover rules unreachable.
+ */
 export const threadButtonBase =
-  "inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold rounded-lg transition-all duration-200";
+  "thread-btn inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold rounded-lg";
 
-export const threadPrimaryButtonClass = `${threadButtonBase} hover:scale-[1.02] active:scale-95`;
+export const threadPrimaryButtonClass = `${threadButtonBase} thread-btn--primary`;
 
-export const threadPrimaryButtonStyle: CSSProperties = {
-  backgroundColor: THREAD_PALETTE.bone,
-  color: THREAD_PALETTE.ink,
-};
-
-export const threadSecondaryButtonClass = `${threadButtonBase} border-2 hover:bg-white/5`;
-
-export const threadSecondaryButtonStyle: CSSProperties = {
-  borderColor: THREAD_PALETTE.champagne,
-  color: THREAD_PALETTE.champagne,
-};
+export const threadSecondaryButtonClass = `${threadButtonBase} thread-btn--secondary`;
 
 export const threadCardStyle: CSSProperties = {
   backgroundColor: THREAD_PALETTE.charcoal,

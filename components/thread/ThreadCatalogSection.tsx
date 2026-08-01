@@ -56,16 +56,7 @@ export function ThreadCatalogSection() {
               type="button"
               onClick={() => setActiveCategory(filter.id)}
               aria-pressed={selected}
-              className="rounded-full border px-4 py-2 text-sm font-semibold transition-colors duration-150"
-              style={{
-                borderColor: selected
-                  ? THREAD_PALETTE.bone
-                  : THREAD_PALETTE.border,
-                backgroundColor: selected
-                  ? THREAD_PALETTE.bone
-                  : "transparent",
-                color: selected ? THREAD_PALETTE.ink : THREAD_PALETTE.muted,
-              }}
+              className="thread-toggle rounded-full px-4 py-2 text-sm font-semibold"
             >
               {filter.name}
             </button>

@@ -5,9 +5,7 @@ import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import { ThreadHeroBackdrop } from "@/components/thread/ThreadHeroBackdrop";
 import {
   threadPrimaryButtonClass,
-  threadPrimaryButtonStyle,
   threadSecondaryButtonClass,
-  threadSecondaryButtonStyle,
 } from "@/components/thread/ThreadUI";
 
 const { hero } = threadCopy;
@@ -30,13 +28,14 @@ export function ThreadHeroSection() {
               Staggered top to bottom so the eye is led down to the CTAs. */}
           <div>
             <ThreadReveal>
-              <span
-                className="inline-flex items-center rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em]"
-                style={{
-                  borderColor: THREAD_PALETTE.champagne,
-                  color: THREAD_PALETTE.champagne,
-                }}
-              >
+              {/* A live claim, so it carries a live indicator. The dot is what
+                  makes this read from across the hero — a hairline outline in
+                  champagne on ink does not. */}
+              <span className="thread-badge inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em]">
+                <span
+                  className="thread-badge__dot h-1.5 w-1.5 shrink-0 rounded-full"
+                  aria-hidden="true"
+                />
                 {hero.badge}
               </span>
             </ThreadReveal>
@@ -70,7 +69,6 @@ export function ThreadHeroSection() {
                 <a
                   href="#catalog"
                   className={threadPrimaryButtonClass}
-                  style={threadPrimaryButtonStyle}
                 >
                   {hero.primaryCta}
                   <ArrowRight className="h-4 w-4" />
@@ -78,7 +76,6 @@ export function ThreadHeroSection() {
                 <a
                   href="#order-request"
                   className={threadSecondaryButtonClass}
-                  style={threadSecondaryButtonStyle}
                 >
                   {hero.secondaryCta}
                   <ArrowRight className="h-4 w-4" />

@@ -9,7 +9,6 @@ import {
 import { useThreadCart } from "@/components/thread/ThreadCartProvider";
 import {
   threadPrimaryButtonClass,
-  threadPrimaryButtonStyle,
 } from "@/components/thread/ThreadUI";
 
 export function ThreadCartDrawer() {
@@ -53,7 +52,6 @@ export function ThreadCartDrawer() {
           type="button"
           onClick={() => setOpen(true)}
           className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-3 rounded-full px-5 py-3 font-semibold shadow-2xl transition-transform duration-200 hover:scale-105"
-          style={threadPrimaryButtonStyle}
         >
           <ShoppingBag className="h-5 w-5" />
           <span>Your Request</span>
@@ -215,8 +213,7 @@ export function ThreadCartDrawer() {
                 type="button"
                 onClick={goToForm}
                 disabled={items.length === 0}
-                className={`${threadPrimaryButtonClass} w-full disabled:cursor-not-allowed disabled:opacity-40`}
-                style={threadPrimaryButtonStyle}
+                className={`${threadPrimaryButtonClass} w-full`}
               >
                 Review &amp; Send Request
               </button>
