@@ -126,7 +126,7 @@ export const threadCategories: ThreadCategory[] = [
   },
   {
     id: "hoodies",
-    name: "Hoodies & Fleece",
+    name: "Hoodies & Pullovers",
     blurb:
       "Brushed interiors and structured hoods built for daily wear, not a single season.",
     image: "/thread/hoodie.svg",
@@ -244,7 +244,7 @@ export const threadProducts: ThreadProduct[] = [
     customizable: true,
   },
 
-  // --- Hoodies & Fleece ---------------------------------------------------
+  // --- Hoodies & Pullovers ------------------------------------------------
   {
     id: "hoodie-classic",
     name: "The Classic Hoodie",
