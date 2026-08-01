@@ -306,6 +306,56 @@ const css = `
 }
 
 /* --------------------------------------------------------------------------
+   FAQ rows
+   -------------------------------------------------------------------------- */
+
+/* An FAQ row is interactive but goes nowhere — it discloses in place — so it
+   takes the illumination half of the card vocabulary and never the lift.
+   Lifting a full-width row would also read as the row detaching from the
+   stack, which is not what opening one does.
+ *
+ * The open row keeps a warm border after the pointer leaves. In a stack of
+ * nine, a rotated chevron is the only thing marking which one is open, and it
+ * is 20px of a 900px-wide row.
+ */
+.thread-faq:has(.thread-faq__trigger[aria-expanded="true"]) {
+  border-color: rgba(${CHAMPAGNE}, 0.5);
+  background-image: linear-gradient(rgba(${BONE}, 0.03), rgba(${BONE}, 0.03));
+}
+
+/* The divider between question and answer, warmed to match the open row's
+   border so the panel does not look stitched on with a colder seam. */
+.thread-faq__panel {
+  border-top: 1px solid rgba(${CHAMPAGNE}, 0.28);
+  color: ${THREAD_PALETTE.muted};
+}
+
+.thread-faq__trigger:focus-visible {
+  outline: 2px solid ${THREAD_PALETTE.champagne};
+  outline-offset: -3px;
+  border-radius: 0.5rem;
+}
+
+.thread-faq__icon {
+  color: ${THREAD_PALETTE.champagne};
+  transition: transform 200ms ease, color 200ms ease;
+}
+
+.thread-faq:hover .thread-faq__icon { color: ${THREAD_PALETTE.bone}; }
+
+.thread-faq__trigger[aria-expanded="true"] .thread-faq__icon {
+  transform: rotate(180deg);
+}
+
+/* The chevron leans the way the action goes: down to open, up to close. The
+   open row is already rotated, so the same +2px lands as a nudge upward. */
+.thread-faq:hover .thread-faq__icon { transform: translateY(2px); }
+
+.thread-faq:hover .thread-faq__trigger[aria-expanded="true"] .thread-faq__icon {
+  transform: rotate(180deg) translateY(2px);
+}
+
+/* --------------------------------------------------------------------------
    Reduced motion
    -------------------------------------------------------------------------- */
 
