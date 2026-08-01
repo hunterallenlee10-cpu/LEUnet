@@ -6,6 +6,12 @@ export interface Venture {
   logoAlt: string;
   description: string;
   ctaPrimary: string;
+  /**
+   * Destination for the primary CTA. When set, the button becomes a link to
+   * this route; when omitted it falls back to scrolling to the homepage
+   * contact section.
+   */
+  ctaPrimaryHref?: string;
   ctaSecondary: string;
   colors: VentureColors;
   heroSubtitle: string;

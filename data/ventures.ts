@@ -55,7 +55,8 @@ export const ventures: Venture[] = [
     logoAlt: "Thread T-Shirts logo",
     description:
       "Thread creates premium everyday apparel and custom designs for individuals, brands, teams, businesses, and events. Every piece is built around lasting comfort, dependable quality, and a clean style you can wear with confidence.",
-    ctaPrimary: "Shop Collection",
+    ctaPrimary: "Design Your Own",
+    ctaPrimaryHref: "/thread-t-shirts#order-request",
     ctaSecondary: "View Styles",
     heroSubtitle: "Wear Your Style. Elevate Everyday Essentials.",
     heroDescription:
