@@ -819,12 +819,6 @@ export const threadFaqs: ThreadFaq[] = [
       "Yes. Orders ship to you, sorted and packed by size. Shipping is quoted with the rest of the order so there is no surprise at the end.",
   },
   {
-    id: "pricing",
-    question: "Why aren't prices listed?",
-    answer:
-      "Thread is pre-launch and pricing is still being finalized. Apparel pricing also moves with garment, quantity, print colors, and placement, so a request gets you a real quote rather than a number that changes later.",
-  },
-  {
     id: "sizes",
     question: "What sizes are available?",
     answer:
