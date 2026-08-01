@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { THREAD_PALETTE, threadGroupOrderInfo } from "@/data/thread";
+import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadEyebrow,
   ThreadSection,
@@ -16,7 +17,7 @@ import {
 export function ThreadGroupOrderSection() {
   return (
     <ThreadSection alt>
-      <div
+      <ThreadReveal
         className="grid grid-cols-1 items-center gap-10 rounded-lg border p-8 md:p-12 lg:grid-cols-2"
         style={threadCardStyle}
       >
@@ -56,7 +57,7 @@ export function ThreadGroupOrderSection() {
             </li>
           ))}
         </ul>
-      </div>
+      </ThreadReveal>
     </ThreadSection>
   );
 }

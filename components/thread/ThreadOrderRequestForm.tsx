@@ -10,6 +10,7 @@ import {
   threadUseCases,
 } from "@/data/thread";
 import { useThreadCart } from "@/components/thread/ThreadCartProvider";
+import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadHeading,
   ThreadSection,
@@ -174,11 +175,15 @@ export function ThreadOrderRequestForm() {
 
   return (
     <ThreadSection id="order-request" alt>
-      <ThreadHeading
-        eyebrow={threadCopy.order.eyebrow}
-        title={threadCopy.order.title}
-        description={threadCopy.order.description}
-      />
+      {/* Heading only. The form itself never moves — a field sliding under a
+          cursor mid-tap is worse than a static header is dull. */}
+      <ThreadReveal>
+        <ThreadHeading
+          eyebrow={threadCopy.order.eyebrow}
+          title={threadCopy.order.title}
+          description={threadCopy.order.description}
+        />
+      </ThreadReveal>
 
       <form
         onSubmit={handleSubmit}

@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { THREAD_PALETTE, THREAD_CONTACT_EMAIL, threadCopy } from "@/data/thread";
+import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadSection,
   threadPrimaryButtonClass,
@@ -13,7 +14,7 @@ const { finalCta } = threadCopy;
 export function ThreadCTASection() {
   return (
     <ThreadSection>
-      <div className="mx-auto max-w-2xl text-center">
+      <ThreadReveal className="mx-auto max-w-2xl text-center">
         <h2 className="heading-lg" style={{ color: THREAD_PALETTE.bone }}>
           {finalCta.title}
         </h2>
@@ -52,7 +53,7 @@ export function ThreadCTASection() {
             {THREAD_CONTACT_EMAIL}
           </a>
         </p>
-      </div>
+      </ThreadReveal>
     </ThreadSection>
   );
 }

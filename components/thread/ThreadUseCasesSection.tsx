@@ -1,4 +1,5 @@
 import { THREAD_PALETTE, threadCopy, threadUseCases } from "@/data/thread";
+import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadHeading,
   ThreadSection,
@@ -8,32 +9,39 @@ import {
 export function ThreadUseCasesSection() {
   return (
     <ThreadSection alt>
-      <ThreadHeading
-        eyebrow={threadCopy.useCases.eyebrow}
-        title={threadCopy.useCases.title}
-        description={threadCopy.useCases.description}
-      />
+      <ThreadReveal>
+        <ThreadHeading
+          eyebrow={threadCopy.useCases.eyebrow}
+          title={threadCopy.useCases.title}
+          description={threadCopy.useCases.description}
+        />
+      </ThreadReveal>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {threadUseCases.map((useCase) => (
-          <div
+        {threadUseCases.map((useCase, index) => (
+          <ThreadReveal
             key={useCase.id}
-            className="rounded-lg border p-6"
-            style={threadCardStyle}
+            className="h-full"
+            delay={Math.min(index, 5) * 60}
           >
-            <h3
-              className="text-base font-bold"
-              style={{ color: THREAD_PALETTE.bone }}
+            <div
+              className="h-full rounded-lg border p-6"
+              style={threadCardStyle}
             >
-              {useCase.title}
-            </h3>
-            <p
-              className="mt-3 text-sm leading-relaxed"
-              style={{ color: THREAD_PALETTE.muted }}
-            >
-              {useCase.description}
-            </p>
-          </div>
+              <h3
+                className="text-base font-bold"
+                style={{ color: THREAD_PALETTE.bone }}
+              >
+                {useCase.title}
+              </h3>
+              <p
+                className="mt-3 text-sm leading-relaxed"
+                style={{ color: THREAD_PALETTE.muted }}
+              >
+                {useCase.description}
+              </p>
+            </div>
+          </ThreadReveal>
         ))}
       </div>
     </ThreadSection>
