@@ -257,6 +257,55 @@ const css = `
 .thread-stepper__button:disabled { opacity: 0.3; cursor: not-allowed; }
 
 /* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+
+/* Two vocabularies, deliberately kept apart.
+ *
+ * A card that links somewhere RISES on hover. A card that does not link
+ * anywhere only LIGHTS UP — its border warms and the surface brightens, but it
+ * never moves. Giving both the same lift is what trains someone to click a
+ * panel that has nowhere to go, and this page has both kinds sitting in
+ * near-identical grids a section apart.
+ *
+ * The surface lift is a bone overlay rather than a second background colour,
+ * so charcoal stays the only declared surface in the palette.
+ */
+.thread-card {
+  border: 1px solid ${THREAD_PALETTE.border};
+  background-color: ${THREAD_PALETTE.charcoal};
+  transition:
+    transform 300ms ease,
+    border-color 300ms ease,
+    background-image 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.thread-card:hover {
+  border-color: rgba(${CHAMPAGNE}, 0.5);
+  background-image: linear-gradient(rgba(${BONE}, 0.035), rgba(${BONE}, 0.035));
+  box-shadow:
+    inset 0 1px 0 rgba(${CHAMPAGNE}, 0.14),
+    0 14px 34px -24px rgba(${CHAMPAGNE}, 0.55);
+}
+
+/* Focus follows hover for the linked variant, so tabbing through the grid
+   surfaces the same card the mouse would. */
+.thread-card--link:hover,
+.thread-card--link:focus-visible {
+  transform: translateY(-4px);
+  border-color: ${THREAD_PALETTE.champagne};
+  box-shadow:
+    inset 0 1px 0 rgba(${CHAMPAGNE}, 0.2),
+    0 24px 48px -26px rgba(${CHAMPAGNE}, 0.75);
+}
+
+.thread-card--link:focus-visible {
+  outline: 2px solid ${THREAD_PALETTE.champagne};
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
    Reduced motion
    -------------------------------------------------------------------------- */
 
@@ -268,7 +317,11 @@ const css = `
    without being asked. */
 @media (prefers-reduced-motion: reduce) {
   .thread-badge__dot { animation: none; }
-  .thread-btn:hover, .thread-btn:active, .thread-swatch:hover { transform: none; }
+  .thread-btn:hover,
+  .thread-btn:active,
+  .thread-swatch:hover,
+  .thread-card--link:hover,
+  .thread-card--link:focus-visible { transform: none; }
 }
 `;
 

@@ -4,7 +4,6 @@ import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadHeading,
   ThreadSection,
-  threadCardStyle,
 } from "@/components/thread/ThreadUI";
 
 /** Keyed to the pillar ids in data/thread.ts. */
@@ -36,10 +35,7 @@ export function ThreadQualitySection() {
               className="h-full"
               delay={Math.min(index, 5) * 60}
             >
-              <div
-                className="h-full rounded-lg border p-7 transition-colors duration-300"
-                style={threadCardStyle}
-              >
+              <div className="thread-card h-full rounded-lg p-7">
                 <span
                   className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg"
                   style={{ backgroundColor: `${THREAD_PALETTE.champagne}22` }}

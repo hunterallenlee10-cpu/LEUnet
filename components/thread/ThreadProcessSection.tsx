@@ -3,7 +3,6 @@ import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadHeading,
   ThreadSection,
-  threadCardStyle,
 } from "@/components/thread/ThreadUI";
 
 export function ThreadProcessSection() {
@@ -24,8 +23,7 @@ export function ThreadProcessSection() {
           <ThreadReveal
             key={step.id}
             as="li"
-            className="flex h-full flex-col rounded-lg border p-6"
-            style={threadCardStyle}
+            className="thread-card flex h-full flex-col rounded-lg p-6"
             delay={Math.min(index, 5) * 60}
           >
             <span
