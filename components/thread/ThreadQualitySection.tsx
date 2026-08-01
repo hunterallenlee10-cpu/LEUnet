@@ -1,5 +1,6 @@
 import { Layers, Shirt, Ruler, ClipboardCheck } from "lucide-react";
 import { THREAD_PALETTE, threadCopy, threadQualityPillars } from "@/data/thread";
+import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadHeading,
   ThreadSection,
@@ -17,44 +18,51 @@ const pillarIcons: Record<string, React.ElementType> = {
 export function ThreadQualitySection() {
   return (
     <ThreadSection>
-      <ThreadHeading
-        eyebrow={threadCopy.quality.eyebrow}
-        title={threadCopy.quality.title}
-        description={threadCopy.quality.description}
-      />
+      <ThreadReveal>
+        <ThreadHeading
+          eyebrow={threadCopy.quality.eyebrow}
+          title={threadCopy.quality.title}
+          description={threadCopy.quality.description}
+        />
+      </ThreadReveal>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {threadQualityPillars.map((pillar) => {
+        {threadQualityPillars.map((pillar, index) => {
           const Icon = pillarIcons[pillar.id] ?? Layers;
 
           return (
-            <div
+            <ThreadReveal
               key={pillar.id}
-              className="rounded-lg border p-7 transition-colors duration-300"
-              style={threadCardStyle}
+              className="h-full"
+              delay={Math.min(index, 5) * 60}
             >
-              <span
-                className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg"
-                style={{ backgroundColor: `${THREAD_PALETTE.champagne}22` }}
+              <div
+                className="h-full rounded-lg border p-7 transition-colors duration-300"
+                style={threadCardStyle}
               >
-                <Icon
-                  className="h-5 w-5"
-                  style={{ color: THREAD_PALETTE.champagne }}
-                />
-              </span>
-              <h3
-                className="text-lg font-bold"
-                style={{ color: THREAD_PALETTE.bone }}
-              >
-                {pillar.title}
-              </h3>
-              <p
-                className="mt-3 text-sm leading-relaxed"
-                style={{ color: THREAD_PALETTE.muted }}
-              >
-                {pillar.description}
-              </p>
-            </div>
+                <span
+                  className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-lg"
+                  style={{ backgroundColor: `${THREAD_PALETTE.champagne}22` }}
+                >
+                  <Icon
+                    className="h-5 w-5"
+                    style={{ color: THREAD_PALETTE.champagne }}
+                  />
+                </span>
+                <h3
+                  className="text-lg font-bold"
+                  style={{ color: THREAD_PALETTE.bone }}
+                >
+                  {pillar.title}
+                </h3>
+                <p
+                  className="mt-3 text-sm leading-relaxed"
+                  style={{ color: THREAD_PALETTE.muted }}
+                >
+                  {pillar.description}
+                </p>
+              </div>
+            </ThreadReveal>
           );
         })}
       </div>

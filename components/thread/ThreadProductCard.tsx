@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { Check, ChevronDown, Minus, Plus } from "lucide-react";
 import type { ThreadProduct } from "@/types";
@@ -18,6 +18,28 @@ import {
 } from "@/components/thread/ThreadUI";
 
 const MAX_QUANTITY = 1000;
+
+/**
+ * Matches the lift the brand-story and category cards already use. The hover
+ * border rides a custom property so the champagne token stays the single
+ * source of truth — Tailwind cannot read THREAD_PALETTE, and a `:hover` rule
+ * cannot be expressed as an inline style.
+ */
+// h-full because the reveal wrapper is now the grid item; without it the card
+// stops stretching and the row loses its even bottom edge.
+// Both border colours ride custom properties rather than the inline style that
+// threadCardStyle would normally supply. An inline `borderColor` outranks every
+// class, so a hover utility against it silently does nothing — the rule is
+// generated, it just never wins. Declaring both as properties puts the resting
+// and hover colours on equal footing, and keeps THREAD_PALETTE the source.
+const CARD_CLASS =
+  "group flex h-full flex-col overflow-hidden rounded-lg border [border-color:var(--thread-card-border)] transition-all duration-300 hover:-translate-y-1 hover:[border-color:var(--thread-card-border-hover)]";
+
+const cardStyle: CSSProperties = {
+  backgroundColor: threadCardStyle.backgroundColor,
+  ["--thread-card-border" as string]: THREAD_PALETTE.border,
+  ["--thread-card-border-hover" as string]: THREAD_PALETTE.champagne,
+};
 
 export function ThreadProductCard({ product }: { product: ThreadProduct }) {
   const { addItem } = useThreadCart();
@@ -66,10 +88,7 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
   // line that does not exist.
   if (product.comingSoon) {
     return (
-      <div
-        className="flex flex-col overflow-hidden rounded-lg border"
-        style={threadCardStyle}
-      >
+      <div className={CARD_CLASS} style={cardStyle}>
         <div
           className="relative aspect-square w-full"
           style={{ backgroundColor: THREAD_PALETTE.ink }}
@@ -79,7 +98,7 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
             alt={product.imageAlt}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
 
@@ -102,10 +121,7 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
   }
 
   return (
-    <div
-      className="flex flex-col overflow-hidden rounded-lg border"
-      style={threadCardStyle}
-    >
+    <div className={CARD_CLASS} style={cardStyle}>
       <div
         className="relative aspect-square w-full"
         style={{ backgroundColor: THREAD_PALETTE.ink }}
@@ -115,7 +131,7 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
           alt={product.imageAlt}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
 

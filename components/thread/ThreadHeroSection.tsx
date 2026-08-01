@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { THREAD_PALETTE, threadCopy } from "@/data/thread";
+import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   threadPrimaryButtonClass,
   threadPrimaryButtonStyle,
@@ -30,58 +31,76 @@ export function ThreadHeroSection() {
 
       <div className="section-container">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          {/* Above the fold, so these resolve on mount rather than on scroll.
+              Staggered top to bottom so the eye is led down to the CTAs. */}
           <div>
-            <span
-              className="inline-flex items-center rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em]"
-              style={{
-                borderColor: THREAD_PALETTE.champagne,
-                color: THREAD_PALETTE.champagne,
-              }}
-            >
-              {hero.badge}
-            </span>
-
-            <h1
-              className="heading-xl mt-6"
-              style={{ color: THREAD_PALETTE.bone }}
-            >
-              {hero.title}
-              <span className="block" style={{ color: THREAD_PALETTE.champagne }}>
-                {hero.titleAccent}
+            <ThreadReveal>
+              <span
+                className="inline-flex items-center rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em]"
+                style={{
+                  borderColor: THREAD_PALETTE.champagne,
+                  color: THREAD_PALETTE.champagne,
+                }}
+              >
+                {hero.badge}
               </span>
-            </h1>
+            </ThreadReveal>
 
-            <p
-              className="mt-6 max-w-xl text-lg leading-relaxed"
-              style={{ color: THREAD_PALETTE.muted }}
-            >
-              {hero.description}
-            </p>
+            <ThreadReveal delay={80}>
+              <h1
+                className="heading-xl mt-6"
+                style={{ color: THREAD_PALETTE.bone }}
+              >
+                {hero.title}
+                <span
+                  className="block"
+                  style={{ color: THREAD_PALETTE.champagne }}
+                >
+                  {hero.titleAccent}
+                </span>
+              </h1>
+            </ThreadReveal>
 
-            <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-              <a
-                href="#catalog"
-                className={threadPrimaryButtonClass}
-                style={threadPrimaryButtonStyle}
+            <ThreadReveal delay={160}>
+              <p
+                className="mt-6 max-w-xl text-lg leading-relaxed"
+                style={{ color: THREAD_PALETTE.muted }}
               >
-                {hero.primaryCta}
-                <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href="#order-request"
-                className={threadSecondaryButtonClass}
-                style={threadSecondaryButtonStyle}
-              >
-                {hero.secondaryCta}
-                <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
+                {hero.description}
+              </p>
+            </ThreadReveal>
+
+            <ThreadReveal delay={240}>
+              <div className="mt-9 flex flex-col gap-4 sm:flex-row">
+                <a
+                  href="#catalog"
+                  className={threadPrimaryButtonClass}
+                  style={threadPrimaryButtonStyle}
+                >
+                  {hero.primaryCta}
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+                <a
+                  href="#order-request"
+                  className={threadSecondaryButtonClass}
+                  style={threadSecondaryButtonStyle}
+                >
+                  {hero.secondaryCta}
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            </ThreadReveal>
 
             {/* Prices are quoted per order rather than listed, so this line
                 stops the missing prices from reading as an oversight. */}
-            <p className="mt-6 text-sm" style={{ color: THREAD_PALETTE.muted }}>
-              {hero.note}
-            </p>
+            <ThreadReveal delay={320}>
+              <p
+                className="mt-6 text-sm"
+                style={{ color: THREAD_PALETTE.muted }}
+              >
+                {hero.note}
+              </p>
+            </ThreadReveal>
           </div>
 
           {/* The source PNG is square with the wordmark banded across the middle,

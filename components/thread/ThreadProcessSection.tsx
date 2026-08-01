@@ -1,4 +1,5 @@
 import { THREAD_PALETTE, threadCopy, threadProcessSteps } from "@/data/thread";
+import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadHeading,
   ThreadSection,
@@ -8,18 +9,24 @@ import {
 export function ThreadProcessSection() {
   return (
     <ThreadSection>
-      <ThreadHeading
-        eyebrow={threadCopy.process.eyebrow}
-        title={threadCopy.process.title}
-        description={threadCopy.process.description}
-      />
+      <ThreadReveal>
+        <ThreadHeading
+          eyebrow={threadCopy.process.eyebrow}
+          title={threadCopy.process.title}
+          description={threadCopy.process.description}
+        />
+      </ThreadReveal>
 
       <ol className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-5">
-        {threadProcessSteps.map((step) => (
-          <li
+        {threadProcessSteps.map((step, index) => (
+          // Renders as the li itself: a wrapper div between ol and li is
+          // invalid and would drop the list semantics.
+          <ThreadReveal
             key={step.id}
-            className="flex flex-col rounded-lg border p-6"
+            as="li"
+            className="flex h-full flex-col rounded-lg border p-6"
             style={threadCardStyle}
+            delay={Math.min(index, 5) * 60}
           >
             <span
               className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
@@ -42,7 +49,7 @@ export function ThreadProcessSection() {
             >
               {step.description}
             </p>
-          </li>
+          </ThreadReveal>
         ))}
       </ol>
     </ThreadSection>
