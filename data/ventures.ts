@@ -9,7 +9,7 @@ export const ventures: Venture[] = [
     logo: "/lee-marketing-mastery-logo.png",
     logoAlt: "Lee Marketing Mastery logo",
     description:
-      "Marketing and automation systems built to generate leads, improve follow-up, increase conversions, and create long-term customer growth. From content and paid advertising to automated workflows and reporting, every solution is designed to save time and produce measurable results.",
+      "Marketing, automation systems, and world-class websites built to generate leads, improve follow-up, increase conversions, and create long-term customer growth. From professional websites delivered at lightning speed, to content, paid advertising, automated workflows, advanced integrations, and performance reporting, every solution is designed to save time, strengthen your online presence, and produce measurable revenue growth.",
     ctaPrimary: "Book a Free Strategy Call",
     ctaSecondary: "View Our Services",
     heroSubtitle: "Grow Your Brand. Master Your Market.",
