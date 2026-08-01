@@ -3,7 +3,7 @@
 import { sectionIds } from "@/data/navigation";
 import { aboutSection } from "@/data/company";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
-import { Heart, Zap, TrendingUp, Shield } from "lucide-react";
+import { Heart, Zap, TrendingUp, Shield, ArrowRight } from "lucide-react";
 
 const iconMap: Record<string, React.ReactNode> = {
   excellence: <Heart className="w-8 h-8 text-amber-400" />,
@@ -73,6 +73,20 @@ export function AboutSection() {
               </p>
             </div>
           </GlassCardPadded>
+
+          {/* Mission CTA - destination intentionally unwired for now */}
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              className="btn-primary group inline-flex items-center justify-center gap-2 px-8 py-4 text-base sm:text-lg shadow-lg shadow-amber-400/20 hover:shadow-xl hover:shadow-amber-400/30"
+            >
+              Get started on your dreams
+              <ArrowRight
+                className="h-5 w-5 transition-transform group-hover:translate-x-1"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </section>
