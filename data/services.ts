@@ -136,7 +136,7 @@ export const ventureServices = {
       id: "thread-quality",
       title: "Premium Quality",
       description:
-        "High-quality fabrics selected for lasting comfort, durability, and everyday wear.",
+        "High-quality fabrics selected for lasting comfort, durability, breathability, and everyday wear.",
       icon: "✨",
     },
     {
