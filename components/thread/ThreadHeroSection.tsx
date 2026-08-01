@@ -84,7 +84,10 @@ export function ThreadHeroSection() {
             </p>
           </div>
 
-          <div className="relative flex h-72 items-center justify-center md:h-96">
+          {/* The source PNG is square with the wordmark banded across the middle,
+              so object-contain sizes it off this height until the column width
+              takes over. Height is what makes the logo read larger. */}
+          <div className="relative flex h-80 items-center justify-center md:h-[26rem] lg:h-[32rem]">
             <div
               className="absolute inset-8 -z-10 rounded-full blur-3xl opacity-25"
               style={{ backgroundColor: `${THREAD_PALETTE.champagne}55` }}
