@@ -12,7 +12,6 @@ import { useThreadCatalogFilter } from "@/components/thread/ThreadCatalogFilterP
 import {
   ThreadHeading,
   ThreadSection,
-  threadCardStyle,
 } from "@/components/thread/ThreadUI";
 
 const featured = getFeaturedThreadProducts();
@@ -40,8 +39,7 @@ export function ThreadFeaturedSection() {
             key={product.id}
             type="button"
             onClick={() => selectAndScroll(product.categoryId)}
-            className="group flex flex-col overflow-hidden rounded-lg border text-left transition-all duration-300 hover:-translate-y-1"
-            style={threadCardStyle}
+            className="thread-card thread-card--link group flex flex-col overflow-hidden rounded-lg text-left"
           >
             <div
               className="relative aspect-square w-full"

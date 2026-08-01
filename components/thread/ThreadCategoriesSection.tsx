@@ -7,7 +7,6 @@ import { useThreadCatalogFilter } from "@/components/thread/ThreadCatalogFilterP
 import {
   ThreadHeading,
   ThreadSection,
-  threadCardStyle,
 } from "@/components/thread/ThreadUI";
 
 /** Doubles as the catalog's filter control — picking one scrolls to the grid. */
@@ -28,8 +27,7 @@ export function ThreadCategoriesSection() {
             key={category.id}
             type="button"
             onClick={() => selectAndScroll(category.id)}
-            className="group flex flex-col overflow-hidden rounded-lg border text-left transition-all duration-300 hover:-translate-y-1"
-            style={threadCardStyle}
+            className="thread-card thread-card--link group flex flex-col overflow-hidden rounded-lg text-left"
           >
             <div
               className="relative aspect-[4/3] w-full"

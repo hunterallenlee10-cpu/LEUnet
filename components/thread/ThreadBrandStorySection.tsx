@@ -4,7 +4,6 @@ import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadEyebrow,
   ThreadSection,
-  threadCardStyle,
 } from "@/components/thread/ThreadUI";
 
 const { story } = threadCopy;
@@ -36,8 +35,7 @@ export function ThreadBrandStorySection() {
           <ThreadReveal key={path.id} className="h-full" delay={index * 80}>
             <a
               href={path.href}
-              className="group flex h-full flex-col rounded-lg border p-8 transition-all duration-300 hover:-translate-y-1"
-              style={threadCardStyle}
+              className="thread-card thread-card--link group flex h-full flex-col rounded-lg p-8"
             >
               <h3
                 className="text-2xl font-bold"

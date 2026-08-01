@@ -3,7 +3,6 @@ import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadHeading,
   ThreadSection,
-  threadCardStyle,
 } from "@/components/thread/ThreadUI";
 
 export function ThreadUseCasesSection() {
@@ -24,10 +23,9 @@ export function ThreadUseCasesSection() {
             className="h-full"
             delay={Math.min(index, 5) * 60}
           >
-            <div
-              className="h-full rounded-lg border p-6"
-              style={threadCardStyle}
-            >
+            {/* Not a link, so it lights up on hover rather than lifting —
+                see the note on `.thread-card` in ThreadStyles. */}
+            <div className="thread-card h-full rounded-lg p-6">
               <h3
                 className="text-base font-bold"
                 style={{ color: THREAD_PALETTE.bone }}
