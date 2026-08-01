@@ -4,9 +4,7 @@ import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadSection,
   threadPrimaryButtonClass,
-  threadPrimaryButtonStyle,
   threadSecondaryButtonClass,
-  threadSecondaryButtonStyle,
 } from "@/components/thread/ThreadUI";
 
 const { finalCta } = threadCopy;
@@ -29,7 +27,6 @@ export function ThreadCTASection() {
           <a
             href="#order-request"
             className={threadPrimaryButtonClass}
-            style={threadPrimaryButtonStyle}
           >
             {finalCta.primaryCta}
             <ArrowRight className="h-4 w-4" />
@@ -37,7 +34,6 @@ export function ThreadCTASection() {
           <a
             href="#catalog"
             className={threadSecondaryButtonClass}
-            style={threadSecondaryButtonStyle}
           >
             {finalCta.secondaryCta}
           </a>

@@ -5,6 +5,7 @@ import { THREAD_PALETTE } from "@/data/thread";
 import { ThreadCartProvider } from "@/components/thread/ThreadCartProvider";
 import { ThreadCatalogFilterProvider } from "@/components/thread/ThreadCatalogFilterProvider";
 import { ThreadCartDrawer } from "@/components/thread/ThreadCartDrawer";
+import { ThreadStyles } from "@/components/thread/ThreadStyles";
 import { ThreadHeroSection } from "@/components/thread/ThreadHeroSection";
 import { ThreadBrandStorySection } from "@/components/thread/ThreadBrandStorySection";
 import { ThreadQualitySection } from "@/components/thread/ThreadQualitySection";
@@ -42,6 +43,11 @@ export default function ThreadPage() {
       className="min-h-screen"
       style={{ backgroundColor: THREAD_PALETTE.ink }}
     >
+      {/* Every interactive state on this page — hover, press, focus, disabled,
+          and the pressed state of a toggle — comes from here. Rendered once,
+          above the sections that use it. */}
+      <ThreadStyles />
+
       <MainHeader />
 
       <ThreadCartProvider>

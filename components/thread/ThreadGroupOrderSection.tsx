@@ -6,7 +6,6 @@ import {
   ThreadSection,
   threadCardStyle,
   threadPrimaryButtonClass,
-  threadPrimaryButtonStyle,
 } from "@/components/thread/ThreadUI";
 
 /**
@@ -35,7 +34,6 @@ export function ThreadGroupOrderSection() {
           <a
             href="#order-request"
             className={`${threadPrimaryButtonClass} mt-8`}
-            style={threadPrimaryButtonStyle}
           >
             {threadGroupOrderInfo.ctaLabel}
           </a>

@@ -16,7 +16,6 @@ import {
   ThreadSection,
   threadCardStyle,
   threadPrimaryButtonClass,
-  threadPrimaryButtonStyle,
 } from "@/components/thread/ThreadUI";
 
 const emptyForm = {
@@ -541,8 +540,7 @@ export function ThreadOrderRequestForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`${threadPrimaryButtonClass} mt-8 w-full disabled:cursor-not-allowed disabled:opacity-50`}
-          style={threadPrimaryButtonStyle}
+          className={`${threadPrimaryButtonClass} mt-8 w-full`}
         >
           {isSubmitting ? "Sending..." : "Send Order Request"}
         </button>
