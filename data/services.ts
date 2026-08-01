@@ -140,11 +140,11 @@ export const ventureServices = {
       icon: "✨",
     },
     {
-      id: "thread-comfort",
-      title: "Everyday Comfort",
+      id: "thread-support",
+      title: "Support Small Business",
       description:
-        "Soft, breathable apparel designed to feel as good as it looks.",
-      icon: "☁️",
+        "Every apparel purchase helps support the growth of our businesses, brands, and the vision behind Lee Enterprises Unlimited.",
+      icon: "🤝",
     },
     {
       id: "thread-design",
