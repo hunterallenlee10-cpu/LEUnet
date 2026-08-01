@@ -581,7 +581,7 @@ export const threadCopy = {
       "Thread is two things at once: an original apparel label, and a custom print service for anyone who needs their idea on a shirt. Premium blanks, careful prints, and a fit you can order for a whole team without guessing.",
     primaryCta: "Browse the Collection",
     secondaryCta: "Start a Custom Order",
-    note: "Pricing is being finalized. Requests are open now — no payment required.",
+    note: "Every order is quoted to spec — no payment required to request one.",
   },
   story: {
     eyebrow: "Two Ways to Work With Thread",
