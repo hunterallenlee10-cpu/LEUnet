@@ -77,8 +77,8 @@ export function ThreadHeroSection() {
               </a>
             </div>
 
-            {/* Thread is pre-launch. Saying so up front is the honest framing,
-                and it stops the missing prices from reading as an oversight. */}
+            {/* Prices are quoted per order rather than listed, so this line
+                stops the missing prices from reading as an oversight. */}
             <p className="mt-6 text-sm" style={{ color: THREAD_PALETTE.muted }}>
               {hero.note}
             </p>

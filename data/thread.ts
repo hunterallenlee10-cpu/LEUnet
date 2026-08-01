@@ -574,7 +574,7 @@ export const threadProducts: ThreadProduct[] = [
 
 export const threadCopy = {
   hero: {
-    badge: "Launching Soon",
+    badge: "Now Taking Orders",
     title: "Wear Your Style.",
     titleAccent: "Elevate Everyday Essentials.",
     description:
