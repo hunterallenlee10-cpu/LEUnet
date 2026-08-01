@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { ventures } from "@/data/ventures";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
-import { sectionIds } from "@/data/navigation";
+import { sectionIds, venturePages } from "@/data/navigation";
 import { venturePortfolioIntro } from "@/data/company";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
 
@@ -42,16 +43,12 @@ export function VentureSnapshotSection() {
 
         {/* Ventures Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {ventures.map((venture) => (
-            <GlassCardPadded
-              key={venture.id}
-              size="lg"
-              glassOpacity={`bg-white/5`}
-              borderColor={`border-white/15`}
-              hover={true}
-              onClick={() => handleVentureClick(venture.id)}
-              className="h-full cursor-pointer group"
-            >
+          {/* A venture with its own page links straight to that route; one
+              without still falls back to its homepage section anchor. */}
+          {ventures.map((venture) => {
+            const venturePage = venturePages[venture.id];
+
+            const cardBody = (
               <div className="flex flex-col h-full gap-4">
                 {/* Logo */}
                 <div className="relative w-24 h-24 mx-auto">
@@ -80,8 +77,43 @@ export function VentureSnapshotSection() {
                   </div>
                 </div>
               </div>
-            </GlassCardPadded>
-          ))}
+            );
+
+            if (venturePage) {
+              return (
+                <Link
+                  key={venture.id}
+                  href={venturePage}
+                  aria-label={`${venture.name} — ${venture.tagline}`}
+                  className="block h-full rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                >
+                  <GlassCardPadded
+                    size="lg"
+                    glassOpacity={`bg-white/5`}
+                    borderColor={`border-white/15`}
+                    hover={true}
+                    className="h-full group"
+                  >
+                    {cardBody}
+                  </GlassCardPadded>
+                </Link>
+              );
+            }
+
+            return (
+              <GlassCardPadded
+                key={venture.id}
+                size="lg"
+                glassOpacity={`bg-white/5`}
+                borderColor={`border-white/15`}
+                hover={true}
+                onClick={() => handleVentureClick(venture.id)}
+                className="h-full cursor-pointer group"
+              >
+                {cardBody}
+              </GlassCardPadded>
+            );
+          })}
         </div>
 
         {/* Secondary CTA */}
