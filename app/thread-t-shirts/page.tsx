@@ -8,7 +8,6 @@ import { ThreadCartDrawer } from "@/components/thread/ThreadCartDrawer";
 import { ThreadHeroSection } from "@/components/thread/ThreadHeroSection";
 import { ThreadBrandStorySection } from "@/components/thread/ThreadBrandStorySection";
 import { ThreadQualitySection } from "@/components/thread/ThreadQualitySection";
-import { ThreadFeaturedSection } from "@/components/thread/ThreadFeaturedSection";
 import { ThreadCategoriesSection } from "@/components/thread/ThreadCategoriesSection";
 import { ThreadCatalogSection } from "@/components/thread/ThreadCatalogSection";
 import { ThreadUseCasesSection } from "@/components/thread/ThreadUseCasesSection";
@@ -52,7 +51,6 @@ export default function ThreadPage() {
             <ThreadHeroSection />
             <ThreadBrandStorySection />
             <ThreadQualitySection />
-            <ThreadFeaturedSection />
             <ThreadCategoriesSection />
             <ThreadCatalogSection />
             <ThreadUseCasesSection />
