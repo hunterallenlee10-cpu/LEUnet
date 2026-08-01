@@ -140,6 +140,12 @@ export interface ThreadProduct {
   isPackage?: boolean;
   /** What a package covers. Only meaningful when `isPackage` is true. */
   includes?: string[];
+  /**
+   * Placeholder for a line that is not orderable yet. The card renders name and
+   * a "Coming soon" line only — no colors, sizes, quantity, or request button,
+   * since there is nothing to configure or add.
+   */
+  comingSoon?: boolean;
 }
 
 export interface ThreadQualityPillar {
