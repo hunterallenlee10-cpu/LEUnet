@@ -1,12 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { sectionIds } from "@/data/navigation";
+import { sectionIds, venturePages } from "@/data/navigation";
 
+// ventureId keys into venturePages so each project links to the venture that
+// produced it. An item without one renders as a plain card.
 const portfolioItems = [
   {
     id: "portfolio-1",
+    ventureId: "lmm",
     title: "Lee Marketing Mastery - Brand Growth Campaign",
     category: "Automation & Digital Marketing",
     image: "/placeholders/portfolio-1.png",
@@ -14,6 +18,7 @@ const portfolioItems = [
   },
   {
     id: "portfolio-2",
+    ventureId: "pelican",
     title: "Pelican Power Wash - Property Transformation",
     category: "Professional Exterior Services",
     image: "/placeholders/portfolio-2.png",
@@ -21,6 +26,7 @@ const portfolioItems = [
   },
   {
     id: "portfolio-3",
+    ventureId: "h1",
     title: "H1 Performance - Athlete Training Program",
     category: "Personal & Professional Athletic Training",
     image: "/placeholders/portfolio-3.png",
@@ -28,6 +34,7 @@ const portfolioItems = [
   },
   {
     id: "portfolio-4",
+    ventureId: "thread",
     title: "Thread T-Shirts - Premium Apparel Collection",
     category: "Confidence & Meaning",
     image: "/placeholders/portfolio-4.png",
@@ -71,36 +78,59 @@ export function PortfolioSection() {
 
         {/* Portfolio Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {portfolioItems.map((item) => (
-            <div
-              key={item.id}
-              className="group overflow-hidden rounded-lg backdrop-blur-md bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300"
-            >
-              {/* Image */}
-              <div className="relative h-64 md:h-72 overflow-hidden bg-neutral-900">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent" />
-              </div>
+          {portfolioItems.map((item) => {
+            const venturePage = venturePages[item.ventureId];
 
-              {/* Content */}
-              <div className="p-6 md:p-8">
-                <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">
-                  {item.category}
-                </p>
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-neutral-400 leading-relaxed">
-                  {item.description}
-                </p>
+            const cardClasses =
+              "group block overflow-hidden rounded-lg backdrop-blur-md bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300";
+
+            const cardBody = (
+              <>
+                {/* Image */}
+                <div className="relative h-64 md:h-72 overflow-hidden bg-neutral-900">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent" />
+                </div>
+
+                {/* Content */}
+                <div className="p-6 md:p-8">
+                  <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">
+                    {item.category}
+                  </p>
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-neutral-400 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </>
+            );
+
+            if (venturePage) {
+              return (
+                <Link
+                  key={item.id}
+                  href={venturePage}
+                  aria-label={item.title}
+                  className={`${cardClasses} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950`}
+                >
+                  {cardBody}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={item.id} className={cardClasses}>
+                {cardBody}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
