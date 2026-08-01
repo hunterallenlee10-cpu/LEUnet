@@ -1,11 +1,11 @@
 export const ventureServices = {
   lmm: [
     {
-      id: "lmm-social",
-      title: "Social Media Marketing",
+      id: "lmm-websites",
+      title: "AI Website Design",
       description:
-        "Strategic content and audience engagement that strengthen your brand, build trust, and turn attention into opportunity.",
-      icon: "📱",
+        "Modern, mobile-ready business websites built with AI-assisted production, hand-reviewed before launch and delivered without the months-long timeline or agency price tag.",
+      icon: "💻",
     },
     {
       id: "lmm-seo",
