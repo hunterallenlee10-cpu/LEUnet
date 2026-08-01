@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { THREAD_PALETTE, threadCopy } from "@/data/thread";
 import { ThreadReveal } from "@/components/thread/ThreadReveal";
+import { ThreadHeroBackdrop } from "@/components/thread/ThreadHeroBackdrop";
 import {
   threadPrimaryButtonClass,
   threadPrimaryButtonStyle,
@@ -14,85 +15,14 @@ const { hero } = threadCopy;
 export function ThreadHeroSection() {
   return (
     // `isolate` is load-bearing. Without a stacking context here, the -z-10
-    // wash below paints *behind* this section's own background rather than on
+    // backdrop paints *behind* this section's own background rather than on
     // top of it, because position:relative with z-index:auto does not create
-    // one. The orbs were in the markup but never visible.
+    // one. The backdrop would be in the markup but never visible.
     <section
       className="relative isolate overflow-hidden py-24 md:py-32"
       style={{ backgroundColor: THREAD_PALETTE.ink }}
     >
-      {/* Ambient wash, matching the treatment on the other venture pages.
-
-          Each orb is a pair: the outer element drifts on float-1/2/3, the
-          inner one breathes on hero-logo-aura. Drift alone is close to
-          invisible here — at blur-3xl on near-black, a 50px translation of a
-          low-opacity blob changes almost no pixels. The opacity swing in the
-          aura keyframe is what the eye actually reads. They are split across
-          two elements because both animate `transform`, which one element
-          cannot do twice.
-
-          Every keyframe used already exists in globals.css, so nothing was
-          added to a file docs/THREAD.md §2 keeps this page out of. Periods are
-          mismatched and prime-ish so the three orbs never resynchronise into a
-          visible pulse.
-
-          prefers-reduced-motion is covered twice over: the explicit list at
-          globals.css:204 names hero-logo-aura, and the rule at :380 collapses
-          every animation-duration to 0.01ms. */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div
-          className="absolute -top-24 right-1/4"
-          style={{
-            animation: "float-1 22s ease-in-out infinite",
-            willChange: "transform",
-          }}
-        >
-          <div
-            className="h-96 w-96 rounded-full blur-3xl"
-            style={{
-              backgroundColor: `${THREAD_PALETTE.champagne}66`,
-              animation: "hero-logo-aura 9s ease-in-out infinite",
-              willChange: "transform, opacity",
-            }}
-          />
-        </div>
-
-        <div
-          className="absolute bottom-0 left-1/5"
-          style={{
-            animation: "float-2 29s ease-in-out infinite",
-            willChange: "transform",
-          }}
-        >
-          <div
-            className="h-80 w-80 rounded-full blur-3xl"
-            style={{
-              backgroundColor: `${THREAD_PALETTE.bone}33`,
-              animation: "hero-logo-aura 13s ease-in-out infinite",
-              willChange: "transform, opacity",
-            }}
-          />
-        </div>
-
-        {/* Sits behind the wordmark and reads as depth rather than a distinct
-            light source. */}
-        <div
-          className="absolute left-1/2 top-1/3"
-          style={{
-            animation: "float-3 36s ease-in-out infinite",
-            willChange: "transform",
-          }}
-        >
-          <div
-            className="h-72 w-72 rounded-full blur-3xl"
-            style={{
-              backgroundColor: `${THREAD_PALETTE.champagne}44`,
-              animation: "hero-logo-aura 17s ease-in-out infinite",
-              willChange: "transform, opacity",
-            }}
-          />
-        </div>
-      </div>
+      <ThreadHeroBackdrop />
 
       <div className="section-container">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
@@ -172,16 +102,25 @@ export function ThreadHeroSection() {
               so object-contain sizes it off this height until the column width
               takes over. Height is what makes the logo read larger. */}
           <div className="relative flex h-80 items-center justify-center md:h-[26rem] lg:h-[32rem]">
-            <div
-              className="absolute inset-8 -z-10 rounded-full blur-3xl opacity-25"
-              style={{ backgroundColor: `${THREAD_PALETTE.champagne}55` }}
-            />
+            {/* The artwork is a thin serif outline in a near-bone grey measured
+                at roughly #BCBBB7, which is only a few steps off `muted`. The
+                filter opens that gap: the shadows separate the strokes from the
+                strands passing behind them, and the brightness lift carries the
+                hairlines in the flourish.
+
+                Two tight shadows rather than one wide one. A wide blur on a
+                wordmark this broad merges into a rectangular plate behind the
+                mark, which is visible against the strands. */}
             <Image
               src="/logos/thread-logo.png"
               alt="Thread T-Shirts logo"
               fill
               priority
-              className="object-contain drop-shadow-2xl"
+              className="object-contain"
+              style={{
+                filter:
+                  "brightness(1.16) contrast(1.06) drop-shadow(0 0 1.75rem rgba(11,11,11,0.95)) drop-shadow(0 0 0.4rem rgba(11,11,11,0.85))",
+              }}
             />
           </div>
         </div>
