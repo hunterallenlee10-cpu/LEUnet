@@ -139,13 +139,6 @@ export const threadCategories: ThreadCategory[] = [
     image: "/thread/long-sleeve.svg",
   },
   {
-    id: "performance",
-    name: "Performance",
-    blurb:
-      "Moisture-wicking, breathable fabrics for training, practice, and long days outdoors.",
-    image: "/thread/performance.svg",
-  },
-  {
     id: "business",
     name: "Business Apparel",
     blurb:
@@ -384,77 +377,6 @@ export const threadProducts: ThreadProduct[] = [
     priceCents: null,
     featured: false,
     customizable: false,
-  },
-
-  // --- Performance --------------------------------------------------------
-  {
-    id: "perf-tee",
-    name: "The Performance Tee",
-    categoryId: "performance",
-    tagline: "Moisture-wicking, training-ready",
-    description:
-      "A lightweight technical knit that moves sweat off the skin and dries fast. Built for practice, lifting, and long days on your feet.",
-    fabric: "4 oz recycled polyester interlock",
-    fit: "Athletic fit",
-    details: [
-      "Moisture-wicking finish",
-      "Four-way stretch",
-      "Flatlock seams to reduce chafing",
-      "Machine wash cold, tumble dry low, no fabric softener",
-    ],
-    image: "/thread/performance.svg",
-    imageAlt: "The Performance Tee — placeholder product image",
-    colors: ["black", "white", "charcoal", "royal", "navy"],
-    sizes: ALL_SIZES,
-    priceCents: null,
-    featured: true,
-    customizable: true,
-  },
-  {
-    id: "perf-ls",
-    name: "The Performance Long Sleeve",
-    categoryId: "performance",
-    tagline: "Sun coverage without the weight",
-    description:
-      "Full-coverage technical long sleeve for outdoor work and warm-weather training. Same wicking knit as the Performance Tee with extended sleeves.",
-    fabric: "4 oz recycled polyester interlock",
-    fit: "Athletic fit",
-    details: [
-      "Moisture-wicking finish",
-      "Extended sleeve coverage",
-      "Flatlock seams",
-      "Machine wash cold, tumble dry low, no fabric softener",
-    ],
-    image: "/thread/performance.svg",
-    imageAlt: "The Performance Long Sleeve — placeholder product image",
-    colors: ["black", "white", "charcoal", "navy"],
-    sizes: ALL_SIZES,
-    priceCents: null,
-    featured: false,
-    customizable: true,
-  },
-  {
-    id: "perf-tank",
-    name: "The Training Tank",
-    categoryId: "performance",
-    tagline: "Full range of motion",
-    description:
-      "A cut-away tank with a dropped armhole for unrestricted overhead movement. Light enough to layer under a hoodie between sets.",
-    fabric: "4 oz polyester-spandex blend",
-    fit: "Athletic fit",
-    details: [
-      "Dropped armhole",
-      "Moisture-wicking finish",
-      "Ribbed neckline",
-      "Machine wash cold, tumble dry low",
-    ],
-    image: "/thread/performance.svg",
-    imageAlt: "The Training Tank — placeholder product image",
-    colors: ["black", "white", "charcoal"],
-    sizes: ALL_SIZES,
-    priceCents: null,
-    featured: false,
-    customizable: true,
   },
 
   // --- Business Apparel ---------------------------------------------------
