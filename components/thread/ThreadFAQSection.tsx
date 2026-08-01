@@ -7,7 +7,6 @@ import { ThreadReveal } from "@/components/thread/ThreadReveal";
 import {
   ThreadHeading,
   ThreadSection,
-  threadCardStyle,
 } from "@/components/thread/ThreadUI";
 
 export function ThreadFAQSection() {
@@ -30,8 +29,7 @@ export function ThreadFAQSection() {
           return (
             <ThreadReveal
               key={faq.id}
-              className="overflow-hidden rounded-lg border"
-              style={threadCardStyle}
+              className="thread-card thread-faq overflow-hidden rounded-lg"
               delay={Math.min(index, 5) * 50}
             >
               <button
@@ -39,7 +37,7 @@ export function ThreadFAQSection() {
                 onClick={() => setOpenId(open ? null : faq.id)}
                 aria-expanded={open}
                 aria-controls={`faq-panel-${faq.id}`}
-                className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                className="thread-faq__trigger flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
               >
                 <span
                   className="font-semibold"
@@ -47,22 +45,16 @@ export function ThreadFAQSection() {
                 >
                   {faq.question}
                 </span>
-                <ChevronDown
-                  className={`h-5 w-5 flex-shrink-0 transition-transform duration-200 ${
-                    open ? "rotate-180" : ""
-                  }`}
-                  style={{ color: THREAD_PALETTE.champagne }}
-                />
+                {/* Rotation is driven off aria-expanded in the stylesheet
+                    rather than a conditional class, so it can compose with the
+                    hover nudge instead of one transform clobbering the other. */}
+                <ChevronDown className="thread-faq__icon h-5 w-5 flex-shrink-0" />
               </button>
 
               {open && (
                 <div
                   id={`faq-panel-${faq.id}`}
-                  className="border-t px-6 py-5 leading-relaxed"
-                  style={{
-                    borderColor: THREAD_PALETTE.border,
-                    color: THREAD_PALETTE.muted,
-                  }}
+                  className="thread-faq__panel px-6 py-5 leading-relaxed"
                 >
                   {faq.answer}
                 </div>
