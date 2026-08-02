@@ -189,26 +189,25 @@ export const threadCategories: ThreadCategory[] = [
 // ---------------------------------------------------------------------------
 // Catalog
 //
-// One real listing so far — the H1 tee below, which has a confirmed price,
-// fabric, and size run. Everything after it is still placeholder inventory;
-// see the note at the top of this file before treating any of it as fact.
+// Signature Tees is entirely real now — confirmed prices, fabrics, size runs,
+// and photography, every piece printed front and back. Everything after it is
+// still placeholder inventory; see the note at the top of this file before
+// treating any of it as fact.
 // ---------------------------------------------------------------------------
 
 export const threadProducts: ThreadProduct[] = [
   // --- Signature Tees -----------------------------------------------------
   //
-  // The first real piece, and the reason it leads the array: catalog order is
-  // display order, so this is the first card under both "All Products" and
-  // "Signature Tees".
+  // Catalog order is display order, so this block is what a reader meets
+  // first under both "All Products" and "Signature Tees".
   //
-  // First listing with real photography rather than a placeholder SVG, and
-  // the first printed on both sides — hence `imageBack`, which the card
-  // cross-fades to on hover.
-  //
-  // `details` deliberately describes only what the photos show and what was
-  // confirmed. Collar and seam construction were not, and this listing has a
-  // real price attached, so it does not guess at them. The back print is
-  // listed there as well as shown, since the hover is not reachable on touch.
+  // Two conventions run through every listing here. Each carries an
+  // `imageBack` — all of them are printed on both sides — which the card
+  // cross-fades to on hover. And `details` describes only what the photos
+  // show and what was confirmed: collar and seam construction were not, and
+  // these listings carry real prices, so they do not guess at them. Back
+  // prints are listed there as well as shown, since hover is not reachable
+  // on touch.
   {
     id: "tee-h1-leave-no-doubt",
     name: "H1 “Leave No Doubt” T-Shirt",
@@ -408,75 +407,6 @@ export const threadProducts: ThreadProduct[] = [
     priceCents: 2999,
     featured: true,
     customizable: false,
-  },
-  {
-    id: "tee-core",
-    name: "The Core Tee",
-    categoryId: "tees",
-    tagline: "The one you reach for first",
-    description:
-      "A midweight combed cotton crew with a ribbed collar that keeps its shape. Cut straight through the body so it layers cleanly and wears well on its own.",
-    fabric: "5.3 oz combed ringspun cotton",
-    fit: "Classic straight fit",
-    details: [
-      "Ribbed crew neck with shoulder-to-shoulder taping",
-      "Side-seamed body to prevent twisting in the wash",
-      "Pre-shrunk — expect true-to-size after laundering",
-      "Machine wash cold, tumble dry low",
-    ],
-    image: "/thread/tee.svg",
-    imageAlt: "The Core Tee — placeholder product image",
-    colors: ["black", "bone", "white", "heather", "navy"],
-    sizes: ALL_SIZES,
-    priceCents: null,
-    featured: true,
-    customizable: true,
-  },
-  {
-    id: "tee-heavyweight",
-    name: "The Heavyweight Tee",
-    categoryId: "tees",
-    tagline: "Structured, boxy, built to last",
-    description:
-      "A heavier cotton with real body to it. Sits square across the shoulders with a slightly cropped, boxy length that holds its line instead of draping.",
-    fabric: "6.5 oz heavyweight cotton",
-    fit: "Boxy relaxed fit",
-    details: [
-      "Wide ribbed collar with reinforced stitching",
-      "Drop shoulder seam",
-      "Holds structure through repeated washing",
-      "Machine wash cold, hang dry recommended",
-    ],
-    image: "/thread/tee.svg",
-    imageAlt: "The Heavyweight Tee — placeholder product image",
-    colors: ["black", "bone", "sand", "forest", "charcoal"],
-    sizes: ALL_SIZES,
-    priceCents: null,
-    featured: true,
-    customizable: true,
-  },
-  {
-    id: "tee-pocket",
-    name: "The Pocket Tee",
-    categoryId: "tees",
-    tagline: "Quiet detail, everyday cut",
-    description:
-      "The Core Tee with a clean chest pocket and a slightly relaxed body. The detail that makes a plain shirt look considered.",
-    fabric: "5.3 oz combed ringspun cotton",
-    fit: "Relaxed fit",
-    details: [
-      "Set-in chest pocket with matched grain",
-      "Ribbed crew neck",
-      "Side-seamed body",
-      "Machine wash cold, tumble dry low",
-    ],
-    image: "/thread/tee.svg",
-    imageAlt: "The Pocket Tee — placeholder product image",
-    colors: ["black", "heather", "navy", "sand"],
-    sizes: ALL_SIZES,
-    priceCents: null,
-    featured: false,
-    customizable: true,
   },
 
   // --- Hoodies & Pullovers ------------------------------------------------
