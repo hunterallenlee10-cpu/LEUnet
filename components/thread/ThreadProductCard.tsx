@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowRight, Check, ChevronDown, Minus, Plus } from "lucide-react";
 import type { ThreadProduct } from "@/types";
 import {
+  THREAD_COMING_SOON_LABEL,
   THREAD_PALETTE,
   formatThreadPrice,
   getThreadColors,
@@ -144,7 +145,13 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
   // Nothing to configure or add yet, so the placeholder stops at the name.
   // Rendering the swatches and a request button would invite an order for a
   // line that does not exist.
+  //
+  // A product whose name IS the label — a piece with nothing announced yet,
+  // not even what it is — gets the heading alone. Repeating the status
+  // underneath it would read as a rendering bug rather than a placeholder.
   if (product.comingSoon) {
+    const nameIsStatus = product.name === THREAD_COMING_SOON_LABEL;
+
     return (
       <div className={CARD_CLASS} style={cardStyle}>
         <div
@@ -167,12 +174,14 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
           >
             {product.name}
           </h3>
-          <p
-            className="mt-1 text-sm font-semibold"
-            style={{ color: THREAD_PALETTE.champagne }}
-          >
-            Coming soon
-          </p>
+          {!nameIsStatus && (
+            <p
+              className="mt-1 text-sm font-semibold"
+              style={{ color: THREAD_PALETTE.champagne }}
+            >
+              {THREAD_COMING_SOON_LABEL}
+            </p>
+          )}
         </div>
       </div>
     );
