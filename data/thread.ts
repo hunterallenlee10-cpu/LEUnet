@@ -373,6 +373,42 @@ export const threadProducts: ThreadProduct[] = [
     featured: true,
     customizable: false,
   },
+  // First real piece that is not H1 Performance, and the first to run the
+  // standard S-3XL set, so it uses ALL_SIZES directly.
+  //
+  // "Snow washed" suggested the Black swatch might misrepresent it — a wash
+  // that mottled usually reads as faded grey. Sampled the garment instead of
+  // guessing: mean #1a1a1a across 750k fabric pixels, with 74% of them below
+  // level 48. That is nine levels off the #111111 the palette already has,
+  // which is nothing at swatch size, so this reuses `black` rather than
+  // adding a near-duplicate to THREAD_COLORS.
+  {
+    id: "tee-crusader-snow-washed",
+    name: "Crusader Snow Washed T-Shirt",
+    categoryId: "tees",
+    tagline: "Washed black, full-back print",
+    description:
+      "A snow-washed black tee carrying a red cross on the chest and a full-back Templar battle scene. Cut slightly oversized on 5.5 oz cotton, with the mottled finish the wash leaves behind.",
+    fabric: "5.5 oz cotton",
+    fit: "Slight oversize unisex fit",
+    details: [
+      "Red cross centered on the chest",
+      "Full-back Templar battle print",
+      "Snow-washed finish, mottled by design",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/crusader-snow-washed-black-front.jpg",
+    imageAlt:
+      "Front of the snow-washed black Crusader t-shirt, with a red cross centered on the chest",
+    imageBack: "/thread/crusader-snow-washed-black-back.jpg",
+    imageBackAlt:
+      "Back of the snow-washed black Crusader t-shirt, with a full-back print of Templar knights in battle carrying red-cross shields and a banner",
+    colors: ["black"],
+    sizes: ALL_SIZES,
+    priceCents: 2999,
+    featured: true,
+    customizable: false,
+  },
   {
     id: "tee-core",
     name: "The Core Tee",
