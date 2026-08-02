@@ -2,10 +2,7 @@
 
 import { useEffect } from "react";
 import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
-import {
-  THREAD_CUSTOM_MIN_QUANTITY,
-  THREAD_PALETTE,
-} from "@/data/thread";
+import { THREAD_PALETTE } from "@/data/thread";
 import { useThreadCart } from "@/components/thread/ThreadCartProvider";
 import {
   threadPrimaryButtonClass,
@@ -17,7 +14,6 @@ export function ThreadCartDrawer() {
     updateQuantity,
     removeItem,
     totalPieces,
-    meetsCustomMinimum,
     isOpen,
     setOpen,
     hydrated,
@@ -188,19 +184,6 @@ export function ThreadCartDrawer() {
               className="border-t px-6 py-5"
               style={{ borderColor: THREAD_PALETTE.border }}
             >
-              {/* A notice, not a gate. Turning away a pre-launch lead over a
-                  quantity rule costs a customer and gains nothing — quantity
-                  gets sorted out in the reply. */}
-              {items.length > 0 && !meetsCustomMinimum && (
-                <p
-                  className="mb-4 text-sm"
-                  style={{ color: THREAD_PALETTE.champagne }}
-                >
-                  Custom printing starts at {THREAD_CUSTOM_MIN_QUANTITY} pieces.
-                  You can still send this request — Thread will follow up.
-                </p>
-              )}
-
               <p
                 className="mb-4 text-xs"
                 style={{ color: THREAD_PALETTE.muted }}

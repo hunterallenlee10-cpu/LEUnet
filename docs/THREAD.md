@@ -26,7 +26,7 @@ build; what remains is business confirmation, not code — see §10.
 | Prices | Hidden — `priceCents: null` renders "Price coming soon" |
 | Product photos | Generated SVG placeholders, swappable per product |
 | Turnaround | 2–4 weeks, from **proof approval** (`THREAD_TURNAROUND`) |
-| Custom minimum | 5 pieces |
+| Custom minimum | **None.** Custom printing runs at any quantity, down to one piece |
 | Printing | "Professional custom apparel supplier with commercial-grade equipment" |
 | Fulfillment | Shipping |
 | Sizes | S, M, L, XL, 2XL, 3XL |
@@ -171,7 +171,6 @@ interface ThreadCartContext {
   removeItem(key: string): void;
   clear(): void;
   totalPieces: number;
-  meetsCustomMinimum: boolean;      // totalPieces >= THREAD_CUSTOM_MIN_QUANTITY
   isOpen: boolean;
   setOpen(open: boolean): void;
 }
@@ -184,10 +183,11 @@ interface ThreadCartContext {
   client HTML and throws a hydration error.
 - **Quantity bounds:** 1–1000 per line, clamped in the provider so the UI cannot
   post something the API will reject.
-- **The 5-piece minimum is a notice, not a block.** Show "Custom orders start at
-  5 pieces" when under, but let the request submit anyway. Blocking a
-  pre-launch lead over a quantity rule costs a customer and gains nothing —
-  Thread can sort quantity out in the reply.
+- **There is no minimum order.** Custom printing runs at any quantity, down to
+  a single piece, and the UI says nothing about quantity rules. There was a
+  5-piece minimum with a `meetsCustomMinimum` flag and notices in the cart
+  drawer, the request form, and the catalog header; all of it is gone. Do not
+  reintroduce a quantity gate or notice without a product decision behind it.
 - Design packages (`isPackage: true`) have no colors. Use `colorId: ""`,
   `colorName: "—"` so the variant key stays well-formed.
 

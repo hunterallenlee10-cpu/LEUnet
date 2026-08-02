@@ -79,9 +79,6 @@ export const THREAD_PRICE_LABEL = "Price coming soon";
  */
 export const THREAD_COMING_SOON_LABEL = "Coming Soon";
 
-/** Minimum pieces on any custom-printed order. Ready-made stock has none. */
-export const THREAD_CUSTOM_MIN_QUANTITY = 5;
-
 /**
  * Typical production time, quoted to customers in three places — the process
  * section, the turnaround FAQ, and the order form's intro. All three read from
@@ -900,7 +897,8 @@ export const threadFaqs: ThreadFaq[] = [
   {
     id: "minimum",
     question: "Is there a minimum order?",
-    answer: `Custom-printed orders start at ${THREAD_CUSTOM_MIN_QUANTITY} pieces. That is low enough for a small team, a family, or a first test run before committing to a larger order.`,
+    answer:
+      "No. Custom printing runs at any quantity, down to a single piece. Order one shirt to see how it comes out before committing to a full run, or one because one is all you need.",
   },
   {
     id: "turnaround",

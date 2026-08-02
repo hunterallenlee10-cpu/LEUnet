@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  THREAD_CUSTOM_MIN_QUANTITY,
   THREAD_PALETTE,
   threadCategories,
   threadCopy,
@@ -68,8 +67,7 @@ export function ThreadCatalogSection() {
         className="mb-8 text-center text-sm"
         style={{ color: THREAD_PALETTE.muted }}
       >
-        Showing {visible.length} of {threadProducts.length} pieces · Custom
-        printing starts at {THREAD_CUSTOM_MIN_QUANTITY} pieces
+        Showing {visible.length} of {threadProducts.length} pieces
       </p>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

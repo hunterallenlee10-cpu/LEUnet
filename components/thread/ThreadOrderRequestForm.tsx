@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { CheckCircle2, Pencil } from "lucide-react";
 import {
-  THREAD_CUSTOM_MIN_QUANTITY,
   THREAD_PALETTE,
   THREAD_TURNAROUND,
   threadCopy,
@@ -61,8 +60,7 @@ const hintClass = "mt-1.5 text-xs";
 const NOT_APPLICABLE = "Not applicable";
 
 export function ThreadOrderRequestForm() {
-  const { items, totalPieces, meetsCustomMinimum, clear, setOpen } =
-    useThreadCart();
+  const { items, totalPieces, clear, setOpen } = useThreadCart();
 
   const [formData, setFormData] = useState<FormState>(emptyForm);
   const [honeypot, setHoneypot] = useState("");
@@ -276,15 +274,6 @@ export function ThreadOrderRequestForm() {
               >
                 {totalPieces} {totalPieces === 1 ? "piece" : "pieces"} total
               </p>
-              {!meetsCustomMinimum && (
-                <p
-                  className="mt-2 text-sm"
-                  style={{ color: THREAD_PALETTE.champagne }}
-                >
-                  Custom printing starts at {THREAD_CUSTOM_MIN_QUANTITY} pieces.
-                  Send it anyway — Thread will follow up.
-                </p>
-              )}
             </>
           )}
         </div>
