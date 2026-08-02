@@ -270,6 +270,40 @@ export const threadProducts: ThreadProduct[] = [
     featured: true,
     customizable: false,
   },
+  // Same garment and price as the royal above, but a different piece rather
+  // than a colorway of it: the back print reads ACHIEVE YOUR DREAM., so it is
+  // named for its own artwork the way the royal is named for LEAVE NO DOUBT.
+  // Filing it as a second colour of one product would put two different
+  // slogans behind a single swatch row with no way to tell them apart.
+  //
+  // Hence the id keyed to the slogan rather than the colour.
+  {
+    id: "tee-h1-achieve-your-dream",
+    name: "H1 “Achieve Your Dream” Athletic Shirt",
+    categoryId: "tees",
+    tagline: "Clean white, bold statement",
+    description:
+      "The same 2.5 oz polyester build as its royal counterpart, in white with the artwork reversed to black. “ACHIEVE YOUR DREAM.” sits across the back in block capitals.",
+    fabric: "2.5 oz polyester",
+    fit: "Men’s Ultra Light Athletic",
+    details: [
+      "Centered H1 Performance logo in black",
+      "“ACHIEVE YOUR DREAM.” across the back",
+      "Men’s sizing, S through 4XL",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/h1-athletic-white-front.jpg",
+    imageAlt:
+      "Front of the white H1 “Achieve Your Dream” athletic shirt, with a black H1 Performance logo centered on the chest",
+    imageBack: "/thread/h1-athletic-white-back.jpg",
+    imageBackAlt:
+      "Back of the white H1 “Achieve Your Dream” athletic shirt, with “ACHIEVE YOUR DREAM.” across the upper back in black block capitals",
+    colors: ["white"],
+    sizes: [...ALL_SIZES, "4xl"],
+    priceCents: 2999,
+    featured: true,
+    customizable: false,
+  },
   {
     id: "tee-core",
     name: "The Core Tee",
