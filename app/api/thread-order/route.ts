@@ -62,10 +62,16 @@ const preferredContactLabels: Record<string, string> = {
   text: "Text Message",
 };
 
+/**
+ * Keys must match the option values in ThreadOrderRequestForm. An unmapped
+ * value falls through to "Not provided", which would read as an unanswered
+ * required field rather than the answer the sender actually chose.
+ */
 const hasArtworkLabels: Record<string, string> = {
   yes: "Has artwork ready to send",
   no: "Needs Thread to design it",
   unsure: "Not sure yet",
+  "Not applicable": "Not applicable — ordering ready-made pieces",
 };
 
 /**

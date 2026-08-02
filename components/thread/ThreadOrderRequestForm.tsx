@@ -47,6 +47,19 @@ const fieldStyle = {
   color: THREAD_PALETTE.bone,
 };
 
+const hintClass = "mt-1.5 text-xs";
+
+/**
+ * Value posted when a field does not apply — someone buying finished pieces
+ * off the collection has no use case to describe and no artwork to send.
+ *
+ * Deliberately readable rather than a code: `useCase` is forwarded to the
+ * order email verbatim, so whatever is stored here is what the reader sees.
+ * `hasArtwork` is mapped through hasArtworkLabels in the API route, which
+ * carries a matching entry.
+ */
+const NOT_APPLICABLE = "Not applicable";
+
 export function ThreadOrderRequestForm() {
   const { items, totalPieces, meetsCustomMinimum, clear, setOpen } =
     useThreadCart();
@@ -276,6 +289,20 @@ export function ThreadOrderRequestForm() {
           )}
         </div>
 
+        {/* The form is built for custom work, where the design and deadline
+            questions carry the order. Someone buying finished pieces off the
+            collection meets the same questions and reasonably wonders whether
+            the order needs them. It does not, and saying so once here is
+            cheaper than every field explaining itself. */}
+        <p
+          className="mb-6 text-sm"
+          style={{ color: THREAD_PALETTE.champagne }}
+        >
+          Ordering ready-made pieces? Your contact details and your selection
+          are all Thread needs. The design and deadline questions below are for
+          custom orders — mark them Not applicable or leave them blank.
+        </p>
+
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
             <label
@@ -407,6 +434,9 @@ export function ThreadOrderRequestForm() {
               style={fieldStyle}
             >
               <option value="">Select an option...</option>
+              <option value={NOT_APPLICABLE}>
+                Not applicable — ordering ready-made
+              </option>
               {threadUseCases.map((useCase) => (
                 <option key={useCase.id} value={useCase.title}>
                   {useCase.title}
@@ -432,6 +462,9 @@ export function ThreadOrderRequestForm() {
               style={fieldStyle}
             >
               <option value="">Select an option...</option>
+              <option value={NOT_APPLICABLE}>
+                Not applicable — ordering ready-made
+              </option>
               <option value="yes">Yes, I have artwork ready</option>
               <option value="no">No, I want Thread to design it</option>
               <option value="unsure">Not sure yet</option>
@@ -457,7 +490,18 @@ export function ThreadOrderRequestForm() {
               onChange={handleChange}
               className={fieldClass}
               style={fieldStyle}
+              aria-describedby="thread-needByDate-hint"
             />
+            {/* A date input has no "not applicable" to offer, so the way out is
+                stated instead. The API already reports an empty value as "No
+                date given". */}
+            <p
+              id="thread-needByDate-hint"
+              className={hintClass}
+              style={{ color: THREAD_PALETTE.muted }}
+            >
+              No deadline? Leave this blank.
+            </p>
           </div>
         </div>
 
@@ -509,8 +553,16 @@ export function ThreadOrderRequestForm() {
             onChange={handleChange}
             className={fieldClass}
             style={fieldStyle}
+            aria-describedby="thread-designNotes-hint"
             placeholder="Colors, text, logo placement, or just a rough idea. If you have artwork, Thread will reply with where to send the files."
           />
+          <p
+            id="thread-designNotes-hint"
+            className={hintClass}
+            style={{ color: THREAD_PALETTE.muted }}
+          >
+            Custom orders only — skip this if you are ordering ready-made.
+          </p>
         </div>
 
         <div className="mt-6">
@@ -529,8 +581,16 @@ export function ThreadOrderRequestForm() {
             onChange={handleChange}
             className={fieldClass}
             style={fieldStyle}
+            aria-describedby="thread-additionalNotes-hint"
             placeholder="Sizing breakdowns, names and numbers, deadlines, questions."
           />
+          <p
+            id="thread-additionalNotes-hint"
+            className={hintClass}
+            style={{ color: THREAD_PALETTE.muted }}
+          >
+            Optional. Leave it blank if your selection above says it all.
+          </p>
         </div>
 
         {/* Honeypot — hidden from people, catching for bots. */}
