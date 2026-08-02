@@ -271,25 +271,32 @@ export const threadProducts: ThreadProduct[] = [
     featured: true,
     customizable: false,
   },
-  // The performance counterpart to the first tee — same slogan, different
-  // garment, so the copy leans on what separates them: polyester against
-  // cotton, centered mark against left chest, and a size run that goes two
-  // steps further in both directions.
+  // The performance counterpart to the cotton tees above — same slogan,
+  // different garment, and a size run that goes a step further in both
+  // directions. 4XL is not part of the standard run, which is why `sizes`
+  // spreads ALL_SIZES rather than using it directly.
   //
-  // First piece cut in 4XL, which is why `sizes` spreads ALL_SIZES rather
-  // than using it directly.
+  // These two are the same product in two colourways, so
+  // the colour is carried in the name. Without it the catalog shows two cards
+  // with an identical title and only a swatch to tell them apart. The `id`s
+  // carry it too, so nothing here is distinguished by colour in one place and
+  // not the other.
+  //
+  // The artwork is not identical across the two: royal takes the mark
+  // centred with LEAVE NO DOUBT in brush capitals, black takes it on the left
+  // chest with the same words in script. Each description states its own.
   {
-    id: "tee-h1-athletic",
-    name: "H1 “Leave No Doubt” Athletic Shirt",
+    id: "tee-h1-athletic-royal",
+    name: "H1 “Leave No Doubt” Athletic Shirt — Royal",
     categoryId: "tees",
     tagline: "Ultra light, built to move",
     description:
-      "A 2.5 oz polyester training shirt light enough to forget you have it on. The H1 Performance mark sits centered on the chest, with “LEAVE NO DOUBT” across the back.",
+      "A 2.5 oz polyester training shirt light enough to forget you have it on. The H1 Performance mark sits centered on the chest, with “LEAVE NO DOUBT” across the back in brush capitals.",
     fabric: "2.5 oz polyester",
     fit: "Men’s Ultra Light Athletic",
     details: [
       "Centered H1 Performance logo",
-      "“LEAVE NO DOUBT” across the back",
+      "“LEAVE NO DOUBT” across the back in brush capitals",
       "Men’s sizing, S through 4XL",
       "Machine wash cold, tumble dry low",
     ],
@@ -300,6 +307,33 @@ export const threadProducts: ThreadProduct[] = [
     imageBackAlt:
       "Back of the royal blue H1 “Leave No Doubt” athletic shirt, with “LEAVE NO DOUBT” across the upper back in white brush lettering",
     colors: ["royal"],
+    sizes: [...ALL_SIZES, "4xl"],
+    priceCents: 2999,
+    featured: true,
+    customizable: false,
+  },
+  {
+    id: "tee-h1-athletic-black",
+    name: "H1 “Leave No Doubt” Athletic Shirt — Black",
+    categoryId: "tees",
+    tagline: "Ultra light, built to move",
+    description:
+      "The same 2.5 oz polyester build as the royal, in black with the mark moved to the left chest. “Leave No Doubt” runs across the back in white script.",
+    fabric: "2.5 oz polyester",
+    fit: "Men’s Ultra Light Athletic",
+    details: [
+      "Left-chest H1 Performance logo",
+      "“Leave No Doubt” script across the back",
+      "Men’s sizing, S through 4XL",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/h1-athletic-black-front.jpg",
+    imageAlt:
+      "Front of the black H1 “Leave No Doubt” athletic shirt, with a white H1 Performance logo on the left chest",
+    imageBack: "/thread/h1-athletic-black-back.jpg",
+    imageBackAlt:
+      "Back of the black H1 “Leave No Doubt” athletic shirt, with “Leave No Doubt” across the upper back in white script",
+    colors: ["black"],
     sizes: [...ALL_SIZES, "4xl"],
     priceCents: 2999,
     featured: true,
