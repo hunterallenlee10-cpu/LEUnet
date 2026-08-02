@@ -200,6 +200,20 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        {/*
+         * Layered over the front rather than swapped with it, so a slow-loading
+         * back photo reveals the front underneath instead of an empty panel.
+         * Both carry the same scale so the hover reads as one movement.
+         */}
+        {product.imageBack && (
+          <Image
+            src={product.imageBack}
+            alt={product.imageBackAlt ?? ""}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="pointer-events-none object-cover opacity-0 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+          />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-6">

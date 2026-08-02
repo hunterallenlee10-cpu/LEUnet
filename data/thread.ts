@@ -191,17 +191,14 @@ export const threadProducts: ThreadProduct[] = [
   // display order, so this is the first card under both "All Products" and
   // "Signature Tees".
   //
-  // Two things here are still pending and are the only edits left:
-  //  - `image` points at the generic tee placeholder. The real photos are
-  //    /thread/h1-leave-no-doubt-front.jpg and -back.jpg once they are added
-  //    to /public/thread/; pointing at them before they exist would render a
-  //    broken image on a live listing.
-  //  - There is no field for the back photo. ThreadProduct holds one image,
-  //    and this piece is printed on both sides.
+  // First listing with real photography rather than a placeholder SVG, and
+  // the first printed on both sides — hence `imageBack`, which the card
+  // cross-fades to on hover.
   //
   // `details` deliberately describes only what the photos show and what was
   // confirmed. Collar and seam construction were not, and this listing has a
-  // real price attached, so it does not guess at them.
+  // real price attached, so it does not guess at them. The back print is
+  // listed there as well as shown, since the hover is not reachable on touch.
   {
     id: "tee-h1-leave-no-doubt",
     name: "H1 “Leave No Doubt” T-Shirt",
@@ -217,9 +214,12 @@ export const threadProducts: ThreadProduct[] = [
       "Unisex sizing, M through 3XL",
       "Machine wash cold, tumble dry low",
     ],
-    image: "/thread/tee.svg",
+    image: "/thread/h1-leave-no-doubt-front.jpg",
     imageAlt:
-      "Black H1 “Leave No Doubt” t-shirt with a white left-chest H1 Performance logo",
+      "Front of the black H1 “Leave No Doubt” t-shirt, with a white H1 Performance logo on the left chest",
+    imageBack: "/thread/h1-leave-no-doubt-back.jpg",
+    imageBackAlt:
+      "Back of the black H1 “Leave No Doubt” t-shirt, with “Leave No Doubt” across the upper back in white script",
     colors: ["black"],
     sizes: ["m", "l", "xl", "2xl", "3xl"],
     priceCents: 2499,
