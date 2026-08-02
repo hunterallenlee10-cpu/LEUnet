@@ -47,8 +47,15 @@ export function ThreadCartDrawer() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-3 rounded-full px-5 py-3 font-semibold shadow-2xl transition-transform duration-200 hover:scale-105"
+          aria-label={`Your request — ${totalPieces} ${
+            totalPieces === 1 ? "piece" : "pieces"
+          }. Review and send.`}
+          className="thread-cart-trigger fixed bottom-6 right-6 z-40 inline-flex items-center gap-3 rounded-full px-5 py-3 font-semibold transition-transform duration-200 hover:scale-105"
         >
+          {/* Keyed on the count so adding a second piece remounts it and the
+              ring fires again. Keying the button itself would remount the
+              control and drop focus out from under anyone using the keyboard. */}
+          <span key={totalPieces} className="thread-cart-trigger__ring" />
           <ShoppingBag className="h-5 w-5" />
           <span>Your Request</span>
           <span
