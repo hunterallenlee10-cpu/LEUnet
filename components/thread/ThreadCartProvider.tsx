@@ -10,7 +10,6 @@ import {
   type ReactNode,
 } from "react";
 import type { ThreadCartItem } from "@/types";
-import { THREAD_CUSTOM_MIN_QUANTITY } from "@/data/thread";
 
 /**
  * Holds the order request being assembled.
@@ -34,8 +33,6 @@ interface ThreadCartContextValue {
   removeItem: (key: string) => void;
   clear: () => void;
   totalPieces: number;
-  /** False under the custom-order minimum. A notice, never a submit blocker. */
-  meetsCustomMinimum: boolean;
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   /** False until localStorage has been read, so counts don't flash on load. */
@@ -171,7 +168,6 @@ export function ThreadCartProvider({ children }: { children: ReactNode }) {
       removeItem,
       clear,
       totalPieces,
-      meetsCustomMinimum: totalPieces >= THREAD_CUSTOM_MIN_QUANTITY,
       isOpen,
       setOpen,
       hydrated,
