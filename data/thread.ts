@@ -466,32 +466,44 @@ export const threadProducts: ThreadProduct[] = [
   },
 
   // --- Custom Design Packages ---------------------------------------------
-  // Placeholder while the packages are worked out. Same treatment as Event
-  // Shirts: comingSoon strips the card down to the name, so the empty
-  // colors/sizes here are never read.
+  // Open for requests rather than a fixed catalog line, so this uses
+  // requestOnly: the whole card links to the order request form and no colour,
+  // size, or quantity controls render. There is nothing to configure here —
+  // the point is that the reader describes what they want.
   //
-  // The three packages this replaced (Starter, Brand Identity, Full Production
-  // Run) were the only products carrying `isPackage`. The rendering path for it
-  // is still in ThreadProductCard — the includes list, the "Estimated Pieces"
-  // label, and skipping the size picker — so restoring them is a data change
-  // and nothing more.
+  // Empty colors/sizes are correct and never read. `fabric` and `fit` are only
+  // surfaced in the details panel, which a requestOnly card does not render;
+  // they say "chosen with you" rather than inventing a spec.
+  //
+  // This replaced three fixed packages (Starter, Brand Identity, Full
+  // Production Run), which were the only products carrying `isPackage`. That
+  // rendering path is still in ThreadProductCard — the includes list, the
+  // "Estimated Pieces" label, and skipping the size picker — so bringing
+  // tiered packages back is a data change and nothing more.
   {
-    id: "custom-coming-soon",
+    id: "custom-request",
     name: "Custom Design Packages",
     categoryId: "custom",
-    tagline: "Coming soon",
-    description: "Coming soon",
-    fabric: "Coming soon",
-    fit: "Coming soon",
-    details: ["Coming soon"],
+    tagline: "Whatever you'd like, we can make",
+    description:
+      "Bring a logo, a slogan, finished artwork, or nothing but a rough description. Tell Thread the garment, colors, placement, and quantities on the request form — in as much detail as you want — and you will get a written quote back before anything is produced.",
+    fabric: "Chosen with you during the quote",
+    fit: "Chosen with you during the quote",
+    details: [
+      "Any garment in the catalog, or one sourced for the run",
+      "Design work handled from your description if you do not have artwork",
+      "Digital proof before anything is printed",
+      "No payment taken and nothing committed at request time",
+    ],
     image: "/thread/custom.svg",
-    imageAlt: "Custom Design Packages — coming soon",
+    imageAlt: "Custom Design Packages — describe a custom order",
     colors: [],
     sizes: [],
     priceCents: null,
     featured: false,
-    customizable: false,
-    comingSoon: true,
+    customizable: true,
+    requestOnly: true,
+    ctaLabel: "Describe What You Want",
   },
 ];
 
