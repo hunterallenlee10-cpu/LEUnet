@@ -99,6 +99,11 @@ export const THREAD_IS_PRELAUNCH = true;
 /** Every order request routes to the address the rest of the site uses. */
 export const THREAD_CONTACT_EMAIL = "ceo@leeenterprisesunlimited.com";
 
+/**
+ * Every size Thread can print, in the order they render. A product opts into
+ * the ones it actually runs, so adding to this list never changes an existing
+ * listing — `getThreadSizes` filters by the product's own ids.
+ */
 export const THREAD_SIZES: ThreadSize[] = [
   { id: "s", label: "S" },
   { id: "m", label: "M" },
@@ -106,6 +111,7 @@ export const THREAD_SIZES: ThreadSize[] = [
   { id: "xl", label: "XL" },
   { id: "2xl", label: "2XL" },
   { id: "3xl", label: "3XL" },
+  { id: "4xl", label: "4XL" },
 ];
 
 /**
@@ -125,6 +131,10 @@ export const THREAD_COLORS: Record<string, ThreadColorOption> = {
   royal: { id: "royal", name: "Royal", hex: "#1E3A8A" },
 };
 
+/**
+ * The standard run. Deliberately stops at 3XL — 4XL is a per-product opt-in
+ * (`[...ALL_SIZES, "4xl"]`), not something every piece is cut in.
+ */
 const ALL_SIZES = ["s", "m", "l", "xl", "2xl", "3xl"];
 
 // ---------------------------------------------------------------------------
@@ -223,6 +233,40 @@ export const threadProducts: ThreadProduct[] = [
     colors: ["black"],
     sizes: ["m", "l", "xl", "2xl", "3xl"],
     priceCents: 2499,
+    featured: true,
+    customizable: false,
+  },
+  // The performance counterpart to the tee above — same slogan, different
+  // garment, so the copy leans on what separates them: polyester against
+  // cotton, centered mark against left chest, and a size run that goes two
+  // steps further in both directions.
+  //
+  // First piece cut in 4XL, which is why `sizes` spreads ALL_SIZES rather
+  // than using it directly.
+  {
+    id: "tee-h1-athletic",
+    name: "H1 “Leave No Doubt” Athletic Shirt",
+    categoryId: "tees",
+    tagline: "Ultra light, built to move",
+    description:
+      "A 2.5 oz polyester training shirt light enough to forget you have it on. The H1 Performance mark sits centered on the chest, with “LEAVE NO DOUBT” across the back.",
+    fabric: "2.5 oz polyester",
+    fit: "Men’s Ultra Light Athletic",
+    details: [
+      "Centered H1 Performance logo",
+      "“LEAVE NO DOUBT” across the back",
+      "Men’s sizing, S through 4XL",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/h1-athletic-royal-front.jpg",
+    imageAlt:
+      "Front of the royal blue H1 “Leave No Doubt” athletic shirt, with a white H1 Performance logo centered on the chest",
+    imageBack: "/thread/h1-athletic-royal-back.jpg",
+    imageBackAlt:
+      "Back of the royal blue H1 “Leave No Doubt” athletic shirt, with “LEAVE NO DOUBT” across the upper back in white brush lettering",
+    colors: ["royal"],
+    sizes: [...ALL_SIZES, "4xl"],
+    priceCents: 2999,
     featured: true,
     customizable: false,
   },
