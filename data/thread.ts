@@ -253,17 +253,24 @@ export const threadProducts: ThreadProduct[] = [
   },
 
   // --- Hoodies & Pullovers ------------------------------------------------
-  // Placeholders while the line is worked out. Unlike Event Shirts and Custom
-  // Design Packages, which collapsed to a single card named after the
-  // category, all three names stay: the category still advertises what is
-  // coming, and the fabric and fit copy below was never confirmed anyway
-  // (see the placeholder note at the top of this file).
+  // Placeholders while the line is worked out, and the pattern the Long Sleeve
+  // and Business Apparel blocks below follow: every field is withheld, names
+  // included, so each card is nothing but THREAD_COMING_SOON_LABEL. Three
+  // slots still appear, which says how many pieces are coming without naming
+  // any of them. None of the fabric or fit copy that used to sit here was ever
+  // confirmed (see the placeholder note at the top of this file).
+  //
+  // Event Shirts and Custom Design Packages went the other way and collapsed
+  // to a single card each. Those two are open for requests today, so their
+  // cards have something to say; these do not.
   //
   // comingSoon strips each card to its name and status line, so the empty
-  // colors/sizes here are never read.
+  // colors/sizes here are never read. The `id`s stay descriptive — they are
+  // React keys and the cart's product identity, never rendered — so restoring
+  // a name is a one-line edit per product when the line is confirmed.
   {
     id: "hoodie-classic",
-    name: "The Classic Hoodie",
+    name: THREAD_COMING_SOON_LABEL,
     categoryId: "hoodies",
     tagline: "Coming soon",
     description: "Coming soon",
@@ -271,7 +278,7 @@ export const threadProducts: ThreadProduct[] = [
     fit: "Coming soon",
     details: ["Coming soon"],
     image: "/thread/hoodie.svg",
-    imageAlt: "The Classic Hoodie — coming soon",
+    imageAlt: "Hooded pullover — coming soon",
     colors: [],
     sizes: [],
     priceCents: null,
@@ -281,7 +288,7 @@ export const threadProducts: ThreadProduct[] = [
   },
   {
     id: "hoodie-heavy",
-    name: "The Heavyweight Hoodie",
+    name: THREAD_COMING_SOON_LABEL,
     categoryId: "hoodies",
     tagline: "Coming soon",
     description: "Coming soon",
@@ -289,7 +296,7 @@ export const threadProducts: ThreadProduct[] = [
     fit: "Coming soon",
     details: ["Coming soon"],
     image: "/thread/hoodie.svg",
-    imageAlt: "The Heavyweight Hoodie — coming soon",
+    imageAlt: "Hooded pullover — coming soon",
     colors: [],
     sizes: [],
     priceCents: null,
@@ -299,7 +306,7 @@ export const threadProducts: ThreadProduct[] = [
   },
   {
     id: "crew-fleece",
-    name: "The Fleece Crewneck",
+    name: THREAD_COMING_SOON_LABEL,
     categoryId: "hoodies",
     tagline: "Coming soon",
     description: "Coming soon",
@@ -307,7 +314,7 @@ export const threadProducts: ThreadProduct[] = [
     fit: "Coming soon",
     details: ["Coming soon"],
     image: "/thread/hoodie.svg",
-    imageAlt: "The Fleece Crewneck — coming soon",
+    imageAlt: "Hooded pullover — coming soon",
     colors: [],
     sizes: [],
     priceCents: null,
@@ -317,19 +324,11 @@ export const threadProducts: ThreadProduct[] = [
   },
 
   // --- Long Sleeve --------------------------------------------------------
-  // Placeholders while the line is worked out. These go further than the
-  // Hoodies & Pullovers cards above: the names are withheld too, so each card
-  // is nothing but THREAD_COMING_SOON_LABEL. Three slots still appear, which
-  // says how many pieces are coming without naming any of them.
+  // Withheld the same way as Hoodies & Pullovers above — see that block.
   //
-  // The `id`s stay descriptive — they are the React keys and the cart's
-  // product identity, never rendered — so restoring a name is a one-line edit
-  // per product when the line is confirmed.
-  //
-  // comingSoon strips each card to its name and status line, so the empty
-  // colors/sizes here are never read. The Core Long Sleeve also gives up
-  // `featured` — those cards quote a price and link to "Configure", and a
-  // piece with nothing to configure has no business in that list.
+  // The Core Long Sleeve also gave up `featured` when it went placeholder:
+  // those cards quote a price and link to "Configure", and a piece with
+  // nothing to configure has no business in that list.
   {
     id: "ls-core",
     name: THREAD_COMING_SOON_LABEL,
@@ -386,74 +385,63 @@ export const threadProducts: ThreadProduct[] = [
   },
 
   // --- Business Apparel ---------------------------------------------------
+  // Withheld the same way as Hoodies & Pullovers above — see that block.
+  //
+  // The Corporate Polo also gave up `featured` for the same reason the Core
+  // Long Sleeve did.
   {
     id: "biz-polo",
-    name: "The Corporate Polo",
+    name: THREAD_COMING_SOON_LABEL,
     categoryId: "business",
-    tagline: "Logo-ready, not uniform-looking",
-    description:
-      "A structured piqué polo with a collar that stays flat through a workday. The default choice for staff apparel that still reads as clothing.",
-    fabric: "6 oz cotton-poly piqué",
-    fit: "Regular fit",
-    details: [
-      "Three-button placket with flat collar stays",
-      "Left-chest embroidery or print area",
-      "Side vents at the hem",
-      "Machine wash cold, tumble dry low",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/business.svg",
-    imageAlt: "The Corporate Polo — placeholder product image",
-    colors: ["black", "white", "navy", "charcoal", "forest"],
-    sizes: ALL_SIZES,
+    imageAlt: "Business apparel piece — coming soon",
+    colors: [],
+    sizes: [],
     priceCents: null,
-    featured: true,
-    customizable: true,
+    featured: false,
+    customizable: false,
+    comingSoon: true,
   },
   {
     id: "biz-oxford",
-    name: "The Oxford Button-Down",
+    name: THREAD_COMING_SOON_LABEL,
     categoryId: "business",
-    tagline: "For client-facing teams",
-    description:
-      "A woven oxford that holds a press and takes left-chest embroidery cleanly. The step up when a polo is too casual for the room.",
-    fabric: "Cotton-blend oxford weave",
-    fit: "Tailored fit",
-    details: [
-      "Button-down collar",
-      "Adjustable single-button cuff",
-      "Embroidery recommended over screen print",
-      "Machine wash cold, hang dry and press",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/business.svg",
-    imageAlt: "The Oxford Button-Down — placeholder product image",
-    colors: ["white", "bone", "navy", "charcoal"],
-    sizes: ALL_SIZES,
+    imageAlt: "Business apparel piece — coming soon",
+    colors: [],
+    sizes: [],
     priceCents: null,
     featured: false,
-    customizable: true,
+    customizable: false,
+    comingSoon: true,
   },
   {
     id: "biz-quarterzip",
-    name: "The Quarter-Zip",
+    name: THREAD_COMING_SOON_LABEL,
     categoryId: "business",
-    tagline: "Layer that carries a logo well",
-    description:
-      "A smooth-face knit quarter-zip that layers over a polo or button-down. Reads professional in an office and holds up on a job site.",
-    fabric: "9 oz smooth-face performance knit",
-    fit: "Regular fit",
-    details: [
-      "Quarter-length zip with chin guard",
-      "Left-chest embroidery area",
-      "Ribbed cuffs and hem",
-      "Machine wash cold, tumble dry low",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/business.svg",
-    imageAlt: "The Quarter-Zip — placeholder product image",
-    colors: ["black", "charcoal", "navy", "heather"],
-    sizes: ALL_SIZES,
+    imageAlt: "Business apparel piece — coming soon",
+    colors: [],
+    sizes: [],
     priceCents: null,
     featured: false,
-    customizable: true,
+    customizable: false,
+    comingSoon: true,
   },
 
   // --- Event Shirts -------------------------------------------------------
