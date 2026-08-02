@@ -75,8 +75,16 @@ export const THREAD_PRICE_LABEL = "Price coming soon";
 /** Minimum pieces on any custom-printed order. Ready-made stock has none. */
 export const THREAD_CUSTOM_MIN_QUANTITY = 5;
 
-/** Typical production time. Confirmed by the owner; keep copy consistent. */
-export const THREAD_TURNAROUND = "about one week";
+/**
+ * Typical production time, quoted to customers in three places — the process
+ * section, the turnaround FAQ, and the order form's intro. All three read from
+ * this constant, so this is the only line to change.
+ *
+ * Covers manufacture and shipping, and the clock starts at proof approval, not
+ * at the request. Every sentence using it already says so; keep that framing if
+ * the copy is reworded.
+ */
+export const THREAD_TURNAROUND = "2–4 weeks";
 
 /** Thread is pre-launch: the page takes requests, it does not sell. */
 export const THREAD_IS_PRELAUNCH = true;

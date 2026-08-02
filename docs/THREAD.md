@@ -25,7 +25,7 @@ build; what remains is business confirmation, not code — see §10.
 | Launch state | **Pre-launch.** Takes requests, does not sell |
 | Prices | Hidden — `priceCents: null` renders "Price coming soon" |
 | Product photos | Generated SVG placeholders, swappable per product |
-| Turnaround | About one week, from **proof approval** |
+| Turnaround | 2–4 weeks, from **proof approval** (`THREAD_TURNAROUND`) |
 | Custom minimum | 5 pieces |
 | Printing | "Professional custom apparel supplier with commercial-grade equipment" |
 | Fulfillment | Shipping |
@@ -271,8 +271,8 @@ Nothing else outside `app/thread-t-shirts/`, `components/thread/`,
 - **`typescript.ignoreBuildErrors: true`** (`next.config.mjs:40`) — a type error
   will **not** fail `next build`. Run `npx tsc --noEmit` explicitly before
   pushing.
-- **Pre-launch honesty.** No stated prices, no delivery promise beyond "about
-  one week from proof approval," no claim about equipment beyond the agreed
+- **Pre-launch honesty.** No stated prices, no delivery promise beyond "2–4
+  weeks from proof approval," no claim about equipment beyond the agreed
   supplier language, and no capability claim about print methods — screen print
   vs. DTG vs. embroidery was never confirmed, so all copy stays
   method-agnostic. `data/thread.ts` fabric weights are plausible placeholders
