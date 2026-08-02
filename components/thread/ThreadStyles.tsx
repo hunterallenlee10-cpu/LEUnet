@@ -161,6 +161,66 @@ const css = `
 }
 
 /* --------------------------------------------------------------------------
+   Cart trigger — the floating pill that appears once something is selected
+   -------------------------------------------------------------------------- */
+
+/* This carried shadow-2xl and no background, so it rendered as bare white text
+   floating over the page — the one element that has to be found after an add
+   was the least visible thing on screen. It now takes the primary button's
+   surface: bone with ink text, which is the loudest pairing the palette has
+   against near-black.
+
+   Sits above the page but below the drawer (z-40 vs z-50), set on the element
+   so the stacking stays with the component that owns it. */
+.thread-cart-trigger {
+  background-color: ${THREAD_PALETTE.bone};
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0) 55%
+  );
+  color: ${THREAD_PALETTE.ink};
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(${CHAMPAGNE}, 0.35),
+    0 4px 12px rgba(0, 0, 0, 0.6),
+    0 18px 44px -18px rgba(${CHAMPAGNE}, 0.75);
+  animation: thread-cart-trigger-in 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.thread-cart-trigger:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(${CHAMPAGNE}, 0.4),
+    0 6px 16px rgba(0, 0, 0, 0.65),
+    0 24px 56px -20px rgba(${CHAMPAGNE}, 0.95);
+}
+
+/* Rises into place rather than appearing, so the movement is what catches the
+   eye — a static pill in a corner the reader was not looking at is easy to
+   miss no matter how bright it is. */
+@keyframes thread-cart-trigger-in {
+  from { opacity: 0; transform: translateY(1.25rem) scale(0.92); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* One-shot ring, remounted on every count change so a second add re-fires it.
+   Decorative and non-interactive: it must never sit between the reader and the
+   button underneath it. */
+.thread-cart-trigger__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: thread-cart-trigger-ring 900ms ease-out 1 both;
+}
+
+@keyframes thread-cart-trigger-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(${BONE}, 0.65); }
+  100% { box-shadow: 0 0 0 1.15rem rgba(${BONE}, 0); }
+}
+
+/* --------------------------------------------------------------------------
    Toggles — catalog filters, size and colour pickers
    -------------------------------------------------------------------------- */
 
@@ -367,11 +427,21 @@ const css = `
    without being asked. */
 @media (prefers-reduced-motion: reduce) {
   .thread-badge__dot { animation: none; }
+  .thread-cart-trigger__ring { animation: none; }
+  /* The trigger still needs to arrive, it just arrives without travelling —
+     dropping the animation entirely would leave it at the keyframe's starting
+     opacity of 0 and hide the control outright. */
+  .thread-cart-trigger { animation: thread-cart-trigger-fade 200ms ease-out both; }
   .thread-btn:hover,
   .thread-btn:active,
   .thread-swatch:hover,
   .thread-card--link:hover,
   .thread-card--link:focus-visible { transform: none; }
+}
+
+@keyframes thread-cart-trigger-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 `;
 
