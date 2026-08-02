@@ -238,74 +238,67 @@ export const threadProducts: ThreadProduct[] = [
   },
 
   // --- Hoodies & Pullovers ------------------------------------------------
+  // Placeholders while the line is worked out. Unlike Event Shirts and Custom
+  // Design Packages, which collapsed to a single card named after the
+  // category, all three names stay: the category still advertises what is
+  // coming, and the fabric and fit copy below was never confirmed anyway
+  // (see the placeholder note at the top of this file).
+  //
+  // comingSoon strips each card to its name and status line, so the empty
+  // colors/sizes here are never read.
   {
     id: "hoodie-classic",
     name: "The Classic Hoodie",
     categoryId: "hoodies",
-    tagline: "Midweight, all-season pullover",
-    description:
-      "A brushed-fleece pullover that works from early fall through spring. Structured hood, deep front pocket, and ribbing that recovers instead of stretching out.",
-    fabric: "8.5 oz cotton-poly brushed fleece",
-    fit: "Regular fit",
-    details: [
-      "Double-lined hood with flat drawcords",
-      "Split kangaroo pocket",
-      "Ribbed cuffs and hem with spandex for recovery",
-      "Machine wash cold, tumble dry low",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/hoodie.svg",
-    imageAlt: "The Classic Hoodie — placeholder product image",
-    colors: ["black", "heather", "navy", "forest"],
-    sizes: ALL_SIZES,
+    imageAlt: "The Classic Hoodie — coming soon",
+    colors: [],
+    sizes: [],
     priceCents: null,
-    featured: true,
-    customizable: true,
+    featured: false,
+    customizable: false,
+    comingSoon: true,
   },
   {
     id: "hoodie-heavy",
     name: "The Heavyweight Hoodie",
     categoryId: "hoodies",
-    tagline: "Cold-weather weight",
-    description:
-      "A dense brushed fleece with a substantial hand feel. Heavier through the body and hood, cut with enough room to layer underneath.",
-    fabric: "12 oz brushed fleece",
-    fit: "Oversized fit",
-    details: [
-      "Three-panel lined hood",
-      "Reinforced pocket bartacks",
-      "Extended ribbed cuffs",
-      "Machine wash cold, hang dry recommended",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/hoodie.svg",
-    imageAlt: "The Heavyweight Hoodie — placeholder product image",
-    colors: ["black", "bone", "charcoal", "burgundy"],
-    sizes: ALL_SIZES,
+    imageAlt: "The Heavyweight Hoodie — coming soon",
+    colors: [],
+    sizes: [],
     priceCents: null,
     featured: false,
-    customizable: true,
+    customizable: false,
+    comingSoon: true,
   },
   {
     id: "crew-fleece",
     name: "The Fleece Crewneck",
     categoryId: "hoodies",
-    tagline: "Hoodie warmth, cleaner line",
-    description:
-      "Same fleece as the Classic Hoodie without the hood — the better option when a design needs an uninterrupted chest or back.",
-    fabric: "8.5 oz cotton-poly brushed fleece",
-    fit: "Regular fit",
-    details: [
-      "Ribbed collar, cuffs, and hem",
-      "Full front and back print area",
-      "Set-in sleeves",
-      "Machine wash cold, tumble dry low",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/hoodie.svg",
-    imageAlt: "The Fleece Crewneck — placeholder product image",
-    colors: ["black", "bone", "heather", "navy", "sand"],
-    sizes: ALL_SIZES,
+    imageAlt: "The Fleece Crewneck — coming soon",
+    colors: [],
+    sizes: [],
     priceCents: null,
     featured: false,
-    customizable: true,
+    customizable: false,
+    comingSoon: true,
   },
 
   // --- Long Sleeve --------------------------------------------------------
