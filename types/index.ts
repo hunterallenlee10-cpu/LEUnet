@@ -124,6 +124,17 @@ export interface ThreadProduct {
   details: string[];
   image: string;
   imageAlt: string;
+  /**
+   * Reverse of the garment, for pieces printed on both sides. When set, the
+   * card cross-fades to it on hover; when omitted the card behaves as before.
+   *
+   * Hover only, so this is not reachable on touch — treat it as a second look
+   * at the piece rather than the place to put information the buyer needs.
+   * Anything load-bearing belongs in `details`, which every device can open.
+   */
+  imageBack?: string;
+  /** Alt text for `imageBack`. Required whenever that is set. */
+  imageBackAlt?: string;
   /** Keys into THREAD_COLORS. Empty for design packages, which have no garment. */
   colors: string[];
   /** Keys into THREAD_SIZES. */
