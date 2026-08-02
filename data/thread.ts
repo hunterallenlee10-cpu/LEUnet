@@ -236,7 +236,42 @@ export const threadProducts: ThreadProduct[] = [
     featured: true,
     customizable: false,
   },
-  // The performance counterpart to the tee above — same slogan, different
+  // Same blank and same front as the tee above — black, left-chest mark — so
+  // the back is the only thing separating them, and the copy leads with it.
+  // Both cards therefore look identical until you hover.
+  //
+  // The id comes from the artwork's opening line rather than the product
+  // name. `tee-h1-achieve-your-dream` is already taken by the white athletic
+  // shirt, and an id differing from it by a single trailing "s" is the kind
+  // of thing that silently points at the wrong product.
+  {
+    id: "tee-h1-push-limits",
+    name: "H1 “Achieve Your Dreams” T-Shirt",
+    categoryId: "tees",
+    tagline: "The progression, spelled out",
+    description:
+      "The H1 Performance mark sits small on the left chest. The back carries the whole progression — “PUSH LIMITS.” to “EXCEED EXPECTATIONS.” to “ACHIEVE YOUR DREAMS.” — stacked in white block capitals on 5.5 oz cotton.",
+    fabric: "5.5 oz cotton",
+    fit: "Classic unisex fit",
+    details: [
+      "Left-chest H1 Performance logo",
+      "Three-line back print: PUSH LIMITS. / EXCEED EXPECTATIONS. / ACHIEVE YOUR DREAMS.",
+      "Unisex sizing, M through 3XL",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/h1-achieve-tee-black-front.jpg",
+    imageAlt:
+      "Front of the black H1 “Achieve Your Dreams” t-shirt, with a white H1 Performance logo on the left chest",
+    imageBack: "/thread/h1-achieve-tee-black-back.jpg",
+    imageBackAlt:
+      "Back of the black H1 “Achieve Your Dreams” t-shirt, with “PUSH LIMITS.”, “EXCEED EXPECTATIONS.” and “ACHIEVE YOUR DREAMS.” stacked in white block capitals and joined by downward arrows",
+    colors: ["black"],
+    sizes: ["m", "l", "xl", "2xl", "3xl"],
+    priceCents: 2499,
+    featured: true,
+    customizable: false,
+  },
+  // The performance counterpart to the first tee — same slogan, different
   // garment, so the copy leans on what separates them: polyester against
   // cotton, centered mark against left chest, and a size run that goes two
   // steps further in both directions.
