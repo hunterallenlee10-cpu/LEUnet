@@ -310,74 +310,68 @@ export const threadProducts: ThreadProduct[] = [
   },
 
   // --- Long Sleeve --------------------------------------------------------
+  // Placeholders while the line is worked out, same as Hoodies & Pullovers
+  // above: all three names stay so the category still advertises what is
+  // coming, and the fabric and fit copy that used to sit here was never
+  // confirmed (see the placeholder note at the top of this file).
+  //
+  // comingSoon strips each card to its name and status line, so the empty
+  // colors/sizes here are never read. The Core Long Sleeve also gives up
+  // `featured` — those cards quote a price and link to "Configure", and a
+  // piece with nothing to configure has no business in that list.
   {
     id: "ls-core",
     name: "The Core Long Sleeve",
     categoryId: "long-sleeve",
-    tagline: "The Core Tee, extended",
-    description:
-      "The same combed cotton and straight body as the Core Tee with full-length sleeves and ribbed cuffs. Prints well on the sleeve as well as the chest.",
-    fabric: "5.3 oz combed ringspun cotton",
-    fit: "Classic straight fit",
-    details: [
-      "Ribbed crew neck and cuffs",
-      "Sleeve print area available",
-      "Side-seamed body",
-      "Machine wash cold, tumble dry low",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/long-sleeve.svg",
-    imageAlt: "The Core Long Sleeve — placeholder product image",
-    colors: ["black", "bone", "white", "heather", "navy"],
-    sizes: ALL_SIZES,
+    imageAlt: "The Core Long Sleeve — coming soon",
+    colors: [],
+    sizes: [],
     priceCents: null,
-    featured: true,
-    customizable: true,
+    featured: false,
+    customizable: false,
+    comingSoon: true,
   },
   {
     id: "ls-thermal",
     name: "The Thermal Waffle",
     categoryId: "long-sleeve",
-    tagline: "Texture with insulation",
-    description:
-      "A waffle-knit thermal that traps warmth without bulk. Wears as a standalone piece or as a base layer under fleece.",
-    fabric: "6 oz cotton-blend waffle knit",
-    fit: "Slim fit",
-    details: [
-      "Waffle-knit body and sleeves",
-      "Reinforced neckline",
-      "Slim through the body and arm",
-      "Machine wash cold, hang dry recommended",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/long-sleeve.svg",
-    imageAlt: "The Thermal Waffle — placeholder product image",
-    colors: ["black", "sand", "forest", "burgundy"],
-    sizes: ALL_SIZES,
+    imageAlt: "The Thermal Waffle — coming soon",
+    colors: [],
+    sizes: [],
     priceCents: null,
     featured: false,
     customizable: false,
+    comingSoon: true,
   },
   {
     id: "ls-henley",
     name: "The Henley",
     categoryId: "long-sleeve",
-    tagline: "Collarless, three-button placket",
-    description:
-      "A cleaner alternative to a crew when a collar is too much. Three-button placket in matched thread, cut close but not tight.",
-    fabric: "5.8 oz slub cotton",
-    fit: "Tailored fit",
-    details: [
-      "Three-button placket with tonal buttons",
-      "Slub texture reads as intentional, not flawed",
-      "Ribbed cuffs",
-      "Machine wash cold, hang dry recommended",
-    ],
+    tagline: "Coming soon",
+    description: "Coming soon",
+    fabric: "Coming soon",
+    fit: "Coming soon",
+    details: ["Coming soon"],
     image: "/thread/long-sleeve.svg",
-    imageAlt: "The Henley — placeholder product image",
-    colors: ["bone", "charcoal", "navy", "sand"],
-    sizes: ALL_SIZES,
+    imageAlt: "The Henley — coming soon",
+    colors: [],
+    sizes: [],
     priceCents: null,
     featured: false,
     customizable: false,
+    comingSoon: true,
   },
 
   // --- Business Apparel ---------------------------------------------------
