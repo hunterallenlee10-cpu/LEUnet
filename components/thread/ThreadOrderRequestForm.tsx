@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { CheckCircle2, Pencil } from "lucide-react";
 import {
   THREAD_CUSTOM_MIN_QUANTITY,
@@ -177,6 +178,17 @@ export function ThreadOrderRequestForm() {
       {/* Heading only. The form itself never moves — a field sliding under a
           cursor mid-tap is worse than a static header is dull. */}
       <ThreadReveal>
+        {/* Decorative: the eyebrow and heading directly below name the brand
+            and the action, so announcing the mark too would just repeat them.
+            Matches how the LMM consultation form marks its logo. */}
+        <Image
+          src="/thread/wordmark.png"
+          alt=""
+          width={720}
+          height={522}
+          loading="lazy"
+          className="mx-auto mb-6 h-auto w-40 opacity-80"
+        />
         <ThreadHeading
           eyebrow={threadCopy.order.eyebrow}
           title={threadCopy.order.title}
