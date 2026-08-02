@@ -177,11 +177,55 @@ export const threadCategories: ThreadCategory[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Catalog — 24 placeholder products, three per category
+// Catalog
+//
+// One real listing so far — the H1 tee below, which has a confirmed price,
+// fabric, and size run. Everything after it is still placeholder inventory;
+// see the note at the top of this file before treating any of it as fact.
 // ---------------------------------------------------------------------------
 
 export const threadProducts: ThreadProduct[] = [
   // --- Signature Tees -----------------------------------------------------
+  //
+  // The first real piece, and the reason it leads the array: catalog order is
+  // display order, so this is the first card under both "All Products" and
+  // "Signature Tees".
+  //
+  // Two things here are still pending and are the only edits left:
+  //  - `image` points at the generic tee placeholder. The real photos are
+  //    /thread/h1-leave-no-doubt-front.jpg and -back.jpg once they are added
+  //    to /public/thread/; pointing at them before they exist would render a
+  //    broken image on a live listing.
+  //  - There is no field for the back photo. ThreadProduct holds one image,
+  //    and this piece is printed on both sides.
+  //
+  // `details` deliberately describes only what the photos show and what was
+  // confirmed. Collar and seam construction were not, and this listing has a
+  // real price attached, so it does not guess at them.
+  {
+    id: "tee-h1-leave-no-doubt",
+    name: "H1 “Leave No Doubt” T-Shirt",
+    categoryId: "tees",
+    tagline: "Chest logo, back statement",
+    description:
+      "The H1 Performance mark sits small on the left chest, with “Leave No Doubt” across the back in white script. A 5.5 oz cotton tee cut for training days and everything after them.",
+    fabric: "5.5 oz cotton",
+    fit: "Classic unisex fit",
+    details: [
+      "Left-chest H1 Performance logo",
+      "“Leave No Doubt” script across the back",
+      "Unisex sizing, M through 3XL",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/tee.svg",
+    imageAlt:
+      "Black H1 “Leave No Doubt” t-shirt with a white left-chest H1 Performance logo",
+    colors: ["black"],
+    sizes: ["m", "l", "xl", "2xl", "3xl"],
+    priceCents: 2499,
+    featured: true,
+    customizable: false,
+  },
   {
     id: "tee-core",
     name: "The Core Tee",
