@@ -444,25 +444,38 @@ export const threadProducts: ThreadProduct[] = [
   },
 
   // --- Event Shirts -------------------------------------------------------
-  // Placeholder while the line is worked out. comingSoon strips the card down
-  // to the name, so the empty colors/sizes here are never read.
+  // There is no standing event line to stock, so this is requestOnly rather
+  // than comingSoon: the tagline states the current position and the whole
+  // card links to the order request form. Nothing here is waiting on a launch
+  // — an event order is taken whenever someone has an event.
+  //
+  // `tagline` is the line to edit when an event IS running. Swapping it for
+  // the event's name turns this card into a live announcement without any
+  // component change.
   {
-    id: "event-coming-soon",
+    id: "event-request",
     name: "Event Shirts",
     categoryId: "event",
-    tagline: "Coming soon",
-    description: "Coming soon",
-    fabric: "Coming soon",
-    fit: "Coming soon",
-    details: ["Coming soon"],
+    tagline: "No current events",
+    description:
+      "Contact us if you'd like your own event apparel made.",
+    fabric: "Chosen with you during the quote",
+    fit: "Chosen with you during the quote",
+    details: [
+      "Volunteer, staff, and attendee shirts",
+      "Turned around against a fixed date on the calendar",
+      "Digital proof before anything is printed",
+      "No payment taken and nothing committed at request time",
+    ],
     image: "/thread/event.svg",
-    imageAlt: "Event Shirts — coming soon",
+    imageAlt: "Event Shirts — request event apparel",
     colors: [],
     sizes: [],
     priceCents: null,
     featured: false,
-    customizable: false,
-    comingSoon: true,
+    customizable: true,
+    requestOnly: true,
+    ctaLabel: "Request Event Apparel",
   },
 
   // --- Custom Design Packages ---------------------------------------------
