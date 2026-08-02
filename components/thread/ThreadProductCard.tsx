@@ -2,7 +2,7 @@
 
 import { useState, type CSSProperties } from "react";
 import Image from "next/image";
-import { Check, ChevronDown, Minus, Plus } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Minus, Plus } from "lucide-react";
 import type { ThreadProduct } from "@/types";
 import {
   THREAD_PALETTE,
@@ -81,6 +81,65 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
     setQuantity((current) =>
       Math.min(MAX_QUANTITY, Math.max(1, current + delta))
     );
+
+  // Nothing fixed to configure, so this card sends the reader to the form to
+  // describe what they want instead of collecting a colour and a size. Checked
+  // before comingSoon: an offer that is open for requests is not coming soon.
+  //
+  // The whole card is the link rather than a button inside it — an anchor
+  // nested in an anchor is invalid, and a card-sized target is easier to hit
+  // than a text link at the bottom of it. CARD_CLASS already carries the lift
+  // and the border warm-up, so it sits in the grid looking like its siblings.
+  if (product.requestOnly) {
+    return (
+      <a
+        href="#order-request"
+        className={`${CARD_CLASS} focus-visible:[outline:2px_solid_var(--thread-card-border-hover)] focus-visible:outline-offset-4`}
+        style={cardStyle}
+      >
+        <div
+          className="relative aspect-square w-full"
+          style={{ backgroundColor: THREAD_PALETTE.ink }}
+        >
+          <Image
+            src={product.image}
+            alt={product.imageAlt}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+
+        <div className="flex flex-1 flex-col p-6">
+          <h3
+            className="text-lg font-bold"
+            style={{ color: THREAD_PALETTE.bone }}
+          >
+            {product.name}
+          </h3>
+          <p
+            className="mt-1 text-sm font-semibold"
+            style={{ color: THREAD_PALETTE.champagne }}
+          >
+            {product.tagline}
+          </p>
+          <p
+            className="mt-4 flex-1 text-sm leading-relaxed"
+            style={{ color: THREAD_PALETTE.muted }}
+          >
+            {product.description}
+          </p>
+          <span
+            className="mt-6 inline-flex items-center gap-2 text-sm font-semibold"
+            style={{ color: THREAD_PALETTE.champagne }}
+          >
+            {product.ctaLabel}
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+          </span>
+        </div>
+      </a>
+    );
+  }
 
   // Nothing to configure or add yet, so the placeholder stops at the name.
   // Rendering the swatches and a request button would invite an order for a

@@ -146,6 +146,18 @@ export interface ThreadProduct {
    * since there is nothing to configure or add.
    */
   comingSoon?: boolean;
+  /**
+   * For an offer with nothing fixed to configure — the reader describes what
+   * they want rather than picking from options. The whole card becomes a link
+   * to the order request form, and the colour, size, and quantity controls are
+   * not rendered, because there is nothing here to add to a request as a line
+   * item.
+   *
+   * Mutually exclusive with `comingSoon`; the card checks this one first.
+   */
+  requestOnly?: boolean;
+  /** Link text on a `requestOnly` card. Required for one to read sensibly. */
+  ctaLabel?: string;
 }
 
 export interface ThreadQualityPillar {
