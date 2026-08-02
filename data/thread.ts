@@ -72,6 +72,13 @@ export const THREAD_PALETTE = {
 /** Shown wherever a price would go until real pricing lands. */
 export const THREAD_PRICE_LABEL = "Price coming soon";
 
+/**
+ * The status line on a `comingSoon` card. Also usable as a product `name` for
+ * a piece with nothing announced yet, not even what it is — the card drops the
+ * status line when the name already carries it rather than saying it twice.
+ */
+export const THREAD_COMING_SOON_LABEL = "Coming Soon";
+
 /** Minimum pieces on any custom-printed order. Ready-made stock has none. */
 export const THREAD_CUSTOM_MIN_QUANTITY = 5;
 
@@ -310,10 +317,14 @@ export const threadProducts: ThreadProduct[] = [
   },
 
   // --- Long Sleeve --------------------------------------------------------
-  // Placeholders while the line is worked out, same as Hoodies & Pullovers
-  // above: all three names stay so the category still advertises what is
-  // coming, and the fabric and fit copy that used to sit here was never
-  // confirmed (see the placeholder note at the top of this file).
+  // Placeholders while the line is worked out. These go further than the
+  // Hoodies & Pullovers cards above: the names are withheld too, so each card
+  // is nothing but THREAD_COMING_SOON_LABEL. Three slots still appear, which
+  // says how many pieces are coming without naming any of them.
+  //
+  // The `id`s stay descriptive — they are the React keys and the cart's
+  // product identity, never rendered — so restoring a name is a one-line edit
+  // per product when the line is confirmed.
   //
   // comingSoon strips each card to its name and status line, so the empty
   // colors/sizes here are never read. The Core Long Sleeve also gives up
@@ -321,7 +332,7 @@ export const threadProducts: ThreadProduct[] = [
   // piece with nothing to configure has no business in that list.
   {
     id: "ls-core",
-    name: "The Core Long Sleeve",
+    name: THREAD_COMING_SOON_LABEL,
     categoryId: "long-sleeve",
     tagline: "Coming soon",
     description: "Coming soon",
@@ -329,7 +340,7 @@ export const threadProducts: ThreadProduct[] = [
     fit: "Coming soon",
     details: ["Coming soon"],
     image: "/thread/long-sleeve.svg",
-    imageAlt: "The Core Long Sleeve — coming soon",
+    imageAlt: "Long sleeve piece — coming soon",
     colors: [],
     sizes: [],
     priceCents: null,
@@ -339,7 +350,7 @@ export const threadProducts: ThreadProduct[] = [
   },
   {
     id: "ls-thermal",
-    name: "The Thermal Waffle",
+    name: THREAD_COMING_SOON_LABEL,
     categoryId: "long-sleeve",
     tagline: "Coming soon",
     description: "Coming soon",
@@ -347,7 +358,7 @@ export const threadProducts: ThreadProduct[] = [
     fit: "Coming soon",
     details: ["Coming soon"],
     image: "/thread/long-sleeve.svg",
-    imageAlt: "The Thermal Waffle — coming soon",
+    imageAlt: "Long sleeve piece — coming soon",
     colors: [],
     sizes: [],
     priceCents: null,
@@ -357,7 +368,7 @@ export const threadProducts: ThreadProduct[] = [
   },
   {
     id: "ls-henley",
-    name: "The Henley",
+    name: THREAD_COMING_SOON_LABEL,
     categoryId: "long-sleeve",
     tagline: "Coming soon",
     description: "Coming soon",
@@ -365,7 +376,7 @@ export const threadProducts: ThreadProduct[] = [
     fit: "Coming soon",
     details: ["Coming soon"],
     image: "/thread/long-sleeve.svg",
-    imageAlt: "The Henley — coming soon",
+    imageAlt: "Long sleeve piece — coming soon",
     colors: [],
     sizes: [],
     priceCents: null,
