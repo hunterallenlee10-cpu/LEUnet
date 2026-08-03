@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { BrowserFrameVisual } from "@/components/websites/BrowserFrameVisual";
+import { LmmSiblingLinks } from "@/components/lmm/LmmSiblingLinks";
 
 export function WebsitesHeroSection() {
   return (
@@ -84,7 +85,10 @@ export function WebsitesHeroSection() {
             </p>
           </div>
 
-          <BrowserFrameVisual />
+          <div>
+            <LmmSiblingLinks current="/lee-marketing-mastery/websites" />
+            <BrowserFrameVisual />
+          </div>
         </div>
       </div>
     </section>

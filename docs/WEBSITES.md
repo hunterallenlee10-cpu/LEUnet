@@ -135,28 +135,25 @@ needed if website leads should route somewhere other than the shared inbox.
 
 ## 5. The entry point
 
-One edit outside the new page: `components/lmm/LmmHeroSection.tsx`.
+Pill-style links sit in each hero's right-hand column, directly above the visual
+panel and aligned to its left edge. All three LMM pages carry the row and each
+one shows the *other two* offerings — see `docs/CROSS-LINKS.md`.
 
-A pill-style link sits in the hero's right-hand column, directly above the
-System Flow panel and aligned to its left edge. A second pill for the marketing
-page now sits beside it — both render from one `siblingOfferings` array in
-`components/lmm/LmmHeroSection.tsx`, so a third is a data edit rather than a
-layout edit. See `docs/MARKETING.md` §5.
-
-It is deliberately not a solid button — the two CTAs under the headline are that
-page's primary conversion, and a competing amber button would split them. The
-pill fills solid on hover and carries an arrow so it still reads as a link.
+They are deliberately not solid buttons — the two CTAs under the headline are
+each page's primary conversion, and a competing amber button would split them.
+The pills fill solid on hover and carry an arrow so they still read as links.
 
 **Known tradeoff.** The hero grid is `lg:grid-cols-2`, so below the `lg`
 breakpoint the right column stacks *under* the headline column. At 390px the
-pill lands ~804px down — just past the fold on a typical phone, after both
-primary CTAs. Desktop visitors see it immediately; phone visitors have to
+pills land ~804px down — just past the fold on a typical phone, after both
+primary CTAs. Desktop visitors see them immediately; phone visitors have to
 scroll.
 
-If phone visibility matters later, the fix is to render it twice with
+If phone visibility matters later, the fix is to render the row twice with
 responsive visibility (`lg:hidden` in the headline column, `hidden lg:block`
 above the panel) — the same two-layout duplication `AutomationFlowVisual`
-already uses for its mobile rail versus desktop graph.
+already uses for its mobile rail versus desktop graph. Because the row is one
+component now, that change lands in one file for all three pages.
 
 ---
 
