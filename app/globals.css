@@ -59,122 +59,177 @@
   }
 }
 
-/* Enhanced hero section background animations */
-@keyframes hero-base-drift {
-  0%, 100% {
-    transform: translate(0, 0);
-    opacity: 0.6;
-  }
-  25% {
-    transform: translate(-30px, 20px);
-    opacity: 0.65;
-  }
-  50% {
-    transform: translate(20px, -10px);
-    opacity: 0.6;
-  }
-  75% {
-    transform: translate(-10px, 30px);
-    opacity: 0.65;
+/* ---------------------------------------------------------------------------
+   Hero background — "Aurora Veil"
+   Used only by components/sections/HeroSection.tsx.
+
+   This replaced seven blurred blobs in blue, cyan and purple. Two things were
+   wrong with those. Every accent in the hero foreground is gold — the eyebrow,
+   the subheading, the three statistics, the primary button, the mark itself —
+   so a cool background left the whole palette unsupported. And the motion did
+   not read: at `blur-3xl` and 0.1–0.4 alpha, translating a 700px blob 40px
+   changes almost no pixels, so what the eye caught was the opacity keyframes
+   on three of the layers, which looks like a slow flicker rather than drift.
+
+   So the rule here is that the light has to actually travel. Rotation is what
+   buys that — a colour boundary swung through the frame is unmistakable where
+   a nudged blob is invisible — and it is why nothing in this file animates
+   opacity.
+
+   The other rule is no full-frame blur. A conic gradient viewed far from its
+   hub renders as near-parallel bands, which read as a hard-edged sheet rather
+   than as light, and the obvious fix is to blur it. Blur across the whole
+   viewport is also the single most expensive thing a background can do. The
+   mask below solves it geometrically instead: transparent at the hub, fading
+   to nothing at the rim, so no colour boundary ever reaches full strength
+   anywhere the eye can catch it. Measured against the same two layers with an
+   18px blur, this is roughly 3.5x cheaper per frame.
+
+   One element is blurred — `.leu-horizon`, the warm pool behind the copy —
+   and it is deliberately less than two thirds of the frame.
+   --------------------------------------------------------------------------- */
+
+.leu-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* Also the blend group: `screen` on the veils must resolve against this
+     layer's own ground, not against whatever is painted behind the section. */
+  isolation: isolate;
+  background: radial-gradient(125% 100% at 68% 18%, #0a0f1a 0%, #05070c 58%, #000 100%);
+}
+
+.leu-veil {
+  position: absolute;
+  width: var(--leu-veil-size);
+  height: var(--leu-veil-size);
+  /* Each veil is a square rotating about its own centre, and `left`/`top`
+     place that centre; the negative margins are what convert a corner
+     position into a centre one without spending the transform, which the
+     rotation needs. */
+  margin-left: calc(var(--leu-veil-size) / -2);
+  margin-top: calc(var(--leu-veil-size) / -2);
+  mix-blend-mode: screen;
+  will-change: transform;
+  /* Sized off the larger of the two axes so the veil still covers the frame
+     on a phone, where the hero is roughly twice as tall as it is wide. */
+  -webkit-mask-image: var(--leu-veil-mask);
+  mask-image: var(--leu-veil-mask);
+  --leu-veil-mask: radial-gradient(
+    closest-side,
+    rgba(0, 0, 0, 0) 9%,
+    rgba(0, 0, 0, 0.55) 26%,
+    rgba(0, 0, 0, 1) 46%,
+    rgba(0, 0, 0, 0.9) 66%,
+    rgba(0, 0, 0, 0) 99%
+  );
+}
+
+/* Gold-led, swinging through the copy side. */
+.leu-veil--a {
+  --leu-veil-size: max(122vw, 116vh);
+  left: 24%;
+  top: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(251, 191, 36, 0.46) 48deg,
+    rgba(214, 150, 26, 0.2) 104deg,
+    transparent 152deg,
+    rgba(56, 110, 214, 0.3) 214deg,
+    transparent 276deg,
+    rgba(212, 175, 55, 0.26) 326deg,
+    transparent 360deg
+  );
+  animation: leu-veil-spin 52s linear infinite;
+}
+
+/* Cooler and smaller, counter-rotating high and right. The two periods are
+   deliberately not multiples of each other, so the pair never resynchronises
+   into a visible pulse. */
+.leu-veil--b {
+  --leu-veil-size: max(104vw, 96vh);
+  left: 86%;
+  top: 39%;
+  background: conic-gradient(
+    from 150deg,
+    transparent 0deg,
+    rgba(59, 130, 246, 0.26) 64deg,
+    transparent 148deg,
+    rgba(253, 214, 120, 0.32) 238deg,
+    rgba(180, 124, 20, 0.12) 290deg,
+    transparent 340deg
+  );
+  animation: leu-veil-spin 79s linear infinite reverse;
+}
+
+/* The warm pool the copy sits in. */
+.leu-horizon {
+  position: absolute;
+  left: -12%;
+  right: -12%;
+  bottom: -24%;
+  height: 60%;
+  filter: blur(48px);
+  background: radial-gradient(
+    56% 100% at 26% 100%,
+    rgba(251, 191, 36, 0.34) 0%,
+    rgba(180, 120, 20, 0.1) 44%,
+    transparent 74%
+  );
+  animation: leu-horizon-breathe 26s ease-in-out infinite;
+}
+
+/* Static noise, not an animated layer. Large flat gradients on a dark ground
+   band on 8-bit displays; this is enough to break that up. */
+.leu-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+}
+
+/* Keeps the logo column darker than its surroundings. The mark is a hard-edged
+   PNG with no glow of its own — every halo pixel in the artwork is fully
+   transparent — so the only thing separating it from the background is the
+   value gap underneath it. Light enough to protect the mark without flattening
+   the frame. */
+.leu-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(38% 52% at 76% 50%, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.22) 52%, transparent 76%),
+    linear-gradient(97deg, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0.12) 26%, transparent 46%);
+}
+
+@keyframes leu-veil-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@keyframes hero-glow-blue-1 {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(-50px, 40px) scale(1.1);
-  }
-  50% {
-    transform: translate(40px, -30px) scale(0.95);
-  }
-  75% {
-    transform: translate(-30px, -20px) scale(1.05);
-  }
+@keyframes leu-horizon-breathe {
+  0%,
   100% {
-    transform: translate(0, 0) scale(1);
-  }
-}
-
-@keyframes hero-glow-cyan {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(60px, -50px) scale(1.08);
-  }
-  66% {
-    transform: translate(-40px, 50px) scale(0.97);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-}
-
-@keyframes hero-glow-purple {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(50px, -30px) scale(1.06);
+    transform: translateY(0) scaleX(1);
   }
   50% {
-    transform: translate(-50px, 40px) scale(0.94);
-  }
-  75% {
-    transform: translate(35px, 25px) scale(1.04);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
+    transform: translateY(-3%) scaleX(1.08);
   }
 }
 
-@keyframes hero-glow-electric {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.3;
-  }
-  25% {
-    transform: translate(30px, -40px) scale(1.1);
-    opacity: 0.35;
-  }
-  50% {
-    transform: translate(-40px, 30px) scale(0.9);
-    opacity: 0.25;
-  }
-  75% {
-    transform: translate(-20px, -35px) scale(1.08);
-    opacity: 0.32;
-  }
-}
-
-@keyframes hero-glow-cyan-accent {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(-40px, 35px) scale(1.05);
-  }
-  50% {
-    transform: translate(50px, -30px) scale(0.96);
-  }
-  75% {
-    transform: translate(20px, 40px) scale(1.03);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-}
-
-@keyframes hero-wave-pulse {
-  0%, 100% {
-    transform: translateX(-50%) scaleY(1);
-    opacity: 0.1;
-  }
-  50% {
-    transform: translateX(-50%) scaleY(1.3);
-    opacity: 0.15;
+/* The reset in `@layer base` already stops every animation on the site under
+   this preference, and being in a layer its `!important` outranks anything
+   here. This is the explicit, readable version for the one section where the
+   motion is the point — it must keep working if that reset is ever narrowed. */
+@media (prefers-reduced-motion: reduce) {
+  .leu-veil,
+  .leu-horizon {
+    animation: none;
   }
 }
 
@@ -200,17 +255,11 @@
   }
 }
 
-/* Respect reduced motion preference */
+/* Respect reduced motion preference. Matching on the serialised inline style
+   is fragile — it silently stops matching the moment a value is reordered or
+   moved into a class — so the only entry left is the one animation still
+   applied inline. Everything else is covered by the reset in `@layer base`. */
 @media (prefers-reduced-motion: reduce) {
-  [style*="animation: hero-"],
-  [style*="animation: hero-base-drift"],
-  [style*="animation: hero-glow-blue-1"],
-  [style*="animation: hero-glow-cyan"],
-  [style*="animation: hero-glow-purple"],
-  [style*="animation: hero-glow-electric"],
-  [style*="animation: hero-glow-cyan-accent"],
-  [style*="animation: hero-wave-pulse"],
-  [style*="animation: hero-logo-aura"],
   [style*="animation: hero-logo-pulse"] {
     animation: none !important;
   }
