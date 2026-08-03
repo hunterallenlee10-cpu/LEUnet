@@ -136,19 +136,18 @@ No new required environment variable. Documented in `.env.example`.
 
 ## 5. The entry point
 
-A second pill beside the websites pill, above the System Flow panel in
-`components/lmm/LmmHeroSection.tsx`. Both are rendered from one
-`siblingOfferings` array so a third would be a data edit, not a layout edit.
+A pill above the Channel Mix panel, beside one for websites. The row is
+`LmmSiblingLinks` and every LMM hero renders it — see `docs/CROSS-LINKS.md`.
 
 The row is `flex-wrap`: at 1440px the two sit side by side across the panel
-width, and below roughly 1400px they stack.
+width, and narrower than that they stack.
 
 **Known tradeoff, inherited from the websites pill.** The hero grid is
 `lg:grid-cols-2`, so below that breakpoint the right column stacks under the
-headline column. At 390px the marketing pill lands ~854px down — past the fold,
-after both primary CTAs. Desktop visitors see both pills immediately; phone
-visitors have to scroll. See `docs/WEBSITES.md` §5 for the responsive-duplication
-fix if that turns out to matter.
+headline column. At 390px the pills land ~854px down — past the fold, after both
+primary CTAs. Desktop visitors see both pills immediately; phone visitors have
+to scroll. See `docs/WEBSITES.md` §5 for the responsive-duplication fix if that
+turns out to matter.
 
 ---
 

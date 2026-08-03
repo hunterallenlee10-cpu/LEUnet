@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Megaphone } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { ChannelMixVisual } from "@/components/marketing/ChannelMixVisual";
+import { LmmSiblingLinks } from "@/components/lmm/LmmSiblingLinks";
 
 export function MarketingHeroSection() {
   return (
@@ -90,7 +91,10 @@ export function MarketingHeroSection() {
             </p>
           </div>
 
-          <ChannelMixVisual />
+          <div>
+            <LmmSiblingLinks current="/lee-marketing-mastery/marketing" />
+            <ChannelMixVisual />
+          </div>
         </div>
       </div>
     </section>
