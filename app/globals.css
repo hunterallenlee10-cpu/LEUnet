@@ -549,7 +549,9 @@
     inline-size: 3.75rem;
   }
 
-  /* Coach photography. The card clips, so the image grows inside it. */
+  /* Coach photography. The image grows in place rather than pushing the card
+     around, so whatever wraps it has to clip — the card alone is not enough
+     when the photo stops short of the card's own bottom edge. */
   .h1-live:hover .h1-zoom {
     transform: scale(1.045);
   }

@@ -40,7 +40,13 @@ export function H1CoachesSection() {
                 backgroundColor: `${H1_PALETTE.chalk}05`,
               }}
             >
-              <div className="relative aspect-[4/3] w-full sm:aspect-[3/2]">
+              {/* `overflow-hidden` here, not just on the card. The card clips
+                  the photo on three sides because the photo bleeds to those
+                  edges, but its fourth edge falls mid-card, and on hover the
+                  zoom pushes the image past it — a strip of un-faded
+                  photograph landing below the gradient that is supposed to end
+                  it, splitting the card across the middle. */}
+              <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[3/2]">
                 <Image
                   src={coach.photo}
                   alt={coach.photoAlt}
