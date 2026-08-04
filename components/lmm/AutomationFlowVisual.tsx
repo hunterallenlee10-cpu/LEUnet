@@ -19,11 +19,43 @@ const nodes = [
 ];
 
 /**
+ * The mobile graph's geometry. Card anchors and connector endpoints are the
+ * same seven points expressed twice - the cards as percentages of the panel,
+ * the connectors in viewBox units (340 x 430) - so the lines land under the
+ * cards at any panel width. Connectors run centre to centre and the cards
+ * paint over them, which is what lets the card heights vary (a label may
+ * wrap on a narrow phone) without any endpoint drifting into view.
+ */
+const mobileAnchors = [
+  { n: nodes[0], x: 28, y: 7 },
+  { n: nodes[1], x: 72, y: 21 },
+  { n: nodes[2], x: 28, y: 35 },
+  { n: nodes[3], x: 50, y: 50 },
+  { n: nodes[4], x: 72, y: 64.5 },
+  { n: nodes[5], x: 28, y: 78.5 },
+  { n: nodes[6], x: 50, y: 92 },
+];
+
+const mobilePaths = mobileAnchors.slice(0, -1).map(({ x, y }, i) => {
+  const from = { x: (x / 100) * 340, y: (y / 100) * 430 };
+  const next = mobileAnchors[i + 1];
+  const to = { x: (next.x / 100) * 340, y: (next.y / 100) * 430 };
+  // A vertical-leaning S: leave the card downward, arrive downward.
+  return `M ${from.x} ${from.y} C ${from.x} ${from.y + 32}, ${to.x} ${
+    to.y - 32
+  }, ${to.x} ${to.y}`;
+});
+
+/**
  * The hero diagram: information moving through a business system.
  *
- * Two layouts rather than one scaled-down layout - a seven node graph shrunk to
- * phone width stops being readable long before it stops fitting. Small screens
- * get a vertical rail, larger screens get the connected graph.
+ * Two layouts rather than one scaled-down layout - the seven node landscape
+ * graph shrunk to phone width stops being readable long before it stops
+ * fitting. Small screens get the same living diagram rebuilt for portrait: a
+ * zigzag of the same cards over the same grid, with the same packets moving
+ * through the same connectors. It used to be a static vertical rail, which
+ * read as a bullet list wearing icons - the motion is what says "system"
+ * rather than "feature list", and phones were the one place it was missing.
  *
  * Decorative: hidden from assistive technology, and the surrounding copy already
  * states what the system does.
@@ -31,26 +63,87 @@ const nodes = [
 export function AutomationFlowVisual() {
   return (
     <div aria-hidden="true" className="relative w-full">
-      {/* Mobile: vertical rail */}
-      <ol className="flex flex-col gap-3 md:hidden">
-        {nodes.map(({ id, label, Icon, emphasis }, index) => (
-          <li key={id} className="relative flex items-center gap-3">
-            {index !== nodes.length - 1 && (
-              <span className="absolute left-[22px] top-11 h-3 w-px bg-gradient-to-b from-amber-400/50 to-transparent" />
-            )}
-            <span
-              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border ${
-                emphasis
-                  ? "border-amber-400/50 bg-amber-400/10 text-amber-300"
-                  : "border-slate-500/30 bg-slate-400/5 text-slate-300"
+      {/* Mobile: the connected graph, portrait */}
+      <div className="relative md:hidden">
+        <svg
+          viewBox="0 0 340 430"
+          className="w-full"
+          role="presentation"
+          focusable="false"
+        >
+          <defs>
+            {/* Its own id and a vertical run: the desktop gradient sweeps
+                left to right, which is sideways to this layout's flow. */}
+            <linearGradient id="lmmLineV" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#FFC107" stopOpacity="0.15" />
+              <stop offset="50%" stopColor="#FFC107" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="#7DA3C4" stopOpacity="0.3" />
+            </linearGradient>
+          </defs>
+
+          {/* Fine technical grid */}
+          <g stroke="#ffffff" strokeOpacity="0.04">
+            {Array.from({ length: 8 }, (_, i) => (
+              <line key={`v${i}`} x1={i * 48} y1="0" x2={i * 48} y2="430" />
+            ))}
+            {Array.from({ length: 9 }, (_, i) => (
+              <line key={`h${i}`} x1="0" y1={i * 48} x2="340" y2={i * 48} />
+            ))}
+          </g>
+
+          {mobilePaths.map((d, i) => (
+            <g key={i}>
+              <path d={d} fill="none" stroke="url(#lmmLineV)" strokeWidth="1.5" />
+              <path
+                d={d}
+                fill="none"
+                stroke="#FFC107"
+                strokeOpacity="0.5"
+                strokeWidth="1.5"
+                className="lmm-dash"
+              />
+              <circle r="2.5" fill="#FFC107" className="lmm-packet" style={{ offsetPath: `path("${d}")`, animationDelay: `${i * 0.55}s` }} />
+            </g>
+          ))}
+        </svg>
+
+        {/* Node cards positioned over the graph. Side cards pin to their
+            panel edge at a shared width so each column lines up; the two
+            centred cards size to their own short labels. */}
+        <div className="absolute inset-0">
+          {mobileAnchors.map(({ n, x, y }) => (
+            <div
+              key={n.id}
+              style={{ top: `${y}%` }}
+              className={`absolute flex -translate-y-1/2 items-center gap-2 rounded-lg border px-2.5 py-2 backdrop-blur-sm ${
+                x === 50
+                  ? "left-1/2 -translate-x-1/2"
+                  : x < 50
+                    ? "left-0 w-[56%]"
+                    : "right-0 w-[56%]"
+              } ${
+                n.emphasis
+                  ? "border-amber-400/45 bg-amber-400/10"
+                  : "border-white/10 bg-neutral-900/80"
               }`}
             >
-              <Icon className="h-5 w-5" />
-            </span>
-            <span className="text-sm font-medium text-neutral-300">{label}</span>
-          </li>
-        ))}
-      </ol>
+              <n.Icon
+                className={`h-4 w-4 shrink-0 ${
+                  n.emphasis ? "text-amber-300" : "text-slate-300"
+                }`}
+              />
+              <span className="text-[11px] font-medium leading-tight text-neutral-200">
+                {n.label}
+              </span>
+              <span
+                className={`lmm-status ml-auto h-1.5 w-1.5 shrink-0 rounded-full ${
+                  n.emphasis ? "bg-amber-400" : "bg-slate-400"
+                }`}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* Desktop: connected graph */}
       <div className="relative hidden md:block">
