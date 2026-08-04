@@ -73,7 +73,7 @@ export const websiteFaqs = [
     // whole portfolio unless the other entries actually gain sub-pages.
     question: "How do I know it will actually bring in customers?",
     answer:
-      "The honest answer is that we do not publish client results, because the sites in the portfolio on this page are our own ventures rather than client projects. What we can offer instead is inspection. Every one of them is live right now - open one on your phone, read the first screen, and send the form the way a customer would. If you want to see the page-per-offer structure in particular, look at the Lee Marketing Mastery entry: the hub, plus its own page for websites and another for marketing - the one you are reading is one of them. What gets built for your business follows the same pattern - copy that leads with the outcome someone came looking for, one obvious next step on every screen, and measurement connected before launch rather than months later.",
+      "We do not publish client results, because the sites in the portfolio on this page are our own ventures rather than client projects. What we offer instead is inspection: every one is live right now, so open one on your phone, read the first screen, and send the form the way a customer would. For the page-per-offer structure, look at the Lee Marketing Mastery entry - the hub, plus its own page for websites and another for marketing, one of which you are reading. What gets built for you follows the same pattern: copy that leads with the outcome someone came looking for, one obvious next step on every screen, and measurement connected before launch rather than months later.",
   },
   {
     question: "How much does a website cost?",
@@ -88,7 +88,7 @@ export const websiteFaqs = [
     // answers the actual question: how many pages, and what decides it.
     question: "Do I need one page or several?",
     answer:
-      "It depends on how many separate things you sell and how many of them you want to be found for on their own. A useful starting rule is one page per offer you would be willing to spend advertising money on, plus a home page and a way to get in touch - so a business with three real services is looking at about five pages, not one. A single page is enough when you sell one service, or when the site exists to receive traffic from one campaign. Pages can be added later without rebuilding what is already there. We map the list during the consultation so you are only paying for pages that have a job.",
+      "It depends on how many separate things you sell and how many you want to be found for on their own. A useful starting rule is one page per offer you would spend advertising money on, plus a home page and a way to get in touch - so a business with three real services is looking at about five pages, not one. A single page is enough when you sell one service, or when the site exists to receive one campaign's traffic. Pages can be added later without rebuilding. We map the list during the consultation so you only pay for pages that have a job.",
   },
   {
     // Scoped deliberately to what the stack actually reports. Analytics gives
@@ -98,7 +98,7 @@ export const websiteFaqs = [
     // form-fill events are ever added, this is the answer that gets to grow.
     question: "How will I know if it is working?",
     answer:
-      "Two things are set up before launch rather than months after it. Analytics tells you how many people arrive and which pages they land on, so “the site feels quiet” becomes something you can actually look at. And every form on the site emails you the moment it is submitted, with a subject line that identifies which form it came from, so enquiries reach you directly instead of waiting in a dashboard for someone to check. We will walk you through the analytics, or hand them over if you would rather read them yourself.",
+      "Two things are set up before launch rather than months after it. Analytics tells you how many people arrive and which pages they land on, so “the site feels quiet” becomes something you can actually look at. And every form emails you the moment it is submitted, with a subject line naming which form it came from, so enquiries reach you directly rather than waiting in a dashboard. We will walk you through the analytics, or hand them over if you would rather read them yourself.",
   },
   {
     // No typical duration is quoted here, and none should be added until there
@@ -107,7 +107,7 @@ export const websiteFaqs = [
     // a range we would have invented, and it survives contact with reality.
     question: "How long does a build take?",
     answer:
-      "It depends on scope - how many pages, whether copy and images already exist, and what functionality is involved - and on how quickly feedback comes back, because review and approval take real time on your side as well as ours. We would rather scope that with you during the consultation than quote a number of days at a project we have not seen. Nothing goes live until you approve it.",
+      "It depends on scope - how many pages, whether copy and images already exist, what functionality is involved - and on how quickly feedback comes back. We would rather scope that with you during the consultation than quote a number of days at a project we have not seen. Nothing goes live until you approve it.",
   },
   {
     // The demoted speed point lives here, framed as what the delay costs the
@@ -136,7 +136,7 @@ export const websiteFaqs = [
     // conditional, which costs the sentence nothing.
     question: "Will the site work on phones?",
     answer:
-      "Every build is responsive by default. Layouts are designed to work from small phone screens up to large desktop monitors, and pages are checked at several widths before launch. If a customer finds you on a phone, that is the screen your site gets judged on, so it is not treated as a shrunk-down version of the desktop layout.",
+      "Every build is responsive by default. Layouts are designed to work from small phone screens up to large desktop monitors, and pages are checked at several widths before launch. If a customer finds you on a phone, that is the screen your site gets judged on - it is not treated as a shrunk-down desktop layout.",
   },
   {
     question: "What happens after the site launches?",
@@ -150,7 +150,7 @@ export const websiteFaqs = [
     // quoted per project, matching how the rest of the page describes it.
     question: "Can the website connect to the automation systems you build?",
     answer:
-      "Yes, and the two are easier to scope together than to join up afterwards. A lead the site captures is worth more when it reaches your phone right away, gets a first response without anyone having to remember to send one, and is followed up on a set schedule. That can be built around the form from the start, or added to a site that is already live. Either way it is quoted as part of the project.",
+      "Yes, and the two are easier to scope together than to join up afterwards. A lead the site captures is worth more when it reaches your phone right away, gets a first response without anyone remembering to send one, and is followed up on a set schedule. That can be built around the form from the start or added to a site that is already live, and either way it is quoted as part of the project.",
   },
 ];
 
@@ -225,7 +225,7 @@ export const websitePortfolio: WebsitePortfolioItem[] = [
     name: "Lee Marketing Mastery",
     href: "/lee-marketing-mastery",
     summary:
-      "Takes an offering that is hard to picture from a description and makes it concrete enough to act on, then hands the visitor a consultation request that arrives with the scope already described instead of a blank “get in touch” message. It is also the page-per-offer structure in use - the hub, plus its own page for websites and another for marketing, one of which you are reading now.",
+      "Takes an offering that is hard to picture from a description and makes it concrete enough to act on, then hands the visitor a consultation request that arrives with the scope already described. It is also the page-per-offer structure in use - the hub, plus its own page for websites and another for marketing, one of which you are reading now.",
     highlights: [
       "Hub plus offer pages",
       "Expandable service detail",

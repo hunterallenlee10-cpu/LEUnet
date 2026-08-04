@@ -30,7 +30,7 @@ const steps = [
     // change. That is the line worth keeping.
     title: "Design and Build",
     detail:
-      "Layout options are produced for you to choose from, then the approved direction is built into a working site. You judge it the way a customer will - on your own phone, tapping through the real pages - so the direction you sign off on is one you have actually used. Every screen ends in one obvious next step.",
+      "Layout options are produced for you to choose from, then the approved direction is built into a working site - so what you sign off on is something you have actually used on your own phone. Every screen ends in one obvious next step.",
   },
   {
     title: "Review and Revisions",
@@ -108,8 +108,7 @@ export function WebsitesProcessSection() {
           While a build drags on, the visitors you are paying to reach are
           landing on the old site and deciding without you. That is the real cost
           of a project that stalls, and it is why the timeline gets scoped with
-          you at the consultation instead of left open - it depends on how much
-          has to be written from scratch and how fast feedback comes back.
+          you at the consultation instead of left open.
         </p>
       </div>
     </section>
