@@ -282,6 +282,21 @@
    and the number visibly jitters.
    --------------------------------------------------------------------------- */
 
+/* Deliberately static. Every moving thing in this hero lives inside the
+   readout, which is what lets one pause control stop all of it — a background
+   that kept sweeping after the figures froze would leave the section still
+   moving, and WCAG 2.2.2 unsatisfied. The warm pool sits under the readout,
+   low and left, where the copy column is. */
+.h1c-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 90% at 26% 42%, rgba(255, 215, 0, 0.1) 0%, transparent 62%),
+    radial-gradient(120% 120% at 50% 50%, #0c0e12 0%, #08090a 62%, #050607 100%);
+}
+
 .h1c-readout {
   position: relative;
   display: flex;
@@ -294,6 +309,12 @@
   padding: 1.25rem 0;
   border-block: 1px solid color-mix(in srgb, var(--h1c-gold) 26%, transparent);
   animation: h1c-fact-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* Clips the gate. The sweep's easing spends its last third almost stationary
+     at the far edge, so without this the bright band finishes outside the
+     readout — parked at ~104% of its width, still at 85% opacity, jutting into
+     whatever sits beside the hero column. Also keeps the `nowrap` figures from
+     spilling at extreme widths. */
+  overflow: hidden;
 }
 
 /* The timing gate. A full-width strip carrying one thin bright band, moved by
@@ -353,12 +374,16 @@
   color: var(--h1c-muted);
 }
 
-/* Two lines reserved. "Average across H1 baseball players" wraps at narrow
-   widths where "One baseball player" does not, and without the reservation
-   that difference moves everything below it every five seconds. */
+/* Reserved so a shorter attribution cannot pull the call to action up under
+   it. One line is enough: measured across every fact from 1440px down to
+   320px, the longest — "Average across H1 baseball players", 208px — still has
+   80px of headroom on the narrowest viewport, so none of them wrap.
+   That is a constraint, not a coincidence. An attribution long enough to wrap
+   would make the CTA hop every five seconds; keep them under about 34
+   characters, or raise this reservation to match. */
 .h1c-attrib {
   margin: 0.6rem 0 0;
-  min-height: 2.7em;
+  min-height: 1.4em;
   font-size: 0.8125rem;
   line-height: 1.35;
   color: var(--h1c-muted);
@@ -373,6 +398,10 @@
 
 .h1c-pause {
   flex: none;
+  /* "Play" is narrower than "Pause"; without a floor the button resizes on
+     every press and shoves the qualifier beside it. */
+  min-inline-size: 5.25rem;
+  text-align: center;
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -403,11 +432,26 @@
 
 /* Pausing has to stop the sweep as well as the rotation. A hero that freezes
    its readout while a bright line keeps crossing it has not stopped moving.
-   The gate is removed rather than frozen — a paused sweep would leave a stray
-   bright line parked across the figures. */
+
+   `visibility` rather than `opacity`, because the animation drives opacity and
+   would win. And the animation is paused rather than removed: setting
+   `animation: none` here would restart the sweep from the beginning on resume,
+   replaying it across a fact that has been on screen for several seconds. */
 .h1c-readout[data-paused="true"] .h1c-gate {
-  animation: none;
-  opacity: 0;
+  animation-play-state: paused;
+  visibility: hidden;
+}
+
+/* Vertical space is the scarce resource on a phone: the readout, the headline
+   and the copy all sit above the primary call to action, and the point of this
+   hero is that someone sees the proof *and* the button. */
+@media (max-width: 640px) {
+  .h1c-fact {
+    padding: 0.9rem 0;
+  }
+  .h1c-attrib {
+    margin-top: 0.45rem;
+  }
 }
 
 @keyframes h1c-fact-in {

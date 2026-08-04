@@ -4,7 +4,13 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 import { H1ProofPoint } from "@/types";
 import { H1_PALETTE, proofAttribution } from "@/data/h1";
 
-/** How long one fact holds the readout, start of entry to start of the next. */
+/**
+ * How long one fact holds the readout, start of entry to start of the next:
+ * a 0.42s fade-in that the count runs alongside, then stillness, then a hard
+ * cut to the next fact. There is no exit animation — the fact is keyed, so it
+ * is replaced rather than transitioned out, and machinery to animate a
+ * departing keyed node would buy nothing at this pace.
+ */
 const CYCLE_MS = 5200;
 /** How long a pair takes to count from its opening figure to its closing one. */
 const COUNT_MS = 1200;
@@ -50,6 +56,21 @@ export function H1ProofRotator({ points }: { points: H1ProofPoint[] }) {
    * begins once the readout has actually advanced.
    */
   const hasAdvanced = useRef(false);
+  /**
+   * Read inside the count effect, which cannot depend on `paused` (see below).
+   * A ref lets it check the current value without re-running and restarting a
+   * count that is already settled.
+   */
+  const pausedRef = useRef(false);
+  useEffect(() => {
+    pausedRef.current = paused;
+  }, [paused]);
+
+  // Held above the effects so they can depend on the element rather than the
+  // array. Element identity survives a caller passing a fresh array on every
+  // render; array identity would not, and the count effect would re-run on its
+  // own `setCounting`, reset its start time, and never reach the target.
+  const point: H1ProofPoint | undefined = points[index];
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -63,16 +84,33 @@ export function H1ProofRotator({ points }: { points: H1ProofPoint[] }) {
     if (reduced || paused || points.length < 2) return;
     const id = window.setTimeout(() => {
       hasAdvanced.current = true;
+      // Cleared here, in the same batch as the advance, so a half-counted value
+      // can never be paired with the fact that replaces it. Leaving it to the
+      // count effect would clear it one render too late: correct in the
+      // foreground only because a count is far shorter than a cycle, and wrong
+      // in a background tab, where rAF suspends mid-count while this timer
+      // still fires. That would commit something like "60-yard dash 7.2 → 4.8"
+      // — a number no athlete ran — and hold it until the tab came back.
+      setCounting(null);
       setIndex((current) => (current + 1) % points.length);
     }, CYCLE_MS);
     return () => window.clearTimeout(id);
   }, [index, paused, reduced, points.length]);
 
   // `paused` is deliberately not a dependency. Pausing stops the rotation, but
-  // a count already under way has to finish and land on the real figure.
+  // a count already under way has to finish and land on the real figure —
+  // freezing it would leave a fabricated number on screen. `pausedRef` covers
+  // the other direction: this effect must not *start* a count on a fact the
+  // visitor has already paused on, which is reachable by switching reduced
+  // motion off at the OS level while paused.
   useEffect(() => {
-    const point = points[index];
-    if (point.kind !== "pair" || reduced || !hasAdvanced.current) {
+    if (
+      !point ||
+      point.kind !== "pair" ||
+      reduced ||
+      !hasAdvanced.current ||
+      pausedRef.current
+    ) {
       setCounting(null);
       return;
     }
@@ -90,11 +128,10 @@ export function H1ProofRotator({ points }: { points: H1ProofPoint[] }) {
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [index, points, reduced]);
+  }, [point, reduced]);
 
-  if (points.length === 0) return null;
+  if (!point) return null;
 
-  const point = points[index];
   const rotates = points.length > 1;
 
   return (
@@ -145,8 +182,11 @@ export function H1ProofRotator({ points }: { points: H1ProofPoint[] }) {
             type="button"
             className="h1c-pause"
             onClick={() => setPaused((current) => !current)}
+            // The accessible name has to contain the visible label (WCAG 2.5.3)
+            // so "click Play" works for voice control — hence "Play", not
+            // "Resume".
             aria-label={
-              paused ? "Resume rotating results" : "Pause rotating results"
+              paused ? "Play rotating results" : "Pause rotating results"
             }
           >
             {paused ? "Play" : "Pause"}
