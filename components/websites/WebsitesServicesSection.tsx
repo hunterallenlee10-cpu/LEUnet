@@ -83,7 +83,7 @@ const offerings = [
     capabilities: [
       "Review of where the current site loses people",
       "Content kept, rewritten, or replaced",
-      "A decision on what carries over from the current site and what gets retired",
+      "A decision on what carries over and what gets retired",
       "Split into a page per service where it helps",
       "Clearer structure and one obvious next step",
       "Existing URLs preserved where possible",
@@ -99,7 +99,7 @@ const offerings = [
     Icon: MessageSquare,
     title: "Never Miss a Lead",
     description:
-      "A question asked at 11pm is still a customer, and an unanswered one has somewhere else to go. These are the pieces a build can include so the site keeps working the hours you cannot - each scoped and quoted with the project rather than assumed.",
+      "A question asked at 11pm is still a customer, and an unanswered one has somewhere else to go. These are the pieces a build can include so the site keeps working the hours you cannot - each scoped and quoted with the project.",
     capabilities: [
       "AI chat that answers common questions at any hour",
       "Intake and quote forms that ask the right follow-up",

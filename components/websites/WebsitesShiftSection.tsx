@@ -33,25 +33,25 @@ const shifts = [
     Icon: Filter,
     title: "Fewer visitors, further along",
     detail:
-      "Search results and AI answers handle the easy questions now, so much of the casual browsing never reaches you. The visit that used to start a search now comes near the end of one - they have read about you somewhere else and narrowed the list before they arrive. You are not being discovered anymore. You are being checked.",
+      "Search results and AI answers handle the easy questions now, so much of the casual browsing never reaches you. The visit that used to start a search now comes near the end of one, after they have narrowed the list somewhere else. You are not being discovered anymore. You are being checked.",
   },
   {
     Icon: Timer,
     title: "You get filtered before you get read",
     detail:
-      "A site that looks dated, loads slowly, or takes a paragraph to say what you do gets closed rather than studied. That shows up as traffic that arrives all week without the phone ringing once. People decide whether a business looks legitimate before they read a word of the copy, and nobody comes back for a second look.",
+      "A site that looks dated, loads slowly, or takes a paragraph to say what you do gets closed rather than studied. People decide whether a business looks legitimate before they read a word, and nobody comes back for a second look. It shows up as traffic all week without the phone ringing once.",
   },
   {
     Icon: LayoutGrid,
     title: "A page aimed at everyone lands on nobody",
     detail:
-      "A homepage that lists eight services speaks to no one in particular. Someone who came for gutter cleaning wants a page about gutter cleaning - what it covers, the towns you serve, and a way to book it. A general page hands them the work of finding their own reason to stay, on a visit they were already prepared to end.",
+      "A homepage that lists eight services speaks to no one in particular. Someone who came for gutter cleaning wants a page about gutter cleaning - what it covers, the towns you serve, and a way to book it. A general page leaves them to find their own reason to stay, on a visit they were already prepared to end.",
   },
   {
     Icon: Quote,
     title: "Nothing specific, nothing to point at",
     detail:
-      "People and AI answers both need something concrete to repeat. If your pages never state plainly what you do, where you do it, and what happens next, there is nothing for a person to verify and nothing for an AI answer to quote back. That is a writing and structure problem, and it is fixed on the page: clear claims in plain words, next to proof a visitor can check.",
+      "People and AI answers both need something concrete to repeat. If your pages never state plainly what you do, where you do it, and what happens next, there is nothing to verify and nothing to quote back. That is a writing and structure problem, fixed on the page: clear claims in plain words, next to proof a visitor can check.",
   },
 ];
 
@@ -77,8 +77,8 @@ export function WebsitesShiftSection() {
           <p className="mb-4 text-lg leading-relaxed text-neutral-300">
             Ask yourself whether any of this sounds familiar. The website still
             looks fine. The traffic is flatter than it used to be, or steady but
-            quieter on the phone. Nothing broke, and yet the site seems to be
-            doing less than it once did.
+            quieter on the phone. Nothing broke - the site is just doing less
+            than it once did.
           </p>
           <p className="text-lg leading-relaxed text-neutral-400">
             Four things changed about how a local business gets found and

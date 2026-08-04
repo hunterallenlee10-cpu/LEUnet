@@ -56,8 +56,7 @@ export function WebsitesPricingSection() {
             We do not publish a universal price, because a single focused page
             for a new business and a rebuild that books appointments and follows
             up on its own are not the same project. Four things decide what a
-            build costs, and all four come down to how much site you need and
-            what it has to accomplish.
+            build costs.
           </p>
         </div>
 

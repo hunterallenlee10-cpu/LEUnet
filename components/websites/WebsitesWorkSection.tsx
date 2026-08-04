@@ -49,10 +49,10 @@ export function WebsitesWorkSection() {
           <p className="mb-4 text-lg leading-relaxed text-neutral-300">
             These are Lee Enterprises Unlimited&apos;s own ventures, not client
             projects. All five run on this one domain, and two of them are the
-            site you are reading - the home page above this one, and the Lee
-            Marketing Mastery hub this page belongs to. We would rather point
-            you at businesses we actually run, and let you use them, than at a
-            screenshot of someone else&apos;s work.
+            site you are reading - the home page above, and the Lee Marketing
+            Mastery hub this page belongs to. We would rather point you at
+            businesses we actually run than at a screenshot of someone
+            else&apos;s work.
           </p>
           {/* The instruction matters more than the list. A prospect who runs
               this test once has verified the promise themselves, which is worth
@@ -61,9 +61,9 @@ export function WebsitesWorkSection() {
               testimonials to cite. */}
           <p className="mb-4 text-lg leading-relaxed text-neutral-400">
             Open one on your phone. See how long it takes to work out what the
-            business does, and whether the next step is obvious on the screen
-            you land on. Then send the form. That is the same test your
-            customers run on your site, except they only run it once.
+            business does, and whether the next step is obvious. Then send the
+            form. That is the same test your customers run on your site, except
+            they only run it once.
           </p>
           {/* The page argues for a page per offer in the outcome strip, the
               Shift section and the FAQ, and this is the one place that argument
