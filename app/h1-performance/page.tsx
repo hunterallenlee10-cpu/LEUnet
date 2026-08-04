@@ -7,6 +7,7 @@ import { H1HeroSection } from "@/components/h1/H1HeroSection";
 import { H1ResultsStrip } from "@/components/h1/H1ResultsStrip";
 import { H1ProblemSection } from "@/components/h1/H1ProblemSection";
 import { H1ProgramSection } from "@/components/h1/H1ProgramSection";
+import { H1CultureSection } from "@/components/h1/H1CultureSection";
 import { H1CoachesSection } from "@/components/h1/H1CoachesSection";
 import { H1ProcessSection } from "@/components/h1/H1ProcessSection";
 import { H1PricingSection } from "@/components/h1/H1PricingSection";
@@ -139,6 +140,7 @@ export default function H1PerformancePage() {
         <H1ResultsStrip />
         <H1ProblemSection />
         <H1ProgramSection />
+        <H1CultureSection />
         <H1CoachesSection />
         <H1ProcessSection />
         <H1PricingSection />
