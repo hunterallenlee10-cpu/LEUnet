@@ -266,12 +266,19 @@
 }
 
 /* ---------------------------------------------------------------------------
-   H1 Performance hero readout — "The Clock"
-   Used only by components/h1/H1ProofRotator.tsx.
+   H1 Performance hero — "The Clock"
+   Two consumers: `.h1c-hero-bg` in components/h1/H1HeroSection.tsx, and
+   everything else in components/h1/H1ProofRotator.tsx.
 
-   The colours arrive as custom properties set on `.h1c-readout` from
-   `H1_PALETTE`, so this block never copies a hex and cannot drift from the
-   palette the rest of the page uses.
+   The palette arrives as custom properties, set on the hero `<section>` from
+   `H1_PALETTE` and again on `.h1c-readout` so the rotator stands on its own
+   wherever it is mounted. Nothing here writes a palette hex, so editing
+   `H1_PALETTE` cannot leave a stale colour behind in this block.
+
+   Two literal colours are deliberate and are not palette values: `#0c0e12` and
+   `#050607` in the hero vignette, a shade either side of `ink` so the
+   background has a centre. docs/H1.md §4 says use `H1_PALETTE`; these are the
+   documented exception, and they exist only in `.h1c-hero-bg`.
 
    The one rule everything here serves: the figure changes every few seconds,
    directly above the hero's call to action, so nothing about a fact may change
@@ -293,8 +300,12 @@
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(70% 90% at 26% 42%, rgba(255, 215, 0, 0.1) 0%, transparent 62%),
-    radial-gradient(120% 120% at 50% 50%, #0c0e12 0%, #08090a 62%, #050607 100%);
+    radial-gradient(
+      70% 90% at 26% 42%,
+      color-mix(in srgb, var(--h1c-gold) 10%, transparent) 0%,
+      transparent 62%
+    ),
+    radial-gradient(120% 120% at 50% 50%, #0c0e12 0%, var(--h1c-ink) 62%, #050607 100%);
 }
 
 .h1c-readout {

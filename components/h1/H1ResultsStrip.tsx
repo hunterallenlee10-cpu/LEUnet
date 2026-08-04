@@ -38,8 +38,14 @@ export function H1ResultsStrip() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
           {h1ProofPoints.map((point) => (
             <div key={point.id} className="text-center">
+              {/* Three size steps rather than two. "120 → 235 lb" is the
+                  longest figure this strip has ever carried, and at the old
+                  `text-3xl md:text-4xl` it wrapped to a second line in a
+                  three-column grid at 640px and again at 768px — which drops
+                  that one card's label below its neighbours' and breaks the
+                  row. Measured to fit with margin at every step. */}
               <div
-                className="text-3xl font-bold tabular-nums tracking-tight md:text-4xl"
+                className="text-2xl font-bold tabular-nums tracking-tight md:text-3xl lg:text-4xl"
                 style={{ color: H1_PALETTE.gold }}
               >
                 {proofFigure(point)}

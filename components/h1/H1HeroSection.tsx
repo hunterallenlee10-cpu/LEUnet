@@ -1,5 +1,6 @@
 "use client";
 
+import { CSSProperties } from "react";
 import Image from "next/image";
 import { ArrowRight, Phone } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
@@ -31,7 +32,18 @@ import { H1ProofRotator } from "@/components/h1/H1ProofRotator";
  */
 export function H1HeroSection() {
   return (
-    <section className="relative overflow-hidden py-14 md:py-32">
+    <section
+      className="relative overflow-hidden py-14 md:py-32"
+      // The palette reaches the CSS block through these rather than being
+      // written into it, so nothing in globals.css holds a second copy of a
+      // colour that could survive an edit to H1_PALETTE.
+      style={
+        {
+          "--h1c-gold": H1_PALETTE.gold,
+          "--h1c-ink": H1_PALETTE.ink,
+        } as CSSProperties
+      }
+    >
       <div className="h1c-hero-bg" aria-hidden="true" />
 
       <div className="section-container relative">
@@ -116,57 +128,72 @@ export function H1HeroSection() {
           </div>
 
           {/* The mark keeps a place here rather than being dropped with the
-              column it used to fill. It is the only brand image above the fold
-              and it is priority-loaded; losing it silently would be a brand
-              change nobody asked for. */}
-          <aside className="flex flex-col gap-8">
+              column it used to fill; losing it silently would be a brand change
+              nobody asked for. It is no longer preloaded, though: below `lg`
+              this column stacks under the buttons, so the mark is not above the
+              fold there, and the LCP candidate is now server-rendered text
+              either way. `sizes` stops a 520px source being fetched for a
+              210px slot.
+
+              Laid out as a row between `sm` and `lg`, where the column would
+              otherwise stretch each item across the full container. */}
+          <aside className="flex flex-col gap-8 sm:flex-row sm:items-start sm:gap-10 lg:flex-col lg:gap-8">
             <Image
               src="/logos/h1-performance-white.png"
               alt="H1 Performance logo"
               width={520}
               height={520}
-              priority
-              className="h-auto w-full max-w-[210px] object-contain"
+              sizes="210px"
+              className="h-auto w-full max-w-[210px] shrink-0 object-contain"
             />
 
-            {/* A program attribute, not a result, so it sits beside the
-                rotating figures instead of among them. */}
-            <div
-              className="rounded-lg border p-4"
-              style={{
-                borderColor: H1_PALETTE.line,
-                backgroundColor: `${H1_PALETTE.steel}B3`,
-              }}
-            >
+            {/* Grouped so the row between `sm` and `lg` is the mark beside a
+                column, not three siblings competing for the same width — which
+                squeezed this card to 124px at 640. */}
+            <div className="flex flex-col gap-6">
+              {/* A program attribute, not a result — and it has to *look* unlike
+                one. Rendered with a gold tabular figure it wore the same
+                costume as the six measured results rotating beside it, and a
+                hero is skimmed, so the distinction the data model works to
+                preserve would have been erased in the reading. No display
+                figure, no gold, a label instead. */}
               <div
-                className="text-2xl font-bold tabular-nums tracking-tight"
-                style={{ color: H1_PALETTE.gold }}
+                className="max-w-sm rounded-lg border p-4"
+                style={{
+                  borderColor: H1_PALETTE.line,
+                  backgroundColor: `${H1_PALETTE.steel}B3`,
+                }}
               >
-                {h1BlockNote.figure}
+                <p
+                  className="text-[0.6875rem] font-semibold uppercase tracking-[0.18em]"
+                  style={{ color: H1_PALETTE.muted }}
+                >
+                  How the program runs
+                </p>
+                <p className="mt-2 text-sm font-semibold text-white">
+                  {h1BlockNote.title}
+                </p>
+                <p
+                  className="mt-1 text-xs leading-relaxed"
+                  style={{ color: H1_PALETTE.muted }}
+                >
+                  {h1BlockNote.detail}
+                </p>
               </div>
-              <div className="mt-1 text-sm font-semibold text-white">
-                {h1BlockNote.label}
-              </div>
-              <p
-                className="mt-1 text-xs leading-relaxed"
-                style={{ color: H1_PALETTE.muted }}
-              >
-                {h1BlockNote.detail}
+
+              <p className="text-sm" style={{ color: H1_PALETTE.muted }}>
+                All ages, all sports, trained remotely. Or reach Hunter directly
+                at{" "}
+                <a
+                  href={H1_PHONE_HREF}
+                  className="inline-flex items-center gap-1 font-semibold text-white underline-offset-4 transition-colors hover:underline"
+                >
+                  <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                  {H1_PHONE}
+                </a>
+                .
               </p>
             </div>
-
-            <p className="text-sm" style={{ color: H1_PALETTE.muted }}>
-              All ages, all sports, trained remotely. Or reach Hunter directly
-              at{" "}
-              <a
-                href={H1_PHONE_HREF}
-                className="inline-flex items-center gap-1 font-semibold text-white underline-offset-4 transition-colors hover:underline"
-              >
-                <Phone className="h-3.5 w-3.5" aria-hidden="true" />
-                {H1_PHONE}
-              </a>
-              .
-            </p>
           </aside>
         </div>
       </div>

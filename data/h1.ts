@@ -168,8 +168,7 @@ export function proofAttribution(point: H1ProofPoint): string {
  * `h1ProgramFeatures` carries the same fact in full further down the page.
  */
 export const h1BlockNote = {
-  figure: "4-week",
-  label: "Training blocks",
+  title: "4-week training blocks",
   detail: "Each one built on the last, never repeated blindly.",
 } as const;
 
