@@ -479,11 +479,17 @@
    card that behaves exactly like a button gets clicked and nothing happens.
    The rise is small enough to read as depth rather than as an affordance.
 
-   The ring is drawn with an inset shadow rather than by changing
-   `border-color`, because these cards colour their borders from `H1_PALETTE`
-   through inline styles, which no stylesheet rule can override without
-   `!important`. Layering a ring inside the border gets the same read with
-   nothing fighting.
+   The ring is drawn rather than set with `border-color`, because these cards
+   colour their borders from `H1_PALETTE` through inline styles, which no
+   stylesheet rule can override without `!important`. Layering a ring inside
+   the border gets the same read with nothing fighting.
+
+   It is drawn on a pseudo-element stacked above the card's contents, not as an
+   inset shadow on the card itself. An inset shadow paints onto the card's own
+   background, underneath its children — and the coach cards bleed a photograph
+   to three of their edges, so there the ring disappeared behind the image and
+   survived only around the text below it, reading as a stray gold line under
+   the photo instead of as a border.
 
    All of it sits behind `@media (hover: hover)`. On a touchscreen `:hover`
    latches after a tap and the card stays lit until you touch something else.
@@ -498,6 +504,25 @@
     color 220ms ease;
 }
 
+.h1-live {
+  position: relative;
+}
+
+/* Carries the ring. `border-radius: inherit` keeps it on the card's own
+   corners whatever they are, and it never intercepts a pointer. */
+.h1-live::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--h1c-gold) 45%, transparent);
+  transition: opacity 220ms ease;
+}
+
 .h1-live .h1-accent,
 .h1-live .h1-zoom {
   transition:
@@ -509,9 +534,12 @@
   .h1-live:hover {
     transform: translateY(-2px);
     box-shadow:
-      inset 0 0 0 1px color-mix(in srgb, var(--h1c-gold) 45%, transparent),
       0 16px 36px -20px rgba(0, 0, 0, 0.95),
       0 0 34px -14px color-mix(in srgb, var(--h1c-gold) 26%, transparent);
+  }
+
+  .h1-live:hover::after {
+    opacity: 1;
   }
 
   /* The marker bars on the program and process cards. Extending one is the
