@@ -879,14 +879,145 @@
   animation: lmmScanLabel 10.5s ease-in-out infinite;
 }
 
+/* ---------------------------------------------------------------------------
+   Lee Marketing Mastery - channel mix visual
+
+   Seven channels reach one customer in turn, and the ring around them closes
+   one seventh further with each arrival. The panel replaced a static list of
+   channels: the copy beside it is about a person being found from several
+   directions, and a list cannot show that.
+
+   The ring ticks in steps rather than sweeping smoothly, because the argument
+   is that the touches are separate and add up. A smooth sweep would read as
+   one continuous thing happening.
+
+   Timings are derived, not guessed. A packet takes ~1s to travel and they
+   start 0.95s apart, so the seventh lands at 6.7s of the 8.4s cycle - the
+   percentages below are those arrival times, and the last 1.7s is the
+   completed state holding long enough to be read before it resets. Change the
+   cycle and every percentage here has to be recomputed; see
+   LMM_REACH_CYCLE_SECONDS in `components/marketing/ChannelMixVisual.tsx`,
+   which sets the per-packet delays and must stay in step.
+--------------------------------------------------------------------------- */
+
+@keyframes lmmReachPkt {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  12% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
+  14%,
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+/* r=70, so the circumference is ~440 and each of the seven steps is ~63. */
+@keyframes lmmReachRing {
+  0%, 11.9% { stroke-dashoffset: 440; opacity: 0.85; }
+  13.9%, 23.2% { stroke-dashoffset: 377; opacity: 0.85; }
+  25.2%, 34.5% { stroke-dashoffset: 314; opacity: 0.85; }
+  36.5%, 45.8% { stroke-dashoffset: 252; opacity: 0.85; }
+  47.8%, 57.1% { stroke-dashoffset: 189; opacity: 0.85; }
+  59.1%, 68.5% { stroke-dashoffset: 126; opacity: 0.85; }
+  70.5%, 79.8% { stroke-dashoffset: 63; opacity: 0.85; }
+  81.8%, 96% { stroke-dashoffset: 0; opacity: 0.85; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes lmmReachCore {
+  0%, 79.8% {
+    stroke: rgba(251, 191, 36, 0.35);
+    filter: none;
+  }
+  86% {
+    stroke: #fcd34d;
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.55));
+  }
+  100% {
+    stroke: rgba(251, 191, 36, 0.35);
+    filter: none;
+  }
+}
+
+/* The centre names who it is about for most of the loop, then resolves to what
+   happened once the ring closes. */
+@keyframes lmmReachBefore {
+  0%, 79.8% { opacity: 1; }
+  83%, 96% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes lmmReachAfter {
+  0%, 79.8% { opacity: 0; }
+  83%, 96% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.lmm-reach-pkt {
+  animation: lmmReachPkt 8.4s cubic-bezier(0.45, 0, 0.5, 1) infinite;
+}
+
+.lmm-reach-ring {
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+  animation: lmmReachRing 8.4s ease-out infinite;
+}
+
+.lmm-reach-core {
+  animation: lmmReachCore 8.4s ease-in-out infinite;
+}
+
+.lmm-reach-before {
+  animation: lmmReachBefore 8.4s ease-in-out infinite;
+}
+
+.lmm-reach-after {
+  opacity: 0;
+  animation: lmmReachAfter 8.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lmm-dash,
   .lmm-packet,
   .lmm-status,
   .lmm-scan-dot,
   .lmm-scan-badge,
-  .lmm-scan-label {
+  .lmm-scan-label,
+  .lmm-reach-pkt,
+  .lmm-reach-ring,
+  .lmm-reach-core,
+  .lmm-reach-before,
+  .lmm-reach-after {
     animation: none;
+  }
+
+  /* The diagram rests on a closed ring and the label that says whose it is.
+     Not the resolved "Calls you." state: that line is the payoff the sequence
+     earns, and asserting it in a still frame states an outcome the diagram no
+     longer demonstrates. The packets go entirely - parked dots on the wires
+     would read as decoration. */
+  .lmm-reach-ring {
+    stroke-dashoffset: 0;
+  }
+
+  .lmm-reach-pkt {
+    display: none;
+  }
+
+  .lmm-reach-before {
+    opacity: 1;
+  }
+
+  .lmm-reach-after {
+    display: none;
   }
 
   .lmm-packet {
