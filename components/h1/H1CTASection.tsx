@@ -37,7 +37,8 @@ export function H1CTASection() {
           style={{ color: H1_PALETTE.muted }}
         >
           Spots are limited so every athlete gets coached the right way. Send a
-          free consultation request and we&apos;ll build your first block.
+          free consultation request and we&apos;ll build your first block — and
+          put you next to a group that won&apos;t let you coast.
         </p>
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">

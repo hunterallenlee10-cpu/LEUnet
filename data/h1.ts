@@ -207,9 +207,41 @@ export const h1ProgramFeatures: H1ProgramFeature[] = [
     id: "h1-feature-community",
     title: "A Locked-In Training Group",
     description:
-      "Access to every other athlete in the program, all chasing the same thing. You train alongside a group that supports each other and holds the standard, instead of grinding alone.",
+      "Access to every other athlete in the program, all grinding for the same thing. On the days you don't have it, the group does — everyone shows up with something to give.",
   },
 ];
+
+/**
+ * The group, in the owner's own words.
+ *
+ * `lead` is the owner's sentence, supplied 2026-08-04, edited only for
+ * punctuation and for one word: they wrote "young men". The hero two sections
+ * above promises "all ages, all sports", and docs/H1.md §2 is explicit that
+ * content narrowing the audience makes that promise false — so it reads
+ * "athletes". Everything else is theirs, including the cadence.
+ *
+ * The two points below are not new claims. Both are drawn from
+ * `h1ProgramFeatures`, said in this section's register.
+ */
+export const h1CultureContent = {
+  eyebrow: "The group",
+  title: "You Don't Do This Alone",
+  lead: "Join a group of dedicated athletes grinding every day to be their best selves. Even on your worst days, the group keeps you accountable — everyone wakes up with something to give and motivation to share.",
+  points: [
+    {
+      id: "h1-culture-standard",
+      title: "The standard is set by the group",
+      detail:
+        "You train alongside every other athlete in the program, all chasing the same thing. Showing up stops being a decision you make on your own.",
+    },
+    {
+      id: "h1-culture-coaches",
+      title: "Your coaches are in it with you",
+      detail:
+        "Round-the-clock access, not a chatbot and not a queue. Ask before a lift or after a game and get a real answer.",
+    },
+  ],
+} as const;
 
 /**
  * `price` is a display string, or null to render "Pricing on request".
