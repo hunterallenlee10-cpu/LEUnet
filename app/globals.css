@@ -751,25 +751,95 @@
   }
 }
 
-/* The dot that runs down the scan path in `BrowserFrameVisual`. It travels the
-   route a visitor takes through a page - headline, then proof, then the next
-   step - so the motion is the point of the diagram rather than decoration on
-   top of it. `top` rather than `transform` because the distance is the parent's
-   height, which is content-driven and not known here; it is one small element,
-   so the cost of animating a layout property is not worth a magic pixel value
-   that would drift the first time the wireframe changes. */
-@keyframes lmmScan {
+/* The scan path in `BrowserFrameVisual`: a dot stops at each of the three
+   stops, the stop lights up while it waits there, then it runs down the line to
+   the next one. The motion is the point of the diagram rather than decoration
+   on top of it - it is the route a visitor takes through a page.
+
+   How the sequencing works, because it is not obvious. There is one dot PER
+   ROW, not one dot for the whole path, and each row's dot travels only its own
+   row before handing off to the next. That is deliberate: the wireframe rows
+   are content-height, so where stop 2 sits relative to the whole diagram is not
+   knowable in CSS, and a single dot would need hardcoded percentages that drift
+   the first time the wireframe changes. A per-row dot only ever has to know
+   "top of my row" and "bottom of my row", which `top: 0%` and `top: 100%` give
+   for free.
+
+   All three keyframes below run on one shared cycle length, and each stop is
+   offset by a third of it via an inline `animation-delay`. So a row's dot
+   reaching 33% - the bottom of its row - lands exactly when the next row's dot
+   begins its own cycle at the top of its row. They crossfade at the same point
+   and read as one dot moving continuously.
+
+   Percentages within a cycle, for all three:
+     0-20%   dot parked at this stop, stop lit
+     20-33%  dot travels down to the next stop, stop dims behind it
+     33-100% this row is idle while the other two take their turns */
+
+/* Parked, then travelling. `top` rather than `transform` because the distance
+   is the parent's height, which is content-driven and not known here; it is one
+   6px element, so animating a layout property is cheaper than a magic pixel
+   value that would go stale. */
+@keyframes lmmScanDot {
   0% {
     top: 0%;
     opacity: 0;
   }
-  12%,
-  88% {
+  4%,
+  20% {
+    top: 0%;
     opacity: 1;
   }
+  33% {
+    top: 100%;
+    opacity: 1;
+  }
+  37%,
   100% {
     top: 100%;
     opacity: 0;
+  }
+}
+
+/* The numbered badge fills solid while the dot is standing on it. */
+@keyframes lmmScanBadge {
+  0%,
+  100% {
+    border-color: rgba(251, 191, 36, 0.5);
+    background-color: #0a0a0a;
+    color: #fbbf24;
+    box-shadow: none;
+  }
+  4%,
+  20% {
+    border-color: #fcd34d;
+    background-color: #fbbf24;
+    color: #0a0a0a;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.55);
+  }
+  28% {
+    border-color: rgba(251, 191, 36, 0.5);
+    background-color: #0a0a0a;
+    color: #fbbf24;
+    box-shadow: none;
+  }
+}
+
+/* The label brightens and picks up a glow on the same beat as its badge. */
+@keyframes lmmScanLabel {
+  0%,
+  100% {
+    color: rgba(253, 230, 138, 0.55);
+    text-shadow: none;
+  }
+  4%,
+  20% {
+    color: #fde68a;
+    text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+  }
+  28% {
+    color: rgba(253, 230, 138, 0.55);
+    text-shadow: none;
   }
 }
 
@@ -786,15 +856,29 @@
   animation: lmmPulse 2.6s ease-in-out infinite;
 }
 
-.lmm-scan {
-  animation: lmmScan 5.5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+/* One shared cycle length for all three. Each stop sets its own
+   `animation-delay` inline at a third of this, so changing the duration here
+   changes the whole sequence - see LMM_SCAN_CYCLE_SECONDS in
+   `components/websites/BrowserFrameVisual.tsx`, which must be kept in step. */
+.lmm-scan-dot {
+  animation: lmmScanDot 6.6s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+}
+
+.lmm-scan-badge {
+  animation: lmmScanBadge 6.6s ease-in-out infinite;
+}
+
+.lmm-scan-label {
+  animation: lmmScanLabel 6.6s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .lmm-dash,
   .lmm-packet,
   .lmm-status,
-  .lmm-scan {
+  .lmm-scan-dot,
+  .lmm-scan-badge,
+  .lmm-scan-label {
     animation: none;
   }
 
@@ -802,10 +886,11 @@
     opacity: 1;
   }
 
-  /* Parked at the first stop rather than left invisible at 0% opacity: the
-     dot reads as a marker on the path when it is not moving. */
-  .lmm-scan {
-    top: 0%;
-    opacity: 1;
+  /* The badges and labels fall back to their Tailwind classes, which are
+     legible on their own. The dots go entirely: with nothing moving they would
+     be three identical markers sitting on three numbered badges, which is
+     duplication rather than information. The numbers already carry the order. */
+  .lmm-scan-dot {
+    display: none;
   }
 }
