@@ -772,9 +772,16 @@
    and read as one dot moving continuously.
 
    Percentages within a cycle, for all three:
-     0-20%   dot parked at this stop, stop lit
-     20-33%  dot travels down to the next stop, stop dims behind it
-     33-100% this row is idle while the other two take their turns */
+     0-23%      dot parked at this stop, stop lit
+     23-33.33%  dot travels down to the next stop, stop dimming behind it
+     33.33-100% this row is idle while the other two take their turns
+
+   The parked share is deliberately more than twice the travelling share. The
+   stops are the content - three claims about what the page has to do - and the
+   dot is only the thing joining them, so the reading time belongs to the stop
+   rather than to the journey. 33.33% is exact rather than rounded because it is
+   also the offset between stops, and the handoff only lands cleanly if a row's
+   dot reaches the bottom on the same frame the next row's cycle begins. */
 
 /* Parked, then travelling. `top` rather than `transform` because the distance
    is the parent's height, which is content-driven and not known here; it is one
@@ -785,16 +792,16 @@
     top: 0%;
     opacity: 0;
   }
-  4%,
-  20% {
+  3%,
+  23% {
     top: 0%;
     opacity: 1;
   }
-  33% {
+  33.33% {
     top: 100%;
     opacity: 1;
   }
-  37%,
+  36%,
   100% {
     top: 100%;
     opacity: 0;
@@ -810,14 +817,14 @@
     color: #fbbf24;
     box-shadow: none;
   }
-  4%,
-  20% {
+  3%,
+  23% {
     border-color: #fcd34d;
     background-color: #fbbf24;
     color: #0a0a0a;
     box-shadow: 0 0 10px rgba(251, 191, 36, 0.55);
   }
-  28% {
+  30% {
     border-color: rgba(251, 191, 36, 0.5);
     background-color: #0a0a0a;
     color: #fbbf24;
@@ -832,12 +839,12 @@
     color: rgba(253, 230, 138, 0.55);
     text-shadow: none;
   }
-  4%,
-  20% {
+  3%,
+  23% {
     color: #fde68a;
     text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
   }
-  28% {
+  30% {
     color: rgba(253, 230, 138, 0.55);
     text-shadow: none;
   }
@@ -861,15 +868,15 @@
    changes the whole sequence - see LMM_SCAN_CYCLE_SECONDS in
    `components/websites/BrowserFrameVisual.tsx`, which must be kept in step. */
 .lmm-scan-dot {
-  animation: lmmScanDot 6.6s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+  animation: lmmScanDot 10.5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
 }
 
 .lmm-scan-badge {
-  animation: lmmScanBadge 6.6s ease-in-out infinite;
+  animation: lmmScanBadge 10.5s ease-in-out infinite;
 }
 
 .lmm-scan-label {
-  animation: lmmScanLabel 6.6s ease-in-out infinite;
+  animation: lmmScanLabel 10.5s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

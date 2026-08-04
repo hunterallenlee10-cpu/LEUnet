@@ -47,7 +47,7 @@ const stops = [
  * its travel exactly as the next row's dot starts, so they hand off at the same
  * point on the line and read as one dot.
  */
-const LMM_SCAN_CYCLE_SECONDS = 6.6;
+const LMM_SCAN_CYCLE_SECONDS = 10.5;
 
 /**
  * Half the badge height plus its top margin, so the line and the dot run
