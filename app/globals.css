@@ -1073,6 +1073,23 @@
   }
 }
 
+/* The scroll cue in components/sections/HeroSection.tsx references this name
+   from an inline style. Tailwind only emits its own `bounce` keyframes when
+   the `animate-bounce` utility appears in a class list, which it doesn't
+   anywhere in this codebase — so without this definition the cue's animation
+   silently never ran. Same shape as Tailwind's default bounce. */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
 /* Ventures Dropdown Animation */
 @keyframes fadeInSlide {
   from {
