@@ -34,7 +34,7 @@ export function H1CoachesSection() {
           {h1Coaches.map((coach) => (
             <div
               key={coach.id}
-              className="overflow-hidden rounded-xl border"
+              className="h1-live overflow-hidden rounded-xl border"
               style={{
                 borderColor: H1_PALETTE.line,
                 backgroundColor: `${H1_PALETTE.chalk}05`,
@@ -46,7 +46,7 @@ export function H1CoachesSection() {
                   alt={coach.photoAlt}
                   fill
                   sizes="(max-width: 768px) 100vw, 480px"
-                  className="object-cover object-top"
+                  className="h1-zoom object-cover object-top"
                 />
                 {/* Fades the photo into the card so the name below it reads as
                     part of the same block rather than a caption under a crop. */}

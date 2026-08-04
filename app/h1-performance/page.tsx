@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { H1_PALETTE, H1_PHONE, h1Coaches, h1Faqs, h1Packages } from "@/data/h1";
@@ -113,7 +114,19 @@ const structuredData = {
 
 export default function H1PerformancePage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: H1_PALETTE.ink }}>
+    <div
+      className="min-h-screen"
+      // The palette reaches the `.h1-*` and `.h1c-*` rules in globals.css
+      // through these, so no stylesheet holds a second copy of a colour that
+      // could survive an edit to H1_PALETTE.
+      style={
+        {
+          backgroundColor: H1_PALETTE.ink,
+          "--h1c-gold": H1_PALETTE.gold,
+          "--h1c-ink": H1_PALETTE.ink,
+        } as CSSProperties
+      }
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

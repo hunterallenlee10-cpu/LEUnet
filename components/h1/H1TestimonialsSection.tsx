@@ -43,7 +43,7 @@ export function H1TestimonialsSection() {
             {h1Testimonials.map((testimonial) => (
               <figure
                 key={testimonial.id}
-                className="flex flex-col rounded-xl border p-8"
+                className="h1-live flex flex-col rounded-xl border p-8"
                 style={{
                   borderColor: H1_PALETTE.line,
                   backgroundColor: `${H1_PALETTE.chalk}05`,

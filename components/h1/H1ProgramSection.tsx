@@ -32,14 +32,14 @@ export function H1ProgramSection() {
           {h1ProgramFeatures.map((feature) => (
             <div
               key={feature.id}
-              className="rounded-xl border p-7 transition-colors duration-200"
+              className="h1-live rounded-xl border p-7"
               style={{
                 borderColor: H1_PALETTE.line,
                 backgroundColor: `${H1_PALETTE.chalk}05`,
               }}
             >
               <div
-                className="mb-4 h-1 w-10 rounded-full"
+                className="h1-accent mb-4 h-1 w-10 rounded-full"
                 style={{ backgroundColor: H1_PALETTE.gold }}
               />
               <h3 className="mb-3 text-lg font-bold text-white">

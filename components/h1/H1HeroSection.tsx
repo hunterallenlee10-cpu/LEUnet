@@ -102,7 +102,7 @@ export function H1HeroSection() {
                 onClick={() =>
                   smoothScrollToElement("h1-consultation-form", { focus: true })
                 }
-                className="group inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
+                className="h1-tap group inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold"
                 style={{
                   backgroundColor: H1_PALETTE.chalk,
                   color: H1_PALETTE.ink,
@@ -116,7 +116,7 @@ export function H1HeroSection() {
               </button>
               <button
                 onClick={() => smoothScrollToElement("h1-pricing")}
-                className="inline-flex items-center justify-center gap-2 rounded-lg border-2 px-6 py-3 font-semibold transition-colors duration-200"
+                className="h1-tap inline-flex items-center justify-center gap-2 rounded-lg border-2 px-6 py-3 font-semibold"
                 style={{
                   borderColor: H1_PALETTE.gold,
                   color: H1_PALETTE.gold,
@@ -158,7 +158,7 @@ export function H1HeroSection() {
                 preserve would have been erased in the reading. No display
                 figure, no gold, a label instead. */}
               <div
-                className="max-w-sm rounded-lg border p-4"
+                className="h1-live max-w-sm rounded-lg border p-4"
                 style={{
                   borderColor: H1_PALETTE.line,
                   backgroundColor: `${H1_PALETTE.steel}B3`,
