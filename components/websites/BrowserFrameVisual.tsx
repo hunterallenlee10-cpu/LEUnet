@@ -12,7 +12,7 @@
  * picture of a website with no visitor anywhere in it, which made it the one
  * hero visual across the three LMM pages that did not carry its page's
  * argument: `AutomationFlowVisual` shows work moving through a system and
- * `ChannelMixVisual` shows channels converging on one business. Worse, a
+ * `ChannelMixVisual` shows one customer being reached from every side. Worse, a
  * uniformly grey page with a vague headline block is what this page argues
  * loses, so the hero was quietly illustrating the failure mode.
  *

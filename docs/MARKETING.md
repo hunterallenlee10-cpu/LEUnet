@@ -111,6 +111,20 @@ only the websites one — read it before editing copy here.
    FAQ and the pricing section.
 4. **The hero visual is abstract.** `ChannelMixVisual` is a channel diagram, not
    a mock billboard or invented ad creative.
+
+   It shows seven channels reaching one customer, with a ring closing a seventh
+   further on each arrival. Nothing in it is a claim: it asserts no number of
+   touches needed, no timeline, and no result — the ring has seven steps
+   because the panel draws seven channels, not because seven is a figure we
+   can stand behind. Keep it that way. A caption saying how many touches a sale
+   takes, or how long, would be exactly the kind of borrowed marketing
+   statistic `docs/WEBSITES.md` §3.3 exists to keep off these pages.
+
+   It replaced a static list of the same channels above a "One business, one
+   message" bar. The list was a taxonomy; the paragraph beside it is a story
+   about a person found from several directions, which a list cannot show. The
+   offline / online split survives as left and right, so every channel name is
+   still on the page at full size.
 5. **No frequency claims.** No "most clients", "most campaigns", "the most
    common request". There is no client base to count across, so any "most X"
    about the market or about our own clients is an unmeasured guess. The
