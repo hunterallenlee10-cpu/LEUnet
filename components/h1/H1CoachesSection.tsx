@@ -44,23 +44,35 @@ export function H1CoachesSection() {
                   the photo on three sides because the photo bleeds to those
                   edges, but its fourth edge falls mid-card, and on hover the
                   zoom pushes the image past it — a strip of un-faded
-                  photograph landing below the gradient that is supposed to end
-                  it, splitting the card across the middle. */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[3/2]">
+                  photograph landing below the fade that is supposed to end
+                  it, splitting the card across the middle.
+
+                  The fade is a mask on the photo, not an ink gradient painted
+                  over it. The surface below the photo is not ink — it is the
+                  card's `chalk` tint composited over it — so an overlay that
+                  fades to ink bottoms out darker than the card it is fading
+                  into, and the mismatch reads as a line across the middle of
+                  the card, worst on hover when the zoom pushes brighter
+                  photograph into the fade. Masking the photo out instead lets
+                  the card's own background show through, so the fade's last
+                  pixel and the card body are the same painted surface and
+                  there is no colour to match. The extra stops ease the fade
+                  out: a straight two-stop ramp cuts to nothing at full slope,
+                  which the eye picks up as an edge even when the colours meet
+                  exactly. */}
+              <div
+                className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[3/2]"
+                style={{
+                  maskImage: `linear-gradient(to bottom, black calc(100% - 6rem), rgba(0, 0, 0, 0.25) calc(100% - 3rem), rgba(0, 0, 0, 0.08) calc(100% - 1.5rem), transparent calc(100% - 0.25rem))`,
+                  WebkitMaskImage: `linear-gradient(to bottom, black calc(100% - 6rem), rgba(0, 0, 0, 0.25) calc(100% - 3rem), rgba(0, 0, 0, 0.08) calc(100% - 1.5rem), transparent calc(100% - 0.25rem))`,
+                }}
+              >
                 <Image
                   src={coach.photo}
                   alt={coach.photoAlt}
                   fill
                   sizes="(max-width: 768px) 100vw, 480px"
                   className="h1-zoom object-cover object-top"
-                />
-                {/* Fades the photo into the card so the name below it reads as
-                    part of the same block rather than a caption under a crop. */}
-                <div
-                  className="absolute inset-x-0 bottom-0 h-24"
-                  style={{
-                    backgroundImage: `linear-gradient(to top, ${H1_PALETTE.ink}, transparent)`,
-                  }}
                 />
               </div>
 
