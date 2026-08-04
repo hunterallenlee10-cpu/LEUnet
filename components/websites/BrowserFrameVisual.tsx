@@ -1,15 +1,45 @@
 /**
- * The hero visual: a stylized browser window wrapping a wireframe of a typical
- * business page.
+ * The hero visual: a stylized browser window wrapping a wireframe of a business
+ * page, annotated with the route a visitor takes through it.
  *
  * Deliberately a wireframe rather than a screenshot. A screenshot of a real site
  * would need to be a site we actually built, and the ones we have are already
  * shown - with links - in the portfolio section further down the page. An
  * abstract frame here promises nothing it cannot back up.
  *
- * Decorative: hidden from assistive technology. The copy beside it states what
- * the offering is.
+ * Why it is annotated. The page sells a job - turning a visitor into a customer
+ * - and an unlabeled wireframe illustrates the artifact instead. It was a
+ * picture of a website with no visitor anywhere in it, which made it the one
+ * hero visual across the three LMM pages that did not carry its page's
+ * argument: `AutomationFlowVisual` shows work moving through a system and
+ * `ChannelMixVisual` shows channels converging on one business. Worse, a
+ * uniformly grey page with a vague headline block is what this page argues
+ * loses, so the hero was quietly illustrating the failure mode.
+ *
+ * The three stops are the same three claims the copy already makes - the
+ * "sells" column in `WebsitesProblemSection`, echoed by the outcome strip tiles
+ * - so the diagram and the prose argue one thing rather than two adjacent
+ * things. They are claims about what gets built for the visitor's decision, not
+ * specifications, which is the bar the removed chip row set for anything
+ * appearing in this frame (see the note at the foot of this file).
+ *
+ * Decorative: hidden from assistive technology. Nothing here is load-bearing -
+ * all three labels are stated in real text in the outcome strip immediately
+ * below, which is what a screen reader gets instead.
  */
+
+/**
+ * Ordered as the visitor moves, top to bottom. Each stop renders the wireframe
+ * block it annotates as its own child, so a label and the thing it points at
+ * cannot drift apart - as siblings, reordering the wireframe would silently
+ * leave the annotations pointing at the wrong rows.
+ */
+const stops = [
+  { label: "Says what you do, in one line", Block: HeroBlock },
+  { label: "Proof they can check themselves", Block: ProofRow },
+  { label: "One obvious next step", Block: NextStepBlock },
+];
+
 export function BrowserFrameVisual() {
   return (
     <div
@@ -41,7 +71,8 @@ export function BrowserFrameVisual() {
 
         {/* Page wireframe */}
         <div className="space-y-4 p-4">
-          {/* Nav */}
+          {/* Nav - deliberately unannotated. Every site has one, so a stop here
+              would be spent on something that is not part of the decision. */}
           <div className="flex items-center justify-between">
             <span className="h-3 w-16 rounded bg-amber-400/50" />
             <span className="flex gap-2">
@@ -52,37 +83,26 @@ export function BrowserFrameVisual() {
             </span>
           </div>
 
-          {/* Hero block */}
-          <div className="rounded-md border border-white/[0.06] bg-gradient-to-br from-amber-400/[0.07] to-transparent p-4">
-            <span className="mb-2.5 block h-4 w-3/4 rounded bg-neutral-600" />
-            <span className="mb-2 block h-2 w-full rounded bg-neutral-800" />
-            <span className="mb-4 block h-2 w-5/6 rounded bg-neutral-800" />
-            <span className="inline-block h-6 w-28 rounded bg-amber-400/70" />
-          </div>
+          {/* The scan path. A two-column grid rather than an overlay positioned
+              absolutely against the blocks: the wireframe rows are
+              content-height, so anything pinned by coordinate would need magic
+              numbers and would break at the first content change. The narrow
+              column carries the route and the numbered stops; the wide one
+              carries each label and the block it belongs to. */}
+          <div className="relative grid grid-cols-[18px_1fr] gap-x-2.5">
+            {/* The route, behind the badges. Inset at the top so it begins at
+                the first stop rather than running off the end; the bottom inset
+                lands it level with the submit button in the last block, so the
+                path terminates on the thing the visitor is meant to click
+                rather than stopping short at the third badge. */}
+            <span className="absolute bottom-4 left-[9px] top-3 -translate-x-1/2 border-l border-dashed border-amber-400/30" />
+            <span className="lmm-scan absolute left-[9px] h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.9)]" />
 
-          {/* Three-up feature row */}
-          <div className="grid grid-cols-3 gap-2.5">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="rounded-md border border-white/[0.06] bg-neutral-950/50 p-2.5"
-              >
-                <span className="mb-2 block h-5 w-5 rounded border border-amber-400/25 bg-amber-400/10" />
-                <span className="mb-1.5 block h-1.5 w-full rounded bg-neutral-700" />
-                <span className="block h-1.5 w-2/3 rounded bg-neutral-800" />
-              </div>
+            {stops.map(({ label, Block }, i) => (
+              <Stop key={label} index={i} label={label}>
+                <Block />
+              </Stop>
             ))}
-          </div>
-
-          {/* Lead capture block - the point of the whole page */}
-          <div className="rounded-md border border-amber-400/20 bg-amber-400/[0.04] p-3">
-            <span className="mb-2.5 block h-2 w-24 rounded bg-neutral-600" />
-            <div className="grid grid-cols-2 gap-2">
-              <span className="h-4 rounded border border-white/10 bg-neutral-900" />
-              <span className="h-4 rounded border border-white/10 bg-neutral-900" />
-            </div>
-            <span className="mt-2 block h-4 rounded border border-white/10 bg-neutral-900" />
-            <span className="mt-2.5 block h-5 w-24 rounded bg-amber-400/70" />
           </div>
         </div>
       </div>
@@ -108,7 +128,78 @@ export function BrowserFrameVisual() {
           technology can reach - which this frame, being decorative and
           aria-hidden, cannot. If a caption is ever wanted here, it has to be a
           claim about what gets built for the visitor's decision, not a
-          specification. */}
+          specification - which is the test the three scan-path labels above
+          were written against. */}
+    </div>
+  );
+}
+
+interface StopProps {
+  index: number;
+  label: string;
+  children: React.ReactNode;
+}
+
+/**
+ * One numbered stop: the badge sitting in the route column, and the label plus
+ * the wireframe block it annotates in the content column. The badge is opaque
+ * so it punches a gap in the dashed route running behind it.
+ */
+function Stop({ index, label, children }: StopProps) {
+  return (
+    <>
+      <span className="relative z-10 mt-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full border border-amber-400/50 bg-neutral-950 font-mono text-[9px] font-semibold text-amber-400">
+        {index + 1}
+      </span>
+      <div className="pb-4 last:pb-0">
+        <p className="mb-2 text-[11px] font-medium leading-tight text-amber-200/80">
+          {label}
+        </p>
+        {children}
+      </div>
+    </>
+  );
+}
+
+function HeroBlock() {
+  return (
+    <div className="rounded-md border border-white/[0.06] bg-gradient-to-br from-amber-400/[0.07] to-transparent p-4">
+      <span className="mb-2.5 block h-4 w-3/4 rounded bg-neutral-600" />
+      <span className="mb-2 block h-2 w-full rounded bg-neutral-800" />
+      <span className="mb-4 block h-2 w-5/6 rounded bg-neutral-800" />
+      <span className="inline-block h-6 w-28 rounded bg-amber-400/70" />
+    </div>
+  );
+}
+
+function ProofRow() {
+  return (
+    <div className="grid grid-cols-3 gap-2.5">
+      {[0, 1, 2].map((i) => (
+        <div
+          key={i}
+          className="rounded-md border border-white/[0.06] bg-neutral-950/50 p-2.5"
+        >
+          <span className="mb-2 block h-5 w-5 rounded border border-amber-400/25 bg-amber-400/10" />
+          <span className="mb-1.5 block h-1.5 w-full rounded bg-neutral-700" />
+          <span className="block h-1.5 w-2/3 rounded bg-neutral-800" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** The point of the whole page, which is why it is the last stop on the route. */
+function NextStepBlock() {
+  return (
+    <div className="rounded-md border border-amber-400/20 bg-amber-400/[0.04] p-3">
+      <span className="mb-2.5 block h-2 w-24 rounded bg-neutral-600" />
+      <div className="grid grid-cols-2 gap-2">
+        <span className="h-4 rounded border border-white/10 bg-neutral-900" />
+        <span className="h-4 rounded border border-white/10 bg-neutral-900" />
+      </div>
+      <span className="mt-2 block h-4 rounded border border-white/10 bg-neutral-900" />
+      <span className="mt-2.5 block h-5 w-24 rounded bg-amber-400/70" />
     </div>
   );
 }

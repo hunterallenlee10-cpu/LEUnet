@@ -751,6 +751,28 @@
   }
 }
 
+/* The dot that runs down the scan path in `BrowserFrameVisual`. It travels the
+   route a visitor takes through a page - headline, then proof, then the next
+   step - so the motion is the point of the diagram rather than decoration on
+   top of it. `top` rather than `transform` because the distance is the parent's
+   height, which is content-driven and not known here; it is one small element,
+   so the cost of animating a layout property is not worth a magic pixel value
+   that would drift the first time the wireframe changes. */
+@keyframes lmmScan {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
 .lmm-dash {
   stroke-dasharray: 4 8;
   animation: lmmDash 1.6s linear infinite;
@@ -764,14 +786,26 @@
   animation: lmmPulse 2.6s ease-in-out infinite;
 }
 
+.lmm-scan {
+  animation: lmmScan 5.5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lmm-dash,
   .lmm-packet,
-  .lmm-status {
+  .lmm-status,
+  .lmm-scan {
     animation: none;
   }
 
   .lmm-packet {
+    opacity: 1;
+  }
+
+  /* Parked at the first stop rather than left invisible at 0% opacity: the
+     dot reads as a marker on the path when it is not moving. */
+  .lmm-scan {
+    top: 0%;
     opacity: 1;
   }
 }

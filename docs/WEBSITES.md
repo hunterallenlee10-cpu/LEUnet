@@ -90,7 +90,7 @@ read as anything but a price list.
 
 | # | Section | Component | Job |
 | --- | --- | --- | --- |
-| 1 | Hero | `WebsitesHeroSection` + `BrowserFrameVisual` | The one-job claim, two CTAs |
+| 1 | Hero | `WebsitesHeroSection` + `BrowserFrameVisual` | The one-job claim, two CTAs, the scan path |
 | 2 | Outcome strip | `WebsitesOutcomeStrip` | The promise in four parts |
 | 3 | The shift | `WebsitesShiftSection` | Why the old site stopped working |
 | 4 | Problem | `WebsitesProblemSection` | A site that sits there vs one that sells |
@@ -279,6 +279,20 @@ No screenshots of work we did not do, either. `BrowserFrameVisual` is an
 abstract wireframe for exactly this reason - a stock screenshot in a hero
 implies a portfolio that does not exist.
 
+The wireframe is annotated with a three-stop scan path - "says what you do, in
+one line", "proof they can check themselves", "one obvious next step" - because
+an unlabeled one illustrated the artifact while the page sells the job. It was a
+picture of a website with no visitor in it, and it was the only hero visual
+across the three LMM pages that did not carry its page's argument. The three
+labels are the "sells" column of `WebsitesProblemSection` rather than new
+claims, which is deliberate: the diagram and the prose have to argue one thing,
+and a diagram is exactly as capable of overclaiming as a sentence.
+
+**The obvious next idea is the one to refuse.** Showing an enquiry landing in an
+inbox, or any dashboard-shaped panel, reintroduces the attribution overclaim
+§3.2 exists to prevent. A picture of a leads dashboard is a claim about
+measurement we cannot make.
+
 If real client sites or real testimonials become available, they replace
 `websitePortfolio` and the "our own ventures" caveat comes out with them, and
 not before.
@@ -294,7 +308,10 @@ following were removed and must not come back:
 - `BrowserFrameVisual` - the chip row "Mobile ready" / "Fast loading" /
   "Built to convert", which sat in the first screen beside the H1. The third
   chip was true and on-argument but said the same thing as the eyebrow above it
-  and the strip below it, so the row went rather than being rewritten.
+  and the strip below it, so the row went rather than being rewritten. The test
+  that row failed - a claim about what gets built for the visitor's decision,
+  never a specification - is the test the scan-path labels now in that frame
+  were written against. Anything added there has to pass it too.
 - `WebsitesServicesSection` - the capabilities "Mobile and tablet layouts" and
   "Rebuilt to load fast and read clearly on a phone".
 - The outcome strip's "Trusted in Seconds" tile, whose supporting label
