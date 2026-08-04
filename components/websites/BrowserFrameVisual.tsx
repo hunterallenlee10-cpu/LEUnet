@@ -40,6 +40,23 @@ const stops = [
   { label: "One obvious next step", Block: NextStepBlock },
 ];
 
+/**
+ * Must match the duration on `.lmm-scan-dot` / `.lmm-scan-badge` /
+ * `.lmm-scan-label` in `app/globals.css`. Each stop is offset by one share of
+ * this, which is what puts the three of them in sequence: a row's dot finishes
+ * its travel exactly as the next row's dot starts, so they hand off at the same
+ * point on the line and read as one dot.
+ */
+const LMM_SCAN_CYCLE_SECONDS = 6.6;
+
+/**
+ * Half the badge height plus its top margin, so the line and the dot run
+ * between badge *centers* rather than between row edges. Because every row
+ * carries the same badge, the same offset is correct at both ends of a
+ * segment - it lands on this row's badge at 0% and the next row's at 100%.
+ */
+const BADGE_CENTER_OFFSET = "11px";
+
 export function BrowserFrameVisual() {
   return (
     <div
@@ -88,18 +105,19 @@ export function BrowserFrameVisual() {
               content-height, so anything pinned by coordinate would need magic
               numbers and would break at the first content change. The narrow
               column carries the route and the numbered stops; the wide one
-              carries each label and the block it belongs to. */}
-          <div className="relative grid grid-cols-[18px_1fr] gap-x-2.5">
-            {/* The route, behind the badges. Inset at the top so it begins at
-                the first stop rather than running off the end; the bottom inset
-                lands it level with the submit button in the last block, so the
-                path terminates on the thing the visitor is meant to click
-                rather than stopping short at the third badge. */}
-            <span className="absolute bottom-4 left-[9px] top-3 -translate-x-1/2 border-l border-dashed border-amber-400/30" />
-            <span className="lmm-scan absolute left-[9px] h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.9)]" />
+              carries each label and the block it belongs to.
 
+              Each row owns its own segment of the line and its own dot, so no
+              element needs to know where the others sit - see the sequencing
+              note above `@keyframes lmmScanDot` in app/globals.css. */}
+          <div className="grid grid-cols-[18px_1fr] gap-x-2.5">
             {stops.map(({ label, Block }, i) => (
-              <Stop key={label} index={i} label={label}>
+              <Stop
+                key={label}
+                index={i}
+                label={label}
+                isLast={i === stops.length - 1}
+              >
                 <Block />
               </Stop>
             ))}
@@ -137,22 +155,59 @@ export function BrowserFrameVisual() {
 interface StopProps {
   index: number;
   label: string;
+  isLast: boolean;
   children: React.ReactNode;
 }
 
 /**
- * One numbered stop: the badge sitting in the route column, and the label plus
- * the wireframe block it annotates in the content column. The badge is opaque
- * so it punches a gap in the dashed route running behind it.
+ * One numbered stop: the badge and this row's segment of the route in the
+ * narrow column, the label and the wireframe block it annotates in the wide
+ * one. The badge is opaque and above the line so the route appears to pass
+ * behind it rather than through it.
+ *
+ * The segment doubles as the dot's track - the dashed border and the dot share
+ * one positioned element, so the dot cannot drift off the line no matter how
+ * the row's content resizes.
  */
-function Stop({ index, label, children }: StopProps) {
+function Stop({ index, label, isLast, children }: StopProps) {
+  const delay = { animationDelay: `${index * (LMM_SCAN_CYCLE_SECONDS / 3)}s` };
+
   return (
     <>
-      <span className="relative z-10 mt-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full border border-amber-400/50 bg-neutral-950 font-mono text-[9px] font-semibold text-amber-400">
-        {index + 1}
-      </span>
+      {/* Stretches to the row height, which is what makes the segment below
+          span exactly from this badge to the next one. */}
+      <div className="relative flex items-start justify-center">
+        <span
+          style={delay}
+          className="lmm-scan-badge relative z-10 mt-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full border border-amber-400/50 bg-neutral-950 font-mono text-[9px] font-semibold text-amber-400"
+        >
+          {index + 1}
+        </span>
+
+        {/* Runs past the bottom of the row on every stop but the last, so it
+            reaches the next badge's center. On the last one it stops short
+            instead, landing level with the submit button in the block beside
+            it - the route should end on the thing the visitor is meant to
+            click, not trail off the bottom of the frame. */}
+        <span
+          style={{
+            top: BADGE_CENTER_OFFSET,
+            bottom: isLast ? "18px" : `-${BADGE_CENTER_OFFSET}`,
+          }}
+          className="absolute left-1/2 w-0 -translate-x-1/2 border-l border-dashed border-amber-400/30"
+        >
+          <span
+            style={delay}
+            className="lmm-scan-dot absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-400 shadow-[0_0_7px_rgba(251,191,36,0.95)]"
+          />
+        </span>
+      </div>
+
       <div className="pb-4 last:pb-0">
-        <p className="mb-2 text-[11px] font-medium leading-tight text-amber-200/80">
+        <p
+          style={delay}
+          className="lmm-scan-label mb-2 text-[11px] font-medium leading-tight text-amber-200/80"
+        >
           {label}
         </p>
         {children}
