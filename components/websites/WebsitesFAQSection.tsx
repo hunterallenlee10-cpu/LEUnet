@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { LmmMarkDivider } from "@/components/lmm/LmmMark";
 import { websiteFaqs } from "@/data/websites";
 
 export function WebsitesFAQSection() {
@@ -10,6 +11,11 @@ export function WebsitesFAQSection() {
   return (
     <section className="py-20 md:py-28">
       <div className="section-container">
+        {/* Same breath the automation and marketing FAQs take: the inquiry
+            section above ends on a form, and the divider keeps this heading
+            from landing directly under it. */}
+        <LmmMarkDivider className="mb-14" />
+
         {/* This is the last heading a reader meets before the form, and it used
             to read "Questions About the Build", which frames the purchase as a
             construction project - the exact framing the rest of the page moved

@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, FileText, Layers, Workflow, Repeat } from "lucide-react";
+import { LmmMark } from "@/components/lmm/LmmMark";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 
 /**
@@ -78,6 +79,10 @@ export function WebsitesPricingSection() {
         </ul>
 
         <div className="mt-12 text-center">
+          {/* The quote is the promise this section makes, so the mark goes
+              above the button that asks for it - the same signature the
+              automation page puts on its closing panel. */}
+          <LmmMark size="md" className="mx-auto mb-6" />
           <button
             onClick={() =>
               smoothScrollToElement("website-inquiry-form", { focus: true })

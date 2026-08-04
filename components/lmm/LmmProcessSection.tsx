@@ -1,3 +1,5 @@
+import { LmmMark } from "@/components/lmm/LmmMark";
+
 const steps = [
   {
     number: "01",
@@ -26,7 +28,11 @@ export function LmmProcessSection() {
     <section className="border-y border-white/10 bg-neutral-950/60 py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
+          {/* The mark sits inside the eyebrow row rather than above it so the
+              two read as one line of brand furniture, not as two stacked
+              headings competing with the h2 below. */}
+          <p className="mb-3 flex items-center justify-center gap-2.5 text-sm font-semibold uppercase tracking-widest text-amber-400">
+            <LmmMark />
             How the Systems Work
           </p>
           <h2 className="heading-lg text-white">

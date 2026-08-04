@@ -1,4 +1,5 @@
 import { Settings2, Target, MessageSquare, TrendingUp } from "lucide-react";
+import { LmmMark } from "@/components/lmm/LmmMark";
 
 const differentiators = [
   {
@@ -54,6 +55,9 @@ export function LmmWhyChooseSection() {
         </div>
 
         <div className="mx-auto mt-12 max-w-3xl rounded-xl border border-amber-400/25 bg-amber-400/[0.05] p-8 text-center">
+          {/* This panel is the section's closing argument and the only place on
+              the page where we speak in the first person. The mark signs it. */}
+          <LmmMark size="md" className="mx-auto mb-5" />
           <p className="text-lg font-semibold leading-relaxed text-white">
             The goal is not to automate everything. The goal is to automate the
             right processes so your business can operate more effectively.

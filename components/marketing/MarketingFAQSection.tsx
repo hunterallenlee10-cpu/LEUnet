@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { LmmMarkDivider } from "@/components/lmm/LmmMark";
 import { marketingFaqs } from "@/data/marketing";
 
 export function MarketingFAQSection() {
@@ -10,6 +11,11 @@ export function MarketingFAQSection() {
   return (
     <section className="py-20 md:py-28">
       <div className="section-container">
+        {/* Same breath the automation and websites FAQs take: the inquiry
+            section above ends on a form, and the divider keeps this heading
+            from landing directly under it. */}
+        <LmmMarkDivider className="mb-14" />
+
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
             Common Questions

@@ -11,6 +11,8 @@
  * promote it into a step title, the section heading, or anywhere earlier on the
  * page, and do not attach a duration to it: see the note on that paragraph.
  */
+import { LmmMark } from "@/components/lmm/LmmMark";
+
 const steps = [
   {
     title: "Consultation",
@@ -61,7 +63,11 @@ export function WebsitesProcessSection() {
     <section className="py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
+          {/* Matches the eyebrow treatment on the automation and marketing
+              process sections - the three pages are one venture and their
+              equivalent sections should be recognisable as such. */}
+          <p className="mb-3 flex items-center justify-center gap-2.5 text-sm font-semibold uppercase tracking-widest text-amber-400">
+            <LmmMark />
             The Process
           </p>
           <h2 className="heading-lg mb-6 text-white">
