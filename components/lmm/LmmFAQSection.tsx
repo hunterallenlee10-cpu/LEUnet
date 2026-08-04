@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { LmmMarkDivider } from "@/components/lmm/LmmMark";
 import { lmmFaqs } from "@/data/lmm";
 
 export function LmmFAQSection() {
@@ -10,6 +11,11 @@ export function LmmFAQSection() {
   return (
     <section className="py-20 md:py-28">
       <div className="section-container">
+        {/* The consultation section above this one ends on a form, which is a
+            hard stop. The divider gives the page somewhere to breathe before
+            the last two sections, and carries the mark while it does it. */}
+        <LmmMarkDivider className="mb-14" />
+
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
             Common Questions
