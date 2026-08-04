@@ -4,7 +4,7 @@ import {
   H1Package,
   H1ProcessStep,
   H1ProgramFeature,
-  H1Result,
+  H1ProofPoint,
   H1Testimonial,
 } from "@/types";
 
@@ -42,34 +42,135 @@ export const H1_PHONE = "240-925-2609";
 export const H1_PHONE_HREF = "tel:+12409252609";
 
 /**
- * Program results, quoted from H1's own Strength & Conditioning program
- * document. These are the client's published figures — do not round, embellish,
- * or add to them without a source.
+ * Every measured result this page claims, in one array. The hero readout
+ * rotates them and the results strip lists them, both from here — two arrays
+ * carrying the same public claims is one edit away from the two sections
+ * disagreeing about what an athlete achieved.
  *
- * The document's fourth figure, "+15 MPH exit velo," is deliberately not here.
- * It appears in the flyer as a result of the HLP hitting system, and this page
- * carries no hitting content — see docs/H1.md §2.
+ * Sources:
+ * - 40-yard dash and powerlifting PR are quoted from H1's own Strength &
+ *   Conditioning document — see docs/H1.md §3. That document does not say which
+ *   sport the 40-yard athlete plays; the owner supplied "football player" on
+ *   2026-08-04.
+ * - 60-yard dash, bench press, batted-ball distance and exit velocity were all
+ *   supplied by the owner on 2026-08-04.
+ *
+ * Do not round these, do not restate them as typical, and do not add to them
+ * without a source. `5.1 → 4.5` is the published figure; it is not
+ * `5.10 → 4.50`, and padding a decimal place to make a counter look smoother
+ * would be inventing precision the client never claimed.
+ *
+ * Exit velocity and batted-ball distance are hitting metrics, which docs/H1.md
+ * §2 previously kept off this page. The owner asked for both on 2026-08-04 —
+ * see the dated note in that section.
  */
-export const h1Results: H1Result[] = [
+export const h1ProofPoints: H1ProofPoint[] = [
   {
-    id: "h1-result-forty",
-    figure: "5.1 → 4.5",
+    id: "h1-proof-forty",
+    kind: "pair",
     label: "40-yard dash",
-    detail: "Six tenths off the clock in two months.",
+    from: 5.1,
+    to: 4.5,
+    precision: 1,
+    scope: "individual",
+    subject: "football player",
+    period: "two months",
   },
   {
-    id: "h1-result-pr",
-    figure: "+30%",
+    id: "h1-proof-sixty",
+    kind: "pair",
+    label: "60-yard dash",
+    from: 7.2,
+    to: 6.6,
+    precision: 1,
+    scope: "individual",
+    subject: "baseball player",
+  },
+  {
+    id: "h1-proof-bench",
+    kind: "pair",
+    label: "Bench press",
+    from: 120,
+    to: 235,
+    precision: 0,
+    // The owner's figures came without a unit — "bench went from 120 to 235".
+    // Confirmed as pounds by the owner on 2026-08-04.
+    unit: "lb",
+    scope: "individual",
+    subject: "member",
+    period: "six months",
+  },
+  {
+    id: "h1-proof-pr",
+    kind: "delta",
     label: "Powerlifting PR",
-    detail: "One athlete's increase in a single month.",
+    figure: "+30%",
+    scope: "individual",
+    subject: "athlete",
+    period: "one month",
   },
   {
-    id: "h1-result-blocks",
-    figure: "4-week",
-    label: "Training blocks",
-    detail: "Each one built on the last, never repeated blindly.",
+    id: "h1-proof-distance",
+    kind: "delta",
+    label: "Batted-ball distance",
+    figure: "+37%",
+    scope: "average",
+    subject: "baseball players",
+  },
+  {
+    id: "h1-proof-exit-velo",
+    kind: "delta",
+    label: "Exit velocity",
+    figure: "+20%",
+    scope: "average",
+    subject: "baseball players",
   },
 ];
+
+/**
+ * A proof point's figure as static text — `5.1 → 4.5`, `120 → 235 lb`, `+30%`.
+ * The hero readout counts between the two numbers of a pair and so builds its
+ * own string mid-animation, but it settles on exactly this, and everywhere else
+ * renders it directly. One formatter means the strip and the hero cannot end up
+ * showing the same result to different precision.
+ */
+export function proofFigure(point: H1ProofPoint): string {
+  if (point.kind === "delta") {
+    return point.figure;
+  }
+  const from = point.from.toFixed(point.precision);
+  const to = point.to.toFixed(point.precision);
+  return `${from} → ${to}${point.unit ? ` ${point.unit}` : ""}`;
+}
+
+/**
+ * The one place the individual/average distinction turns into words. Everything
+ * that displays a proof point calls this, so a figure cannot appear anywhere on
+ * the site without saying whose result it is.
+ */
+export function proofAttribution(point: H1ProofPoint): string {
+  // Averages name the program. "Average across baseball players" on its own can
+  // be read as an industry-wide figure, which claims far more than the source.
+  const who =
+    point.scope === "average"
+      ? `Average across H1 ${point.subject}`
+      : `One ${point.subject}`;
+  // `period` is composed in both branches. No average carries one today, but an
+  // attribution that silently dropped a stated timeframe would leave the claim
+  // less bounded than the thing it was sourced from.
+  return point.period ? `${who} · ${point.period}` : who;
+}
+
+/**
+ * Not a result — a program attribute, and deliberately not in `h1ProofPoints`
+ * for that reason. It sat in the old results strip, so it keeps its place on
+ * the page beside the rotating figures rather than being quietly dropped.
+ * `h1ProgramFeatures` carries the same fact in full further down the page.
+ */
+export const h1BlockNote = {
+  title: "4-week training blocks",
+  detail: "Each one built on the last, never repeated blindly.",
+} as const;
 
 export const h1ProgramFeatures: H1ProgramFeature[] = [
   {

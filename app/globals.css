@@ -265,6 +265,249 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   H1 Performance hero — "The Clock"
+   Two consumers: `.h1c-hero-bg` in components/h1/H1HeroSection.tsx, and
+   everything else in components/h1/H1ProofRotator.tsx.
+
+   The palette arrives as custom properties, set on the hero `<section>` from
+   `H1_PALETTE` and again on `.h1c-readout` so the rotator stands on its own
+   wherever it is mounted. Nothing here writes a palette hex, so editing
+   `H1_PALETTE` cannot leave a stale colour behind in this block.
+
+   Two literal colours are deliberate and are not palette values: `#0c0e12` and
+   `#050607` in the hero vignette, a shade either side of `ink` so the
+   background has a centre. docs/H1.md §4 says use `H1_PALETTE`; these are the
+   documented exception, and they exist only in `.h1c-hero-bg`.
+
+   The one rule everything here serves: the figure changes every few seconds,
+   directly above the hero's call to action, so nothing about a fact may change
+   the height of the readout. A caption that wraps to two lines on one fact and
+   one on the next would make the buttons below it hop, which is the first
+   defect anyone would notice. Hence the reserved minimums, and hence
+   `tabular-nums` — proportional digits change width on every frame of a count
+   and the number visibly jitters.
+   --------------------------------------------------------------------------- */
+
+/* Deliberately static. Every moving thing in this hero lives inside the
+   readout, which is what lets one pause control stop all of it — a background
+   that kept sweeping after the figures froze would leave the section still
+   moving, and WCAG 2.2.2 unsatisfied. The warm pool sits under the readout,
+   low and left, where the copy column is. */
+.h1c-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      70% 90% at 26% 42%,
+      color-mix(in srgb, var(--h1c-gold) 10%, transparent) 0%,
+      transparent 62%
+    ),
+    radial-gradient(120% 120% at 50% 50%, #0c0e12 0%, var(--h1c-ink) 62%, #050607 100%);
+}
+
+.h1c-readout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.h1c-fact {
+  position: relative;
+  padding: 1.25rem 0;
+  border-block: 1px solid color-mix(in srgb, var(--h1c-gold) 26%, transparent);
+  animation: h1c-fact-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* Clips the gate. The sweep's easing spends its last third almost stationary
+     at the far edge, so without this the bright band finishes outside the
+     readout — parked at ~104% of its width, still at 85% opacity, jutting into
+     whatever sits beside the hero column. Also keeps the `nowrap` figures from
+     spilling at extreme widths. */
+  overflow: hidden;
+}
+
+/* The timing gate. A full-width strip carrying one thin bright band, moved by
+   `transform` — animating `left` on a 2px element would work but would lay out
+   on every frame, and the percentage here resolves against the strip's own
+   width, which is the whole readout. */
+.h1c-gate {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 47.6%,
+    var(--h1c-gold) 50%,
+    transparent 52.4%
+  );
+  opacity: 0;
+  animation: h1c-gate-sweep 1500ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+
+.h1c-metric {
+  margin: 0;
+  min-height: 1.15em;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--h1c-chalk);
+}
+
+.h1c-figures {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35em;
+  margin: 0.35rem 0 0;
+  font-size: clamp(2.1rem, 7vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1;
+  min-height: 1em;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.h1c-from { color: var(--h1c-muted); }
+.h1c-value { color: var(--h1c-gold); }
+.h1c-arrow {
+  font-size: 0.46em;
+  color: var(--h1c-muted);
+  letter-spacing: 0;
+}
+.h1c-unit {
+  font-size: 0.3em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--h1c-muted);
+}
+
+/* Reserved so a shorter attribution cannot pull the call to action up under
+   it. One line is enough: measured across every fact from 1440px down to
+   320px, the longest — "Average across H1 baseball players", 208px — still has
+   80px of headroom on the narrowest viewport, so none of them wrap.
+   That is a constraint, not a coincidence. An attribution long enough to wrap
+   would make the CTA hop every five seconds; keep them under about 34
+   characters, or raise this reservation to match. */
+.h1c-attrib {
+  margin: 0.6rem 0 0;
+  min-height: 1.4em;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--h1c-muted);
+}
+
+.h1c-controls {
+  display: flex;
+  align-items: baseline;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.h1c-pause {
+  flex: none;
+  /* "Play" is narrower than "Pause"; without a floor the button resizes on
+     every press and shoves the qualifier beside it. */
+  min-inline-size: 5.25rem;
+  text-align: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--h1c-muted);
+  background: none;
+  border: 1px solid var(--h1c-line);
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.h1c-pause:hover {
+  color: var(--h1c-gold);
+  border-color: color-mix(in srgb, var(--h1c-gold) 55%, transparent);
+}
+.h1c-pause:focus-visible {
+  outline: 2px solid var(--h1c-gold);
+  outline-offset: 2px;
+}
+
+.h1c-qualifier {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--h1c-muted);
+}
+
+/* Pausing has to stop the sweep as well as the rotation. A hero that freezes
+   its readout while a bright line keeps crossing it has not stopped moving.
+
+   `visibility` rather than `opacity`, because the animation drives opacity and
+   would win. And the animation is paused rather than removed: setting
+   `animation: none` here would restart the sweep from the beginning on resume,
+   replaying it across a fact that has been on screen for several seconds. */
+.h1c-readout[data-paused="true"] .h1c-gate {
+  animation-play-state: paused;
+  visibility: hidden;
+}
+
+/* Vertical space is the scarce resource on a phone: the readout, the headline
+   and the copy all sit above the primary call to action, and the point of this
+   hero is that someone sees the proof *and* the button. */
+@media (max-width: 640px) {
+  .h1c-fact {
+    padding: 0.9rem 0;
+  }
+  .h1c-attrib {
+    margin-top: 0.45rem;
+  }
+}
+
+@keyframes h1c-fact-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes h1c-gate-sweep {
+  0% {
+    transform: translateX(-52%);
+    opacity: 0;
+  }
+  18%,
+  82% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateX(52%);
+    opacity: 0;
+  }
+}
+
+/* The rotation and the counting are stopped in the component, which reads the
+   same preference; these are the parts CSS owns. The pause control goes with
+   them: with nothing moving there is nothing to pause, and leaving a dead
+   button in the tab order is worse than removing it. */
+@media (prefers-reduced-motion: reduce) {
+  .h1c-fact,
+  .h1c-gate {
+    animation: none;
+  }
+  .h1c-gate {
+    display: none;
+  }
+  .h1c-pause {
+    display: none;
+  }
+}
+
 @theme inline {
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
