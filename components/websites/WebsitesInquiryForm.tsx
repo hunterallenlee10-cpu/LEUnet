@@ -4,10 +4,24 @@ import { useState } from "react";
 import Image from "next/image";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
+// These options mirror the four cards in WebsitesServicesSection, so a visitor
+// picks the thing they just read about. The third used to read "Website with AI
+// features built in", which named the technology instead of the result, and then
+// "Lead capture and follow-up around the clock" - a third name for an offering
+// the card and the structured data in page.tsx both call "Never Miss a Lead".
+// Three names for one thing left the buyer unsure what they were selecting and
+// the owner unsure what the emailed enquiry referred to, so the card title now
+// leads the option and the plain-language gloss follows it. If the card is
+// retitled, retitle this and the hasOfferCatalog entry in page.tsx with it.
+//
+// Safe to rename: the value is posted to /api/website-inquiry, which only checks
+// that projectType is non-empty and then interpolates it into the notification
+// email. Nothing matches on the literal string, so the label can change without
+// touching the route. Verified in app/api/website-inquiry/route.ts.
 const projectTypes = [
   "New website",
   "Redesign of my existing site",
-  "Website with AI features built in",
+  "Never Miss a Lead - chat, intake, and follow-up",
   "Care plan for a site I already have",
   "Not sure yet",
 ];

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Megaphone, Sparkles, Workflow } from "lucide-react";
+import { ArrowRight, Globe, Megaphone, Workflow } from "lucide-react";
 
 /**
  * The three Lee Marketing Mastery offerings, in one place so the hero rows on
@@ -13,9 +13,26 @@ const offerings = [
     Icon: Workflow,
   },
   {
+    /**
+     * The label names what the finished site does for the owner, not how it
+     * was produced. "New Websites, Built with AI" sold a production method,
+     * which put this pill in the same category as tools the prospect could
+     * run themselves and made speed the only thing left to compete on. The
+     * websites page now leads with the job - turning a visitor into a
+     * customer - and this pill has to promise the same thing.
+     *
+     * Sparkles went with it: the icon was reading as AI-magic. Globe is the
+     * same mark `MarketingRelatedSection` already uses for this destination,
+     * and it matches the grammar of the row, where Workflow and Megaphone
+     * name the category rather than the outcome.
+     *
+     * Keep this label at or under about 27 characters. It has to sit on one
+     * line beside "Traditional & Digital Marketing" (31) at 1440px inside a
+     * panel roughly 576px wide - see docs/CROSS-LINKS.md.
+     */
     href: "/lee-marketing-mastery/websites",
-    label: "New Websites, Built with AI",
-    Icon: Sparkles,
+    label: "Websites That Convert",
+    Icon: Globe,
   },
   {
     href: "/lee-marketing-mastery/marketing",

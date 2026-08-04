@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Target } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { BrowserFrameVisual } from "@/components/websites/BrowserFrameVisual";
 import { LmmSiblingLinks } from "@/components/lmm/LmmSiblingLinks";
@@ -29,27 +29,45 @@ export function WebsitesHeroSection() {
                 priority
                 className="h-14 w-14 shrink-0 rounded-full md:h-16 md:w-16"
               />
+              {/* The eyebrow names the outcome the buyer is paying for, not the
+                  method used to produce the site. An eyebrow about production
+                  invites the prospect to compare us against tools they could run
+                  themselves; an eyebrow about conversion keeps the comparison on
+                  the result. Target replaced Sparkles for the same reason - the
+                  icon now points at the job, not at the tooling. */}
               <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-2">
-                <Sparkles className="h-4 w-4 text-amber-400" aria-hidden="true" />
+                <Target className="h-4 w-4 text-amber-400" aria-hidden="true" />
                 <span className="text-sm font-semibold tracking-wide text-amber-400">
-                  WEBSITES BUILT WITH AI
+                  WEBSITES BUILT TO CONVERT
                 </span>
               </div>
             </div>
 
             <h1 className="heading-xl mb-6 text-white">
-              A Professional Website,{" "}
+              Your Website Has One Job:{" "}
               <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400 bg-clip-text text-transparent">
-                Built in a Fraction of the Time.
+                Turn a Visitor Into a Customer.
               </span>
             </h1>
 
+            {/* This paragraph offers recognition, not a diagnosis. The earlier
+                version stated as fact that the reader's traffic had fallen and
+                that their visitors were comparing them against two or three
+                businesses - we have never seen this reader's analytics and the
+                count was invented, so both were removed. A conditional opening
+                is also harder to argue with: an owner who recognizes it agrees
+                on his own terms, and one who does not has not been told
+                something false about his own business. The "a few seconds"
+                interval went with them; that idea now appears once, in the
+                Shift section, phrased as how people behave rather than as a
+                measured time. */}
             <p className="mb-8 max-w-2xl text-lg leading-relaxed text-neutral-300">
-              Lee Marketing Mastery designs and builds modern business websites
-              using AI-assisted production. You get a fast, mobile-ready site
-              that is written, designed, and reviewed for your business - without
-              the months-long timeline and agency price tag of a traditional
-              build.
+              Lee Marketing Mastery builds business websites around that one job.
+              If your traffic looks flatter than it used to, and the visitors who
+              do arrive rarely call, the visit is landing later in the decision
+              than it once did - your site is being checked by someone who has
+              already narrowed the list, not discovered by someone starting out.
+              It has to be the reason they stop looking.
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
@@ -65,11 +83,18 @@ export function WebsitesHeroSection() {
                   aria-hidden="true"
                 />
               </button>
+              {/* Wording chosen so it stays true no matter how the Work section
+                  is titled. "See Live Sites We've Built" implied five separate
+                  websites for five separate businesses; the portfolio is five
+                  routes on this one domain, two of which are the page the
+                  visitor is reading. Pointing at live work makes the same
+                  promise - you can open it right now - without counting sites
+                  we do not have. */}
               <button
                 onClick={() => smoothScrollToElement("website-work")}
                 className="btn-secondary inline-flex items-center justify-center gap-2"
               >
-                See Sites We&apos;ve Built
+                See the Live Work
               </button>
             </div>
 

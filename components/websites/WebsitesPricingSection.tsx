@@ -1,31 +1,37 @@
 "use client";
 
-import { ArrowRight, FileText, Layers, Zap, Repeat } from "lucide-react";
+import { ArrowRight, FileText, Layers, Workflow, Repeat } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 
 /**
  * No prices, by decision - see docs/WEBSITES.md. Rather than showing a number
  * this section explains what a quote is built from, so a visitor can estimate
  * where they land before they ever talk to us.
+ *
+ * The factors are deliberately stated as scope - how much site, and what the
+ * site has to accomplish - never as production time saved. "The build is
+ * shorter" and the Zap icon both priced the work by speed, which is the one axis
+ * this page does not compete on. Keep the answer to "what does it cost" tied to
+ * what the finished site does.
  */
 const factors = [
   {
     Icon: Layers,
     title: "How many pages",
     detail:
-      "A focused single-page site and a fifteen-page site are different amounts of work.",
+      "One focused page and a page for every service, town, and campaign are different amounts of work.",
   },
   {
     Icon: FileText,
     title: "Whether content exists",
     detail:
-      "If copy, photos, and branding are ready, the build is shorter. If not, we produce them.",
+      "If copy, photos, and branding are ready, there is less to produce. If not, we write and shoot what the pages need.",
   },
   {
-    Icon: Zap,
+    Icon: Workflow,
     title: "What it has to do",
     detail:
-      "A brochure site, a booking flow, a product catalog, and a chat-enabled intake are different builds.",
+      "A site that captures form fills, one that books appointments, and one that answers questions at 11pm are different builds.",
   },
   {
     Icon: Repeat,
@@ -47,9 +53,11 @@ export function WebsitesPricingSection() {
             Every Project Is Quoted, Not Packaged.
           </h2>
           <p className="text-lg leading-relaxed text-neutral-300">
-            We do not publish a universal price, because a one-page site for a
-            new business and a rebuild with booking and automated follow-up are
-            not the same project. Four things determine what a build costs.
+            We do not publish a universal price, because a single focused page
+            for a new business and a rebuild that books appointments and follows
+            up on its own are not the same project. Four things decide what a
+            build costs, and all four come down to how much site you need and
+            what it has to accomplish.
           </p>
         </div>
 

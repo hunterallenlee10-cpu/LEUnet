@@ -10,7 +10,7 @@ confirmation, not code — see §7.
 | --- | --- |
 | ✅ | `data/marketing.ts` — FAQs, traditional list, digital list |
 | ✅ | `app/lee-marketing-mastery/marketing/page.tsx` — page + structured data |
-| ✅ | 12 components in `components/marketing/` |
+| ✅ | 15 components in `components/marketing/` |
 | ✅ | `app/api/marketing-inquiry/route.ts` |
 | ✅ | 2 edits outside the page — the LMM hero pill (§5), `.env.example` |
 
@@ -96,7 +96,9 @@ structured data.
 
 ## 3. The honesty constraints
 
-Same line as `docs/WEBSITES.md` §3 and the parent LMM page:
+Same line as `docs/WEBSITES.md` §3 and the parent LMM page. That section is now
+the fullest statement of the standard and it applies to all three LMM pages, not
+only the websites one — read it before editing copy here.
 
 1. **No fabricated proof.** No testimonials, no client count, no campaign
    results, no "3x your leads."
@@ -109,6 +111,25 @@ Same line as `docs/WEBSITES.md` §3 and the parent LMM page:
    FAQ and the pricing section.
 4. **The hero visual is abstract.** `ChannelMixVisual` is a channel diagram, not
    a mock billboard or invented ad creative.
+5. **No frequency claims.** No "most clients", "most campaigns", "the most
+   common request". There is no client base to count across, so any "most X"
+   about the market or about our own clients is an unmeasured guess. The
+   underlying point survives as reasoning; it just does not pose as data. See
+   `docs/WEBSITES.md` §3.3, where the same rule is set out at length after this
+   construction had to be stripped out of that page repeatedly.
+
+   **Outstanding here:** `MarketingPricingSection` still carries "Most mixes are
+   some of both." Nothing counts mixes. Rewrite it as reasoning about how the
+   channels price rather than as an observed frequency.
+
+### The websites cross-link names the job, not the method
+
+`MarketingRelatedSection`'s first card and the `LmmSiblingLinks` pill both read
+"Websites That Convert". Both previously advertised how that site was produced.
+Naming a production method makes the destination a commodity and invites a price
+comparison against tools the prospect could run himself — `docs/WEBSITES.md`
+§3.1 records why that positioning was abandoned. If this card is ever retitled,
+it has to keep naming what the finished site does.
 
 ---
 

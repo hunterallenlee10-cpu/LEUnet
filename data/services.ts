@@ -1,10 +1,21 @@
 export const ventureServices = {
   lmm: [
     {
+      /**
+       * This entry used to sell the build itself - how fast it shipped and
+       * what it was made with. That framing put the offer up against tools a
+       * prospect could run alone and left price and speed as the only things
+       * to argue about, so it was rewritten around what the finished site
+       * does for the owner. The title matches the pill in `LmmSiblingLinks`
+       * and the card in `MarketingRelatedSection`, the same way "Business
+       * Automation" below is shared across all three; see docs/CROSS-LINKS.md
+       * for why those names are kept in step. Nothing here claims a result we
+       * cannot show a visitor, which is the standing rule for this repo.
+       */
       id: "lmm-websites",
-      title: "AI Website Design",
+      title: "Websites That Convert",
       description:
-        "Professional, world-class websites delivered at lightning speed. Built with cutting-edge technology and seamless integrations—without the long wait. Upgrade your online presence and start driving more revenue today.",
+        "Business websites built around one job: turning a visitor into a customer. Outcome-led copy, a focused page for each offer, and one obvious next step on every screen.",
       icon: "💻",
     },
     {
@@ -36,10 +47,18 @@ export const ventureServices = {
       icon: "🌱",
     },
     {
+      /**
+       * This is the catch-all card for work that does not fit one of the five
+       * named offerings above. It was titled "Custom Growth Solutions" and used
+       * "solutions" as a noun twice in two sentences, which is the jargon
+       * register the rest of this file has been moved away from - it describes
+       * nothing a buyer can picture. The rewrite names the actual kinds of work
+       * instead, and says how they are priced. Keep it concrete.
+       */
       id: "lmm-analytics",
-      title: "Custom Growth Solutions",
+      title: "Custom Growth Projects",
       description:
-        "From lead-generation systems and website development to branding and automation, we build custom solutions designed around your business goals.",
+        "Work that does not fit a standard package: lead-generation systems, a new website, branding, automation - scoped around what the business needs and quoted per project.",
       icon: "📈",
     },
   ],
