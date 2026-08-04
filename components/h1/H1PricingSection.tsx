@@ -28,7 +28,7 @@ export function H1PricingSection() {
           {h1Packages.map((pkg) => (
             <div
               key={pkg.id}
-              className="relative flex flex-col rounded-xl border p-8"
+              className="h1-live relative flex flex-col rounded-xl border p-8"
               style={
                 pkg.highlighted
                   ? {
@@ -107,7 +107,7 @@ export function H1PricingSection() {
                 onClick={() =>
                   smoothScrollToElement("h1-consultation-form", { focus: true })
                 }
-                className="group mt-auto inline-flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all duration-200"
+                className="h1-tap group mt-auto inline-flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold"
                 style={
                   pkg.highlighted
                     ? {

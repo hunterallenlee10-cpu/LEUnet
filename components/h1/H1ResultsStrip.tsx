@@ -37,7 +37,7 @@ export function H1ResultsStrip() {
             card on a row of its own; six keeps that property. */}
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
           {h1ProofPoints.map((point) => (
-            <div key={point.id} className="text-center">
+            <div key={point.id} className="h1-live rounded-xl p-4 text-center">
               {/* Three size steps rather than two. "120 → 235 lb" is the
                   longest figure this strip has ever carried, and at the old
                   `text-3xl md:text-4xl` it wrapped to a second line in a

@@ -322,7 +322,7 @@ export function H1ConsultationForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="group mt-8 inline-flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
+              className="h1-tap group mt-8 inline-flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-60"
               style={{ backgroundColor: H1_PALETTE.gold, color: H1_PALETTE.ink }}
             >
               {isSubmitting ? "Sending..." : "Send My Consultation Request"}

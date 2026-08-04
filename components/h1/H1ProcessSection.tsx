@@ -30,7 +30,7 @@ export function H1ProcessSection() {
           {h1ProcessSteps.map((step) => (
             <li
               key={step.id}
-              className="rounded-xl border p-7"
+              className="h1-live rounded-xl border p-7"
               style={{
                 borderColor: H1_PALETTE.line,
                 backgroundColor: `${H1_PALETTE.chalk}05`,

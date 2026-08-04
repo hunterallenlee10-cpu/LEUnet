@@ -34,7 +34,7 @@ export function H1ProblemSection() {
 
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
           <div
-            className="rounded-xl border p-8"
+            className="h1-live rounded-xl border p-8"
             style={{
               borderColor: H1_PALETTE.line,
               backgroundColor: `${H1_PALETTE.chalk}05`,
@@ -59,7 +59,7 @@ export function H1ProblemSection() {
           </div>
 
           <div
-            className="rounded-xl border p-8"
+            className="h1-live rounded-xl border p-8"
             style={{
               borderColor: `${H1_PALETTE.gold}4D`,
               backgroundColor: `${H1_PALETTE.gold}0D`,

@@ -45,7 +45,7 @@ export function H1CTASection() {
             onClick={() =>
               smoothScrollToElement("h1-consultation-form", { focus: true })
             }
-            className="group inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
+            className="h1-tap group inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold"
             style={{ backgroundColor: H1_PALETTE.gold, color: H1_PALETTE.ink }}
           >
             Book a Free Consultation
@@ -56,7 +56,7 @@ export function H1CTASection() {
           </button>
           <a
             href={H1_PHONE_HREF}
-            className="inline-flex items-center justify-center gap-2 rounded-lg border-2 px-6 py-3 font-semibold transition-colors duration-200"
+            className="h1-tap inline-flex items-center justify-center gap-2 rounded-lg border-2 px-6 py-3 font-semibold"
             style={{ borderColor: H1_PALETTE.chalk, color: H1_PALETTE.chalk }}
           >
             <Phone className="h-4 w-4" aria-hidden="true" />
