@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import { navigationItems, ventureNavItems, sectionIds } from "@/data/navigation";
 import { companyInfo } from "@/data/company";
 import { getScrollPosition, smoothScrollToElement, debounce } from "@/lib/scrollUtils";
@@ -14,7 +14,18 @@ export function MainHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [venturesDropdownOpen, setVenturesDropdownOpen] = useState(false);
-  const [closeTimeoutId, setCloseTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  // Which dropdown row's submenu is open (e.g. Lee Marketing Mastery's three
+  // pages). Same debounced-close pattern as the dropdown itself, and for the
+  // same reason: the pointer crosses a gap on its way into the flyout.
+  const [openSubmenuId, setOpenSubmenuId] = useState<string | null>(null);
+
+  // Refs rather than state. A fast flick from the trigger into the panel
+  // lands every boundary event in one task, before React re-renders — a
+  // handler reading the timeout id out of state sees the value from the
+  // previous render, misses the close timer the leave handler just armed,
+  // and the menu shuts 200ms later underneath the pointer.
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Every nav target is a section of the homepage. On any other route those
   // elements don't exist, so scrolling to them would silently do nothing.
@@ -33,24 +44,39 @@ export function MainHeader() {
   // Handle hover interactions for desktop dropdown
   const handleMouseEnter = () => {
     // Clear any pending close timeout when entering
-    if (closeTimeoutId) {
-      clearTimeout(closeTimeoutId);
-      setCloseTimeoutId(null);
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
     }
     setVenturesDropdownOpen(true);
   };
 
   const handleMouseLeave = () => {
     // Set a debounced close with 200ms delay to prevent flickering
-    const timeoutId = setTimeout(() => {
+    closeTimeoutRef.current = setTimeout(() => {
       setVenturesDropdownOpen(false);
+      setOpenSubmenuId(null);
     }, 200);
-    setCloseTimeoutId(timeoutId);
+  };
+
+  const handleSubmenuEnter = (id: string) => {
+    if (submenuTimeoutRef.current) {
+      clearTimeout(submenuTimeoutRef.current);
+      submenuTimeoutRef.current = null;
+    }
+    setOpenSubmenuId(id);
+  };
+
+  const handleSubmenuLeave = () => {
+    submenuTimeoutRef.current = setTimeout(() => {
+      setOpenSubmenuId(null);
+    }, 200);
   };
 
   const handleNavClick = (href: string, id: string) => {
     setMobileMenuOpen(false);
     setVenturesDropdownOpen(false);
+    setOpenSubmenuId(null);
 
     // A venture with its own page uses a real route rather than a homepage
     // anchor, so it navigates directly from wherever the visitor happens to be.
@@ -132,10 +158,15 @@ export function MainHeader() {
                 </button>
               )}
 
-              {/* Desktop Ventures Dropdown - Premium Redesign */}
+              {/* Desktop Ventures Dropdown - Premium Redesign.
+
+                  No `overflow-hidden` on the panel: it would clip the submenu
+                  flyout, which is positioned outside the panel's right edge.
+                  The first and last rows round their own hover backgrounds
+                  instead, which is all the clipping was doing. */}
               {item.featured && venturesDropdownOpen && (
-                <div 
-                  className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-72 bg-neutral-950/95 backdrop-blur-md border border-neutral-800 border-t-amber-500/30 rounded-lg overflow-hidden shadow-2xl z-50 opacity-100 animate-fade-in"
+                <div
+                  className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-72 bg-neutral-950/95 backdrop-blur-md border border-neutral-800 border-t-amber-500/30 rounded-lg shadow-2xl z-50 opacity-100 animate-fade-in"
                   style={{
                     animation: "fadeInSlide 200ms ease-out forwards"
                   }}
@@ -145,17 +176,97 @@ export function MainHeader() {
                   onMouseLeave={handleMouseLeave}
                 >
                   {ventureNavItems.map((ventureItem, index) => (
-                    <button
+                    <div
                       key={ventureItem.id}
-                      onClick={() => handleNavClick(ventureItem.href, ventureItem.id)}
-                      role="menuitem"
-                      className={`w-full text-left px-4 py-3.5 text-white hover:bg-neutral-900/80 hover:text-amber-400 hover:translate-x-0.5 transition-all duration-150 group flex items-center justify-between ${
-                        index !== ventureNavItems.length - 1 ? "border-b border-neutral-800/50" : ""
-                      }`}
+                      className="relative"
+                      onMouseEnter={
+                        ventureItem.subItems
+                          ? () => handleSubmenuEnter(ventureItem.id)
+                          : undefined
+                      }
+                      onMouseLeave={
+                        ventureItem.subItems ? handleSubmenuLeave : undefined
+                      }
                     >
-                      <span className="font-medium text-sm">{ventureItem.label}</span>
-                      <span className="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">→</span>
-                    </button>
+                      <button
+                        onClick={() => handleNavClick(ventureItem.href, ventureItem.id)}
+                        onFocus={
+                          ventureItem.subItems
+                            ? () => handleSubmenuEnter(ventureItem.id)
+                            : undefined
+                        }
+                        role="menuitem"
+                        aria-haspopup={ventureItem.subItems ? "true" : undefined}
+                        aria-expanded={
+                          ventureItem.subItems
+                            ? openSubmenuId === ventureItem.id
+                            : undefined
+                        }
+                        className={`w-full text-left px-4 py-3.5 text-white hover:bg-neutral-900/80 hover:text-amber-400 hover:translate-x-0.5 transition-all duration-150 group flex items-center justify-between ${
+                          index !== ventureNavItems.length - 1 ? "border-b border-neutral-800/50" : ""
+                        } ${index === 0 ? "rounded-t-lg" : ""} ${
+                          index === ventureNavItems.length - 1 ? "rounded-b-lg" : ""
+                        }`}
+                      >
+                        <span className="font-medium text-sm">{ventureItem.label}</span>
+                        {ventureItem.subItems ? (
+                          // Always visible, unlike the arrow below: it promises
+                          // a submenu, not a navigation.
+                          <ChevronRight
+                            className="w-4 h-4 text-neutral-500 group-hover:text-amber-400 transition-colors duration-150"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <span className="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">→</span>
+                        )}
+                      </button>
+
+                      {/* Submenu flyout. The `pl-1.5` wrapper spans the gap
+                          between the row and the panel, so the pointer never
+                          leaves the row's DOM on the way across and the
+                          submenu doesn't flicker shut mid-crossing. */}
+                      {ventureItem.subItems &&
+                        openSubmenuId === ventureItem.id && (
+                          <div className="absolute left-full top-0 pl-1.5 z-50">
+                            <div
+                              className="w-64 bg-neutral-950/95 backdrop-blur-md border border-neutral-800 border-t-amber-500/30 rounded-lg shadow-2xl"
+                              style={{
+                                // Not fadeInSlide: that keyframe carries the
+                                // parent dropdown's translateX(-50%) centring
+                                // and would leave this panel half its width
+                                // to the left.
+                                animation: "fadeInSlideStatic 200ms ease-out forwards"
+                              }}
+                              role="menu"
+                              aria-label={ventureItem.label}
+                            >
+                              {ventureItem.subItems.map((subItem, subIndex) => (
+                                <button
+                                  key={subItem.id}
+                                  onClick={() =>
+                                    handleNavClick(subItem.href, subItem.id)
+                                  }
+                                  role="menuitem"
+                                  className={`w-full text-left px-4 py-3 text-white hover:bg-neutral-900/80 hover:text-amber-400 hover:translate-x-0.5 transition-all duration-150 group flex items-center justify-between ${
+                                    subIndex !== ventureItem.subItems!.length - 1
+                                      ? "border-b border-neutral-800/50"
+                                      : ""
+                                  } ${subIndex === 0 ? "rounded-t-lg" : ""} ${
+                                    subIndex === ventureItem.subItems!.length - 1
+                                      ? "rounded-b-lg"
+                                      : ""
+                                  }`}
+                                >
+                                  <span className="font-medium text-sm">
+                                    {subItem.label}
+                                  </span>
+                                  <span className="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">→</span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                    </div>
                   ))}
                 </div>
               )}
@@ -224,17 +335,39 @@ export function MainHeader() {
                   </button>
                 )}
 
-                {/* Mobile Ventures Dropdown */}
+                {/* Mobile Ventures Dropdown. There is no hover here, so a
+                    venture's sub-pages sit indented under its row instead of
+                    behind a flyout. The sub-item that repeats the venture's
+                    own href is dropped: the desktop flyout needs it so the
+                    submenu lists all three pages in one place, but here the
+                    venture row directly above already links there, and two
+                    adjacent rows to the same page read as a bug. */}
                 {item.featured && venturesDropdownOpen && (
                   <div className="pl-4 space-y-1 mt-2 bg-neutral-800/50 rounded-lg">
                     {ventureNavItems.map((ventureItem) => (
-                      <button
-                        key={ventureItem.id}
-                        onClick={() => handleNavClick(ventureItem.href, ventureItem.id)}
-                        className="w-full text-left px-4 py-2 text-amber-400 hover:bg-neutral-700 rounded"
-                      >
-                        {ventureItem.label}
-                      </button>
+                      <div key={ventureItem.id}>
+                        <button
+                          onClick={() => handleNavClick(ventureItem.href, ventureItem.id)}
+                          className="w-full text-left px-4 py-2 text-amber-400 hover:bg-neutral-700 rounded"
+                        >
+                          {ventureItem.label}
+                        </button>
+                        {ventureItem.subItems && (
+                          <div className="pl-4 space-y-1">
+                            {ventureItem.subItems
+                              .filter((subItem) => subItem.href !== ventureItem.href)
+                              .map((subItem) => (
+                                <button
+                                  key={subItem.id}
+                                  onClick={() => handleNavClick(subItem.href, subItem.id)}
+                                  className="w-full text-left px-4 py-2 text-sm text-amber-400/80 hover:bg-neutral-700 rounded"
+                                >
+                                  {subItem.label}
+                                </button>
+                              ))}
+                          </div>
+                        )}
+                      </div>
                     ))}
                   </div>
                 )}
