@@ -93,9 +93,8 @@ export const h1ProofPoints: H1ProofPoint[] = [
     from: 120,
     to: 235,
     precision: 0,
-    // The owner gave the numbers, not the unit — "bench went from 120 to 235".
-    // `lb` is inferred from context and is the one thing on this page not
-    // stated by a source. Confirm it, or drop it and show the bare numbers.
+    // The owner's figures came without a unit — "bench went from 120 to 235".
+    // Confirmed as pounds by the owner on 2026-08-04.
     unit: "lb",
     scope: "individual",
     subject: "member",
