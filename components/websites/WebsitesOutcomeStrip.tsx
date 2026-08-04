@@ -1,25 +1,54 @@
-import { Rocket, Smartphone, Search, MessageSquare } from "lucide-react";
+import { Target, BadgeCheck, LayoutGrid, LineChart } from "lucide-react";
 
+/**
+ * These four outcomes are the hero promise broken into its parts, in the order
+ * the visitor experiences them: they choose you, they can check your claims,
+ * they land somewhere specific, and you can see what arrives. Keep this summary
+ * in step with the tiles below - a stale line here describing a tile that was
+ * removed for honesty reasons is how the removed claim gets restored.
+ *
+ * Deliberately absent: anything about how quickly the site gets produced, and
+ * anything that is table stakes in 2026. The strip used to lead with "Launched
+ * Sooner" and claim "Works on Every Screen" and "Built to Be Found" - a mobile
+ * layout and real page titles are the floor now, so advertising them signals a
+ * low bar rather than a high one. They still get built; they are just not the
+ * reason to buy.
+ *
+ * Two tiles were rewritten for honesty and must not drift back:
+ *
+ * 1. "Trusted in Seconds" promised a stranger's reaction, which nobody can
+ *    guarantee, and its supporting line ("loads fast, reads clearly, looks
+ *    current on a phone") was exactly the table-stakes copy the paragraph above
+ *    says was purged. A tile has to promise what gets built, not how someone
+ *    will feel about it.
+ * 2. The measurement tile claimed forms and calls were tracked. There is no
+ *    form-fill event tracking and no call tracking anywhere in this codebase.
+ *    What exists is Vercel Analytics in app/layout.tsx, which reports pageviews
+ *    and landing pages, and the submit handlers in app/api/*, which email every
+ *    enquiry with a subject line naming the form it came from. The label now
+ *    says precisely that and nothing more.
+ */
 const outcomes = [
   {
-    Icon: Rocket,
-    title: "Launched Sooner",
-    label: "Weeks of production work compressed into days",
+    Icon: Target,
+    title: "Chosen, Not Just Found",
+    label: "Written for the decision the visitor came to make",
   },
   {
-    Icon: Smartphone,
-    title: "Works on Every Screen",
-    label: "Designed for phones first, then scaled up",
+    Icon: BadgeCheck,
+    title: "Proof, Not Adjectives",
+    label: "Plain claims and work a visitor can open and check",
   },
   {
-    Icon: Search,
-    title: "Built to Be Found",
-    label: "Clean structure, real page titles, fast loads",
+    Icon: LayoutGrid,
+    title: "A Page Per Offer",
+    label: "Each service and campaign gets its own focused page",
   },
   {
-    Icon: MessageSquare,
-    title: "Built to Capture Leads",
-    label: "Every page has a next step for the visitor",
+    Icon: LineChart,
+    title: "You See What Arrives",
+    label:
+      "Traffic tracked from day one, and every enquiry emailed to you as it is sent",
   },
 ];
 

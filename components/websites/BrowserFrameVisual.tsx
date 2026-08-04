@@ -87,16 +87,28 @@ export function BrowserFrameVisual() {
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap gap-2">
-        {["Mobile ready", "Fast loading", "Built to convert"].map((label) => (
-          <span
-            key={label}
-            className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium text-neutral-400"
-          >
-            {label}
-          </span>
-        ))}
-      </div>
+      {/* A row of three chips - "Mobile ready", "Fast loading", "Built to
+          convert" - used to close the frame here, and it was removed on
+          purpose. Please do not add it back.
+
+          Two of the three advertised the floor. A phone layout and a page that
+          loads quickly are what any competent build starts from in 2026, so
+          naming them as selling points tells a buyer our bar is low, not high.
+          WebsitesOutcomeStrip made the same call and its header comment records
+          it; these chips sat in the first screen, beside the H1, which made
+          them the worst-placed copy on the page. Both things still get built.
+          They are answered when asked - see the "Will the site work on phones?"
+          answer in data/websites.ts - and they are never sold.
+
+          The third chip was true and on-argument, but it was already said twice
+          within one screen: the hero eyebrow above reads "WEBSITES BUILT TO
+          CONVERT" and the outcome strip immediately below breaks that promise
+          into four parts. So the row was dropped rather than rewritten, and the
+          promises are carried by the strip, in real text that assistive
+          technology can reach - which this frame, being decorative and
+          aria-hidden, cannot. If a caption is ever wanted here, it has to be a
+          claim about what gets built for the visitor's decision, not a
+          specification. */}
     </div>
   );
 }

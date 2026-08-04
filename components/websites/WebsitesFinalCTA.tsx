@@ -25,9 +25,18 @@ export function WebsitesFinalCTA() {
         <h2 className="heading-lg mx-auto mb-6 max-w-3xl text-white">
           Your Next Customer Is Going to Look You Up First.
         </h2>
+        {/* The heading stays: the look-up is the whole argument of the page in
+            one line - the visitor arrives already comparing you, and the site
+            decides it. The second sentence used to close on how quickly the
+            site gets produced, which ends the page on production speed and
+            invites the reader to shop us against tools they could run
+            themselves. Speed is still a real advantage and it survives in one
+            place - the closing note under the process grid - phrased as what a
+            stalled project costs the owner. It does not belong in the last
+            thing they read, and it does not need a second home. */}
         <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-neutral-300">
-          Make sure what they find is worth the search. Get a quote for a
-          professional site built in a fraction of the usual time.
+          Make sure what they find is worth the search. Get a quote for a site
+          built to turn that visit into a customer.
         </p>
 
         <button

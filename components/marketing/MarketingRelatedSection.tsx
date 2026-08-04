@@ -3,11 +3,20 @@ import { ArrowUpRight, Globe, Workflow } from "lucide-react";
 
 const related = [
   {
+    /**
+     * Titled for the job the site does, matching the websites page and the
+     * pill in `LmmSiblingLinks`. The old title advertised how the site was
+     * produced, which is not what this card is arguing - the argument is that
+     * a campaign is only as good as the page it lands on, and that reads
+     * stronger now than it did when the destination was sold on build speed.
+     * The detail keeps that substance and picks up the page's own terms:
+     * loading, looking current, and an obvious next step.
+     */
     href: "/lee-marketing-mastery/websites",
     Icon: Globe,
-    title: "Websites Built with AI",
+    title: "Websites That Convert",
     detail:
-      "Marketing sends people somewhere. If that somewhere is slow, dated, or hard to use on a phone, the spend leaks out at the last step.",
+      "Marketing sends people somewhere. If that somewhere loads slowly, looks dated, or never makes the next step obvious, the spend leaks out at the last step.",
     cta: "See websites",
   },
   {

@@ -2,6 +2,29 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { websitePortfolio } from "@/data/websites";
 
+/**
+ * This is the strongest asset on the page, so it has to sell the same thing the
+ * rest of the page sells - and it has to describe itself accurately, because a
+ * prospect can click straight through and check.
+ *
+ * The heading keeps the shape of the original, "Every Site on This Domain Was
+ * Built This Way." Only the ending changed: "this way" pointed at a production
+ * method the page no longer sells, so it now names the outcome the page does
+ * sell. The "on This Domain" half is not filler and must not be dropped. The
+ * entries are five routes on one domain and one deployment, two of which are
+ * this very site, and an intervening heading - "Five Sites You Can Open Right
+ * Now" - read as five separate websites built for five separate businesses.
+ * That is a bigger claim than the truth, and the truth is checkable in one
+ * click, which is the worst possible combination. The eyebrow now states the
+ * real structure up front rather than leaving the reader to discover it.
+ *
+ * The "our own ventures, not client projects" line in the lead paragraph is a
+ * deliberate honesty decision recorded in docs/WEBSITES.md §3. It stays in the
+ * first sentence, unsoftened. It is also not a weakness to apologize for - a
+ * prospect can open these and use them, which a testimonial does not allow. If
+ * real client sites ever replace `websitePortfolio`, that caveat comes out with
+ * them and not before.
+ */
 export function WebsitesWorkSection() {
   return (
     <section
@@ -11,16 +34,56 @@ export function WebsitesWorkSection() {
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            Work You Can Check Yourself
+            Five Live Sites, One Domain
           </p>
           <h2 className="heading-lg mb-6 text-white">
-            Every Site on This Domain Was Built This Way.
+            Every Site on This Domain Was Built to Turn a Visitor Into a
+            Customer.
           </h2>
-          <p className="text-lg leading-relaxed text-neutral-300">
+          {/* Says out loud what the reader would work out anyway after two
+              clicks: these are not five separate builds for five separate
+              clients, they all live here, and two of them are the site being
+              read right now. Conceding that costs nothing and buys the rest of
+              the section, because a prospect who catches you inflating one
+              claim stops believing the ones you did not inflate. */}
+          <p className="mb-4 text-lg leading-relaxed text-neutral-300">
             These are Lee Enterprises Unlimited&apos;s own ventures, not client
-            projects - we are showing you our work rather than someone
-            else&apos;s. Each one is live right now, so you can open it, use the
-            forms, and judge the result on a real screen instead of a mockup.
+            projects. All five run on this one domain, and two of them are the
+            site you are reading - the home page above this one, and the Lee
+            Marketing Mastery hub this page belongs to. We would rather point
+            you at businesses we actually run, and let you use them, than at a
+            screenshot of someone else&apos;s work.
+          </p>
+          {/* The instruction matters more than the list. A prospect who runs
+              this test once has verified the promise themselves, which is worth
+              more than any claim we could print - and it is the only kind of
+              proof available to us, since there are no clients, results or
+              testimonials to cite. */}
+          <p className="mb-4 text-lg leading-relaxed text-neutral-400">
+            Open one on your phone. See how long it takes to work out what the
+            business does, and whether the next step is obvious on the screen
+            you land on. Then send the form. That is the same test your
+            customers run on your site, except they only run it once.
+          </p>
+          {/* The page argues for a page per offer in the outcome strip, the
+              Shift section and the FAQ, and this is the one place that argument
+              can be demonstrated rather than asserted: Lee Marketing Mastery
+              really does have its own page for websites and another for
+              marketing, and this is one of them. It is the closest thing on the
+              page to a live demo, so it gets named here instead of being left
+              for the reader to notice.
+
+              Name those two pages rather than saying "a page for each thing it
+              sells". The hub route is itself the automation page and carries
+              that offering inline, so the broader phrasing promises a structure
+              the reader does not find - and this is the most checkable sentence
+              in the section, one click from being disproved. Four of the five
+              entries are single long pages, so this points at that one entry
+              specifically; do not widen it unless the others gain sub-pages. */}
+          <p className="text-lg leading-relaxed text-neutral-400">
+            And if you would rather see a page per offer than read about one,
+            open Lee Marketing Mastery: the hub, plus its own page for websites
+            and another for marketing. This page is one of them.
           </p>
         </div>
 

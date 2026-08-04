@@ -19,9 +19,9 @@ The row fixes that: each hero carries pills to the *other two* offerings.
 
 | Page | Shows |
 | --- | --- |
-| `/lee-marketing-mastery` | New Websites, Built with AI · Traditional & Digital Marketing |
+| `/lee-marketing-mastery` | Websites That Convert · Traditional & Digital Marketing |
 | `/lee-marketing-mastery/websites` | Business Automation · Traditional & Digital Marketing |
-| `/lee-marketing-mastery/marketing` | Business Automation · New Websites, Built with AI |
+| `/lee-marketing-mastery/marketing` | Business Automation · Websites That Convert |
 
 ---
 
@@ -41,6 +41,25 @@ The automation pill reads "Business Automation" — the name already used by
 Length matters here as well as consistency: at 1440px "Business Automation
 Systems" pushed the websites row past the panel width and wrapped it to two
 lines.
+
+### Two rules for the labels
+
+**Every label names the offering or what it does, never how the work is
+produced.** The websites pill read "New Websites, Built with AI" until the
+websites page was repositioned. Advertising a production method puts the
+destination in the same category as tools the prospect could run himself and
+leaves speed as the only thing to compete on — `docs/WEBSITES.md` §3.1 is the
+full account of why that was dropped, and it is not a decision to reopen one
+label at a time. It now reads "Websites That Convert", matching the card title
+in `MarketingRelatedSection` and the job the destination page sells. The icon
+moved from Sparkles to Globe for the same reason: Sparkles read as AI-magic,
+Globe matches the grammar of the row, where Workflow and Megaphone name the
+category rather than the mood.
+
+**Keep the websites label at or under about 27 characters.** It has to sit on
+one line beside "Traditional & Digital Marketing" (31) at 1440px, inside a panel
+roughly 576px wide. The constraint is repeated in the component so it is visible
+at the point of editing.
 
 ---
 
