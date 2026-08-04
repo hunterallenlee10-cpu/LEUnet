@@ -41,6 +41,29 @@ export const ventureNavItems: NavItem[] = [
     label: "Lee Marketing Mastery",
     href: venturePages.lmm,
     id: "nav-venture-lmm",
+    // LMM's three offerings, revealed when the row is hovered. Labels and
+    // order match LmmSiblingLinks, which names the same three destinations on
+    // the pages themselves — the nav and the pages should not disagree about
+    // what an offering is called. The first entry repeats the row's own href
+    // on purpose: the submenu lists all three pages so a visitor who has
+    // opened it never has to work out that the parent row is the third one.
+    subItems: [
+      {
+        label: "Business Automation",
+        href: venturePages.lmm,
+        id: "nav-venture-lmm-automation",
+      },
+      {
+        label: "Websites That Convert",
+        href: `${venturePages.lmm}/websites`,
+        id: "nav-venture-lmm-websites",
+      },
+      {
+        label: "Traditional & Digital Marketing",
+        href: `${venturePages.lmm}/marketing`,
+        id: "nav-venture-lmm-marketing",
+      },
+    ],
   },
   {
     label: "Pelican Power Wash",

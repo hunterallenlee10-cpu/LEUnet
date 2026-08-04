@@ -77,6 +77,8 @@ export interface NavItem {
   href: string;
   id: string;
   featured?: boolean;
+  /** Pages nested under this item, shown in a submenu one level deep. */
+  subItems?: NavItem[];
 }
 
 export interface SharedValue {

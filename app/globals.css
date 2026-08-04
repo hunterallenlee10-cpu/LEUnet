@@ -1102,6 +1102,22 @@
   }
 }
 
+/* The same entrance for surfaces that are not centred with
+   `-translate-x-1/2`. `fadeInSlide` bakes that centring into its keyframes,
+   and `forwards` keeps it after the animation ends, so a panel positioned by
+   its left edge — the ventures submenu flyout — would finish permanently
+   shifted half its own width. */
+@keyframes fadeInSlideStatic {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Lee Marketing Mastery - automation flow visual
    Motion is decorative only: every animation below is disabled under
