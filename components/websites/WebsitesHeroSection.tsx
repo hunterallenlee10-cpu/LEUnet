@@ -50,24 +50,31 @@ export function WebsitesHeroSection() {
               </span>
             </h1>
 
-            {/* This paragraph offers recognition, not a diagnosis. The earlier
-                version stated as fact that the reader's traffic had fallen and
-                that their visitors were comparing them against two or three
+            {/* Owner-supplied copy. Two things it must keep doing, both of
+                which earlier drafts of this paragraph got wrong and had to have
+                taken back out:
+
+                It says nothing about this reader's own numbers. An earlier
+                version stated as fact that their traffic had fallen and that
+                their visitors were weighing them against two or three
                 businesses - we have never seen this reader's analytics and the
-                count was invented, so both were removed. A conditional opening
-                is also harder to argue with: an owner who recognizes it agrees
-                on his own terms, and one who does not has not been told
-                something false about his own business. The "a few seconds"
-                interval went with them; that idea now appears once, in the
-                Shift section, phrased as how people behave rather than as a
-                measured time. */}
+                count was invented. "Often already comparing their options" is
+                general reasoning about buyers, which is defensible; a claim
+                about how many competitors, or about what this owner's traffic
+                did last year, is not.
+
+                And it does not put a number on attention. "Quickly establish
+                trust" describes behavior; "you have five seconds" would be a
+                measured interval nobody here measured. That idea appears once
+                on this page, in the Shift section, phrased the same careful
+                way. See docs/WEBSITES.md section 3.4. */}
             <p className="mb-8 max-w-2xl text-lg leading-relaxed text-neutral-300">
-              Lee Marketing Mastery builds business websites around that one job.
-              If your traffic looks flatter than it used to, and the visitors who
-              do arrive rarely call, the visit is landing later in the decision
-              than it once did - your site is being checked by someone who has
-              already narrowed the list, not discovered by someone starting out.
-              It has to be the reason they stop looking.
+              Lee Marketing Mastery builds professional, conversion-focused
+              websites that help businesses turn more visitors into real
+              customers. When someone reaches your website, they are often
+              already comparing their options - so your site must quickly
+              establish trust, clearly communicate your value, and give them a
+              compelling reason to choose you.
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
