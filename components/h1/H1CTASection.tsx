@@ -23,10 +23,12 @@ export function H1CTASection() {
         <Image
           src="/logos/h1-performance-white.png"
           alt=""
-          width={96}
+          // On the mark's portrait ratio (1644x2000): a square box here would
+          // letterbox it and shrink its visual weight.
+          width={79}
           height={96}
           loading="lazy"
-          className="mx-auto mb-8 h-20 w-20 object-contain"
+          className="mx-auto mb-8 h-20 w-auto object-contain"
         />
 
         <h2 className="heading-lg mx-auto mb-5 max-w-2xl text-white">

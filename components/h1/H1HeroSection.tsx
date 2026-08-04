@@ -132,8 +132,8 @@ export function H1HeroSection() {
               nobody asked for. It is no longer preloaded, though: below `lg`
               this column stacks under the buttons, so the mark is not above the
               fold there, and the LCP candidate is now server-rendered text
-              either way. `sizes` stops a 520px source being fetched for a
-              210px slot.
+              either way. `sizes` stops a full-width source being fetched for
+              a 210px slot.
 
               Laid out as a row between `sm` and `lg`, where the column would
               otherwise stretch each item across the full container. */}
@@ -141,8 +141,10 @@ export function H1HeroSection() {
             <Image
               src="/logos/h1-performance-white.png"
               alt="H1 Performance logo"
-              width={520}
-              height={520}
+              // The mark is portrait (1644x2000); these stay on its ratio so
+              // the pre-load layout box matches what arrives.
+              width={411}
+              height={500}
               sizes="210px"
               className="h-auto w-full max-w-[210px] shrink-0 object-contain"
             />
