@@ -70,7 +70,10 @@ export function BeforeAfterSlider({
       <h3 className="text-lg font-bold text-white text-center">{title}</h3>
       <div
         ref={sliderRef}
-        className="relative w-full aspect-video rounded-lg overflow-hidden cursor-col-resize select-none bg-neutral-900"
+        // touch-pan-y: a horizontal finger-drag drives the slider instead of
+        // being claimed by the browser as a scroll gesture; vertical scrolling
+        // over the image still works. No effect on mouse input.
+        className="relative w-full aspect-video rounded-lg overflow-hidden cursor-col-resize select-none bg-neutral-900 touch-pan-y"
         onMouseDown={() => setIsDragging(true)}
         onTouchStart={handleTouchStart}
         onClick={handleClick}

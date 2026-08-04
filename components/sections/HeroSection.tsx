@@ -31,11 +31,10 @@ export function HeroSection() {
   return (
     <section
       id={sectionIds.hero}
-      className="relative overflow-hidden bg-black"
-      style={{ 
-        minHeight: "calc(100vh - 80px)",
-        height: "calc(100vh - 80px)",
-      }}
+      // Below lg the height is a floor, not a lock: the stacked mobile content
+      // is taller than a phone viewport, and a fixed height left the bottom
+      // button underneath the scroll cue.
+      className="relative overflow-hidden bg-black min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)]"
     >
       {/* Animated background — "Aurora Veil". Two counter-rotating masked
           gradients over a warm pool, then grain and a scrim that keeps the
@@ -49,17 +48,16 @@ export function HeroSection() {
         <div className="leu-scrim" />
       </div>
 
-      {/* Content Container */}
-      <div 
-        className="relative flex flex-col justify-center h-full"
+      {/* Content Container. On phones the wrapper carries the viewport-height
+          minimum itself so the copy still centres when it is shorter than the
+          screen, and the bottom padding reserves the band the absolutely
+          positioned scroll cue occupies. */}
+      <div
+        className="relative flex flex-col justify-center min-h-[calc(100vh-80px)] pt-20 pb-28 lg:min-h-0 lg:h-full lg:pt-0 lg:pb-0"
         style={{ zIndex: 1 }}
       >
-        <div 
-          className="mx-auto w-full flex items-center justify-center px-6 sm:px-8 lg:px-0"
-          style={{
-            maxWidth: "min(1440px, calc(100% - 64px))",
-            width: "100%",
-          }}
+        <div
+          className="mx-auto w-full flex items-center justify-center px-6 sm:px-8 lg:px-0 lg:max-w-[min(1440px,calc(100%-64px))]"
         >
           {/* Two Column Layout */}
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -84,11 +82,10 @@ export function HeroSection() {
 
               {/* Headline */}
               <div className="space-y-3">
-                <h1 
-                  className="text-white font-bold leading-tight tracking-tight"
-                  style={{
-                    fontSize: "clamp(48px, 4.5vw, 76px)",
-                  }}
+                <h1
+                  // The clamp only applies from lg up; its 48px floor was the
+                  // mobile size too, which is outsized on a phone column.
+                  className="text-white font-bold leading-tight tracking-tight text-[40px] sm:text-[44px] lg:text-[clamp(48px,4.5vw,76px)]"
                 >
                   {companyInfo.heroTitle}
                 </h1>
@@ -204,15 +201,19 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll Indicator - Bottom */}
-      <div 
+      {/* Scroll Indicator - Bottom. The bounce lives on the inner div: the
+          keyframes animate `transform`, which on the outer div would override
+          the -translate-x-1/2 that centres the cue. */}
+      <div
         className="absolute left-1/2 transform -translate-x-1/2 z-20 pointer-events-none"
-        style={{ 
+        style={{
           bottom: "24px",
-          animation: 'bounce 2s infinite',
         }}
       >
-        <div className="flex flex-col items-center gap-2">
+        <div
+          className="flex flex-col items-center gap-2"
+          style={{ animation: 'bounce 2s infinite' }}
+        >
           <p className="text-xs sm:text-sm text-neutral-400 font-medium">Scroll to explore</p>
           <div className="w-6 h-10 border-2 border-amber-400/60 rounded-full flex justify-center">
             <div 
