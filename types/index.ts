@@ -213,14 +213,58 @@ export interface ThreadCartItem {
 // H1 Performance (/h1-performance)
 // ---------------------------------------------------------------------------
 
-/** A published program result. Figures come from H1's own S&C document. */
-export interface H1Result {
+interface H1ProofBase {
   id: string;
-  /** The number itself, e.g. "+15 MPH". Rendered at display size. */
-  figure: string;
+  /** What was measured, e.g. "40-yard dash". */
   label: string;
-  detail: string;
+  /** One athlete's result, or an average across athletes. */
+  scope: "individual" | "average";
+  /**
+   * Who the result belongs to. Singular for an individual ("football player"),
+   * plural for an average ("baseball players") — `proofAttribution()` composes
+   * a sentence around this, so the number has to agree with `scope`.
+   */
+  subject: string;
+  /** Timeframe. Set only when the client stated one, e.g. "two months". */
+  period?: string;
 }
+
+/**
+ * One measured result. The hero readout rotates these and the results strip
+ * lists them, both from the same array in `data/h1.ts`.
+ *
+ * `scope` is the only place the individual/average distinction is stored. The
+ * visible wording is composed from it by `proofAttribution()`, never written by
+ * hand — two fields carrying the same fact can disagree, and on a page making
+ * public performance claims that disagreement would be an average presented as
+ * one athlete's result.
+ *
+ * A union rather than one interface with optional fields, because on this page
+ * the type is the last guard between the data and a false public claim. Flat
+ * optionals would let a pair missing `to` compile and render "5.1 → undefined",
+ * and would make `precision` skippable — leaving a formatter to pick a default
+ * number of decimal places, which is exactly the invented precision docs/H1.md
+ * §3 forbids.
+ */
+export type H1ProofPoint =
+  | (H1ProofBase & {
+      /** Renders `from → to`, and the hero counts between the two. */
+      kind: "pair";
+      from: number;
+      to: number;
+      /** Decimal places. Required, and must match the client's published precision. */
+      precision: number;
+      /** Unit shown after the second figure, e.g. "lb". */
+      unit?: string;
+    })
+  | (H1ProofBase & {
+      /**
+       * A single figure with no stated starting point. Rendered verbatim and
+       * never animated: counting up to it would imply a baseline nobody gave.
+       */
+      kind: "delta";
+      figure: string;
+    });
 
 export interface H1ProgramFeature {
   id: string;
