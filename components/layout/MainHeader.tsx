@@ -335,40 +335,57 @@ export function MainHeader() {
                   </button>
                 )}
 
-                {/* Mobile Ventures Dropdown. There is no hover here, so a
-                    venture's sub-pages sit indented under its row instead of
-                    behind a flyout. The sub-item that repeats the venture's
-                    own href is dropped: the desktop flyout needs it so the
-                    submenu lists all three pages in one place, but here the
-                    venture row directly above already links there, and two
-                    adjacent rows to the same page read as a bug. */}
+                {/* Mobile Ventures Dropdown. Same panel treatment as the
+                    desktop flyout — dark surface, hairline separators, white
+                    labels with amber reserved for the pressed state — so the
+                    menu reads as one design on both breakpoints. There is no
+                    hover here, so a venture's sub-pages sit indented under
+                    its row instead of behind a flyout, and the desktop rows'
+                    chevron/arrow hover affordances don't apply. The sub-item
+                    that repeats the venture's own href is dropped: the
+                    desktop flyout needs it so the submenu lists all three
+                    pages in one place, but here the venture row directly
+                    above already links there, and two adjacent rows to the
+                    same page read as a bug. Unlike the desktop panel,
+                    `overflow-hidden` is safe (no flyout to clip) and rounds
+                    the end rows' pressed backgrounds. */}
                 {item.featured && venturesDropdownOpen && (
-                  <div className="pl-4 space-y-1 mt-2 bg-neutral-800/50 rounded-lg">
-                    {ventureNavItems.map((ventureItem) => (
-                      <div key={ventureItem.id}>
-                        <button
-                          onClick={() => handleNavClick(ventureItem.href, ventureItem.id)}
-                          className="w-full text-left px-4 py-2 text-amber-400 hover:bg-neutral-700 rounded"
-                        >
-                          {ventureItem.label}
-                        </button>
-                        {ventureItem.subItems && (
-                          <div className="pl-4 space-y-1">
-                            {ventureItem.subItems
-                              .filter((subItem) => subItem.href !== ventureItem.href)
-                              .map((subItem) => (
-                                <button
-                                  key={subItem.id}
-                                  onClick={() => handleNavClick(subItem.href, subItem.id)}
-                                  className="w-full text-left px-4 py-2 text-sm text-amber-400/80 hover:bg-neutral-700 rounded"
-                                >
-                                  {subItem.label}
-                                </button>
-                              ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                  <div className="mt-2 bg-neutral-950/95 border border-neutral-800 border-t-amber-500/30 rounded-lg shadow-2xl overflow-hidden">
+                    {ventureNavItems.map((ventureItem, ventureIndex) => {
+                      const visibleSubItems = (ventureItem.subItems ?? []).filter(
+                        (subItem) => subItem.href !== ventureItem.href
+                      );
+                      const isLastVenture =
+                        ventureIndex === ventureNavItems.length - 1;
+                      return (
+                        <div key={ventureItem.id}>
+                          <button
+                            onClick={() => handleNavClick(ventureItem.href, ventureItem.id)}
+                            className={`w-full text-left px-4 py-3.5 font-medium text-sm text-white hover:bg-neutral-900/80 hover:text-amber-400 active:bg-neutral-900/80 active:text-amber-400 transition-all duration-150 ${
+                              visibleSubItems.length > 0 || !isLastVenture
+                                ? "border-b border-neutral-800/50"
+                                : ""
+                            }`}
+                          >
+                            {ventureItem.label}
+                          </button>
+                          {visibleSubItems.map((subItem, subIndex) => (
+                            <button
+                              key={subItem.id}
+                              onClick={() => handleNavClick(subItem.href, subItem.id)}
+                              className={`w-full text-left pl-8 pr-4 py-3 font-medium text-sm text-neutral-300 hover:bg-neutral-900/80 hover:text-amber-400 active:bg-neutral-900/80 active:text-amber-400 transition-all duration-150 ${
+                                !isLastVenture ||
+                                subIndex !== visibleSubItems.length - 1
+                                  ? "border-b border-neutral-800/50"
+                                  : ""
+                              }`}
+                            >
+                              {subItem.label}
+                            </button>
+                          ))}
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>
