@@ -391,6 +391,18 @@ export const h1Testimonials: H1Testimonial[] = [
       alt: "Mike Bittle at the plate at night in a black L-Town uniform, bat in hand",
     },
   },
+  {
+    id: "h1-testimonial-colt-keen",
+    // Supplied by the owner on 2026-08-05, verbatim.
+    quote:
+      "Joining H1 performance group has been one of the best decisions I’ve made. It pushed me to get stronger and stay disciplined even on the days I didn’t feel motivated. What makes Hunter and H1 performance so great is more than just training, it helped me become a better person by teaching me the value of hard work, consistency, and accountability. Hunter is an outstanding leader who genuinely cares about everyone in the group and always pushes us to be our best. I owe a lot of my success in athletics to Hunter and H1 performance, this investment is a game-changer.",
+    name: "Colt Keen",
+    detail: "Baseball, Class of 2028",
+    photo: {
+      src: "/h1/testimonials/colt-keen.jpg",
+      alt: "Colt Keen celebrating in an L-Town uniform after crossing the plate",
+    },
+  },
 ];
 
 export const h1Faqs: H1Faq[] = [
