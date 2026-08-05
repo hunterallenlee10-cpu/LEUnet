@@ -54,7 +54,8 @@ const SITE_URL = "https://leeenterprisesunlimited.com";
  * Same restraint as the other venture pages: structured data covers only what
  * the site can substantiate - who provides the service, the two packages priced
  * on the page, the coaches, and the FAQ rendered below. No ratings and no
- * review counts, because there are no published reviews yet.
+ * review counts: the testimonials on the page are quotes, not star ratings,
+ * and the structured data must not imply an aggregate that was never given.
  *
  * The Committed package carries no `offers` entry while its price is null -
  * an Offer without a price is worse than no Offer at all.
