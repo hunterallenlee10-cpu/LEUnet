@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Quote } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { H1_PALETTE, h1Testimonials } from "@/data/h1";
@@ -12,7 +13,20 @@ import { H1_PALETTE, h1Testimonials } from "@/data/h1";
  * The placeholder invents nothing — no sample quote, no fake name, no star
  * rating. It says the testimonies are coming and points current athletes at the
  * form, which is true and costs the page no credibility.
+ *
+ * Grid cards carry an optional athlete photo, masked with the same bottom fade
+ * as the coach photography so the page's two photo treatments read as one. A
+ * card without a photo starts at the quote glyph — no gap, no placeholder art.
  */
+
+/**
+ * The coach-card fade, with shorter stops for a shorter header — see
+ * H1CoachesSection for why the fade is a mask on the photo rather than a
+ * gradient painted over it (the card surface below is a tint, not ink, so an
+ * ink-matched overlay would band at the seam).
+ */
+const PHOTO_FADE_MASK =
+  "linear-gradient(to bottom, black calc(100% - 4rem), rgba(0, 0, 0, 0.25) calc(100% - 2rem), rgba(0, 0, 0, 0.08) calc(100% - 1rem), transparent calc(100% - 0.25rem))";
 export function H1TestimonialsSection() {
   const hasTestimonials = h1Testimonials.length > 0;
 
@@ -39,35 +53,68 @@ export function H1TestimonialsSection() {
         </div>
 
         {hasTestimonials ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          /* Flex-wrap rather than a grid so a partial row centers itself.
+             The list grows one athlete at a time, and a lone card pinned to
+             the left of a three-column grid reads as unfinished rather than
+             curated. Widths mirror the grid it replaced: full, halves from
+             `md`, thirds from `lg`, minus their share of the 1.5rem gaps. */
+          <div className="flex flex-wrap justify-center gap-6">
             {h1Testimonials.map((testimonial) => (
               <figure
                 key={testimonial.id}
-                className="h1-live flex flex-col rounded-xl border p-8"
+                className="h1-live flex w-full flex-col overflow-hidden rounded-xl border md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
                 style={{
                   borderColor: H1_PALETTE.line,
                   backgroundColor: `${H1_PALETTE.chalk}05`,
                 }}
               >
-                <Quote
-                  className="mb-4 h-7 w-7"
-                  style={{ color: H1_PALETTE.gold }}
-                  aria-hidden="true"
-                />
-                <blockquote
-                  className="mb-6 flex-1 text-sm leading-relaxed"
-                  style={{ color: H1_PALETTE.muted }}
+                {testimonial.photo && (
+                  <div
+                    className="relative aspect-[4/3] w-full overflow-hidden"
+                    style={{
+                      maskImage: PHOTO_FADE_MASK,
+                      WebkitMaskImage: PHOTO_FADE_MASK,
+                    }}
+                  >
+                    <Image
+                      src={testimonial.photo.src}
+                      alt={testimonial.photo.alt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 400px"
+                      className="h1-zoom object-cover"
+                    />
+                  </div>
+                )}
+                <div
+                  className={
+                    testimonial.photo
+                      ? "flex flex-1 flex-col p-8 pt-4"
+                      : "flex flex-1 flex-col p-8"
+                  }
                 >
-                  {testimonial.quote}
-                </blockquote>
-                <figcaption>
-                  <div className="font-semibold text-white">
-                    {testimonial.name}
-                  </div>
-                  <div className="text-xs" style={{ color: H1_PALETTE.muted }}>
-                    {testimonial.detail}
-                  </div>
-                </figcaption>
+                  <Quote
+                    className="mb-4 h-7 w-7"
+                    style={{ color: H1_PALETTE.gold }}
+                    aria-hidden="true"
+                  />
+                  <blockquote
+                    className="mb-6 flex-1 text-sm leading-relaxed"
+                    style={{ color: H1_PALETTE.muted }}
+                  >
+                    {testimonial.quote}
+                  </blockquote>
+                  <figcaption>
+                    <div className="font-semibold text-white">
+                      {testimonial.name}
+                    </div>
+                    <div
+                      className="text-xs"
+                      style={{ color: H1_PALETTE.muted }}
+                    >
+                      {testimonial.detail}
+                    </div>
+                  </figcaption>
+                </div>
               </figure>
             ))}
           </div>

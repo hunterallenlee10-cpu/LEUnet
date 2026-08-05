@@ -312,6 +312,15 @@ export interface H1Testimonial {
   name: string;
   /** Sport, position, or class year — whatever identifies the athlete. */
   detail: string;
+  /**
+   * Optional athlete photo, under `public/h1/testimonials/`. One field rather
+   * than `photo` + `photoAlt` so an image cannot ship without its alt text.
+   * Cards render without one, so a mixed grid stays legal.
+   */
+  photo?: {
+    src: string;
+    alt: string;
+  };
 }
 
 export interface H1Faq {

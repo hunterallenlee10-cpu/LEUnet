@@ -360,14 +360,38 @@ export const h1Coaches: H1Coach[] = [
 ];
 
 /**
- * Empty on purpose. While this list is empty, `H1TestimonialsSection` renders a
- * designed placeholder that holds the space without inventing a quote; adding
- * an entry here swaps it for the real grid with no other change.
+ * Owner-supplied quotes, published verbatim — see docs/H1.md §3. The
+ * placeholder state in `H1TestimonialsSection` still exists: empty this array
+ * and it returns, inventing nothing.
  *
- * Shape:
- *   { id: "h1-testimonial-1", quote: "...", name: "First L.", detail: "Sport, class year" }
+ * Rules for adding an entry:
+ * - The quote goes in exactly as the athlete sent it, punctuation and all.
+ *   The placeholder promised "posted the way they send them"; the grid keeps
+ *   that promise.
+ * - Results inside a quote are the athlete's claim in the athlete's words.
+ *   They do not graduate into `h1ProofPoints` — that array is owner-published
+ *   figures with their own sourcing rules.
+ * - `photo` is optional. The file lives in `public/h1/testimonials/`,
+ *   pre-cropped to the card's 4:3 header so `object-cover` needs no
+ *   per-photo position tuning. Cards without one render with no gap.
+ * - Most H1 athletes are minors. The owner was reminded on 2026-08-05 that a
+ *   minor's name, photo, and words need a parent or guardian's okay before
+ *   publication; an entry arriving here means the owner has that handled.
  */
-export const h1Testimonials: H1Testimonial[] = [];
+export const h1Testimonials: H1Testimonial[] = [
+  {
+    id: "h1-testimonial-mike-bittle",
+    // Supplied by the owner on 2026-08-05, verbatim.
+    quote:
+      "I’ve been training with H1 performance for over a year and can say that it has made me a better player mentally and physically. Training with H1 has helped me understand not only how to hit for power but do it consistently. My EV jumped from 82-97 mph in just under a year of training. I’ve definitely had my ups and downs in sports & wanted to even quit training at one time, but Hunter and I had an open & honest phone call about my doubts which was a massive turning point. I ended up hitting my first home run later that same week. The challenges in the group chat pushed me to my best including some great prizes, (Cat X Bat, Custom Glove, free lessons, and more).",
+    name: "Mike Bittle",
+    detail: "Baseball, Class of 2027",
+    photo: {
+      src: "/h1/testimonials/mike-bittle.jpg",
+      alt: "Mike Bittle at the plate at night in a black L-Town uniform, bat in hand",
+    },
+  },
+];
 
 export const h1Faqs: H1Faq[] = [
   {
