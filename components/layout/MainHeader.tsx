@@ -342,19 +342,19 @@ export function MainHeader() {
                     hover here, so a venture's sub-pages sit indented under
                     its row instead of behind a flyout, and the desktop rows'
                     chevron/arrow hover affordances don't apply. The sub-item
-                    that repeats the venture's own href is dropped: the
-                    desktop flyout needs it so the submenu lists all three
-                    pages in one place, but here the venture row directly
-                    above already links there, and two adjacent rows to the
-                    same page read as a bug. Unlike the desktop panel,
-                    `overflow-hidden` is safe (no flyout to clip) and rounds
-                    the end rows' pressed backgrounds. */}
+                    that repeats the venture's own href is kept, exactly as on
+                    desktop: it was dropped once on the theory that the venture
+                    row directly above already links there, but the row is
+                    labelled "Lee Marketing Mastery" and the offering is
+                    "Business Automation", so dropping it read as the
+                    automation page simply missing from the menu. Two rows to
+                    one page is the cheaper confusion. Unlike the desktop
+                    panel, `overflow-hidden` is safe (no flyout to clip) and
+                    rounds the end rows' pressed backgrounds. */}
                 {item.featured && venturesDropdownOpen && (
                   <div className="mt-2 bg-neutral-950/95 border border-neutral-800 border-t-amber-500/30 rounded-lg shadow-2xl overflow-hidden">
                     {ventureNavItems.map((ventureItem, ventureIndex) => {
-                      const visibleSubItems = (ventureItem.subItems ?? []).filter(
-                        (subItem) => subItem.href !== ventureItem.href
-                      );
+                      const subItems = ventureItem.subItems ?? [];
                       const isLastVenture =
                         ventureIndex === ventureNavItems.length - 1;
                       return (
@@ -362,20 +362,20 @@ export function MainHeader() {
                           <button
                             onClick={() => handleNavClick(ventureItem.href, ventureItem.id)}
                             className={`w-full text-left px-4 py-3.5 font-medium text-sm text-white hover:bg-neutral-900/80 hover:text-amber-400 active:bg-neutral-900/80 active:text-amber-400 transition-all duration-150 ${
-                              visibleSubItems.length > 0 || !isLastVenture
+                              subItems.length > 0 || !isLastVenture
                                 ? "border-b border-neutral-800/50"
                                 : ""
                             }`}
                           >
                             {ventureItem.label}
                           </button>
-                          {visibleSubItems.map((subItem, subIndex) => (
+                          {subItems.map((subItem, subIndex) => (
                             <button
                               key={subItem.id}
                               onClick={() => handleNavClick(subItem.href, subItem.id)}
                               className={`w-full text-left pl-8 pr-4 py-3 font-medium text-sm text-neutral-300 hover:bg-neutral-900/80 hover:text-amber-400 active:bg-neutral-900/80 active:text-amber-400 transition-all duration-150 ${
                                 !isLastVenture ||
-                                subIndex !== visibleSubItems.length - 1
+                                subIndex !== subItems.length - 1
                                   ? "border-b border-neutral-800/50"
                                   : ""
                               }`}
