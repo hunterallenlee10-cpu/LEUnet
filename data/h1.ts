@@ -415,6 +415,18 @@ export const h1Testimonials: H1Testimonial[] = [
       alt: "Noah Earhart mid-delivery on the mound during a night game, glove raised and front leg driven up",
     },
   },
+  {
+    id: "h1-testimonial-nick-hevner",
+    // Supplied by the owner on 2026-08-06, verbatim.
+    quote:
+      "I have only been part of the program for less than a month, but H1 Performance has already provided me a lot of insight and knowledge that has improved me as an athlete. In 19 years of life I never have been able to properly load and use the lower half in my swing until I came here. They taught me things that will help me succeed at the next level of baseball and they helped me build insight by digging deep into the science and the fundamentals of training which helped bring awareness to how I should be producing power & consistency, connecting the training to baseball. The topics are perfectly explained, and gone over multiple times. They always incorporate videos and help answer any questions immediately. I enjoy the guys I work with and grind to get 1% better everyday, the group aspect of it all is truly the best part.",
+    name: "Nick Hevner",
+    detail: "Baseball, College Class of 2029",
+    photo: {
+      src: "/h1/testimonials/nick-hevner.jpg",
+      alt: "Nick Hevner shouting in celebration in a white and gold Hornets uniform, dust hanging in the air behind him",
+    },
+  },
 ];
 
 export const h1Faqs: H1Faq[] = [
