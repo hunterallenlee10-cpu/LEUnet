@@ -403,6 +403,18 @@ export const h1Testimonials: H1Testimonial[] = [
       alt: "Colt Keen celebrating in an L-Town uniform after crossing the plate",
     },
   },
+  {
+    id: "h1-testimonial-noah-earhart",
+    // Supplied by the owner on 2026-08-06, verbatim.
+    quote:
+      "Before I started training with H1 I was batting bottom of my team’s line up and maxing out at 55 EV. After starting with H1 I improved immediately, the games after my first session I went 2 for 4 with a game tying single. To finish off my season I had more success, going 2 for 3 in the championship game. The mentality shift this training provides is game changing. My exit velocity has had a huge jump from 55 to now 70mph in just one month of training. Training with H1 has been the best decision I’ve made athletically.",
+    name: "Noah Earhart",
+    detail: "Baseball, Class of 2029",
+    photo: {
+      src: "/h1/testimonials/noah-earhart.jpg",
+      alt: "Noah Earhart mid-delivery on the mound during a night game, glove raised and front leg driven up",
+    },
+  },
 ];
 
 export const h1Faqs: H1Faq[] = [
