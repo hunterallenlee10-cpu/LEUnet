@@ -129,10 +129,10 @@ export const h1ProofPoints: H1ProofPoint[] = [
 
 /**
  * A proof point's figure as static text — `5.1 → 4.5`, `120 → 235 lb`, `+30%`.
- * The hero readout counts between the two numbers of a pair and so builds its
- * own string mid-animation, but it settles on exactly this, and everywhere else
- * renders it directly. One formatter means the strip and the hero cannot end up
- * showing the same result to different precision.
+ * The hero readout counts its figures up and so builds its own string
+ * mid-animation, but it settles on exactly this, and everywhere else renders it
+ * directly. One formatter means the strip and the hero cannot end up showing
+ * the same result to different precision.
  */
 export function proofFigure(point: H1ProofPoint): string {
   if (point.kind === "delta") {
