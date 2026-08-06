@@ -319,7 +319,7 @@
   position: relative;
   padding: 1.25rem 0;
   border-block: 1px solid color-mix(in srgb, var(--h1c-gold) 26%, transparent);
-  animation: h1c-fact-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: h1c-fact-in 340ms cubic-bezier(0.22, 1, 0.36, 1) both;
   /* Clips the gate. The sweep's easing spends its last third almost stationary
      at the far edge, so without this the bright band finishes outside the
      readout — parked at ~104% of its width, still at 85% opacity, jutting into
@@ -390,7 +390,7 @@
    320px, the longest — "Average across H1 baseball players", 208px — still has
    80px of headroom on the narrowest viewport, so none of them wrap.
    That is a constraint, not a coincidence. An attribution long enough to wrap
-   would make the CTA hop every five seconds; keep them under about 34
+   would make the CTA hop every few seconds; keep them under about 34
    characters, or raise this reservation to match. */
 .h1c-attrib {
   margin: 0.6rem 0 0;

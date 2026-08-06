@@ -261,8 +261,11 @@ export type H1ProofPoint =
     })
   | (H1ProofBase & {
       /**
-       * A single figure with no stated starting point. Rendered verbatim and
-       * never animated: counting up to it would imply a baseline nobody gave.
+       * A single figure with no stated starting point, e.g. `+30%`. Rendered
+       * verbatim wherever it is at rest. The hero readout counts it up from
+       * zero — a meter filling, not a claimed baseline — reading both its
+       * target and its decimal places straight out of this string, so nothing
+       * stored elsewhere can disagree with what is on screen. docs/H1.md §3.
        */
       kind: "delta";
       figure: string;
