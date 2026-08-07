@@ -491,6 +491,56 @@ export const threadProducts: ThreadProduct[] = [
     featured: true,
     customizable: false,
   },
+  // The performance counterpart to the cotton tee above, and the same
+  // relationship the H1 athletic shirts have to the H1 cotton tees: same mark,
+  // different garment, and a size run that goes a step further. 4XL is not part
+  // of the standard run, which is why `sizes` spreads ALL_SIZES rather than
+  // using it directly.
+  //
+  // Filed under Signature Tees rather than a performance category of its own,
+  // matching where the three H1 athletic shirts already sit.
+  //
+  // Placement keeps the two LEU pieces adjacent, so the cotton and performance
+  // versions of the house shirt read as a pair rather than being separated by
+  // whatever lands next.
+  //
+  // The mark is the same silver as the cotton tee, not merely a similar one:
+  // sampled across this print it means RGB 203.2/203.4/203.4 against the cotton
+  // tee's 203.5/203.6/203.5, greyscale in both cases. The copy says so.
+  //
+  // The garment carries small diagonal flashes at each shoulder. They look like
+  // reflective detail, and the sampled pixels do run slightly blue
+  // (161/164/170, peaking at #d7dbe2) rather than neutral — but a photograph
+  // cannot establish retroreflectivity, and this listing carries a real price,
+  // so `details` leaves them out. Same call the H1 athletic shirts made about
+  // the same flashes.
+  {
+    id: "tee-leu-athletic-logo",
+    name: "LEU Athletic T-Shirt Logo Only",
+    categoryId: "tees",
+    tagline: "Ultra light, mark centered",
+    description:
+      "The Lee Enterprises Unlimited mark centered on the chest in the same silver-to-white gradient as the cotton tee, on a 2.5 oz polyester training shirt light enough to forget you have it on. The back is left plain, so the mark is the only thing on the shirt.",
+    fabric: "2.5 oz polyester",
+    fit: "Athletic fit",
+    details: [
+      "Lee Enterprises Unlimited mark centered on the chest in silver",
+      "No print on the back",
+      "Sizes S through 4XL",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/leu-athletic-black-front.jpg",
+    imageAlt:
+      "Front of the black LEU athletic shirt, with the angular Lee Enterprises Unlimited mark centered on the chest in a silver-to-white gradient",
+    imageBack: "/thread/leu-athletic-black-back.jpg",
+    imageBackAlt:
+      "Back of the black LEU athletic shirt, left plain with no print",
+    colors: ["black"],
+    sizes: [...ALL_SIZES, "4xl"],
+    priceCents: 2899,
+    featured: true,
+    customizable: false,
+  },
 
   // --- Hoodies & Pullovers ------------------------------------------------
   // Placeholders while the line is worked out, and the pattern the Long Sleeve
