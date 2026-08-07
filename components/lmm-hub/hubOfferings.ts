@@ -45,7 +45,11 @@ export interface HubOffering {
    * than a new one.
    */
   promise: string;
-  /** Three points, taken from that page's outcome strip. Never four - the card is not a strip. */
+  /**
+   * Three points. Never four - the card is a summary, not a second outcome
+   * strip. They are drawn from the destination page's own outcome strip, with
+   * one owner-directed exception noted at the entry itself.
+   */
   points: string[];
   /** Door card link text. */
   cta: string;
@@ -94,7 +98,16 @@ export const hubOfferings: HubOffering[] = [
     points: [
       "Written for the decision the visitor came to make",
       "Plain claims and work you can open and check",
-      "Each service and campaign gets its own page",
+      // Owner-directed copy, and the one point on the hub that does not come
+      // from the destination page's outcome strip. It is a result promise with
+      // a timeframe on it, which is the class of claim the rest of this repo
+      // has removed on purpose - see the header comment on `ventureValuesProps`
+      // in data/ventures.ts, which took out "measurable revenue growth" and
+      // says in as many words not to put a result promise back, and
+      // docs/WEBSITES.md 3.3 on timeframes. Kept here at the owner's
+      // instruction. If it is ever reconsidered, the strip line it replaced was
+      // "Each service and campaign gets its own page".
+      "Built to increase revenue instantly",
     ],
     cta: "See websites",
     formHref: "/lee-marketing-mastery/websites#website-inquiry-form",
