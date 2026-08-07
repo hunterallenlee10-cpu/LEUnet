@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
@@ -29,19 +35,65 @@ import { H1_PALETTE, h1Testimonials } from "@/data/h1";
 const PHOTO_FADE_MASK =
   "linear-gradient(to bottom, black calc(100% - 4rem), rgba(0, 0, 0, 0.25) calc(100% - 2rem), rgba(0, 0, 0, 0.08) calc(100% - 1rem), transparent calc(100% - 0.25rem))";
 
+const TESTIMONY_COUNT = h1Testimonials.length;
+
 /**
- * Card widths, sized so a whole number of cards fills the track exactly: three
- * from `lg`, two from `md`, one below that. `gap-6` is 1.5rem, so three cards
- * share 3rem of gaps (1rem each) and two share 1.5rem (0.75rem each). Getting
- * this arithmetic right is what makes the carousel land on clean edges — a card
- * peeking in from the right would read as a broken grid rather than as "there
- * is more," which is the arrows' job.
+ * Card widths — unchanged from the flush-edged version, and that is the point.
+ *
+ * A flex item's percentage width resolves against the flex container's *content*
+ * box, and the track now carries a `--peek` gutter as horizontal padding. So
+ * these same three classes, which used to make the cards meet the track's edges
+ * exactly, now make them fill the box *inside* the gutters exactly — leaving a
+ * slice of the previous and next card showing in the gutters instead. Three
+ * whole cards at `lg`, two from `md`, one below, all still true.
+ *
+ * The invariant that matters: visible slice = peek − gap. Below `md` the gap
+ * drops to 1rem for exactly that reason — against a 2rem peek a 1.5rem gap
+ * would leave an 8px sliver, which reads as a rendering artifact rather than as
+ * a card continuing off-screen. Change either value and the other has to move
+ * with it.
  */
 const CARD_WIDTHS =
   "w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]";
 
+/**
+ * `sizes` has to describe the card, not the viewport, or next/image ships a
+ * file sized for the wrong box. Under the gutter geometry a card is ~85vw on a
+ * phone, ~45vw at `md` (two up), and settles around 400px at `lg` (three up in
+ * a 1216px container).
+ */
+const CARD_SIZES = "(max-width: 768px) 85vw, (max-width: 1024px) 45vw, 400px";
+
+/**
+ * The edge fades are painted *over* the track, not masked out of it.
+ *
+ * H1CoachesSection argues the opposite for its photo headers, and that argument
+ * genuinely does not transfer: there the surface under the fade is a chalk tint
+ * composited over ink, so an ink-matched overlay bottoms out darker than the
+ * card and bands at the seam. Here the surface under the fade is flat `steel` —
+ * the section's own background — so an overlay painted in `steel` and a mask
+ * that reveals `steel` are the same pixels.
+ *
+ * What is not the same is the focus ring. The track is focusable, and a
+ * `mask-image` on it erases its `:focus-visible` outline outright — measured at
+ * zero surviving ring pixels against 2864 on an unmasked control. Overlays
+ * leave the ring alone.
+ *
+ * Full steel at the outer edge, gone by 65% of the strip: the slice underneath
+ * is usually a dark night-game photograph, and holding a heavy scrim across the
+ * whole strip turns it into a smudge rather than a card you can tell is there.
+ */
+const edgeFade = (side: "left" | "right") =>
+  `linear-gradient(to ${side === "left" ? "right" : "left"}, ${
+    H1_PALETTE.steel
+  } 0%, ${H1_PALETTE.steel}8C 25%, transparent 65%)`;
+
+/** Middle copy is the real one; `a` and `c` are the loop's clones. */
+const LOOPED_COPIES = ["a", "b", "c"] as const;
+const SINGLE_COPY = ["b"] as const;
+
 export function H1TestimonialsSection() {
-  const hasTestimonials = h1Testimonials.length > 0;
+  const hasTestimonials = TESTIMONY_COUNT > 0;
   const trackRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -63,78 +115,288 @@ export function H1TestimonialsSection() {
    */
   const [canScroll, setCanScroll] = useState(true);
 
+  /**
+   * Whether the loop clones are mounted. Deliberately the *opposite* default to
+   * `canScroll`, for the opposite reason: a first frame with no clones is
+   * exactly the frame this section shipped with, so nothing is mispositioned
+   * while we wait for the measurement. It also keeps the server HTML at five
+   * testimonies rather than fifteen — crawlers and no-JS readers get the real
+   * list once, and the loop is purely an enhancement on top.
+   *
+   * Do not merge the two flags. They answer different questions and their safe
+   * defaults point in different directions.
+   */
+  const [looping, setLooping] = useState(false);
+
+  /**
+   * The same answer readable synchronously. `page()` and the scroll listener
+   * both need it during an event, before React has re-rendered, so it is
+   * written at every site that calls `setLooping`.
+   */
+  const loopingRef = useRef(false);
+
+  /**
+   * Slide the scroll position into the middle copy without anyone seeing it.
+   *
+   * The trick is that x and x ± L show identical pixels, because card i and
+   * card i + count are the same card and the gap between copies is the same gap
+   * as everywhere else. So a jump of exactly one period is invisible.
+   *
+   * L is measured from the DOM on every call — never `scrollWidth / 3`. Fifteen
+   * cards have fourteen gaps, not fifteen, and `scrollWidth` also carries the
+   * two gutters, so that shortcut comes out one whole gap long: 2314px against
+   * a true 2290px at `lg`. Snapping quietly absorbs the 24px error, which is
+   * exactly what makes it dangerous — the loop still "works" while every seam
+   * re-settles visibly. Taking the difference between the same card in adjacent
+   * copies cancels the padding and counts the gaps correctly.
+   *
+   * `scrollTo({ behavior: "instant" })` rather than assigning `scrollLeft`: a
+   * bare assignment animates if the element's computed `scroll-behavior` is
+   * smooth, and this codebase applies `scroll-smooth` to `html` already. The
+   * whole illusion rests on these particular jumps never animating.
+   *
+   * The modulo form handles any distance in one write, which matters because a
+   * breakpoint change can strand the position several periods out of band.
+   */
+  const normalize = useCallback(() => {
+    const track = trackRef.current;
+    if (!track || !loopingRef.current) return;
+
+    const cards = track.children as HTMLCollectionOf<HTMLElement>;
+    if (cards.length < 2 * TESTIMONY_COUNT) return; // clones not committed yet
+
+    const period =
+      cards[TESTIMONY_COUNT].offsetLeft - cards[0].offsetLeft;
+    if (period <= 0) return;
+
+    const x = track.scrollLeft;
+    if (x < period || x >= 2 * period) {
+      track.scrollTo({ left: period + (x % period), behavior: "instant" });
+    }
+  }, []);
+
+  /**
+   * Decide both flags off one measurement.
+   *
+   * Looping is gated on the real list overflowing by at least a full card, not
+   * merely overflowing at all. Below that threshold a card and its own clone
+   * can be on screen at the same time — the same athlete's face at both edges,
+   * which reads as a bug rather than as a loop. When the gate says no, the
+   * arrows fall back to the long-scroll wrap they had before, which is worse
+   * than looping but far better than a dead control.
+   *
+   * Measured off the first `TESTIMONY_COUNT` children, so the answer does not
+   * change once the clones mount. The ResizeObserver will not fire on that
+   * mount anyway — the track's own content box is unchanged by content growing
+   * inside a scroller — and it does not need to.
+   */
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
-    const measure = () =>
-      setCanScroll(track.scrollWidth - track.clientWidth > 1);
+    const measure = () => {
+      const cards = track.children as HTMLCollectionOf<HTMLElement>;
+      if (cards.length === 0) return;
+
+      const stride =
+        cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : 0;
+      const lastReal = cards[Math.min(TESTIMONY_COUNT, cards.length) - 1];
+      const realListWidth =
+        lastReal.offsetLeft - cards[0].offsetLeft + lastReal.offsetWidth;
+
+      setCanScroll(realListWidth - track.clientWidth > 1);
+
+      const shouldLoop =
+        stride > 0 && realListWidth - track.clientWidth >= stride - 1;
+      loopingRef.current = shouldLoop; // before normalize, or the flip lands late
+      setLooping(shouldLoop);
+      normalize();
+    };
 
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(track);
     return () => observer.disconnect();
-  }, []);
+  }, [normalize]);
 
   /**
-   * Page by one card. Targets are read off the cards' own `offsetLeft` rather
-   * than computed from a width-plus-gap stride, so the arrows stay correct
-   * across the breakpoints without knowing which one is active.
+   * Seat the scroller in the middle copy in the same commit that inserts the
+   * clones, before the browser paints. `useEffect` would paint one frame of the
+   * first copy — identical cards, but with an empty left gutter where the peek
+   * belongs, so the fade would blink.
    *
-   * At either end the direction wraps, because the alternative — two arrows
-   * that spend most of their life disabled — gives the reader a dead control
-   * on a list that is only five long. `scrollTo` past the end is clamped by
-   * the browser, and `scroll-snap-type: mandatory` settles the result on a
-   * card edge, so the last page is always a real snap position even when the
-   * remainder is narrower than one card.
+   * It re-bands the current position rather than jumping to a fixed address:
+   * that keeps a position the reader had already swiped to, needs no knowledge
+   * of the gutter, is its own fixed point under StrictMode's double invocation,
+   * and absorbs whatever scroll anchoring did about the clones appearing to the
+   * left.
    */
-  const page = useCallback((direction: 1 | -1) => {
+  useLayoutEffect(() => {
+    if (!looping) return;
+    normalize();
+  }, [looping, normalize]);
+
+  /**
+   * Re-band after the reader's own scrolling settles, and catch a fling before
+   * it runs out of track.
+   *
+   * Re-banding may only happen when nothing is animating. A write to
+   * `scrollLeft` during a smooth scroll cancels that scroll — measured: a
+   * deliberately no-op write mid-animation stopped it 382px short of its
+   * target. So the settle path waits for `scrollend`, or for 150ms of silence
+   * where `scrollend` does not exist (Safari before 26). 150ms cannot elapse
+   * mid-animation, because a live scroll emits an event every frame.
+   *
+   * The safety band is for a hard trackpad fling, which from a resting position
+   * has only about three cards of runway before it hits the end of the last
+   * copy. Wheel scrolling is relative, so teleporting a period mid-flight is
+   * invisible. Touch is excluded and left to the settle path: iOS momentum is
+   * owned by the compositor and a jump underneath it kills the fling. The
+   * residue is that a very hard swipe on iOS can reach the true end and stop
+   * there for one gesture before settling back — named here so nobody reads it
+   * as an unknown bug.
+   */
+  useEffect(() => {
     const track = trackRef.current;
-    if (!track) return;
+    if (!track || !looping) return;
 
-    const cards = Array.from(track.children) as HTMLElement[];
-    if (cards.length === 0) return;
+    const hasScrollEnd = "onscrollend" in track;
+    let timer = 0;
+    let touching = false;
+    let touchInertia = false;
 
-    const maxScroll = track.scrollWidth - track.clientWidth;
-    const { scrollLeft } = track;
+    const settle = () => {
+      touchInertia = false;
+      normalize();
+    };
 
-    let left: number;
-    if (direction === 1 && scrollLeft >= maxScroll - 1) {
-      left = 0;
-    } else if (direction === -1 && scrollLeft <= 1) {
-      left = maxScroll;
-    } else {
-      // The card nearest the track's left edge is the one currently leading
-      // the visible run; page relative to that.
-      let nearest = 0;
-      let smallest = Infinity;
-      cards.forEach((card, index) => {
-        const distance = Math.abs(card.offsetLeft - scrollLeft);
-        if (distance < smallest) {
-          smallest = distance;
-          nearest = index;
+    const onScroll = () => {
+      if (!touchInertia) {
+        const cards = track.children as HTMLCollectionOf<HTMLElement>;
+        if (cards.length >= 2 * TESTIMONY_COUNT) {
+          const period =
+            cards[TESTIMONY_COUNT].offsetLeft - cards[0].offsetLeft;
+          const stride = cards[1].offsetLeft - cards[0].offsetLeft;
+          const x = track.scrollLeft;
+          if (x < period - 1.5 * stride || x > 2 * period + 1.5 * stride) {
+            normalize();
+          }
         }
+      }
+
+      if (!hasScrollEnd && !touching) {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(settle, 150);
+      }
+    };
+
+    // A finger held still mid-drag stops scroll events without ending the
+    // gesture, and re-banding under an active pan fights the reader's thumb.
+    // `scrollend` needs no such guard — it is withheld until the gesture ends.
+    const onTouchStart = () => {
+      touching = true;
+      touchInertia = true;
+      window.clearTimeout(timer);
+    };
+    const onTouchEnd = () => {
+      touching = false;
+      if (!hasScrollEnd) {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(settle, 150);
+      }
+    };
+
+    track.addEventListener("scroll", onScroll, { passive: true });
+    track.addEventListener("touchstart", onTouchStart, { passive: true });
+    track.addEventListener("touchend", onTouchEnd, { passive: true });
+    if (hasScrollEnd) track.addEventListener("scrollend", settle);
+
+    return () => {
+      window.clearTimeout(timer);
+      track.removeEventListener("scroll", onScroll);
+      track.removeEventListener("touchstart", onTouchStart);
+      track.removeEventListener("touchend", onTouchEnd);
+      if (hasScrollEnd) track.removeEventListener("scrollend", settle);
+    };
+  }, [looping, normalize]);
+
+  /**
+   * Page by one card.
+   *
+   * Re-band first, in the same tick. The instant write does cancel any scroll
+   * still in flight, but the `scrollTo` two lines down replaces it immediately,
+   * so the pair behaves as one move — verified landing exactly on target. What
+   * this does not promise is a perfectly smooth press *during* an animation:
+   * Chromium coerces an instant write to the nearest snap position, so a press
+   * that arrives mid-flight can shift by up to half a card. It is bounded, it
+   * is rare (a press from rest re-bands to nothing at all), and the loop never
+   * breaks.
+   *
+   * Rest positions are `offsetLeft − gutter`, not `offsetLeft`: the track is its
+   * own offset parent, so a card's `offsetLeft` includes the peek padding, while
+   * `scroll-padding` has already moved the snap rest inward by the same amount.
+   * The gutter is read from computed style so the breakpoints stay a CSS
+   * concern and JS never learns their values.
+   *
+   * While looping, the two wrap branches are unreachable — the position never
+   * leaves the middle band at rest. They are kept for the gated-off case, where
+   * they are the only thing standing between the reader and a dead arrow.
+   */
+  const page = useCallback(
+    (direction: 1 | -1) => {
+      const track = trackRef.current;
+      if (!track) return;
+
+      const cards = Array.from(track.children) as HTMLElement[];
+      if (cards.length === 0) return;
+
+      if (loopingRef.current) normalize();
+
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      const { scrollLeft } = track;
+      const gutter = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+
+      let left: number;
+      if (!loopingRef.current && direction === 1 && scrollLeft >= maxScroll - 1) {
+        left = 0;
+      } else if (!loopingRef.current && direction === -1 && scrollLeft <= 1) {
+        left = maxScroll;
+      } else {
+        // The card nearest the track's left edge is the one currently leading
+        // the visible run; page relative to that.
+        let nearest = 0;
+        let smallest = Infinity;
+        cards.forEach((card, index) => {
+          const distance = Math.abs(card.offsetLeft - gutter - scrollLeft);
+          if (distance < smallest) {
+            smallest = distance;
+            nearest = index;
+          }
+        });
+
+        const target = Math.min(
+          Math.max(nearest + direction, 0),
+          cards.length - 1,
+        );
+        left = cards[target].offsetLeft - gutter;
+      }
+
+      // Read at call time rather than in state: the site-wide reduced-motion
+      // rules collapse CSS transitions, but a programmatic smooth scroll is not
+      // a transition and would animate straight through them.
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      track.scrollTo({
+        left,
+        behavior: prefersReducedMotion ? "auto" : "smooth",
       });
+    },
+    [normalize],
+  );
 
-      const target = Math.min(
-        Math.max(nearest + direction, 0),
-        cards.length - 1,
-      );
-      left = cards[target].offsetLeft;
-    }
-
-    // Read at call time rather than in state: the site-wide reduced-motion
-    // rules collapse CSS transitions, but a programmatic smooth scroll is not
-    // a transition and would animate straight through them.
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    track.scrollTo({
-      left,
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-    });
-  }, []);
+  const copies = looping ? LOOPED_COPIES : SINGLE_COPY;
 
   return (
     <section
@@ -164,91 +426,138 @@ export function H1TestimonialsSection() {
             aria-roledescription="carousel"
             aria-label="Athlete testimonies"
           >
-            {/* The scroller. `snap-mandatory` keeps it landing on card edges
-                whether it was moved by an arrow, a trackpad, or a thumb, so
-                touch users get the same carousel without needing the arrows.
+            {/* The wrapper owns `--peek`, so the gutter, the snap inset and the
+                width of the fades are one number in one place. */}
+            <div className="relative [--peek:2rem] md:[--peek:3rem]">
+              {/* The scroller. `snap-mandatory` keeps it landing on card edges
+                  whether it was moved by an arrow, a trackpad, or a thumb, so
+                  touch users get the same carousel without needing the arrows.
 
-                `tabIndex` is not decoration: a scrollable region that cannot
-                take focus cannot be scrolled from the keyboard at all, and the
-                cards hold no focusable content of their own to get you in.
+                  `px-(--peek)` opens the gutters the neighbouring cards peek
+                  through, and `scroll-px-(--peek)` moves the snap rest inward
+                  by the same amount so a snapped card still lands flush with
+                  the content box rather than under the fade.
 
-                The vertical padding is headroom for the `h1-live` hover rise —
-                `overflow-x: auto` forces `overflow-y` to compute to `auto`
-                too, so a card lifting 2px at the edge of a track with no
-                padding would be clipped, or worse, raise a second scrollbar.
+                  `tabIndex` is not decoration: a scrollable region that cannot
+                  take focus cannot be scrolled from the keyboard at all, and the
+                  cards hold no focusable content of their own to get you in.
 
-                Left-aligned while it overflows, centred when it does not: a
-                short list should sit in the middle of the section the way the
-                old grid did, but `justify-content: center` on a scroller that
-                overflows pushes content past the scroll origin where it cannot
-                be reached — see the `canScroll` note above for why that
-                decides the default rather than the other way round. */}
-            <div
-              ref={trackRef}
-              id="h1-testimonials-track"
-              tabIndex={0}
-              aria-label="Athlete testimonies, scrollable"
-              className={`relative flex snap-x snap-mandatory gap-6 overflow-x-auto py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
-                canScroll ? "" : "justify-center"
-              }`}
-            >
-              {h1Testimonials.map((testimonial) => (
-                <figure
-                  key={testimonial.id}
-                  className={`h1-live flex shrink-0 snap-start flex-col overflow-hidden rounded-xl border ${CARD_WIDTHS}`}
-                  style={{
-                    borderColor: H1_PALETTE.line,
-                    backgroundColor: `${H1_PALETTE.chalk}05`,
-                  }}
-                >
-                  {testimonial.photo && (
-                    <div
-                      className="relative aspect-[4/3] w-full overflow-hidden"
-                      style={{
-                        maskImage: PHOTO_FADE_MASK,
-                        WebkitMaskImage: PHOTO_FADE_MASK,
-                      }}
-                    >
-                      <Image
-                        src={testimonial.photo.src}
-                        alt={testimonial.photo.alt}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 400px"
-                        className="h1-zoom object-cover"
-                      />
-                    </div>
-                  )}
-                  <div
-                    className={
-                      testimonial.photo
-                        ? "flex flex-1 flex-col p-8 pt-4"
-                        : "flex flex-1 flex-col p-8"
-                    }
-                  >
-                    <Quote
-                      className="mb-4 h-7 w-7"
-                      style={{ color: H1_PALETTE.gold }}
-                      aria-hidden="true"
-                    />
-                    <blockquote
-                      className="mb-6 flex-1 text-sm leading-relaxed"
-                      style={{ color: H1_PALETTE.muted }}
-                    >
-                      {testimonial.quote}
-                    </blockquote>
-                    <figcaption>
-                      <div className="font-semibold text-white">
-                        {testimonial.name}
-                      </div>
-                      <div
-                        className="text-xs"
-                        style={{ color: H1_PALETTE.muted }}
+                  The vertical padding is headroom for the `h1-live` hover rise —
+                  `overflow-x: auto` forces `overflow-y` to compute to `auto`
+                  too, so a card lifting 2px at the edge of a track with no
+                  padding would be clipped, or worse, raise a second scrollbar.
+
+                  Left-aligned while it overflows, centred when it does not: a
+                  short list should sit in the middle of the section the way the
+                  old grid did, but `justify-content: center` on a scroller that
+                  overflows pushes content past the scroll origin where it cannot
+                  be reached — see the `canScroll` note above for why that
+                  decides the default rather than the other way round. */}
+              <div
+                ref={trackRef}
+                id="h1-testimonials-track"
+                tabIndex={0}
+                aria-label="Athlete testimonies, scrollable"
+                className={`relative flex snap-x snap-mandatory gap-4 overflow-x-auto px-(--peek) py-2 scroll-px-(--peek) md:gap-6 [overscroll-behavior-x:contain] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+                  canScroll ? "" : "justify-center"
+                }`}
+              >
+                {copies.flatMap((copy) =>
+                  h1Testimonials.map((testimonial, index) => {
+                    /* Copies `a` and `c` exist only to give the loop somewhere
+                       to go. They are hidden from assistive technology so a
+                       screen reader still hears five testimonies, and `inert`
+                       keeps them out of the tab order — the cards hold nothing
+                       focusable today, but H1.md floats a read-more expander,
+                       and ten hidden tab stops would be a nasty surprise. Any
+                       id ever added inside a card has to be copy-prefixed. */
+                    const clone = copy !== "b";
+                    return (
+                      <figure
+                        key={`${copy}:${testimonial.id}`}
+                        aria-hidden={clone || undefined}
+                        inert={clone || undefined}
+                        aria-roledescription={clone ? undefined : "slide"}
+                        aria-label={
+                          clone
+                            ? undefined
+                            : `${index + 1} of ${TESTIMONY_COUNT}`
+                        }
+                        className={`h1-live flex shrink-0 snap-start flex-col overflow-hidden rounded-xl border ${CARD_WIDTHS}`}
+                        style={{
+                          borderColor: H1_PALETTE.line,
+                          backgroundColor: `${H1_PALETTE.chalk}05`,
+                        }}
                       >
-                        {testimonial.detail}
-                      </div>
-                    </figcaption>
-                  </div>
-                </figure>
+                        {testimonial.photo && (
+                          <div
+                            className="relative aspect-[4/3] w-full overflow-hidden"
+                            style={{
+                              maskImage: PHOTO_FADE_MASK,
+                              WebkitMaskImage: PHOTO_FADE_MASK,
+                            }}
+                          >
+                            <Image
+                              src={testimonial.photo.src}
+                              alt={testimonial.photo.alt}
+                              fill
+                              sizes={CARD_SIZES}
+                              className="h1-zoom object-cover"
+                            />
+                          </div>
+                        )}
+                        <div
+                          className={
+                            testimonial.photo
+                              ? "flex flex-1 flex-col p-8 pt-4"
+                              : "flex flex-1 flex-col p-8"
+                          }
+                        >
+                          <Quote
+                            className="mb-4 h-7 w-7"
+                            style={{ color: H1_PALETTE.gold }}
+                            aria-hidden="true"
+                          />
+                          <blockquote
+                            className="mb-6 flex-1 text-sm leading-relaxed"
+                            style={{ color: H1_PALETTE.muted }}
+                          >
+                            {testimonial.quote}
+                          </blockquote>
+                          <figcaption>
+                            <div className="font-semibold text-white">
+                              {testimonial.name}
+                            </div>
+                            <div
+                              className="text-xs"
+                              style={{ color: H1_PALETTE.muted }}
+                            >
+                              {testimonial.detail}
+                            </div>
+                          </figcaption>
+                        </div>
+                      </figure>
+                    );
+                  }),
+                )}
+              </div>
+
+              {/* Painted over the track rather than masked out of it — see
+                  `edgeFade`. `z-10` clears the `h1-live` ring, which sits at
+                  `z-index: 2` in this same stacking context. They gate on
+                  `canScroll`, not on `looping`: a list that overflows without
+                  looping still has more to show, and a list that fits has
+                  nothing to fade. Absolutely positioned, so fading them out
+                  costs no layout. */}
+              {(["left", "right"] as const).map((side) => (
+                <div
+                  key={side}
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute inset-y-0 z-10 w-(--peek) transition-opacity ${
+                    side === "left" ? "left-0" : "right-0"
+                  } ${canScroll ? "" : "opacity-0"}`}
+                  style={{ background: edgeFade(side) }}
+                />
               ))}
             </div>
 

@@ -579,6 +579,20 @@
   outline-offset: 3px;
 }
 
+/* The testimonials track is focusable on purpose — a scroller that cannot take
+   focus cannot be scrolled from the keyboard — and its edges are now covered by
+   the peek fades. The browser's default ring would be painted under them. This
+   one matches `.h1-tap:focus-visible` and its outward offset puts it clear of
+   the fade strips entirely.
+
+   This is also why those fades are overlays rather than a `mask-image` on the
+   track: a mask erases the ring outright. Measured, on a focused masked track
+   against an unmasked control, at zero surviving ring pixels against 2864. */
+#h1-testimonials-track:focus-visible {
+  outline: 2px solid var(--h1c-gold);
+  outline-offset: 3px;
+}
+
 /* The site-wide reset in `@layer base` collapses transition durations, but a
    transform applied on `:hover` is a state rather than a transition and would
    still jump. The illumination stays — it conveys the same thing without
