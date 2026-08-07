@@ -46,10 +46,18 @@ export function HubRouterSection() {
         <h2 className="heading-lg mx-auto mb-6 max-w-3xl text-white">
           Start With the One Closest to Today&apos;s Problem.
         </h2>
+        {/* The 12-hour reply is a commitment, not an observation - the only
+            kind of timing claim this repo allows, since it is a promise the
+            business controls rather than a statistic about how long anything
+            usually takes (docs/WEBSITES.md §3.3). It is owner-supplied and it
+            binds: all three forms email on submit, so the clock starts when the
+            enquiry arrives, whichever of the three it came from. The three
+            confirmation screens deliberately do not repeat the number - if this
+            ever changes, it changes here, in one place. */}
         <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-neutral-300">
-          Every one of the three starts the same way - a conversation about what
-          you are actually trying to fix. Pick whichever is nearest and we will
-          tell you honestly if it is the wrong one.
+          Every project starts the same way - a conversation about what you are
+          actually trying to fix. Pick whichever is nearest to you, book a
+          consultation, &amp; you will hear from us within 12 hours.
         </p>
 
         <ul className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-3">
