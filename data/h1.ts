@@ -427,6 +427,18 @@ export const h1Testimonials: H1Testimonial[] = [
       alt: "Nick Hevner shouting in celebration in a white and gold Hornets uniform, dust hanging in the air behind him",
     },
   },
+  {
+    id: "h1-testimonial-alex-vasquez",
+    // Supplied by the owner on 2026-08-07, verbatim.
+    quote:
+      "I personally think the H1 staff runs their program very well. I have learned so much since I joined. They treat everyone with respect, care, and try their hardest to make everyone the best they can be. They value both the physical and mental side of the game with their available resources such as a work out plan but also communicate very often in a group chat where they talk about the mental side of baseball and life as well. They provide drills, videos, direct feedback, motivation, personal preferences, and work hard to make sure everyone gets what they need in order to succeed. You must apply yourself both at home and at the training sessions so you can improve at light speed.",
+    name: "Alex Vasquez",
+    detail: "Baseball, Class of 2029",
+    photo: {
+      src: "/h1/testimonials/alex-vasquez.jpg",
+      alt: "Alex Vasquez at the plate in a white Senators uniform, bat cocked in his stance with the catcher set behind him",
+    },
+  },
 ];
 
 export const h1Faqs: H1Faq[] = [
