@@ -541,6 +541,54 @@ export const threadProducts: ThreadProduct[] = [
     featured: true,
     customizable: false,
   },
+  // Runs the standard S-3XL set, so it uses ALL_SIZES directly.
+  //
+  // The first listing built around a named third party rather than a mark this
+  // company owns: the artwork carries a real athlete's name, jersey number, and
+  // a drawn likeness. That is a licensing question, not a technical one, and it
+  // is flagged here because nothing else in this file raises it — every other
+  // piece prints an H1, LEU, or original design. Nothing in the code depends on
+  // the answer.
+  //
+  // The copy stays on the garment. It describes the lettering, the
+  // illustration, and the fabric, and takes no position on the subject or the
+  // circumstances the slogan refers to. Product copy is the wrong place for it,
+  // and the request was for a listing, not for advocacy.
+  //
+  // Ordinary image order — the front is printed, so it leads and the full-back
+  // illustration is the reveal on hover. Same shape as the Crusader tee: small
+  // chest hit, large back print.
+  //
+  // Colours sampled rather than eyeballed: the chest hit is white over royal
+  // (#0040a0) and the back arch is white with a navy (#202040) outline, so the
+  // copy names those two rather than calling the whole thing blue.
+  {
+    id: "tee-free-bauer",
+    name: "Free Trevor Bauer T-Shirt",
+    categoryId: "tees",
+    tagline: "Chest hit, full-back print",
+    description:
+      "“FREE TREVOR BAUER” stacked small on the left chest in collegiate block letters, white over royal. The back arches “FREE BAUER” in white above a full-length illustration of a uniformed player with a bat raised overhead, number 27. 5.5 oz cotton in a standard fit.",
+    fabric: "5.5 oz cotton",
+    fit: "Standard fit",
+    details: [
+      "Left-chest “FREE TREVOR BAUER” in white and royal block letters",
+      "Arched “FREE BAUER” over a full-back player illustration, number 27",
+      "Unisex sizing, S through 3XL",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/free-bauer-tee-black-front.jpg",
+    imageAlt:
+      "Front of the black Free Trevor Bauer t-shirt, with “FREE TREVOR BAUER” stacked on the left chest in white and royal blue collegiate block letters",
+    imageBack: "/thread/free-bauer-tee-black-back.jpg",
+    imageBackAlt:
+      "Back of the black Free Trevor Bauer t-shirt, with “FREE BAUER” arched in white across the upper back above a full-length illustration of a player in a white and royal uniform holding a bat overhead, number 27 on the jersey",
+    colors: ["black"],
+    sizes: ALL_SIZES,
+    priceCents: 2499,
+    featured: true,
+    customizable: false,
+  },
 
   // --- Hoodies & Pullovers ------------------------------------------------
   // Placeholders while the line is worked out, and the pattern the Long Sleeve
