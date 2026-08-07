@@ -31,26 +31,32 @@ import { Printer, Signpost, Truck, Search, Target, Share2, Mail, User } from "lu
  * offering in real text directly beneath it.
  */
 
+/**
+ * Geometry. The viewBox is 300x186, matching the automation mini so the two
+ * SVG cards render at the same height beside the websites card - three door
+ * cards whose visuals ended at three different heights read as ragged, and the
+ * copy beneath them started on three different lines.
+ */
 const CORE_X = 150;
-const CORE_Y = 80;
-const CORE_R = 26;
-const CHIP = 28;
+const CORE_Y = 93;
+const CORE_R = 30;
+const CHIP = 30;
 
 /** Left edge of the left column, and left edge of the right column. */
 const LEFT_X = 6;
-const RIGHT_X = 266;
+const RIGHT_X = 264;
 
 const offline = [
-  { Icon: Printer, y: 14 },
-  { Icon: Signpost, y: 66 },
-  { Icon: Truck, y: 118 },
+  { Icon: Printer, y: 20 },
+  { Icon: Signpost, y: 78 },
+  { Icon: Truck, y: 136 },
 ];
 
 const online = [
-  { Icon: Search, y: 4 },
-  { Icon: Target, y: 44 },
-  { Icon: Share2, y: 84 },
-  { Icon: Mail, y: 124 },
+  { Icon: Search, y: 6 },
+  { Icon: Target, y: 54 },
+  { Icon: Share2, y: 102 },
+  { Icon: Mail, y: 150 },
 ];
 
 /**
@@ -61,12 +67,12 @@ const online = [
  */
 const leftWire = (top: number) => {
   const y = top + CHIP / 2;
-  return `M ${LEFT_X + CHIP} ${y} C 78 ${y}, 88 ${CORE_Y}, ${CORE_X - CORE_R} ${CORE_Y}`;
+  return `M ${LEFT_X + CHIP} ${y} C 76 ${y}, 86 ${CORE_Y}, ${CORE_X - CORE_R} ${CORE_Y}`;
 };
 
 const rightWire = (top: number) => {
   const y = top + CHIP / 2;
-  return `M ${RIGHT_X} ${y} C 222 ${y}, 212 ${CORE_Y}, ${CORE_X + CORE_R} ${CORE_Y}`;
+  return `M ${RIGHT_X} ${y} C 224 ${y}, 214 ${CORE_Y}, ${CORE_X + CORE_R} ${CORE_Y}`;
 };
 
 /**
@@ -96,7 +102,7 @@ const STAGGER_SECONDS = 0.44;
 export function MiniReachVisual() {
   return (
     <svg
-      viewBox="0 0 300 160"
+      viewBox="0 0 300 186"
       className="block h-auto w-full"
       role="presentation"
       focusable="false"
@@ -135,7 +141,7 @@ export function MiniReachVisual() {
         fill="url(#lmmHubReachCore)"
         stroke="rgba(251,191,36,0.4)"
       />
-      <User x={CORE_X - 9} y={CORE_Y - 9} width={18} height={18} className="text-amber-300" />
+      <User x={CORE_X - 10} y={CORE_Y - 10} width={20} height={20} className="text-amber-300" />
 
       {/* Packets last, so they ride on top of the wires they follow. No cx/cy:
           `offset-path` translates the element from its own origin, so a circle

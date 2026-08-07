@@ -52,9 +52,25 @@ export function HubDoorsSection() {
 
                   {/* The visual sits in its own inset frame rather than loose on
                       the card, so the diagram reads as a sample of something
-                      else rather than as decoration on this card. */}
-                  <div className="mb-5 rounded-lg border border-white/[0.07] bg-neutral-950/50 p-3">
-                    <Visual />
+                      else rather than as decoration on this card.
+
+                      FIXED HEIGHT, and it has to be. The three visuals are three
+                      different kinds of drawing - two SVGs that scale to their
+                      viewBox aspect and one HTML wireframe that is as tall as its
+                      content - so left to themselves they rendered at 193, 327
+                      and 143 pixels. Because the cards are grid siblings and
+                      stretch to a common height, that spread did not shorten any
+                      card; it just started the promise paragraph on a different
+                      line in each one and left ragged dead space above the links.
+                      One height, contents centred, and the three cards read as a
+                      set. The two SVGs share a 300x186 viewBox so they arrive at
+                      nearly this height on their own; the wireframe is tuned to
+                      match. If a visual is ever redrawn, re-measure all three
+                      rather than adjusting this number to suit one of them. */}
+                  <div className="mb-5 flex h-[236px] items-center rounded-lg border border-white/[0.07] bg-neutral-950/50 p-3">
+                    <div className="w-full">
+                      <Visual />
+                    </div>
                   </div>
 
                   <p className="mb-5 text-sm leading-relaxed text-neutral-400">

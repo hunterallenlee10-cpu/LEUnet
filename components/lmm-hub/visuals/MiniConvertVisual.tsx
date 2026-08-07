@@ -54,7 +54,7 @@ export function MiniConvertVisual() {
       className="overflow-hidden rounded-lg border border-white/10 bg-neutral-900/80"
     >
       {/* Browser chrome, at the smallest size that still reads as a browser. */}
-      <div className="flex items-center gap-1.5 border-b border-white/10 bg-neutral-950/60 px-2.5 py-2">
+      <div className="flex items-center gap-1.5 border-b border-white/10 bg-neutral-950/60 px-2 py-1.5">
         <span className="flex gap-1">
           <span className="h-1.5 w-1.5 rounded-full bg-neutral-700" />
           <span className="h-1.5 w-1.5 rounded-full bg-neutral-700" />
@@ -65,15 +65,15 @@ export function MiniConvertVisual() {
         </span>
       </div>
 
-      <div className="space-y-2.5 p-2.5">
+      <div className="space-y-1.5 p-2">
         {/* Nav, deliberately unannotated: every site has one, so a stop here
             would be spent on something outside the decision. */}
         <div className="flex items-center justify-between">
-          <span className="h-2 w-10 rounded bg-amber-400/50" />
+          <span className="h-1.5 w-8 rounded bg-amber-400/50" />
           <span className="flex gap-1">
-            <span className="h-1.5 w-5 rounded bg-neutral-700" />
-            <span className="h-1.5 w-5 rounded bg-neutral-700" />
-            <span className="h-1.5 w-7 rounded bg-amber-400/40" />
+            <span className="h-1 w-4 rounded bg-neutral-700" />
+            <span className="h-1 w-4 rounded bg-neutral-700" />
+            <span className="h-1 w-6 rounded bg-amber-400/40" />
           </span>
         </div>
 
@@ -82,7 +82,7 @@ export function MiniConvertVisual() {
             magic numbers and would break at the first content change. Each row
             owns its own rail segment and its own dot, so no element needs to
             know where the others sit. */}
-        <div className="grid grid-cols-[14px_1fr] gap-x-2">
+        <div className="grid grid-cols-[14px_1fr] gap-x-1.5">
           {stops.map(({ label, Block }, i) => (
             <Stop key={label} index={i} label={label} isLast={i === stops.length - 1}>
               <Block />
@@ -132,10 +132,10 @@ function Stop({ index, label, isLast, children }: StopProps) {
         </span>
       </div>
 
-      <div className="pb-2.5 last:pb-0">
+      <div className="pb-1.5 last:pb-0">
         <p
           style={delay}
-          className="lmm-scan-label mb-1.5 text-[9px] font-medium leading-tight text-amber-200/80"
+          className="lmm-scan-label mb-1 text-[9px] font-medium leading-tight text-amber-200/80"
         >
           {label}
         </p>
@@ -147,20 +147,20 @@ function Stop({ index, label, isLast, children }: StopProps) {
 
 function HeadlineBlock() {
   return (
-    <div className="rounded border border-white/[0.06] bg-gradient-to-br from-amber-400/[0.07] to-transparent p-2">
-      <span className="mb-1.5 block h-2.5 w-3/4 rounded bg-neutral-600" />
-      <span className="mb-2 block h-1.5 w-full rounded bg-neutral-800" />
-      <span className="inline-block h-3.5 w-16 rounded bg-amber-400/70" />
+    <div className="rounded border border-white/[0.06] bg-gradient-to-br from-amber-400/[0.07] to-transparent p-1.5">
+      <span className="mb-1 block h-2 w-3/4 rounded bg-neutral-600" />
+      <span className="mb-1.5 block h-1 w-full rounded bg-neutral-800" />
+      <span className="inline-block h-3 w-14 rounded bg-amber-400/70" />
     </div>
   );
 }
 
 function ProofBlock() {
   return (
-    <div className="grid grid-cols-3 gap-1.5">
+    <div className="grid grid-cols-3 gap-1">
       {[0, 1, 2].map((i) => (
-        <div key={i} className="rounded border border-white/[0.06] bg-neutral-950/50 p-1.5">
-          <span className="mb-1 block h-3 w-3 rounded border border-amber-400/25 bg-amber-400/10" />
+        <div key={i} className="rounded border border-white/[0.06] bg-neutral-950/50 p-1">
+          <span className="mb-1 block h-2.5 w-2.5 rounded border border-amber-400/25 bg-amber-400/10" />
           <span className="block h-1 w-full rounded bg-neutral-700" />
         </div>
       ))}
@@ -171,12 +171,12 @@ function ProofBlock() {
 /** The point of the whole offering, which is why it is the last stop. */
 function ActionBlock() {
   return (
-    <div className="rounded border border-amber-400/20 bg-amber-400/[0.04] p-2">
-      <div className="grid grid-cols-2 gap-1.5">
-        <span className="h-2.5 rounded border border-white/10 bg-neutral-900" />
-        <span className="h-2.5 rounded border border-white/10 bg-neutral-900" />
+    <div className="rounded border border-amber-400/20 bg-amber-400/[0.04] p-1.5">
+      <div className="grid grid-cols-2 gap-1">
+        <span className="h-2 rounded border border-white/10 bg-neutral-900" />
+        <span className="h-2 rounded border border-white/10 bg-neutral-900" />
       </div>
-      <span className="mt-1.5 block h-3.5 w-16 rounded bg-amber-400/70" />
+      <span className="mt-1 block h-3 w-14 rounded bg-amber-400/70" />
     </div>
   );
 }
