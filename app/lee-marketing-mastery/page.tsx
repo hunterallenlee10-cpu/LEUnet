@@ -4,7 +4,6 @@ import { MainFooter } from "@/components/layout/MainFooter";
 import { HubHeroSection } from "@/components/lmm-hub/HubHeroSection";
 import { HubDoorsSection } from "@/components/lmm-hub/HubDoorsSection";
 import { HubCompanySection } from "@/components/lmm-hub/HubCompanySection";
-import { HubStraightAnswersSection } from "@/components/lmm-hub/HubStraightAnswersSection";
 import { HubRouterSection } from "@/components/lmm-hub/HubRouterSection";
 
 /**
@@ -17,7 +16,7 @@ import { HubRouterSection } from "@/components/lmm-hub/HubRouterSection";
  * /lee-marketing-mastery/automation and all three sit one level below this
  * page, which is the only page on the site that is about the company.
  *
- * DELIBERATELY SHORT. Five sections, against eleven on the automation page,
+ * DELIBERATELY SHORT. Four sections, against eleven on the automation page,
  * eleven on websites and twelve on marketing. This page is not a fourth sales
  * page and must not be allowed to become one: everything that argues for a
  * particular offering belongs on that offering's page, where there is room to
@@ -145,7 +144,6 @@ export default function LeeMarketingMasteryHubPage() {
         <HubHeroSection />
         <HubDoorsSection />
         <HubCompanySection />
-        <HubStraightAnswersSection />
         <HubRouterSection />
       </main>
 
