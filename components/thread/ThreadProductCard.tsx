@@ -13,11 +13,45 @@ import {
 } from "@/data/thread";
 import { useThreadCart } from "@/components/thread/ThreadCartProvider";
 import {
+  ThreadProductGallery,
+  type ThreadGalleryView,
+} from "@/components/thread/ThreadProductGallery";
+import {
   threadCardStyle,
   threadPrimaryButtonClass,
 } from "@/components/thread/ThreadUI";
 
 const MAX_QUANTITY = 1000;
+
+const CARD_IMAGE_SIZES =
+  "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+
+/**
+ * Front and back as two views, in catalog order rather than assumed order —
+ * one listing leads with its back, and a card that calls that photo "Front"
+ * is worse than one that says nothing at all.
+ */
+function galleryViews(product: ThreadProduct): ThreadGalleryView[] {
+  const leadsWithBack = product.imageSide === "back";
+
+  const views: ThreadGalleryView[] = [
+    {
+      src: product.image,
+      alt: product.imageAlt,
+      label: leadsWithBack ? "Back" : "Front",
+    },
+  ];
+
+  if (product.imageBack) {
+    views.push({
+      src: product.imageBack,
+      alt: product.imageBackAlt ?? "",
+      label: leadsWithBack ? "Front" : "Back",
+    });
+  }
+
+  return views;
+}
 
 /**
  * Matches the lift the brand-story and category cards already use. The hover
@@ -106,7 +140,7 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
             src={product.image}
             alt={product.imageAlt}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes={CARD_IMAGE_SIZES}
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
@@ -162,7 +196,7 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
             src={product.image}
             alt={product.imageAlt}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes={CARD_IMAGE_SIZES}
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
@@ -189,32 +223,17 @@ export function ThreadProductCard({ product }: { product: ThreadProduct }) {
 
   return (
     <div className={CARD_CLASS} style={cardStyle}>
-      <div
-        className="relative aspect-square w-full"
-        style={{ backgroundColor: THREAD_PALETTE.ink }}
-      >
-        <Image
-          src={product.image}
-          alt={product.imageAlt}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        {/*
-         * Layered over the front rather than swapped with it, so a slow-loading
-         * back photo reveals the front underneath instead of an empty panel.
-         * Both carry the same scale so the hover reads as one movement.
-         */}
-        {product.imageBack && (
-          <Image
-            src={product.imageBack}
-            alt={product.imageBackAlt ?? ""}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="pointer-events-none object-cover opacity-0 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
-          />
-        )}
-      </div>
+      {/*
+       * Both sides are reachable by swipe, tap, arrow, and dot — a phone has no
+       * hover, and the back is where half of these pieces carry their print.
+       * Mouse hover still peeks at the second view, so the desktop card behaves
+       * as it did until the reader takes hold of it.
+       */}
+      <ThreadProductGallery
+        views={galleryViews(product)}
+        sizes={CARD_IMAGE_SIZES}
+        name={product.name}
+      />
 
       <div className="flex flex-1 flex-col p-6">
         <h3

@@ -127,16 +127,24 @@ export interface ThreadProduct {
   image: string;
   imageAlt: string;
   /**
-   * Reverse of the garment, for pieces printed on both sides. When set, the
-   * card cross-fades to it on hover; when omitted the card behaves as before.
+   * The garment's other side, for pieces photographed from both. When set, the
+   * catalog card becomes a two-view gallery — swipe, tap, arrow, or dot, with
+   * mouse hover peeking at it as before. When omitted the card renders the one
+   * photo and no controls.
    *
-   * Hover only, so this is not reachable on touch — treat it as a second look
-   * at the piece rather than the place to put information the buyer needs.
-   * Anything load-bearing belongs in `details`, which every device can open.
+   * Reachable on every device now, so it can carry detail a buyer needs rather
+   * than only a second look. `details` is still the place for anything that has
+   * to be readable without looking at a photograph at all.
    */
   imageBack?: string;
   /** Alt text for `imageBack`. Required whenever that is set. */
   imageBackAlt?: string;
+  /**
+   * Which side `image` shows. Defaults to the front. Set to "back" for a piece
+   * that leads with its reverse — the gallery names its views from this, and a
+   * control labelled "Front" that shows the back is worse than no label.
+   */
+  imageSide?: "front" | "back";
   /** Keys into THREAD_COLORS. Empty for design packages, which have no garment. */
   colors: string[];
   /** Keys into THREAD_SIZES. */
