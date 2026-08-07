@@ -1,33 +1,54 @@
 import { Metadata } from "next";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
-import { LmmHeroSection } from "@/components/lmm/LmmHeroSection";
-import { LmmOutcomeStrip } from "@/components/lmm/LmmOutcomeStrip";
-import { LmmProblemSection } from "@/components/lmm/LmmProblemSection";
-import { LmmServicesSection } from "@/components/lmm/LmmServicesSection";
-import { LmmResultsSection } from "@/components/lmm/LmmResultsSection";
-import { LmmProcessSection } from "@/components/lmm/LmmProcessSection";
-import { LmmUseCasesSection } from "@/components/lmm/LmmUseCasesSection";
-import { LmmWhyChooseSection } from "@/components/lmm/LmmWhyChooseSection";
-import { LmmConsultationCTA } from "@/components/lmm/LmmConsultationCTA";
-import { LmmFAQSection } from "@/components/lmm/LmmFAQSection";
-import { LmmFinalCTA } from "@/components/lmm/LmmFinalCTA";
-import { lmmFaqs } from "@/data/lmm";
+import { HubHeroSection } from "@/components/lmm-hub/HubHeroSection";
+import { HubDoorsSection } from "@/components/lmm-hub/HubDoorsSection";
+import { HubCompanySection } from "@/components/lmm-hub/HubCompanySection";
+import { HubStraightAnswersSection } from "@/components/lmm-hub/HubStraightAnswersSection";
+import { HubRouterSection } from "@/components/lmm-hub/HubRouterSection";
 
-const title = "Business Automation Systems | Lee Marketing Mastery";
+/**
+ * The Lee Marketing Mastery venture hub.
+ *
+ * WHAT THIS ROUTE USED TO BE. Until this page existed, /lee-marketing-mastery
+ * was the Business Automation page - so the header dropdown row labelled "Lee
+ * Marketing Mastery" delivered a visitor to one of the venture's three
+ * offerings rather than to the venture. That offering now lives at
+ * /lee-marketing-mastery/automation and all three sit one level below this
+ * page, which is the only page on the site that is about the company.
+ *
+ * DELIBERATELY SHORT. Five sections, against eleven on the automation page,
+ * eleven on websites and twelve on marketing. This page is not a fourth sales
+ * page and must not be allowed to become one: everything that argues for a
+ * particular offering belongs on that offering's page, where there is room to
+ * argue properly. The things it is missing are missing on purpose -
+ *
+ *   No FAQ. All three deep pages carry one, and a fourth would either repeat
+ *   their answers or emit a second FAQPage node competing with theirs.
+ *   No form. See the header comment on HubRouterSection - the subject line on
+ *   each existing form is what separates three kinds of lead in one inbox.
+ *   No pricing section, no process rail, no use-case grid, no outcome strip,
+ *   no portfolio. Each of those exists on all three deep pages already, and a
+ *   merged version of three genuinely different processes would say nothing.
+ *
+ * If this page grows past about six screens, something has been added that
+ * belongs one level down.
+ */
+const title =
+  "Lee Marketing Mastery | Marketing, Websites & Business Automation";
 const description =
-  "Lee Marketing Mastery builds custom automation systems that help small and medium-sized businesses generate opportunities, streamline operations, improve follow-up, and create more capacity for growth.";
+  "Lee Marketing Mastery handles marketing, business websites and custom automation for owners who would rather have the work done than manage it. Three offerings, each scoped and quoted on its own - take one, or take all three.";
 
 export const metadata: Metadata = {
   title,
   description,
   keywords: [
-    "business automation",
-    "workflow automation",
-    "lead generation systems",
-    "CRM automation",
-    "marketing automation",
-    "small business automation",
+    "small business marketing company",
+    "marketing websites and automation",
+    "done for you marketing",
+    "business website design",
+    "business automation systems",
+    "local marketing agency",
   ],
   alternates: {
     canonical: "/lee-marketing-mastery",
@@ -42,7 +63,7 @@ export const metadata: Metadata = {
         url: "/og/lee-marketing-mastery.png",
         width: 1200,
         height: 630,
-        alt: "Lee Marketing Mastery - Build a Business That Runs Smarter",
+        alt: "Lee Marketing Mastery - marketing, websites and business automation",
       },
     ],
   },
@@ -54,54 +75,67 @@ export const metadata: Metadata = {
   },
 };
 
+const SITE_URL = "https://leeenterprisesunlimited.com";
+
 /**
- * Structured data limited to what the site can actually substantiate: who the
- * provider is, what it offers, and the FAQ content rendered on the page. No
- * ratings, reviews or service-area claims - none are verified.
+ * This page is the SOLE definer of the `#business` ProfessionalService node.
+ *
+ * All three offering pages emit a `Service` node whose `provider` references
+ * `.../lee-marketing-mastery#business` by @id. That node used to be defined by
+ * the automation page, because the automation page owned this URL; a node's
+ * @id has to be the URL that actually describes it, so it moved here when the
+ * URL did. Two pages defining one @id is the failure this arrangement exists to
+ * prevent - if a ProfessionalService ever needs adding elsewhere, it needs a
+ * different @id, not a copy of this one.
+ *
+ * `hasOfferCatalog` lists the three offerings by @id rather than restating what
+ * each one includes. Each Service node already carries its own catalogue, and
+ * repeating those seven, four and nine entries here would create a second place
+ * for them to go stale.
+ *
+ * No FAQPage node: the hub renders no FAQ. No aggregateRating, no review, no
+ * areaServed - none of the three is substantiated anywhere on this site.
  */
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "ProfessionalService",
-      "@id": "https://leeenterprisesunlimited.com/lee-marketing-mastery#business",
+      "@id": `${SITE_URL}/lee-marketing-mastery#business`,
       name: "Lee Marketing Mastery",
       description,
-      url: "https://leeenterprisesunlimited.com/lee-marketing-mastery",
+      url: `${SITE_URL}/lee-marketing-mastery`,
       parentOrganization: {
         "@type": "Organization",
         name: "Lee Enterprises Unlimited",
-        url: "https://leeenterprisesunlimited.com",
+        url: SITE_URL,
       },
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "Custom Automation Systems",
+        name: "Lee Marketing Mastery Offerings",
         itemListElement: [
-          "Lead Generation and Prospecting",
-          "Decision-Maker Research and Lead Enrichment",
-          "CRM and Pipeline Automation",
-          "Automated Follow-Up and Lead Nurturing",
-          "Client Intake and Appointment Workflows",
-          "Reporting and Operations Dashboards",
-          "Custom Business Process Automation",
-        ].map((name) => ({
+          {
+            name: "Traditional & Digital Marketing",
+            id: `${SITE_URL}/lee-marketing-mastery/marketing#service`,
+          },
+          {
+            name: "Websites That Convert",
+            id: `${SITE_URL}/lee-marketing-mastery/websites#service`,
+          },
+          {
+            name: "Business Automation",
+            id: `${SITE_URL}/lee-marketing-mastery/automation#service`,
+          },
+        ].map(({ name, id }) => ({
           "@type": "Offer",
-          itemOffered: { "@type": "Service", name },
+          itemOffered: { "@type": "Service", "@id": id, name },
         })),
       },
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: lmmFaqs.map(({ question, answer }) => ({
-        "@type": "Question",
-        name: question,
-        acceptedAnswer: { "@type": "Answer", text: answer },
-      })),
     },
   ],
 };
 
-export default function LeeMarketingMasteryPage() {
+export default function LeeMarketingMasteryHubPage() {
   return (
     <div className="min-h-screen bg-neutral-950">
       <script
@@ -112,17 +146,11 @@ export default function LeeMarketingMasteryPage() {
       <MainHeader />
 
       <main className="pt-20">
-        <LmmHeroSection />
-        <LmmOutcomeStrip />
-        <LmmProblemSection />
-        <LmmServicesSection />
-        <LmmResultsSection />
-        <LmmProcessSection />
-        <LmmUseCasesSection />
-        <LmmWhyChooseSection />
-        <LmmConsultationCTA />
-        <LmmFAQSection />
-        <LmmFinalCTA />
+        <HubHeroSection />
+        <HubDoorsSection />
+        <HubCompanySection />
+        <HubStraightAnswersSection />
+        <HubRouterSection />
       </main>
 
       <MainFooter />

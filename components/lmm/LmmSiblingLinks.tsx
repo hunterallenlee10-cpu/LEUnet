@@ -8,7 +8,7 @@ import { ArrowRight, Globe, Megaphone, Workflow } from "lucide-react";
  */
 const offerings = [
   {
-    href: "/lee-marketing-mastery",
+    href: "/lee-marketing-mastery/automation",
     label: "Business Automation",
     Icon: Workflow,
   },

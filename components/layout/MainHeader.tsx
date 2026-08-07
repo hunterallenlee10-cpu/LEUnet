@@ -341,16 +341,19 @@ export function MainHeader() {
                     menu reads as one design on both breakpoints. There is no
                     hover here, so a venture's sub-pages sit indented under
                     its row instead of behind a flyout, and the desktop rows'
-                    chevron/arrow hover affordances don't apply. The sub-item
-                    that repeats the venture's own href is kept, exactly as on
-                    desktop: it was dropped once on the theory that the venture
-                    row directly above already links there, but the row is
-                    labelled "Lee Marketing Mastery" and the offering is
-                    "Business Automation", so dropping it read as the
-                    automation page simply missing from the menu. Two rows to
-                    one page is the cheaper confusion. Unlike the desktop
-                    panel, `overflow-hidden` is safe (no flyout to clip) and
-                    rounds the end rows' pressed backgrounds. */}
+                    chevron/arrow hover affordances don't apply.
+
+                    Every row here is a distinct destination: the Lee Marketing
+                    Mastery row lands on the venture hub and its three
+                    sub-items land on the three offering pages. One sub-item
+                    used to repeat the venture row's own href, because that row
+                    WAS the automation page and a submenu omitting it read as
+                    the automation page simply missing from the menu. It no
+                    longer is, so the duplicate is gone - data/navigation.ts
+                    records why, and that is the file to change if the shape of
+                    the menu ever moves again. Unlike the desktop panel,
+                    `overflow-hidden` is safe (no flyout to clip) and rounds the
+                    end rows' pressed backgrounds. */}
                 {item.featured && venturesDropdownOpen && (
                   <div className="mt-2 bg-neutral-950/95 border border-neutral-800 border-t-amber-500/30 rounded-lg shadow-2xl overflow-hidden">
                     {ventureNavItems.map((ventureItem, ventureIndex) => {
