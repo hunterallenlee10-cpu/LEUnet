@@ -1,3 +1,5 @@
+import { LMM_SCAN_CYCLE_SECONDS } from "@/components/lmm/scanCycle";
+
 /**
  * Websites, at card scale: the route a visitor takes down a page, with a single
  * dot walking it.
@@ -28,15 +30,6 @@
  * as real text in the door card's points list beneath it.
  */
 
-/**
- * Must match the duration on `.lmm-scan-dot` / `.lmm-scan-badge` /
- * `.lmm-scan-label` in app/globals.css, which is shared with
- * `BrowserFrameVisual`. Each stop offsets by one third of this, which is what
- * puts them in sequence: a row's dot reaches the bottom of its own row exactly
- * as the next row's cycle begins, so the three read as one dot moving down the
- * page.
- */
-const LMM_SCAN_CYCLE_SECONDS = 10.5;
 
 /** Half the badge height, so the rail runs between badge centres, not row edges. */
 const BADGE_CENTER_OFFSET = "8px";

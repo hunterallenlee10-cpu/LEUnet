@@ -24,8 +24,12 @@ import { Printer, Signpost, Truck, Search, Target, Share2, Mail, User } from "lu
  * independent - one animates `stroke-dashoffset`, the other `offset-distance`
  * from 0% to 100% of whatever path it is given. Nothing here depends on a
  * radius or a viewBox, which is what makes reuse safe. Both are already
- * disabled under `prefers-reduced-motion` at the foot of app/globals.css, and
- * the page is still legible with every packet parked.
+ * disabled under `prefers-reduced-motion` at the foot of app/globals.css. The
+ * packets additionally carry `motion-reduce:hidden`, because the global rule
+ * for `.lmm-packet` parks them at opacity 1 rather than removing them - the
+ * full-size marketing visual hides its packets outright under reduced motion,
+ * on the recorded grounds that parked dots on the wires read as decoration, and
+ * a preview of that diagram should not disagree with it.
  *
  * Decorative: hidden from assistive technology. The door card states the
  * offering in real text directly beneath it.
@@ -151,7 +155,7 @@ export function MiniReachVisual() {
           key={`${d}-pkt`}
           r={2.4}
           fill="#FFC107"
-          className="lmm-packet"
+          className="lmm-packet motion-reduce:hidden"
           style={{ offsetPath: `path("${d}")`, animationDelay: `${i * STAGGER_SECONDS}s` }}
         />
       ))}

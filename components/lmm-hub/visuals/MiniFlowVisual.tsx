@@ -48,13 +48,21 @@ const CHIP = 38;
  * a narrow column.
  *
  * If a label is ever lengthened, check it against the column width here: at 9px
- * roughly 4.6 units per character, centred on the chip. "Followed up" (11
- * characters, about 50 units, centred at 43) is the tightest of the four.
+ * roughly 4.6 units per character, centred on its chip. The two longest are
+ * "Followed up" (11 characters, ~50 units, centred at 43, so spanning 18-68)
+ * and "Opportunity" (centred at 257, spanning 232-282). Both clear the
+ * viewBox; a couple more characters on either would not.
  */
 const TOP_Y = 34;
 const BOTTOM_Y = 118;
 const LEFT_X = 24;
-const RIGHT_X = 178;
+/**
+ * 300 - LEFT_X - CHIP, so the two columns sit symmetrically in the viewBox.
+ * Hard-coded at 178 for a while, which left a 24-unit margin on the left
+ * against ~78 on the right and made the whole diagram sit visibly left of
+ * centre inside the door card's frame, beside two symmetric siblings.
+ */
+const RIGHT_X = 300 - LEFT_X - CHIP;
 
 /**
  * Labels face outward - the top row's above its chips, the bottom row's below.
@@ -95,22 +103,30 @@ const nodes = [
  * one from above, which is what makes the two rows read as one continuous run
  * rather than two separate pairs.
  */
+const HORIZONTAL_MID = (LEFT_X + CHIP + RIGHT_X) / 2;
+
+const horizontalLeg = (y: number) => {
+  const cy = y + CHIP / 2;
+  return `M ${LEFT_X + CHIP} ${cy} C ${HORIZONTAL_MID} ${cy + 8}, ${HORIZONTAL_MID} ${
+    cy + 8
+  }, ${RIGHT_X} ${cy}`;
+};
+
 const connectors = [
-  `M ${LEFT_X + CHIP} ${TOP_Y + CHIP / 2} C 120 ${TOP_Y + CHIP / 2 + 8}, 130 ${
-    TOP_Y + CHIP / 2 + 8
-  }, ${RIGHT_X} ${TOP_Y + CHIP / 2}`,
+  horizontalLeg(TOP_Y),
   `M ${RIGHT_X + CHIP / 2} ${TOP_Y + CHIP} C ${RIGHT_X + CHIP / 2} 96, ${
     LEFT_X + CHIP / 2
   } 94, ${LEFT_X + CHIP / 2} ${BOTTOM_Y}`,
-  `M ${LEFT_X + CHIP} ${BOTTOM_Y + CHIP / 2} C 120 ${BOTTOM_Y + CHIP / 2 + 8}, 130 ${
-    BOTTOM_Y + CHIP / 2 + 8
-  }, ${RIGHT_X} ${BOTTOM_Y + CHIP / 2}`,
+  horizontalLeg(BOTTOM_Y),
 ];
 
 /**
- * A third of the 4s `lmmFlowDot` cycle, so exactly one packet is in flight at a
- * time and the three fire in order. The eye is walked left to right once per
- * cycle, which is the claim: one thing moves through, on its own.
+ * A third of the 4s `lmmFlowDot` cycle. Each packet spends its whole cycle
+ * traversing its own leg, so at steady state all three are in flight at once,
+ * phase-offset by a third - departures fire in pipeline order and the run reads
+ * as continuous. That is the same texture the full-size graph has, and it is
+ * the intended one: do not "correct" it to a single packet handing off, which
+ * would need a keyframe this file deliberately does not add.
  */
 const STAGGER_SECONDS = 1.33;
 
@@ -192,7 +208,7 @@ export function MiniFlowVisual() {
           key={`${d}-pkt`}
           r={2.4}
           fill="#FFC107"
-          className="lmm-packet"
+          className="lmm-packet motion-reduce:hidden"
           style={{ offsetPath: `path("${d}")`, animationDelay: `${i * STAGGER_SECONDS}s` }}
         />
       ))}

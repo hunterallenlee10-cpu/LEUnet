@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { LMM_SCAN_CYCLE_SECONDS } from "@/components/lmm/scanCycle";
 import { hubOfferings } from "@/components/lmm-hub/hubOfferings";
 
 /**
@@ -115,19 +116,25 @@ export function HubHeroSection() {
   );
 }
 
-/**
- * Must match the duration on the `.lmm-scan-*` classes in app/globals.css.
- * Each row delays by a third of it, which is what sequences them: a row's dot
- * reaches the bottom of its own segment exactly as the next row's cycle starts,
- * so the three read as one dot walking down the list and then starting over.
- * That restart is the point - the three jobs are a loop, not a checklist, and
- * the caption under the rows says so in words for anyone who has motion
- * disabled and sees the dot parked.
- */
-const LMM_SCAN_CYCLE_SECONDS = 10.5;
-
-/** Half the badge height, so the rail runs between badge centres. */
+/** Half the badge height plus its top margin: where this row's badge centre sits. */
 const BADGE_CENTER_OFFSET = "11px";
+
+/**
+ * How far the rail has to overhang the bottom of its row to reach the NEXT
+ * row's badge centre: this row's `py-2.5` bottom padding (10px) + the next
+ * row's top padding (10px) + that badge's `mt-0.5` (2px) + half its 18px height
+ * (9px) = 31px.
+ *
+ * `BrowserFrameVisual` and `MiniConvertVisual` get away with reusing
+ * BADGE_CENTER_OFFSET here because all of their stops are cells of ONE grid
+ * with no padding between rows, so a row's content box ends exactly where the
+ * next one begins. These rows are separate padded `<Link>` elements - the
+ * padding is what gives each one its hover target - so that invariant does not
+ * hold and the rail fell 20px short, leaving three visibly disconnected
+ * segments and a dot that jumped at every hand-off. If the row padding changes,
+ * this number changes with it.
+ */
+const RAIL_OVERHANG = "-31px";
 
 /**
  * Three rows, each a link to one offering's page, walked by the same scan
@@ -138,6 +145,13 @@ const BADGE_CENTER_OFFSET = "11px";
  * sees three named destinations with a sentence each, which is what a nav
  * flyout would have given them - the sequence only adds the claim that they
  * happen in an order.
+ *
+ * Each row delays by a third of the shared cycle, which is what sequences them:
+ * a row's dot reaches the bottom of its own segment exactly as the next row's
+ * cycle starts, so the three read as one dot walking down the list and then
+ * starting over. That restart is the point - the three jobs are a loop, not a
+ * checklist - and the caption under the rows says so in words, because under
+ * prefers-reduced-motion the dot is removed entirely rather than parked.
  */
 function HubOfferingSwitch() {
   return (
@@ -146,7 +160,7 @@ function HubOfferingSwitch() {
         <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
           What We Do
         </p>
-        <span className="flex items-center gap-1.5 text-[11px] text-neutral-500">
+        <span className="flex items-center gap-1.5 text-[11px] text-neutral-400">
           <span className="lmm-status h-1.5 w-1.5 rounded-full bg-amber-400" />
           In order
         </span>
@@ -177,10 +191,16 @@ function HubOfferingSwitch() {
                 >
                   {i + 1}
                 </span>
+                {/* The last row's rail stops at a fixed distance from the
+                    bottom rather than at a percentage: it used to end at 50% of
+                    a content-driven row height, which would move the moment a
+                    `switchLine` wrapped to two lines. 30px lands it just under
+                    the offering name, so the route ends on the thing being
+                    named rather than trailing off the panel. */}
                 <span
                   style={{
                     top: BADGE_CENTER_OFFSET,
-                    bottom: isLast ? "50%" : `-${BADGE_CENTER_OFFSET}`,
+                    bottom: isLast ? "30px" : RAIL_OVERHANG,
                   }}
                   className="absolute left-1/2 w-0 -translate-x-1/2 border-l border-dashed border-amber-400/30"
                 >
@@ -220,12 +240,19 @@ function HubOfferingSwitch() {
         })}
       </div>
 
-      {/* States the loop in words. The sequence above already restarts, but a
-          visitor with reduced motion sees three static rows, and "three jobs"
-          without "then it happens again" reads as a project with an end. */}
-      <p className="mt-4 border-t border-white/10 pt-4 text-xs leading-relaxed text-neutral-500">
-        Then it starts again with the next customer. Each is sold on its own -
-        most owners start with one.
+      {/* States the loop in words. The sequence above already restarts, but
+          under prefers-reduced-motion the dot is removed entirely and this
+          becomes three static rows - and "three jobs" without "then it happens
+          again" reads as a project with an end.
+
+          "Each is sold on its own" rather than "most owners start with one":
+          docs/WEBSITES.md §3.3 bans asserting how often anything happens, "least
+          of all among our own clients", and there is no client base here to
+          count. How the offerings are *sold* is a fact about the business; how
+          often they are bought would be a statistic nobody can produce. */}
+      <p className="mt-4 border-t border-white/10 pt-4 text-xs leading-relaxed text-neutral-400">
+        Then it starts again with the next customer. Each is scoped and quoted
+        on its own, so one is a complete place to start.
       </p>
     </div>
   );

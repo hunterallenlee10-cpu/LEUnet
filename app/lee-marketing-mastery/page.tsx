@@ -88,10 +88,15 @@ const SITE_URL = "https://leeenterprisesunlimited.com";
  * prevent - if a ProfessionalService ever needs adding elsewhere, it needs a
  * different @id, not a copy of this one.
  *
- * `hasOfferCatalog` lists the three offerings by @id rather than restating what
- * each one includes. Each Service node already carries its own catalogue, and
- * repeating those seven, four and nine entries here would create a second place
- * for them to go stale.
+ * `hasOfferCatalog` lists the three offerings as bare @id references - no name,
+ * no description, no catalogue of its own. Each Service node already carries all
+ * of that at the URL that defines it, and restating any of it here would create
+ * a second place for it to go stale. It already had: this block briefly carried
+ * its own names for the three, and all three disagreed with the names the deep
+ * pages give the same @ids ("Traditional and Digital Marketing" there against
+ * "Traditional & Digital Marketing" here, "Websites Built to Convert" against
+ * "Websites That Convert"). A reference resolves to whatever the owning page
+ * says, which is the behaviour worth having.
  *
  * No FAQPage node: the hub renders no FAQ. No aggregateRating, no review, no
  * areaServed - none of the three is substantiated anywhere on this site.
@@ -114,21 +119,12 @@ const structuredData = {
         "@type": "OfferCatalog",
         name: "Lee Marketing Mastery Offerings",
         itemListElement: [
-          {
-            name: "Traditional & Digital Marketing",
-            id: `${SITE_URL}/lee-marketing-mastery/marketing#service`,
-          },
-          {
-            name: "Websites That Convert",
-            id: `${SITE_URL}/lee-marketing-mastery/websites#service`,
-          },
-          {
-            name: "Business Automation",
-            id: `${SITE_URL}/lee-marketing-mastery/automation#service`,
-          },
-        ].map(({ name, id }) => ({
+          `${SITE_URL}/lee-marketing-mastery/marketing#service`,
+          `${SITE_URL}/lee-marketing-mastery/websites#service`,
+          `${SITE_URL}/lee-marketing-mastery/automation#service`,
+        ].map((id) => ({
           "@type": "Offer",
-          itemOffered: { "@type": "Service", "@id": id, name },
+          itemOffered: { "@type": "Service", "@id": id },
         })),
       },
     },

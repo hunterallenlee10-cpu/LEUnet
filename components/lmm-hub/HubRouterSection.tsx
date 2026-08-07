@@ -31,14 +31,16 @@ export function HubRouterSection() {
 
       <div className="section-container text-center">
         {/* Named here, unlike the hero mark: no adjacent text identifies the
-            brand at this point in the page. */}
+            brand at this point in the page. Smaller than the deep pages' closing
+            marks - it repeats the hero's logo on a page a fifth their length, so
+            it signs the close rather than anchoring it. */}
         <Image
           src="/lee-marketing-mastery-logo.png"
           alt="Lee Marketing Mastery"
-          width={80}
-          height={80}
+          width={56}
+          height={56}
           loading="lazy"
-          className="mx-auto mb-8 h-20 w-20 rounded-full"
+          className="mx-auto mb-6 h-14 w-14 rounded-full"
         />
 
         <h2 className="heading-lg mx-auto mb-6 max-w-3xl text-white">

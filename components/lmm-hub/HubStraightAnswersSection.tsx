@@ -48,15 +48,37 @@ const answers = [
   },
   {
     Icon: LineChart,
+    /**
+     * The detail has to agree with the marketing page's own FAQ, which says
+     * traditional channels are attributed "using trackable phone numbers,
+     * dedicated landing pages, or offer codes where it makes sense". An earlier
+     * version of this card said flatly "we do not run call tracking, so we will
+     * not tell you which advert produced a phone call - nobody can, without
+     * it". Both halves were wrong: a trackable number is call tracking and it
+     * is on the menu, and offer codes falsify the "nobody can" absolute. It now
+     * says the same thing the FAQ says - the measurement has to be built in
+     * before the fact, and where it was not, the channel is reported as
+     * unmeasurable rather than guessed at.
+     */
     title: "We tell you what we cannot measure.",
     detail:
-      "You get traffic figures and every enquiry emailed to you as it arrives. We do not run call tracking, so we will not tell you which advert produced a phone call - nobody can, without it.",
+      "You get traffic figures and every enquiry emailed to you as it arrives. A phone call does not report on itself: unless a trackable number or an offer code went on the advert first, no one can tell you which one produced it - and we will say a channel is unmeasurable rather than invent a number for it.",
   },
   {
     Icon: ShieldCheck,
+    /**
+     * Scoped to what is true everywhere on the site. It read "There are no
+     * invented case studies here and no stock testimonials", which the homepage
+     * contradicts one click away: `ventureValuesProps.lmm` in data/services.ts
+     * still claims measurable growth "from independent startups to nine-figure
+     * enterprises", and that is rendered on the homepage LMM card. A card about
+     * not borrowing proof cannot be the thing that gets caught borrowing it.
+     * The claim now covers this page and the portfolio, both of which hold.
+     * Widen it back out only once that services.ts entry is rewritten.
+     */
     title: "We do not borrow proof.",
     detail:
-      "There are no invented case studies here and no stock testimonials. What we can point at is live work on this domain - our own ventures, not client projects - and we say so every time we show it.",
+      "No stock testimonials, and no case study on this page you cannot open yourself. What we point at is live work on this domain - our own ventures, not client projects - and we say which it is every time we show it.",
   },
 ];
 

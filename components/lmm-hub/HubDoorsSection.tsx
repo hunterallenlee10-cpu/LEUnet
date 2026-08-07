@@ -28,6 +28,14 @@ export function HubDoorsSection() {
   return (
     <section id="offerings" className="bg-neutral-950 py-16 md:py-24">
       <div className="section-container">
+        {/* Visually hidden rather than absent. The section deliberately shows no
+            heading - the hero introduced the three jobs and the switch beside it
+            named all three destinations - but with nothing here the first
+            heading after the page's h1 was an h3, which left the three offering
+            names orphaned in the outline and gave heading-navigation users no
+            landmark for the section the page exists for. */}
+        <h2 className="sr-only">The three offerings</h2>
+
         <ul className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {hubOfferings.map(
             ({ id, job, name, href, Icon, promise, points, cta, Visual }, i) => (

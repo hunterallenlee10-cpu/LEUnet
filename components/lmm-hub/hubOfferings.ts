@@ -71,7 +71,7 @@ export const hubOfferings: HubOffering[] = [
     Icon: Megaphone,
     switchLine: "Reach people who have not heard of you yet.",
     promise:
-      "Your next customer is not all in one place. Print, signage and vehicles offline; search, ads, social and email online - so the same message reaches them wherever they are.",
+      "Your next customer is not all in one place. Print, signage, and vehicles offline; search, ads, social, and email online - so the same message reaches them wherever they are.",
     points: [
       "Seen more often, online and off",
       "Visible in the area you actually serve",
