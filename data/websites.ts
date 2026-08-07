@@ -64,16 +64,22 @@ export const websiteFaqs = [
     // used to list "a focused page for each offer" as visible in the portfolio;
     // four of the five entries are single long pages, so the invitation failed
     // on inspection. It now points at the one entry that genuinely demonstrates
-    // page-per-offer - Lee Marketing Mastery, which has its own page for
-    // websites and another for marketing, one of which is the page this FAQ
-    // sits on. Name those two pages rather than saying "a page for each thing
-    // it sells": /lee-marketing-mastery is itself the automation page and
-    // carries that whole offering inline, so the broader phrasing overshoots
-    // what a reader finds when they click. Do not widen it back out to the
-    // whole portfolio unless the other entries actually gain sub-pages.
+    // page-per-offer - Lee Marketing Mastery, which is a hub about the venture
+    // with its own page for websites, marketing, and automation, one of which
+    // is the page this FAQ sits on.
+    //
+    // The count is three, and it is checkable in one click - keep it in step
+    // with the LMM portfolio entry's summary further down this file, which
+    // makes the same claim to the same reader on the same screen. It said two
+    // for a while, because /lee-marketing-mastery was itself the automation
+    // page and carried that offering inline; automation now has its own route
+    // and the broader phrasing is simply correct. Still do not widen the
+    // invitation out to the whole portfolio: the other four entries remain
+    // single long pages, which is the reason this sentence names one entry
+    // rather than gesturing at all five.
     question: "How do I know it will actually bring in customers?",
     answer:
-      "We do not publish client results, because the sites in the portfolio on this page are our own ventures rather than client projects. What we offer instead is inspection: every one is live right now, so open one on your phone, read the first screen, and send the form the way a customer would. For the page-per-offer structure, look at the Lee Marketing Mastery entry - the hub, plus its own page for websites and another for marketing, one of which you are reading. What gets built for you follows the same pattern: copy that leads with the outcome someone came looking for, one obvious next step on every screen, and measurement connected before launch rather than months later.",
+      "We do not publish client results, because the sites in the portfolio on this page are our own ventures rather than client projects. What we offer instead is inspection: every one is live right now, so open one on your phone, read the first screen, and send the form the way a customer would. For the page-per-offer structure, look at the Lee Marketing Mastery entry - a hub about the business, plus its own page for websites, marketing, and automation, one of which you are reading. What gets built for you follows the same pattern: copy that leads with the outcome someone came looking for, one obvious next step on every screen, and measurement connected before launch rather than months later.",
   },
   {
     question: "How much does a website cost?",
@@ -218,14 +224,18 @@ export const websitePortfolio: WebsitePortfolioItem[] = [
     // only structural proof on the page for an argument the page makes
     // repeatedly, and it is verifiable in one click.
     //
-    // Name the two offer pages rather than generalizing to "a page for each
-    // thing it sells". This route is itself the automation page and carries
-    // that offering inline, so the broader phrasing promises a structure the
-    // reader does not find when they click.
+    // This entry used to carry a caveat: the route was itself the automation
+    // page and carried that offering inline, so it could only claim two offer
+    // pages rather than a page per offering. That is no longer true. The route
+    // is now a hub about the venture with three offer pages under it - websites,
+    // marketing, and automation - so the structural claim can be stated plainly
+    // and the reader finds exactly that when they click. Keep the count at
+    // three and keep "one of which you are reading now": both are checkable in
+    // one click, which is the only reason this entry earns its place.
     name: "Lee Marketing Mastery",
     href: "/lee-marketing-mastery",
     summary:
-      "Takes an offering that is hard to picture from a description and makes it concrete enough to act on, then hands the visitor a consultation request that arrives with the scope already described. It is also the page-per-offer structure in use - the hub, plus its own page for websites and another for marketing, one of which you are reading now.",
+      "Takes three offerings that are hard to picture from a description and makes each one concrete enough to act on, then hands the visitor a request that arrives with the scope already described. It is also the page-per-offer structure in use - a hub about the business, plus its own page for websites, marketing, and automation, one of which you are reading now.",
     highlights: [
       "Hub plus offer pages",
       "Expandable service detail",

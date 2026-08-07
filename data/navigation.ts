@@ -44,13 +44,19 @@ export const ventureNavItems: NavItem[] = [
     // LMM's three offerings, revealed when the row is hovered. Labels and
     // order match LmmSiblingLinks, which names the same three destinations on
     // the pages themselves — the nav and the pages should not disagree about
-    // what an offering is called. The first entry repeats the row's own href
-    // on purpose: the submenu lists all three pages so a visitor who has
-    // opened it never has to work out that the parent row is the third one.
+    // what an offering is called.
+    //
+    // The row itself now lands on the venture hub, which is a page about the
+    // company that shows all three offerings, rather than on the automation
+    // page. No sub-item repeats the row's href any more: it used to, because
+    // the row led to offering #1 and a submenu that omitted it read as the
+    // automation page simply being missing from the menu. The hub is not one
+    // of the three, so the row and the three sub-items are now four distinct
+    // destinations and the duplicate would be a genuine mistake.
     subItems: [
       {
         label: "Business Automation",
-        href: venturePages.lmm,
+        href: `${venturePages.lmm}/automation`,
         id: "nav-venture-lmm-automation",
       },
       {

@@ -41,7 +41,21 @@ export function LmmFinalCTA() {
           />
         </button>
 
-        <p className="mt-10">
+        {/* Two links now, matching WebsitesFinalCTA and MarketingFinalCTA
+            exactly. This block used to carry only the return-to-LEU link,
+            because this page was /lee-marketing-mastery and there was no
+            venture level above it to go back to. There is now, and a visitor
+            who reaches the bottom of one offering without converting is more
+            likely to want the other two than to want a different venture
+            entirely - so the venture link goes first, as it does on both
+            siblings. */}
+        <p className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+          <Link
+            href="/lee-marketing-mastery"
+            className="text-sm font-semibold text-neutral-400 underline-offset-4 transition-colors hover:text-amber-400 hover:underline"
+          >
+            Back to Lee Marketing Mastery
+          </Link>
           <Link
             href="/"
             className="text-sm font-semibold text-neutral-400 underline-offset-4 transition-colors hover:text-amber-400 hover:underline"

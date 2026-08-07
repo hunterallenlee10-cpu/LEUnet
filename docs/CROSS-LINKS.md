@@ -1,8 +1,8 @@
 # LMM Hero Cross-Links
 
-How the three Lee Marketing Mastery pages point at each other.
+How the three Lee Marketing Mastery offering pages point at each other.
 
-**Status:** built. All three heroes render the row.
+**Status:** built. All three offering heroes render the row.
 
 | | |
 | --- | --- |
@@ -13,13 +13,19 @@ How the three Lee Marketing Mastery pages point at each other.
 
 ## 1. What it does
 
-Lee Marketing Mastery is three pages, and a visitor who lands on any one of them
-had no way to reach the other two without going back out to the venture menu.
-The row fixes that: each hero carries pills to the *other two* offerings.
+Lee Marketing Mastery is a venture hub plus three offering pages, and a visitor
+who lands on any one of the three had no way to reach the other two without
+going back out to the venture menu. The row fixes that: each offering hero
+carries pills to the *other two* offerings.
+
+The hub at `/lee-marketing-mastery` does not render this row, and should not.
+It is the parent rather than a sibling, so it has no "other two" — it names all
+three, in `components/lmm-hub/hubOfferings.ts`. That is also why `current` has
+never needed to admit the hub route: see §2.
 
 | Page | Shows |
 | --- | --- |
-| `/lee-marketing-mastery` | Websites That Convert · Traditional & Digital Marketing |
+| `/lee-marketing-mastery/automation` | Websites That Convert · Traditional & Digital Marketing |
 | `/lee-marketing-mastery/websites` | Business Automation · Traditional & Digital Marketing |
 | `/lee-marketing-mastery/marketing` | Business Automation · Websites That Convert |
 

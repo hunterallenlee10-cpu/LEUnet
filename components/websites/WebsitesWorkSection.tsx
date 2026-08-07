@@ -68,22 +68,28 @@ export function WebsitesWorkSection() {
           {/* The page argues for a page per offer in the outcome strip, the
               Shift section and the FAQ, and this is the one place that argument
               can be demonstrated rather than asserted: Lee Marketing Mastery
-              really does have its own page for websites and another for
-              marketing, and this is one of them. It is the closest thing on the
-              page to a live demo, so it gets named here instead of being left
-              for the reader to notice.
+              really does have its own page for websites, marketing, and
+              automation, and this is one of them. It is the closest thing on
+              the page to a live demo, so it gets named here instead of being
+              left for the reader to notice.
 
-              Name those two pages rather than saying "a page for each thing it
-              sells". The hub route is itself the automation page and carries
-              that offering inline, so the broader phrasing promises a structure
-              the reader does not find - and this is the most checkable sentence
-              in the section, one click from being disproved. Four of the five
-              entries are single long pages, so this points at that one entry
-              specifically; do not widen it unless the others gain sub-pages. */}
+              This is the most checkable sentence in the section, one click from
+              being disproved, so the count has to be right. It named two pages
+              for a while - back when the hub route was itself the automation
+              page and carried that offering inline, which made "a page for each
+              thing it sells" overshoot what the reader found. Automation now
+              has its own route, so three is what they find. Keep this in step
+              with the LMM entry's summary in data/websites.ts, which the reader
+              sees on the same screen.
+
+              Four of the five portfolio entries are still single long pages, so
+              this points at that one entry specifically; do not widen it to the
+              portfolio as a whole unless the others gain sub-pages. */}
           <p className="text-lg leading-relaxed text-neutral-400">
             And if you would rather see a page per offer than read about one,
-            open Lee Marketing Mastery: the hub, plus its own page for websites
-            and another for marketing. This page is one of them.
+            open Lee Marketing Mastery: a hub about the business, plus its own
+            page for websites, marketing, and automation. This page is one of
+            them.
           </p>
         </div>
 

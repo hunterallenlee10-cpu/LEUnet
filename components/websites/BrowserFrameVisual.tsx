@@ -1,3 +1,5 @@
+import { LMM_SCAN_CYCLE_SECONDS } from "@/components/lmm/scanCycle";
+
 /**
  * The hero visual: a stylized browser window wrapping a wireframe of a business
  * page, annotated with the route a visitor takes through it.
@@ -41,13 +43,13 @@ const stops = [
 ];
 
 /**
- * Must match the duration on `.lmm-scan-dot` / `.lmm-scan-badge` /
- * `.lmm-scan-label` in `app/globals.css`. Each stop is offset by one share of
- * this, which is what puts the three of them in sequence: a row's dot finishes
- * its travel exactly as the next row's dot starts, so they hand off at the same
- * point on the line and read as one dot.
+ * Each stop is offset by one share of the shared cycle, which is what puts the
+ * three of them in sequence: a row's dot finishes its travel exactly as the
+ * next row's dot starts, so they hand off at the same point on the line and
+ * read as one dot. The number itself lives in `components/lmm/scanCycle.ts`
+ * because the hub's offering switch and its websites door card drive the same
+ * CSS classes and have to agree with this file about it.
  */
-const LMM_SCAN_CYCLE_SECONDS = 10.5;
 
 /**
  * Half the badge height plus its top margin, so the line and the dot run

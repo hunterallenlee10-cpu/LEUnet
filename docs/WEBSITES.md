@@ -122,8 +122,9 @@ same constraint documented in `data/lmm.ts`.
 
 ## 3. The positioning and the claims standard
 
-`app/lee-marketing-mastery/page.tsx` limits its structured data to "what the
-site can actually substantiate: no ratings, reviews or service-area claims."
+`app/lee-marketing-mastery/automation/page.tsx` limits its structured data to
+"what the site can actually substantiate: no ratings, reviews or service-area
+claims."
 This page holds the same line, and it has to hold it harder than the other two,
 because the page's own argument is that competition is now credibility. A page
 that overclaims sabotages the exact repositioning it is making. A prospect who
@@ -265,8 +266,13 @@ What `websitePortfolio` actually is, and what the copy must keep saying:
   "Venture-labeled enquiries". Do not restore the routing wording unless the
   route changes.
 - **Lee Marketing Mastery is the one entry that demonstrates page-per-offer** -
-  a hub at `/lee-marketing-mastery` plus a page per offering at `/websites` and
-  `/marketing`, one of which is the page the FAQ sits on. This is the only
+  a hub at `/lee-marketing-mastery` plus a page per offering at `/automation`,
+  `/websites` and `/marketing`, one of which is the page the FAQ sits on. The
+  count is three, and it is three in four places that a reader can see at once:
+  this doc, the FAQ answer, the portfolio entry summary, and the closing
+  paragraph of `WebsitesWorkSection`. It was two until automation got its own
+  route, so if any of those four ever disagree again, they are all wrong
+  together. This is the only
   structural proof on the page for an argument the page makes in the outcome
   strip, the Shift section, the Problem section and the FAQ, so it is used
   deliberately and by name. The first FAQ answer invites the reader to verify

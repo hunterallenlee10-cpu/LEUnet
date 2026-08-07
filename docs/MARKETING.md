@@ -96,7 +96,8 @@ structured data.
 
 ## 3. The honesty constraints
 
-Same line as `docs/WEBSITES.md` §3 and the parent LMM page. That section is now
+Same line as `docs/WEBSITES.md` §3 and the automation page
+(`app/lee-marketing-mastery/automation/page.tsx`). That section is now
 the fullest statement of the standard and it applies to all three LMM pages, not
 only the websites one — read it before editing copy here.
 

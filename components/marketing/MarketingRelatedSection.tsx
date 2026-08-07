@@ -20,7 +20,7 @@ const related = [
     cta: "See websites",
   },
   {
-    href: "/lee-marketing-mastery",
+    href: "/lee-marketing-mastery/automation",
     Icon: Workflow,
     title: "Business Automation",
     detail:
