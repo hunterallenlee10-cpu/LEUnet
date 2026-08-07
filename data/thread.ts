@@ -446,6 +446,51 @@ export const threadProducts: ThreadProduct[] = [
     featured: true,
     customizable: false,
   },
+  // The first piece carrying the parent brand's own mark rather than a
+  // venture's, which is why it closes the block instead of opening it: catalog
+  // order is display order, and appending leaves what a reader currently meets
+  // first untouched. Worth promoting to the top of the catalog if the house
+  // shirt should lead the collection — that is a merchandising call, not a
+  // technical one.
+  //
+  // Exactly the inverse of the H1 Back Logo Only tee above, so the image order
+  // is the ordinary one: the printed side is the front here, and hovering
+  // shows the clean back. `imageBack` earns its place even though that back is
+  // blank — it is what confirms the piece is unprinted behind, and `details`
+  // says so too for anything that cannot hover.
+  //
+  // The mark is greyscale, not the site's gold: sampled across the chest print
+  // it runs #323233 to pure white with no colour cast at all (mean RGB
+  // 203.5/203.6/203.5). The copy calls it silver on that basis. It describes
+  // how the artwork looks and stops there — whether that is a foil, a metallic
+  // ink, or a printed gradient was not confirmed.
+  {
+    id: "tee-leu-chest-logo",
+    name: "LEU Chest Logo T-Shirt",
+    categoryId: "tees",
+    tagline: "Silver mark, clean back",
+    description:
+      "The Lee Enterprises Unlimited mark on the left chest, rendered in a silver-to-white gradient against black. The back is left plain, so the house mark is the only thing on the shirt. 5.5 oz cotton in a standard fit.",
+    fabric: "5.5 oz cotton",
+    fit: "Standard fit",
+    details: [
+      "Left-chest Lee Enterprises Unlimited mark in silver",
+      "No print on the back",
+      "Unisex sizing, S through 2XL",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/leu-chest-logo-tee-black-front.jpg",
+    imageAlt:
+      "Front of the black LEU t-shirt, with the angular Lee Enterprises Unlimited mark on the left chest in a silver-to-white gradient",
+    imageBack: "/thread/leu-chest-logo-tee-black-back.jpg",
+    imageBackAlt:
+      "Back of the black LEU t-shirt, left plain with no print",
+    colors: ["black"],
+    sizes: ["s", "m", "l", "xl", "2xl"],
+    priceCents: 2799,
+    featured: true,
+    customizable: false,
+  },
 
   // --- Hoodies & Pullovers ------------------------------------------------
   // Placeholders while the line is worked out, and the pattern the Long Sleeve
