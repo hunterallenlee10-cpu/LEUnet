@@ -267,6 +267,47 @@ export const threadProducts: ThreadProduct[] = [
     featured: true,
     customizable: false,
   },
+  // The one listing here whose `image` is the back of the garment, and
+  // deliberately so. This piece is printed on one side only, so its front is a
+  // blank black tee — as a card thumbnail that is indistinguishable from an
+  // unprinted blank, and from the two listings above until you hover. Leading
+  // with the back puts the only thing identifying the product on the card, and
+  // the plain front becomes the second look on hover.
+  //
+  // That inversion is safe because nothing here depends on hover: the featured
+  // strip renders `image` alone, and both sides are described in `details`,
+  // which touch devices can open. The alt text on each says which side it is
+  // rather than assuming front-then-back.
+  //
+  // Third cotton tee at 5.5 oz and $24.99, so it sits with the other two
+  // rather than with the polyester athletic shirts below.
+  {
+    id: "tee-h1-back-logo",
+    name: "H1 Back Logo Only T-Shirt",
+    categoryId: "tees",
+    tagline: "Plain front, logo back",
+    description:
+      "The H1 Performance mark alone, printed large and centered high on the back — the flexed arm and rising arrow over “H1 PERFORMANCE” in white. The front is left completely plain, so the shirt reads as a black tee until you turn around. 5.5 oz cotton in a standard fit.",
+    fabric: "5.5 oz cotton",
+    fit: "Standard fit",
+    details: [
+      "Large H1 Performance logo centered on the upper back",
+      "No print on the front",
+      "Unisex sizing, S through 2XL",
+      "Machine wash cold, tumble dry low",
+    ],
+    image: "/thread/h1-back-logo-tee-black-back.jpg",
+    imageAlt:
+      "Back of the black H1 Back Logo Only t-shirt, with the white H1 Performance logo — a flexed arm and rising arrow above “H1 PERFORMANCE” — centered high on the back",
+    imageBack: "/thread/h1-back-logo-tee-black-front.jpg",
+    imageBackAlt:
+      "Front of the black H1 Back Logo Only t-shirt, left plain with no print",
+    colors: ["black"],
+    sizes: ["s", "m", "l", "xl", "2xl"],
+    priceCents: 2499,
+    featured: true,
+    customizable: false,
+  },
   // The performance counterpart to the cotton tees above — same slogan,
   // different garment, and a size run that goes a step further in both
   // directions. 4XL is not part of the standard run, which is why `sizes`
