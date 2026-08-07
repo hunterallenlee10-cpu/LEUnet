@@ -74,12 +74,24 @@ export const hubOfferings: HubOffering[] = [
     href: "/lee-marketing-mastery/marketing",
     Icon: Megaphone,
     switchLine: "Reach people who have not heard of you yet.",
+    // Owner-supplied copy. Every channel it names is a real service on the
+    // destination page - Print & Direct Mail, Signs & Banners, Paid Ad
+    // Management and Social Media Marketing are four of the nine in
+    // data/marketing.ts - so the examples hold up when a visitor clicks
+    // through. The ampersands are plain `&`, not `&amp;`: this is a string
+    // value interpolated as `{promise}`, so React renders it as a text node and
+    // escapes it on the way out. An HTML entity here would be displayed
+    // literally, as the five characters `&amp;`. Same reason `name` above holds
+    // a plain `&`. Entities are only correct in JSX markup, which is why
+    // HubRouterSection's paragraph - written inline - uses one.
     promise:
-      "Your next customer is not all in one place. Print, signage, and vehicles offline; search, ads, social, and email online - so the same message reaches them wherever they are.",
+      "Your next customer is not closed in one step. Cover any and all avenues of customer acquisition through Lee Marketing Mastery. We ensure your message reaches your next client wherever they are. From print & signage to Ads & social media, we cover it all.",
     points: [
       "Seen more often, online and off",
       "Visible in the area you actually serve",
-      "One look across every channel",
+      // Owner-directed, replacing "One look across every channel" - which came
+      // from the destination page's outcome strip, as the other two still do.
+      "Cover all ways of client acquisition",
     ],
     cta: "See marketing",
     formHref: "/lee-marketing-mastery/marketing#marketing-inquiry-form",
