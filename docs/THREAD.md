@@ -136,6 +136,7 @@ components/thread/ThreadCartProvider.tsx          "use client"
 components/thread/ThreadCatalogFilterProvider.tsx "use client"
 components/thread/ThreadCartDrawer.tsx            "use client"
 components/thread/ThreadProductCard.tsx           "use client"
+components/thread/ThreadProductGallery.tsx        "use client"
 components/thread/ThreadCatalogSection.tsx        "use client"
 components/thread/ThreadCategoriesSection.tsx     "use client"
 components/thread/ThreadFeaturedSection.tsx       "use client"
@@ -151,11 +152,17 @@ components/thread/ThreadGroupOrderSection.tsx
 components/thread/ThreadCTASection.tsx
 ```
 
-Two files here weren't in the original plan. `ThreadUI.tsx` holds the shared
+Three files here weren't in the original plan. `ThreadUI.tsx` holds the shared
 button, heading, and section shells so twelve sections don't each re-declare
 the palette recipe. `ThreadCatalogFilterProvider.tsx` shares the active
 category between the categories section and the catalog grid, which are
 siblings — clicking a category card filters the grid and scrolls to it.
+`ThreadProductGallery.tsx` is the card's photo panel: a product carrying an
+`imageBack` gets both sides as views the reader can swipe, tap, or step
+through with an arrow or a dot, and a mouse still peeks at the second one on
+hover. A product with one photo renders exactly as it did before it existed,
+with no controls at all. Which side is which comes from the product's
+`imageSide`, not from photo order — one listing leads with its back.
 
 ---
 

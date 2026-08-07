@@ -200,11 +200,12 @@ export const threadProducts: ThreadProduct[] = [
   //
   // Two conventions run through every listing here. Each carries an
   // `imageBack` — all of them are printed on both sides — which the card
-  // cross-fades to on hover. And `details` describes only what the photos
-  // show and what was confirmed: collar and seam construction were not, and
-  // these listings carry real prices, so they do not guess at them. Back
-  // prints are listed there as well as shown, since hover is not reachable
-  // on touch.
+  // shows as a second view, reachable by swipe, tap, arrow, or dot on any
+  // device. And `details` describes only what the photos show and what was
+  // confirmed: collar and seam construction were not, and these listings
+  // carry real prices, so they do not guess at them. Back prints are listed
+  // there as well as shown, so the copy stands on its own for a reader who
+  // never flips the photo.
   {
     id: "tee-h1-leave-no-doubt",
     name: "H1 “Leave No Doubt” T-Shirt",
@@ -234,7 +235,7 @@ export const threadProducts: ThreadProduct[] = [
   },
   // Same blank and same front as the tee above — black, left-chest mark — so
   // the back is the only thing separating them, and the copy leads with it.
-  // Both cards therefore look identical until you hover.
+  // Both cards therefore look identical until the photo is flipped.
   //
   // The id comes from the artwork's opening line rather than the product
   // name. `tee-h1-achieve-your-dream` is already taken by the white athletic
@@ -270,14 +271,14 @@ export const threadProducts: ThreadProduct[] = [
   // The one listing here whose `image` is the back of the garment, and
   // deliberately so. This piece is printed on one side only, so its front is a
   // blank black tee — as a card thumbnail that is indistinguishable from an
-  // unprinted blank, and from the two listings above until you hover. Leading
+  // unprinted blank, and from the two listings above until you flip it. Leading
   // with the back puts the only thing identifying the product on the card, and
-  // the plain front becomes the second look on hover.
+  // the plain front becomes the second view.
   //
-  // That inversion is safe because nothing here depends on hover: the featured
-  // strip renders `image` alone, and both sides are described in `details`,
-  // which touch devices can open. The alt text on each says which side it is
-  // rather than assuming front-then-back.
+  // That inversion is safe because nothing here depends on photo order: the
+  // featured strip renders `image` alone, `imageSide` tells the card which side
+  // it is looking at, and both sides are described in `details`. The alt text
+  // on each says which side it is rather than assuming front-then-back.
   //
   // Third cotton tee at 5.5 oz and $24.99, so it sits with the other two
   // rather than with the polyester athletic shirts below.
@@ -299,6 +300,10 @@ export const threadProducts: ThreadProduct[] = [
     image: "/thread/h1-back-logo-tee-black-back.jpg",
     imageAlt:
       "Back of the black H1 Back Logo Only t-shirt, with the white H1 Performance logo — a flexed arm and rising arrow above “H1 PERFORMANCE” — centered high on the back",
+    // The only listing that needs this. Without it the card's gallery would
+    // label the lead photo "Front" and the plain front "Back", which is the
+    // one thing worse on this piece than showing no label at all.
+    imageSide: "back",
     imageBack: "/thread/h1-back-logo-tee-black-front.jpg",
     imageBackAlt:
       "Front of the black H1 Back Logo Only t-shirt, left plain with no print",
@@ -454,10 +459,10 @@ export const threadProducts: ThreadProduct[] = [
   // technical one.
   //
   // Exactly the inverse of the H1 Back Logo Only tee above, so the image order
-  // is the ordinary one: the printed side is the front here, and hovering
-  // shows the clean back. `imageBack` earns its place even though that back is
-  // blank — it is what confirms the piece is unprinted behind, and `details`
-  // says so too for anything that cannot hover.
+  // is the ordinary one: the printed side is the front here, and the second
+  // view is the clean back. `imageBack` earns its place even though that back
+  // is blank — it is what confirms the piece is unprinted behind, and
+  // `details` says so too, for a reader who never flips it.
   //
   // The mark is greyscale, not the site's gold: sampled across the chest print
   // it runs #323233 to pure white with no colour cast at all (mean RGB
@@ -556,7 +561,7 @@ export const threadProducts: ThreadProduct[] = [
   // and the request was for a listing, not for advocacy.
   //
   // Ordinary image order — the front is printed, so it leads and the full-back
-  // illustration is the reveal on hover. Same shape as the Crusader tee: small
+  // illustration is the second view. Same shape as the Crusader tee: small
   // chest hit, large back print.
   //
   // Colours sampled rather than eyeballed: the chest hit is white over royal

@@ -31,6 +31,7 @@ const rgb = (hex: string) => {
 
 const CHAMPAGNE = rgb(THREAD_PALETTE.champagne);
 const BONE = rgb(THREAD_PALETTE.bone);
+const INK = rgb(THREAD_PALETTE.ink);
 
 const css = `
 /* --------------------------------------------------------------------------
@@ -366,6 +367,107 @@ const css = `
 }
 
 /* --------------------------------------------------------------------------
+   Product gallery — the front/back panel on a catalog card
+   -------------------------------------------------------------------------- */
+
+/* pan-y hands vertical drags straight to the page. Without it the browser
+   spends the first frames of every scroll deciding whether the gallery wanted
+   the gesture, and a flick down a grid of cards feels like it catches. */
+.thread-gallery {
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.thread-gallery__track {
+  transition: transform 450ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* A tracked drag is already at the finger's position — easing it there too
+   would put the photo behind the thumb by a fixed lag the whole way across.
+   will-change is scoped to the drag rather than declared on every track: the
+   catalog renders two dozen of these, and a standing hint on all of them asks
+   the compositor for two dozen layers nothing is animating. */
+.thread-gallery__track[data-dragging="true"] {
+  transition: none;
+  will-change: transform;
+}
+
+/* Dark plate under the overlays. The panel behind them is a photograph, and
+   these are shot on white, so nothing here can rely on the palette's ground
+   for contrast. Near-opaque ink rather than a half-transparent black: at 0.55
+   over a white studio background the chips turn mid-grey and read as a smudge
+   on the photo instead of a control sitting above it. */
+.thread-gallery__label,
+.thread-gallery__arrow {
+  border: 1px solid rgba(${CHAMPAGNE}, 0.4);
+  background-color: rgba(${INK}, 0.78);
+  backdrop-filter: blur(2px);
+}
+
+.thread-gallery__label { color: rgba(${BONE}, 0.9); }
+
+.thread-gallery__arrow {
+  color: ${THREAD_PALETTE.bone};
+  transition:
+    opacity 200ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.thread-gallery__arrow:hover:not(:disabled) {
+  background-color: rgba(${INK}, 0.92);
+  border-color: ${THREAD_PALETTE.champagne};
+  color: ${THREAD_PALETTE.champagne};
+}
+
+.thread-gallery__arrow:disabled { opacity: 0.25; cursor: default; }
+
+.thread-gallery__arrow:focus-visible,
+.thread-gallery__dot:focus-visible {
+  outline: 2px solid ${THREAD_PALETTE.champagne};
+  outline-offset: -2px;
+  border-radius: 9999px;
+}
+
+/* On a phone the arrows are the sign that there is a second side at all, so
+   they stay put. A mouse already has hover to discover it, and a permanent
+   pair of chevrons on every card in a three-across grid is noise — they fade
+   in with the card, and with focus, so tabbing surfaces them too. */
+/* The disabled rule is repeated inside the query on purpose. A :disabled
+   selector is one class more specific than the bare arrow selector, so an
+   unqualified opacity: 0 here loses to it, and the dead end-of-run arrow ends
+   up the one thing still showing on every resting card. */
+@media (hover: hover) and (pointer: fine) {
+  .thread-gallery__arrow,
+  .thread-gallery__arrow:disabled { opacity: 0; }
+  .thread-gallery:hover .thread-gallery__arrow,
+  .thread-gallery:focus-within .thread-gallery__arrow { opacity: 1; }
+  .thread-gallery:hover .thread-gallery__arrow:disabled,
+  .thread-gallery:focus-within .thread-gallery__arrow:disabled { opacity: 0.25; }
+}
+
+/* The mark is the dot; the button around it is the 36px target a thumb needs.
+   Sizing the dot itself to the target would put two saucers on the photo. */
+.thread-gallery__dot-mark {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: rgba(${BONE}, 0.55);
+  box-shadow: 0 0 0 1px rgba(${INK}, 0.7);
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.thread-gallery__dot:hover .thread-gallery__dot-mark {
+  background-color: rgba(${BONE}, 0.75);
+}
+
+.thread-gallery__dot[aria-pressed="true"] .thread-gallery__dot-mark {
+  background-color: ${THREAD_PALETTE.champagne};
+  transform: scale(1.3);
+}
+
+/* --------------------------------------------------------------------------
    FAQ rows
    -------------------------------------------------------------------------- */
 
@@ -437,6 +539,12 @@ const css = `
   .thread-swatch:hover,
   .thread-card--link:hover,
   .thread-card--link:focus-visible { transform: none; }
+  /* The gallery still changes view — it just cuts to it. The transform itself
+     has to stay: it is what selects the slide, not decoration on top of one.
+     Declared here because this stylesheet's rule sets the duration, and the
+     global reduced-motion rule in globals.css cannot reach a page-scoped
+     class it never sees. */
+  .thread-gallery__track { transition: none; }
 }
 
 @keyframes thread-cart-trigger-fade {
