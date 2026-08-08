@@ -292,6 +292,15 @@ export function MainHeader() {
           >
             Get Started
           </button>
+
+          {/* Outlined rather than filled, so Get Started stays the one
+              primary CTA. A real route, like Support Us above. */}
+          <Link
+            href="/sponsors"
+            className="px-6 py-2 rounded-lg font-semibold border border-amber-400/40 text-amber-300 hover:border-amber-300 hover:text-amber-200 transition-colors whitespace-nowrap"
+          >
+            Sponsors
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -410,6 +419,16 @@ export function MainHeader() {
             >
               Get Started
             </button>
+
+            {/* Sponsors sits after Get Started here too, mirroring the
+                desktop order, in the same outlined-secondary treatment. */}
+            <Link
+              href="/sponsors"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block w-full mt-2 px-4 py-3 text-center border border-amber-400/40 text-amber-300 rounded-lg font-semibold hover:border-amber-300 hover:text-amber-200 transition-colors"
+            >
+              Sponsors
+            </Link>
           </nav>
         </div>
       )}
