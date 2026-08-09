@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { LMM_SCAN_CYCLE_SECONDS } from "@/components/lmm/scanCycle";
 import { hubOfferings } from "@/components/lmm-hub/hubOfferings";
+import { HubHeroTypedWord } from "@/components/lmm-hub/HubHeroTypedWord";
 
 /**
  * The venture hub's first screen.
@@ -12,9 +13,11 @@ import { hubOfferings } from "@/components/lmm-hub/hubOfferings";
  * hero's in-page CTAs are plain `<a href="#...">`, and `app/globals.css`
  * already sets `scroll-behavior: smooth` on `html` with `scroll-padding-top:
  * 80px` to clear the fixed header - which is everything that JS was buying.
- * So the hub ships no client bundle at all. Keep it that way: a scroll helper
- * here would pull the whole hub into the client for an effect the stylesheet
- * already provides.
+ * The one client bundle the hub ships is `HubHeroTypedWord`, the headline's
+ * typed word: that is state on a timer, which no stylesheet can express, and
+ * it is deliberately a leaf so everything else here still renders on the
+ * server. Keep it that way: a scroll helper here would pull the whole hub
+ * into the client for an effect the stylesheet already provides.
  *
  * The right column is the page's primary navigation as well as its opening
  * animation. A visitor arriving from the header dropdown almost always wants
@@ -54,15 +57,24 @@ export function HubHeroSection() {
               </div>
             </div>
 
-            {/* The H1 answers "what is this company" before it answers "what
-                can I buy", which is the whole reason the hub exists. It also
-                sets up the three jobs the switch beside it then names, so the
-                first screen states the structure of the page twice - once as a
-                claim, once as navigation. */}
+            {/* One verb, three typed objects: the animated word walks the same
+                journey the switch beside it names - its first two stops are
+                literally labelled "Get found" and "Get chosen" - so the first
+                screen still states the structure of the page twice, once as a
+                claim and once as navigation. The third word is "Paid" where
+                the rail says "followed up with": the rail names the mechanism,
+                the headline names what the mechanism is for. "Get" stays
+                static and white; the word beside it carries the hero's
+                gradient accent, exactly where "One Company." used to.
+
+                Assistive technology gets all three words once, in order, from
+                the sr-only line, and the visible half is aria-hidden to match
+                - both halves of a contract HubHeroTypedWord documents but
+                cannot enforce from inside the hidden span. */}
             <h1 className="heading-xl mb-6 text-white">
-              Three Different Jobs.{" "}
-              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400 bg-clip-text text-transparent">
-                One Company.
+              <span className="sr-only">Get Found. Get Chosen. Get Paid.</span>
+              <span aria-hidden="true">
+                Get <HubHeroTypedWord />
               </span>
             </h1>
 
