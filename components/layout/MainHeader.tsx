@@ -14,6 +14,11 @@ export function MainHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [venturesDropdownOpen, setVenturesDropdownOpen] = useState(false);
+  // A section tap inside the mobile menu can't scroll right away: the body
+  // is still position-fixed by the scroll lock below, so the jump would be
+  // swallowed. The target waits here until the lock is released. A ref, not
+  // state — it must never outlive one close cycle or trigger a render.
+  const pendingScrollIdRef = useRef<string | null>(null);
   // Which dropdown row's submenu is open (e.g. Lee Marketing Mastery's three
   // pages). Same debounced-close pattern as the dropdown itself, and for the
   // same reason: the pointer crosses a gap on its way into the flyout.
@@ -40,6 +45,42 @@ export function MainHeader() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Lock the page while the mobile menu is open. iOS Safari keeps scrolling
+  // (and rubber-banding) the page under an overlay even with
+  // `overflow: hidden` on body, so the body is pinned with `position: fixed`
+  // at its current offset instead, and put back on close. The restore jump is
+  // explicitly instant because html has `scroll-smooth` — otherwise closing
+  // the menu would visibly animate from the top of the page back down.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const scrollY = window.scrollY;
+    const { style } = document.body;
+    style.position = "fixed";
+    style.top = `-${scrollY}px`;
+    style.left = "0";
+    style.right = "0";
+    style.width = "100%";
+    style.overflow = "hidden";
+    return () => {
+      style.position = "";
+      style.top = "";
+      style.left = "";
+      style.right = "";
+      style.width = "";
+      style.overflow = "";
+      window.scrollTo({ top: scrollY, behavior: "instant" });
+    };
+  }, [mobileMenuOpen]);
+
+  // Runs after the lock's cleanup (declared below it, same commit), so the
+  // body is scrollable again by the time the deferred section scroll fires.
+  useEffect(() => {
+    if (mobileMenuOpen || !pendingScrollIdRef.current) return;
+    const sectionId = pendingScrollIdRef.current;
+    pendingScrollIdRef.current = null;
+    smoothScrollToElement(sectionId, { focus: true });
+  }, [mobileMenuOpen]);
 
   // Handle hover interactions for desktop dropdown
   const handleMouseEnter = () => {
@@ -93,7 +134,13 @@ export function MainHeader() {
     }
 
     const sectionId = href.replace("#", "");
-    smoothScrollToElement(sectionId, { focus: true });
+    if (mobileMenuOpen) {
+      // Body is scroll-locked until the close commits; scroll via the
+      // pending-target effect once it has.
+      pendingScrollIdRef.current = sectionId;
+    } else {
+      smoothScrollToElement(sectionId, { focus: true });
+    }
 
     // Update URL
     if (typeof window !== "undefined") {
@@ -104,9 +151,16 @@ export function MainHeader() {
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled
-          ? "bg-neutral-950 backdrop-blur-md border-b border-neutral-800"
-          : "bg-neutral-950/50 backdrop-blur-sm"
+        // Open mobile menu: opaque and full-height (dvh, so iOS Safari's
+        // collapsing toolbars don't leave a strip of page peeking out at the
+        // bottom), a flex column so the menu pane can take the leftover
+        // height. lg:h-auto in case the state lingers across a resize to
+        // desktop, where the menu markup is hidden.
+        mobileMenuOpen
+          ? "h-dvh lg:h-auto flex flex-col bg-neutral-950"
+          : isScrolled
+            ? "bg-neutral-950 backdrop-blur-md border-b border-neutral-800"
+            : "bg-neutral-950/50 backdrop-blur-sm"
       }`}
       style={
         isScrolled
@@ -116,7 +170,7 @@ export function MainHeader() {
           : {}
       }
     >
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="w-full shrink-0 max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href={isHome ? "#hero" : "/"} className="flex items-center group">
           <div className="relative w-10 h-10">
@@ -308,6 +362,7 @@ export function MainHeader() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="lg:hidden p-2 text-white hover:text-amber-400 transition-colors"
           aria-label="Toggle menu"
+          aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? (
             <X className="w-6 h-6" />
@@ -317,10 +372,15 @@ export function MainHeader() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu. Fills the rest of the full-height header so the page
+          never shows through under it, and scrolls its own content — inside
+          a fixed header, anything past the bottom edge would otherwise be
+          unreachable once the Ventures list is expanded. overscroll-contain
+          keeps that inner scroll from chaining to the locked page, and the
+          bottom padding clears the iPhone home indicator. */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-neutral-900 border-t border-neutral-800 backdrop-blur-md">
-          <nav className="px-4 py-4 space-y-2">
+        <div className="lg:hidden flex-1 min-h-0 overflow-y-auto overscroll-contain bg-neutral-900 border-t border-neutral-800">
+          <nav className="px-4 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] space-y-2">
             {navigationItems.map((item) => (
               <div key={item.id}>
                 {item.featured ? (
