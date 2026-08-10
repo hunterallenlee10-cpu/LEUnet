@@ -1,32 +1,10 @@
 "use client";
 
 import { Venture } from "@/types";
-import { BeforeAfterSlider } from "./PelicanBeforeAfterSlider";
 
 interface PelicanBeforeAfterSectionProps {
   venture: Venture;
 }
-
-const beforeAfterProjects = [
-  {
-    id: 1,
-    title: "Driveway Restoration",
-    before: "/pelican/before-1.png",
-    after: "/pelican/after-1.png",
-  },
-  {
-    id: 2,
-    title: "Roof Cleaning",
-    before: "/pelican/before-2.png",
-    after: "/pelican/after-2.png",
-  },
-  {
-    id: 3,
-    title: "Patio Cleaning",
-    before: "/pelican/before-3.png",
-    after: "/pelican/after-3.png",
-  },
-];
 
 export function PelicanBeforeAfterSection({
   venture,
@@ -51,31 +29,16 @@ export function PelicanBeforeAfterSection({
           <h2 className="heading-lg text-white mb-4">
             See the Transformation
           </h2>
-          <p className="text-lg text-neutral-400 max-w-2xl mx-auto">
-            Drag the slider to see the dramatic before and after results of our
-            professional cleaning services.
+        </div>
+
+        {/* Coming Soon */}
+        <div className="max-w-2xl mx-auto text-center rounded-2xl border border-cyan-500/20 bg-neutral-900/50 px-8 py-16">
+          <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Coming Soon
+          </h3>
+          <p className="text-lg text-neutral-400">
+            Before and after photos of our work will be posted here soon.
           </p>
-        </div>
-
-        {/* Before/After Sliders Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-          {beforeAfterProjects.slice(0, 2).map((project) => (
-            <BeforeAfterSlider
-              key={project.id}
-              beforeImage={project.before}
-              afterImage={project.after}
-              title={project.title}
-            />
-          ))}
-        </div>
-
-        {/* Single Wide Slider */}
-        <div className="max-w-4xl mx-auto">
-          <BeforeAfterSlider
-            beforeImage={beforeAfterProjects[2].before}
-            afterImage={beforeAfterProjects[2].after}
-            title={beforeAfterProjects[2].title}
-          />
         </div>
       </div>
     </section>
