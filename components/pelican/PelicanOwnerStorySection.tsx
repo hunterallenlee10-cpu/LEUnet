@@ -10,7 +10,7 @@ interface PelicanOwnerStoryProps {
 
 export function PelicanOwnerStorySection({ venture }: PelicanOwnerStoryProps) {
   return (
-    <section className="py-20 md:py-32 bg-neutral-950 relative overflow-hidden">
+    <section className="py-20 md:py-32 relative overflow-hidden">
       {/* Background Accents */}
       <div className="absolute inset-0 -z-10">
         <div

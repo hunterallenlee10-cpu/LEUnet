@@ -43,7 +43,7 @@ export function PelicanWhyChooseSection({
   venture,
 }: PelicanWhyChooseSectionProps) {
   return (
-    <section className="py-20 md:py-32 bg-neutral-950 relative overflow-hidden">
+    <section className="py-20 md:py-32 relative overflow-hidden">
       {/* Background Accent */}
       <div
         className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-10"
