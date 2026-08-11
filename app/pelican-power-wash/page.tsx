@@ -5,7 +5,6 @@ import { getVentureById } from "@/data/ventures";
 import { PelicanHeroSection } from "@/components/pelican/PelicanHeroSection";
 import { PelicanTrustStrip } from "@/components/pelican/PelicanTrustStrip";
 import { PelicanServicesSection } from "@/components/pelican/PelicanServicesSection";
-import { PelicanBeforeAfterSection } from "@/components/pelican/PelicanBeforeAfterSection";
 import { PelicanProcessAndFAQSection } from "@/components/pelican/PelicanProcessAndFAQSection";
 import { PelicanWhyChooseSection } from "@/components/pelican/PelicanWhyChooseSection";
 import { PelicanOwnerStorySection } from "@/components/pelican/PelicanOwnerStorySection";
@@ -43,7 +42,6 @@ export default function PelicanPage() {
         <PelicanHeroSection venture={venture} />
         <PelicanTrustStrip venture={venture} />
         <PelicanServicesSection venture={venture} />
-        <PelicanBeforeAfterSection venture={venture} />
         <PelicanProcessAndFAQSection venture={venture} />
         <PelicanWhyChooseSection venture={venture} />
         <PelicanOwnerStorySection venture={venture} />
