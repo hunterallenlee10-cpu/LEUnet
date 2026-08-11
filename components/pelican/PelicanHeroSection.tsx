@@ -87,7 +87,7 @@ export function PelicanHeroSection({ venture }: PelicanHeroSectionProps) {
               </div>
               <div>
                 <div className="text-3xl font-bold text-cyan-400 mb-2">10+</div>
-                <p className="text-neutral-400 text-sm">Years Experience</p>
+                <p className="text-neutral-400 text-sm">Years Combined Experience</p>
               </div>
               <div>
                 <div className="text-3xl font-bold text-cyan-400 mb-2">100%</div>
