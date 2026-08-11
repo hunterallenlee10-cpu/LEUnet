@@ -15,7 +15,7 @@ export function PelicanHeroSection({ venture }: PelicanHeroSectionProps) {
   };
 
   return (
-    <section className="relative py-32 md:py-48 overflow-hidden">
+    <section className="relative py-32 md:py-48 overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-950 to-blue-950/20">
       {/* Animated Background Accents */}
       <div className="absolute inset-0 -z-10">
         <div

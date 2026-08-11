@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { getVentureById } from "@/data/ventures";
-import { PelicanAnimatedBackground } from "@/components/pelican/PelicanAnimatedBackground";
 import { PelicanHeroSection } from "@/components/pelican/PelicanHeroSection";
 import { PelicanTrustStrip } from "@/components/pelican/PelicanTrustStrip";
 import { PelicanServicesSection } from "@/components/pelican/PelicanServicesSection";
@@ -37,10 +36,9 @@ export default function PelicanPage() {
 
   return (
     <div className="min-h-screen bg-neutral-950">
-      <PelicanAnimatedBackground />
       <MainHeader />
 
-      <main className="pt-20 relative z-10">
+      <main className="pt-20">
         <PelicanHeroSection venture={venture} />
         <PelicanTrustStrip venture={venture} />
         <PelicanServicesSection venture={venture} />
@@ -56,9 +54,7 @@ export default function PelicanPage() {
         <PelicanCTASection venture={venture} />
       </main>
 
-      <div className="relative z-10">
-        <MainFooter />
-      </div>
+      <MainFooter />
     </div>
   );
 }
