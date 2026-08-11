@@ -137,7 +137,7 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
 
   if (submitted) {
     return (
-      <section className="py-20 md:py-32 bg-neutral-950 relative overflow-hidden">
+      <section className="py-20 md:py-32 relative overflow-hidden">
         <div className="section-container relative z-10">
           <div className="max-w-2xl mx-auto text-center">
             <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-12">
@@ -157,7 +157,7 @@ export function PelicanQuoteForm({ venture }: PelicanQuoteFormProps) {
   }
 
   return (
-    <section className="py-20 md:py-32 bg-gradient-to-b from-neutral-950 to-blue-950/10 relative overflow-hidden">
+    <section className="py-20 md:py-32 relative overflow-hidden">
       {/* Background Accents */}
       <div className="absolute inset-0 -z-10">
         <div
