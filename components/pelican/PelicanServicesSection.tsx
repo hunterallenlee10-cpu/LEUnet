@@ -146,21 +146,30 @@ const serviceCategories = [
 ];
 
 function ServiceCategory({ category }: { category: typeof serviceCategories[0] }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="border border-neutral-800 rounded-lg overflow-hidden">
       {/* Category Header */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-4 flex items-center justify-between bg-neutral-900 hover:bg-neutral-800/50 transition-colors"
+        aria-expanded={isOpen}
+        className="w-full px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4 bg-neutral-900 hover:bg-neutral-800/50 transition-colors group/header"
       >
-        <h3 className="text-xl font-bold text-white">{category.name}</h3>
-        <ChevronDown
-          className={`w-6 h-6 text-cyan-400 transition-transform duration-300 ${
-            isOpen ? "" : "-rotate-90"
-          }`}
-        />
+        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 text-sm font-semibold flex-shrink-0 group-hover/header:bg-cyan-400/20 transition-colors">
+          <ChevronDown
+            className={`w-4 h-4 transition-transform duration-300 ${
+              isOpen ? "" : "-rotate-90"
+            }`}
+          />
+          {isOpen ? "Collapse" : "Expand"}
+        </span>
+        <h3 className="text-xl font-bold text-white text-left">
+          {category.name}
+        </h3>
+        <span className="ml-auto text-sm text-neutral-500 flex-shrink-0 hidden sm:inline">
+          {category.services.length} services
+        </span>
       </button>
 
       {/* Services List */}
