@@ -39,7 +39,7 @@ export function PelicanTestimonialsSection({
   venture,
 }: PelicanTestimonialsSectionProps) {
   return (
-    <section className="py-20 md:py-32 bg-gradient-to-b from-neutral-950 to-blue-950/10 relative overflow-hidden">
+    <section className="py-20 md:py-32 relative overflow-hidden">
       {/* Background Accent */}
       <div
         className="absolute bottom-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-10"
