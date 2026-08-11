@@ -203,7 +203,7 @@ export function PelicanServicesSection({ venture }: PelicanServicesSectionProps)
   return (
     <section
       id="services"
-      className="py-20 md:py-32 relative overflow-hidden"
+      className="py-20 md:py-32 bg-neutral-950 relative overflow-hidden"
     >
       {/* Background Accent */}
       <div
