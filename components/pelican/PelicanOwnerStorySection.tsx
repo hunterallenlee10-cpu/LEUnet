@@ -43,7 +43,7 @@ export function PelicanOwnerStorySection({ venture }: PelicanOwnerStoryProps) {
             </p>
 
             <p className="text-neutral-400 mb-8 leading-relaxed">
-              We're a team operation deeply focused on delivering professional, swift, and perfect service to everyone in St. Mary's County and surrounding areas. With over a decade of experience, we've built our reputation on reliability, quality workmanship, and treating every property like it's our own.
+              We're a team operation deeply focused on delivering professional, swift, and perfect service to everyone in St. Mary's County and surrounding areas. With over a decade of combined experience, we've built our reputation on reliability, quality workmanship, and treating every property like it's our own.
             </p>
 
             <p className="text-neutral-400 mb-8 leading-relaxed">
