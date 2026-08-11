@@ -1,21 +1,12 @@
 "use client";
 
 import { Venture } from "@/types";
-import { MapPin } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
+import { PelicanServiceAreaMap } from "./PelicanServiceAreaMap";
 
 interface PelicanServiceAreasSectionProps {
   venture: Venture;
 }
-
-const serviceAreas = [
-  { id: 1, name: "Downtown District", coverage: "Full Coverage" },
-  { id: 2, name: "Riverside Heights", coverage: "Full Coverage" },
-  { id: 3, name: "Westside Valley", coverage: "Full Coverage" },
-  { id: 4, name: "North Shore", coverage: "Full Coverage" },
-  { id: 5, name: "Business Park", coverage: "Full Coverage" },
-  { id: 6, name: "Suburban Estates", coverage: "Full Coverage" },
-];
 
 export function PelicanServiceAreasSection({
   venture,
@@ -46,28 +37,27 @@ export function PelicanServiceAreasSection({
           </p>
         </div>
 
-        {/* Service Areas Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {serviceAreas.map((area) => (
-            <div
-              key={area.id}
-              className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-6 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300 group cursor-pointer"
-            >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-400/10 group-hover:bg-cyan-400/20 transition-colors">
-                    <MapPin className="h-5 w-5 text-cyan-400" />
-                  </div>
-                </div>
-                <div className="flex-grow">
-                  <h3 className="text-lg font-bold text-white mb-1">
-                    {area.name}
-                  </h3>
-                  <p className="text-neutral-400 text-sm">{area.coverage}</p>
-                </div>
+        {/* Service Area Map */}
+        <div className="max-w-4xl mx-auto">
+          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-4 md:p-8">
+            <PelicanServiceAreaMap />
+
+            {/* Legend */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-8 mt-6 pt-6 border-t border-white/10">
+              <div className="flex items-center gap-3">
+                <span className="h-3.5 w-3.5 rounded-sm bg-cyan-400/40 border border-cyan-400 flex-shrink-0" />
+                <span className="text-sm text-neutral-300">
+                  St. Mary's County — Primary Service Area
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="h-3.5 w-3.5 rounded-sm bg-cyan-400/15 border border-cyan-400/50 flex-shrink-0" />
+                <span className="text-sm text-neutral-300">
+                  Calvert & Charles — Surrounding Coverage
+                </span>
               </div>
             </div>
-          ))}
+          </div>
         </div>
 
         {/* Bottom Section */}
