@@ -90,9 +90,9 @@ export function PelicanOwnerStorySection({ venture }: PelicanOwnerStoryProps) {
             <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-8 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300">
               <div className="flex items-baseline gap-3 mb-2">
                 <span className="text-5xl font-bold text-cyan-400">10+</span>
-                <span className="text-neutral-400">Years in Business</span>
+                <span className="text-neutral-400">Years Combined Experience</span>
               </div>
-              <p className="text-neutral-400 text-sm">Trusted by hundreds of satisfied customers</p>
+              <p className="text-neutral-400 text-sm">Our team brings over a decade of combined experience to every job</p>
             </div>
 
             <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-8 hover:border-cyan-400/50 hover:bg-cyan-400/5 transition-all duration-300">
