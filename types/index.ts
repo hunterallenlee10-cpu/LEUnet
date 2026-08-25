@@ -339,3 +339,74 @@ export interface H1Faq {
   question: string;
   answer: string;
 }
+
+// ---------------------------------------------------------------------------
+// LEU Business Mastery (/business-mastery)
+//
+// Content lives in data/business-mastery.ts. The page carries the owner's own
+// copy largely verbatim — see docs/BUSINESS-MASTERY.md before editing any of
+// it, especially the figures.
+// ---------------------------------------------------------------------------
+
+/** One of the four kinds of people the program is built for. */
+export interface BmAudience {
+  id: string;
+  title: string;
+  description: string;
+}
+
+/** One rung of the "How to Build Your Own Empire" framework. */
+export interface BmEmpireStep {
+  id: string;
+  step: number;
+  title: string;
+  description: string;
+}
+
+/** One of the things membership actually includes. */
+export interface BmPillar {
+  id: string;
+  title: string;
+  description: string;
+  /** Bullet list under the description, e.g. the Tools & Resources items. */
+  items?: string[];
+}
+
+export interface BmPhase {
+  id: string;
+  /** "I", "II", "III" — display numeral, not an index. */
+  numeral: string;
+  name: string;
+  headline: string;
+  paragraphs: string[];
+  /** What membership includes at this phase, when the copy lists it. */
+  includes?: string[];
+  /** A called-out promise block, e.g. the Founding Member Promise. */
+  promise?: {
+    title: string;
+    text: string;
+  };
+}
+
+export interface BmVisionPoint {
+  id: string;
+  title: string;
+  description: string;
+}
+
+/** One chapter of the founder journey timeline. Bodies arrive with the story. */
+export interface BmChapter {
+  id: string;
+  /** Display number, zero-padded by the component ("01" from 1). */
+  number: number;
+  title: string;
+}
+
+export interface BmApplicationFormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  stage: string;
+  building: string;
+  why: string;
+}

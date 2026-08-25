@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { sectionIds } from "@/data/navigation";
+import { businessMasteryPage, sectionIds } from "@/data/navigation";
 
 export function PortfolioSection() {
   return (
@@ -22,10 +23,12 @@ export function PortfolioSection() {
             Explore the diverse projects and services that showcase our commitment to excellence across all ventures.
           </p>
 
-          {/* Portfolio CTA - destination intentionally unwired for now */}
+          {/* This button sat unwired until Business Mastery existed — that is
+              the venture it was always promising, so it now leads there, same
+              destination as the section below it. */}
           <div className="mt-8 flex justify-center">
-            <button
-              type="button"
+            <Link
+              href={businessMasteryPage}
               className="btn-primary group inline-flex items-center justify-center gap-2 px-8 py-4 text-base sm:text-lg shadow-lg shadow-amber-400/20 hover:shadow-xl hover:shadow-amber-400/30"
             >
               Start your own venture
@@ -33,7 +36,7 @@ export function PortfolioSection() {
                 className="h-5 w-5 transition-transform group-hover:translate-x-1"
                 aria-hidden="true"
               />
-            </button>
+            </Link>
           </div>
         </div>
       </div>
