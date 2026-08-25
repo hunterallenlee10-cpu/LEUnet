@@ -372,8 +372,13 @@ export const bmFounder = {
 export const bmJourney = {
   heading: "The Journey",
   description: "The experiences that built LEU.",
+  startCta: "Start Timeline",
+  hint: "Scroll or click arrows",
+  /** Shown once, on the timeline's intro slide. */
   comingSoonNote:
     "The full story behind each chapter is being written and will be added here.",
+  /** The one-line body every chapter slide carries until its story exists. */
+  chapterNote: "This chapter's story is being written.",
 } as const;
 
 // Chapter titles are the owner's working list. An alternative, more cinematic
