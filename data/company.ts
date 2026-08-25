@@ -46,13 +46,6 @@ export const aboutSection = {
   ],
 };
 
-export const venturePortfolioIntro = {
-  title: "Our Ventures",
-  subtitle: "Distinct Businesses, One Commitment to Excellence",
-  description:
-    "Lee Enterprises Unlimited manages a diverse portfolio of ventures, each operating independently with specialized expertise and dedicated teams. Explore each venture to see how we deliver results.",
-};
-
 export const ctaContent = {
   final: {
     title: "Ready to Get Started?",
