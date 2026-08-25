@@ -98,7 +98,6 @@ export const sectionIds = {
   thread: "thread",
   sharedValues: "shared-values",
   about: "about",
-  helpSelector: "help-selector",
   contact: "contact",
   privacy: "privacy",
   terms: "terms",

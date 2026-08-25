@@ -5,7 +5,6 @@ import { VentureSnapshotSection } from "@/components/sections/VentureSnapshotSec
 import { PortfolioSection } from "@/components/sections/PortfolioSection";
 import { VentureDetailSection } from "@/components/sections/VentureDetailSection";
 import { AboutSection } from "@/components/sections/AboutSection";
-import { HelpSelectorSection } from "@/components/sections/HelpSelectorSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { LegalSection } from "@/components/sections/LegalSection";
 import { ventures } from "@/data/ventures";
@@ -24,7 +23,6 @@ export default function Home() {
         <VentureDetailSection key={venture.id} venture={venture} />
       ))}
 
-      <HelpSelectorSection />
       <ContactSection />
       <LegalSection />
 
