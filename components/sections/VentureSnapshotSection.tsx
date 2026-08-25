@@ -122,7 +122,7 @@ export function VentureSnapshotSection() {
             Ready to explore how we can help you?
           </p>
           <button
-            onClick={() => smoothScrollToElement(sectionIds.helpSelector, { focus: true })}
+            onClick={() => smoothScrollToElement(sectionIds.contact, { focus: true })}
             className="btn-primary inline-flex items-center gap-2"
           >
             Tell Us What You Need

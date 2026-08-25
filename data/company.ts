@@ -53,13 +53,6 @@ export const venturePortfolioIntro = {
     "Lee Enterprises Unlimited manages a diverse portfolio of ventures, each operating independently with specialized expertise and dedicated teams. Explore each venture to see how we deliver results.",
 };
 
-export const helpSelectorContent = {
-  title: "What Can We Help You With?",
-  subtitle: "Select a venture to learn more or get started",
-  description:
-    "Choose the venture or service that matches your needs, and we'll connect you with the right team.",
-};
-
 export const ctaContent = {
   final: {
     title: "Ready to Get Started?",
