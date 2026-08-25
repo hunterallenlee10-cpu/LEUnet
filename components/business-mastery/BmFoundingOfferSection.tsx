@@ -43,10 +43,7 @@ export function BmFoundingOfferSection() {
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
             {bmOffer.eyebrow}
           </p>
-          <h2 className="heading-lg mb-4 text-white">{bmOffer.heading}</h2>
-          <p className="text-lg leading-relaxed text-neutral-300">
-            {bmOffer.description}
-          </p>
+          <h2 className="heading-lg text-white">{bmOffer.heading}</h2>
         </div>
 
         {/* Founding member counter — live-dot, figure, progress bar. */}

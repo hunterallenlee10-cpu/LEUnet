@@ -238,8 +238,6 @@ export const bmPillars: BmPillar[] = [
 export const bmOffer = {
   eyebrow: "Founding Member Offer",
   heading: "Join LEU Business Mastery",
-  description:
-    "The earliest members receive everything included in the network for a one-time payment.",
   counterLabel: "Founding Members",
   guaranteeHeading: "30-Day Money-Back Guarantee",
   guaranteeSummary:
