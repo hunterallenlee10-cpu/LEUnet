@@ -8,8 +8,8 @@ function getResend(): Resend {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-// Delivers to the site-wide contact address, matching the contact form, the
-// Pelican quote form and the payment notifications.
+// Delivers to the site-wide contact address, matching the contact form and the
+// payment notifications.
 const LMM_TO_EMAIL =
   process.env.LMM_TO_EMAIL ||
   process.env.CONTACT_TO_EMAIL ||

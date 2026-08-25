@@ -1,8 +1,8 @@
 export const companyInfo = {
   name: "Lee Enterprises Unlimited",
-  tagline: "Empowering Excellence Across Four Distinct Ventures",
+  tagline: "Empowering Excellence Across Three Distinct Ventures",
   description:
-    "Lee Enterprises Unlimited is a holding company dedicated to building and scaling exceptional ventures across marketing, services, athletics, and apparel. Each venture is designed to deliver premium value and results.",
+    "Lee Enterprises Unlimited is a holding company dedicated to building and scaling exceptional ventures across marketing, athletics, and apparel. Each venture is designed to deliver premium value and results.",
   heroTitle: "Lee Enterprises Unlimited",
   heroSubtitle: "Multiple Ventures. Unified Excellence.",
   heroDescription:

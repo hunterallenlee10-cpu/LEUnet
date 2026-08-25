@@ -26,7 +26,7 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ## Payments
 
-Stripe Payments and Invoicing are wired up for all four ventures. See
+Stripe Payments and Invoicing are wired up for all three ventures. See
 [docs/STRIPE.md](docs/STRIPE.md) for setup, environment variables, and the
 go-live checklist.
 

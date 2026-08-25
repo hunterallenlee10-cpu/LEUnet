@@ -29,7 +29,6 @@ export const navigationItems: NavItem[] = [
 // section anchor, which is why lookups are optional everywhere it's used.
 export const venturePages: Record<string, string> = {
   lmm: "/lee-marketing-mastery",
-  pelican: "/pelican-power-wash",
   h1: "/h1-performance",
   thread: "/thread-t-shirts",
 };
@@ -72,11 +71,6 @@ export const ventureNavItems: NavItem[] = [
     ],
   },
   {
-    label: "Pelican Power Wash",
-    href: venturePages.pelican,
-    id: "nav-venture-pelican",
-  },
-  {
     label: "H1 Performance",
     href: venturePages.h1,
     id: "nav-venture-h1",
@@ -93,7 +87,6 @@ export const sectionIds = {
   ventureSnapshot: "venture-snapshot",
   portfolio: "portfolio",
   lmm: "lmm",
-  pelican: "pelican",
   h1: "h1",
   thread: "thread",
   sharedValues: "shared-values",

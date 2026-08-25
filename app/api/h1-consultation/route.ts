@@ -8,8 +8,8 @@ function getResend(): Resend {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-// Delivers to the site-wide contact address, matching the contact form, the
-// Pelican quote form, and the LMM forms. Its own route rather than a shared one
+// Delivers to the site-wide contact address, matching the contact form and the
+// LMM forms. Its own route rather than a shared one
 // with a flag: the subject line is what distinguishes an H1 lead in the inbox,
 // and that only works if it is set here.
 const H1_TO_EMAIL =
