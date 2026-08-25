@@ -8,7 +8,6 @@ import { BmEmpireSection } from "@/components/business-mastery/BmEmpireSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
 import { BmEvolutionSection } from "@/components/business-mastery/BmEvolutionSection";
-import { BmVisionSection } from "@/components/business-mastery/BmVisionSection";
 import { BmFounderSection } from "@/components/business-mastery/BmFounderSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
 import { BmTransitionSection } from "@/components/business-mastery/BmTransitionSection";
@@ -69,7 +68,6 @@ export default function BusinessMasteryPage() {
       <BmProgramSection />
       <BmFoundingOfferSection />
       <BmEvolutionSection />
-      <BmVisionSection />
       <BmFounderSection />
       <BmJourneyTimeline />
       <BmTransitionSection />

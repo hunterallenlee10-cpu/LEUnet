@@ -388,12 +388,6 @@ export interface BmPhase {
   };
 }
 
-export interface BmVisionPoint {
-  id: string;
-  title: string;
-  description: string;
-}
-
 /** One chapter of the founder journey timeline. Bodies arrive with the story. */
 export interface BmChapter {
   id: string;

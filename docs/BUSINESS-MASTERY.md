@@ -21,7 +21,7 @@ Phases B (story) and C (checkout) remain — see §9.
 | Payments | None in this build. Stripe checkout for the founding-member one-time payment is Phase C — the scaffolding already exists (`app/api/stripe/*`), but price, guarantee terms, and refund handling must be written first. |
 | Founding counter | A value the owner maintains in `data/business-mastery.ts` (`claimed` / `total`). It must show the **real** number — see §6. |
 | Unfinished content | Render whatever is confirmed, and mark the rest with a consistent **"coming soon"** treatment (owner's call). Applies to the Journey chapters, the full founder story, and the guarantee terms. |
-| Exploratory sections | **Both included**: "How to Build Your Own Empire" and "The Vision" make this first build (owner's call). Placement in §3. |
+| Exploratory sections | **Empire in, Vision out**: "How to Build Your Own Empire" makes this build; "The Vision" shipped in the first build and was removed at the owner's request. Placement in §3. |
 | Palette | LEU's own amber/gold on black — the homepage identity, not a new sub-brand palette. Business Mastery is LEU itself, and the page should look like it. |
 | Contact | `ceo@leeenterprisesunlimited.com`, same as every other form. |
 
@@ -44,8 +44,7 @@ Core through-line, repeated at open and close:
 
 ## 3. Page flow (final order)
 
-The owner's flow, with the two added sections slotted where they do the most
-work:
+The owner's flow, with the added section slotted where it does the most work:
 
 | # | Section | Content source | State |
 | --- | --- | --- | --- |
@@ -56,21 +55,20 @@ work:
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, live-style counter, 30-day guarantee, **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | The Evolution | Owner doc §5: Phase I Founding Members / Phase II Growth / Phase III Stay In The Room, closing on the through-line | Ready |
-| 8 | **The Vision** | Owner doc exploratory section: what BM is becoming, who we want inside, the network, what members accomplish together, bigger than courses | Ready as themes; placed after the Evolution because it answers where the three phases lead |
-| 9 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | Partial — legacy statement candidates exist, full story doesn't. Renders what exists + coming-soon marker |
-| 10 | My Journey — timeline | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
-| 11 | Your Journey Is Just Beginning | Owner doc §8: the transition from my story to your story | Ready |
-| 12 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
+| 8 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | Partial — legacy statement candidates exist, full story doesn't. Renders what exists + coming-soon marker |
+| 9 | My Journey — timeline | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
+| 10 | Your Journey Is Just Beginning | Owner doc §8: the transition from my story to your story | Ready |
+| 11 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
 
-### Why the two added sections sit where they do
+"The Vision" (the other exploratory section) originally sat between the
+Evolution and the founder story; it was built and then removed at the owner's
+request, and the sections after it renumbered.
+
+### Why the added section sits where it does
 
 - **Empire (4)** lands between "who this is for" and "what the program is":
   the visitor sees themselves, then sees the path, then sees the program as
   the way to walk it faster.
-- **Vision (8)** follows the three-phase Evolution: the phases describe how
-  the network grows, the Vision describes what it grows into. Putting it
-  before the founder story also makes section 9 read as "and here is why this
-  matters to me personally."
 
 ---
 
@@ -91,11 +89,10 @@ precedent).
 | `components/business-mastery/BmFoundingOfferSection.tsx` | 6 — offer, counter, guarantee expandable |
 | `components/business-mastery/BmApplicationForm.tsx` | 6 — the form (fields in §5) |
 | `components/business-mastery/BmEvolutionSection.tsx` | 7 — three phases |
-| `components/business-mastery/BmVisionSection.tsx` | 8 |
-| `components/business-mastery/BmFounderSection.tsx` | 9 — Why I Built LEU |
-| `components/business-mastery/BmJourneyTimeline.tsx` | 10 — interactive timeline |
-| `components/business-mastery/BmTransitionSection.tsx` | 11 |
-| `components/business-mastery/BmFinalCTASection.tsx` | 12 |
+| `components/business-mastery/BmFounderSection.tsx` | 8 — Why I Built LEU |
+| `components/business-mastery/BmJourneyTimeline.tsx` | 9 — interactive timeline |
+| `components/business-mastery/BmTransitionSection.tsx` | 10 |
+| `components/business-mastery/BmFinalCTASection.tsx` | 11 |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
 | `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |
 | `app/api/business-mastery-application/route.ts` | Application form handler, Resend pattern from `app/api/h1-consultation/route.ts` |
@@ -172,8 +169,8 @@ used in exactly three places:
 
 | Where | What renders now | What's coming |
 | --- | --- | --- |
-| Why I Built LEU (9) | The legacy statement (§9 below) + the supporting idea | The full founder story from the My Story document |
-| Journey timeline (10) | The 14 chapter titles as the interactive structure | Each chapter's story |
+| Why I Built LEU (8) | The legacy statement (§9 below) + the supporting idea | The full founder story from the My Story document |
+| Journey timeline (9) | The 14 chapter titles as the interactive structure | Each chapter's story |
 | Guarantee expandable (6) | Plain-language guarantee summary | Full terms, eligibility, refund conditions, ToS |
 
 The timeline is worth building fully now even with empty chapters: the
