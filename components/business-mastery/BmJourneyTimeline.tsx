@@ -7,11 +7,13 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
 
 /**
  * Section 9 — the journey as a horizontal, chapter-by-chapter experience,
- * modeled on the owner's reference (the "A Life in Full" timeline the page
- * plan named as its structural inspiration): a full-width intro slide, one
- * slide per chapter, edge arrows, and a scrubber bar across the bottom with
- * every stop — number above the dot, title below, the current stop lit.
- * Rendered in LEU's gold-on-black rather than the reference's palette.
+ * modeled on the timeline the page plan named as its structural inspiration:
+ * a full-width intro slide, one slide per chapter, edge arrows, and a
+ * scrubber bar across the bottom with every stop — number above the dot,
+ * title below, the current stop lit. Rendered in LEU's gold-on-black rather
+ * than the reference's palette. The intro eyebrow reads "A Life in Full" —
+ * the owner's chosen name for the section, which is also what that reference
+ * timeline was called; the two are not otherwise related.
  *
  * Navigation is a native horizontal scroll-snap container, not hijacked page
  * scroll: swipe on touch, trackpad-scroll sideways, arrow keys when the
@@ -177,7 +179,7 @@ export function BmJourneyTimeline() {
               className="flex h-full w-full shrink-0 snap-center flex-col items-center justify-center px-6 text-center"
             >
               <p className="mb-5 text-xs font-semibold uppercase tracking-[0.4em] text-amber-400 sm:text-sm">
-                My Journey
+                A Life in Full
               </p>
               <h2 className="text-[52px] font-bold uppercase leading-[0.95] tracking-tight sm:text-[72px] lg:text-[clamp(76px,7vw,112px)]">
                 <span className="block text-white">The</span>

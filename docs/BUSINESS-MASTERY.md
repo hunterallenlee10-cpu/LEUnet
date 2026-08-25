@@ -56,7 +56,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, live-style counter, 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | The Evolution | Owner doc §5: Phase I Founding Members / Phase II Growth / Phase III Stay In The Room, closing on the through-line | Ready |
 | 8 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | Partial — legacy statement candidates exist, full story doesn't. Renders what exists + coming-soon marker |
-| 9 | My Journey — timeline | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
+| 9 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
 | 10 | Your Journey Is Just Beginning | Owner doc §8: the transition from my story to your story | Ready |
 | 11 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
 
@@ -176,17 +176,16 @@ used in exactly three places:
 The timeline is worth building fully now even with empty chapters: the
 interaction model gets designed and settled, and the story drops in later as
 a pure content swap in `data/business-mastery.ts`. Its presentation is the
-horizontal chapter-by-chapter experience from the owner's reference (the
-"A Life in Full" timeline the original page plan cited as structural
-inspiration), in LEU's gold-on-black: a full-width intro slide, one slide
-per chapter `01 — The Beginning` through `14 — LEU`, edge arrows, and a
-bottom scrubber bar — chapter number above each dot, title below, current
-stop lit. Navigation is native horizontal scroll-snap (swipe / sideways
-scroll / arrow keys / edge arrows / scrubber clicks) — the page's vertical
-scroll is never hijacked. Chapter titles ship as the
-owner's current numbered list; the "cinematic" alternates (`OBSESSION`, `ALL
-IN`, `THE BOUNCE BACK`…) are recorded in the data file as a commented
-alternative, to be settled when the story is written.
+horizontal chapter-by-chapter experience from the timeline the original page
+plan cited as structural inspiration, in LEU's gold-on-black: a full-width
+intro slide, one slide per chapter `01 — The Beginning` through `14 — LEU`,
+edge arrows, and a bottom scrubber bar — chapter number above each dot, title
+below, current stop lit. Navigation is native horizontal scroll-snap (swipe /
+sideways scroll / arrow keys / edge arrows / scrubber clicks) — the page's
+vertical scroll is never hijacked. Chapter titles ship as the owner's current
+numbered list; the "cinematic" alternates (`OBSESSION`, `ALL IN`, `THE BOUNCE
+BACK`…) are recorded in the data file as a commented alternative, to be
+settled when the story is written.
 
 Legacy statement: two candidates exist —
 
