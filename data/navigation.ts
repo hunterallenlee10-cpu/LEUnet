@@ -1,5 +1,11 @@
 import { NavItem } from "@/types";
 
+// Business Mastery is LEU's flagship program rather than one of the three
+// ventures, which is why it gets a top-level nav entry below instead of a row
+// in the Ventures menu, and why its route lives here rather than in
+// `venturePages`.
+export const businessMasteryPage = "/business-mastery";
+
 export const navigationItems: NavItem[] = [
   {
     label: "Home",
@@ -16,6 +22,11 @@ export const navigationItems: NavItem[] = [
     href: "#ventures",
     id: "nav-ventures",
     featured: true,
+  },
+  {
+    label: "Business Mastery",
+    href: businessMasteryPage,
+    id: "nav-business-mastery",
   },
   {
     label: "Contact",
@@ -85,6 +96,7 @@ export const ventureNavItems: NavItem[] = [
 export const sectionIds = {
   hero: "hero",
   portfolio: "portfolio",
+  businessMastery: "business-mastery",
   lmm: "lmm",
   h1: "h1",
   thread: "thread",

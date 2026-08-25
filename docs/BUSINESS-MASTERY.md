@@ -3,9 +3,11 @@
 Execution plan and settled decisions for `/business-mastery`, the LEU Business
 Mastery program page, plus its homepage presence.
 
-**Status:** planned. Nothing is built yet. This document records the decisions
-made with the owner on 2026-08-25 and the full section-by-section plan derived
-from the owner's page-plan document.
+**Status:** Phase A built. The page, application form + API route, homepage
+teaser, and nav wiring are live on the branch and pass a production build.
+This document records the decisions made with the owner on 2026-08-25 and the
+full section-by-section plan derived from the owner's page-plan document.
+Phases B (story) and C (checkout) remain — see §9.
 
 ---
 
@@ -140,21 +142,21 @@ Env override pattern mirrors the other routes:
 
 This repo has an explicit, documented standard — see the long comment in
 `data/ventures.ts` — of publishing only what can be substantiated: name the
-work, not the promised result. Three items in the owner's draft copy need a
-decision against that standard before they render:
+work, not the promised result. Three items in the owner's copy were checked
+against that standard before rendering:
 
 1. **"We have built dozens of businesses, worked with hundreds of businesses,
-   and helped generate thousands upon thousands of dollars."** Publish only
-   the figures the owner can stand behind if asked. If the real numbers are
-   smaller, the real numbers are better — this page's whole voice is
-   credibility.
-2. **The founding counter.** "5 / 20 FOUNDING MEMBERS" in the plan doc is an
-   example, not data. The counter renders the real `claimed` value from
-   `data/business-mastery.ts`, starting at the true count (likely `0`), and
-   the owner updates it as members join. A fabricated count would break the
-   same standard — and be visible to early members who know they were first.
-3. **The 30-day guarantee.** It can be *stated* in this build because no
-   payment is taken on-page — but its expandable area shows a plain-language
+   and helped generate thousands upon thousands of dollars."** Published
+   verbatim in `bmProofStatement`. The owner confirmed on 2026-08-25 that
+   every figure in this line is true as stated. If the facts ever change,
+   change the line — the standard is the words match the record.
+2. **The founding counter.** Renders `5 / 20` from `bmFoundingCounter` in
+   `data/business-mastery.ts` — the owner confirmed these are the real
+   current figures, not an illustration. The counter is owner-maintained:
+   update `claimed` there as members join, until Phase C derives it from
+   completed Stripe payments. It must always show the true count.
+3. **The 30-day guarantee.** *Stated* in this build — allowed because no
+   payment is taken on-page — with its expandable showing a plain-language
    summary plus a coming-soon note for the full terms. Full guarantee terms,
    eligibility, refund conditions, and ToS must exist **before Phase C ships
    any checkout**. That is a hard gate, not a nice-to-have.
@@ -212,7 +214,7 @@ fine — same promise, same destination.
 
 | Phase | Scope | Gate |
 | --- | --- | --- |
-| **A — this build** | Everything in §3–§8: the full page with coming-soon markers, the form + API route, the homepage teaser, nav wiring, metadata | None — buildable now |
+| **A — built** | Everything in §3–§8: the full page with coming-soon markers, the form + API route, the homepage teaser, nav wiring, metadata | Done |
 | **B — story integration** | My Story document lands: journey chapters filled, founder section completed, final chapter titles settled | Owner writes the story |
 | **C — checkout** | Stripe one-time payment for founding members, counter driven by completed payments via the existing webhook route, guarantee terms page | Price set; guarantee terms + ToS written (§6.3) |
 | **Later** | Phase II monthly membership mechanics, Phase III selective admission — marketing copy exists on the page from day one; the mechanics are future business decisions | Business decision |
@@ -221,11 +223,13 @@ fine — same promise, same destination.
 
 ## 10. Open items for the owner
 
-Content the build cannot invent, in priority order:
+Content the build cannot invent, in priority order. Items 1–2 from the
+original list are resolved: the owner confirmed the proof-line figures and
+the 5/20 counter as true on 2026-08-25, and both render verbatim.
 
-1. Real numbers for the proof line (§6.1) — or the call to soften it.
-2. The true founding-member count and the total (20?) for the counter.
-3. The founding-member price (needed for Phase C, not Phase A).
-4. Guarantee terms / eligibility / refund conditions (gates Phase C).
-5. The My Story document (gates Phase B).
-6. Legacy statement pick (defaulting to the evolved version per §7).
+1. The founding-member price (needed for Phase C, not Phase A).
+2. Guarantee terms / eligibility / refund conditions (gates Phase C).
+3. The My Story document (gates Phase B).
+4. Legacy statement pick — the evolved version renders as the centerpiece
+   per §7; say the word to swap in the alternate.
+5. Keep `bmFoundingCounter.claimed` current as members join.
