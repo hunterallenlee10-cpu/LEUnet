@@ -1,135 +1,358 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { bmChapters, bmJourney } from "@/data/business-mastery";
 import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
 
 /**
- * Section 10 — the fourteen-chapter journey, built now so the interaction
- * gets settled while the story is still being written; the chapter bodies
- * drop into data/business-mastery.ts later as a pure content swap
- * (docs/BUSINESS-MASTERY.md §7).
+ * Section 10 — the journey as a horizontal, chapter-by-chapter experience,
+ * modeled on the owner's reference (the "A Life in Full" timeline the page
+ * plan named as its structural inspiration): a full-width intro slide, one
+ * slide per chapter, edge arrows, and a scrubber bar across the bottom with
+ * every stop — number above the dot, title below, the current stop lit.
+ * Rendered in LEU's gold-on-black rather than the reference's palette.
  *
- * The interaction: a vertical rail, and each chapter lights up as it crosses
- * the reader's viewport — the reader's own scroll walks the timeline. Once
- * lit, a chapter stays lit; the story only moves forward. It's a color and
- * opacity change, not motion, so there is nothing here for reduced-motion to
- * disable.
+ * Navigation is a native horizontal scroll-snap container, not hijacked page
+ * scroll: swipe on touch, trackpad-scroll sideways, arrow keys when the
+ * region has focus, the edge arrows, or any scrubber stop. The page's
+ * vertical scroll is never captured.
  *
- * Chapters render dim (not hidden) before hydration and everything is lit
- * for anyone without IntersectionObserver, so the list is always readable.
+ * Chapter bodies are still coming soon (docs/BUSINESS-MASTERY.md §7): each
+ * slide carries its number and title big, plus the one-line note from
+ * `bmJourney.chapterNote`. The stories drop into the data file later as a
+ * pure content swap.
  */
+
+// Slide 0 is the intro; chapter i lives at slide i + 1.
+const SLIDE_COUNT = bmChapters.length + 1;
+
+const pad = (n: number) => String(n).padStart(2, "0");
+
 export function BmJourneyTimeline() {
-  const listRef = useRef<HTMLOListElement>(null);
-  const [litCount, setLitCount] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef(0);
+  const animRef = useRef(0);
+  const [active, setActive] = useState(0);
 
-  useEffect(() => {
-    const list = listRef.current;
-    if (!list) return;
+  // The jump is animated by hand, with snapping switched off for its
+  // duration, rather than with scrollTo({behavior: "smooth"}). A smooth
+  // programmatic scroll across several `snap-mandatory` stops gets captured
+  // by an intermediate snap point in Chromium, so a scrubber click to a far
+  // chapter would visibly set off and then snap back near the start.
+  const goTo = useCallback((index: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const clamped = Math.min(SLIDE_COUNT - 1, Math.max(0, index));
+    const target = clamped * track.clientWidth;
 
-    if (typeof IntersectionObserver === "undefined") {
-      // Everything lights at once — better fully readable than permanently
-      // dim. Scheduled in a frame callback rather than set synchronously in
-      // the effect body, which react-hooks/set-state-in-effect forbids.
-      const frame = requestAnimationFrame(() => setLitCount(bmChapters.length));
-      return () => cancelAnimationFrame(frame);
+    cancelAnimationFrame(animRef.current);
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduced) {
+      track.scrollTo({ left: target });
+      return;
     }
 
-    const items = Array.from(list.querySelectorAll("[data-chapter-index]"));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const index = Number(
-            (entry.target as HTMLElement).dataset.chapterIndex
-          );
-          // Lit forever once reached — functional updater so a burst of
-          // entries in one callback can't regress the high-water mark.
-          setLitCount((prev) => Math.max(prev, index + 1));
-        }
-      },
-      // Lights up when the chapter clears the bottom fifth of the viewport,
-      // so the "now" chapter sits comfortably in view rather than at the edge.
-      { rootMargin: "0px 0px -20% 0px", threshold: 0.5 }
-    );
+    const from = track.scrollLeft;
+    const distance = target - from;
+    if (distance === 0) return;
+    const duration = 650;
+    const start = performance.now();
+    track.style.scrollSnapType = "none";
 
-    items.forEach((item) => observer.observe(item));
-    return () => observer.disconnect();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      // easeInOutCubic
+      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      track.scrollLeft = from + distance * eased;
+      if (t < 1) {
+        animRef.current = requestAnimationFrame(step);
+      } else {
+        // Land exactly on the slide before snapping is re-enabled, so
+        // re-enabling it has nothing to correct.
+        track.scrollLeft = target;
+        track.style.scrollSnapType = "";
+      }
+    };
+    animRef.current = requestAnimationFrame(step);
   }, []);
 
+  // The scroll position is the source of truth for `active`, so arrows,
+  // swipes, keys, and scrubber clicks all stay in sync by only ever moving
+  // the scroll. rAF-throttled: scroll fires per frame anyway, but React
+  // doesn't need more than one state read per paint.
+  const handleScroll = useCallback(() => {
+    if (frameRef.current) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = 0;
+      const track = trackRef.current;
+      if (!track || track.clientWidth === 0) return;
+      setActive(
+        Math.min(
+          SLIDE_COUNT - 1,
+          Math.max(0, Math.round(track.scrollLeft / track.clientWidth))
+        )
+      );
+    });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      cancelAnimationFrame(animRef.current);
+    };
+  }, []);
+
+  // Keep the active stop visible in the scrubber, which scrolls on narrow
+  // viewports. Manual math rather than scrollIntoView: that can also scroll
+  // the page vertically, which would yank the reader mid-story.
+  useEffect(() => {
+    if (active === 0) return;
+    const center = (smoothOk: boolean) => {
+      const strip = stripRef.current;
+      if (!strip) return;
+      const stop = strip.querySelector<HTMLElement>(
+        `[data-stop-index="${active - 1}"]`
+      );
+      if (!stop) return;
+      const target =
+        stop.offsetLeft - strip.clientWidth / 2 + stop.clientWidth / 2;
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      strip.scrollTo({
+        left: target,
+        behavior: smoothOk && !reduced ? "smooth" : "auto",
+      });
+    };
+
+    center(true);
+    // A resize reflows the strip (and phone rotation changes what fits), so
+    // the active stop re-centers itself — instantly, mid-drag resizes and
+    // smooth scrolling fight each other.
+    const onResize = () => center(false);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [active]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      goTo(active + 1);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      goTo(active - 1);
+    }
+  };
+
   return (
-    <section className="relative overflow-hidden bg-black py-20 md:py-28">
+    <section className="relative overflow-hidden bg-black py-16 md:py-20">
       <div className="absolute inset-0" aria-hidden="true">
-        <div className="absolute right-10 top-1/2 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
+        <div className="absolute right-10 top-1/3 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
       </div>
 
-      <div className="section-container relative">
-        <div className="mx-auto mb-16 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            My Journey
-          </p>
-          <h2 className="heading-lg mb-4 uppercase text-white">
-            {bmJourney.heading}
-          </h2>
-          <p className="text-lg text-neutral-400">{bmJourney.description}</p>
+      <div className="relative">
+        {/* Slides */}
+        <div
+          role="region"
+          aria-label="The Journey — interactive timeline"
+          aria-roledescription="carousel"
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+          className="group/track relative outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+        >
+          <div
+            ref={trackRef}
+            onScroll={handleScroll}
+            className="flex h-[min(72vh,620px)] snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {/* Intro slide */}
+            <div
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Introduction, slide 1 of ${SLIDE_COUNT}`}
+              className="flex h-full w-full shrink-0 snap-center flex-col items-center justify-center px-6 text-center"
+            >
+              <p className="mb-5 text-xs font-semibold uppercase tracking-[0.4em] text-amber-400 sm:text-sm">
+                My Journey
+              </p>
+              <h2 className="text-[52px] font-bold uppercase leading-[0.95] tracking-tight sm:text-[72px] lg:text-[clamp(76px,7vw,112px)]">
+                <span className="block text-white">The</span>
+                <span className="block text-amber-400">Journey</span>
+              </h2>
+              <p className="mt-7 text-lg uppercase tracking-[0.2em] text-neutral-300 sm:text-xl">
+                {bmJourney.description}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => goTo(1)}
+                className="group mt-10 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white transition-colors hover:text-amber-400 sm:text-sm"
+              >
+                {bmJourney.startCta} — {bmJourney.hint}
+                <ChevronRight
+                  className="h-4 w-4 text-amber-400 transition-transform group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </button>
+
+              <div className="mt-10">
+                <BmComingSoon note={bmJourney.comingSoonNote} />
+              </div>
+            </div>
+
+            {/* Chapter slides */}
+            {bmChapters.map((chapter, index) => (
+              <div
+                key={chapter.id}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`Chapter ${pad(chapter.number)}: ${chapter.title}`}
+                className="relative flex h-full w-full shrink-0 snap-center flex-col items-center justify-center px-6 text-center"
+              >
+                {/* Ghost number, the slide's backdrop. */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 flex items-center justify-center text-[min(46vw,26rem)] font-bold leading-none text-amber-400/[0.06]"
+                >
+                  {pad(chapter.number)}
+                </span>
+
+                <p className="text-xs font-semibold uppercase tracking-[0.4em] text-amber-400 sm:text-sm">
+                  Chapter {pad(chapter.number)}{" "}
+                  <span className="text-neutral-500">/ {pad(bmChapters.length)}</span>
+                </p>
+                <h3
+                  // The color lives with each branch: putting text-white on
+                  // the base and text-amber-400 on the final chapter leaves
+                  // both classes on the element, and stylesheet order — not
+                  // class order — would pick the winner.
+                  className={`mt-5 max-w-4xl font-bold uppercase leading-[1.02] tracking-tight ${
+                    index === bmChapters.length - 1
+                      ? "text-[56px] text-amber-400 sm:text-[80px] lg:text-[clamp(84px,7.5vw,120px)]"
+                      : "text-[40px] text-white sm:text-[56px] lg:text-[clamp(56px,5vw,84px)]"
+                  }`}
+                >
+                  {chapter.title}
+                </h3>
+                <p className="mt-7 text-sm uppercase tracking-[0.2em] text-neutral-500 sm:text-base">
+                  {bmJourney.chapterNote}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Edge arrows */}
+          {active > 0 && (
+            <button
+              type="button"
+              onClick={() => goTo(active - 1)}
+              aria-label="Previous chapter"
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-neutral-700 bg-neutral-950/70 p-2.5 text-neutral-300 backdrop-blur-sm transition-colors hover:border-amber-400/60 hover:text-amber-400 sm:left-6"
+            >
+              <ChevronLeft className="h-6 w-6" aria-hidden="true" />
+            </button>
+          )}
+          {active < SLIDE_COUNT - 1 && (
+            <button
+              type="button"
+              onClick={() => goTo(active + 1)}
+              aria-label="Next chapter"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-neutral-700 bg-neutral-950/70 p-2.5 text-neutral-300 backdrop-blur-sm transition-colors hover:border-amber-400/60 hover:text-amber-400 sm:right-6"
+            >
+              <ChevronRight className="h-6 w-6" aria-hidden="true" />
+            </button>
+          )}
         </div>
 
-        <ol ref={listRef} className="mx-auto max-w-2xl">
-          {bmChapters.map((chapter, index) => {
-            const lit = index < litCount;
-            const isLast = index === bmChapters.length - 1;
-            return (
-              <li
-                key={chapter.id}
-                data-chapter-index={index}
-                className="relative flex gap-6 sm:gap-8"
-              >
-                <div className="flex flex-col items-center">
-                  <div
-                    className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-500 ${
-                      lit
-                        ? "border-amber-400 bg-amber-400"
-                        : "border-neutral-700 bg-neutral-950"
-                    }`}
-                    aria-hidden="true"
-                  />
-                  {!isLast && (
-                    <div
-                      className={`w-px flex-1 transition-colors duration-500 ${
-                        lit ? "bg-amber-400/50" : "bg-neutral-800"
+        {/* Scrubber — number row above the dots, title row below, exactly the
+            reference's bar shape. Scrolls sideways where fourteen stops don't
+            fit; the active stop keeps itself centered. */}
+        <div className="mt-4 border-t border-neutral-800/80">
+          <div
+            ref={stripRef}
+            className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <div className="relative mx-auto flex min-w-max px-6 sm:px-10">
+              {bmChapters.map((chapter, index) => {
+                const slideIndex = index + 1;
+                const isActive = active === slideIndex;
+                const isPassed = active > slideIndex;
+                return (
+                  <button
+                    key={chapter.id}
+                    type="button"
+                    data-stop-index={index}
+                    onClick={() => goTo(slideIndex)}
+                    aria-label={`Go to chapter ${pad(chapter.number)}: ${chapter.title}`}
+                    aria-current={isActive ? "true" : undefined}
+                    // 14 stops at 96px plus the strip padding is 1424px, so
+                    // the whole bar fits a 1440 viewport without scrolling;
+                    // narrower screens scroll the strip.
+                    className="group flex w-[92px] flex-col items-center pb-5 pt-4 sm:w-[96px]"
+                  >
+                    <span
+                      className={`text-xs font-semibold tabular-nums tracking-[0.25em] transition-colors ${
+                        isActive
+                          ? "text-amber-400"
+                          : "text-neutral-500 group-hover:text-neutral-300"
                       }`}
-                      aria-hidden="true"
-                    />
-                  )}
-                </div>
+                    >
+                      {pad(chapter.number)}
+                    </span>
 
-                <div
-                  className={`-mt-1.5 transition-opacity duration-500 ${
-                    isLast ? "" : "pb-10"
-                  } ${lit ? "opacity-100" : "opacity-40"}`}
-                >
-                  <p
-                    className={`text-sm font-semibold tabular-nums tracking-[0.25em] transition-colors duration-500 ${
-                      lit ? "text-amber-400" : "text-neutral-500"
-                    }`}
-                  >
-                    {String(chapter.number).padStart(2, "0")}
-                  </p>
-                  <h3
-                    className={`mt-1 font-bold uppercase tracking-wide transition-colors duration-500 ${
-                      isLast ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl"
-                    } ${lit ? "text-white" : "text-neutral-400"}`}
-                  >
-                    {chapter.title}
-                  </h3>
-                </div>
-              </li>
-            );
-          })}
-        </ol>
+                    {/* Dot on the through-line. The line is drawn per-stop as
+                        two half-width strips so it needs no measured overlay,
+                        and the row's ends stop cleanly at the first and last
+                        dots. */}
+                    <span className="relative mt-3 flex h-3 w-full items-center justify-center">
+                      {index > 0 && (
+                        <span
+                          className={`absolute left-0 right-1/2 h-px ${
+                            isPassed || isActive
+                              ? "bg-amber-400/50"
+                              : "bg-neutral-800"
+                          }`}
+                          aria-hidden="true"
+                        />
+                      )}
+                      {index < bmChapters.length - 1 && (
+                        <span
+                          className={`absolute left-1/2 right-0 h-px ${
+                            isPassed ? "bg-amber-400/50" : "bg-neutral-800"
+                          }`}
+                          aria-hidden="true"
+                        />
+                      )}
+                      <span
+                        className={`relative h-2.5 w-2.5 rounded-[2px] transition-all ${
+                          isActive
+                            ? "scale-125 bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.7)]"
+                            : isPassed
+                              ? "bg-amber-400/50"
+                              : "bg-neutral-700 group-hover:bg-neutral-500"
+                        }`}
+                        aria-hidden="true"
+                      />
+                    </span>
 
-        <div className="mt-16 text-center">
-          <BmComingSoon note={bmJourney.comingSoonNote} />
+                    <span
+                      className={`mt-3 max-w-full text-[10px] font-semibold uppercase leading-tight tracking-[0.14em] transition-colors ${
+                        isActive
+                          ? "text-white"
+                          : "text-neutral-500 group-hover:text-neutral-300"
+                      }`}
+                    >
+                      {chapter.title}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </section>

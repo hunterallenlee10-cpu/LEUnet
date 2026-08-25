@@ -177,9 +177,16 @@ used in exactly three places:
 | Guarantee expandable (6) | Plain-language guarantee summary | Full terms, eligibility, refund conditions, ToS |
 
 The timeline is worth building fully now even with empty chapters: the
-interaction model (scroll-driven chapter progression, `01 — The Beginning`
-through `14 — LEU`) gets designed and settled, and the story drops in later as
-a pure content swap in `data/business-mastery.ts`. Chapter titles ship as the
+interaction model gets designed and settled, and the story drops in later as
+a pure content swap in `data/business-mastery.ts`. Its presentation is the
+horizontal chapter-by-chapter experience from the owner's reference (the
+"A Life in Full" timeline the original page plan cited as structural
+inspiration), in LEU's gold-on-black: a full-width intro slide, one slide
+per chapter `01 — The Beginning` through `14 — LEU`, edge arrows, and a
+bottom scrubber bar — chapter number above each dot, title below, current
+stop lit. Navigation is native horizontal scroll-snap (swipe / sideways
+scroll / arrow keys / edge arrows / scrubber clicks) — the page's vertical
+scroll is never hijacked. Chapter titles ship as the
 owner's current numbered list; the "cinematic" alternates (`OBSESSION`, `ALL
 IN`, `THE BOUNCE BACK`…) are recorded in the data file as a commented
 alternative, to be settled when the story is written.
