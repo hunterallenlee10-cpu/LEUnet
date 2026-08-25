@@ -9,7 +9,7 @@ function getResend(): Resend {
 }
 
 // Delivers to the site-wide contact address, matching the contact form, the
-// Pelican quote form, the LMM consultation form and the payment notifications.
+// LMM consultation form and the payment notifications.
 // A separate route from /api/lmm-consultation rather than a shared one with a
 // flag: the subject line is what distinguishes a website lead from an
 // automation lead in the inbox, and that only works if it is set here.

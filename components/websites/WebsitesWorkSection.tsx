@@ -11,9 +11,9 @@ import { websitePortfolio } from "@/data/websites";
  * Built This Way." Only the ending changed: "this way" pointed at a production
  * method the page no longer sells, so it now names the outcome the page does
  * sell. The "on This Domain" half is not filler and must not be dropped. The
- * entries are five routes on one domain and one deployment, two of which are
- * this very site, and an intervening heading - "Five Sites You Can Open Right
- * Now" - read as five separate websites built for five separate businesses.
+ * entries are four routes on one domain and one deployment, two of which are
+ * this very site, and an intervening heading - "Four Sites You Can Open Right
+ * Now" - read as four separate websites built for four separate businesses.
  * That is a bigger claim than the truth, and the truth is checkable in one
  * click, which is the worst possible combination. The eyebrow now states the
  * real structure up front rather than leaving the reader to discover it.
@@ -34,21 +34,21 @@ export function WebsitesWorkSection() {
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            Five Live Sites, One Domain
+            Four Live Sites, One Domain
           </p>
           <h2 className="heading-lg mb-6 text-white">
             Every Site on This Domain Was Built to Turn a Visitor Into a
             Customer.
           </h2>
           {/* Says out loud what the reader would work out anyway after two
-              clicks: these are not five separate builds for five separate
+              clicks: these are not four separate builds for four separate
               clients, they all live here, and two of them are the site being
               read right now. Conceding that costs nothing and buys the rest of
               the section, because a prospect who catches you inflating one
               claim stops believing the ones you did not inflate. */}
           <p className="mb-4 text-lg leading-relaxed text-neutral-300">
             These are Lee Enterprises Unlimited&apos;s own ventures, not client
-            projects. All five run on this one domain, and two of them are the
+            projects. All four run on this one domain, and two of them are the
             site you are reading - the home page above, and the Lee Marketing
             Mastery hub this page belongs to. We would rather point you at
             businesses we actually run than at a screenshot of someone
@@ -82,7 +82,7 @@ export function WebsitesWorkSection() {
               with the LMM entry's summary in data/websites.ts, which the reader
               sees on the same screen.
 
-              Four of the five portfolio entries are still single long pages, so
+              Three of the four portfolio entries are still single long pages, so
               this points at that one entry specifically; do not widen it to the
               portfolio as a whole unless the others gain sub-pages. */}
           <p className="text-lg leading-relaxed text-neutral-400">

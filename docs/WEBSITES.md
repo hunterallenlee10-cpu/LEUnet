@@ -36,9 +36,9 @@ what §3 forbids was on the page at some point and had to be taken back off.
 | Contact | `ceo@leeenterprisesunlimited.com`, same as every other form |
 | Payments | None. This page quotes, it does not sell |
 
-### Why a sub-route and not a fifth venture
+### Why a sub-route and not a fourth venture
 
-This is a Lee Marketing Mastery offering, not a sibling of Pelican or Thread.
+This is a Lee Marketing Mastery offering, not a sibling of Thread or H1.
 Nesting it under `/lee-marketing-mastery/` makes the parent-child relationship
 legible in the URL itself, and both the hero and the final CTA link back up to
 the parent page.
@@ -176,7 +176,7 @@ answers. What the codebase actually does:
 | Claimable | Because |
 | --- | --- |
 | How many people arrive, and which pages they land on | `Analytics` from `@vercel/analytics/next` is mounted in `app/layout.tsx` in production. It reports pageviews and landing pages. |
-| Every enquiry is emailed the moment it is sent, labeled by which form sent it | Every route in `app/api/` builds a subject line naming the form and the business before sending - `website-inquiry`, `thread-order`, `pelican-quote`, `h1-consultation`, `lmm-consultation`, `marketing-inquiry`. |
+| Every enquiry is emailed the moment it is sent, labeled by which form sent it | Every route in `app/api/` builds a subject line naming the form and the business before sending - `website-inquiry`, `thread-order`, `h1-consultation`, `lmm-consultation`, `marketing-inquiry`. |
 
 **Not claimable, in any wording:**
 
@@ -241,13 +241,13 @@ and the page says so plainly rather than hedging.
 
 What `websitePortfolio` actually is, and what the copy must keep saying:
 
-- **Five entries, all live and clickable right now**: `/pelican-power-wash`,
-  `/thread-t-shirts`, `/lee-marketing-mastery`, `/h1-performance`, and `/`.
+- **Four entries, all live and clickable right now**: `/thread-t-shirts`,
+  `/lee-marketing-mastery`, `/h1-performance`, and `/`.
 - **They are Lee Enterprises Unlimited's own ventures, not client work.** This
   caveat stays in the first sentence of the Work section lead, unsoftened. It is
   not a weakness to apologize for: a prospect can open these and use them, which
   a testimonial does not allow.
-- **They are five routes on one domain and one deployment**, and two of them are
+- **They are four routes on one domain and one deployment**, and two of them are
   the site the visitor is currently reading. A heading reading "Five Sites You
   Can Open Right Now", and a hero CTA reading "See Live Sites We've Built",
   implied five separate websites for five separate businesses - a bigger claim
@@ -277,7 +277,7 @@ What `websitePortfolio` actually is, and what the copy must keep saying:
   strip, the Shift section, the Problem section and the FAQ, so it is used
   deliberately and by name. The first FAQ answer invites the reader to verify
   page-per-offer and therefore points at **this entry specifically**, not at the
-  portfolio as a whole - four of the five entries are single long pages, so the
+  portfolio as a whole - three of the four entries are single long pages, so the
   broader invitation failed on inspection. Do not widen it back out unless the
   other entries actually gain sub-pages.
 

@@ -3,7 +3,7 @@
 - **Stripe API version:** `2026-06-24.dahlia` (pinned in `lib/stripe.ts`)
 - **SDK:** `stripe` 22.3.x for Node
 - **Framework:** Next.js 16 App Router, Node runtime for all Stripe routes
-- **Account model:** one Stripe account covering all four ventures
+- **Account model:** one Stripe account covering all three ventures
 
 Two flows are live in code:
 
@@ -100,12 +100,12 @@ curl https://leeenterprisesunlimited.com/api/stripe/invoice \
   -H "Content-Type: application/json" \
   -d '{
     "customer": { "email": "client@example.com", "name": "Example Co" },
-    "ventureId": "pelican",
+    "ventureId": "thread",
     "daysUntilDue": 14,
-    "description": "Total Exterior Cleaning Package — 123 Main St",
+    "description": "Custom apparel order — Example Co",
     "lines": [
-      { "description": "House washing (2,400 sq ft)", "amountCents": 45000 },
-      { "description": "Driveway cleaning", "amountCents": 18000 }
+      { "description": "Custom t-shirts (50 units)", "amountCents": 45000 },
+      { "description": "Design setup", "amountCents": 18000 }
     ]
   }'
 ```
@@ -117,7 +117,7 @@ includes `hostedInvoiceUrl` and `invoicePdf`.
 
 Customers are reused by email so each client accumulates one payment history.
 
-`ventureId` must be one of `lmm`, `pelican`, `h1`, `thread` — it tags the
+`ventureId` must be one of `lmm`, `h1`, `thread` — it tags the
 invoice for per-venture reporting inside the single shared account.
 
 ---

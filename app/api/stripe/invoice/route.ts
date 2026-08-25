@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /** Ventures allowed on an invoice, used for reporting in the Dashboard. */
-const VENTURE_IDS = ["lmm", "pelican", "h1", "thread"] as const;
+const VENTURE_IDS = ["lmm", "h1", "thread"] as const;
 type VentureId = (typeof VENTURE_IDS)[number];
 
 interface InvoiceLineInput {

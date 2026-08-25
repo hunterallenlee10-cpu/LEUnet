@@ -62,7 +62,7 @@ export const websiteFaqs = [
     // This answer invites the reader to go verify something, which means the
     // portfolio has to actually show whatever this sentence says it shows. It
     // used to list "a focused page for each offer" as visible in the portfolio;
-    // four of the five entries are single long pages, so the invitation failed
+    // three of the four entries are single long pages, so the invitation failed
     // on inspection. It now points at the one entry that genuinely demonstrates
     // page-per-offer - Lee Marketing Mastery, which is a hub about the venture
     // with its own page for websites, marketing, and automation, one of which
@@ -74,9 +74,9 @@ export const websiteFaqs = [
     // for a while, because /lee-marketing-mastery was itself the automation
     // page and carried that offering inline; automation now has its own route
     // and the broader phrasing is simply correct. Still do not widen the
-    // invitation out to the whole portfolio: the other four entries remain
+    // invitation out to the whole portfolio: the other three entries remain
     // single long pages, which is the reason this sentence names one entry
-    // rather than gesturing at all five.
+    // rather than gesturing at all four.
     question: "How do I know it will actually bring in customers?",
     answer:
       "We do not publish client results, because the sites in the portfolio on this page are our own ventures rather than client projects. What we offer instead is inspection: every one is live right now, so open one on your phone, read the first screen, and send the form the way a customer would. For the page-per-offer structure, look at the Lee Marketing Mastery entry - a hub about the business, plus its own page for websites, marketing, and automation, one of which you are reading. What gets built for you follows the same pattern: copy that leads with the outcome someone came looking for, one obvious next step on every screen, and measurement connected before launch rather than months later.",
@@ -181,8 +181,8 @@ export const websiteFaqs = [
  * CONTACT_TO_EMAIL address with only the subject line varying by venture. A chip
  * has to be checkable in the code or on the page, same as a summary.
  *
- * One thing this list must never imply: these are five separate websites for
- * five separate businesses. They are five routes on one domain and one
+ * One thing this list must never imply: these are four separate websites for
+ * four separate businesses. They are four routes on one domain and one
  * deployment, and two of them are the site the visitor is reading. The section
  * heading in WebsitesWorkSection carries that honesty; do not undercut it here
  * by writing summaries that read like separate client engagements.
@@ -195,17 +195,6 @@ export interface WebsitePortfolioItem {
 }
 
 export const websitePortfolio: WebsitePortfolioItem[] = [
-  {
-    name: "Pelican Power Wash",
-    href: "/pelican-power-wash",
-    summary:
-      "Turns a homeowner who is comparing power washing companies into a quote request. Prices for the common jobs are printed on the page, the work is shown in a drag-to-compare slider, and the covered areas are listed - so the visitor stops shopping and starts describing their driveway.",
-    highlights: [
-      "Prices on the page",
-      "Before and after slider",
-      "Detailed quote form",
-    ],
-  },
   {
     name: "Thread T-Shirts",
     href: "/thread-t-shirts",
@@ -263,9 +252,9 @@ export const websitePortfolio: WebsitePortfolioItem[] = [
     name: "Lee Enterprises Unlimited",
     href: "/",
     summary:
-      "Sends a visitor who came for one of four very different businesses to the right one without making them guess, then asks on the contact form which venture they are here about - so the enquiry lands already labeled instead of as a blank “get in touch” message.",
+      "Sends a visitor who came for one of three very different businesses to the right one without making them guess, then asks on the contact form which venture they are here about - so the enquiry lands already labeled instead of as a blank “get in touch” message.",
     highlights: [
-      "Four ventures, one site",
+      "Three ventures, one site",
       "Venture-by-venture detail",
       "Venture-labeled enquiries",
     ],

@@ -62,50 +62,6 @@ export const ventureServices = {
       icon: "📈",
     },
   ],
-  pelican: [
-    {
-      id: "pelican-house",
-      title: "House Washing",
-      description:
-        "Remove dirt, mold, and mildew to restore your home's beauty and protect your siding.",
-      icon: "🏠",
-    },
-    {
-      id: "pelican-driveway",
-      title: "Driveway Cleaning",
-      description:
-        "Eliminate stains, oil, and grime for a clean, bright driveway that boosts curb appeal.",
-      icon: "🛣️",
-    },
-    {
-      id: "pelican-roof",
-      title: "Total Exterior Cleaning Package",
-      description:
-        "Transform your home's exterior with one complete cleaning package. Request your FREE quote today.",
-      icon: "🏘️",
-    },
-    {
-      id: "pelican-deck",
-      title: "Deck & Patio Cleaning",
-      description:
-        "Bring your outdoor spaces back to life and enjoy a clean, fresh environment.",
-      icon: "🪑",
-    },
-    {
-      id: "pelican-fence",
-      title: "Fence Cleaning",
-      description:
-        "Remove dirt, mildew, and weathering to restore your fence's original look.",
-      icon: "🔨",
-    },
-    {
-      id: "pelican-commercial",
-      title: "Commercial Washing",
-      description:
-        "Keep your business looking professional, safe, and welcoming to customers.",
-      icon: "🏢",
-    },
-  ],
   h1: [
     {
       id: "h1-strength",
@@ -221,32 +177,6 @@ export const ventureValuesProps = {
       title: "Proven Systems",
       description:
         "Our tested systems have delivered measurable growth across businesses of every size—from independent startups to nine-figure enterprises. Every strategy is built to scale, perform, and produce real results.",
-    },
-  ],
-  pelican: [
-    {
-      id: "pelican-fast",
-      title: "Fast, Reliable Service",
-      description:
-        "We respond quickly, arrive on time, and make the entire process simple from quote to completion.",
-    },
-    {
-      id: "pelican-quality",
-      title: "Professional Results",
-      description:
-        "High-quality cleaning that restores beauty and leaves your property looking new.",
-    },
-    {
-      id: "pelican-equipped",
-      title: "Commercial-Grade Equipment",
-      description:
-        "We use professional equipment and the right cleaning methods to safely treat each surface.",
-    },
-    {
-      id: "pelican-reliable",
-      title: "Honest, Dependable Care",
-      description:
-        "Expect clear communication, careful workmanship, and results you can feel confident about.",
     },
   ],
   h1: [

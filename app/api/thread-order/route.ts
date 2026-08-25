@@ -12,9 +12,9 @@ function getResend(): Resend {
 
 // Thread requests deliver to the shared contact address along with everything
 // else. THREAD_TO_EMAIL exists only so Thread can be split onto its own inbox
-// later without touching this route — and it carries the same caveat as
-// PELICAN_TO_EMAIL: until a domain is verified in Resend, any recipient other
-// than the account's own address is refused and the form fails.
+// later without touching this route — and it carries a caveat: until a domain
+// is verified in Resend, any recipient other than the account's own address is
+// refused and the form fails.
 const THREAD_TO_EMAIL =
   process.env.THREAD_TO_EMAIL ||
   process.env.CONTACT_TO_EMAIL ||
@@ -147,9 +147,9 @@ export async function POST(request: NextRequest) {
       errors.fullName = "Name must be at least 2 characters";
     }
 
-    // Unlike the Pelican quote form, email is required rather than optional:
-    // artwork and proofs are exchanged over email, so a phone-only request
-    // cannot actually complete a custom order.
+    // Email is required rather than optional: artwork and proofs are
+    // exchanged over email, so a phone-only request cannot actually complete
+    // a custom order.
     const emailTrimmed = body.email?.trim() || "";
     if (!emailTrimmed) {
       errors.email = "Email address is required";

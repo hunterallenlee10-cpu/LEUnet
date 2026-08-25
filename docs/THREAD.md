@@ -122,8 +122,8 @@ metadata`), wrapping everything in the client cart provider.
 
 Plus `ThreadCartDrawer`, fixed-position, rendered once at page level.
 
-Page shell matches `app/pelican-power-wash/page.tsx`: `min-h-screen`,
-`<MainHeader />`, `<main className="pt-20">`, `<MainFooter />`.
+Page shell: `min-h-screen`, `<MainHeader />`, `<main className="pt-20">`,
+`<MainFooter />` — the shared pattern for venture pages on this site.
 
 ---
 
@@ -202,8 +202,8 @@ interface ThreadCartContext {
 
 ## 6. `POST /api/thread-order`
 
-Model on `app/api/pelican-quote/route.ts` — same Resend construction, honeypot,
-server-side validation, plain-text email, generic error messages.
+Same Resend construction, honeypot, server-side validation, plain-text email,
+and generic error messages as the other form routes in `app/api/`.
 
 **Request:**
 
@@ -234,14 +234,13 @@ server-side validation, plain-text email, generic error messages.
 2. **Bound the payload** before formatting: reject more than 100 line items, and
    clamp each quantity to 1–1000. An unbounded cart becomes an unbounded email.
 
-Unlike the Pelican form, **email is required** — artwork exchange happens over
-email, so a phone-only request cannot complete the flow.
+**Email is required** — artwork exchange happens over email, so a phone-only
+request cannot complete the flow.
 
 **Delivery:** `THREAD_TO_EMAIL || CONTACT_TO_EMAIL || ceo@leeenterprisesunlimited.com`.
-Default behavior is the shared inbox, as decided. The env var mirrors
-`PELICAN_TO_EMAIL` purely as a future escape hatch — add it to `.env.example`
-with the same note about Resend refusing non-account recipients until a domain
-is verified.
+Default behavior is the shared inbox, as decided. The env var exists purely as
+a future escape hatch — add it to `.env.example` with the same note about
+Resend refusing non-account recipients until a domain is verified.
 
 Subject: `New Thread Order Request — ${fullName}`. Set `replyTo` to the
 customer's email.
