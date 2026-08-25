@@ -239,9 +239,9 @@ export const bmOffer = {
   eyebrow: "Founding Member Offer",
   heading: "Join LEU Business Mastery",
   counterLabel: "Founding Members",
-  guaranteeHeading: "30-Day Money-Back Guarantee",
+  guaranteeHeading: "90-Day Money-Back Guarantee",
   guaranteeSummary:
-    "Join, get inside the network, and see the value for yourself. If Business Mastery isn't for you, tell us within 30 days of joining and we'll refund your payment.",
+    "Join, get inside the network, and see the value for yourself. If Business Mastery isn't for you, tell us within 90 days of joining and we'll refund your payment.",
   // Rendered inside the guarantee expandable. The full legal terms are a hard
   // gate for Phase C (checkout) — see docs/BUSINESS-MASTERY.md §6.
   guaranteeTermsNote:
