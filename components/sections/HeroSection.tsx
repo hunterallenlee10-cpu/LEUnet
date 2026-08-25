@@ -149,7 +149,7 @@ export function HeroSection() {
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={() => handleCTA(sectionIds.ventureSnapshot)}
+                  onClick={() => handleCTA(sectionIds.portfolio)}
                   className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   Explore Ventures

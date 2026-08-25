@@ -84,7 +84,6 @@ export const ventureNavItems: NavItem[] = [
 
 export const sectionIds = {
   hero: "hero",
-  ventureSnapshot: "venture-snapshot",
   portfolio: "portfolio",
   lmm: "lmm",
   h1: "h1",
