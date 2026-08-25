@@ -2,7 +2,7 @@ import { bmFounder } from "@/data/business-mastery";
 import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
 
 /**
- * Section 9 — the personal mission. Renders what exists today: the legacy
+ * Section 8 — the personal mission. Renders what exists today: the legacy
  * statement and its supporting idea. The full founder story integrates here
  * when the My Story document is written (docs/BUSINESS-MASTERY.md §7); until
  * then the coming-soon marker says so plainly.

@@ -4,7 +4,6 @@ import {
   BmEmpireStep,
   BmPhase,
   BmPillar,
-  BmVisionPoint,
 } from "@/types";
 
 // ---------------------------------------------------------------------------
@@ -310,48 +309,7 @@ export const bmPhases: BmPhase[] = [
   },
 ];
 
-// --- 8. The Vision ---------------------------------------------------------
-
-export const bmVision = {
-  heading: "The Vision",
-  description:
-    "Why this is bigger than courses or coaching — and where the network is going.",
-} as const;
-
-export const bmVisionPoints: BmVisionPoint[] = [
-  {
-    id: "becoming",
-    title: "What It's Becoming",
-    description:
-      "LEU Business Mastery is being built into a lasting network — not a product that gets bought once and forgotten.",
-  },
-  {
-    id: "people",
-    title: "The People Inside",
-    description:
-      "Builders. People willing to work, learn, contribute, and hold each other to a higher standard.",
-  },
-  {
-    id: "network",
-    title: "The Network We're Building",
-    description:
-      "Entrepreneurs, operators, and mentors who know each other, trade opportunities, and build together.",
-  },
-  {
-    id: "together",
-    title: "What Members Accomplish Together",
-    description:
-      "Partnerships, hires, deals, and businesses that only happen because the right people were in the same room.",
-  },
-  {
-    id: "bigger",
-    title: "Bigger Than Courses",
-    description:
-      "Courses and coaching are the tools. The network — the people and what they build — is the point.",
-  },
-];
-
-// --- 9. Why I Built LEU ----------------------------------------------------
+// --- 8. Why I Built LEU ----------------------------------------------------
 
 export const bmFounder = {
   heading: "Why I Built LEU",
@@ -367,7 +325,7 @@ export const bmFounder = {
   comingSoonNote: "The full story behind LEU is being written.",
 } as const;
 
-// --- 10. My Journey --------------------------------------------------------
+// --- 9. My Journey ---------------------------------------------------------
 
 export const bmJourney = {
   heading: "The Journey",
@@ -404,7 +362,7 @@ export const bmChapters: BmChapter[] = [
   { id: "leu", number: 14, title: "LEU" },
 ];
 
-// --- 11. Your Journey Is Just Beginning ------------------------------------
+// --- 10. Your Journey Is Just Beginning ------------------------------------
 
 export const bmTransition = {
   heading: "Your Journey Is Just Beginning.",
@@ -415,7 +373,7 @@ export const bmTransition = {
   ],
 } as const;
 
-// --- 12. Achieve Your Dreams Today -----------------------------------------
+// --- 11. Achieve Your Dreams Today -----------------------------------------
 
 export const bmFinalCta = {
   heading: "Achieve Your Dreams Today.",
