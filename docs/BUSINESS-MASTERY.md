@@ -53,7 +53,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing) + mission line | Ready |
 | 4 | **How to Build Your Own Empire** | Owner doc exploratory section: the 8-step framework (Starting from zero → Creating freedom) | Ready as a framework; placed here because it is the roadmap, and the next section is the vehicle |
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
-| 6 | Founding Member Offer | Owner doc: one-time payment positioning, live-style counter, 30-day guarantee, **application form** | Form ready; price + guarantee terms are content gaps (§6) |
+| 6 | Founding Member Offer | Owner doc: one-time payment positioning, live-style counter, 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | The Evolution | Owner doc §5: Phase I Founding Members / Phase II Growth / Phase III Stay In The Room, closing on the through-line | Ready |
 | 8 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | Partial — legacy statement candidates exist, full story doesn't. Renders what exists + coming-soon marker |
 | 9 | My Journey — timeline | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
@@ -152,7 +152,7 @@ against that standard before rendering:
    current figures, not an illustration. The counter is owner-maintained:
    update `claimed` there as members join, until Phase C derives it from
    completed Stripe payments. It must always show the true count.
-3. **The 30-day guarantee.** *Stated* in this build — allowed because no
+3. **The 90-day guarantee.** *Stated* in this build — allowed because no
    payment is taken on-page — with its expandable showing a plain-language
    summary plus a coming-soon note for the full terms. Full guarantee terms,
    eligibility, refund conditions, and ToS must exist **before Phase C ships

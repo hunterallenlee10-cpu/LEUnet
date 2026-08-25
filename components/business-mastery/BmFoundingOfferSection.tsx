@@ -78,7 +78,7 @@ export function BmFoundingOfferSection() {
           </div>
         </div>
 
-        {/* 30-day guarantee. Native <details> keeps it dependency-free; the
+        {/* 90-day guarantee. Native <details> keeps it dependency-free; the
             full legal terms are a Phase C gate — see docs/BUSINESS-MASTERY.md
             §6 — so the body carries the summary and the coming-soon marker. */}
         <details className="group mx-auto mt-8 max-w-2xl rounded-xl border border-neutral-800 bg-neutral-900/40">
