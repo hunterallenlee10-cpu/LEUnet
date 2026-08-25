@@ -278,7 +278,14 @@ export function BmJourneyTimeline() {
             ref={stripRef}
             className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            <div className="relative mx-auto flex min-w-max px-6 sm:px-10">
+            {/* `justify-center` rather than `mx-auto` centers the stops on wide
+                viewports: `min-w-max` leaves this row a full-width block, so it
+                has no free margin for auto margins to split and the stops would
+                pack left. Where the row does overflow, min-w-max makes it
+                exactly its content width — free space is zero, centering is
+                inert, and the strip still scrolls from the first stop rather
+                than losing the left end past the scroll origin. */}
+            <div className="relative flex min-w-max justify-center px-6 sm:px-10">
               {bmChapters.map((chapter, index) => {
                 const slideIndex = index + 1;
                 const isActive = active === slideIndex;
