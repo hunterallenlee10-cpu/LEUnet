@@ -1508,3 +1508,85 @@
     display: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Business Mastery hero — "Constellation"
+   One consumer: components/business-mastery/BmHeroBackground.tsx. The field
+   itself is drawn to a canvas; everything here is the ground it is drawn on
+   and the scrim that keeps the copy off it.
+
+   This replaced a single static gold pool. The pool was not wrong — the hero
+   is a manifesto and the words carry it — but it left the one page on the site
+   whose subject is a *network* with the only hero that never moves.
+
+   The rule this block follows is that nothing here may compete with the type.
+   The hero is a centred column with no logo, no cards and one action, so the
+   background has no quiet corner to be busy in; the protection has to come
+   from value, not from geometry. Hence `.bmc-scrim`, which is the same idea as
+   `.leu-scrim` on the homepage aimed at a centred column instead of a logo.
+
+   The warm pool from the previous hero is kept, at the same position and very
+   nearly the same alpha, as the first layer of `.bmc-field`. It is the reason
+   the section still reads gold rather than blue-black once the links are
+   drawn over it, and moving it above the canvas would wash the field out.
+   --------------------------------------------------------------------------- */
+
+.bmc-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    /* The previous hero's gold pool, high and centred. */
+    radial-gradient(
+      90% 70% at 50% 12%,
+      rgba(251, 191, 36, 0.13) 0%,
+      rgba(180, 120, 20, 0.045) 45%,
+      transparent 75%
+    ),
+    /* A ground with a centre, so the frame is not flat black behind the field. */
+    radial-gradient(115% 95% at 50% 8%, #0a0d14 0%, #05070b 58%, #000 100%);
+}
+
+.bmc-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Sits above the field, below the copy. Without it the headline is white type
+   on a field of 1px gold lines, and the lines that cross a letterform read as
+   strikethrough. */
+.bmc-scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    54% 48% at 50% 50%,
+    rgba(0, 0, 0, 0.66) 0%,
+    rgba(0, 0, 0, 0.3) 52%,
+    transparent 78%
+  );
+}
+
+/* Below the copy's breakpoint the hero stacks taller and the headline wraps to
+   two lines, so the column the scrim has to protect is a much larger share of
+   the frame. Left at the desktop figures, the eyebrow and the first headline
+   line sit outside it, on bare field. */
+@media (max-width: 640px) {
+  .bmc-scrim {
+    background: radial-gradient(
+      74% 62% at 50% 48%,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.36) 56%,
+      transparent 84%
+    );
+  }
+}
+
+/* The canvas holds still under this preference — BmHeroBackground composes one
+   frame and never starts its loop — so there is no animation here to stop. The
+   component is the only place that can honour it, because the motion is not
+   declarative. This comment exists so that is not mistaken for an omission. */
