@@ -1,10 +1,29 @@
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Cormorant_Garamond, Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 const geistSans = Geist({ subsets: ['latin'] })
-const geistMono = Geist_Mono({ subsets: ['latin'] })
+
+/**
+ * Both of these are exposed as CSS variables rather than applied as a class,
+ * and are wired to Tailwind tokens in app/globals.css. Only the Business
+ * Mastery hero consumes them today.
+ *
+ * Geist Mono was imported here long before this and never actually applied, so
+ * every `font-mono` on the site has been rendering in the system stack. That is
+ * left alone deliberately: switching it now would restyle the LMM, Websites and
+ * H1 pages, which is not this change's business.
+ */
+const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+
+/** The Business Mastery manifesto line, and nothing else on the site. Only the
+ *  two light weights the hero uses are fetched. */
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400'],
+  variable: '--font-cormorant',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://leeenterprisesunlimited.com'),
@@ -55,7 +74,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-neutral-950">
-      <body className={`${geistSans.className} antialiased bg-neutral-950 text-white`}>
+      <body
+        className={`${geistSans.className} ${geistMono.variable} ${cormorant.variable} antialiased bg-neutral-950 text-white`}
+      >
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
