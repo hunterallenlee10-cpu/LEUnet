@@ -56,7 +56,7 @@ export function BmHeroSection() {
           see. */}
       <div className="section-container relative z-[2] w-full pb-16 pt-[calc(5rem+4rem)] text-center [@media(max-height:820px)]:pb-8 [@media(max-height:820px)]:pt-[calc(5rem+2rem)]">
         <div className="bmh mx-auto flex max-w-[880px] flex-col items-center">
-          <p className="bmh-eyebrow bmh-rise text-amber-400/90 [animation-delay:60ms]">
+          <p className="bmh-eyebrow bmh-rise text-amber-300 [animation-delay:60ms]">
             {/* Hardcoded exactly as it was before this redesign. It is the
                 company name rather than page copy, so it stays out of
                 data/business-mastery.ts, which is the owner's confirmed copy. */}
@@ -66,11 +66,11 @@ export function BmHeroSection() {
           </p>
 
           <h1 className="bmh-rise mt-[calc(var(--bmh-u)*2.4)] font-light uppercase leading-[1.1] [animation-delay:150ms]">
-            <span className="bmh-title-a text-white/70">LEU Business</span>
-            <span className="bmh-title-b text-amber-400">Mastery</span>
+            <span className="bmh-title-a text-white/85">LEU Business</span>
+            <span className="bmh-title-b">Mastery</span>
           </h1>
 
-          <p className="bmh-manifesto bmh-rise max-w-[15em] font-serif font-light text-white/95 text-balance [animation-delay:260ms]">
+          <p className="bmh-manifesto bmh-rise max-w-[15em] font-serif font-light text-white text-balance [animation-delay:260ms]">
             {bmHero.manifesto}
           </p>
 
@@ -79,17 +79,17 @@ export function BmHeroSection() {
             aria-hidden="true"
           />
 
-          <p className="bmh-promise bmh-rise font-mono-geist uppercase text-amber-400 [animation-delay:460ms]">
+          <p className="bmh-promise bmh-rise font-mono-geist uppercase text-amber-300 [animation-delay:460ms]">
             {bmHero.subtitle}
           </p>
 
-          <p className="bmh-mechanism bmh-rise max-w-[34em] font-light text-neutral-300/85 text-pretty [animation-delay:540ms]">
+          <p className="bmh-mechanism bmh-rise max-w-[34em] font-light text-neutral-200 text-pretty [animation-delay:540ms]">
             {bmHero.description}
           </p>
 
           <a
             href={`#${BM_OFFER_ID}`}
-            className="bmh-cta bmh-rise inline-flex items-center justify-center border border-amber-400/55 font-mono-geist font-medium uppercase text-amber-400 transition-colors duration-[260ms] hover:border-amber-400 hover:bg-amber-400 hover:text-neutral-950 focus-visible:border-amber-400 focus-visible:bg-amber-400 focus-visible:text-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-amber-400/85 max-sm:w-full [animation-delay:640ms]"
+            className="bmh-cta bmh-rise inline-flex items-center justify-center border border-amber-400/70 font-mono-geist font-medium uppercase text-amber-400 transition-colors duration-[260ms] hover:border-amber-400 hover:bg-amber-400 hover:text-neutral-950 focus-visible:border-amber-400 focus-visible:bg-amber-400 focus-visible:text-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-amber-400/85 max-sm:w-full [animation-delay:640ms]"
           >
             {bmHero.cta}
           </a>
