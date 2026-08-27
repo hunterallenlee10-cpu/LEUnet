@@ -47,8 +47,8 @@ export function BmHeroSection() {
         aria-hidden="true"
       />
 
-      <div className="section-container relative z-[2] w-full py-24 text-center md:py-32">
-        <div className="bmh mx-auto flex max-w-[700px] flex-col items-center">
+      <div className="section-container relative z-[2] w-full py-16 text-center [@media(max-height:760px)]:py-8">
+        <div className="bmh mx-auto flex max-w-[880px] flex-col items-center">
           <p className="bmh-eyebrow bmh-rise text-amber-400/90 [animation-delay:60ms]">
             {/* Hardcoded exactly as it was before this redesign. It is the
                 company name rather than page copy, so it stays out of
