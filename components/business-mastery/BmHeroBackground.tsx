@@ -19,10 +19,17 @@ import { useEffect, useRef } from "react";
  * ideas are allowed in one frame at all. Decouple them and this becomes a
  * particle web with spaceships on it, which is a different, worse background.
  *
- * They are drawn as darts, not rockets: an 18px arrowhead with a tapering
- * light trail and no fuselage, canopy, or fins. The read has to be velocity,
- * not science fiction — this page sells business credibility, and a recognisable
- * spaceship silhouette would undercut every word above it.
+ * The craft themselves are drawn rather than suggested: a lance hull with
+ * swept wings, a canopy cut from the ground colour, twin engines and a
+ * contrail off each one, at roughly 28px nose to tail. An earlier pass drew
+ * them as bare 16px arrowheads, on the argument that a recognisable ship would
+ * undercut a page selling business credibility. It undersold them instead — at
+ * that size two gold slivers crossing a gold field read as debris rather than
+ * as something going somewhere, which is the one thing they are here to say.
+ * What keeps them page-appropriate is not the absence of detail but the
+ * palette: every part of a craft is the page's own amber, the canopy is the
+ * hero's own background colour, and there are still only two of them, entering
+ * seconds apart.
  *
  * Why canvas rather than the CSS this site prefers. The links cannot be
  * authored: which pairs are joined changes every frame, and the flare has to
@@ -35,7 +42,8 @@ import { useEffect, useRef } from "react";
  *   - `devicePixelRatio` is capped at 2. Beyond that the fill rate triples for
  *     a field of 1px lines nobody can see the difference in.
  *   - `shadowBlur` is the single most expensive call here, so it is spent only
- *     on hubs, live pulses and craft — never on the 40 ordinary nodes.
+ *     on hubs, live pulses and the three lit parts of a craft — never on the
+ *     ordinary nodes, and never on a contrail.
  *   - The loop stops entirely when the hero leaves the viewport, and when the
  *     tab is hidden. A background nobody is looking at costs nothing.
  *
@@ -47,6 +55,12 @@ import { useEffect, useRef } from "react";
 /** Amber-400, the page's accent, and the warmer gold used for anything lit. */
 const GOLD = "251,191,36";
 const GOLD_LIT = "253,224,150";
+/** Engine cores only. A gold flame reads as a gold shape stuck to a gold hull;
+ *  it has to run hotter than anything else on the craft to read as light. */
+const GOLD_HOT = "255,244,214";
+/** The canopy, taken from `.bmc-field`'s ground in app/globals.css rather than
+ *  mixed here — it is a hole in the hull, so it has to be the thing behind it. */
+const CANOPY = "8,11,18";
 
 /**
  * The palette lives here rather than in `data/business-mastery.ts` because
@@ -93,6 +107,19 @@ const CRAFT = {
    *  the top edge a third of the way across, which reads as a glitch rather
    *  than as a crossing. */
   turn: 0.1,
+  /**
+   * Scale unit in px. The craft measures about 1.6x this nose to tail and 1.4x
+   * across the wings, so 17 draws a ~28px craft. Sized against the copy rather
+   * than against the nodes: much under 15 and the canopy and wings stop
+   * resolving, leaving a smudge where the detail was, and much over 21 a craft
+   * crossing near the headline starts competing with it. The phone figure is
+   * the same silhouette held at the bottom of that range, because the hero it
+   * crosses is a third of the width.
+   */
+  size: { wide: 17, narrow: 12 },
+  /** Engine offset from the centreline, in units of `size`. Also where each
+   *  contrail is laid, so the exhaust leaves the engine it belongs to. */
+  engineSpread: 0.17,
   /** Seconds of trail kept behind the nose. */
   trail: 0.42,
   /** Seconds a craft waits off-frame before its next run. */
@@ -118,7 +145,9 @@ type Node = {
 
 type Pulse = { a: number; b: number; t: number };
 
-type TrailPoint = { x: number; y: number; age: number };
+/** `a` is the heading the point was shed at: the two contrails are offset from
+ *  it, so without it they would scissor apart through a turn. */
+type TrailPoint = { x: number; y: number; a: number; age: number };
 
 type Craft = {
   x: number;
@@ -217,7 +246,7 @@ export function BmHeroBackground() {
       unit.x += Math.cos(unit.a) * CRAFT.speed * dt;
       unit.y += Math.sin(unit.a) * CRAFT.speed * dt;
 
-      unit.trail.unshift({ x: unit.x, y: unit.y, age: 0 });
+      unit.trail.unshift({ x: unit.x, y: unit.y, a: unit.a, age: 0 });
       for (const point of unit.trail) point.age += dt;
       while (
         unit.trail.length &&
@@ -246,41 +275,150 @@ export function BmHeroBackground() {
       }
     };
 
+    /**
+     * Heading in *pixel* space. Position and velocity are normalised, so on a
+     * hero wider than it is tall a craft travelling at `a` is seen to travel
+     * at a shallower angle than `a`. A symmetrical arrowhead got away with
+     * that; a craft with wings and two exhausts cannot — it would fly visibly
+     * crabbed, and its contrails would leave the engines at an angle. So
+     * anything drawn takes the heading the motion actually produces on screen.
+     */
+    const screenHeading = (a: number) =>
+      Math.atan2(Math.sin(a) * height, Math.cos(a) * width);
+
+    const craftSize = () =>
+      width < FIELD.narrowBelow ? CRAFT.size.narrow : CRAFT.size.wide;
+
     const drawCraft = (unit: Craft) => {
       if (unit.rest > 0) return;
 
-      // Trail first, so the dart sits on top of its own exhaust.
-      for (let i = unit.trail.length - 1; i > 0; i--) {
-        const from = unit.trail[i];
-        const to = unit.trail[i - 1];
-        const fade = 1 - from.age / CRAFT.trail;
-        ctx.strokeStyle = `rgba(${GOLD_LIT},${(fade * 0.55).toFixed(3)})`;
-        ctx.lineWidth = 0.6 + fade * 2.2;
+      const size = craftSize();
+      const spread = size * CRAFT.engineSpread;
+
+      // Contrails first, so the craft sits on top of its own exhaust. One per
+      // engine: every point is pushed off the flight path by the heading it
+      // was shed at, which is what keeps the pair parallel through an arc.
+      //
+      // Each is one stroked polyline under a gradient, not a run of per-point
+      // segments with their own alpha. The per-point version is the obvious
+      // one and it beads: round caps bulge at every joint and the translucent
+      // ends overlap, so a contrail comes out as a string of dots rather than
+      // as a line. It also cost ~100 strokes a frame against this one's 8.
+      // The taper is carried by the gradient instead of by the width, and a
+      // wide dim pass under a narrow bright one is what makes the exhaust
+      // look like it disperses behind the craft.
+      if (unit.trail.length > 1) {
+        const head = unit.trail[0];
+        const tail = unit.trail[unit.trail.length - 1];
+        ctx.save();
         ctx.lineCap = "round";
-        ctx.beginPath();
-        ctx.moveTo(from.x * width, from.y * height);
-        ctx.lineTo(to.x * width, to.y * height);
-        ctx.stroke();
+        ctx.lineJoin = "round";
+        for (const side of [1, -1]) {
+          const offset = (point: TrailPoint) => {
+            const heading = screenHeading(point.a);
+            return [
+              point.x * width - Math.sin(heading) * spread * side,
+              point.y * height + Math.cos(heading) * spread * side,
+            ] as const;
+          };
+          const [hx, hy] = offset(head);
+          const [tx, ty] = offset(tail);
+          ctx.beginPath();
+          ctx.moveTo(hx, hy);
+          for (let i = 1; i < unit.trail.length; i++) {
+            const [px, py] = offset(unit.trail[i]);
+            ctx.lineTo(px, py);
+          }
+          for (const [alpha, weight] of [
+            [0.2, 0.17],
+            [0.55, 0.06],
+          ]) {
+            const fade = ctx.createLinearGradient(hx, hy, tx, ty);
+            fade.addColorStop(0, `rgba(${GOLD_LIT},${alpha})`);
+            fade.addColorStop(1, `rgba(${GOLD_LIT},0)`);
+            ctx.strokeStyle = fade;
+            ctx.lineWidth = size * weight;
+            ctx.stroke();
+          }
+        }
+        ctx.restore();
       }
 
       ctx.save();
       ctx.translate(unit.x * width, unit.y * height);
-      ctx.rotate(unit.a);
-      // An arrowhead with a notched tail. No fuselage, no canopy, no fins —
-      // the silhouette has to read as speed, not as a spacecraft.
-      const size = 9;
+      ctx.rotate(screenHeading(unit.a));
+
+      // Wings, swept hard back and drawn first so the hull covers their roots
+      // and the join never shows as a seam. Held below the hull's brightness:
+      // at this size a wing lit like the hull doubles the craft's apparent
+      // width and it stops reading as something pointed.
       ctx.beginPath();
-      ctx.moveTo(size, 0);
-      ctx.lineTo(-size * 0.75, size * 0.52);
-      ctx.lineTo(-size * 0.35, 0);
-      ctx.lineTo(-size * 0.75, -size * 0.52);
+      for (const side of [1, -1]) {
+        ctx.moveTo(size * 0.3, size * 0.07 * side);
+        ctx.lineTo(size * -0.22, size * 0.7 * side);
+        ctx.lineTo(size * -0.58, size * 0.62 * side);
+        ctx.lineTo(size * -0.5, size * 0.1 * side);
+        ctx.closePath();
+      }
+      ctx.fillStyle = `rgba(${GOLD},0.6)`;
+      ctx.fill();
+      ctx.lineJoin = "round";
+      ctx.lineWidth = Math.max(0.75, size * 0.055);
+      ctx.strokeStyle = `rgba(${GOLD_LIT},0.72)`;
+      ctx.stroke();
+
+      // Hull: a lance with a notched tail, the brightest thing on the craft
+      // and the only part carrying the outer glow.
+      ctx.beginPath();
+      ctx.moveTo(size * 1.05, 0);
+      ctx.lineTo(size * 0.34, size * 0.17);
+      ctx.lineTo(size * -0.4, size * 0.23);
+      ctx.lineTo(size * -0.58, size * 0.16);
+      ctx.lineTo(size * -0.46, 0);
+      ctx.lineTo(size * -0.58, size * -0.16);
+      ctx.lineTo(size * -0.4, size * -0.23);
+      ctx.lineTo(size * 0.34, size * -0.17);
       ctx.closePath();
       ctx.shadowColor = `rgba(${GOLD},0.9)`;
-      ctx.shadowBlur = 12;
-      ctx.fillStyle = `rgba(${GOLD_LIT},0.95)`;
+      ctx.shadowBlur = size * 0.8;
+      ctx.fillStyle = `rgba(${GOLD_LIT},0.96)`;
       ctx.fill();
-      ctx.restore();
       ctx.shadowBlur = 0;
+
+      // Canopy. Set into the widest part of the hull rather than onto the nose
+      // — pushed forward it overruns the taper and reads as a blob stuck to a
+      // spike. Kept translucent, so the hull still shows through: it is the
+      // one line of detail that stops a lit gold silhouette from reading as a
+      // solid lozenge.
+      ctx.beginPath();
+      ctx.ellipse(size * 0.2, 0, size * 0.3, size * 0.105, 0, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${CANOPY},0.62)`;
+      ctx.fill();
+
+      // Twin engines, sunk into the tail notch and running hotter than the
+      // hull — the one place on the craft that is meant to read as light
+      // rather than as lit metal. Second of the three blurs a craft is
+      // allowed.
+      ctx.shadowColor = `rgba(${GOLD},0.95)`;
+      ctx.shadowBlur = size * 0.55;
+      ctx.fillStyle = `rgba(${GOLD_HOT},0.95)`;
+      for (const side of [1, -1]) {
+        ctx.beginPath();
+        ctx.arc(size * -0.5, spread * side, size * 0.09, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Wingtip lights: about a pixel of spark each, and the third blur. They
+      // are what fixes the wingspan for the eye — unlit, the wings fall away
+      // into the field behind them and the craft loses half its width.
+      ctx.shadowBlur = size * 0.3;
+      ctx.fillStyle = `rgba(${GOLD_LIT},0.9)`;
+      for (const side of [1, -1]) {
+        ctx.beginPath();
+        ctx.arc(size * -0.4, size * 0.66 * side, size * 0.055, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
     };
 
     const step = (dt: number) => {
