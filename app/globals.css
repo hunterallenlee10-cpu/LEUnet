@@ -1632,6 +1632,45 @@
 .bmh {
   --bmh-u: clamp(9px, calc(1.15vh + 0.28vw), 15px);
   --bmh-hair: rgba(255, 255, 255, 0.14);
+  position: relative;
+  /* Contains the veil below: without a stacking context here, a negative
+     z-index child escapes behind this block's ancestors and paints under the
+     canvas, where it does nothing at all. */
+  isolation: isolate;
+}
+
+/* The veil.
+
+   `.bmc-scrim` is 54% x 48% — wider than it is tall — because it was aimed at
+   a hero whose copy filled the middle of the frame. This block's exposure is
+   the opposite: the whitespace that makes the design work pushes the eyebrow
+   to the top of the column and the action to the bottom, and both land where
+   that pool has already faded to nothing. A serif manifesto is the least able
+   of anything on this site to survive a 1px amber line crossing a stem.
+
+   So the protection travels with the copy instead of being aimed at it from
+   across the stylesheet: an ellipse shaped to this block, taller than it is
+   wide, with no visible edge. It is sized in percentages of the block, so it
+   keeps covering the copy at any viewport without being re-tuned, and it
+   leaves the field bright at the frame's edges where the constellation is
+   supposed to be seen. `.bmc-scrim` is untouched. */
+.bmh::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  width: min(1120px, 150%);
+  height: min(880px, 168%);
+  pointer-events: none;
+  background: radial-gradient(
+    46% 50% at 50% 50%,
+    rgba(0, 0, 0, 0.66) 0%,
+    rgba(0, 0, 0, 0.5) 44%,
+    rgba(0, 0, 0, 0.22) 68%,
+    rgba(0, 0, 0, 0) 84%
+  );
 }
 
 /* Eyebrow: the house treatment (uppercase, amber, wide) moved to Geist Mono and
