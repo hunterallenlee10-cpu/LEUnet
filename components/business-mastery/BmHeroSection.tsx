@@ -47,7 +47,14 @@ export function BmHeroSection() {
         aria-hidden="true"
       />
 
-      <div className="section-container relative z-[2] w-full py-16 text-center [@media(max-height:760px)]:py-8">
+      {/* Asymmetric on purpose. MainHeader is `position: fixed`, so it
+          overlays this section rather than sitting above it in flow, and a
+          block centred in the section's own box is centred 40px too high --
+          which puts the eyebrow behind the header once the copy is this size.
+          The extra 5rem on top is the header's own height, and it is what
+          returns the block to the centre of the space a visitor can actually
+          see. */}
+      <div className="section-container relative z-[2] w-full pb-16 pt-[calc(5rem+4rem)] text-center [@media(max-height:820px)]:pb-8 [@media(max-height:820px)]:pt-[calc(5rem+2rem)]">
         <div className="bmh mx-auto flex max-w-[880px] flex-col items-center">
           <p className="bmh-eyebrow bmh-rise text-amber-400/90 [animation-delay:60ms]">
             {/* Hardcoded exactly as it was before this redesign. It is the
