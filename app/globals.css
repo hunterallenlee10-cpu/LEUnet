@@ -1630,7 +1630,7 @@
    --------------------------------------------------------------------------- */
 
 .bmh {
-  --bmh-u: clamp(9px, calc(1.15vh + 0.28vw), 15px);
+  --bmh-u: clamp(10px, calc(1.5vh + 0.35vw), 24px);
   --bmh-hair: rgba(255, 255, 255, 0.14);
   position: relative;
   /* Contains the veil below: without a stacking context here, a negative
@@ -1661,8 +1661,15 @@
   top: 50%;
   z-index: -1;
   transform: translate(-50%, -50%);
-  width: min(1120px, 150%);
-  height: min(880px, 168%);
+  /* Percentages of the block, with no pixel ceiling. The gradient is fully
+     transparent past 84% of its radius, so real coverage is 0.84 x half-size:
+     150%/168% keep that comfortably outside the block at every size, and they
+     keep doing so as the block grows. A fixed px cap does not - it silently
+     stops covering once the block outgrows it, and the parts left outside are
+     the eyebrow and the action, which sit at the extremes and are exactly what
+     this layer exists to protect. */
+  width: 150%;
+  height: 168%;
   pointer-events: none;
   background: radial-gradient(
     46% 50% at 50% 50%,
@@ -1707,7 +1714,7 @@
 }
 
 .bmh-eyebrow span {
-  font-size: clamp(10.5px, 0.78vw, 12px);
+  font-size: clamp(11px, 0.95vw, 14px);
   letter-spacing: 0.4em;
   text-indent: 0.4em;
   white-space: nowrap;
@@ -1717,7 +1724,7 @@
    masthead sits above a leader. Both tiers are hairline weight. */
 .bmh-title-a {
   display: block;
-  font-size: clamp(13px, 1.25vw, 17px);
+  font-size: clamp(14px, 1.55vw, 24px);
   letter-spacing: 0.36em;
   text-indent: 0.36em;
 }
@@ -1725,14 +1732,14 @@
 .bmh-title-b {
   display: block;
   margin-top: calc(var(--bmh-u) * 0.6);
-  font-size: clamp(19px, 2vw, 27px);
+  font-size: clamp(21px, 2.5vw, 38px);
   letter-spacing: 0.3em;
   text-indent: 0.3em;
 }
 
 .bmh-manifesto {
   margin-top: calc(var(--bmh-u) * 3);
-  font-size: clamp(30px, 4.4vw, 56px);
+  font-size: clamp(32px, 5vw, 76px);
   line-height: 1.24;
   letter-spacing: 0.004em;
 }
@@ -1741,7 +1748,7 @@
    Flex items never collapse margins, so both halves really do survive. */
 .bmh-rule {
   display: block;
-  width: clamp(90px, 16vw, 180px);
+  width: clamp(90px, 18vw, 240px);
   height: 1px;
   margin: calc(var(--bmh-u) * 3) 0;
   background: linear-gradient(
@@ -1753,14 +1760,14 @@
 }
 
 .bmh-promise {
-  font-size: clamp(12px, 1.05vw, 15px);
+  font-size: clamp(12.5px, 1.2vw, 18px);
   letter-spacing: 0.3em;
   text-indent: 0.3em;
 }
 
 .bmh-mechanism {
   margin-top: calc(var(--bmh-u) * 1.6);
-  font-size: clamp(14.5px, 1.05vw, 16px);
+  font-size: clamp(15px, 1.15vw, 18px);
   line-height: 1.8;
 }
 
@@ -1772,8 +1779,8 @@
 .bmh-cta {
   margin-top: calc(var(--bmh-u) * 3.4);
   min-height: 48px;
-  padding: 14px clamp(26px, 3.4vw, 44px);
-  font-size: clamp(12px, 0.85vw, 13.5px);
+  padding: 16px clamp(28px, 3.6vw, 52px);
+  font-size: clamp(12.5px, 0.95vw, 15px);
   letter-spacing: 0.34em;
   text-indent: 0.34em;
 }
@@ -1794,6 +1801,100 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Short viewport. Every font-size here is width-led, so a 1440x700 laptop gets
+   the full 72px manifesto with only ~620px of room below the header to put it
+   in — and the action lands under the fold, which is the one place this design
+   cannot afford to be. The display sizes and the rhythm both step down together
+   so the proportions hold rather than the block simply being squeezed. */
+@media (min-width: 641px) and (max-height: 820px) {
+  .bmh {
+    --bmh-u: clamp(10px, calc(1.35vh + 0.2vw), 14px);
+  }
+
+  .bmh-title-a {
+    font-size: clamp(13px, 1.25vw, 18px);
+  }
+
+  .bmh-title-b {
+    font-size: clamp(19px, 2vw, 28px);
+  }
+
+  .bmh-manifesto {
+    font-size: clamp(30px, 4.1vw, 58px);
+    line-height: 1.2;
+  }
+
+  .bmh-rule {
+    width: clamp(90px, 14vw, 180px);
+  }
+
+  .bmh-cta {
+    padding: 13px clamp(26px, 3vw, 44px);
+  }
+}
+
+/* Tall viewport. Every font-size here is width-led, so a window that is tall
+   for its width — a portrait-ish desktop window, a tablet — reaches the size
+   caps with a lot of height still unspent, and the block ends up floating in
+   the middle of a mostly empty frame. The rhythm is what absorbs it: the
+   intervals open rather than the type growing past a measure it no longer
+   fits on two lines. Capped above 1700px wide, where the large-viewport step
+   below is already doing the work and this would over-fill the frame. */
+@media (min-height: 880px) and (max-width: 1700px) {
+  .bmh {
+    --bmh-u: clamp(10px, calc(2vh + 0.3vw), 36px);
+  }
+}
+
+/* Large viewport. The caps above are reached at about 1520px wide, so past that
+   the frame keeps growing while the type stands still and the empty space comes
+   back. The measure widens with the type so the manifesto still breaks to two
+   lines rather than three. */
+@media (min-width: 1800px) {
+  .bmh {
+    --bmh-u: clamp(10px, calc(1.5vh + 0.35vw), 30px);
+    max-width: 1040px;
+  }
+
+  .bmh-manifesto {
+    font-size: clamp(32px, 4.6vw, 90px);
+  }
+
+  .bmh-title-a {
+    font-size: 26px;
+  }
+
+  .bmh-title-b {
+    font-size: 42px;
+  }
+
+  .bmh-promise {
+    font-size: 19px;
+  }
+
+  .bmh-mechanism {
+    font-size: 19px;
+  }
+}
+
+/* Short phone. On a 640px-tall screen the manifesto is already breaking to
+   three lines at the floor size, and with the fixed header taking 72px off the
+   top there is not enough left to seat the action. The floor drops and the
+   rhythm tightens rather than the action being pushed off the screen. */
+@media (max-width: 640px) and (max-height: 700px) {
+  .bmh {
+    --bmh-u: clamp(9px, 1.3vh, 13px);
+  }
+
+  .bmh-manifesto {
+    font-size: 27px;
+  }
+
+  .bmh-mechanism {
+    line-height: 1.7;
   }
 }
 
