@@ -653,6 +653,16 @@
 }
 
 @theme inline {
+  /* Fonts declared in app/layout.tsx. `--font-serif` is safe to define because
+     nothing in this codebase uses `font-serif`; the Geist Mono token is
+     deliberately NOT named `--font-mono`, because that would switch every
+     existing `font-mono` on the LMM, Websites and H1 pages from the system
+     stack to Geist Mono in passing. Both are consumed only by the Business
+     Mastery hero. */
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, 'Times New Roman', serif;
+  --font-mono-geist: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -1590,3 +1600,193 @@
    frame and never starts its loop — so there is no animation here to stop. The
    component is the only place that can honour it, because the motion is not
    declarative. This comment exists so that is not mistaken for an omission. */
+
+/* ---------------------------------------------------------------------------
+   Business Mastery hero copy — "Quiet Capital, Serif"
+   One consumer: components/business-mastery/BmHeroSection.tsx, which owns the
+   layout in Tailwind and defers to this block for the things Tailwind says
+   badly. That split follows `.bmc-field` above: structure in the component,
+   typography here.
+
+   Three of those things, specifically:
+
+   1. Tracking with a matching indent. Letter-spacing hangs off the last glyph
+      of a line, so a centred tracked line sits half a space left of true
+      centre. Every tracked line here carries `text-indent` equal to its own
+      `letter-spacing`, which puts the glyphs back at W/2. Change one, change
+      the other.
+   2. A rhythm unit. `--bmh-u` is height-led, so the column compresses on a
+      short laptop instead of overflowing it. Every vertical interval below is
+      a multiple of it. Tailwind's spacing scale is fixed-step and cannot
+      express that.
+   3. Flanking hairlines on the eyebrow, which are gradients on pseudo-elements.
+
+   The one rule with real reasoning behind it is the manifesto's weight. This
+   is the only page on the site that sets a serif, and Cormorant is a
+   high-contrast face whose thin strokes disappear against a dark ground at
+   small sizes. It survives here *because* it is set at ~56px; at the phone
+   size it steps to weight 400 rather than leaving 30px hairlines to fend for
+   themselves over a moving constellation.
+   --------------------------------------------------------------------------- */
+
+.bmh {
+  --bmh-u: clamp(9px, calc(1.15vh + 0.28vw), 15px);
+  --bmh-hair: rgba(255, 255, 255, 0.14);
+}
+
+/* Eyebrow: the house treatment (uppercase, amber, wide) moved to Geist Mono and
+   flanked by two short hairlines, so it reads as a plate rather than a caption. */
+.bmh-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 20px);
+}
+
+.bmh-eyebrow::before,
+.bmh-eyebrow::after {
+  content: '';
+  display: block;
+  height: 1px;
+  flex: none;
+  width: clamp(20px, 4vw, 50px);
+}
+
+.bmh-eyebrow::before {
+  background: linear-gradient(
+    to right,
+    rgba(251, 191, 36, 0) 0%,
+    rgba(251, 191, 36, 0.4) 100%
+  );
+}
+
+.bmh-eyebrow::after {
+  background: linear-gradient(
+    to left,
+    rgba(251, 191, 36, 0) 0%,
+    rgba(251, 191, 36, 0.4) 100%
+  );
+}
+
+.bmh-eyebrow span {
+  font-size: clamp(10.5px, 0.78vw, 12px);
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  white-space: nowrap;
+}
+
+/* The name is a mark here, not the hero: it sits above the manifesto the way a
+   masthead sits above a leader. Both tiers are hairline weight. */
+.bmh-title-a {
+  display: block;
+  font-size: clamp(13px, 1.25vw, 17px);
+  letter-spacing: 0.36em;
+  text-indent: 0.36em;
+}
+
+.bmh-title-b {
+  display: block;
+  margin-top: calc(var(--bmh-u) * 0.6);
+  font-size: clamp(19px, 2vw, 27px);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+.bmh-manifesto {
+  margin-top: calc(var(--bmh-u) * 3);
+  font-size: clamp(30px, 4.4vw, 56px);
+  line-height: 1.24;
+  letter-spacing: 0.004em;
+}
+
+/* The only rule inside the column, sitting on equal intervals above and below.
+   Flex items never collapse margins, so both halves really do survive. */
+.bmh-rule {
+  display: block;
+  width: clamp(90px, 16vw, 180px);
+  height: 1px;
+  margin: calc(var(--bmh-u) * 3) 0;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    var(--bmh-hair) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.bmh-promise {
+  font-size: clamp(12px, 1.05vw, 15px);
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+.bmh-mechanism {
+  margin-top: calc(var(--bmh-u) * 1.6);
+  font-size: clamp(14.5px, 1.05vw, 16px);
+  line-height: 1.8;
+}
+
+/* A deliberate break with the house solid-amber pill: at this scale a filled
+   button is the loudest object in the frame and would undo everything above it.
+   A hairline frame carries the same weight as the rules, and the hover fills it
+   in — the house treatment arrives as the reward rather than as the resting
+   state. 48px tall with 12px type, so it is still a real touch target. */
+.bmh-cta {
+  margin-top: calc(var(--bmh-u) * 3.4);
+  min-height: 48px;
+  padding: 14px clamp(26px, 3.4vw, 44px);
+  font-size: clamp(12px, 0.85vw, 13.5px);
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+}
+
+/* Slow, small, staggered, and in the order the argument is made. A quiet hero
+   that animates briskly stops being quiet. */
+@media (prefers-reduced-motion: no-preference) {
+  .bmh-rise {
+    animation: bmh-rise 900ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+}
+
+@keyframes bmh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* At 390px the tracked lines start breaking words into separate objects, so the
+   widest of them give some of it back. The manifesto's weight step is the
+   important one — see the note at the top of this block. */
+@media (max-width: 640px) {
+  .bmh-eyebrow {
+    gap: 10px;
+  }
+
+  .bmh-eyebrow::before,
+  .bmh-eyebrow::after {
+    width: 16px;
+  }
+
+  .bmh-eyebrow span {
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+  }
+
+  .bmh-title-a {
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+  }
+
+  .bmh-manifesto {
+    font-weight: 400;
+  }
+
+  .bmh-cta {
+    letter-spacing: 0.26em;
+    text-indent: 0.26em;
+  }
+}
