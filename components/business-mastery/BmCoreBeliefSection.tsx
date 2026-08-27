@@ -9,7 +9,11 @@ import { bmCoreBelief, bmProofStatement } from "@/data/business-mastery";
 export function BmCoreBeliefSection() {
   return (
     <section className="relative bg-neutral-950 py-20 md:py-32">
-      <div className="absolute inset-0 -z-0" aria-hidden="true">
+      {/* `overflow-hidden` is load-bearing, not tidiness: the glow is 384px wide
+          at `left-10`, so on a phone it reaches 424px and widens the document
+          past the viewport. That gave the whole page a horizontal scroll and
+          pushed every centred section — the hero above included — off centre. */}
+      <div className="absolute inset-0 -z-0 overflow-hidden" aria-hidden="true">
         <div className="absolute left-10 top-1/3 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
       </div>
 
