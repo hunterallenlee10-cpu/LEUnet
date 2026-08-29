@@ -1,7 +1,7 @@
 import { bmTransition } from "@/data/business-mastery";
 
 /**
- * Section 10 — the pivot from the founder's story to the visitor's. The plan
+ * Section 9 — the pivot from the founder's story to the visitor's. The plan
  * is explicit that the journey section must not run straight into a sales
  * pitch; this section is the connective tissue, answering "why did we build
  * this for you?" before the final CTA asks anything.

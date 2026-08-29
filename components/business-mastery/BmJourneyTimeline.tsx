@@ -6,7 +6,7 @@ import { bmChapters, bmJourney } from "@/data/business-mastery";
 import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
 
 /**
- * Section 9 — the journey as a horizontal, chapter-by-chapter experience,
+ * Section 8 — the journey as a horizontal, chapter-by-chapter experience,
  * modeled on the timeline the page plan named as its structural inspiration:
  * a full-width intro slide, one slide per chapter, edge arrows, and a
  * scrubber bar across the bottom with every stop — number above the dot,

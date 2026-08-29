@@ -372,22 +372,6 @@ export interface BmPillar {
   items?: string[];
 }
 
-export interface BmPhase {
-  id: string;
-  /** "I", "II", "III" — display numeral, not an index. */
-  numeral: string;
-  name: string;
-  headline: string;
-  paragraphs: string[];
-  /** What membership includes at this phase, when the copy lists it. */
-  includes?: string[];
-  /** A called-out promise block, e.g. the Founding Member Promise. */
-  promise?: {
-    title: string;
-    text: string;
-  };
-}
-
 /** One chapter of the founder journey timeline. Bodies arrive with the story. */
 export interface BmChapter {
   id: string;
