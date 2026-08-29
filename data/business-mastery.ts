@@ -93,9 +93,6 @@ export const bmAudiences: BmAudience[] = [
   },
 ];
 
-export const bmMission =
-  "Helping the next generation of entrepreneurs actually get started is our mission.";
-
 // --- 4. How to Build Your Own Empire ---------------------------------------
 
 export const bmEmpire = {
