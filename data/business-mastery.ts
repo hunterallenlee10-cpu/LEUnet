@@ -2,7 +2,6 @@ import {
   BmAudience,
   BmChapter,
   BmEmpireStep,
-  BmPhase,
   BmPillar,
 } from "@/types";
 
@@ -245,66 +244,7 @@ export const bmOffer = {
     "Full guarantee terms, eligibility requirements, refund conditions, and Terms of Service are being finalized and will be published here.",
 } as const;
 
-// --- 7. The Evolution of Business Mastery ----------------------------------
-
-export const bmEvolution = {
-  heading: "The Evolution of Business Mastery",
-  description:
-    "This is not a normal membership model. The network evolves in three phases, and when you enter decides what you pay — and what you never have to pay again.",
-  closer: "No great accomplishment in history was achieved alone.",
-} as const;
-
-export const bmPhases: BmPhase[] = [
-  {
-    id: "founding",
-    numeral: "I",
-    name: "The Founding Members",
-    headline: "Enter Business Mastery",
-    paragraphs: [
-      "One-time initial investment. Founding members receive everything LEU Business Mastery has to offer for life as a reward for believing in the network early.",
-      "They were the people willing to trust the vision before it became what we believe it can become.",
-    ],
-    promise: {
-      title: "Founding Member Promise",
-      text: "Those who trusted us first will never have to invest another dollar to remain part of the network.",
-    },
-  },
-  {
-    id: "growth",
-    numeral: "II",
-    name: "Growth",
-    headline: "The Network Opens",
-    paragraphs: [
-      "As LEU Business Mastery grows, new members enter through a monthly membership model.",
-      "Founding members maintain lifetime access without the recurring membership cost.",
-    ],
-    includes: [
-      "Courses",
-      "Webinars",
-      "Daily calls",
-      "Personal coaching",
-      "Community",
-      "New resources",
-      "Direct assistance",
-      "New opportunities",
-      "Networking",
-      "Future programs",
-    ],
-  },
-  {
-    id: "room",
-    numeral: "III",
-    name: "Stay In The Room",
-    headline: "Admission Becomes Selective",
-    paragraphs: [
-      "As the network matures, admission becomes more selective. The goal is a tight, fast-acting group of serious performers built to produce results.",
-      "At this stage, entry may require an upfront membership fee and a monthly retainer.",
-      "This is no longer simply paying for access to videos. Members are paying to stay inside an active network of entrepreneurs, operators, mentors, opportunities, information, resources, and relationships.",
-    ],
-  },
-];
-
-// --- 8. Why I Built LEU ----------------------------------------------------
+// --- 7. Why I Built LEU ----------------------------------------------------
 
 export const bmFounder = {
   heading: "Why I Built LEU",
@@ -320,7 +260,7 @@ export const bmFounder = {
   comingSoonNote: "The full story behind LEU is being written.",
 } as const;
 
-// --- 9. My Journey ---------------------------------------------------------
+// --- 8. My Journey ---------------------------------------------------------
 
 export const bmJourney = {
   heading: "The Journey",
@@ -357,7 +297,7 @@ export const bmChapters: BmChapter[] = [
   { id: "leu", number: 14, title: "LEU" },
 ];
 
-// --- 10. Your Journey Is Just Beginning ------------------------------------
+// --- 9. Your Journey Is Just Beginning -------------------------------------
 
 export const bmTransition = {
   heading: "Your Journey Is Just Beginning.",
@@ -368,7 +308,7 @@ export const bmTransition = {
   ],
 } as const;
 
-// --- 11. Achieve Your Dreams Today -----------------------------------------
+// --- 10. Achieve Your Dreams Today -----------------------------------------
 
 export const bmFinalCta = {
   heading: "Achieve Your Dreams Today.",

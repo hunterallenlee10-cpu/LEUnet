@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { BM_OFFER_ID, bmFinalCta } from "@/data/business-mastery";
 
 /**
- * Section 11 — the closing conversion section. The CTA is an in-page anchor
+ * Section 10 — the closing conversion section. The CTA is an in-page anchor
  * back up to the founding offer and its application form, the page's one
  * action; the global scroll-smooth handles the ride.
  */

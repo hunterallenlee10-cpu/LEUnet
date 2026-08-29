@@ -36,9 +36,13 @@ The page is manifesto-scale by design. Its one conversion action in this build
 is the founding-member **application form**; every CTA on the page scrolls to
 it.
 
-Core through-line, repeated at open and close:
+Core through-line, carried by the hero:
 
 > No great accomplishment in history was achieved alone.
+
+It used to be repeated at the close, as the Evolution section's last line.
+That section is gone (§3), so the line now appears once, at the top. If the
+owner wants the bookend back, the final CTA is where it belongs.
 
 ---
 
@@ -54,15 +58,18 @@ The owner's flow, with the added section slotted where it does the most work:
 | 4 | **How to Build Your Own Empire** | Owner doc exploratory section: the 8-step framework (Starting from zero → Creating freedom) | Ready as a framework; placed here because it is the roadmap, and the next section is the vehicle |
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, live-style counter, 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
-| 7 | The Evolution | Owner doc §5: Phase I Founding Members / Phase II Growth / Phase III Stay In The Room, closing on the through-line | Ready |
-| 8 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | Partial — legacy statement candidates exist, full story doesn't. Renders what exists + coming-soon marker |
-| 9 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
-| 10 | Your Journey Is Just Beginning | Owner doc §8: the transition from my story to your story | Ready |
-| 11 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
+| 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | Partial — legacy statement candidates exist, full story doesn't. Renders what exists + coming-soon marker |
+| 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
+| 9 | Your Journey Is Just Beginning | Owner doc §8: the transition from my story to your story | Ready |
+| 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
 
-"The Vision" (the other exploratory section) originally sat between the
-Evolution and the founder story; it was built and then removed at the owner's
-request, and the sections after it renumbered.
+Two sections shipped in earlier builds and were removed at the owner's
+request, with the sections after each renumbered: "The Vision" (the other
+exploratory section), which sat between the Evolution and the founder story,
+and **The Evolution** itself — the Phase I / II / III model that ran between
+the founding offer and the founder story. The phase copy is gone from the
+page, the data file, and `types/index.ts`; the phase model still stands as a
+business plan (§9), it is just no longer marketed on the page.
 
 ### Why the added section sits where it does
 
@@ -79,7 +86,7 @@ precedent).
 
 | File | Contents |
 | --- | --- |
-| `data/business-mastery.ts` | All page copy, the four audiences, the 8 empire steps, the seven pillars, the three phases, the 14 timeline chapters, the founding counter (`claimed`, `total`), palette constants |
+| `data/business-mastery.ts` | All page copy, the four audiences, the 8 empire steps, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`), palette constants |
 | `types/index.ts` | Business Mastery interfaces appended |
 | `components/business-mastery/BmHeroSection.tsx` | 1 — manifesto hero |
 | `components/business-mastery/BmCoreBeliefSection.tsx` | 2 |
@@ -88,11 +95,10 @@ precedent).
 | `components/business-mastery/BmProgramSection.tsx` | 5 — "NOT a Course. A Coach." + pillars |
 | `components/business-mastery/BmFoundingOfferSection.tsx` | 6 — offer, counter, guarantee expandable |
 | `components/business-mastery/BmApplicationForm.tsx` | 6 — the form (fields in §5) |
-| `components/business-mastery/BmEvolutionSection.tsx` | 7 — three phases |
-| `components/business-mastery/BmFounderSection.tsx` | 8 — Why I Built LEU |
-| `components/business-mastery/BmJourneyTimeline.tsx` | 9 — interactive timeline |
-| `components/business-mastery/BmTransitionSection.tsx` | 10 |
-| `components/business-mastery/BmFinalCTASection.tsx` | 11 |
+| `components/business-mastery/BmFounderSection.tsx` | 7 — Why I Built LEU |
+| `components/business-mastery/BmJourneyTimeline.tsx` | 8 — interactive timeline |
+| `components/business-mastery/BmTransitionSection.tsx` | 9 |
+| `components/business-mastery/BmFinalCTASection.tsx` | 10 |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
 | `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |
 | `app/api/business-mastery-application/route.ts` | Application form handler, Resend pattern from `app/api/h1-consultation/route.ts` |
@@ -206,7 +212,7 @@ line, one or two sentences on what the program is, the founding-member
 scarcity line (real counter, shared from the same data file), and a single
 CTA — `ACHIEVE YOUR DREAMS →` — routing to `/business-mastery`.
 
-It deliberately does **not** repeat the pillars, phases, or audiences; the
+It deliberately does **not** repeat the pillars or audiences; the
 page does that. Two CTAs on the homepage now lead to the same place (this
 section's button and the Portfolio "Start your own venture" button), which is
 fine — same promise, same destination.
@@ -220,7 +226,7 @@ fine — same promise, same destination.
 | **A — built** | Everything in §3–§8: the full page with coming-soon markers, the form + API route, the homepage teaser, nav wiring, metadata | Done |
 | **B — story integration** | My Story document lands: journey chapters filled, founder section completed, final chapter titles settled | Owner writes the story |
 | **C — checkout** | Stripe one-time payment for founding members, counter driven by completed payments via the existing webhook route, guarantee terms page | Price set; guarantee terms + ToS written (§6.3) |
-| **Later** | Phase II monthly membership mechanics, Phase III selective admission — marketing copy exists on the page from day one; the mechanics are future business decisions | Business decision |
+| **Later** | Phase II monthly membership mechanics, Phase III selective admission — the model is a business plan only; its marketing copy was removed from the page with the Evolution section (§3) | Business decision |
 
 ---
 
