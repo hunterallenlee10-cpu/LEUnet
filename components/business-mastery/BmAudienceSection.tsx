@@ -1,7 +1,6 @@
-import { bmAudienceHeading, bmAudiences, bmMission } from "@/data/business-mastery";
+import { bmAudienceHeading, bmAudiences } from "@/data/business-mastery";
 
-/** Section 3 — the four kinds of people the program is built for, closed by
- * the mission line.
+/** Section 3 — the four kinds of people the program is built for.
  *
  * Hover treatment is plain Tailwind rather than the `.h1-live` vocabulary:
  * that class draws its ring from `--h1c-gold`, which only the H1 page sets,
@@ -33,10 +32,6 @@ export function BmAudienceSection() {
             </div>
           ))}
         </div>
-
-        <p className="mx-auto mt-14 max-w-2xl text-center text-lg font-medium text-neutral-200 sm:text-xl">
-          {bmMission}
-        </p>
       </div>
     </section>
   );
