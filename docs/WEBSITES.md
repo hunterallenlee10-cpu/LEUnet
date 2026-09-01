@@ -30,7 +30,7 @@ what §3 forbids was on the page at some point and had to be taken back off.
 | Promise | One outcome: the finished site turns a visitor into a customer |
 | Offer | New builds, redesigns, "Never Miss a Lead", optional care plans |
 | Prices | **Hidden.** Every CTA routes to the quote form |
-| Proof | Five routes on this one domain, linked live. No client work claimed |
+| Proof | LEU's own live sites, linked: three routes on this domain and H1 Performance on its own. No client work claimed |
 | Testimonials | **None.** Not a single fabricated quote - see §3 |
 | Lead capture | Own API route, own subject line |
 | Contact | `ceo@leeenterprisesunlimited.com`, same as every other form |
@@ -176,7 +176,7 @@ answers. What the codebase actually does:
 | Claimable | Because |
 | --- | --- |
 | How many people arrive, and which pages they land on | `Analytics` from `@vercel/analytics/next` is mounted in `app/layout.tsx` in production. It reports pageviews and landing pages. |
-| Every enquiry is emailed the moment it is sent, labeled by which form sent it | Every route in `app/api/` builds a subject line naming the form and the business before sending - `website-inquiry`, `thread-order`, `h1-consultation`, `lmm-consultation`, `marketing-inquiry`. |
+| Every enquiry is emailed the moment it is sent, labeled by which form sent it | Every route in `app/api/` builds a subject line naming the form and the business before sending - `website-inquiry`, `thread-order`, `lmm-consultation`, `marketing-inquiry`, `business-mastery-application`. |
 
 **Not claimable, in any wording:**
 
@@ -242,20 +242,24 @@ and the page says so plainly rather than hedging.
 What `websitePortfolio` actually is, and what the copy must keep saying:
 
 - **Four entries, all live and clickable right now**: `/thread-t-shirts`,
-  `/lee-marketing-mastery`, `/h1-performance`, and `/`.
+  `/lee-marketing-mastery`, `/`, and H1 Performance at its own domain
+  (`H1_SITE_URL` from `config/h1-site.mjs` - see `docs/H1.md`).
 - **They are Lee Enterprises Unlimited's own ventures, not client work.** This
   caveat stays in the first sentence of the Work section lead, unsoftened. It is
   not a weakness to apologize for: a prospect can open these and use them, which
   a testimonial does not allow.
-- **They are four routes on one domain and one deployment**, and two of them are
-  the site the visitor is currently reading. A heading reading "Five Sites You
-  Can Open Right Now", and a hero CTA reading "See Live Sites We've Built",
-  implied five separate websites for five separate businesses - a bigger claim
-  than the truth, and checkable in one click, which is the worst possible
-  combination. The section heading keeps the shape of the original,
-  "Every Site on This Domain Was Built...", and the "on This Domain" half is not
-  filler. The hero's secondary CTA reads "See the Live Work" so it stays true
-  regardless of how the section is titled.
+- **Three of them are routes on this one domain and deployment**, two of those
+  the site the visitor is currently reading; the fourth, H1 Performance, has
+  been its own site on its own domain since 2026-09-01. A heading reading "Five
+  Sites You Can Open Right Now", and a hero CTA reading "See Live Sites We've
+  Built", implied five separate websites for five separate businesses - a
+  bigger claim than the truth, and checkable in one click, which is the worst
+  possible combination. The section heading read "Every Site on This Domain Was
+  Built..." while that was true of all four; now that it is not, it reads
+  "Every Site We Run...", the eyebrow "Four Live Sites, All Ours", and the lead
+  paragraph states the three-here-one-elsewhere structure outright. The hero's
+  secondary CTA reads "See the Live Work" so it stays true regardless of how
+  the section is titled.
 - **Thread T-Shirts really does have a working catalog, cart and order-request
   flow**, backed by `app/api/thread-order/route.ts`. That claim is accurate.
 - **The Lee Enterprises Unlimited entry does not route its contact form.**

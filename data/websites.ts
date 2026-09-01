@@ -10,6 +10,8 @@
  * ItemList alongside the FAQs.
  */
 
+import { H1_SITE_URL } from "@/lib/h1-site";
+
 /**
  * Two questions were deleted here rather than rewritten: "What does built with
  * AI actually mean here?" and "Is an AI-built website lower quality than a
@@ -232,8 +234,13 @@ export const websitePortfolio: WebsitePortfolioItem[] = [
     ],
   },
   {
+    // Its own site on its own domain since 2026-09-01 (docs/H1.md). It stays
+    // in this list because it is still one of LEU's own ventures and still a
+    // site a prospect can open and use; the href is the one shared constant
+    // every link to it reads. WebsitesWorkSection's copy describes the list as
+    // three routes here plus this one elsewhere - keep the two in step.
     name: "H1 Performance",
-    href: "/h1-performance",
+    href: H1_SITE_URL,
     summary:
       "Turns a parent or athlete weighing remote coaching into a consultation request. Both packages are priced on the page and the coaches’ playing records are listed, so cost and credentials are settled before anyone has to send a message asking.",
     highlights: [

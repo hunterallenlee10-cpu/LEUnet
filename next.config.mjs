@@ -1,3 +1,9 @@
+import { resolveH1SiteUrl } from "./config/h1-site.mjs";
+
+// Resolved once here and handed to the app through `env` below, so the
+// redirect and every link in the app read the same value. docs/H1.md §3.
+const H1_SITE_URL = resolveH1SiteUrl(process.env.NEXT_PUBLIC_H1_SITE_URL);
+
 /**
  * Content Security Policy sized for a Stripe integration.
  *
@@ -36,6 +42,12 @@ const securityHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Inlined into every bundle at build time, already resolved (fallback
+  // applied, trailing slash stripped), so lib/h1-site.ts never sees an unset
+  // variable inside a Next build.
+  env: {
+    NEXT_PUBLIC_H1_SITE_URL: H1_SITE_URL,
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -47,6 +59,25 @@ const nextConfig = {
       {
         source: "/:path*",
         headers: securityHeaders,
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      // H1 Performance moved to its own site (docs/H1.md, config/h1-site.mjs).
+      // Permanent, so the old URL's inbound links and search placement carry
+      // over instead of landing on a 404. The H1 site is one page, so any
+      // sub-path collapses to its root; a `#section` fragment survives the
+      // redirect in the browser and the section ids are unchanged there.
+      {
+        source: "/h1-performance",
+        destination: H1_SITE_URL,
+        permanent: true,
+      },
+      {
+        source: "/h1-performance/:path*",
+        destination: H1_SITE_URL,
+        permanent: true,
       },
     ];
   },

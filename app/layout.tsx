@@ -12,8 +12,8 @@ const geistSans = Geist({ subsets: ['latin'] })
  *
  * Geist Mono was imported here long before this and never actually applied, so
  * every `font-mono` on the site has been rendering in the system stack. That is
- * left alone deliberately: switching it now would restyle the LMM, Websites and
- * H1 pages, which is not this change's business.
+ * left alone deliberately: switching it now would restyle the LMM and Websites
+ * pages, which is not this change's business.
  */
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 

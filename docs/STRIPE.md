@@ -118,7 +118,9 @@ includes `hostedInvoiceUrl` and `invoicePdf`.
 Customers are reused by email so each client accumulates one payment history.
 
 `ventureId` must be one of `lmm`, `h1`, `thread` — it tags the
-invoice for per-venture reporting inside the single shared account.
+invoice for per-venture reporting inside the single shared account. H1
+Performance's website is a separate deployment now (`docs/H1.md`), but H1 is
+still invoiced from here, and the tag is unchanged.
 
 ---
 

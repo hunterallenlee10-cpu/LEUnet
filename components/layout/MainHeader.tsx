@@ -121,7 +121,9 @@ export function MainHeader() {
 
     // A venture with its own page uses a real route rather than a homepage
     // anchor, so it navigates directly from wherever the visitor happens to be.
-    if (href.startsWith("/")) {
+    // H1 Performance's page is its own site (docs/H1.md), so an absolute URL
+    // takes the same path; only `#` anchors fall through to the scroll below.
+    if (href.startsWith("/") || /^https?:\/\//.test(href)) {
       window.location.assign(href);
       return;
     }

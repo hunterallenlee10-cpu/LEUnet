@@ -81,8 +81,9 @@ business plan (§9), it is just no longer marketed on the page.
 
 ## 4. Files
 
-Follows the venture-page architecture exactly (see `docs/H1.md` for the
-precedent).
+Follows the venture-page architecture exactly (see `docs/THREAD.md` here, or
+`docs/H1.md` in the H1 Performance repo, for the precedent; the H1 page that
+set it has since moved to its own repo - see this repo's `docs/H1.md`).
 
 | File | Contents |
 | --- | --- |
@@ -101,7 +102,7 @@ precedent).
 | `components/business-mastery/BmFinalCTASection.tsx` | 10 |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
 | `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |
-| `app/api/business-mastery-application/route.ts` | Application form handler, Resend pattern from `app/api/h1-consultation/route.ts` |
+| `app/api/business-mastery-application/route.ts` | Application form handler, same Resend pattern as `app/api/thread-order/route.ts` and the other venture forms |
 | `components/sections/BusinessMasterySection.tsx` | Homepage teaser (§8) |
 
 ### Edits outside the new page
@@ -120,9 +121,11 @@ Easy to move later if the header gets crowded.
 
 ## 5. The application form
 
-Same skeleton as the H1 consultation form: honeypot field, server-side
-validation, per-field errors, Resend delivery, own subject line so a Business
-Mastery application is distinguishable in the inbox.
+Same skeleton as the other venture forms (Thread's order request, the LMM
+consultations; the H1 consultation form it was modelled on now lives in the H1
+repo): honeypot field, server-side validation, per-field errors, Resend
+delivery, own subject line so a Business Mastery application is
+distinguishable in the inbox.
 
 Proposed fields:
 
