@@ -4,6 +4,14 @@ import { resolveH1SiteUrl } from "./config/h1-site.mjs";
 // redirect and every link in the app read the same value. docs/H1.md §3.
 const H1_SITE_URL = resolveH1SiteUrl(process.env.NEXT_PUBLIC_H1_SITE_URL);
 
+// A 308 is cached by browsers indefinitely and treated by crawlers as a
+// permanent move, so it must not ship pointing at a host that might not be the
+// final one. While NEXT_PUBLIC_H1_SITE_URL is unset the redirect targets the
+// fallback alias and stays a 307 (temporary), which nothing caches hard; set
+// the variable to the real domain and it becomes a 308. docs/H1.md §3 spells
+// out the deploy order.
+const H1_REDIRECT_PERMANENT = Boolean(process.env.NEXT_PUBLIC_H1_SITE_URL);
+
 /**
  * Content Security Policy sized for a Stripe integration.
  *
@@ -65,19 +73,28 @@ const nextConfig = {
   async redirects() {
     return [
       // H1 Performance moved to its own site (docs/H1.md, config/h1-site.mjs).
-      // Permanent, so the old URL's inbound links and search placement carry
-      // over instead of landing on a 404. The H1 site is one page, so any
-      // sub-path collapses to its root; a `#section` fragment survives the
-      // redirect in the browser and the section ids are unchanged there.
+      // Carries the old URL's inbound links and search placement over instead
+      // of landing on a 404. The H1 site is one page, so any sub-path collapses
+      // to its root; a `#section` fragment survives the redirect in the browser
+      // and the section ids are unchanged there.
       {
         source: "/h1-performance",
         destination: H1_SITE_URL,
-        permanent: true,
+        permanent: H1_REDIRECT_PERMANENT,
       },
       {
         source: "/h1-performance/:path*",
         destination: H1_SITE_URL,
-        permanent: true,
+        permanent: H1_REDIRECT_PERMANENT,
+      },
+      // The coach and athlete photos moved with the page. The new site serves
+      // the identical files at the same paths under its own origin, so an old
+      // /h1/... image URL (from a cached page, a shared link, a search result)
+      // resolves instead of 404ing. :path* is substituted into the destination.
+      {
+        source: "/h1/:path*",
+        destination: `${H1_SITE_URL}/h1/:path*`,
+        permanent: H1_REDIRECT_PERMANENT,
       },
     ];
   },

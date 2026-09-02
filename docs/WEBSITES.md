@@ -95,7 +95,7 @@ read as anything but a price list.
 | 3 | The shift | `WebsitesShiftSection` | Why the old site stopped working |
 | 4 | Problem | `WebsitesProblemSection` | A site that sits there vs one that sells |
 | 5 | What we build | `WebsitesServicesSection` | All four offerings, expandable |
-| 6 | Proof | `WebsitesWorkSection` | Five live routes, each clickable |
+| 6 | Proof | `WebsitesWorkSection` | Four live sites, each clickable: three routes here plus H1 on its own domain |
 | 7 | Process | `WebsitesProcessSection` | Six steps, no surprises |
 | 8 | Pricing | `WebsitesPricingSection` | What a quote is built from |
 | 9 | Quote form | `WebsitesInquiryCTA` + `WebsitesInquiryForm` | The conversion |
@@ -243,7 +243,8 @@ What `websitePortfolio` actually is, and what the copy must keep saying:
 
 - **Four entries, all live and clickable right now**: `/thread-t-shirts`,
   `/lee-marketing-mastery`, `/`, and H1 Performance at its own domain
-  (`H1_SITE_URL` from `config/h1-site.mjs` - see `docs/H1.md`).
+  (`H1_SITE_URL`, imported from `lib/h1-site.ts` and resolved through
+  `config/h1-site.mjs` - see `docs/H1.md`).
 - **They are Lee Enterprises Unlimited's own ventures, not client work.** This
   caveat stays in the first sentence of the Work section lead, unsoftened. It is
   not a weakness to apologize for: a prospect can open these and use them, which
