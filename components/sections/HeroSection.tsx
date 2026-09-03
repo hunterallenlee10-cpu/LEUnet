@@ -148,8 +148,14 @@ export function HeroSection() {
                   Get Started
                   <ArrowRight className="w-4 h-4" />
                 </button>
+                {/* This used to jump to the Portfolio section, which was
+                    removed from the homepage. About is the section that now
+                    introduces the ventures collectively, so the button lands
+                    there rather than on a section id that no longer renders -
+                    smoothScrollToElement fails silently on a missing element,
+                    so a stale target would read as a dead button. */}
                 <button
-                  onClick={() => handleCTA(sectionIds.portfolio)}
+                  onClick={() => handleCTA(sectionIds.about)}
                   className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   Explore Ventures
