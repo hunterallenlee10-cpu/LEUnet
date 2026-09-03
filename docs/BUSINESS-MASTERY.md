@@ -16,7 +16,7 @@ Phases B (story) and C (checkout) remain — see §9.
 | | |
 | --- | --- |
 | Placement | **Dedicated page at `/business-mastery`** + one homepage teaser section. The homepage stays the company hub. |
-| Homepage hook | The currently-unwired "Start your own venture" button in `PortfolioSection` routes to `/business-mastery`. A new teaser section also introduces the program on the homepage. |
+| Homepage hook | A teaser section introduces the program on the homepage. It was originally reached by two routes: this section, plus the "Start your own venture" button in `PortfolioSection`, which had sat unwired until this program gave it a destination. That Portfolio section has since been removed from the homepage entirely, so the teaser is the only homepage hook. |
 | Join flow | **Application form first.** Own API route, Resend email to `ceo@leeenterprisesunlimited.com`, same pattern as every other venture form. No on-page payment in this build. |
 | Payments | None in this build. Stripe checkout for the founding-member one-time payment is Phase C — the scaffolding already exists (`app/api/stripe/*`), but price, guarantee terms, and refund handling must be written first. |
 | Founding counter | A value the owner maintains in `data/business-mastery.ts` (`claimed` / `total`). It must show the **real** number — see §6. |
@@ -109,8 +109,8 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 
 | File | Edit |
 | --- | --- |
-| `app/page.tsx` | Render `BusinessMasterySection` directly after `PortfolioSection` |
-| `components/sections/PortfolioSection.tsx` | Wire the "Start your own venture" button to `/business-mastery` (it is currently `type="button"` with no destination — the comment there says intentionally unwired *for now*; now is over) |
+| `app/page.tsx` | Render `BusinessMasterySection` directly after `PortfolioSection` (that Portfolio section has since been removed, so the teaser now follows `AboutSection`) |
+| `components/sections/PortfolioSection.tsx` | Wire the "Start your own venture" button to `/business-mastery` (it was `type="button"` with no destination — the comment there said intentionally unwired *for now*; now was over). Superseded: the whole section was later removed from the homepage. |
 | `data/navigation.ts` | Add `businessMastery: "/business-mastery"` to the page map, a nav entry for it, and a `businessMastery` key in `sectionIds` for the homepage teaser anchor |
 
 Nav placement: its own entry in the main nav (it is the flagship program, not
@@ -209,16 +209,18 @@ the owner objects; keep the first in the data file as the alternate.
 
 ## 8. The homepage teaser
 
-One section, directly after `PortfolioSection`, anchored by the new
-`sectionIds.businessMastery`. It is a doorway, not a summary: the manifesto
-line, one or two sentences on what the program is, the founding-member
-scarcity line (real counter, shared from the same data file), and a single
-CTA — `ACHIEVE YOUR DREAMS →` — routing to `/business-mastery`.
+One section, anchored by the new `sectionIds.businessMastery`. It shipped
+directly after `PortfolioSection`; that section has since been removed from
+the homepage, so it now follows `AboutSection`. It is a doorway, not a
+summary: the manifesto line, one or two sentences on what the program is, the
+founding-member scarcity line (real counter, shared from the same data file),
+and a single CTA — `ACHIEVE YOUR DREAMS →` — routing to `/business-mastery`.
 
-It deliberately does **not** repeat the pillars or audiences; the
-page does that. Two CTAs on the homepage now lead to the same place (this
-section's button and the Portfolio "Start your own venture" button), which is
-fine — same promise, same destination.
+It deliberately does **not** repeat the pillars or audiences; the page does
+that. It shipped alongside a second homepage CTA to the same place — the
+Portfolio "Start your own venture" button — which was fine, same promise, same
+destination. With the Portfolio section removed, this section's button is the
+homepage's only route to `/business-mastery`.
 
 ---
 

@@ -41,16 +41,6 @@ export interface VentureService extends Service {
   ventureId: string;
 }
 
-export interface PortfolioItem {
-  id: string;
-  title: string;
-  category: string;
-  image: string;
-  imageAlt: string;
-  description: string;
-  ventureId: string;
-}
-
 export interface TeamMember {
   id: string;
   name: string;

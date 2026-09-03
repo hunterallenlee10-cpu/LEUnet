@@ -139,20 +139,13 @@ export function HeroSection() {
                 </GlassCardPadded>
               </div>
 
-              {/* CTA Buttons */}
+              {/* CTA */}
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <button
                   onClick={() => handleCTA(sectionIds.contact)}
                   className="btn-primary flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   Get Started
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => handleCTA(sectionIds.portfolio)}
-                  className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
-                >
-                  Explore Ventures
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
