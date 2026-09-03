@@ -1,7 +1,6 @@
 import { NavItem } from "@/types";
-import { H1_SITE_URL } from "@/lib/h1-site";
 
-// Business Mastery is LEU's flagship program rather than one of the three
+// Business Mastery is LEU's flagship program rather than one of the two
 // ventures, which is why it gets a top-level nav entry below instead of a row
 // in the Ventures menu, and why its route lives here rather than in
 // `venturePages`.
@@ -40,13 +39,11 @@ export const navigationItems: NavItem[] = [
 // missing from this map has no page of its own and falls back to its homepage
 // section anchor, which is why lookups are optional everywhere it's used.
 //
-// H1 Performance's page is its own site now (docs/H1.md), so its entry is an
-// absolute URL rather than a route. Both consumers cope: MainFooter renders a
-// Link, which handles an external href, and MainHeader's handleNavClick
-// navigates to anything that is not a `#` anchor.
+// Both ventures have a page, and both are routes on this domain. H1 Performance
+// held the one absolute entry here while it was still listed as a venture; it
+// is off this site entirely now, and docs/H1.md records what that left behind.
 export const venturePages: Record<string, string> = {
   lmm: "/lee-marketing-mastery",
-  h1: H1_SITE_URL,
   thread: "/thread-t-shirts",
 };
 
@@ -88,11 +85,6 @@ export const ventureNavItems: NavItem[] = [
     ],
   },
   {
-    label: "H1 Performance",
-    href: venturePages.h1,
-    id: "nav-venture-h1",
-  },
-  {
     label: "Thread T-Shirts",
     href: venturePages.thread,
     id: "nav-venture-thread",
@@ -104,7 +96,6 @@ export const sectionIds = {
   portfolio: "portfolio",
   businessMastery: "business-mastery",
   lmm: "lmm",
-  h1: "h1",
   thread: "thread",
   sharedValues: "shared-values",
   about: "about",

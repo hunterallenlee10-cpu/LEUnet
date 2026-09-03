@@ -114,7 +114,7 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 | `data/navigation.ts` | Add `businessMastery: "/business-mastery"` to the page map, a nav entry for it, and a `businessMastery` key in `sectionIds` for the homepage teaser anchor |
 
 Nav placement: its own entry in the main nav (it is the flagship program, not
-one of the three ventures, so it does not belong inside the Ventures menu).
+one of the ventures, so it does not belong inside the Ventures menu).
 Easy to move later if the header gets crowded.
 
 ---

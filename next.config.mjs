@@ -1,15 +1,17 @@
 import { resolveH1SiteUrl } from "./config/h1-site.mjs";
 
-// Resolved once here and handed to the app through `env` below, so the
-// redirect and every link in the app read the same value. docs/H1.md §3.
+// The redirects below are the only thing left here that points at the H1 site.
+// H1 Performance is no longer one of the ventures this site lists, so no app
+// code reads this value any more and it is not exported to the bundles through
+// `env`; it is resolved once, here, for the redirect. docs/H1.md.
 const H1_SITE_URL = resolveH1SiteUrl(process.env.NEXT_PUBLIC_H1_SITE_URL);
 
 // A 308 is cached by browsers indefinitely and treated by crawlers as a
 // permanent move, so it must not ship pointing at a host that might not be the
 // final one. While NEXT_PUBLIC_H1_SITE_URL is unset the redirect targets the
 // fallback alias and stays a 307 (temporary), which nothing caches hard; set
-// the variable to the real domain and it becomes a 308. docs/H1.md §3 spells
-// out the deploy order.
+// the variable to the real domain and it becomes a 308. docs/H1.md §5 spells
+// out the wiring and the ordering.
 const H1_REDIRECT_PERMANENT = Boolean(process.env.NEXT_PUBLIC_H1_SITE_URL);
 
 /**
@@ -50,12 +52,6 @@ const securityHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Inlined into every bundle at build time, already resolved (fallback
-  // applied, trailing slash stripped), so lib/h1-site.ts never sees an unset
-  // variable inside a Next build.
-  env: {
-    NEXT_PUBLIC_H1_SITE_URL: H1_SITE_URL,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -72,11 +68,15 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // H1 Performance moved to its own site (docs/H1.md, config/h1-site.mjs).
-      // Carries the old URL's inbound links and search placement over instead
-      // of landing on a 404. The H1 site is one page, so any sub-path collapses
-      // to its root; a `#section` fragment survives the redirect in the browser
-      // and the section ids are unchanged there.
+      // H1 Performance moved to its own site on 2026-09-01 and came off this
+      // site entirely on 2026-09-03 (docs/H1.md, config/h1-site.mjs). These
+      // redirects outlive the listing on purpose: /h1-performance was a real
+      // page here for months, and forwarding it carries that URL's inbound
+      // links and search placement to the live site instead of landing them on
+      // a 404. Nothing on this site links here any more. The H1 site is one
+      // page, so any sub-path collapses to its root; a `#section` fragment
+      // survives the redirect in the browser and the section ids are unchanged
+      // there.
       {
         source: "/h1-performance",
         destination: H1_SITE_URL,

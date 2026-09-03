@@ -3,7 +3,7 @@
 - **Stripe API version:** `2026-06-24.dahlia` (pinned in `lib/stripe.ts`)
 - **SDK:** `stripe` 22.3.x for Node
 - **Framework:** Next.js 16 App Router, Node runtime for all Stripe routes
-- **Account model:** one Stripe account covering all three ventures
+- **Account model:** one Stripe account covering the two ventures on this site, plus H1 invoicing (`docs/H1.md`)
 
 Two flows are live in code:
 
@@ -119,8 +119,10 @@ Customers are reused by email so each client accumulates one payment history.
 
 `ventureId` must be one of `lmm`, `h1`, `thread` — it tags the
 invoice for per-venture reporting inside the single shared account. H1
-Performance's website is a separate deployment now (`docs/H1.md`), but H1 is
-still invoiced from here, and the tag is unchanged.
+Performance is off the LEU site entirely (`docs/H1.md`) and its own site takes
+no payment, but H1 clients are still invoiced from here, so the tag is
+unchanged. This route sits behind `STRIPE_ADMIN_TOKEN` and renders nothing, so
+accepting `h1` says nothing to a visitor about which ventures LEU lists.
 
 ---
 
