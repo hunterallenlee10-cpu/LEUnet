@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { companyInfo, footerContent } from "@/data/company";
-import { sectionIds, venturePages } from "@/data/navigation";
+import { businessMasteryPage, sectionIds, venturePages } from "@/data/navigation";
 import { ventures } from "@/data/ventures";
 
 export function MainFooter() {
@@ -110,6 +110,21 @@ export function MainFooter() {
                   </li>
                 );
               })}
+
+              {/* Business Mastery is the flagship program rather than a third
+                  venture, which is why it is a hardcoded row here instead of
+                  an entry in `ventures` - that array is the two ventures, and
+                  the header keeps the same separation by giving the program
+                  its own nav item outside the Ventures menu. It sits last,
+                  after both ventures, at the owner's request. */}
+              <li>
+                <Link
+                  href={businessMasteryPage}
+                  className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
+                >
+                  LEU Business Mastery
+                </Link>
+              </li>
             </ul>
           </div>
 
