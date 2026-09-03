@@ -116,13 +116,19 @@ export function MainFooter() {
                   an entry in `ventures` - that array is the two ventures, and
                   the header keeps the same separation by giving the program
                   its own nav item outside the Ventures menu. It sits last,
-                  after both ventures, at the owner's request. */}
+                  after both ventures, at the owner's request.
+
+                  "Lee", not "LEU", is also the owner's call: the page it
+                  links to is titled "LEU Business Mastery" (`bmHero.title`)
+                  and the nav says "Business Mastery", so this row is
+                  deliberately the odd one out rather than a typo to correct.
+                  It reads as a sibling of "Lee Marketing Mastery" above it. */}
               <li>
                 <Link
                   href={businessMasteryPage}
                   className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
                 >
-                  LEU Business Mastery
+                  Lee Business Mastery
                 </Link>
               </li>
             </ul>
