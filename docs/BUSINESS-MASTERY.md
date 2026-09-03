@@ -210,17 +210,17 @@ the owner objects; keep the first in the data file as the alternate.
 ## 8. The homepage teaser
 
 One section, anchored by the new `sectionIds.businessMastery`. It shipped
-directly after `PortfolioSection`; that section has since been removed from the
-homepage, so it now follows `AboutSection`. It is a doorway, not a summary: the manifesto
-line, one or two sentences on what the program is, the founding-member
-scarcity line (real counter, shared from the same data file), and a single
-CTA — `ACHIEVE YOUR DREAMS →` — routing to `/business-mastery`.
+directly after `PortfolioSection`; that section has since been removed from
+the homepage, so it now follows `AboutSection`. It is a doorway, not a
+summary: the manifesto line, one or two sentences on what the program is, the
+founding-member scarcity line (real counter, shared from the same data file),
+and a single CTA — `ACHIEVE YOUR DREAMS →` — routing to `/business-mastery`.
 
-It deliberately does **not** repeat the pillars or audiences; the
-page does that. It shipped alongside a second homepage CTA to the same place —
-the Portfolio "Start your own venture" button — which was fine, same promise,
-same destination. With the Portfolio section removed, this section's button is
-the homepage's only route to `/business-mastery`.
+It deliberately does **not** repeat the pillars or audiences; the page does
+that. It shipped alongside a second homepage CTA to the same place — the
+Portfolio "Start your own venture" button — which was fine, same promise, same
+destination. With the Portfolio section removed, this section's button is the
+homepage's only route to `/business-mastery`.
 
 ---
 
