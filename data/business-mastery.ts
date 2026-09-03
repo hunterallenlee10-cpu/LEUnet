@@ -20,10 +20,14 @@ import {
 export const BM_OFFER_ID = "bm-offer";
 
 /**
- * The founding-member counter, rendered as "5 / 20 FOUNDING MEMBERS" on the
- * page and on the homepage teaser. Owner-maintained: update `claimed` here as
+ * The founding-member counter, rendered as "5 / 20 FOUNDING MEMBERS" in the
+ * offer section of the page. Owner-maintained: update `claimed` here as
  * members join. Phase C of docs/BUSINESS-MASTERY.md replaces this with a
  * count derived from completed Stripe payments.
+ *
+ * The homepage teaser used to render these same figures. It now carries
+ * `bmHero.scarcityLine` instead, so this is the page's number alone - if the
+ * two ever need to agree again, they have to be changed together.
  */
 export const bmFoundingCounter = {
   claimed: 5,
@@ -38,6 +42,15 @@ export const bmHero = {
   subtitle: "Speedrun Your Way to Success.",
   description:
     "Skip years of unnecessary trial and error by learning from people already building, failing, adapting, and winning.",
+  /**
+   * The scarcity line on the homepage teaser. This slot used to render the
+   * live "5 / 20 FOUNDING MEMBERS" figures from `bmFoundingCounter`; it is a
+   * flat statement now, at the owner's request. Unlike the counter it
+   * replaced, nothing in the repo can check it - it is a claim about the
+   * owner's own enrollment, so it stays true only as long as that is true.
+   * Change or remove it when enrollment is no longer closing.
+   */
+  scarcityLine: "Enrollment Closing Soon",
   cta: "Achieve Your Dreams",
 } as const;
 

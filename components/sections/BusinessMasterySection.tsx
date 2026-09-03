@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { businessMasteryPage, sectionIds } from "@/data/navigation";
-import { bmFoundingCounter, bmHero } from "@/data/business-mastery";
+import { bmHero } from "@/data/business-mastery";
 
 /**
  * Homepage doorway to /business-mastery — deliberately not a summary. The
  * page carries the pillars, phases, and audiences; this carries the
- * manifesto, the real founding counter (same owner-maintained figures the
- * page renders), and one CTA. docs/BUSINESS-MASTERY.md §8.
+ * manifesto, a scarcity line, and one CTA. The scarcity line used to be the
+ * real founding counter, sharing the page's owner-maintained figures; it is
+ * `bmHero.scarcityLine` now, so the teaser no longer states a number and the
+ * page's counter stands alone. docs/BUSINESS-MASTERY.md §8.
  */
 export function BusinessMasterySection() {
-  const { claimed, total } = bmFoundingCounter;
-
   return (
     <section
       id={sectionIds.businessMastery}
@@ -43,11 +43,8 @@ export function BusinessMasterySection() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-60" />
             <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400" />
           </span>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-300">
-            <span className="tabular-nums text-amber-400">
-              {claimed} / {total}
-            </span>{" "}
-            Founding Members
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-400">
+            {bmHero.scarcityLine}
           </p>
         </div>
 
