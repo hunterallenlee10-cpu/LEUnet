@@ -10,8 +10,6 @@
  * ItemList alongside the FAQs.
  */
 
-import { H1_SITE_URL } from "@/lib/h1-site";
-
 /**
  * Two questions were deleted here rather than rewritten: "What does built with
  * AI actually mean here?" and "Is an AI-built website lower quality than a
@@ -64,7 +62,7 @@ export const websiteFaqs = [
     // This answer invites the reader to go verify something, which means the
     // portfolio has to actually show whatever this sentence says it shows. It
     // used to list "a focused page for each offer" as visible in the portfolio;
-    // three of the four entries are single long pages, so the invitation failed
+    // two of the three entries are single long pages, so the invitation failed
     // on inspection. It now points at the one entry that genuinely demonstrates
     // page-per-offer - Lee Marketing Mastery, which is a hub about the venture
     // with its own page for websites, marketing, and automation, one of which
@@ -76,9 +74,9 @@ export const websiteFaqs = [
     // for a while, because /lee-marketing-mastery was itself the automation
     // page and carried that offering inline; automation now has its own route
     // and the broader phrasing is simply correct. Still do not widen the
-    // invitation out to the whole portfolio: the other three entries remain
+    // invitation out to the whole portfolio: the other two entries remain
     // single long pages, which is the reason this sentence names one entry
-    // rather than gesturing at all four.
+    // rather than gesturing at all three.
     question: "How do I know it will actually bring in customers?",
     answer:
       "We do not publish client results, because the sites in the portfolio on this page are our own ventures rather than client projects. What we offer instead is inspection: every one is live right now, so open one on your phone, read the first screen, and send the form the way a customer would. For the page-per-offer structure, look at the Lee Marketing Mastery entry - a hub about the business, plus its own page for websites, marketing, and automation, one of which you are reading. What gets built for you follows the same pattern: copy that leads with the outcome someone came looking for, one obvious next step on every screen, and measurement connected before launch rather than months later.",
@@ -183,11 +181,16 @@ export const websiteFaqs = [
  * CONTACT_TO_EMAIL address with only the subject line varying by venture. A chip
  * has to be checkable in the code or on the page, same as a summary.
  *
- * One thing this list must never imply: these are four separate websites for
- * four separate businesses. They are four routes on one domain and one
+ * One thing this list must never imply: these are three separate websites for
+ * three separate businesses. They are three routes on one domain and one
  * deployment, and two of them are the site the visitor is reading. The section
  * heading in WebsitesWorkSection carries that honesty; do not undercut it here
  * by writing summaries that read like separate client engagements.
+ *
+ * It was four entries until H1 Performance came off this site (docs/H1.md).
+ * Every count in this file and in WebsitesWorkSection moved with it, and the
+ * "on this domain" framing is simply true again now that no entry sits
+ * elsewhere.
  */
 export interface WebsitePortfolioItem {
   name: string;
@@ -234,22 +237,6 @@ export const websitePortfolio: WebsitePortfolioItem[] = [
     ],
   },
   {
-    // Its own site on its own domain since 2026-09-01 (docs/H1.md). It stays
-    // in this list because it is still one of LEU's own ventures and still a
-    // site a prospect can open and use; the href is the one shared constant
-    // every link to it reads. WebsitesWorkSection's copy describes the list as
-    // three routes here plus this one elsewhere - keep the two in step.
-    name: "H1 Performance",
-    href: H1_SITE_URL,
-    summary:
-      "Turns a parent or athlete weighing remote coaching into a consultation request. Both packages are priced on the page and the coaches’ playing records are listed, so cost and credentials are settled before anyone has to send a message asking.",
-    highlights: [
-      "Package pricing",
-      "Coach credentials",
-      "Athlete intake form",
-    ],
-  },
-  {
     // The summary and the third chip both used to say this site routes the
     // contact form to the right place. It does not. app/api/contact/route.ts
     // sends every submission to a single CONTACT_TO_EMAIL recipient and varies
@@ -259,9 +246,9 @@ export const websitePortfolio: WebsitePortfolioItem[] = [
     name: "Lee Enterprises Unlimited",
     href: "/",
     summary:
-      "Sends a visitor who came for one of three very different businesses to the right one without making them guess, then asks on the contact form which venture they are here about - so the enquiry lands already labeled instead of as a blank “get in touch” message.",
+      "Sends a visitor who came for one of two very different businesses to the right one without making them guess, then asks on the contact form which venture they are here about - so the enquiry lands already labeled instead of as a blank “get in touch” message.",
     highlights: [
-      "Three ventures, one site",
+      "Two ventures, one site",
       "Venture-by-venture detail",
       "Venture-labeled enquiries",
     ],

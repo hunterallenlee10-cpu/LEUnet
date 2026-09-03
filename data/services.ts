@@ -62,50 +62,6 @@ export const ventureServices = {
       icon: "📈",
     },
   ],
-  h1: [
-    {
-      id: "h1-strength",
-      title: "Strength Training",
-      description:
-        "Build real strength and develop a solid foundation for peak performance.",
-      icon: "💪",
-    },
-    {
-      id: "h1-speed",
-      title: "Speed & Agility",
-      description:
-        "Move faster, react quicker, and dominate your competition.",
-      icon: "⚡",
-    },
-    {
-      id: "h1-power",
-      title: "Power & Explosiveness",
-      description:
-        "Increase power output and generate force in every movement.",
-      icon: "🔥",
-    },
-    {
-      id: "h1-recovery",
-      title: "Recovery & Mobility",
-      description:
-        "Stay healthy, move well, and recover so you can keep performing.",
-      icon: "♻️",
-    },
-    {
-      id: "h1-hitting",
-      title: "Diet & Growth Plan",
-      description:
-        "Structured nutrition and growth plans built to help athletes gain muscle mass, recover faster, and perform at their best.",
-      icon: "🍎",
-    },
-    {
-      id: "h1-programming",
-      title: "Supplement Resources",
-      description:
-        "Research-backed supplement education and personalized planning designed to help athletes support performance, recovery, and nutrition with informed, responsible decisions.",
-      icon: "🫙",
-    },
-  ],
   thread: [
     {
       id: "thread-quality",
@@ -177,32 +133,6 @@ export const ventureValuesProps = {
       title: "Proven Systems",
       description:
         "Our tested systems have delivered measurable growth across businesses of every size—from independent startups to nine-figure enterprises. Every strategy is built to scale, perform, and produce real results.",
-    },
-  ],
-  h1: [
-    {
-      id: "h1-focused",
-      title: "Athlete Focused",
-      description:
-        "Every program is built around your goals, your sport, and the areas you need most to improve.",
-    },
-    {
-      id: "h1-driven",
-      title: "Results-Driven",
-      description:
-        "We develop real strength, speed, power, and confidence that translate directly to performance.",
-    },
-    {
-      id: "h1-expert",
-      title: "Expert Coaching",
-      description:
-        "Train with knowledgeable coaches who push you, guide you, and help bring out your best.",
-    },
-    {
-      id: "h1-results",
-      title: "Proven Development",
-      description:
-        "Our athletes make measurable progress in the gym, in competition, and in their overall development.",
     },
   ],
   thread: [

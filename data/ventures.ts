@@ -32,21 +32,6 @@ export const ventures: Venture[] = [
     colors: VENTURE_COLORS.lmm,
   },
   {
-    id: "h1",
-    name: "H1 Performance",
-    tagline: "Elite Training. Proven Results.",
-    logo: "/logos/h1-performance-white.png",
-    logoAlt: "H1 Performance logo",
-    description:
-      "H1 Performance provides personalized athletic development designed to help athletes become stronger, faster, more explosive, and more confident in competition. Through expert coaching, structured training, nutrition guidance, recovery planning, and measurable performance tracking, every program is built around the athlete’s individual goals. Our mission is to develop complete athletes and produce results that translate from the gym directly to the field.",
-    ctaPrimary: "Book a Consultation",
-    ctaSecondary: "View Programs",
-    heroSubtitle: "Train Harder. Perform Higher.",
-    heroDescription:
-      "Elite Training. Proven Results. H1 Performance delivers personalized athletic development designed to build strength, speed, power, and measurable performance on and off the field.",
-    colors: VENTURE_COLORS.h1,
-  },
-  {
     id: "thread",
     name: "Thread T-Shirts",
     tagline: "Premium Casual Wear Designed for Everyday Excellence",

@@ -40,7 +40,6 @@ export const contactFormFields = {
     options: [
       { value: "", label: "Select a venture or service..." },
       { value: "lmm", label: "Lee Marketing Mastery" },
-      { value: "h1", label: "H1 Performance" },
       { value: "thread", label: "Thread T-Shirts" },
       { value: "other", label: "Other / Lee Enterprises Inquiry" },
     ],

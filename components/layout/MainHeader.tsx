@@ -121,8 +121,11 @@ export function MainHeader() {
 
     // A venture with its own page uses a real route rather than a homepage
     // anchor, so it navigates directly from wherever the visitor happens to be.
-    // H1 Performance's page is its own site (docs/H1.md), so an absolute URL
-    // takes the same path; only `#` anchors fall through to the scroll below.
+    // Only `#` anchors fall through to the scroll below. Nothing in the menu is
+    // an absolute URL today - H1 Performance was, while it was listed as a
+    // venture on its own domain (docs/H1.md) - and the test stays because
+    // without it an off-site href would fall to the `!isHome` branch below and
+    // be navigated to as "/https://…".
     if (href.startsWith("/") || /^https?:\/\//.test(href)) {
       window.location.assign(href);
       return;

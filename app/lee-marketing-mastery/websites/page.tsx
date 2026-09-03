@@ -88,8 +88,8 @@ const SITE_URL = "https://leeenterprisesunlimited.com";
  * Same restraint as the parent LMM page: structured data covers only what the
  * site can substantiate - who provides the service, what is offered, the FAQ
  * content rendered below, and a portfolio of sites that are genuinely live and
- * clickable - three routes on this domain plus H1 Performance on its own domain
- * (docs/H1.md). No ratings, no review counts, no client claims.
+ * clickable - three routes on this domain. No ratings, no review counts, no
+ * client claims.
  */
 const structuredData = {
   "@context": "https://schema.org",
@@ -141,13 +141,12 @@ const structuredData = {
         "@type": "ListItem",
         position: index + 1,
         name,
-        // Most portfolio hrefs are routes on this domain, so they take the
-        // SITE_URL prefix. H1 Performance is its own site now (docs/H1.md), so
-        // its href is already an absolute origin and must be emitted as-is —
-        // prefixing it would produce "https://…comhttps://…", a malformed URL.
-        url: /^https?:\/\//.test(href)
-          ? href
-          : `${SITE_URL}${href === "/" ? "" : href}`,
+        // Every portfolio href is a route on this domain, so each takes the
+        // SITE_URL prefix. This guarded against an absolute href while H1
+        // Performance was listed on its own domain (docs/H1.md) - prefixing one
+        // produces "https://…comhttps://…", a malformed URL - so put the guard
+        // back if an entry is ever hosted elsewhere again.
+        url: `${SITE_URL}${href === "/" ? "" : href}`,
       })),
     },
     {

@@ -24,17 +24,6 @@ export const VENTURE_COLORS: Record<string, VentureColors> = {
     glassBg: "rgba(255, 193, 7, 0.08)",
     glassOpacity: "0.08",
   },
-  h1: {
-    primary: "#FFD700", // Gold/yellow
-    accent: "#FFC107", // Bright gold
-    dark: "#0A0A0A",
-    light: "#FFFFFF",
-    text: "#FFFFFF",
-    textMuted: "#B0B0B0",
-    border: "#2A2A2A",
-    glassBg: "rgba(255, 215, 0, 0.08)",
-    glassOpacity: "0.08",
-  },
   thread: {
     primary: "#D4AF37", // Gold (luxury)
     accent: "#F4D03F", // Lighter gold
@@ -50,7 +39,6 @@ export const VENTURE_COLORS: Record<string, VentureColors> = {
 
 export const VENTURES_BY_ID = {
   lmm: "lmm",
-  h1: "h1",
   thread: "thread",
 } as const;
 
@@ -66,12 +54,6 @@ export function getTailwindColorClass(
     lmm: {
       primary: "from-amber-400 to-amber-500",
       accent: "from-orange-400 to-orange-500",
-      dark: "bg-neutral-950",
-      light: "bg-white",
-    },
-    h1: {
-      primary: "from-yellow-400 to-yellow-500",
-      accent: "from-amber-400 to-amber-500",
       dark: "bg-neutral-950",
       light: "bg-white",
     },

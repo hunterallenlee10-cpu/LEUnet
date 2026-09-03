@@ -26,7 +26,9 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ## Payments
 
-Stripe Payments and Invoicing are wired up for all three ventures. See
+Stripe Payments and Invoicing are wired up for both ventures on this site, and
+invoices can still be tagged `h1` for H1 Performance, which is invoiced from
+here even though it is no longer on this site ([docs/H1.md](docs/H1.md)). See
 [docs/STRIPE.md](docs/STRIPE.md) for setup, environment variables, and the
 go-live checklist.
 
@@ -34,16 +36,20 @@ go-live checklist.
 
 H1 Performance runs from its own repo and website:
 [hunterallenlee10-cpu/h1-performance](https://github.com/hunterallenlee10-cpu/h1-performance).
-This site redirects `/h1-performance` there and links to it from the Ventures
-menu, the footer, and the Lee Marketing Mastery portfolio, all through one
-value: set `NEXT_PUBLIC_H1_SITE_URL` to the H1 site's domain in the Vercel
-environment.
+It is no longer one of the ventures this site lists — nothing here names it or
+links to it. Lee Enterprises Unlimited lists two ventures: Lee Marketing
+Mastery and Thread T-Shirts.
 
-Deploy the H1 project first, confirm its URL, set `NEXT_PUBLIC_H1_SITE_URL`
-here, and only then deploy this — the `/h1-performance` redirect is a permanent
-(308) redirect once that variable is set, so its target must already answer.
-See [docs/H1.md](docs/H1.md) §3 for the ordering and for what stayed here and
-why.
+What remains is the redirect: `/h1-performance` and `/h1/*` forward to the H1
+site so the URLs that page used to answer on keep their inbound links and
+search placement instead of 404ing. Set `NEXT_PUBLIC_H1_SITE_URL` to the H1
+site's domain in the Vercel environment (Production and Preview, no trailing
+slash), and confirm that target answers first — the redirect becomes a
+permanent 308 once the variable is set, and a 308 is cached indefinitely. Until
+it is set, the redirect targets a fallback alias and stays a temporary 307.
+
+See [docs/H1.md](docs/H1.md) for what each stage of the split left behind here,
+what stayed, and why.
 
 ## Learn More
 

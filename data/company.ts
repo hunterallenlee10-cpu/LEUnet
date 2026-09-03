@@ -1,8 +1,8 @@
 export const companyInfo = {
   name: "Lee Enterprises Unlimited",
-  tagline: "Empowering Excellence Across Three Distinct Ventures",
+  tagline: "Empowering Excellence Across Two Distinct Ventures",
   description:
-    "Lee Enterprises Unlimited is a holding company dedicated to building and scaling exceptional ventures across marketing, athletics, and apparel. Each venture is designed to deliver premium value and results.",
+    "Lee Enterprises Unlimited is a holding company dedicated to building and scaling exceptional ventures across marketing and apparel. Each venture is designed to deliver premium value and results.",
   heroTitle: "Lee Enterprises Unlimited",
   heroSubtitle: "Multiple Ventures. Unified Excellence.",
   heroDescription:
@@ -46,11 +46,19 @@ export const aboutSection = {
   ],
 };
 
+/**
+ * Nothing renders this today; it is kept as the copy a final CTA would use.
+ * The list of interests used to read "marketing services, property cleaning,
+ * athletic training, or premium apparel". Athletic training left with H1
+ * Performance (docs/H1.md), and property cleaning named a venture this site has
+ * never had - unrendered copy drifts, which is why both are cut here rather
+ * than left for whoever wires this up.
+ */
 export const ctaContent = {
   final: {
     title: "Ready to Get Started?",
     description:
-      "Whether you're interested in marketing services, property cleaning, athletic training, or premium apparel, we're here to help.",
+      "Whether you're interested in marketing services or premium apparel, we're here to help.",
     buttonText: "Contact Us Today",
   },
 };

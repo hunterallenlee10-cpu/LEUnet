@@ -28,8 +28,8 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL('https://leeenterprisesunlimited.com'),
   title: 'Lee Enterprises Unlimited | Premium Business Portfolio',
-  description: 'Lee Enterprises Unlimited is a holding company managing three distinct ventures: Lee Marketing Mastery, H1 Performance, and Thread T-Shirts. Each venture is dedicated to delivering premium value and measurable results.',
-  keywords: ['Lee Enterprises', 'marketing', 'athletic training', 'apparel', 'business portfolio'],
+  description: 'Lee Enterprises Unlimited is a holding company managing two distinct ventures: Lee Marketing Mastery and Thread T-Shirts. Each venture is dedicated to delivering premium value and measurable results.',
+  keywords: ['Lee Enterprises', 'marketing', 'apparel', 'business portfolio'],
   authors: [{ name: 'Lee Enterprises Unlimited' }],
   creator: 'Lee Enterprises Unlimited',
   publisher: 'Lee Enterprises Unlimited',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://leeenterprisesunlimited.com',
     title: 'Lee Enterprises Unlimited',
-    description: 'A premium portfolio of three distinct business ventures dedicated to excellence.',
+    description: 'A premium portfolio of two distinct business ventures dedicated to excellence.',
     images: [
       {
         url: '/logos/leu-logo.png',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Lee Enterprises Unlimited',
-    description: 'Premium business portfolio of three distinct ventures.',
+    description: 'Premium business portfolio of two distinct ventures.',
   },
   icons: {
     icon: '/logos/leu-logo.png',
