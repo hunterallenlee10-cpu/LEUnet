@@ -30,6 +30,21 @@ Stripe Payments and Invoicing are wired up for all three ventures. See
 [docs/STRIPE.md](docs/STRIPE.md) for setup, environment variables, and the
 go-live checklist.
 
+## H1 Performance
+
+H1 Performance runs from its own repo and website:
+[hunterallenlee10-cpu/h1-performance](https://github.com/hunterallenlee10-cpu/h1-performance).
+This site redirects `/h1-performance` there and links to it from the Ventures
+menu, the footer, and the Lee Marketing Mastery portfolio, all through one
+value: set `NEXT_PUBLIC_H1_SITE_URL` to the H1 site's domain in the Vercel
+environment.
+
+Deploy the H1 project first, confirm its URL, set `NEXT_PUBLIC_H1_SITE_URL`
+here, and only then deploy this — the `/h1-performance` redirect is a permanent
+(308) redirect once that variable is set, so its target must already answer.
+See [docs/H1.md](docs/H1.md) §3 for the ordering and for what stayed here and
+why.
+
 ## Learn More
 
 To learn more, take a look at the following resources:

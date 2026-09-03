@@ -1,4 +1,5 @@
 import { NavItem } from "@/types";
+import { H1_SITE_URL } from "@/lib/h1-site";
 
 // Business Mastery is LEU's flagship program rather than one of the three
 // ventures, which is why it gets a top-level nav entry below instead of a row
@@ -38,9 +39,14 @@ export const navigationItems: NavItem[] = [
 // Single source of truth for venture id -> dedicated page route. A venture
 // missing from this map has no page of its own and falls back to its homepage
 // section anchor, which is why lookups are optional everywhere it's used.
+//
+// H1 Performance's page is its own site now (docs/H1.md), so its entry is an
+// absolute URL rather than a route. Both consumers cope: MainFooter renders a
+// Link, which handles an external href, and MainHeader's handleNavClick
+// navigates to anything that is not a `#` anchor.
 export const venturePages: Record<string, string> = {
   lmm: "/lee-marketing-mastery",
-  h1: "/h1-performance",
+  h1: H1_SITE_URL,
   thread: "/thread-t-shirts",
 };
 
