@@ -212,9 +212,18 @@ the owner objects; keep the first in the data file as the alternate.
 One section, anchored by the new `sectionIds.businessMastery`. It shipped
 directly after `PortfolioSection`; that section has since been removed from
 the homepage, so it now follows `AboutSection`. It is a doorway, not a
-summary: the manifesto line, one or two sentences on what the program is, the
-founding-member scarcity line (real counter, shared from the same data file),
-and a single CTA — `ACHIEVE YOUR DREAMS →` — routing to `/business-mastery`.
+summary: the manifesto line, one or two sentences on what the program is, a
+scarcity line, and a single CTA — `ACHIEVE YOUR DREAMS →` — routing to
+`/business-mastery`.
+
+The scarcity line shipped as the real founding counter, sharing
+`bmFoundingCounter` with the page. At the owner's request it is now the flat
+statement `bmHero.scarcityLine` ("Enrollment Closing Soon"), so the teaser
+states no number and §6.2's true-count rule applies to the page's counter
+alone. Note what changed in kind: the counter was checkable against a figure
+the owner maintains, and this line is not — it holds only as long as
+enrollment really is closing, so it needs changing when that stops being
+true.
 
 It deliberately does **not** repeat the pillars or audiences; the page does
 that. It shipped alongside a second homepage CTA to the same place — the
