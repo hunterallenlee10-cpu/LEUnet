@@ -66,8 +66,11 @@ export interface NavItem {
   label: string;
   href: string;
   id: string;
-  featured?: boolean;
-  /** Pages nested under this item, shown in a submenu one level deep. */
+  /**
+   * Pages belonging to this item, shown as a dropdown under it. Carrying them
+   * is what makes an entry a dropdown — there is no separate flag. The header
+   * renders one level only.
+   */
   subItems?: NavItem[];
 }
 

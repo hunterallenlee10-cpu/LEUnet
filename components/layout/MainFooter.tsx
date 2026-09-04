@@ -114,9 +114,12 @@ export function MainFooter() {
               {/* Business Mastery is the flagship program rather than a third
                   venture, which is why it is a hardcoded row here instead of
                   an entry in `ventures` - that array is the two ventures, and
-                  the header keeps the same separation by giving the program
-                  its own nav item outside the Ventures menu. It sits last,
-                  after both ventures, at the owner's request.
+                  the header keeps the same separation by giving the program a
+                  nav entry of its own. (It kept it when the header's Ventures
+                  menu was flattened: the two ventures are now top-level
+                  entries beside the program rather than rows inside a menu.)
+                  Here it sits last, after both ventures, at the owner's
+                  request - the header leads with it instead.
 
                   "Lee", not "LEU", is also the owner's call: the page it
                   links to is titled "LEU Business Mastery" (`bmHero.title`)
