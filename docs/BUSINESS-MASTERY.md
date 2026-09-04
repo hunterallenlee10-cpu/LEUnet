@@ -115,7 +115,10 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 | `data/navigation.ts` | Add `businessMastery: "/business-mastery"` to the page map, a nav entry for it, and a `businessMastery` key in `sectionIds` for the homepage teaser anchor |
 
 Nav placement: its own entry in the main nav (it is the flagship program, not
-one of the ventures, so it does not belong inside the Ventures menu).
+one of the ventures, so it did not belong inside the Ventures menu). That menu
+has since been flattened at the owner's request — the two ventures are
+top-level entries beside this one now, with Lee Marketing Mastery keeping its
+three offerings in a dropdown of its own. Business Mastery leads the three.
 Easy to move later if the header gets crowded.
 
 ---

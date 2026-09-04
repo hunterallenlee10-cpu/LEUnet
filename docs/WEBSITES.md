@@ -43,12 +43,14 @@ Nesting it under `/lee-marketing-mastery/` makes the parent-child relationship
 legible in the URL itself, and both the hero and the final CTA link back up to
 the parent page.
 
-Consequence: it is deliberately **not** in `ventureNavItems`
-(`data/navigation.ts`). The global "Ventures" dropdown lists ventures, and
-putting a service offering in it would misrepresent what it is. The page is
-reached from the sibling-links row in every LMM hero, from search, and from
-direct links. If it needs a global nav entry later, that is a decision to make
-on purpose, not a side effect of this build.
+Consequence: it is deliberately not a venture row of its own in
+`navigationItems` (`data/navigation.ts`). It is reached from the sibling-links
+row in every LMM hero, from search, from direct links — and, since the Ventures
+menu was flattened, from the Lee Marketing Mastery dropdown in the global nav,
+which lists this page alongside the other two offerings. That entry is a child
+of the venture, not a sibling of it, so the distinction this section draws
+still holds: a service offering is not a venture. Promoting one to a top-level
+nav entry would be a decision to make on purpose.
 
 ### Why no prices
 

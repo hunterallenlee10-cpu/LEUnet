@@ -15,7 +15,8 @@ How the three Lee Marketing Mastery offering pages point at each other.
 
 Lee Marketing Mastery is a venture hub plus three offering pages, and a visitor
 who lands on any one of the three had no way to reach the other two without
-going back out to the venture menu. The row fixes that: each offering hero
+going back out to the nav (the Ventures menu then; the Lee Marketing Mastery
+dropdown now). The row fixes that: each offering hero
 carries pills to the *other two* offerings.
 
 The hub at `/lee-marketing-mastery` does not render this row, and should not.

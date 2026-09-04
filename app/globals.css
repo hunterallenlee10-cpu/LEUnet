@@ -728,23 +728,10 @@
 }
 
 /* Ventures Dropdown Animation */
+/* Entrance for the header's dropdown panel. Deliberately translate-Y only:
+   the panel is centred by its positioning wrapper, not by this keyframe, so
+   `forwards` cannot leave it parked half its own width off-centre. */
 @keyframes fadeInSlide {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-/* The same entrance for surfaces that are not centred with
-   `-translate-x-1/2`. `fadeInSlide` bakes that centring into its keyframes,
-   and `forwards` keeps it after the animation ends, so a panel positioned by
-   its left edge — the ventures submenu flyout — would finish permanently
-   shifted half its own width. */
-@keyframes fadeInSlideStatic {
   from {
     opacity: 0;
     transform: translateY(-8px);
