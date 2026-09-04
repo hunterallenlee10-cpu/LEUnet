@@ -1,6 +1,7 @@
 "use client";
 
-import { sectionIds } from "@/data/navigation";
+import Link from "next/link";
+import { businessMasteryPage, sectionIds } from "@/data/navigation";
 import { aboutSection } from "@/data/company";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
 import { Heart, Zap, TrendingUp, Shield, ArrowRight } from "lucide-react";
@@ -74,10 +75,12 @@ export function AboutSection() {
             </div>
           </GlassCardPadded>
 
-          {/* Mission CTA - destination intentionally unwired for now */}
+          {/* Mission CTA - the mission copy ends on "make your dreams come
+              true", so this sends readers to Business Mastery, the program
+              that turns an idea into a business. */}
           <div className="mt-10 flex justify-center">
-            <button
-              type="button"
+            <Link
+              href={businessMasteryPage}
               className="btn-primary group inline-flex items-center justify-center gap-2 px-8 py-4 text-base sm:text-lg shadow-lg shadow-amber-400/20 hover:shadow-xl hover:shadow-amber-400/30"
             >
               Get started on your dreams
@@ -85,7 +88,7 @@ export function AboutSection() {
                 className="h-5 w-5 transition-transform group-hover:translate-x-1"
                 aria-hidden="true"
               />
-            </button>
+            </Link>
           </div>
         </div>
       </div>
