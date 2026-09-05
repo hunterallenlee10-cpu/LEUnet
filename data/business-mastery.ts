@@ -286,7 +286,7 @@ export const bmJourney = {
   heading: "The Journey",
   description: "The experiences that built LEU.",
   startCta: "Start Timeline",
-  hint: "Scroll or click arrows",
+  hint: "Click arrows",
   /** Shown once, on the timeline's intro slide. */
   comingSoonNote:
     "The full story behind each chapter is being written and will be added here.",
