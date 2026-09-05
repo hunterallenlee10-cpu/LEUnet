@@ -10,9 +10,11 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
  * modeled on the timeline the page plan named as its structural inspiration:
  * a full-width intro slide, one slide per chapter, edge arrows, and a
  * scrubber bar across the bottom with every stop — a dot and its title, the
- * current stop lit. The reference put a chapter number above each dot and so
- * did this until the owner asked the numbers off; the slides still carry
- * theirs. Rendered in LEU's gold-on-black rather
+ * current stop lit. The reference numbered every stop and every slide, and so
+ * did this until the owner asked the numbers off both. Nothing in the section
+ * displays a chapter number now; `chapter.number` orders the chapters and
+ * names them for assistive tech, and that is all. Rendered in LEU's
+ * gold-on-black rather
  * than the reference's palette. The intro eyebrow reads "A Life in Full" —
  * the owner's chosen name for the section, which is also what that reference
  * timeline was called; the two are not otherwise related.
@@ -23,7 +25,7 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
  * vertical scroll is never captured.
  *
  * Chapter bodies are still coming soon (docs/BUSINESS-MASTERY.md §7): each
- * slide carries its number and title big, plus the one-line note from
+ * slide carries its title big, plus the one-line note from
  * `bmJourney.chapterNote`. The stories drop into the data file later as a
  * pure content swap.
  */
@@ -217,24 +219,22 @@ export function BmJourneyTimeline() {
                 aria-label={`Chapter ${pad(chapter.number)}: ${chapter.title}`}
                 className="relative flex h-full w-full shrink-0 snap-center flex-col items-center justify-center px-6 text-center"
               >
-                {/* Ghost number, the slide's backdrop. */}
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 flex items-center justify-center text-[min(46vw,26rem)] font-bold leading-none text-amber-400/[0.06]"
-                >
-                  {pad(chapter.number)}
-                </span>
-
-                <p className="text-xs font-semibold uppercase tracking-[0.4em] text-amber-400 sm:text-sm">
-                  Chapter {pad(chapter.number)}{" "}
-                  <span className="text-neutral-500">/ {pad(bmChapters.length)}</span>
-                </p>
+                {/* A slide was a ghost numeral behind a `CHAPTER 01 / 14`
+                    eyebrow above the title. The owner asked the numbers off
+                    the slides too, and both of those existed only to state
+                    one, so both are gone rather than left as a bare
+                    "CHAPTER" — a word that would label nothing. No number is
+                    displayed anywhere in the timeline now; `chapter.number`
+                    survives as the ordering key and in the accessible names
+                    below, which is where position still has to be legible.
+                    The title is the slide's first element, so it carries no
+                    top margin. */}
                 <h3
                   // The color lives with each branch: putting text-white on
                   // the base and text-amber-400 on the final chapter leaves
                   // both classes on the element, and stylesheet order — not
                   // class order — would pick the winner.
-                  className={`mt-5 max-w-4xl font-bold uppercase leading-[1.02] tracking-tight ${
+                  className={`max-w-4xl font-bold uppercase leading-[1.02] tracking-tight ${
                     index === bmChapters.length - 1
                       ? "text-[56px] text-amber-400 sm:text-[80px] lg:text-[clamp(84px,7.5vw,120px)]"
                       : "text-[40px] text-white sm:text-[56px] lg:text-[clamp(56px,5vw,84px)]"

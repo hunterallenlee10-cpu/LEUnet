@@ -208,12 +208,19 @@ interaction model gets designed and settled, and the story drops in later as
 a pure content swap in `data/business-mastery.ts`. Its presentation is the
 horizontal chapter-by-chapter experience from the timeline the original page
 plan cited as structural inspiration, in LEU's gold-on-black: a full-width
-intro slide, one slide per chapter `01 — The Beginning` through `14 — LEU`,
-edge arrows, and a bottom scrubber bar — a dot per stop with its title below,
-current stop lit. That bar carried a chapter number above each dot until the
-owner asked the numbers off it; the slides keep theirs (the ghost numeral and
-the `CHAPTER 01 / 14` eyebrow), so the numbering is still visible where a
-reader is actually reading a chapter. Navigation is native horizontal scroll-snap (swipe /
+intro slide, one slide per chapter in the owner's order — The Beginning
+through LEU — edge arrows, and a bottom scrubber bar: a dot per stop with its
+title below, current stop lit.
+
+**Chapter numbers are not displayed anywhere in this section.** The reference
+numbered both the scrubber stops and the slides, and this did too — stops
+labelled `01`–`14`, slides carrying a ghost numeral behind a `CHAPTER 01 / 14`
+eyebrow — until the owner asked them off the scrubber and then off the slides
+as well. Both eyebrow and numeral went with the numbers rather than surviving
+as a bare "CHAPTER", which would label nothing. `chapter.number` stays in the
+data as the ordering key and in the accessible names of the slides and stops,
+where position still has to be legible; it is no longer a visible element, so
+the chapters are identified on screen by title alone. Navigation is native horizontal scroll-snap (swipe /
 sideways scroll / arrow keys / edge arrows / scrubber clicks) — the page's
 vertical scroll is never hijacked. Chapter titles ship as the owner's current
 numbered list; the "cinematic" alternates (`OBSESSION`, `ALL IN`, `THE BOUNCE
