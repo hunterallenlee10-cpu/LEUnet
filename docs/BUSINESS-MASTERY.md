@@ -209,8 +209,11 @@ a pure content swap in `data/business-mastery.ts`. Its presentation is the
 horizontal chapter-by-chapter experience from the timeline the original page
 plan cited as structural inspiration, in LEU's gold-on-black: a full-width
 intro slide, one slide per chapter `01 — The Beginning` through `14 — LEU`,
-edge arrows, and a bottom scrubber bar — chapter number above each dot, title
-below, current stop lit. Navigation is native horizontal scroll-snap (swipe /
+edge arrows, and a bottom scrubber bar — a dot per stop with its title below,
+current stop lit. That bar carried a chapter number above each dot until the
+owner asked the numbers off it; the slides keep theirs (the ghost numeral and
+the `CHAPTER 01 / 14` eyebrow), so the numbering is still visible where a
+reader is actually reading a chapter. Navigation is native horizontal scroll-snap (swipe /
 sideways scroll / arrow keys / edge arrows / scrubber clicks) — the page's
 vertical scroll is never hijacked. Chapter titles ship as the owner's current
 numbered list; the "cinematic" alternates (`OBSESSION`, `ALL IN`, `THE BOUNCE

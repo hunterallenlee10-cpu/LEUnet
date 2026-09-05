@@ -9,8 +9,10 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
  * Section 8 — the journey as a horizontal, chapter-by-chapter experience,
  * modeled on the timeline the page plan named as its structural inspiration:
  * a full-width intro slide, one slide per chapter, edge arrows, and a
- * scrubber bar across the bottom with every stop — number above the dot,
- * title below, the current stop lit. Rendered in LEU's gold-on-black rather
+ * scrubber bar across the bottom with every stop — a dot and its title, the
+ * current stop lit. The reference put a chapter number above each dot and so
+ * did this until the owner asked the numbers off; the slides still carry
+ * theirs. Rendered in LEU's gold-on-black rather
  * than the reference's palette. The intro eyebrow reads "A Life in Full" —
  * the owner's chosen name for the section, which is also what that reference
  * timeline was called; the two are not otherwise related.
@@ -303,21 +305,19 @@ export function BmJourneyTimeline() {
                     // narrower screens scroll the strip.
                     className="group flex w-[92px] flex-col items-center pb-5 pt-4 sm:w-[96px]"
                   >
-                    <span
-                      className={`text-xs font-semibold tabular-nums tracking-[0.25em] transition-colors ${
-                        isActive
-                          ? "text-amber-400"
-                          : "text-neutral-500 group-hover:text-neutral-300"
-                      }`}
-                    >
-                      {pad(chapter.number)}
-                    </span>
+                    {/* Each stop used to label itself `01`…`14` above the dot;
+                        the owner asked the numbers off, so a stop is now the
+                        dot plus its title. The number stays in `aria-label`,
+                        which is not a visible-label mismatch — the accessible
+                        name still contains the visible title — and it is how a
+                        screen-reader user keeps their place in fourteen stops
+                        that otherwise announce as titles alone.
 
-                    {/* Dot on the through-line. The line is drawn per-stop as
+                        Dot on the through-line. The line is drawn per-stop as
                         two half-width strips so it needs no measured overlay,
                         and the row's ends stop cleanly at the first and last
                         dots. */}
-                    <span className="relative mt-3 flex h-3 w-full items-center justify-center">
+                    <span className="relative flex h-3 w-full items-center justify-center">
                       {index > 0 && (
                         <span
                           className={`absolute left-0 right-1/2 h-px ${
