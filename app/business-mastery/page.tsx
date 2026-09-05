@@ -7,7 +7,6 @@ import { BmAudienceSection } from "@/components/business-mastery/BmAudienceSecti
 import { BmEmpireSection } from "@/components/business-mastery/BmEmpireSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
-import { BmFounderSection } from "@/components/business-mastery/BmFounderSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
 import { BmTransitionSection } from "@/components/business-mastery/BmTransitionSection";
 import { BmFinalCTASection } from "@/components/business-mastery/BmFinalCTASection";
@@ -66,7 +65,13 @@ export default function BusinessMasteryPage() {
       <BmEmpireSection />
       <BmProgramSection />
       <BmFoundingOfferSection />
-      <BmFounderSection />
+      {/* Section 7, Why I Built LEU, is out at the owner's request — "for
+          now", so this is a pause rather than a deletion. BmFounderSection
+          and `bmFounder` are both intact and unchanged; putting the section
+          back is this line plus its import, nothing more. Unlike The Vision
+          and The Evolution (docs/BUSINESS-MASTERY.md §3) the sections after
+          it are NOT renumbered, because the numbering has to survive the
+          section coming back. */}
       <BmJourneyTimeline />
       <BmTransitionSection />
       <BmFinalCTASection />
