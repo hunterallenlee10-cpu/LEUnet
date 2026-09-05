@@ -262,6 +262,9 @@ export const bmOffer = {
 } as const;
 
 // --- 7. Why I Built LEU ----------------------------------------------------
+// Feeds BmFounderSection, which the page does not render at the moment (the
+// owner asked for that section out "for now"). Kept as-is so the section can
+// go back with no content work.
 
 export const bmFounder = {
   heading: "Why I Built LEU",

@@ -2,10 +2,15 @@ import { bmFounder } from "@/data/business-mastery";
 import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
 
 /**
- * Section 7 — the personal mission. Renders what exists today: the legacy
- * statement and its supporting idea. The full founder story integrates here
- * when the My Story document is written (docs/BUSINESS-MASTERY.md §7); until
- * then the coming-soon marker says so plainly.
+ * Section 7 — the personal mission. NOT ON THE PAGE RIGHT NOW: the owner
+ * asked for it out "for now", so app/business-mastery/page.tsx no longer
+ * renders it and this file is kept whole for when it comes back. Nothing
+ * else changed with it.
+ *
+ * Renders what exists today: the legacy statement and its supporting idea.
+ * The full founder story integrates here when the My Story document is
+ * written (docs/BUSINESS-MASTERY.md §7); until then the coming-soon marker
+ * says so plainly.
  */
 export function BmFounderSection() {
   return (

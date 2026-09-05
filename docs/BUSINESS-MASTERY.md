@@ -20,7 +20,7 @@ Phases B (story) and C (checkout) remain — see §9.
 | Join flow | **Application form first.** Own API route, Resend email to `ceo@leeenterprisesunlimited.com`, same pattern as every other venture form. No on-page payment in this build. |
 | Payments | None in this build. Stripe checkout for the founding-member one-time payment is Phase C — the scaffolding already exists (`app/api/stripe/*`), but price, guarantee terms, and refund handling must be written first. |
 | Founding counter | Not rendered. `bmFoundingCounter` (`claimed` / `total`) survives in `data/business-mastery.ts` as a record and a Phase C hook; the offer section shows a plain "Limited Spots" box instead — see §6. |
-| Unfinished content | Render whatever is confirmed, and mark the rest with a consistent **"coming soon"** treatment (owner's call). Applies to the Journey chapters, the full founder story, and the guarantee terms. |
+| Unfinished content | Render whatever is confirmed, and mark the rest with a consistent **"coming soon"** treatment (owner's call). Applies to the Journey chapters and the guarantee terms; it applied to the full founder story too, until that section came off the page (§3). |
 | Exploratory sections | **Empire in, Vision out**: "How to Build Your Own Empire" makes this build; "The Vision" shipped in the first build and was removed at the owner's request. Placement in §3. |
 | Palette | LEU's own amber/gold on black — the homepage identity, not a new sub-brand palette. Business Mastery is LEU itself, and the page should look like it. |
 | Contact | `ceo@leeenterprisesunlimited.com`, same as every other form. |
@@ -58,7 +58,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 4 | **How to Build Your Own Empire** | Owner doc exploratory section: the 8-step framework (Starting from zero → Creating freedom) | Ready as a framework; placed here because it is the roadmap, and the next section is the vehicle |
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
-| 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | Partial — legacy statement candidates exist, full story doesn't. Renders what exists + coming-soon marker |
+| 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
 | 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
 | 9 | Your Journey Is Just Beginning | Owner doc §8: the transition from my story to your story | Ready |
 | 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
@@ -70,6 +70,16 @@ and **The Evolution** itself — the Phase I / II / III model that ran between
 the founding offer and the founder story. The phase copy is gone from the
 page, the data file, and `types/index.ts`; the phase model still stands as a
 business plan (§9), it is just no longer marketed on the page.
+
+**Section 7, Why I Built LEU, is a different case: it is paused, not
+removed.** The owner asked for it out "for now", so `page.tsx` stops
+rendering it while `BmFounderSection.tsx` and `bmFounder` stay whole and
+unchanged — restoring the section is one JSX line plus its import, with no
+content to rewrite. For that reason the numbering above deliberately keeps
+its slot and the later sections are **not** renumbered; the table's #7 is a
+hole in the live page today, not a mistake. Anything below that describes
+section 7 as rendering describes the built section, not the page as it
+currently ships.
 
 ### Why the added section sits where it does
 
@@ -96,7 +106,7 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 | `components/business-mastery/BmProgramSection.tsx` | 5 — "NOT a Course. A Coach." + pillars |
 | `components/business-mastery/BmFoundingOfferSection.tsx` | 6 — offer, limited-spots box, guarantee expandable |
 | `components/business-mastery/BmApplicationForm.tsx` | 6 — the form (fields in §5) |
-| `components/business-mastery/BmFounderSection.tsx` | 7 — Why I Built LEU |
+| `components/business-mastery/BmFounderSection.tsx` | 7 — Why I Built LEU (built, not currently rendered — §3) |
 | `components/business-mastery/BmJourneyTimeline.tsx` | 8 — interactive timeline |
 | `components/business-mastery/BmTransitionSection.tsx` | 9 |
 | `components/business-mastery/BmFinalCTASection.tsx` | 10 |
@@ -185,11 +195,11 @@ against that standard before rendering:
 Owner's call: for anything not decided yet, put "coming soon" and render
 whatever information does exist. One shared component (`BmComingSoon`), one
 consistent look — a quiet amber-outlined marker, not a broken-feeling stub —
-used in exactly three places:
+used in three places, two of which are on the page today:
 
 | Where | What renders now | What's coming |
 | --- | --- | --- |
-| Why I Built LEU (8) | The legacy statement (§9 below) + the supporting idea | The full founder story from the My Story document |
+| Why I Built LEU (8) — *section paused, §3* | The legacy statement (§9 below) + the supporting idea | The full founder story from the My Story document |
 | Journey timeline (9) | The 14 chapter titles as the interactive structure | Each chapter's story |
 | Guarantee expandable (6) | Plain-language guarantee summary | Full terms, eligibility, refund conditions, ToS |
 
@@ -214,7 +224,9 @@ Legacy statement: two candidates exist —
 > My legacy isn't what I build. It's who I help build.
 
 Render the second (the evolved version) as the section's centerpiece unless
-the owner objects; keep the first in the data file as the alternate.
+the owner objects; keep the first in the data file as the alternate. That is
+still how the section is built — it just is not on the page at the moment
+(§3), so nothing renders either candidate today.
 
 ---
 
@@ -252,7 +264,7 @@ homepage's only route to `/business-mastery`.
 | Phase | Scope | Gate |
 | --- | --- | --- |
 | **A — built** | Everything in §3–§8: the full page with coming-soon markers, the form + API route, the homepage teaser, nav wiring, metadata | Done |
-| **B — story integration** | My Story document lands: journey chapters filled, founder section completed, final chapter titles settled | Owner writes the story |
+| **B — story integration** | My Story document lands: journey chapters filled, founder section completed, final chapter titles settled | Owner writes the story — and, since the founder section is paused (§3), decides whether it goes back on the page |
 | **C — checkout** | Stripe one-time payment for founding members, counter driven by completed payments via the existing webhook route, guarantee terms page | Price set; guarantee terms + ToS written (§6.3) |
 | **Later** | Phase II monthly membership mechanics, Phase III selective admission — the model is a business plan only; its marketing copy was removed from the page with the Evolution section (§3) | Business decision |
 
@@ -268,8 +280,9 @@ counter no longer renders at all (§6.2).
 1. The founding-member price (needed for Phase C, not Phase A).
 2. Guarantee terms / eligibility / refund conditions (gates Phase C).
 3. The My Story document (gates Phase B).
-4. Legacy statement pick — the evolved version renders as the centerpiece
-   per §7; say the word to swap in the alternate.
+4. Legacy statement pick — the evolved version is the built centerpiece per
+   §7; say the word to swap in the alternate. Not urgent while the section
+   is off the page (§3), since neither candidate renders today.
 5. ~~Keep `bmFoundingCounter.claimed` current as members join.~~ Moot while
    nothing renders it (§6.2). It becomes a live obligation again the moment
    a spot count is displayed anywhere.
