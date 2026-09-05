@@ -198,13 +198,15 @@ export function MainHeader() {
         {/* Desktop Navigation.
 
             `xl`, not `lg`. Flattening the Ventures tab put six entries in this
-            bar instead of five, two of them long ("Lee Marketing Mastery",
+            bar instead of five, two of them long ("Marketing Mastery",
             "Thread T-Shirts"), and the row also carries the logo plus the
             Support Us / Get Started / Sponsors cluster. Measured in the browser
-            at the Geist face this ships: the six items need ~720px against the
-            555px left over at 1024px, and they do not fit at any label length
-            worth having. They clear it comfortably at 1280px. Between the two,
-            the hamburger below serves the same links. */}
+            at the Geist face this ships, back when that first label still read
+            "Lee Marketing Mastery": the six items needed ~720px against the
+            555px left over at 1024px, and they did not fit at any label length
+            worth having — so dropping the "Lee " does not buy the breakpoint
+            back. They clear it comfortably at 1280px. Between the two, the
+            hamburger below serves the same links. */}
         <nav className="hidden xl:flex items-center gap-6" aria-label="Main">
           {navigationItems.map((item) => {
             const isOpen = openDropdownId === item.id;

@@ -57,7 +57,11 @@ export const navigationItems: NavItem[] = [
     id: "nav-business-mastery",
   },
   {
-    label: "Lee Marketing Mastery",
+    // "Marketing Mastery", not the venture's full "Lee Marketing Mastery".
+    // The owner asked for the shorter name in the nav bar; every other surface
+    // (footer, hub page, the offering pages) still names the venture in full,
+    // and this tab leads to that hub, which says it on arrival.
+    label: "Marketing Mastery",
     href: venturePages.lmm,
     id: "nav-lmm",
     subItems: [
