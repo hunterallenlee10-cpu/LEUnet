@@ -20,14 +20,19 @@ import {
 export const BM_OFFER_ID = "bm-offer";
 
 /**
- * The founding-member counter, rendered as "5 / 20 FOUNDING MEMBERS" in the
- * offer section of the page. Owner-maintained: update `claimed` here as
- * members join. Phase C of docs/BUSINESS-MASTERY.md replaces this with a
- * count derived from completed Stripe payments.
+ * The founding-member count. NOTHING RENDERS THIS RIGHT NOW - it is a record,
+ * not display copy, and no page states a number of spots.
  *
- * The homepage teaser used to render these same figures. It now carries
- * `bmHero.scarcityLine` instead, so this is the page's number alone - if the
- * two ever need to agree again, they have to be changed together.
+ * It was the "5 / 20 FOUNDING MEMBERS" figure in the offer section until the
+ * owner asked for a plain "Limited Spots" box there, which was also what
+ * retired it from the homepage teaser before that (`bmHero.scarcityLine`).
+ * Kept because it is the owner's real enrollment state and Phase C of
+ * docs/BUSINESS-MASTERY.md is built around it - that phase derives the count
+ * from completed Stripe payments and needs somewhere to put it.
+ *
+ * Because it is unrendered, `claimed` being stale misleads nobody today. The
+ * moment anything displays it again, §6.2's true-count rule applies and it
+ * has to be correct first.
  */
 export const bmFoundingCounter = {
   claimed: 5,
@@ -247,7 +252,6 @@ export const bmPillars: BmPillar[] = [
 export const bmOffer = {
   eyebrow: "Founding Member Offer",
   heading: "Join LEU Business Mastery",
-  counterLabel: "Founding Members",
   guaranteeHeading: "90-Day Money-Back Guarantee",
   guaranteeSummary:
     "Join, get inside the network, and see the value for yourself. If Business Mastery isn't for you, tell us within 90 days of joining and we'll refund your payment.",

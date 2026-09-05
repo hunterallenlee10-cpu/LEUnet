@@ -19,7 +19,7 @@ Phases B (story) and C (checkout) remain — see §9.
 | Homepage hook | A teaser section introduces the program on the homepage. It was originally reached by two routes: this section, plus the "Start your own venture" button in `PortfolioSection`, which had sat unwired until this program gave it a destination. That Portfolio section has since been removed from the homepage entirely. The homepage has two hooks again: the teaser, plus the "Get started on your dreams" button under the mission statement in `AboutSection`, which had likewise sat unwired. |
 | Join flow | **Application form first.** Own API route, Resend email to `ceo@leeenterprisesunlimited.com`, same pattern as every other venture form. No on-page payment in this build. |
 | Payments | None in this build. Stripe checkout for the founding-member one-time payment is Phase C — the scaffolding already exists (`app/api/stripe/*`), but price, guarantee terms, and refund handling must be written first. |
-| Founding counter | A value the owner maintains in `data/business-mastery.ts` (`claimed` / `total`). It must show the **real** number — see §6. |
+| Founding counter | Not rendered. `bmFoundingCounter` (`claimed` / `total`) survives in `data/business-mastery.ts` as a record and a Phase C hook; the offer section shows a plain "Limited Spots" box instead — see §6. |
 | Unfinished content | Render whatever is confirmed, and mark the rest with a consistent **"coming soon"** treatment (owner's call). Applies to the Journey chapters, the full founder story, and the guarantee terms. |
 | Exploratory sections | **Empire in, Vision out**: "How to Build Your Own Empire" makes this build; "The Vision" shipped in the first build and was removed at the owner's request. Placement in §3. |
 | Palette | LEU's own amber/gold on black — the homepage identity, not a new sub-brand palette. Business Mastery is LEU itself, and the page should look like it. |
@@ -57,7 +57,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing) + mission line | Ready |
 | 4 | **How to Build Your Own Empire** | Owner doc exploratory section: the 8-step framework (Starting from zero → Creating freedom) | Ready as a framework; placed here because it is the roadmap, and the next section is the vehicle |
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
-| 6 | Founding Member Offer | Owner doc: one-time payment positioning, live-style counter, 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
+| 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | Partial — legacy statement candidates exist, full story doesn't. Renders what exists + coming-soon marker |
 | 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
 | 9 | Your Journey Is Just Beginning | Owner doc §8: the transition from my story to your story | Ready |
@@ -87,14 +87,14 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 
 | File | Contents |
 | --- | --- |
-| `data/business-mastery.ts` | All page copy, the four audiences, the 8 empire steps, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`), palette constants |
+| `data/business-mastery.ts` | All page copy, the four audiences, the 8 empire steps, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered), palette constants |
 | `types/index.ts` | Business Mastery interfaces appended |
 | `components/business-mastery/BmHeroSection.tsx` | 1 — manifesto hero |
 | `components/business-mastery/BmCoreBeliefSection.tsx` | 2 |
 | `components/business-mastery/BmAudienceSection.tsx` | 3 — four audience cards + mission |
 | `components/business-mastery/BmEmpireSection.tsx` | 4 — 8-step framework |
 | `components/business-mastery/BmProgramSection.tsx` | 5 — "NOT a Course. A Coach." + pillars |
-| `components/business-mastery/BmFoundingOfferSection.tsx` | 6 — offer, counter, guarantee expandable |
+| `components/business-mastery/BmFoundingOfferSection.tsx` | 6 — offer, limited-spots box, guarantee expandable |
 | `components/business-mastery/BmApplicationForm.tsx` | 6 — the form (fields in §5) |
 | `components/business-mastery/BmFounderSection.tsx` | 7 — Why I Built LEU |
 | `components/business-mastery/BmJourneyTimeline.tsx` | 8 — interactive timeline |
@@ -160,11 +160,18 @@ against that standard before rendering:
    verbatim in `bmProofStatement`. The owner confirmed on 2026-08-25 that
    every figure in this line is true as stated. If the facts ever change,
    change the line — the standard is the words match the record.
-2. **The founding counter.** Renders `5 / 20` from `bmFoundingCounter` in
-   `data/business-mastery.ts` — the owner confirmed these are the real
-   current figures, not an illustration. The counter is owner-maintained:
-   update `claimed` there as members join, until Phase C derives it from
-   completed Stripe payments. It must always show the true count.
+2. **The founding counter — retired, and with it the claim.** It rendered
+   `5 / 20` from `bmFoundingCounter`, figures the owner confirmed as real
+   rather than illustrative. The owner has since asked for a plain "Limited
+   Spots" box in its place, so no page states a number of spots and this
+   standard has nothing left to check here. `bmFoundingCounter` stays in
+   `data/business-mastery.ts` as the record and as Phase C's hook, unrendered
+   and therefore free to go stale. If anything displays it again — Phase C
+   deriving it from completed Stripe payments, or the counter coming back —
+   the true-count rule comes back with it: it must show the real figure
+   before it ships. What replaced it is weaker in kind, the same trade §9
+   describes for the teaser: "limited spots" is not checkable against
+   anything, and holds only while spots really are limited.
 3. **The 90-day guarantee.** *Stated* in this build — allowed because no
    payment is taken on-page — with its expandable showing a plain-language
    summary plus a coming-soon note for the full terms. Full guarantee terms,
@@ -223,11 +230,14 @@ scarcity line, and a single CTA — `ACHIEVE YOUR DREAMS →` — routing to
 The scarcity line shipped as the real founding counter, sharing
 `bmFoundingCounter` with the page. At the owner's request it is now the flat
 statement `bmHero.scarcityLine` ("Enrollment Closing Soon"), so the teaser
-states no number and §6.2's true-count rule applies to the page's counter
-alone. Note what changed in kind: the counter was checkable against a figure
-the owner maintains, and this line is not — it holds only as long as
-enrollment really is closing, so it needs changing when that stops being
-true.
+states no number. Note what changed in kind: the counter was checkable
+against a figure the owner maintains, and this line is not — it holds only as
+long as enrollment really is closing, so it needs changing when that stops
+being true.
+
+The page's own counter has since gone the same way, for the same reason —
+a "Limited Spots" box in the offer section (§6.2). Both surfaces now make an
+unquantified scarcity claim, and no rendered figure remains to check.
 
 It deliberately does **not** repeat the pillars or audiences; the page does
 that. It shipped alongside a second homepage CTA to the same place — the
@@ -252,11 +262,14 @@ homepage's only route to `/business-mastery`.
 
 Content the build cannot invent, in priority order. Items 1–2 from the
 original list are resolved: the owner confirmed the proof-line figures and
-the 5/20 counter as true on 2026-08-25, and both render verbatim.
+the 5/20 counter as true on 2026-08-25. The proof line renders verbatim; the
+counter no longer renders at all (§6.2).
 
 1. The founding-member price (needed for Phase C, not Phase A).
 2. Guarantee terms / eligibility / refund conditions (gates Phase C).
 3. The My Story document (gates Phase B).
 4. Legacy statement pick — the evolved version renders as the centerpiece
    per §7; say the word to swap in the alternate.
-5. Keep `bmFoundingCounter.claimed` current as members join.
+5. ~~Keep `bmFoundingCounter.claimed` current as members join.~~ Moot while
+   nothing renders it (§6.2). It becomes a live obligation again the moment
+   a spot count is displayed anywhere.
