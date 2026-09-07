@@ -81,6 +81,18 @@ movements. `bmCoreBelief.philosophyTitle` and `bmCoreBelief.philosophy` are
 unchanged in the data file and render nowhere now — the same treatment
 `bmFoundingCounter` gets, and for the same reason.
 
+**Two more lines came off the page the same day**, also at the owner's request
+and on the same terms: `bmProgram.closer` ("If someone doesn't even know what
+business they want to start yet…"), the centred paragraph under section 5's
+pillar grid, and `bmFinalCta.supporting` ("Courses. Coaching. Community…"), the
+last text on the page under section 10's button. Section 5 ends on the pillars
+now and section 10 ends on its one action. Both strings are unchanged in the
+data file and render nowhere. `bmFinalCta.supporting` carries an extra warning
+there: it was the only place outside section 5 that listed what membership
+includes, and a list of inclusions sitting directly under the page's one action
+needs checking against §6 before it goes back, while price and guarantee terms
+are still Phase C gates.
+
 Slot 2 rather than slot 9, and the trade is real enough to record. Slot 2 wins
 because `bmProofStatement` is the page's only credibility claim and has to be
 read *before* the offer and the application form at slot 6, not after them. What

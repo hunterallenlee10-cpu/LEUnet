@@ -172,6 +172,17 @@ export const bmProgram = {
   heading: "NOT a Course. A Coach.",
   description:
     "Members are not simply purchasing prerecorded information. They're entering a business-development environment.",
+  /**
+   * NOTHING RENDERS THIS RIGHT NOW. The owner asked the closing line off
+   * section 5 on 2026-09-07, in the same pass that took the Core Philosophy
+   * block off section 2, and it is kept on the same terms: it is the owner's
+   * own copy, and taking a line off a page is not the same decision as deleting
+   * the sentence. BmProgramSection records where it used to sit — one paragraph
+   * under the pillar grid.
+   *
+   * Editing it changes nothing on the site while that stays true. The moment it
+   * renders again, the file header's rule applies to it in full.
+   */
   closer:
     "If someone doesn't even know what business they want to start yet, we help them work through that too.",
 } as const;
@@ -321,6 +332,18 @@ export const bmFinalCta = {
   description:
     "You can keep trying to figure everything out alone. Or you can build alongside people who are doing it with you.",
   cta: "Join LEU Business Mastery",
+  /**
+   * NOTHING RENDERS THIS RIGHT NOW — off the page 2026-09-07 at the owner's
+   * request, alongside `bmProgram.closer`, and kept on the same terms as that
+   * one and as `bmFoundingCounter`.
+   *
+   * Worth knowing before restoring it: it was the last text on the page, under
+   * the CTA button, and it is the only place the page listed what membership
+   * includes outside section 5. If it goes back, check it against §6 of
+   * docs/BUSINESS-MASTERY.md first — a list of inclusions sitting directly
+   * under the one action on the page is closer to an offer than the rest of
+   * this copy is, and the price and guarantee terms are still Phase C gates.
+   */
   supporting:
     "Courses. Coaching. Community. Daily support. Real opportunities. One mission: helping you build what you've been dreaming about.",
 } as const;

@@ -5,6 +5,12 @@ import { BM_OFFER_ID, bmFinalCta } from "@/data/business-mastery";
  * Section 10 — the closing conversion section. The CTA is an in-page anchor
  * back up to the founding offer and its application form, the page's one
  * action; the global scroll-smooth handles the ride.
+ *
+ * `bmFinalCta.supporting` used to run under the button and came off at the
+ * owner's request (2026-09-07). The section ends on the action now, which is
+ * what a closing section is for — nothing follows the button but the footer.
+ * The string is intact in the data file with a note on what to check before
+ * putting it back.
  */
 export function BmFinalCTASection() {
   return (
@@ -37,10 +43,6 @@ export function BmFinalCTASection() {
             aria-hidden="true"
           />
         </a>
-
-        <p className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-neutral-400 sm:text-base">
-          {bmFinalCta.supporting}
-        </p>
       </div>
     </section>
   );
