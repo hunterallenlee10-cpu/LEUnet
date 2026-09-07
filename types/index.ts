@@ -227,10 +227,11 @@ export interface BmAudience {
   description: string;
 }
 
-/** One rung of the "How to Build Your Own Empire" framework. */
-export interface BmEmpireStep {
+/** One of the three core tenets. `number` is the display number, zero-padded
+ * by the component ("01" from 1), the same as `BmChapter` below. */
+export interface BmTenet {
   id: string;
-  step: number;
+  number: number;
   title: string;
   description: string;
 }

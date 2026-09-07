@@ -21,7 +21,7 @@ Phases B (story) and C (checkout) remain — see §9.
 | Payments | None in this build. Stripe checkout for the founding-member one-time payment is Phase C — the scaffolding already exists (`app/api/stripe/*`), but price, guarantee terms, and refund handling must be written first. |
 | Founding counter | Not rendered. `bmFoundingCounter` (`claimed` / `total`) survives in `data/business-mastery.ts` as a record and a Phase C hook; the offer section shows a plain "Limited Spots" box instead — see §6. |
 | Unfinished content | Render whatever is confirmed, and mark the rest with a consistent **"coming soon"** treatment (owner's call). Applies to the Journey chapters and the guarantee terms; it applied to the full founder story too, until that section came off the page (§3). |
-| Exploratory sections | **Empire in, Vision out**: "How to Build Your Own Empire" makes this build; "The Vision" shipped in the first build and was removed at the owner's request. Placement in §3. |
+| Exploratory sections | **Empire in, Vision out**: "How to Build Your Own Empire" made the first build; "The Vision" shipped alongside it and was removed at the owner's request. Superseded on 2026-09-07 — the Empire framework was itself replaced, by the owner's three **Core Tenets** (Speed / Money In / For Free) in the same slot. Placement in §3. |
 | Palette | LEU's own amber/gold on black — the homepage identity, not a new sub-brand palette. Business Mastery is LEU itself, and the page should look like it. |
 | Contact | `ceo@leeenterprisesunlimited.com`, same as every other form. |
 
@@ -55,7 +55,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 1 | Hero — manifesto | Owner doc §1: title, "No great accomplishment…", "Speedrun Your Way to Success", CTA `ACHIEVE YOUR DREAMS →` scrolls to the offer | Ready |
 | 2 | The Core Belief | Owner doc §2: "Nobody Builds Something Great Alone", network as the driving force, hard work + investment are both required | Ready (see §6 on the proof claims) |
 | 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing) + mission line | Ready |
-| 4 | **How to Build Your Own Empire** | Owner doc exploratory section: the 8-step framework (Starting from zero → Creating freedom) | Ready as a framework; placed here because it is the roadmap, and the next section is the vehicle |
+| 4 | **Our Core Tenets** | The owner's three tenets, supplied 2026-09-07: Speed, Money In, For Free. Replaced the 8-step "How to Build Your Own Empire" framework (Starting from zero → Creating freedom) in this slot | Ready. Titles and heading are the owner's; the three one-line descriptions are build copy — see the note on `bmTenets` before editing "For Free" |
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
@@ -83,9 +83,12 @@ currently ships.
 
 ### Why the added section sits where it does
 
-- **Empire (4)** lands between "who this is for" and "what the program is":
-  the visitor sees themselves, then sees the path, then sees the program as
-  the way to walk it faster.
+- **Core Tenets (4)** lands between "who this is for" and "what the program
+  is": the visitor sees themselves, then sees how we operate, then sees the
+  program that operates that way. The slot was chosen for the 8-step Empire
+  framework on a roadmap argument — "then sees the path". Three principles
+  are not a path, so the placement now rests on stance rather than sequence;
+  it survived the swap because the order still reads.
 
 ---
 
@@ -97,12 +100,12 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 
 | File | Contents |
 | --- | --- |
-| `data/business-mastery.ts` | All page copy, the four audiences, the 8 empire steps, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered), palette constants |
+| `data/business-mastery.ts` | All page copy, the four audiences, the 3 core tenets, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered), palette constants |
 | `types/index.ts` | Business Mastery interfaces appended |
 | `components/business-mastery/BmHeroSection.tsx` | 1 — manifesto hero |
 | `components/business-mastery/BmCoreBeliefSection.tsx` | 2 |
 | `components/business-mastery/BmAudienceSection.tsx` | 3 — four audience cards + mission |
-| `components/business-mastery/BmEmpireSection.tsx` | 4 — 8-step framework |
+| `components/business-mastery/BmTenetsSection.tsx` | 4 — the three core tenets |
 | `components/business-mastery/BmProgramSection.tsx` | 5 — "NOT a Course. A Coach." + pillars |
 | `components/business-mastery/BmFoundingOfferSection.tsx` | 6 — offer, limited-spots box, guarantee expandable |
 | `components/business-mastery/BmApplicationForm.tsx` | 6 — the form (fields in §5) |
