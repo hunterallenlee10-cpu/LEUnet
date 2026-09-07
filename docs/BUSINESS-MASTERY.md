@@ -73,6 +73,14 @@ still the owner's, verbatim, from `bmCoreBelief`, `bmProofStatement` and
 `bmTransition`, only re-ordered and re-grouped. `bmTransition` stays in the data
 file under its own name.
 
+**The Core Philosophy block came off the same slot later that day**, also at the
+owner's request. It was the amber card in the old section and survived the merge
+as the pull-quote; removing it leaves slot 2 as a single centred column, with the
+gold seam rule and the interval around it as the only contrast between the
+movements. `bmCoreBelief.philosophyTitle` and `bmCoreBelief.philosophy` are
+unchanged in the data file and render nowhere now — the same treatment
+`bmFoundingCounter` gets, and for the same reason.
+
 Slot 2 rather than slot 9, and the trade is real enough to record. Slot 2 wins
 because `bmProofStatement` is the page's only credibility claim and has to be
 read *before* the offer and the application form at slot 6, not after them. What
