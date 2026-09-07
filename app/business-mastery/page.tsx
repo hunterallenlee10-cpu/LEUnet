@@ -4,7 +4,7 @@ import { MainFooter } from "@/components/layout/MainFooter";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
 import { BmCoreBeliefSection } from "@/components/business-mastery/BmCoreBeliefSection";
 import { BmAudienceSection } from "@/components/business-mastery/BmAudienceSection";
-import { BmEmpireSection } from "@/components/business-mastery/BmEmpireSection";
+import { BmTenetsSection } from "@/components/business-mastery/BmTenetsSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
@@ -62,7 +62,7 @@ export default function BusinessMasteryPage() {
       <BmHeroSection />
       <BmCoreBeliefSection />
       <BmAudienceSection />
-      <BmEmpireSection />
+      <BmTenetsSection />
       <BmProgramSection />
       <BmFoundingOfferSection />
       {/* Section 7, Why I Built LEU, is out at the owner's request — "for

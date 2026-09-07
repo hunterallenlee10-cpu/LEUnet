@@ -1,9 +1,4 @@
-import {
-  BmAudience,
-  BmChapter,
-  BmEmpireStep,
-  BmPillar,
-} from "@/types";
+import { BmAudience, BmChapter, BmPillar, BmTenet } from "@/types";
 
 // ---------------------------------------------------------------------------
 // LEU Business Mastery (/business-mastery)
@@ -110,73 +105,52 @@ export const bmAudiences: BmAudience[] = [
   },
 ];
 
-// --- 4. How to Build Your Own Empire ---------------------------------------
+// --- 4. Our Core Tenets ----------------------------------------------------
 
-export const bmEmpire = {
-  heading: "How to Build Your Own Empire",
+// The three tenet titles are the owner's, in the owner's order: Speed, Money
+// In, For Free. They replaced the eight-step "How to Build Your Own Empire"
+// ladder at the owner's request. Do not rename, expand, or re-order them, and
+// do not grow the list back into a framework - three is the point. The
+// heading is the owner's phrase as well, title-cased to match every other
+// heading on the page. The one-line descriptions expand each title in the
+// same register; they are the build's copy, not the owner's, and are the
+// safest place to edit.
+//
+// One of them is load-bearing. "For Free" is about what it takes to START A
+// BUSINESS - free tools and the member's own effort - and must never be
+// written so it can be read as a claim about the price of membership, which
+// is paid and carries the guarantee in `bmOffer`. Keep the word "free" tied
+// to what the business is built with, never to access, price, or a refund.
+// For the same reason nothing here lists the network, the tools library, or
+// anything else membership includes among the things that cost nothing.
+
+export const bmTenetsIntro = {
+  heading: "Our Core Tenets",
   description:
-    "The larger framework behind building something of your own. Every part of Business Mastery exists to move you along this path faster.",
+    "Three principles sit behind everything we build and everything we help members build. Every part of Business Mastery runs on them.",
 } as const;
 
-// The eight titles are the owner's. The one-line descriptions expand each
-// title in the same register; they are the build's copy, not the owner's, and
-// are the safest place to edit.
-export const bmEmpireSteps: BmEmpireStep[] = [
+export const bmTenets: BmTenet[] = [
   {
-    id: "zero",
-    step: 1,
-    title: "Starting From Zero",
+    id: "speed",
+    number: 1,
+    title: "Speed",
     description:
-      "No business, no roadmap, no network. Everyone here started at exactly this point.",
+      "Speed comes from people who have already done it, not from figuring everything out alone.",
   },
   {
-    id: "opportunity",
-    step: 2,
-    title: "Finding an Opportunity",
+    id: "money-in",
+    number: 2,
+    title: "Money In",
     description:
-      "Learning to see the problems around you that someone would pay to have solved.",
+      "Revenue is the first real proof an idea works, so getting paid comes early, not last.",
   },
   {
-    id: "skills",
-    step: 3,
-    title: "Building Skills",
+    id: "for-free",
+    number: 3,
+    title: "For Free",
     description:
-      "Developing the abilities the opportunity actually requires — selling, building, operating.",
-  },
-  {
-    id: "income",
-    step: 4,
-    title: "Creating Income",
-    description:
-      "Turning skill into your first dollars, then into dependable revenue.",
-  },
-  {
-    id: "systems",
-    step: 5,
-    title: "Building Systems",
-    description:
-      "Making the work repeatable so the business runs on process, not memory.",
-  },
-  {
-    id: "people",
-    step: 6,
-    title: "Hiring & Networking",
-    description:
-      "Surrounding the business with people who multiply what you can do alone.",
-  },
-  {
-    id: "scaling",
-    step: 7,
-    title: "Scaling",
-    description:
-      "Growing what works — more customers, more capacity, more reach.",
-  },
-  {
-    id: "freedom",
-    step: 8,
-    title: "Creating Freedom",
-    description:
-      "The point of all of it: a business that serves your life instead of consuming it.",
+      "A business can start with free tools and your own effort, long before it needs money.",
   },
 ];
 
