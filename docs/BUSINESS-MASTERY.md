@@ -53,15 +53,46 @@ The owner's flow, with the added section slotted where it does the most work:
 | # | Section | Content source | State |
 | --- | --- | --- | --- |
 | 1 | Hero — manifesto | Owner doc §1: title, "No great accomplishment…", "Speedrun Your Way to Success", CTA `ACHIEVE YOUR DREAMS →` scrolls to the offer | Ready |
-| 2 | The Core Belief | Owner doc §2: "Nobody Builds Something Great Alone", network as the driving force, hard work + investment are both required | Ready (see §6 on the proof claims) |
+| 2 | **The Manifesto** — the Core Belief and "Your Journey Is Just Beginning" merged | Owner doc §2 ("Nobody Builds Something Great Alone", network as the driving force, hard work + investment are both required) **plus owner doc §8**, which used to be slot 9 | Ready (see §6 on the proof claims). Merged 2026-09-07 — rationale below the table |
 | 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing) + mission line | Ready |
 | 4 | **Our Core Tenets** | The owner's three tenets, supplied 2026-09-07: Speed, Money In, For Free. Replaced the 8-step "How to Build Your Own Empire" framework (Starting from zero → Creating freedom) in this slot | Ready. Titles and heading are the owner's; the three one-line descriptions are build copy — see the note on `bmTenets` before editing "For Free" |
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
 | 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
-| 9 | Your Journey Is Just Beginning | Owner doc §8: the transition from my story to your story | Ready |
+| ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — **merged up into slot 2**, see the note below | Gone as a slot; the copy is unchanged and still `bmTransition` |
 | 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
+
+**Sections 2 and 9 are one section now (2026-09-07), at the owner's
+request.** They were always the same claim made twice — a centred column of
+neutral-300 paragraphs on neutral-950, arguing that nobody builds alone — and
+eight sections apart they read as two text walls rather than as one thought.
+`BmManifestoSection.tsx` carries both; `BmCoreBeliefSection.tsx` and
+`BmTransitionSection.tsx` are deleted. **No copy changed**: every sentence is
+still the owner's, verbatim, from `bmCoreBelief`, `bmProofStatement` and
+`bmTransition`, only re-ordered and re-grouped. `bmTransition` stays in the data
+file under its own name.
+
+Slot 2 rather than slot 9, and the trade is real enough to record. Slot 2 wins
+because `bmProofStatement` is the page's only credibility claim and has to be
+read *before* the offer and the application form at slot 6, not after them. What
+it costs: `bmTransition` is written in the first person and this table used to
+define it as "the transition from my story to your story", so at slot 2 the "me"
+in "Everything that came before LEU taught me something" arrives six sections
+before the story it refers to (the timeline, slot 8), and the merged column runs
+we → I → you under one heading. Moving the whole section below the timeline is
+one line in `page.tsx` if that trade ever reads the wrong way round.
+
+Removing slot 9 also removed a join. That section existed so the timeline would
+not run straight into a sales pitch, and without it slots 8 and 10 abut — two
+`bg-black` sections, both carrying amber glows, with the timeline's scrubber
+against the closing CTA's headline. This page has no dividers between sections,
+so the light/dark alternation *is* the separator: `BmJourneyTimeline` is
+`bg-neutral-950` now, and the closing CTA's own copy ("You can keep trying to
+figure everything out alone…") is the bridge the deleted section used to be.
+The numbering is **not** re-flowed — slot 9 is struck through above rather than
+renamed — for the same reason section 7's hole is kept: the record has to stay
+legible against the builds that came before it.
 
 Two sections shipped in earlier builds and were removed at the owner's
 request, with the sections after each renumbered: "The Vision" (the other
@@ -103,7 +134,7 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 | `data/business-mastery.ts` | All page copy, the four audiences, the 3 core tenets, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered), palette constants |
 | `types/index.ts` | Business Mastery interfaces appended |
 | `components/business-mastery/BmHeroSection.tsx` | 1 — manifesto hero |
-| `components/business-mastery/BmCoreBeliefSection.tsx` | 2 |
+| `components/business-mastery/BmManifestoSection.tsx` | 2 — the merged manifesto (replaced `BmCoreBeliefSection.tsx` and `BmTransitionSection.tsx`) |
 | `components/business-mastery/BmAudienceSection.tsx` | 3 — four audience cards + mission |
 | `components/business-mastery/BmTenetsSection.tsx` | 4 — the three core tenets |
 | `components/business-mastery/BmProgramSection.tsx` | 5 — "NOT a Course. A Coach." + pillars |
@@ -111,7 +142,6 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 | `components/business-mastery/BmApplicationForm.tsx` | 6 — the form (fields in §5) |
 | `components/business-mastery/BmFounderSection.tsx` | 7 — Why I Built LEU (built, not currently rendered — §3) |
 | `components/business-mastery/BmJourneyTimeline.tsx` | 8 — interactive timeline |
-| `components/business-mastery/BmTransitionSection.tsx` | 9 |
 | `components/business-mastery/BmFinalCTASection.tsx` | 10 |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
 | `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |

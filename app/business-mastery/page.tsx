@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
-import { BmCoreBeliefSection } from "@/components/business-mastery/BmCoreBeliefSection";
+import { BmManifestoSection } from "@/components/business-mastery/BmManifestoSection";
 import { BmAudienceSection } from "@/components/business-mastery/BmAudienceSection";
 import { BmTenetsSection } from "@/components/business-mastery/BmTenetsSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
-import { BmTransitionSection } from "@/components/business-mastery/BmTransitionSection";
 import { BmFinalCTASection } from "@/components/business-mastery/BmFinalCTASection";
 
 const title = "LEU Business Mastery | Speedrun Your Way to Success";
@@ -60,7 +59,7 @@ export default function BusinessMasteryPage() {
       <MainHeader />
 
       <BmHeroSection />
-      <BmCoreBeliefSection />
+      <BmManifestoSection />
       <BmAudienceSection />
       <BmTenetsSection />
       <BmProgramSection />
@@ -72,8 +71,16 @@ export default function BusinessMasteryPage() {
           and The Evolution (docs/BUSINESS-MASTERY.md §3) the sections after
           it are NOT renumbered, because the numbering has to survive the
           section coming back. */}
+      {/* Section 9, Your Journey Is Just Beginning, is not paused like 7 — it
+          has been merged into BmManifestoSection at slot 2, and
+          BmTransitionSection.tsx is deleted rather than left behind
+          (docs/BUSINESS-MASTERY.md §3). That section existed so the timeline
+          would not run straight into a sales pitch, so removing it puts that
+          join back: the closing CTA's own copy ("You can keep trying to figure
+          everything out alone…") is the bridge now, and the timeline drops to
+          neutral-950 so the two are still separated by the page's light/dark
+          alternation rather than abutting as two black sections. */}
       <BmJourneyTimeline />
-      <BmTransitionSection />
       <BmFinalCTASection />
 
       <MainFooter />
