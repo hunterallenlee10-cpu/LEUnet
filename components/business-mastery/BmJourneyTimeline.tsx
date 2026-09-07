@@ -154,8 +154,16 @@ export function BmJourneyTimeline() {
     }
   };
 
+  // The ground is neutral-950 rather than black, and that is structural rather
+  // than cosmetic: this page has no dividers between sections, so the
+  // light/dark alternation IS the separator. Section 9 used to sit between this
+  // and the closing CTA and carried that job; it has been merged into slot 2
+  // (app/business-mastery/page.tsx), which would otherwise leave two black
+  // sections abutting — this one and BmFinalCTASection, both carrying amber
+  // glows — with the timeline's scrubber running straight into the CTA's
+  // headline.
   return (
-    <section className="relative overflow-hidden bg-black py-16 md:py-20">
+    <section className="relative overflow-hidden bg-neutral-950 py-16 md:py-20">
       <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute right-10 top-1/3 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
       </div>
