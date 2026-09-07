@@ -25,6 +25,13 @@ const pillarIcons: Record<string, React.ReactNode> = {
  * Section 5 — what membership actually is. Seven pillars; the Tools &
  * Resources pillar carries its list and spans wider so ten bullets don't
  * squeeze into a narrow card.
+ *
+ * `bmProgram.closer` used to run as one centred paragraph under the grid and
+ * came off at the owner's request (2026-09-07). The section ends on the pillars
+ * now, so the last thing read here is what membership includes rather than a
+ * caveat about not knowing what to build yet — which is a question section 3
+ * already answers, with "Aspiring Entrepreneurs" as its first audience. The
+ * string is intact in the data file.
  */
 export function BmProgramSection() {
   return (
@@ -75,10 +82,6 @@ export function BmProgramSection() {
             </div>
           ))}
         </div>
-
-        <p className="mx-auto mt-14 max-w-2xl text-center text-lg font-medium text-neutral-200 sm:text-xl">
-          {bmProgram.closer}
-        </p>
       </div>
     </section>
   );
