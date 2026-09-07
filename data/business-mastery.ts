@@ -64,6 +64,18 @@ export const bmCoreBelief = {
   force: "Network.",
   clarifier:
     "LEU Business Mastery is not about avoiding hard work. It is about making that hard work more effective by putting you around people, information, systems, and opportunities that can accelerate your progress.",
+  /**
+   * NOTHING RENDERS THESE TWO RIGHT NOW. The owner asked the Core Philosophy
+   * block off the page on 2026-09-07, and they are kept for the same reason
+   * `bmFoundingCounter` is: they are the owner's own confirmed copy, and taking
+   * a block off a page is not the same decision as deleting the words. They are
+   * one JSX block away from coming back — BmManifestoSection records where it
+   * used to sit, between the clarifier and the gold seam rule.
+   *
+   * Because they are unrendered, editing them changes nothing on the site. The
+   * moment either one renders again, the file header's rule applies to it in
+   * full: it is the owner's sentence, verbatim, not to be softened or improved.
+   */
   philosophyTitle: "Core Philosophy",
   philosophy:
     "Everyone wants to build freedom through business. But too many people question a small investment and endless work as though either one is optional. Success requires both.",

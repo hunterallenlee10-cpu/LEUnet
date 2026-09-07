@@ -34,17 +34,27 @@ import {
  * Three movements, and the reader should be able to feel where each one starts
  * without being told: the belief, the record, the pivot. The old design ran all
  * of it as one undifferentiated centred stack, which is what made it a wall on
- * a phone. What separates them here is a rule, an axis break, and interval —
- * not headings, boxes, or numbers.
+ * a phone. What separates them here is a rule and interval — not headings,
+ * boxes, or numbers.
+ *
+ * THE CORE PHILOSOPHY BLOCK IS OUT, at the owner's request (2026-09-07). It was
+ * the amber card in the old slot-2 section, and it survived the merge as an
+ * indented pull-quote on a gold hairline — the one element set off the centre
+ * axis, which is what made that axis break mean something. Taking it out
+ * therefore costs more than a paragraph: the section is a single centred column
+ * again, and the only remaining contrast between the movements is the gold seam
+ * rule and the interval around it. That is deliberate and it is enough at this
+ * length, but if the section ever reads flat again, this is the thing that was
+ * removed, and reinstating it is the block that used to sit between the
+ * clarifier and the seam. `bmCoreBelief.philosophyTitle` and
+ * `bmCoreBelief.philosophy` are untouched in the data file and now render
+ * nowhere — see the note on them there.
  *
  * The register is the hero's, deliberately: hairline rules, wide tracking,
  * long intervals, and confidence that comes from the space between things
  * rather than the size of any one of them. This is the first thing under the
  * hero, so it either continues that voice or announces the page was designed by
- * two people. The amber philosophy card is gone — at this scale a filled panel
- * is the loudest object in the frame carrying the quietest sentence. It is an
- * indented pull-quote on a gold hairline instead, and it is the only thing in
- * the section set off the centre axis, so the axis break means something.
+ * two people.
  *
  * What it deliberately does NOT borrow from the hero:
  *
@@ -168,29 +178,6 @@ export function BmManifestoSection() {
         <p className="mx-auto mt-12 max-w-2xl text-left text-lg leading-relaxed text-neutral-300 text-pretty sm:text-center md:mt-16">
           {bmCoreBelief.clarifier}
         </p>
-
-        {/* The old amber card, unboxed — the one element off the centre axis,
-            so the break reads as deliberate rather than as a stray indent. A
-            `figure`/`figcaption` rather than a `blockquote`: this is the site's
-            own voice, not a quotation from a source, and marking it as a quote
-            would be a small lie told in markup. The hairline fades downward so
-            the aside ends without the rule stopping on a hard edge. */}
-        <figure className="relative mx-auto mt-14 max-w-2xl pl-6 text-left md:mt-20 md:pl-8">
-          <span
-            aria-hidden="true"
-            className="absolute inset-y-0 left-0 w-px"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(251, 191, 36, 0.55) 0%, rgba(251, 191, 36, 0.28) 55%, rgba(251, 191, 36, 0) 100%)",
-            }}
-          />
-          <figcaption className="mb-4 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            {bmCoreBelief.philosophyTitle}
-          </figcaption>
-          <p className="text-lg leading-relaxed text-neutral-200 text-pretty sm:text-xl">
-            {bmCoreBelief.philosophy}
-          </p>
-        </figure>
 
         {/* --- The seam ---------------------------------------------------- */}
         {/* The only divider in the section, and the join between the two
