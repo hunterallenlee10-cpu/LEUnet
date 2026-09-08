@@ -4,7 +4,11 @@ export const companyInfo = {
   description:
     "Lee Enterprises Unlimited is a holding company dedicated to building and scaling exceptional ventures across marketing and apparel. Each venture is designed to deliver premium value and results.",
   heroTitle: "Lee Enterprises Unlimited",
-  heroSubtitle: "Multiple Ventures. Unified Excellence.",
+  /**
+   * Renders in three places, not just the homepage hero: the /sponsors and
+   * /support pages both use it as the strapline under their H1.
+   */
+  heroSubtitle: "Unlimited Opportunity. Unified Excellence.",
   heroDescription:
     "Discover our portfolio of premium businesses, each dedicated to delivering exceptional results in their respective industries.",
   logo: "/logos/leu-logo.png",
@@ -21,7 +25,11 @@ export const aboutSection = {
    * better.
    *
    * The doubling makes the company's own name the line, and it matches the
-   * hero's two-phrase cadence ("Multiple Ventures. Unified Excellence.").
+   * hero's two-phrase cadence ("Unlimited Opportunity. Unified Excellence.").
+   * That hero line now opens on the same two words this one does - the owner
+   * asked for it there after this was written, and the echo across the two
+   * screens is the point rather than an oversight.
+   *
    * "Ambition" rather than "Reach", which was the other candidate: reach is a
    * measurable claim about audience or territory, and nothing on this site
    * substantiates one. Ambition is a posture, it reads as the visitor's as
