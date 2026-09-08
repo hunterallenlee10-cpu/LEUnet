@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { companyInfo } from "@/data/company";
-import { sectionIds } from "@/data/navigation";
+import { businessMasteryPage, sectionIds, venturePages } from "@/data/navigation";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
 
 export function HeroSection() {
@@ -148,6 +149,18 @@ export function HeroSection() {
                   Get Started
                   <ArrowRight className="w-4 h-4" />
                 </button>
+                <Link
+                  href={businessMasteryPage}
+                  className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
+                >
+                  Business Mastery
+                </Link>
+                <Link
+                  href={venturePages.lmm}
+                  className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
+                >
+                  Marketing Mastery
+                </Link>
               </div>
             </div>
 
