@@ -37,8 +37,20 @@ export const contactFormFields = {
     label: "Which venture or service are you contacting us about?",
     type: "select",
     required: true,
+    /**
+     * The site's three destinations, in the order the nav lists them, then a
+     * catch-all. LEU Business Mastery was missing entirely: it is the flagship
+     * program, with its own page, nav tab and homepage section, and anyone
+     * contacting us about it had to file the inquiry under "Other".
+     *
+     * Deliberately coarse. Lee Marketing Mastery sells three separate
+     * offerings, but each has its own form on its own page with its own
+     * subject line; this is the general enquiry form, and splitting it here
+     * would duplicate that routing without the context those pages give.
+     */
     options: [
       { value: "", label: "Select a venture or service..." },
+      { value: "business-mastery", label: "LEU Business Mastery" },
       { value: "lmm", label: "Lee Marketing Mastery" },
       { value: "thread", label: "Thread T-Shirts" },
       { value: "other", label: "Other / Lee Enterprises Inquiry" },
@@ -96,23 +108,50 @@ export const contactFormFields = {
       { value: "flexible", label: "Flexible / Open" },
     ],
   },
+  /**
+   * Free text rather than a select, at the owner's request.
+   *
+   * The seven options it replaced sorted every answer into a bucket the owner
+   * already knew about, and the most useful answer - which friend, which post,
+   * which event - only ever arrived as "Other". A visitor can now name it.
+   *
+   * `maxLength` is enforced on both sides. A required free-text field is the
+   * one place on this form where a visitor can put arbitrary length into an
+   * email, so the API caps it too rather than trusting the attribute.
+   */
   howHeardAboutUs: {
     id: "howHeardAboutUs",
     label: "How did you hear about us?",
-    type: "select",
+    type: "text",
+    placeholder: "Google, Instagram, a friend...",
     required: true,
-    options: [
-      { value: "", label: "Select an option..." },
-      { value: "search-engine", label: "Search Engine (Google, etc.)" },
-      { value: "social-media", label: "Social Media" },
-      { value: "referral", label: "Referral from Friend or Family" },
-      { value: "business-referral", label: "Business Referral" },
-      { value: "advertisement", label: "Online Advertisement" },
-      { value: "event", label: "Event or Networking" },
-      { value: "other", label: "Other" },
-    ],
+    validation: {
+      maxLength: 200,
+    },
   },
 };
+
+/**
+ * Resolves a select field's stored value to the label the visitor actually
+ * picked.
+ *
+ * The form stores option values ("lmm", "5k-10k", "1-3-months") and the API
+ * emailed those verbatim, so an inquiry landed in the owner's inbox reading
+ * "Venture or Service: lmm" and "Budget Range: 5k-10k" - they had to translate
+ * their own form to read it, and the subject line carried the same code.
+ *
+ * Falls back to the raw value rather than an empty string: an option retired
+ * from the list still has old submissions referring to it, and a code is more
+ * use than a blank line.
+ */
+export function optionLabel(
+  options: readonly { value: string; label: string }[],
+  value: string | undefined
+): string {
+  const trimmed = value?.trim();
+  if (!trimmed) return "Not provided";
+  return options.find((option) => option.value === trimmed)?.label ?? trimmed;
+}
 
 export const contactEmail = "ceo@leeenterprisesunlimited.com";
 

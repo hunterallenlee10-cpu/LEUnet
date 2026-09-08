@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { contactFormFields, optionLabel } from "@/data/contact";
 
 // Constructed per request rather than at module scope: the Resend constructor
 // throws when the key is missing, which fails `next build` on any environment
@@ -91,9 +92,15 @@ export async function POST(request: NextRequest) {
       errors.desiredTimeline = "Please select a timeline";
     }
 
-    // How heard about us validation
-    if (!body.howHeardAboutUs) {
+    // How heard about us validation. This is free text rather than a select
+    // now, so it is trimmed and capped here as well as in the browser - the
+    // maxLength attribute on the input is a convenience, not a guarantee.
+    const howHeardTrimmed = body.howHeardAboutUs?.trim() || "";
+    const howHeardMax = contactFormFields.howHeardAboutUs.validation.maxLength;
+    if (!howHeardTrimmed) {
       errors.howHeardAboutUs = "Please let us know how you heard about us";
+    } else if (howHeardTrimmed.length > howHeardMax) {
+      errors.howHeardAboutUs = `Please keep this under ${howHeardMax} characters`;
     }
 
     // Return errors if validation fails
@@ -101,23 +108,32 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errors }, { status: 400 });
     }
 
+    // The select fields store codes ("lmm", "5k-10k"), which this used to email
+    // verbatim - an inquiry arrived reading "Venture or Service: lmm" and the
+    // owner had to translate their own form. optionLabel resolves each one back
+    // to the label the visitor actually picked.
+    const ventureLabel = optionLabel(
+      contactFormFields.ventureOfInterest.options,
+      body.ventureOfInterest
+    );
+
     // Build email body with "Not provided" for optional empty fields
     const emailBody = `
 Full Name: ${fullNameTrimmed}
 Email Address: ${emailTrimmed}
 Phone Number: ${phoneTrimmed || "Not provided"}
-Venture or Service: ${body.ventureOfInterest}
+Venture or Service: ${ventureLabel}
 Preferred Contact Method: ${body.preferredContactMethod === "email" ? "Email" : "Phone"}
-Budget Range: ${body.budgetRange || "Not provided"}
-Desired Timeline: ${body.desiredTimeline || "Not provided"}
-How They Heard About Us: ${body.howHeardAboutUs || "Not provided"}
+Budget Range: ${optionLabel(contactFormFields.budgetRange.options, body.budgetRange)}
+Desired Timeline: ${optionLabel(contactFormFields.desiredTimeline.options, body.desiredTimeline)}
+How They Heard About Us: ${howHeardTrimmed || "Not provided"}
 
 Project or Request Description:
 ${projectDescriptionTrimmed}
     `.trim();
 
     // Build subject line
-    const subject = `New Website Inquiry — ${body.ventureOfInterest} — ${fullNameTrimmed}`;
+    const subject = `New Website Inquiry — ${ventureLabel} — ${fullNameTrimmed}`;
 
     // Send email via Resend
     const response = await getResend().emails.send({
