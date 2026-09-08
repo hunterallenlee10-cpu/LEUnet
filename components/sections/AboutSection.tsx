@@ -76,7 +76,7 @@ export function AboutSection() {
             hover={false}
             glassOpacity="bg-transparent"
             borderColor="border-transparent"
-            className="leu-mission-card rounded-2xl shadow-[0_0_70px_-24px_rgba(251,191,36,0.45)] md:p-12"
+            className="leu-mission-card rounded-2xl md:p-12"
           >
             <div className="text-center">
               <h3 className="heading-md text-white">
