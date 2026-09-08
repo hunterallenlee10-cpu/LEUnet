@@ -80,9 +80,16 @@ export function ContactSection() {
       newErrors.desiredTimeline = "Please select a timeline";
     }
 
-    // How heard about us validation
-    if (!formData.howHeardAboutUs) {
+    // How heard about us validation. Free text now, so it is trimmed like the
+    // other typed fields rather than merely checked for a selected value - a
+    // field of spaces passed the old check.
+    const howHeardTrimmed = formData.howHeardAboutUs?.trim();
+    if (!howHeardTrimmed) {
       newErrors.howHeardAboutUs = "Please let us know how you heard about us";
+    } else if (
+      howHeardTrimmed.length > contactFormFields.howHeardAboutUs.validation.maxLength
+    ) {
+      newErrors.howHeardAboutUs = `Please keep this under ${contactFormFields.howHeardAboutUs.validation.maxLength} characters`;
     }
 
     setErrors(newErrors);
@@ -372,19 +379,16 @@ export function ContactSection() {
                     >
                       {contactFormFields.howHeardAboutUs.label}
                     </label>
-                    <select
+                    <input
+                      type="text"
                       id="howHeardAboutUs"
                       name="howHeardAboutUs"
+                      placeholder={contactFormFields.howHeardAboutUs.placeholder}
+                      maxLength={contactFormFields.howHeardAboutUs.validation.maxLength}
                       value={formData.howHeardAboutUs || ""}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all appearance-none cursor-pointer"
-                    >
-                      {contactFormFields.howHeardAboutUs.options.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-neutral-900">
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all"
+                    />
                     {errors.howHeardAboutUs && (
                       <p className="text-red-400 text-sm mt-1">{errors.howHeardAboutUs}</p>
                     )}

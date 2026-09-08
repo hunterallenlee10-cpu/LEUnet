@@ -27,7 +27,7 @@ function AccordionItem({
           {title}
         </h3>
         <ChevronDown
-          className={`w-5 h-5 text-amber-400 transition-transform ${
+          className={`w-5 h-5 shrink-0 text-amber-400 transition-transform ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -41,24 +41,46 @@ function AccordionItem({
   );
 }
 
+/**
+ * Privacy Policy and Terms of Service, side by side.
+ *
+ * These were two full sections stacked, each with its own `py-20 md:py-32`, so
+ * the legal boilerplate ran to roughly two screens between the contact form and
+ * the footer. One section with a two-column grid halves that: the padding is
+ * paid once instead of twice, and the two columns fill width that a centred
+ * `max-w-3xl` was leaving empty on either side.
+ *
+ * BOTH ANCHORS SURVIVE. `#privacy` and `#terms` moved from the two `<section>`
+ * elements onto the two columns, because the footer's Legal links scroll to
+ * them by id. Side by side they now resolve to the same scroll position, which
+ * is the point rather than a regression - either link brings up the whole legal
+ * block, and on desktop both are on screen at once.
+ *
+ * Below `lg` the columns stack, which is the old layout minus one section's
+ * padding. Nothing about this is worth breaking a phone over.
+ */
 export function LegalSection() {
   const [openPrivacy, setOpenPrivacy] = useState<number | null>(null);
   const [openTerms, setOpenTerms] = useState<number | null>(null);
 
   return (
-    <>
-      {/* Privacy Policy */}
-      <section
-        id={sectionIds.privacy}
-        className="relative py-20 md:py-32 bg-neutral-950 overflow-hidden"
-      >
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl" />
-        </div>
+    <section className="relative overflow-hidden bg-neutral-950 py-20 md:py-28">
+      {/* Both sections' orbs, kept and merged - amber high right from Privacy,
+          cyan low left from Terms. They are NOT on `-z-10` any more: this
+          section sets no z-index, so it establishes no stacking context, and a
+          negative layer inside it painted behind the section's own opaque
+          background where none of it survived. Neither orb has ever actually
+          been visible. The content below carries `relative` so it still paints
+          over them, which is the arrangement BusinessMasterySection uses. */}
+      <div className="absolute inset-0" aria-hidden="true">
+        <div className="absolute right-1/4 top-1/4 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/4 h-96 w-96 rounded-full bg-cyan-400/5 blur-3xl" />
+      </div>
 
-        <div className="section-container">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="heading-lg text-white mb-12 text-center">
+      <div className="section-container relative">
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-12">
+          <div id={sectionIds.privacy} className="scroll-mt-24">
+            <h2 className="heading-lg mb-8 text-center text-white">
               {privacyPolicyContent.title}
             </h2>
 
@@ -76,7 +98,7 @@ export function LegalSection() {
               ))}
             </div>
 
-            <GlassCard className="mt-12 p-6 bg-white/5 border-white/10">
+            <GlassCard className="mt-8 p-6 bg-white/5 border-white/10">
               <p className="text-neutral-400 text-sm">
                 If you have any questions about this Privacy Policy, please contact us at{" "}
                 <span className="text-amber-400 font-semibold">
@@ -86,21 +108,16 @@ export function LegalSection() {
               </p>
             </GlassCard>
           </div>
-        </div>
-      </section>
 
-      {/* Terms of Service */}
-      <section
-        id={sectionIds.terms}
-        className="relative py-20 md:py-32 bg-neutral-950 overflow-hidden border-t border-neutral-800"
-      >
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-cyan-400/5 rounded-full blur-3xl" />
-        </div>
-
-        <div className="section-container">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="heading-lg text-white mb-12 text-center">
+          {/* The rule replaces the `border-t` that used to separate the two
+              sections: on desktop it divides the columns, and below `lg`, where
+              they stack, it goes away rather than becoming a stray vertical
+              line down one edge. */}
+          <div
+            id={sectionIds.terms}
+            className="scroll-mt-24 lg:border-l lg:border-neutral-800 lg:pl-12"
+          >
+            <h2 className="heading-lg mb-8 text-center text-white">
               {termsOfServiceContent.title}
             </h2>
 
@@ -118,14 +135,14 @@ export function LegalSection() {
               ))}
             </div>
 
-            <GlassCard className="mt-12 p-6 bg-white/5 border-white/10">
+            <GlassCard className="mt-8 p-6 bg-white/5 border-white/10">
               <p className="text-neutral-400 text-sm">
                 By accessing and using this website, you accept and agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use our website.
               </p>
             </GlassCard>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

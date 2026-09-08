@@ -47,7 +47,13 @@ export function MainFooter() {
                 <p className="text-xs text-amber-400">Lee Enterprises Unlimited</p>
               </div>
             </div>
-            <p className="text-neutral-400 text-sm">Empowering Excellence Across Distinct Ventures. Working to make others dreams come true.</p>
+            {/* The owner's verse, in place of the tagline that was here. Kept
+                as one plain line in the footer's own type so it reads as the
+                company's own words rather than a decorated pull quote. */}
+            <p className="text-neutral-400 text-sm">
+              Philippians 4:13, &ldquo;I can do all things through Christ who
+              strengthens me.&rdquo;
+            </p>
           </div>
 
           {/* Quick Links */}
