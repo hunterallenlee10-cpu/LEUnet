@@ -15,9 +15,37 @@ export const companyInfo = {
 
 export const aboutSection = {
   title: "About Lee Enterprises Unlimited",
-  subtitle: "Built on a Foundation of Excellence",
-  description:
-    "Lee Enterprises Unlimited brings together a growing portfolio of specialized businesses under one vision: create value, deliver exceptional results, and build ventures designed to last. Whether you are interested in one of our services, a potential partnership, or launching a venture of your own, our team is ready to help you move forward. Contact us for a consultation on your vision.",
+  /**
+   * Was "Built on a Foundation of Excellence", which named one of the four
+   * value cards below it and otherwise said nothing the mission does not say
+   * better. This states the actual shape of the company instead.
+   */
+  subtitle: "One Vision, Several Businesses",
+  /**
+   * ONE statement, where the section used to carry two.
+   *
+   * There was an intro paragraph here (`description`) as well as a mission
+   * hardcoded in AboutSection, and roughly two thirds of each was the other
+   * one restated: both built lasting ventures, both delivered results (the
+   * word landed three times between them), both offered to help someone launch
+   * a venture of their own, and both closed by asking for contact - in a
+   * section whose only button goes to Business Mastery rather than to Contact.
+   * The mission also listed "innovation, integrity, and excellence", which is
+   * the value cards directly above it, in prose.
+   *
+   * What survived is each block's one non-overlapping half: what the company
+   * is, from the intro, and who it is for, from the mission. The closing ask
+   * is gone from the copy entirely - the button under the card is the ask, and
+   * it now goes unopposed rather than being the third one in the section.
+   *
+   * `heading` is the card's own title, separate because the card renders it as
+   * an h3 above the statement.
+   */
+  mission: {
+    heading: "Our Mission",
+    statement:
+      "Lee Enterprises Unlimited brings together a growing portfolio of specialized businesses under one vision: create value, deliver results that hold up, and build ventures designed to last. What ties them together is who they are for - people turning an idea into a business of their own, whether that means one of our services, a partnership, or a venture you start yourself.",
+  },
   values: [
     {
       id: "excellence",

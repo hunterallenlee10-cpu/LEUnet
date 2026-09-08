@@ -25,14 +25,13 @@ export function AboutSection() {
       </div>
 
       <div className="section-container">
-        {/* Header */}
+        {/* Header. Heading and subtitle only: the paragraph that used to sit
+            here was two thirds the mission card's statement restated, so the
+            two were merged into that card. See `aboutSection.mission`. */}
         <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
           <h2 className="heading-lg text-white mb-4">{aboutSection.title}</h2>
-          <p className="text-xl text-amber-400 font-semibold mb-4">
+          <p className="text-xl text-amber-400 font-semibold">
             {aboutSection.subtitle}
-          </p>
-          <p className="text-lg text-neutral-400 leading-relaxed">
-            {aboutSection.description}
           </p>
         </div>
 
@@ -68,16 +67,20 @@ export function AboutSection() {
             borderColor="border-amber-400/20"
           >
             <div className="text-center space-y-6">
-              <h3 className="heading-md text-white">Our Mission</h3>
+              <h3 className="heading-md text-white">
+                {aboutSection.mission.heading}
+              </h3>
               <p className="text-lg text-neutral-300 leading-relaxed">
-                To build and scale exceptional ventures that deliver measurable results, drive positive change, and set new standards for excellence in their respective industries. At the heart of our mission is a commitment to helping others turn their ideas into reality and make their dreams of starting and growing a successful business come true. We are dedicated to empowering our clients, supporting our team members, and creating lasting value through innovation, integrity, and an unwavering focus on results. Contact us today to make your dreams come true.
+                {aboutSection.mission.statement}
               </p>
             </div>
           </GlassCardPadded>
 
-          {/* Mission CTA - the mission copy ends on "make your dreams come
-              true", so this sends readers to Business Mastery, the program
-              that turns an idea into a business. */}
+          {/* Mission CTA. The statement above ends on turning an idea into a
+              business of your own, so this sends readers to Business Mastery,
+              the program that does exactly that. It is also the section's only
+              ask now: both merged paragraphs closed by asking for contact,
+              which competed with this button and pointed somewhere else. */}
           <div className="mt-10 flex justify-center">
             <Link
               href={businessMasteryPage}
