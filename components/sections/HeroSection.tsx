@@ -47,6 +47,7 @@ export function HeroSection() {
         <div className="leu-horizon" />
         <div className="leu-grain" />
         <div className="leu-scrim" />
+        <div className="leu-hero-fade" />
       </div>
 
       {/* Content Container. On phones the wrapper carries the viewport-height
