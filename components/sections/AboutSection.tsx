@@ -61,16 +61,36 @@ export function AboutSection() {
 
         {/* Mission Statement */}
         <div className="max-w-3xl mx-auto">
+          {/* `hover={false}`: GlassCard hovers by default, so this panel —
+              which is not a link, a button, or anything you can click — swapped
+              its amber border for white the moment a pointer crossed it. The
+              four value cards above have the same false affordance; left alone
+              here because they are not this change.
+
+              Fill and border are neutralised so `.leu-mission-card` can supply
+              both (app/globals.css). The radius and padding scale up with it:
+              rounded-lg is the same 8px the small value cards carry, which
+              looks tight on a panel this size. */}
           <GlassCardPadded
             size="lg"
-            glassOpacity="bg-white/5"
-            borderColor="border-amber-400/20"
+            hover={false}
+            glassOpacity="bg-transparent"
+            borderColor="border-transparent"
+            className="leu-mission-card rounded-2xl shadow-[0_0_70px_-24px_rgba(251,191,36,0.45)] md:p-12"
           >
-            <div className="text-center space-y-6">
+            <div className="text-center">
               <h3 className="heading-md text-white">
                 {aboutSection.mission.heading}
               </h3>
-              <p className="text-lg text-neutral-300 leading-relaxed">
+              {/* Sits under the heading in place of the flat gap `space-y-6`
+                  gave it: a short rule reads as a deliberate mark rather than
+                  more empty space, and it carries the same top-down amber
+                  falloff as the panel's ring. */}
+              <span
+                className="mx-auto mt-5 block h-px w-16 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"
+                aria-hidden="true"
+              />
+              <p className="mt-6 text-lg leading-relaxed text-neutral-300">
                 {aboutSection.mission.statement}
               </p>
             </div>
