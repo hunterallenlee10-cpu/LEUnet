@@ -18,9 +18,17 @@ export const aboutSection = {
   /**
    * Was "Built on a Foundation of Excellence", which named one of the four
    * value cards below it and otherwise said nothing the mission does not say
-   * better. This states the actual shape of the company instead.
+   * better.
+   *
+   * The doubling makes the company's own name the line, and it matches the
+   * hero's two-phrase cadence ("Multiple Ventures. Unified Excellence.").
+   * "Ambition" rather than "Reach", which was the other candidate: reach is a
+   * measurable claim about audience or territory, and nothing on this site
+   * substantiates one. Ambition is a posture, it reads as the visitor's as
+   * much as the company's, and it sets up a mission statement that is about
+   * people starting businesses of their own.
    */
-  subtitle: "One Vision, Several Businesses",
+  subtitle: "Unlimited Opportunity, Unlimited Ambition",
   /**
    * ONE statement, where the section used to carry two.
    *
