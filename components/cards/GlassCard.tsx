@@ -43,6 +43,7 @@ interface GlassCardPaddingProps extends Omit<GlassCardProps, "children"> {
 export function GlassCardPadded({
   children,
   size = "md",
+  className,
   ...props
 }: GlassCardPaddingProps) {
   const paddingClass = {
@@ -51,8 +52,15 @@ export function GlassCardPadded({
     lg: "p-8",
   }[size];
 
+  /* `className` is merged with the size padding rather than spread over it.
+     It used to arrive in `...props` AFTER `className={paddingClass}`, so any
+     caller passing one silently lost the padding this component exists to
+     apply — a card with `size="lg"` and a className rendered with none at all.
+     Nothing passed one until now, which is why it never showed. `cn` is
+     tailwind-merge, so a caller can still override the padding deliberately by
+     naming its own. */
   return (
-    <GlassCard className={paddingClass} {...props}>
+    <GlassCard className={cn(paddingClass, className)} {...props}>
       {children}
     </GlassCard>
   );
