@@ -9,8 +9,13 @@ export const companyInfo = {
    * /support pages both use it as the strapline under their H1.
    */
   heroSubtitle: "Unlimited Opportunity. Unified Excellence.",
+  /**
+   * Homepage hero only - unlike `heroSubtitle` above, /sponsors and /support
+   * take that line without this one, so this can address a visitor who has
+   * not yet said what they need.
+   */
   heroDescription:
-    "Discover our portfolio of premium businesses, each dedicated to delivering exceptional results in their respective industries.",
+    "Discover our team of master problem solvers. There is no field we cannot conquer, no task we cannot handle. Any project you give us — consider it done.",
   logo: "/logos/leu-logo.png",
   logoAlt: "Lee Enterprises Unlimited logo",
   contactEmail: "ceo@leeenterprisesunlimited.com",
