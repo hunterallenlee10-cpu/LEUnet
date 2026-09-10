@@ -32,10 +32,15 @@ export function HeroSection() {
   return (
     <section
       id={sectionIds.hero}
-      // Below lg the height is a floor, not a lock: the stacked mobile content
-      // is taller than a phone viewport, and a fixed height left the bottom
-      // button underneath the scroll cue.
-      className="relative overflow-hidden bg-black min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)]"
+      // A floor at every width, never a lock. The header is `fixed`, so it
+      // takes no layout space and this section starts at y=0 underneath it -
+      // subtracting its 80px from the height did not move the content clear of
+      // it, it just ended the section 80px above the fold and left the
+      // centred column to drift up under the header as the viewport got
+      // shorter. The band is reserved as top padding on the wrapper below
+      // instead, and the height is a minimum so a column too tall for the
+      // space grows the page rather than being clipped by `overflow-hidden`.
+      className="relative overflow-hidden bg-black min-h-[calc(100vh-80px)] lg:min-h-screen"
     >
       {/* Animated background — "Aurora Veil". Two counter-rotating masked
           gradients over a warm pool, then grain and a scrim that keeps the
@@ -50,12 +55,16 @@ export function HeroSection() {
         <div className="leu-hero-fade" />
       </div>
 
-      {/* Content Container. On phones the wrapper carries the viewport-height
-          minimum itself so the copy still centres when it is shorter than the
-          screen, and the bottom padding reserves the band the absolutely
-          positioned scroll cue occupies. */}
+      {/* Content Container. It carries the viewport-height minimum itself so
+          the copy still centres when it is shorter than the screen, and the
+          padding reserves the two bands that overlay it: the fixed header at
+          the top, and the absolutely positioned scroll cue at the bottom.
+          `justify-center` then centres the column in what is actually left
+          between them rather than in the full box. Both reserves are the
+          same at every width: the two overlays are the same size on a phone
+          as on a monitor. */}
       <div
-        className="relative flex flex-col justify-center min-h-[calc(100vh-80px)] pt-20 pb-28 lg:min-h-0 lg:h-full lg:pt-0 lg:pb-0"
+        className="relative flex flex-col justify-center min-h-[calc(100vh-80px)] pt-20 pb-28 lg:min-h-screen"
         style={{ zIndex: 1 }}
       >
         <div
