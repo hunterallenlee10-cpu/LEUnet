@@ -77,8 +77,12 @@ export function HeroSection() {
                     className="object-contain"
                   />
                 </div>
+                {/* From `companyInfo.name`, not a literal: this read "Lee
+                    Enterprises" while every other instance on the site carried
+                    "Unlimited", so the one line sitting next to the logo was
+                    the one place the company was named wrong. */}
                 <span className="text-xs sm:text-sm font-semibold text-amber-400 tracking-widest uppercase">
-                  Lee Enterprises
+                  {companyInfo.name}
                 </span>
               </div>
 
