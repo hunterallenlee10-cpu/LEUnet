@@ -1255,7 +1255,8 @@
 
 /* ---------------------------------------------------------------------------
    Business Mastery hero — "Constellation"
-   One consumer: components/business-mastery/BmHeroBackground.tsx. The field
+   One consumer: components/business-mastery/BmHeroBackground.tsx, which the
+   page's hero and the homepage teaser that links to it both render. The field
    itself is drawn to a canvas; everything here is the ground it is drawn on
    and the scrim that keeps the copy off it.
 
