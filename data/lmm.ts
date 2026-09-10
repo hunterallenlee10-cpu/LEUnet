@@ -49,11 +49,26 @@ export const lmmFaqs = [
  * `bmHero` in data/business-mastery.ts, which feeds the Business Mastery
  * teaser in the same slot on the same page.
  *
- * Every line here is the venture's existing words, not new claims: the
- * manifesto and description are HubHeroSection's own opening paragraph, split
- * at its first sentence, and `assuranceLine` is the note under that hero's
- * CTAs. The teaser's job is to say what the hub already says, in one screen,
- * and hand the visitor to the page that argues it properly.
+ * The manifesto is the owner's track record: the same claim published as
+ * `bmProofStatement` in data/business-mastery.ts and confirmed accurate by the
+ * owner, recast as three fragments so it carries as a headline. Nothing in the
+ * repo can check it. Like `bmHero.scarcityLine` it is a claim about the
+ * owner's own history and stays true only as long as that is true. Note also
+ * that `bmProofStatement` is Business Mastery's line; stating it here
+ * attributes the same record to this venture, at the owner's request.
+ *
+ * `subtitle` and `description` are ONE sentence split at its colon, not the
+ * two whole sentences the sibling teaser puts in those fields. The component
+ * renders them as `subtitle + " " + description` inside a single paragraph, so
+ * the split is invisible - it exists only because these two fields are the
+ * shape this section shares with BusinessMasterySection. Keep the halves
+ * joinable by exactly one space.
+ *
+ * THIS NO LONGER MATCHES THE HUB. These fields used to quote HubHeroSection's
+ * opening paragraph verbatim, and that paragraph still carries the old "three
+ * different jobs" wording, so the teaser and the page it links to now open on
+ * different claims. Close the gap by rewriting the hub paragraph, not by
+ * reverting this.
  *
  * The slot `assuranceLine` occupies is where the Business Mastery teaser puts
  * `bmHero.scarcityLine` ("Enrollment Closing Soon"). It is deliberately NOT a
@@ -65,10 +80,9 @@ export const lmmFaqs = [
 export const lmmHomeTeaser = {
   eyebrow: "Lee Marketing Mastery",
   manifesto:
-    "Getting attention, converting it, and following up are three different jobs.",
-  subtitle: "Marketing, Websites & Business Automation.",
-  description:
-    "Lee Marketing Mastery does all three for owners who would rather have the work done than manage it. Take one, or take all three.",
+    "Dozens of businesses built. Hundreds worked with. Thousands upon thousands of dollars generated.",
+  subtitle: "That's what's behind every project we take on:",
+  description: "marketing, websites, and business automation, done for you.",
   assuranceLine: "Scoped & Quoted Per Project",
   cta: "See What We Do",
 } as const;
