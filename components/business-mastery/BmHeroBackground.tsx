@@ -5,6 +5,12 @@ import { useEffect, useRef } from "react";
 /**
  * The Business Mastery hero background — "Constellation".
  *
+ * Rendered by the page's own hero and by the homepage block that links to it
+ * (components/sections/BusinessMasterySection.tsx), so the doorway and the
+ * destination share a background rather than two takes on one palette. Nothing
+ * here is sized against the viewport — the field is derived from whatever box
+ * it is handed — so the shorter homepage band composes as its own frame.
+ *
  * Nodes drift, a line appears between any two that come close enough, and a
  * signal travels down one of those lines every second or so. The page's next
  * section is titled "Nobody Builds Something Great Alone" and lands on a single
