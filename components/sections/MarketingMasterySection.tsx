@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { sectionIds, venturePages } from "@/data/navigation";
 import { lmmHomeTeaser } from "@/data/lmm";
+import { LmmSignalRoutes } from "@/components/lmm/LmmSignalRoutes";
 
 /**
  * Homepage doorway to /lee-marketing-mastery, and the sibling of
@@ -15,11 +16,12 @@ import { lmmHomeTeaser } from "@/data/lmm";
  * different composition would rank it below the other before a visitor read a
  * word of it.
  *
- * WHAT DIFFERS IS THE LIGHT. Both sections sit on black, so the boundary
- * between them is invisible, and each is lit by its own destination's
- * signature: Business Mastery by one centred amber pool, this one by the pair
- * of offset orbs — warm right, cool left — that open the venture hub. A
- * visitor arriving at that page should recognise where they came from.
+ * WHAT DIFFERS IS THE LIGHT, and now the field over it. Both sections sit on
+ * black, so the boundary between them is invisible, and each carries its own
+ * destination's background: Business Mastery its "Constellation", this one the
+ * pair of offset orbs — warm right, cool left — that open the venture hub,
+ * with "Signal Routes" running over them. A visitor arriving at that page
+ * should recognise where they came from.
  *
  * Like its sibling, this is not a summary. The hub carries the three
  * offerings, their diagrams and their routes; this carries the one sentence
@@ -44,6 +46,12 @@ export function MarketingMasterySection() {
       <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute -top-16 right-[18%] h-[34rem] w-[34rem] max-w-[80vw] translate-x-1/2 rounded-full bg-amber-400/[0.16] blur-3xl" />
         <div className="absolute -bottom-16 left-[20%] h-[28rem] w-[28rem] max-w-[70vw] -translate-x-1/2 rounded-full bg-slate-400/[0.09] blur-3xl" />
+
+        {/* Drawn over the orbs, and inside this wrapper rather than beside it
+            so it stays under the copy: the column below is `relative` and
+            comes later in the document, which is the whole of what keeps the
+            two apart. */}
+        <LmmSignalRoutes />
       </div>
 
       <div className="section-container relative text-center">

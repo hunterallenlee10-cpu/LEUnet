@@ -1254,6 +1254,152 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Lee Marketing Mastery — "Signal Routes"
+   One consumer: components/lmm/LmmSignalRoutes.tsx, which the venture hub's
+   hero and the homepage teaser that links to it both render. The geometry
+   lives with the component; everything here is how a route is painted, and
+   what travels down it.
+
+   The layer draws over the warm-right/cool-left orbs each consumer lights,
+   never instead of them: the orbs are the venture's tell, and they are tuned
+   per section. So nothing here paints a ground.
+
+   The rule this block follows is that a route may never compete with the copy
+   that sits over it. Both consumers centre a column on this field, so the
+   protection cannot come from geometry, and unlike `.bmc-scrim` on Business
+   Mastery there is no scrim here to provide it — a second dark veil over a
+   field this quiet would only mute the orbs underneath. It comes from value
+   instead: the resting routes are barely above the ground, and the one thing
+   drawn at full strength, the travelling signal, is 4% of a route long and
+   passes any given point in a fraction of a second.
+
+   Dash figures are percentages, not user units — every path declares
+   `pathLength="100"`. See the component for why.
+   --------------------------------------------------------------------------- */
+
+.lmmr-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* The channel: continuous, and only just visible. */
+.lmmr-route {
+  fill: none;
+  stroke: rgba(251, 191, 36, 0.13);
+  stroke-width: 1.1;
+}
+
+/* Laid over the route rather than replacing it, so a channel reads as marked
+   out rather than as broken up. It drifts one dash period every 9s - slow
+   enough that a still screenshot cannot tell it moves, which is the point:
+   the eye should find the signal, not the ticking. */
+.lmmr-drift {
+  fill: none;
+  stroke: rgba(251, 191, 36, 0.22);
+  stroke-width: 1.1;
+  stroke-dasharray: 0.55 2.2;
+  animation: lmmrDrift 9s linear infinite;
+}
+
+@keyframes lmmrDrift {
+  to {
+    stroke-dashoffset: -2.75;
+  }
+}
+
+/* What travels. A 4%-long dash with 96% of gap behind it, slid the length of
+   the path: one bright run per route per cycle, and nothing on the path
+   between runs. The easing is the venture's own `lmmFlowDot` curve, so a
+   signal accelerates away and settles into its junction rather than moving at
+   a constant rate. */
+.lmmr-signal {
+  fill: none;
+  stroke: rgba(253, 230, 138, 0.9);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 4 96;
+  stroke-dashoffset: 100;
+  animation: lmmrSignal 7.8s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+}
+
+/* Holds at the start for the first fifth of the cycle, so the three staggered
+   routes are quiet between arrivals instead of running end to end. */
+@keyframes lmmrSignal {
+  0%,
+  18% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+  }
+  92%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+.lmmr-waypoint {
+  fill: rgba(251, 191, 36, 0.4);
+}
+
+.lmmr-relay {
+  fill: rgba(251, 191, 36, 0.62);
+}
+
+.lmmr-hub {
+  fill: rgba(253, 230, 138, 0.9);
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.55));
+}
+
+/* The ring the junction throws, on the same 7.8s beat the signals run, timed
+   to open just as the last of them lands. `r` is animated rather than a
+   transform: the circle has no box of its own to scale about, and giving it
+   one with `transform-box` to save a property nothing else animates would be
+   the more obscure of the two. */
+.lmmr-ring {
+  fill: none;
+  stroke: rgba(251, 191, 36, 0.5);
+  stroke-width: 1;
+  animation: lmmrRing 7.8s ease-out infinite;
+}
+
+@keyframes lmmrRing {
+  0%,
+  62% {
+    r: 6;
+    opacity: 0;
+  }
+  66% {
+    opacity: 0.55;
+  }
+  100% {
+    r: 46;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lmmr-drift {
+    animation: none;
+  }
+
+  /* Both go entirely rather than parking. A signal held mid-route is a bright
+     dash sitting on a curve for no reason, and a ring frozen part-open is a
+     circle the field never explains. What remains is the composition the
+     motion moves through - routes, junctions, waypoints - which reads as a map
+     on its own. */
+  .lmmr-signal,
+  .lmmr-ring {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Business Mastery hero — "Constellation"
    One consumer: components/business-mastery/BmHeroBackground.tsx. The field
    itself is drawn to a canvas; everything here is the ground it is drawn on
