@@ -64,11 +64,14 @@ export const lmmFaqs = [
  * shape this section shares with BusinessMasterySection. Keep the halves
  * joinable by exactly one space.
  *
- * THIS NO LONGER MATCHES THE HUB. These fields used to quote HubHeroSection's
- * opening paragraph verbatim, and that paragraph still carries the old "three
- * different jobs" wording, so the teaser and the page it links to now open on
- * different claims. Close the gap by rewriting the hub paragraph, not by
- * reverting this.
+ * THIS DELIBERATELY NO LONGER MATCHES THE HUB. These fields used to quote
+ * HubHeroSection's opening paragraph verbatim; that paragraph still carries
+ * the old "three different jobs" wording, so the teaser and the page it links
+ * to now open on different claims. That divergence was reviewed and kept: the
+ * owner asked for the teaser to change and for the hub to stay as it is. The
+ * teaser sells the track record, the hub explains the structure of the work.
+ * Do not "fix" this by reverting the teaser or by rewriting the hub - either
+ * one undoes a decision, not an oversight.
  *
  * The slot `assuranceLine` occupies is where the Business Mastery teaser puts
  * `bmHero.scarcityLine` ("Enrollment Closing Soon"). It is deliberately NOT a
