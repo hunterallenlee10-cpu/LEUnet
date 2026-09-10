@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { LMM_SCAN_CYCLE_SECONDS } from "@/components/lmm/scanCycle";
 import { hubOfferings } from "@/components/lmm-hub/hubOfferings";
 import { HubHeroTypedWord } from "@/components/lmm-hub/HubHeroTypedWord";
+import { LmmSignalRoutes } from "@/components/lmm/LmmSignalRoutes";
 
 /**
  * The venture hub's first screen.
@@ -35,7 +36,23 @@ export function HubHeroSection() {
         <div className="absolute bottom-10 left-10 h-80 w-80 rounded-full bg-slate-400/5 blur-3xl" />
       </div>
 
-      <div className="section-container">
+      {/* Outside the wrapper above, deliberately. This section is `relative`
+          with no z-index, so it opens no stacking context and that wrapper's
+          `-z-10` puts its children behind the section's OWN background — which
+          is `from-neutral-950`, opaque everywhere but the translucent amber
+          corner it ends on. The orbs have always been mostly swallowed by it;
+          a field of 1px routes put back there would have been invisible
+          outright. Left at `z-0` the layer paints over the gradient, and the
+          column below carries `z-[1]` to stay over the layer.
+
+          Shared with the homepage teaser that links here, and still no client
+          bundle: the layer is markup and a stylesheet, so the hub's only
+          client leaf remains HubHeroTypedWord. */}
+      <div className="absolute inset-0 z-0" aria-hidden="true">
+        <LmmSignalRoutes />
+      </div>
+
+      <div className="section-container relative z-[1]">
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
           <div>
             <div className="mb-6 flex flex-wrap items-center gap-4">
