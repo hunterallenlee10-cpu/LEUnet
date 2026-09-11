@@ -35,11 +35,43 @@
  * would read as dotted and the short climb as dashed — and each travelling
  * signal would need its own offset tuned to its own path.
  *
+ * DEPTH, AND WHY THERE ARE THIRTEEN ROUTES RATHER THAN FOUR. This field
+ * started as four curves at one weight, and four curves at one weight do not
+ * read as a field: at desktop widths they read as stray hairlines on the
+ * glass, which is worse than an empty ground because the eye tries to resolve
+ * them and finds nothing. Beside Constellation — which earns its texture from
+ * fifty-four nodes at desktop widths and the web between them — the section
+ * simply looked unfinished. The fix is not brighter lines, which would compete
+ * with the copy; it is more of them at *less* weight each, in three tiers:
+ *
+ *   near  three routes, the brightest, and the only ones that carry signals.
+ *         This is the layer a visitor actually reads: two crossing at the
+ *         junction and one feeding it from below.
+ *   mid   five quiet routes, roughly echoing the near tier's directions, so
+ *         the field reads as a bundle of traffic rather than as unrelated
+ *         curves that happen to share a frame.
+ *   far   five routes at barely-there weight. These exist to be *not quite*
+ *         seen. They are what turns black into distance.
+ *
+ * Total ink is close to what it was; the distribution is what changed. The
+ * tiers are painted back to front, and only near and mid carry the drift pass
+ * — a dashed overlay on a route you can hardly see is paint spent on nothing.
+ *
+ * HOW THE FIELD YIELDS TO COPY. Both consumers run words over this layer, and
+ * before the mask a near route ran straight through the homepage H2. The
+ * `focus` prop says where that section's copy sits and `.lmmr-svg` masks
+ * itself down to roughly a fifth of its opacity there (app/globals.css), so
+ * the routes pass *behind* the words instead of through them. A mask rather
+ * than a scrim painted in the ground colour, because the two consumers have
+ * different grounds — black on the homepage, a neutral-950 gradient on the hub
+ * — and a scrim tuned to one would sit on the other as a visible blotch. The
+ * same declaration fades the top and bottom edges out, which is what stops the
+ * routes being guillotined along a dead-straight line at the section boundary.
+ *
  * The orbs stay with the sections. Both consumers light themselves with the
- * venture's warm-right/cool-left pair, and they are tuned differently on
- * purpose (the teaser's are viewport-relative, to hold their brightness beside
- * the Business Mastery section at any width). This layer draws over whichever
- * ground it is given.
+ * venture's warm-right/cool-left pair, and they are now tuned identically on
+ * purpose — a visitor arriving at the hub should land on the light they just
+ * clicked. This layer draws over whichever ground it is given.
  */
 
 /**
@@ -66,22 +98,32 @@
 const HUB = { x: 872, y: 236 } as const;
 const RELAY = { x: 330, y: 430 } as const;
 
+/** Back to front. Painting near last is what keeps the readable layer on top. */
+const TIER_ORDER = ["far", "mid", "near"] as const;
+
+type Tier = (typeof TIER_ORDER)[number];
+
 type Route = {
   id: string;
   d: string;
+  /** Which depth this route sits at. See the header for what each tier is for. */
+  tier: Tier;
   /** Seconds before this route's signal departs. Staggered so the frame shows
    *  one arrival at a time; two at once reads as a loading state. */
   delay?: number;
   /** A route with no signal is depth: it keeps the field from looking like
-   *  three lines drawn to meet a point. */
+   *  three lines drawn to meet a point. Every mid and far route is quiet —
+   *  only the near tier carries traffic. */
   quiet?: boolean;
 };
 
 const ROUTES: Route[] = [
+  // ---- near: the three a visitor is meant to actually follow ----------------
   // Low left to high right, through the hub. The long diagonal the eye reads
   // first, so it carries the first signal.
   {
     id: "sweep",
+    tier: "near",
     d: `M -80 604 C 240 556, 560 452, ${HUB.x} ${HUB.y} S 1012 126, 1080 88`,
     delay: 0,
   },
@@ -89,6 +131,7 @@ const ROUTES: Route[] = [
   // point: two directions of traffic through one junction.
   {
     id: "cross",
+    tier: "near",
     d: `M -80 92 C 270 146, 600 198, ${HUB.x} ${HUB.y} S 1016 286, 1080 324`,
     delay: 2.6,
   },
@@ -96,13 +139,84 @@ const ROUTES: Route[] = [
   // the lower-left orb a place something comes from.
   {
     id: "feeder",
+    tier: "near",
     d: `M 268 780 C 306 650, 300 516, ${RELAY.x} ${RELAY.y} C 428 322, 660 264, ${HUB.x} ${HUB.y}`,
     delay: 5.1,
   },
-  // A slow low curve with no signal on it, well clear of the junctions.
+
+  // ---- mid: the bundle ------------------------------------------------------
+  // A slow low curve well clear of the junctions. The original quiet route,
+  // and still the only one that runs the full width without climbing.
   {
     id: "shoal",
+    tier: "mid",
     d: "M -80 704 C 220 652, 470 592, 720 636 S 980 716, 1080 692",
+    quiet: true,
+  },
+  // Offset above `sweep` and climbing harder, so the top right corner has
+  // somewhere for traffic to leave through rather than one line into the void.
+  {
+    id: "updraft",
+    tier: "mid",
+    d: "M -80 528 C 246 482, 560 392, 862 162 C 960 90, 1030 44, 1080 14",
+    quiet: true,
+  },
+  // Offset below `cross`, passing under the hub. Together with `cross` it
+  // makes the junction sit between two lanes instead of on one.
+  {
+    id: "underpass",
+    tier: "mid",
+    d: "M -80 160 C 290 218, 620 288, 906 344 C 980 358, 1040 376, 1080 390",
+    quiet: true,
+  },
+  // A second climb out of the lower left, passing just wide of the relay —
+  // near enough to read as the same origin, far enough not to double `feeder`.
+  {
+    id: "spur",
+    tier: "mid",
+    d: "M 126 780 C 176 660, 224 542, 318 452 C 430 362, 650 316, 1080 286",
+    quiet: true,
+  },
+  // The only route that descends left to bottom. Without it every curve in the
+  // frame leans the same way and the field reads as a comb.
+  {
+    id: "bank",
+    tier: "mid",
+    d: "M -80 286 C 96 356, 248 430, 356 546 C 428 624, 470 700, 496 780",
+    quiet: true,
+  },
+
+  // ---- far: distance --------------------------------------------------------
+  // Deliberately unremarkable. These are spaced to cover the corners the near
+  // and mid tiers leave empty, and none of them is meant to be traced.
+  {
+    id: "far-ceiling",
+    tier: "far",
+    d: "M -80 24 C 306 108, 656 168, 1080 186",
+    quiet: true,
+  },
+  {
+    id: "far-descent",
+    tier: "far",
+    d: "M -80 250 C 268 316, 604 396, 1080 470",
+    quiet: true,
+  },
+  {
+    id: "far-climb",
+    tier: "far",
+    d: "M -80 446 C 246 420, 528 352, 1080 126",
+    quiet: true,
+  },
+  {
+    id: "far-floor",
+    tier: "far",
+    d: "M -80 668 C 312 608, 566 528, 1080 572",
+    quiet: true,
+  },
+  {
+    id: "far-riser",
+    tier: "far",
+    d: "M 44 780 C 130 616, 236 476, 414 352 C 606 218, 862 116, 1080 52",
     quiet: true,
   },
 ];
@@ -115,6 +229,12 @@ const ROUTES: Route[] = [
  * near miss, it reads as a fifth object floating in the field. Each is the
  * point at the given fraction of its route's length: sweep at 0.15 and 0.75,
  * cross at 0.45, feeder at 0.3. Re-derive them if a curve above changes.
+ *
+ * NEAR TIER ONLY, and that is a rule rather than an accident of which routes
+ * existed first. A waypoint is brighter than the route under it, so a stop on
+ * a mid or far curve would be a dot the eye finds before it finds the curve —
+ * which puts the emphasis on the layer that exists to be ignored. Depth is
+ * carried by the extra routes; the stops stay on the three that matter.
  */
 const WAYPOINTS = [
   { x: 111, y: 568 },
@@ -123,10 +243,24 @@ const WAYPOINTS = [
   { x: 313, y: 502 },
 ] as const;
 
-export function LmmSignalRoutes() {
+type LmmSignalRoutesProps = {
+  /**
+   * Where the consuming section puts its copy, which is the one thing this
+   * layer cannot work out for itself: the hub hero runs a two-column grid with
+   * the words on the left, and the homepage teaser is centred. It selects the
+   * mask in app/globals.css that dims the field under the words.
+   *
+   * Required rather than defaulted. A new consumer that forgets to say gets a
+   * type error instead of a headline with a route through it.
+   */
+  focus: "left" | "center";
+};
+
+export function LmmSignalRoutes({ focus }: LmmSignalRoutesProps) {
   return (
     <svg
       className="lmmr-svg"
+      data-focus={focus}
       viewBox="0 0 1000 700"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
@@ -134,19 +268,26 @@ export function LmmSignalRoutes() {
     >
       {/* Three passes over one set of curves, painted back to front: the route
           itself, the drift that makes it a channel rather than a line, and the
-          signal running it. The geometry is written once, in ROUTES. */}
-      {ROUTES.map((route) => (
-        <path
-          key={`route-${route.id}`}
-          className="lmmr-route"
-          d={route.d}
-          pathLength={100}
-        />
-      ))}
-      {ROUTES.map((route) => (
+          signal running it. The geometry is written once, in ROUTES.
+
+          The first pass walks the tiers rather than the array, so ROUTES can
+          stay grouped for reading while the paint order stays back-to-front.
+          The other two passes do not need it: drift skips the far tier
+          entirely, and only the three near routes carry signals. */}
+      {TIER_ORDER.map((tier) =>
+        ROUTES.filter((route) => route.tier === tier).map((route) => (
+          <path
+            key={`route-${route.id}`}
+            className={`lmmr-route lmmr-route--${tier}`}
+            d={route.d}
+            pathLength={100}
+          />
+        )),
+      )}
+      {ROUTES.filter((route) => route.tier !== "far").map((route) => (
         <path
           key={`drift-${route.id}`}
-          className="lmmr-drift"
+          className={`lmmr-drift lmmr-drift--${route.tier}`}
           d={route.d}
           pathLength={100}
         />

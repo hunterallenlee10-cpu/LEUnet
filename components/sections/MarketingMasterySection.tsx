@@ -42,7 +42,13 @@ export function MarketingMasterySection() {
           same alpha but a fraction of the width read as an unlit section
           beside it. These are viewport-relative for that reason — a fixed
           `w-96` is most of a phone and a sixth of a wide desktop, which is the
-          span where the difference showed. */}
+          span where the difference showed.
+
+          THE HUB HERO NOW RUNS THIS EXACT PAIR. It used to light itself with a
+          smaller, dimmer one that a negative z-index hid behind the section's
+          own background anyway, so clicking through went from a warm teaser to
+          a flat black hero. Both sides are tuned here; if these values change,
+          change `HubHeroSection` with them. */}
       <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute -top-16 right-[18%] h-[34rem] w-[34rem] max-w-[80vw] translate-x-1/2 rounded-full bg-amber-400/[0.16] blur-3xl" />
         <div className="absolute -bottom-16 left-[20%] h-[28rem] w-[28rem] max-w-[70vw] -translate-x-1/2 rounded-full bg-slate-400/[0.09] blur-3xl" />
@@ -50,8 +56,13 @@ export function MarketingMasterySection() {
         {/* Drawn over the orbs, and inside this wrapper rather than beside it
             so it stays under the copy: the column below is `relative` and
             comes later in the document, which is the whole of what keeps the
-            two apart. */}
-        <LmmSignalRoutes />
+            two apart.
+
+            `center`: this section's column is centred, so the field dims in the
+            middle. The hub hero passes `left` for its two-column grid. Before
+            the mask existed the long sweep ran clean through the H2 here, which
+            is the failure the prop exists to prevent. */}
+        <LmmSignalRoutes focus="center" />
       </div>
 
       <div className="section-container relative text-center">

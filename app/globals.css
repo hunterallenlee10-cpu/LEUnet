@@ -1261,47 +1261,155 @@
    what travels down it.
 
    The layer draws over the warm-right/cool-left orbs each consumer lights,
-   never instead of them: the orbs are the venture's tell, and they are tuned
-   per section. So nothing here paints a ground.
+   never instead of them: the orbs are the venture's tell, and both consumers
+   now light themselves with the same pair, tuned in
+   components/sections/MarketingMasterySection.tsx. So nothing here paints a
+   ground.
 
    The rule this block follows is that a route may never compete with the copy
-   that sits over it. Both consumers centre a column on this field, so the
-   protection cannot come from geometry, and unlike `.bmc-scrim` on Business
-   Mastery there is no scrim here to provide it — a second dark veil over a
-   field this quiet would only mute the orbs underneath. It comes from value
-   instead: the resting routes are barely above the ground, and the one thing
-   drawn at full strength, the travelling signal, is 4% of a route long and
-   passes any given point in a fraction of a second.
+   that sits over it. That protection is a MASK on the layer itself, not a
+   scrim: the two consumers sit on different grounds - black on the homepage, a
+   neutral-950 gradient on the hub - so a dark veil tuned to one would read as a
+   blotch on the other, and either way a second veil over a field this quiet
+   would mute the orbs underneath it. Masking removes the routes where the words
+   are and leaves the ground, whatever the ground happens to be. Value does the
+   rest: the resting routes are barely above the ground, and the one thing drawn
+   at full strength, the travelling signal, is 4% of a route long and passes any
+   given point in a fraction of a second.
 
    Dash figures are percentages, not user units — every path declares
    `pathLength="100"`. See the component for why.
    --------------------------------------------------------------------------- */
 
+/* Two mask layers intersected: a hole where the copy is, and a fade at the top
+   and bottom edges.
+
+   THE EDGE FADE is the more boring of the two and the one that was most
+   missing. Every route in this field is a diagonal, and every section that
+   carries it ends in a horizontal line, so the field used to be guillotined -
+   every curve stopping dead along one row of pixels, against a neighbouring
+   section in almost the same black. Business Mastery solves the same join with
+   a `from-neutral-950` fade inside the consumer, because that fade is about the
+   two sections meeting. This one belongs to the field: it dissolves whatever it
+   is given, which is why it can live here and serve both consumers at once.
+
+   THE COPY HOLE is not a hole - it bottoms out at 0.2, so a route under the
+   headline is dimmed to a fifth rather than cut out. Cutting it out is visible
+   as an oval of missing field the moment two routes enter it and neither
+   leaves; dimming reads as distance.
+
+   `mask-composite: intersect` multiplies the two, so the edge fade still
+   applies inside the copy hole and vice versa. Where it is unsupported the
+   layers fall back to the default `add`, which unions them to fully opaque -
+   i.e. to the unmasked field this block replaced, which is the right way for
+   this to fail. */
 .lmmr-svg {
+  --lmmr-edge-mask: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 13%,
+    #000 87%,
+    transparent 100%
+  );
+  /* Centred: the homepage teaser, whose column is centred in the section. */
+  --lmmr-copy-mask: radial-gradient(
+    ellipse 38% 42% at 50% 50%,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.62) 55%,
+    #000 100%
+  );
+
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  -webkit-mask-image: var(--lmmr-copy-mask), var(--lmmr-edge-mask);
+  mask-image: var(--lmmr-copy-mask), var(--lmmr-edge-mask);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
-/* The channel: continuous, and only just visible. */
+/* Left: the hub hero, a two-column grid with the words in the left half. Wider
+   vertically and narrower horizontally than the centred one, which is the shape
+   of a column rather than of a centred block. It stops short of the right half
+   on purpose - the offering switch over there is a `bg-white/[0.03]` panel with
+   its own backdrop blur, so it already separates itself from the field and does
+   not need the layer dimmed under it as well. */
+.lmmr-svg[data-focus="left"] {
+  --lmmr-copy-mask: radial-gradient(
+    ellipse 32% 46% at 29% 50%,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.62) 55%,
+    #000 100%
+  );
+}
+
+/* ...but only while there are two columns to be left of. The hub hero's grid is
+   `lg:grid-cols-2`, so below 1024px it stacks and the copy goes full width -
+   and a mask still hugging the left 29% leaves every line's second half over
+   open field. It showed: at 834px two mid routes ran through the middle of the
+   hero paragraph. Wider than the centred default because this copy is
+   full-bleed rather than held in a `max-w-2xl` column, and raised slightly
+   because the stacked hero puts the words above the offering switch rather than
+   beside it. The breakpoint is Tailwind's `lg`; it has to track the grid. */
+@media (max-width: 1023.98px) {
+  .lmmr-svg[data-focus="left"] {
+    --lmmr-copy-mask: radial-gradient(
+      ellipse 52% 42% at 50% 42%,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.62) 55%,
+      #000 100%
+    );
+  }
+}
+
+/* The channel: continuous, and only just visible. Three weights, one per depth
+   tier - see the component header for what each tier is for. The near tier is
+   about where the single old weight was; everything else is new and quieter.
+   Resist brightening these. If the field reads as empty the answer is more
+   routes, not louder ones: the copy sits on top of all of them. */
 .lmmr-route {
   fill: none;
-  stroke: rgba(251, 191, 36, 0.13);
-  stroke-width: 1.1;
+  stroke-width: 1.15;
+}
+
+.lmmr-route--near {
+  stroke: rgba(251, 191, 36, 0.16);
+}
+
+.lmmr-route--mid {
+  stroke: rgba(251, 191, 36, 0.1);
+  stroke-width: 0.9;
+}
+
+.lmmr-route--far {
+  stroke: rgba(251, 191, 36, 0.055);
+  stroke-width: 0.7;
 }
 
 /* Laid over the route rather than replacing it, so a channel reads as marked
    out rather than as broken up. It drifts one dash period every 9s - slow
    enough that a still screenshot cannot tell it moves, which is the point:
-   the eye should find the signal, not the ticking. */
+   the eye should find the signal, not the ticking.
+
+   Near and mid only. The component does not render this pass for the far tier
+   at all: a dashed overlay on a route at 0.055 is a second stroke nobody can
+   see, and thirteen animated paths where eight will do. */
 .lmmr-drift {
   fill: none;
-  stroke: rgba(251, 191, 36, 0.22);
-  stroke-width: 1.1;
+  stroke-width: 1.15;
   stroke-dasharray: 0.55 2.2;
   animation: lmmrDrift 9s linear infinite;
+}
+
+.lmmr-drift--near {
+  stroke: rgba(251, 191, 36, 0.26);
+}
+
+.lmmr-drift--mid {
+  stroke: rgba(251, 191, 36, 0.15);
+  stroke-width: 0.9;
 }
 
 @keyframes lmmrDrift {
