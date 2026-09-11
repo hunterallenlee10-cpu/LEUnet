@@ -1,11 +1,150 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Send } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { CheckCircle2, ChevronDown, Send } from "lucide-react";
 import { contactFormFields } from "@/data/contact";
 import { ContactFormData } from "@/types";
 import { sectionIds } from "@/data/navigation";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
+
+/**
+ * The general enquiry form, and the site's fourth and most-visited one.
+ *
+ * BROUGHT IN LINE WITH ITS SIBLINGS, NOT REDESIGNED. The three offering forms
+ * (MarketingInquiryForm, WebsitesInquiryForm, LmmConsultationForm) already
+ * share a set of conventions this one predated and never picked up: a visible
+ * `border-neutral-700` on every control, an amber focus ring, an asterisk on
+ * required fields, a `role="alert"` banner for form-level errors, pill toggles
+ * for a small set of choices, and a success panel that waits to be dismissed.
+ * Everything below adopts those. Anything that looked "flat" here was mostly
+ * this: fields drawn at `border-white/10` on a `bg-white/5` card are a lighter
+ * rectangle on a light rectangle, and the two selects had `appearance-none`
+ * with nothing put back, so a dropdown was indistinguishable from a text box.
+ *
+ * TWO FIELDS MOVED, and only two. The venture select opens the project group
+ * instead of sharing a row with the phone number, and the contact-method
+ * choice sits beside the phone number instead of at the foot of the form -
+ * which is where the rule that governs it lives, since a phone number is only
+ * required when someone asks to be called. Every field, label and option string
+ * is otherwise exactly what it was.
+ */
+
+/** House form idiom, matching the three offering forms. The fill is darker than
+ *  theirs because this form sits on a `bg-white/5` card rather than a
+ *  `bg-white/[0.03]` one: `bg-neutral-900` against that ground is within a
+ *  couple of values of the card itself, so the field would read as a border
+ *  floating on nothing. Darker than the card, not lighter - the control is a
+ *  well cut into the panel. */
+const labelClass = "mb-2 block text-sm font-semibold text-neutral-200";
+const fieldClass =
+  "w-full rounded-lg border bg-neutral-950/70 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/50";
+
+/** One place, so an errored control and a clean one can never drift apart. */
+const borderFor = (error?: string) =>
+  error ? "border-red-500/60" : "border-neutral-700";
+
+/** The amber asterisk the other three forms use. `aria-hidden` because the
+ *  control itself carries `aria-required`, and a screen reader announcing
+ *  "star" after every label is noise. */
+function RequiredMark() {
+  return (
+    <>
+      {" "}
+      <span className="text-amber-400" aria-hidden="true">
+        *
+      </span>
+    </>
+  );
+}
+
+/**
+ * A titled run of fields. Nine controls in one column is a wall; two named
+ * groups is a form someone can see the end of.
+ *
+ * `min-w-0` is load-bearing: a fieldset defaults to `min-width: min-content`,
+ * which the grids inside would otherwise be unable to shrink below, and the
+ * longest option string here ("Other / Lee Enterprises Inquiry") would set a
+ * floor wider than a phone.
+ */
+function FormGroup({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <fieldset className="min-w-0 border-0 p-0">
+      <legend className="text-xs font-semibold uppercase tracking-widest text-amber-400/80">
+        {title}
+      </legend>
+      <div
+        aria-hidden="true"
+        className="mb-6 mt-3 h-px w-full bg-gradient-to-r from-amber-400/30 via-white/10 to-transparent"
+      />
+      <div className="space-y-6">{children}</div>
+    </fieldset>
+  );
+}
+
+/**
+ * A select with its chevron put back. `appearance-none` strips the native
+ * arrow, and this form stripped it without replacing it - so both dropdowns
+ * rendered as text boxes that happened to contain words, with no affordance
+ * saying they could be opened. The icon is `pointer-events-none` so clicking
+ * it still falls through to the select underneath.
+ */
+function SelectField({
+  id,
+  label,
+  value,
+  onChange,
+  options,
+  error,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: readonly { value: string; label: string }[];
+  error?: string;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+        <RequiredMark />
+      </label>
+      <div className="relative">
+        <select
+          id={id}
+          name={id}
+          value={value}
+          onChange={onChange}
+          aria-required="true"
+          aria-invalid={error ? "true" : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
+          className={`${fieldClass} ${borderFor(error)} cursor-pointer appearance-none pr-11`}
+        >
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value} className="bg-neutral-900">
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400"
+          aria-hidden="true"
+        />
+      </div>
+      {error && (
+        <p id={`${id}-error`} role="alert" className="mt-2 text-sm text-red-400">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
 
 export function ContactSection() {
   const [formData, setFormData] = useState<Partial<ContactFormData>>({
@@ -15,6 +154,18 @@ export function ContactSection() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  /**
+   * How the visitor asked to be contacted, captured at the moment of a
+   * successful send so the confirmation can name it back to them.
+   *
+   * It has to be its own state and cannot be read off `formData`: the success
+   * handler resets the form the instant it sets `submitted`, which returns
+   * `preferredContactMethod` to its "email" default - so a panel reading the
+   * live value would tell everyone who asked for a call that we would email
+   * them instead.
+   */
+  const [sentVia, setSentVia] = useState<"email" | "phone">("email");
+  const successRef = useRef<HTMLDivElement>(null);
 
   // Get selected venture from session storage. sessionStorage only exists in
   // the browser, so this has to run after mount rather than as lazy initial
@@ -28,6 +179,38 @@ export function ContactSection() {
       setFormData((prev) => ({ ...prev, ventureOfInterest: selectedVenture }));
     }
   }, []);
+
+  // The form is replaced by the success panel rather than hidden, so the focused
+  // element is removed from the document and focus falls back to <body> - which
+  // leaves a keyboard or screen reader user at the top of the page with no
+  // announcement that anything happened. Moving focus to the panel puts them on
+  // the confirmation and one Tab from "Send Another Response".
+  useEffect(() => {
+    if (submitted) {
+      successRef.current?.focus();
+    }
+  }, [submitted]);
+
+  /**
+   * Back to a blank form, re-seeding the venture the way the mount effect does.
+   * Reading sessionStorage directly is safe here and not in that effect: this
+   * only ever runs from an event handler, so there is no server render to
+   * disagree with.
+   */
+  const resetForm = () => {
+    const selectedVenture =
+      typeof window === "undefined"
+        ? null
+        : sessionStorage.getItem("selectedVenture");
+    setFormData({
+      preferredContactMethod: "email",
+      ...(selectedVenture && selectedVenture !== "other"
+        ? { ventureOfInterest: selectedVenture }
+        : {}),
+    });
+    setHoneypot("");
+    setErrors({});
+  };
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -149,15 +332,14 @@ export function ContactSection() {
         return;
       }
 
-      // Show success message
+      // NO TIMER. This used to call setTimeout(..., 3000) and put the form
+      // back by itself, which meant the confirmation was gone before anyone
+      // who had looked away could read it, and a visitor who returned to the
+      // tab found an empty form and no way to tell whether their enquiry had
+      // been sent. The panel now stays until it is dismissed deliberately.
+      setSentVia(formData.preferredContactMethod === "phone" ? "phone" : "email");
       setSubmitted(true);
-      setTimeout(() => {
-        setSubmitted(false);
-        setFormData({
-          preferredContactMethod: "email",
-        });
-        setHoneypot("");
-      }, 3000);
+      resetForm();
     } catch (error) {
       console.error("[v0] Contact form submission error:", error);
       setErrors({ form: "An error occurred. Please try again." });
@@ -166,287 +348,353 @@ export function ContactSection() {
     }
   };
 
+  const phoneRequired = formData.preferredContactMethod === "phone";
+
   return (
     <section
       id={sectionIds.contact}
-      className="relative py-20 md:py-32 bg-neutral-950 overflow-hidden"
+      className="relative overflow-hidden bg-neutral-950 py-20 md:py-32"
     >
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl" />
+        <div className="absolute right-1/4 top-1/4 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
       </div>
 
       <div className="section-container">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto max-w-4xl">
           {/* Header */}
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="heading-lg text-white mb-4">Get In Touch</h2>
+          <div className="mb-12 text-center md:mb-16">
+            <h2 className="heading-lg mb-4 text-white">Get In Touch</h2>
             <p className="text-lg text-neutral-400">
               Tell us about your project, and let&apos;s discuss how we can help you achieve your goals.
             </p>
           </div>
 
-          {/* Form */}
-          <GlassCardPadded
-            size="lg"
-            glassOpacity="bg-white/5"
-            borderColor="border-white/10"
-          >
-            {submitted ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 rounded-full bg-amber-400/20 flex items-center justify-center mx-auto mb-4">
-                  <Send className="w-8 h-8 text-amber-400" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-                <p className="text-neutral-400">
-                  Your email client has opened. Please complete the submission to send your inquiry to us.
+          {submitted ? (
+            /* `tabIndex={-1}` so the effect above can move focus here; it makes
+               the panel programmatically focusable without putting it in the
+               tab order. `role="status"` announces it to a screen reader that
+               is somewhere else on the page. */
+            <div
+              ref={successRef}
+              tabIndex={-1}
+              role="status"
+              className="mx-auto max-w-2xl rounded-xl border border-amber-400/30 bg-amber-400/[0.06] p-10 text-center focus:outline-none md:p-12"
+            >
+              <CheckCircle2
+                className="mx-auto mb-5 h-12 w-12 text-amber-400"
+                aria-hidden="true"
+              />
+              <h3 className="mb-3 text-2xl font-bold text-white">
+                Message Sent
+              </h3>
+              {/* The old copy read "Your email client has opened. Please
+                  complete the submission to send your inquiry to us." Nothing
+                  opens a mail client: the form POSTs to /api/contact, which
+                  sends the email server-side through Resend. It described a
+                  mailto flow this form has not used for some time, and it asked
+                  the visitor to go and finish a step that does not exist -
+                  so anyone who believed it assumed their enquiry had not been
+                  sent. */}
+              <p className="mb-8 text-neutral-300">
+                Thank you - your inquiry is with us. We will read it properly
+                and get back to you by {sentVia}.
+              </p>
+              <button
+                type="button"
+                onClick={() => setSubmitted(false)}
+                className="btn-secondary inline-flex items-center justify-center gap-2"
+              >
+                Send Another Response
+              </button>
+            </div>
+          ) : (
+            <GlassCardPadded
+              size="lg"
+              glassOpacity="bg-white/5"
+              borderColor="border-white/10"
+            >
+              <form
+                onSubmit={handleSubmit}
+                noValidate
+                aria-describedby="contact-form-description"
+                className="space-y-10"
+              >
+                <p
+                  id="contact-form-description"
+                  className="text-sm text-neutral-500"
+                >
+                  Fields marked with an asterisk are required.
                 </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Full Name & Email - Row 1 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label
-                      htmlFor="fullName"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      {contactFormFields.fullName.label}
-                    </label>
-                    <input
-                      type="text"
-                      id="fullName"
-                      name="fullName"
-                      placeholder={contactFormFields.fullName.placeholder}
-                      value={formData.fullName || ""}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all"
-                    />
-                    {errors.fullName && (
-                      <p className="text-red-400 text-sm mt-1">{errors.fullName}</p>
-                    )}
-                  </div>
 
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      {contactFormFields.email.label}
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder={contactFormFields.email.placeholder}
-                      value={formData.email || ""}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all"
-                    />
-                    {errors.email && (
-                      <p className="text-red-400 text-sm mt-1">{errors.email}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Phone & Venture - Row 2 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      {contactFormFields.phone.label}
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      placeholder={contactFormFields.phone.placeholder}
-                      value={formData.phone || ""}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all"
-                    />
-                    {errors.phone && (
-                      <p className="text-red-400 text-sm mt-1">{errors.phone}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="ventureOfInterest"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      {contactFormFields.ventureOfInterest.label}
-                    </label>
-                    <select
-                      id="ventureOfInterest"
-                      name="ventureOfInterest"
-                      value={formData.ventureOfInterest || ""}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all appearance-none cursor-pointer"
-                    >
-                      {contactFormFields.ventureOfInterest.options.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-neutral-900">
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.ventureOfInterest && (
-                      <p className="text-red-400 text-sm mt-1">{errors.ventureOfInterest}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Project Description */}
-                <div>
-                  <label
-                    htmlFor="projectDescription"
-                    className="block text-sm font-semibold text-white mb-2"
+                {/* Form-level errors. These were being set on every server
+                    failure and rendered nowhere, so a visitor whose submission
+                    was rejected watched the button stop saying "Sending..."
+                    and got nothing else. */}
+                {errors.form && (
+                  <p
+                    role="alert"
+                    className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400"
                   >
-                    {contactFormFields.projectDescription.label}
-                  </label>
-                  <textarea
-                    id="projectDescription"
-                    name="projectDescription"
-                    placeholder={contactFormFields.projectDescription.placeholder}
-                    value={formData.projectDescription || ""}
-                    onChange={handleInputChange}
-                    rows={5}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all resize-none"
-                  />
-                  {errors.projectDescription && (
-                    <p className="text-red-400 text-sm mt-1">{errors.projectDescription}</p>
-                  )}
-                </div>
+                    {errors.form}
+                  </p>
+                )}
 
-                {/* Budget, Timeline, How Heard - Row 3 */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <FormGroup title="Your details">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <div>
+                      <label htmlFor="fullName" className={labelClass}>
+                        {contactFormFields.fullName.label}
+                        <RequiredMark />
+                      </label>
+                      <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        autoComplete="name"
+                        placeholder={contactFormFields.fullName.placeholder}
+                        value={formData.fullName || ""}
+                        onChange={handleInputChange}
+                        aria-required="true"
+                        aria-invalid={errors.fullName ? "true" : undefined}
+                        aria-describedby={errors.fullName ? "fullName-error" : undefined}
+                        className={`${fieldClass} ${borderFor(errors.fullName)}`}
+                      />
+                      {errors.fullName && (
+                        <p id="fullName-error" role="alert" className="mt-2 text-sm text-red-400">
+                          {errors.fullName}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label htmlFor="email" className={labelClass}>
+                        {contactFormFields.email.label}
+                        <RequiredMark />
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        autoComplete="email"
+                        placeholder={contactFormFields.email.placeholder}
+                        value={formData.email || ""}
+                        onChange={handleInputChange}
+                        aria-required="true"
+                        aria-invalid={errors.email ? "true" : undefined}
+                        aria-describedby={errors.email ? "email-error" : undefined}
+                        className={`${fieldClass} ${borderFor(errors.email)}`}
+                      />
+                      {errors.email && (
+                        <p id="email-error" role="alert" className="mt-2 text-sm text-red-400">
+                          {errors.email}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <div>
+                      <label htmlFor="phone" className={labelClass}>
+                        {contactFormFields.phone.label}
+                        {/* Conditional, because the rule is. The validator only
+                            insists on a phone number when someone has asked to
+                            be called, so a permanent asterisk here promised a
+                            requirement the form does not enforce. */}
+                        {phoneRequired && <RequiredMark />}
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        autoComplete="tel"
+                        placeholder={contactFormFields.phone.placeholder}
+                        value={formData.phone || ""}
+                        onChange={handleInputChange}
+                        aria-required={phoneRequired ? "true" : undefined}
+                        aria-invalid={errors.phone ? "true" : undefined}
+                        aria-describedby={errors.phone ? "phone-error" : undefined}
+                        className={`${fieldClass} ${borderFor(errors.phone)}`}
+                      />
+                      {errors.phone && (
+                        <p id="phone-error" role="alert" className="mt-2 text-sm text-red-400">
+                          {errors.phone}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Pills rather than the browser's radios, matching the
+                        channel toggles on MarketingInquiryForm. The inputs are
+                        still radios and still keyboard-operable - they are
+                        `sr-only` inside the label, and `focus-within` puts the
+                        ring on the pill. */}
+                    <fieldset className="min-w-0 border-0 p-0">
+                      <legend className={labelClass}>
+                        {contactFormFields.preferredContactMethod.label}
+                        <RequiredMark />
+                      </legend>
+                      <div className="flex flex-wrap gap-2">
+                        {contactFormFields.preferredContactMethod.options.map((opt) => {
+                          const checked = formData.preferredContactMethod === opt.value;
+                          return (
+                            <label
+                              key={opt.value}
+                              className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-colors focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-amber-400 ${
+                                checked
+                                  ? "border-amber-400/60 bg-amber-400/[0.14] text-amber-200"
+                                  : "border-neutral-700 bg-neutral-950/70 text-neutral-300 hover:border-amber-400/40"
+                              }`}
+                            >
+                              <input
+                                type="radio"
+                                name="preferredContactMethod"
+                                value={opt.value}
+                                checked={checked}
+                                onChange={() => handleRadioChange(opt.value)}
+                                className="sr-only"
+                              />
+                              <span
+                                aria-hidden="true"
+                                className={`h-2 w-2 shrink-0 rounded-full ${
+                                  checked ? "bg-amber-400" : "bg-neutral-600"
+                                }`}
+                              />
+                              {opt.label}
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </fieldset>
+                  </div>
+                </FormGroup>
+
+                <FormGroup title="Your project">
+                  <SelectField
+                    id="ventureOfInterest"
+                    label={contactFormFields.ventureOfInterest.label}
+                    value={formData.ventureOfInterest || ""}
+                    onChange={handleInputChange}
+                    options={contactFormFields.ventureOfInterest.options}
+                    error={errors.ventureOfInterest}
+                  />
+
                   <div>
-                    <label
-                      htmlFor="budgetRange"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      {contactFormFields.budgetRange.label}
+                    <label htmlFor="projectDescription" className={labelClass}>
+                      {contactFormFields.projectDescription.label}
+                      <RequiredMark />
                     </label>
-                    <select
+                    <textarea
+                      id="projectDescription"
+                      name="projectDescription"
+                      placeholder={contactFormFields.projectDescription.placeholder}
+                      value={formData.projectDescription || ""}
+                      onChange={handleInputChange}
+                      rows={5}
+                      aria-required="true"
+                      aria-invalid={errors.projectDescription ? "true" : undefined}
+                      aria-describedby={
+                        errors.projectDescription ? "projectDescription-error" : undefined
+                      }
+                      className={`${fieldClass} ${borderFor(errors.projectDescription)} resize-none`}
+                    />
+                    {errors.projectDescription && (
+                      <p
+                        id="projectDescription-error"
+                        role="alert"
+                        className="mt-2 text-sm text-red-400"
+                      >
+                        {errors.projectDescription}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                    <SelectField
                       id="budgetRange"
-                      name="budgetRange"
+                      label={contactFormFields.budgetRange.label}
                       value={formData.budgetRange || ""}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all appearance-none cursor-pointer"
-                    >
-                      {contactFormFields.budgetRange.options.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-neutral-900">
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.budgetRange && (
-                      <p className="text-red-400 text-sm mt-1">{errors.budgetRange}</p>
-                    )}
-                  </div>
+                      options={contactFormFields.budgetRange.options}
+                      error={errors.budgetRange}
+                    />
 
-                  <div>
-                    <label
-                      htmlFor="desiredTimeline"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      {contactFormFields.desiredTimeline.label}
-                    </label>
-                    <select
+                    <SelectField
                       id="desiredTimeline"
-                      name="desiredTimeline"
+                      label={contactFormFields.desiredTimeline.label}
                       value={formData.desiredTimeline || ""}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all appearance-none cursor-pointer"
-                    >
-                      {contactFormFields.desiredTimeline.options.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-neutral-900">
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.desiredTimeline && (
-                      <p className="text-red-400 text-sm mt-1">{errors.desiredTimeline}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="howHeardAboutUs"
-                      className="block text-sm font-semibold text-white mb-2"
-                    >
-                      {contactFormFields.howHeardAboutUs.label}
-                    </label>
-                    <input
-                      type="text"
-                      id="howHeardAboutUs"
-                      name="howHeardAboutUs"
-                      placeholder={contactFormFields.howHeardAboutUs.placeholder}
-                      maxLength={contactFormFields.howHeardAboutUs.validation.maxLength}
-                      value={formData.howHeardAboutUs || ""}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all"
+                      options={contactFormFields.desiredTimeline.options}
+                      error={errors.desiredTimeline}
                     />
-                    {errors.howHeardAboutUs && (
-                      <p className="text-red-400 text-sm mt-1">{errors.howHeardAboutUs}</p>
-                    )}
-                  </div>
-                </div>
 
-                {/* Preferred Contact Method */}
-                <div>
-                  <label className="block text-sm font-semibold text-white mb-3">
-                    {contactFormFields.preferredContactMethod.label}
-                  </label>
-                  <div className="flex gap-6">
-                    {contactFormFields.preferredContactMethod.options.map((opt) => (
-                      <label key={opt.value} className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="radio"
-                          name="preferredContactMethod"
-                          value={opt.value}
-                          checked={formData.preferredContactMethod === opt.value}
-                          onChange={() => handleRadioChange(opt.value)}
-                          className="w-4 h-4 accent-amber-400"
-                        />
-                        <span className="text-white">{opt.label}</span>
+                    <div>
+                      <label htmlFor="howHeardAboutUs" className={labelClass}>
+                        {contactFormFields.howHeardAboutUs.label}
+                        <RequiredMark />
                       </label>
-                    ))}
+                      <input
+                        type="text"
+                        id="howHeardAboutUs"
+                        name="howHeardAboutUs"
+                        placeholder={contactFormFields.howHeardAboutUs.placeholder}
+                        maxLength={contactFormFields.howHeardAboutUs.validation.maxLength}
+                        value={formData.howHeardAboutUs || ""}
+                        onChange={handleInputChange}
+                        aria-required="true"
+                        aria-invalid={errors.howHeardAboutUs ? "true" : undefined}
+                        aria-describedby={
+                          errors.howHeardAboutUs ? "howHeardAboutUs-error" : undefined
+                        }
+                        className={`${fieldClass} ${borderFor(errors.howHeardAboutUs)}`}
+                      />
+                      {errors.howHeardAboutUs && (
+                        <p
+                          id="howHeardAboutUs-error"
+                          role="alert"
+                          className="mt-2 text-sm text-red-400"
+                        >
+                          {errors.howHeardAboutUs}
+                        </p>
+                      )}
+                    </div>
                   </div>
+                </FormGroup>
+
+                {/* Honeypot. Off-screen with a real label rather than
+                    `display: none`, matching the other three forms: a bot that
+                    skips hidden inputs walks past the first and fills the
+                    second. The POST body still sends it as `honeypot`, which is
+                    the key /api/contact checks. */}
+                <div className="absolute left-[-9999px]" aria-hidden="true">
+                  <label htmlFor="contact-website-ext">Leave this field empty</label>
+                  <input
+                    id="contact-website-ext"
+                    type="text"
+                    name="website"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    autoComplete="off"
+                    tabIndex={-1}
+                  />
                 </div>
 
-                {/* Honeypot field (hidden from users) */}
-                <input
-                  type="text"
-                  name="website"
-                  value={honeypot}
-                  onChange={(e) => setHoneypot(e.target.value)}
-                  style={{ display: "none" }}
-                  autoComplete="off"
-                  tabIndex={-1}
-                />
-
-                {/* Submit Button */}
-                <div className="pt-6">
+                <div>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full btn-primary inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="btn-primary inline-flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
                   >
                     {isSubmitting ? "Sending..." : "Send Message"}
-                    <Send className="w-4 h-4" />
+                    {!isSubmitting && <Send className="h-4 w-4" aria-hidden="true" />}
                   </button>
-                </div>
 
-                {/* Helper text */}
-                <p className="text-center text-sm text-neutral-400 mt-4">
-                  We&apos;ll respond to your inquiry as soon as possible. Thank you for choosing Lee Enterprises Unlimited.
-                </p>
+                  <p className="mt-4 text-center text-sm text-neutral-400">
+                    We&apos;ll respond to your inquiry as soon as possible. Thank you for choosing Lee Enterprises Unlimited.
+                  </p>
+                </div>
               </form>
-            )}
-          </GlassCardPadded>
+            </GlassCardPadded>
+          )}
         </div>
       </div>
     </section>
