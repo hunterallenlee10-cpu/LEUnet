@@ -66,8 +66,11 @@ export function MarketingMasterySection() {
       </div>
 
       <div className="section-container relative text-center">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-          {lmmHomeTeaser.eyebrow}
+        {/* `.venture-masthead` — shared with the Business Mastery teaser above.
+            Same treatment, same measurements; only the name differs, which is
+            the whole of what keeps the two sections reading as two of a kind. */}
+        <p className="venture-masthead mb-5">
+          <span>{lmmHomeTeaser.eyebrow}</span>
         </p>
         <h2 className="heading-lg mx-auto mb-6 max-w-3xl text-white">
           {lmmHomeTeaser.manifesto}
