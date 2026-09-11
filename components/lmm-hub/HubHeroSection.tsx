@@ -31,25 +31,36 @@ import { LmmSignalRoutes } from "@/components/lmm/LmmSignalRoutes";
 export function HubHeroSection() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-950 to-amber-950/10 py-20 md:py-28">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute right-10 top-20 h-96 w-96 rounded-full bg-amber-400/10 blur-3xl" />
-        <div className="absolute bottom-10 left-10 h-80 w-80 rounded-full bg-slate-400/5 blur-3xl" />
-      </div>
+      {/* ONE BACKGROUND LAYER, ORBS AND ROUTES TOGETHER, AT `z-0`. The orbs used
+          to sit in a separate wrapper at `-z-10`, and that is where they went to
+          die: this section is `relative` with no z-index, so it opens no
+          stacking context, and a negative z-index there puts a child behind the
+          section's OWN background — which is `from-neutral-950`, opaque
+          everywhere but the translucent amber corner it ends on. The pair was
+          swallowed almost whole. The hub hero therefore arrived on flat black
+          while the homepage teaser that links to it arrived warm, which is
+          precisely backwards: the doorway was lit and the destination was not.
+          At `z-0` the layer paints over the gradient, and the column below
+          carries `z-[1]` to stay over the layer.
 
-      {/* Outside the wrapper above, deliberately. This section is `relative`
-          with no z-index, so it opens no stacking context and that wrapper's
-          `-z-10` puts its children behind the section's OWN background — which
-          is `from-neutral-950`, opaque everywhere but the translucent amber
-          corner it ends on. The orbs have always been mostly swallowed by it;
-          a field of 1px routes put back there would have been invisible
-          outright. Left at `z-0` the layer paints over the gradient, and the
-          column below carries `z-[1]` to stay over the layer.
+          The orbs are now the teaser's, value for value — same offsets, same
+          viewport-relative sizes, same alphas — rather than the smaller, dimmer
+          pair this hero used to run. Two sections meant to read as one place
+          cannot be lit two different ways, and the teaser's are the tuned ones:
+          its comment explains that a fixed `w-96` is most of a phone and a
+          sixth of a wide desktop, which is the span where a fixed size falls
+          apart. If one pair changes, change both.
 
-          Shared with the homepage teaser that links here, and still no client
-          bundle: the layer is markup and a stylesheet, so the hub's only
-          client leaf remains HubHeroTypedWord. */}
+          Shared with the homepage teaser, and still no client bundle: the layer
+          is markup and a stylesheet, so the hub's only client leaf remains
+          HubHeroTypedWord. */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
-        <LmmSignalRoutes />
+        <div className="absolute -top-16 right-[18%] h-[34rem] w-[34rem] max-w-[80vw] translate-x-1/2 rounded-full bg-amber-400/[0.16] blur-3xl" />
+        <div className="absolute -bottom-16 left-[20%] h-[28rem] w-[28rem] max-w-[70vw] -translate-x-1/2 rounded-full bg-slate-400/[0.09] blur-3xl" />
+
+        {/* `left`: this hero is a two-column grid with the copy in the left
+            half, so the field dims there rather than in the middle. */}
+        <LmmSignalRoutes focus="left" />
       </div>
 
       <div className="section-container relative z-[1]">
