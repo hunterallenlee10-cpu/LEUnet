@@ -2055,3 +2055,102 @@
     text-indent: 0.26em;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Homepage venture masthead
+   Two consumers, and it must stay two: components/sections/BusinessMasterySection.tsx
+   and components/sections/MarketingMasterySection.tsx, the homepage's two
+   doorways. It names the venture above that section's manifesto.
+
+   WHY THIS EXISTS. Both names were a 14px `text-sm font-semibold` amber line -
+   the site's house eyebrow, which is the right weight for labelling a section
+   inside a page and the wrong weight for naming a business above a
+   forty-pixel headline. The name lost every time; a visitor scrolling the
+   homepage read two manifestos and no idea which company either belonged to.
+
+   IT IS ONE CLASS ON PURPOSE, AND BOTH SECTIONS MUST KEEP USING IT.
+   MarketingMasterySection's header comment sets the rule: the two teasers are
+   deliberately the same shape - eyebrow, manifesto, paragraph, status line,
+   CTA - because two sections built the same way read as two of a kind, and
+   giving one a composition of its own ranks it above the other before a word
+   is read. What separates them is the light behind them, which each section
+   owns. So the names differ in wording and in nothing else.
+
+   THE IDIOM IS THE SITE'S OWN, borrowed from `.bmh-eyebrow` on the
+   /business-mastery hero: mono, tracked wide, flanked by two hairlines that
+   fade outward. Borrowed rather than reused - that class caps its size at
+   `2vh`, which is tuned for a hero that owns the viewport and wrong for a
+   section that scrolls past, and its rules are fixed-width in a place where
+   they have to be able to give way (see the shrink below). The numbers here
+   are this slot's own.
+
+   The glow is `.bmh-promise`'s 26px/0.42 rather than the house
+   `.text-glow-amber` 20px/0.5. At this tracking the per-letter glows overlap
+   across the gaps, and the house alpha stacks into a visible amber bar behind
+   the words - the hero solved this once already, and these are its numbers.
+   --------------------------------------------------------------------------- */
+
+.venture-masthead {
+  /* One variable for both, because a tracked centred line only sits on true
+     centre when its indent equals its tracking - letter-spacing hangs off the
+     last glyph, so half a space of it lands outside the line box. Declaring
+     them separately is how they drift apart. */
+  --vm-track: clamp(0.18em, 0.62vw, 0.3em);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.6vw, 22px);
+  max-width: 100%;
+}
+
+/* `flex: 1 1 0` with a cap, not a fixed width. The longer of the two names is
+   21 characters, and at a phone width a pair of fixed 64px rules plus their
+   gaps is the difference between fitting and pushing the document wider than
+   the viewport. Given space they grow to the cap and stop; denied it they give
+   way before the name does. */
+.venture-masthead::before,
+.venture-masthead::after {
+  content: "";
+  display: block;
+  height: 1px;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: clamp(24px, 5vw, 64px);
+}
+
+.venture-masthead::before {
+  background: linear-gradient(
+    to right,
+    rgba(251, 191, 36, 0) 0%,
+    rgba(251, 191, 36, 0.55) 100%
+  );
+}
+
+.venture-masthead::after {
+  background: linear-gradient(
+    to left,
+    rgba(251, 191, 36, 0) 0%,
+    rgba(251, 191, 36, 0.55) 100%
+  );
+}
+
+/* The floor is 15px, not 12px, and the reason is the line three rows below it:
+   each teaser's status line is a 14px `text-sm`. A name that clamps under that
+   is the smallest amber line on its own card, which inverts the hierarchy this
+   block exists to fix - and on a phone, where the clamp is pinned to its floor,
+   that is the only size anyone sees. 15px also fits: the longer of the two
+   names is 21 characters, and at Geist Mono's ~0.6em advance plus the 0.18em
+   tracking floor it measures about 260px inside a 358px container at 390px
+   wide, with the rules giving way for the rest. */
+.venture-masthead span {
+  font-family: var(--font-mono-geist);
+  font-size: clamp(15px, 1.45vw, 21px);
+  font-weight: 500;
+  letter-spacing: var(--vm-track);
+  text-indent: var(--vm-track);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgb(252 211 77);
+  text-shadow: 0 0 26px rgba(251, 191, 36, 0.42);
+}

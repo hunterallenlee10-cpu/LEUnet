@@ -48,8 +48,12 @@ export function BusinessMasterySection() {
       />
 
       <div className="section-container relative z-[2] text-center">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-          LEU Business Mastery
+        {/* `.venture-masthead` — shared with the Lee Marketing Mastery teaser
+            below, and it has to stay shared: the two doorways are deliberately
+            the same shape, so the names may differ in wording and in nothing
+            else. See the block in app/globals.css. */}
+        <p className="venture-masthead mb-5">
+          <span>LEU Business Mastery</span>
         </p>
         <h2 className="heading-lg mx-auto mb-6 max-w-3xl text-white">
           {bmHero.manifesto}
