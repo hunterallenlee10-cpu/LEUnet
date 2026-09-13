@@ -229,11 +229,12 @@ This repo has an explicit, documented standard — see the long comment in
 work, not the promised result. Three items in the owner's copy were checked
 against that standard before rendering:
 
-1. **"We have built dozens of businesses, worked with hundreds of businesses,
-   and helped generate thousands upon thousands of dollars."** Published
-   verbatim in `bmProofStatement`. The owner confirmed on 2026-08-25 that
-   every figure in this line is true as stated. If the facts ever change,
-   change the line — the standard is the words match the record.
+1. **"We have built 50+ businesses, worked with 1,000+ businesses, and helped
+   generate $150,000+ for our clients."** Published verbatim in
+   `bmProofStatement`. The owner confirmed the original word-quantity version
+   of this line ("dozens", "hundreds", "thousands upon thousands") as true on
+   2026-08-25, and supplied these hard figures on 2026-09-13. If the facts
+   ever change, change the line — the standard is the words match the record.
 2. **The founding counter — retired, and with it the claim.** It rendered
    `5 / 20` from `bmFoundingCounter`, figures the owner confirmed as real
    rather than illustrative. The owner has since asked for a plain "Limited
@@ -348,8 +349,9 @@ homepage's only route to `/business-mastery`.
 
 Content the build cannot invent, in priority order. Items 1–2 from the
 original list are resolved: the owner confirmed the proof-line figures and
-the 5/20 counter as true on 2026-08-25. The proof line renders verbatim; the
-counter no longer renders at all (§6.2).
+the 5/20 counter as true on 2026-08-25, and on 2026-09-13 replaced the
+proof line's word-quantities with hard numbers (§6.1). The proof line
+renders verbatim; the counter no longer renders at all (§6.2).
 
 1. The founding-member price (needed for Phase C, not Phase A).
 2. Guarantee terms / eligibility / refund conditions (gates Phase C).

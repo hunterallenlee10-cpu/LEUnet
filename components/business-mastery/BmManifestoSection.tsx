@@ -170,21 +170,23 @@ export function BmManifestoSection() {
         </div>
 
         {/* --- Movement two: the record ------------------------------------ */}
-        {/* The proof line keeps its two neutral hairlines. They do honesty work
+        {/* The proof row keeps its two neutral hairlines. They do honesty work
             as much as design work: it is the one claim on this page carrying
             figures, and the rules are what mark it as a statement of record
-            rather than a flourish. Neutral rather than gold, because the single
-            gold rule further down divides the section's two halves and a second
-            gold rule would cost it that job.
+            rather than a flourish. Neutral rather than gold because they are
+            structure, not accent - the section's amber is spent on the labels
+            and on "Network.", and a gold frame around the claim would read as
+            selling it.
 
-            WHAT CHANGED IS THE SETTING, NOT THE CLAIM. This was the sentence
-            run as one centred paragraph, where its three figures - dozens,
-            hundreds, thousands upon thousands - were buried mid-line in the
-            only part of the section anyone skims, and it was the third centred
-            paragraph in a row in a section built entirely of centred
-            paragraphs. Drawn as its own figures it is shorter, it is the one
-            piece of texture in the section that is not a paragraph, and the
-            page's single credibility claim can be read without being read.
+            THE FIGURES ARE NUMBERS NOW, at the owner's request (2026-09-13):
+            "50+", "1,000+" and "$150,000+" replaced "dozens", "hundreds" and
+            "thousands upon thousands" - the owner's own figures both times,
+            see data/business-mastery.ts. The numbers are what earn the scale
+            they are set at: a number reads at a glance the way a quantity-word
+            never did, which is the whole job of the one part of the section
+            anyone skims. They sit at `heading-lg`'s scale and no larger -
+            "Network." above is the loudest object in the section by design,
+            and a stat that out-shouts it re-ranks the argument.
 
             THE SENTENCE STILL SHIPS, VERBATIM. `bmProofStatement` is rendered
             `sr-only` and the row is `aria-hidden`, so a screen reader gets the
@@ -192,10 +194,10 @@ export function BmManifestoSection() {
             The words in the row are that sentence's own - see the note on
             `bmProofPoints`, and change the two together or not at all.
 
-            One row per figure on a phone, label left and figure right against a
-            hairline, because three stacked centred blocks there are taller than
-            the paragraph they replaced - which would lose the point of doing
-            this. Three columns from `sm`, where the width exists. */}
+            One row per figure on a phone, label left and number right against
+            a hairline, because three stacked centred blocks there are taller
+            than the paragraph this row replaced - which would lose the point
+            of doing this. Three columns from `sm`, where the width exists. */}
         <div className="mx-auto mt-10 max-w-3xl border-y border-neutral-800 py-5 md:mt-12 md:py-7">
           <p className="sr-only">{bmProofStatement}</p>
           <dl
@@ -207,8 +209,10 @@ export function BmManifestoSection() {
                 key={point.label}
                 className="flex items-baseline justify-between gap-5 py-2.5 sm:flex-col sm:items-center sm:justify-start sm:gap-1.5 sm:px-4 sm:py-0 sm:text-center"
               >
-                {/* `sm:order-*` puts the label above its figure on desktop and
-                    beside it on a phone, off one DOM order. A `dl` pairs them
+                {/* `sm:order-*` puts the number above its label on desktop
+                    and to the right of it on a phone, off one DOM order - and
+                    the DOM order is not free: in a `dl` the `dt` must precede
+                    its `dd`, so the flip has to be visual. A `dl` pairs them
                     either way, so nothing is lost by flipping which reads
                     first.
 
@@ -218,11 +222,11 @@ export function BmManifestoSection() {
                     pinned each figure to the bottom of a row sized by the one
                     that wraps to two lines - so two of the three sat a line
                     lower than the third for no reason a reader could see. */}
-                <dt className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400/80 sm:order-1 sm:text-xs">
+                <dt className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400/80 sm:order-2 sm:text-xs">
                   {point.label}
                 </dt>
-                <dd className="text-right text-base font-semibold leading-snug text-white text-balance sm:order-2 sm:text-center sm:text-lg">
-                  {point.figure}
+                <dd className="text-right text-xl font-bold tracking-tight text-white sm:order-1 sm:text-center sm:text-3xl md:text-4xl">
+                  {point.value}
                 </dd>
               </div>
             ))}
