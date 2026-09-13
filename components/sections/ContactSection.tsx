@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { CheckCircle2, ChevronDown, Send } from "lucide-react";
-import { contactFormFields } from "@/data/contact";
+import { CheckCircle2, ChevronDown, Mail, Send } from "lucide-react";
+import { contactEmail, contactFormFields } from "@/data/contact";
 import { ContactFormData } from "@/types";
 import { sectionIds } from "@/data/navigation";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
@@ -355,18 +355,82 @@ export function ContactSection() {
       id={sectionIds.contact}
       className="relative overflow-hidden bg-neutral-950 py-20 md:py-32"
     >
-      {/* Background decoration */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute right-1/4 top-1/4 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
+      {/* NOT `-z-10`, which is what this was. The section sets no z-index and
+          so establishes no stacking context, which puts a negative layer inside
+          it behind the section's own opaque `bg-neutral-950` - where none of it
+          survives. The single amber orb here has never been visible, so this
+          section has been rendering as flat black while both venture teasers
+          above it are lit. Same correction LegalSection carries, and the
+          content below takes `relative` so it still paints over the orbs.
+
+          Two offset orbs rather than one centred pool, matching the pair on
+          MarketingMasterySection directly above so the light carries across the
+          seam instead of stopping dead at it. Dimmer than that pair on purpose
+          (0.10/0.06 against its 0.16/0.09): the doorways are the brightest
+          things on the page and a utility section should not out-glow them.
+          They also give the form's `backdrop-blur` card something to blur,
+          which on flat black it did not have. */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="absolute -top-24 right-[18%] h-[32rem] w-[32rem] max-w-[80vw] translate-x-1/2 rounded-full bg-amber-400/[0.10] blur-3xl" />
+        <div className="absolute -bottom-24 left-[16%] h-[26rem] w-[26rem] max-w-[70vw] -translate-x-1/2 rounded-full bg-slate-400/[0.06] blur-3xl" />
       </div>
 
-      <div className="section-container">
+      <div className="section-container relative">
         <div className="mx-auto max-w-4xl">
-          {/* Header */}
-          <div className="mb-12 text-center md:mb-16">
-            <h2 className="heading-lg mb-4 text-white">Get In Touch</h2>
-            <p className="text-lg text-neutral-400">
+          {/* Header.
+
+              Its own `max-w-2xl` inside the form's `max-w-4xl`. The subtitle
+              used to inherit the form's measure and ran as one 20-word line
+              across the full 56rem, which is roughly twice a comfortable one
+              and the main reason two lines of copy read as an empty band.
+
+              The eyebrow is deliberately NOT `.venture-masthead`. That idiom
+              belongs to the two venture doorways and marks a place you can go;
+              borrowing it here would rank the contact form alongside them.
+              This is the form's own pill vocabulary instead, at eyebrow size -
+              same amber, different rank - so the section stops opening cold on
+              an unadorned H2 while every other section on the page opens with
+              a mark. */}
+          <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
+            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/[0.07] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
+              <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+              Contact
+            </p>
+            {/* One word carries the accent. The heading was pure white on near
+                black with no colour anywhere in the header, so nothing in it
+                belonged to this site rather than any site. `.gradient-text` is
+                the existing amber utility. */}
+            <h2 className="heading-lg text-white">
+              Get In <span className="gradient-text">Touch</span>
+            </h2>
+            {/* The same rule the mission panel uses under its heading: a short
+                deliberate mark in place of a flat gap. */}
+            <span
+              aria-hidden="true"
+              className="mx-auto mt-5 block h-px w-16 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"
+            />
+            {/* `neutral-300`, matching the two teasers. At `neutral-400` on
+                black this sentence was the dimmest line in any section header
+                on the page.
+
+                `text-balance` because at this measure the sentence otherwise
+                breaks one word early and leaves "goals." alone on a line of
+                its own. */}
+            <p className="mt-5 text-balance text-lg leading-relaxed text-neutral-300">
               Tell us about your project, and let&apos;s discuss how we can help you achieve your goals.
+            </p>
+            {/* The one thing a contact section can offer that a form cannot:
+                a way to reach us without filling in nine fields. The address is
+                already public in the footer and the legal block; it was just
+                absent from the page's actual contact section. */}
+            <p className="mt-5 text-sm text-neutral-500">
+              Prefer to write directly?{" "}
+              <a
+                href={`mailto:${contactEmail}`}
+                className="font-medium text-amber-400 underline decoration-amber-400/40 underline-offset-4 transition-colors hover:text-amber-300 hover:decoration-amber-400"
+              >
+                {contactEmail}
+              </a>
             </p>
           </div>
 
