@@ -6,8 +6,10 @@ import { BmAudience, BmChapter, BmPillar, BmTenet } from "@/types";
 // Nearly every sentence here is the owner's own copy, carried verbatim from
 // the page plan recorded in docs/BUSINESS-MASTERY.md. The owner confirmed on
 // 2026-08-25 that the published figures — the proof line in
-// `bmProofStatement` and the 5/20 founding counter — are accurate as stated.
-// Do not soften, round, or "improve" them without the owner.
+// `bmProofStatement` and the 5/20 founding counter — are accurate as stated,
+// and on 2026-09-13 replaced the proof line's word-quantities ("dozens",
+// "hundreds", "thousands upon thousands") with the hard figures it carries
+// now. Do not soften, round, or "improve" them without the owner.
 // ---------------------------------------------------------------------------
 
 /** In-page anchor for the offer + application form. Every CTA on the page
@@ -81,32 +83,35 @@ export const bmCoreBelief = {
     "Everyone wants to build freedom through business. But too many people question a small investment and endless work as though either one is optional. Success requires both.",
 } as const;
 
-/** The owner's track record, published exactly as stated and confirmed
- * accurate by the owner. */
+/** The owner's track record, published exactly as stated. The figures are the
+ * owner's own, supplied 2026-09-13, replacing the word-quantities ("dozens",
+ * "hundreds", "thousands upon thousands") the owner had confirmed on
+ * 2026-08-25 — hard numbers now, still the owner's to change and nobody
+ * else's. The "+" on each is the owner's own floor, not a flourish. */
 export const bmProofStatement =
-  "We have built dozens of businesses, worked with hundreds of businesses, and helped generate thousands upon thousands of dollars.";
+  "We have built 50+ businesses, worked with 1,000+ businesses, and helped generate $150,000+ for our clients.";
 
 /**
  * The same track record, re-set as its three figures for the row in
  * BmManifestoSection.
  *
- * NOT A REWRITE AND NOT A SECOND CLAIM. Every word below is lifted from
+ * NOT A REWRITE AND NOT A SECOND CLAIM. Every figure below is lifted from
  * `bmProofStatement` above, and that sentence is still what the page
  * publishes: the section renders it verbatim for screen readers and draws
  * this row for everyone else. The sentence is the record; this is only how it
- * is set. Nothing is rounded, softened or added - "dozens", "hundreds" and
- * "thousands upon thousands" are the owner's own quantities, and the three
- * labels are the sentence's own verbs.
+ * is set. Each `value` is the number exactly as the sentence states it, and
+ * each `label` is the sentence's own words for what that number counts.
  *
- * The file header's rule therefore governs both, and the two cannot be allowed
- * to drift: if the owner changes a figure, change it in `bmProofStatement` and
- * here in the same edit, or the page states two different track records at
- * once.
+ * The file header's rule therefore governs both, and the three copies of this
+ * claim cannot be allowed to drift: if the owner changes a figure, change it
+ * in `bmProofStatement`, here, and in `lmmHomeTeaser.manifesto` (data/lmm.ts,
+ * which recasts the same sentence as the homepage headline) in the same edit,
+ * or the site states two different track records at once.
  */
 export const bmProofPoints = [
-  { label: "Built", figure: "Dozens of businesses" },
-  { label: "Worked with", figure: "Hundreds of businesses" },
-  { label: "Helped generate", figure: "Thousands upon thousands of dollars" },
+  { value: "50+", label: "Businesses built" },
+  { value: "1,000+", label: "Businesses worked with" },
+  { value: "$150,000+", label: "Generated for our clients" },
 ] as const;
 
 // --- 3. Who This Is For ----------------------------------------------------

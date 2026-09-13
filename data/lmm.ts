@@ -50,12 +50,16 @@ export const lmmFaqs = [
  * teaser in the same slot on the same page.
  *
  * The manifesto is the owner's track record: the same claim published as
- * `bmProofStatement` in data/business-mastery.ts and confirmed accurate by the
- * owner, recast as three fragments so it carries as a headline. Nothing in the
- * repo can check it. Like `bmHero.scarcityLine` it is a claim about the
- * owner's own history and stays true only as long as that is true. Note also
- * that `bmProofStatement` is Business Mastery's line; stating it here
- * attributes the same record to this venture, at the owner's request.
+ * `bmProofStatement` in data/business-mastery.ts, recast as three fragments so
+ * it carries as a headline. The figures are the owner's own, supplied
+ * 2026-09-13 (hard numbers, replacing the word-quantities confirmed
+ * 2026-08-25), and a figure change touches `bmProofStatement`,
+ * `bmProofPoints` and this line in the same edit or the site states two
+ * different track records at once. Nothing in the repo can check it. Like
+ * `bmHero.scarcityLine` it is a claim about the owner's own history and stays
+ * true only as long as that is true. Note also that `bmProofStatement` is
+ * Business Mastery's line; stating it here attributes the same record to this
+ * venture, at the owner's request.
  *
  * `subtitle` and `description` are ONE sentence split at its colon, not the
  * two whole sentences the sibling teaser puts in those fields. The component
@@ -83,7 +87,7 @@ export const lmmFaqs = [
 export const lmmHomeTeaser = {
   eyebrow: "Lee Marketing Mastery",
   manifesto:
-    "Dozens of businesses built. Hundreds worked with. Thousands upon thousands of dollars generated.",
+    "50+ businesses built. 1,000+ worked with. $150,000+ generated for our clients.",
   subtitle: "That's what's behind every project we take on:",
   description: "marketing, websites, and business automation, done for you.",
   assuranceLine: "Scoped & Quoted Per Project",
