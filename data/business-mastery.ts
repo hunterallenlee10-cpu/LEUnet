@@ -86,6 +86,29 @@ export const bmCoreBelief = {
 export const bmProofStatement =
   "We have built dozens of businesses, worked with hundreds of businesses, and helped generate thousands upon thousands of dollars.";
 
+/**
+ * The same track record, re-set as its three figures for the row in
+ * BmManifestoSection.
+ *
+ * NOT A REWRITE AND NOT A SECOND CLAIM. Every word below is lifted from
+ * `bmProofStatement` above, and that sentence is still what the page
+ * publishes: the section renders it verbatim for screen readers and draws
+ * this row for everyone else. The sentence is the record; this is only how it
+ * is set. Nothing is rounded, softened or added - "dozens", "hundreds" and
+ * "thousands upon thousands" are the owner's own quantities, and the three
+ * labels are the sentence's own verbs.
+ *
+ * The file header's rule therefore governs both, and the two cannot be allowed
+ * to drift: if the owner changes a figure, change it in `bmProofStatement` and
+ * here in the same edit, or the page states two different track records at
+ * once.
+ */
+export const bmProofPoints = [
+  { label: "Built", figure: "Dozens of businesses" },
+  { label: "Worked with", figure: "Hundreds of businesses" },
+  { label: "Helped generate", figure: "Thousands upon thousands of dollars" },
+] as const;
+
 // --- 3. Who This Is For ----------------------------------------------------
 
 export const bmAudienceHeading = "Built for People Who Know They Want More.";

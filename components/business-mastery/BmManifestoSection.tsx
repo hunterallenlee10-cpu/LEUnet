@@ -1,5 +1,6 @@
 import {
   bmCoreBelief,
+  bmProofPoints,
   bmProofStatement,
   bmTransition,
 } from "@/data/business-mastery";
@@ -105,7 +106,7 @@ import {
  */
 export function BmManifestoSection() {
   return (
-    <section className="relative bg-neutral-950 py-20 md:py-32">
+    <section className="relative bg-neutral-950 py-16 md:py-24">
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <div
           className="absolute inset-0"
@@ -132,11 +133,11 @@ export function BmManifestoSection() {
             {bmCoreBelief.heading}
           </h2>
 
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-neutral-300 text-pretty sm:text-xl">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-neutral-300 text-pretty sm:text-xl md:mt-8">
             {bmCoreBelief.message}
           </p>
 
-          <p className="mx-auto mt-10 max-w-2xl text-lg leading-relaxed text-neutral-400 text-pretty md:mt-12">
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-neutral-400 text-pretty md:mt-10">
             {bmCoreBelief.lead}
           </p>
 
@@ -148,7 +149,7 @@ export function BmManifestoSection() {
               than a 320px viewport, and an unbreakable overflow is a page-wide
               horizontal scroll, not a clipped word. */}
           <p
-            className="mt-4 text-3xl font-bold uppercase tracking-[0.3em] text-amber-400 indent-[0.3em] sm:text-4xl md:text-5xl"
+            className="mt-3 text-3xl font-bold uppercase tracking-[0.3em] text-amber-400 indent-[0.3em] sm:text-4xl md:text-5xl"
             style={{ textShadow: "0 0 26px rgba(251, 191, 36, 0.42)" }}
           >
             {bmCoreBelief.force}
@@ -161,12 +162,59 @@ export function BmManifestoSection() {
             figures, and the rules are what mark it as a statement of record
             rather than a flourish. Neutral rather than gold, because the single
             gold rule further down divides the section's two halves and a second
-            gold rule would cost it that job. The copy is owner-confirmed and
-            verbatim — if the facts change, the line changes, it is never
-            softened. */}
-        <p className="mx-auto mt-12 max-w-3xl border-y border-neutral-800 py-8 text-center text-lg font-medium leading-relaxed text-white text-pretty sm:text-xl md:mt-16 md:py-10">
-          {bmProofStatement}
-        </p>
+            gold rule would cost it that job.
+
+            WHAT CHANGED IS THE SETTING, NOT THE CLAIM. This was the sentence
+            run as one centred paragraph, where its three figures - dozens,
+            hundreds, thousands upon thousands - were buried mid-line in the
+            only part of the section anyone skims, and it was the third centred
+            paragraph in a row in a section built entirely of centred
+            paragraphs. Drawn as its own figures it is shorter, it is the one
+            piece of texture in the section that is not a paragraph, and the
+            page's single credibility claim can be read without being read.
+
+            THE SENTENCE STILL SHIPS, VERBATIM. `bmProofStatement` is rendered
+            `sr-only` and the row is `aria-hidden`, so a screen reader gets the
+            owner's line exactly as written and nobody hears the figures twice.
+            The words in the row are that sentence's own - see the note on
+            `bmProofPoints`, and change the two together or not at all.
+
+            One row per figure on a phone, label left and figure right against a
+            hairline, because three stacked centred blocks there are taller than
+            the paragraph they replaced - which would lose the point of doing
+            this. Three columns from `sm`, where the width exists. */}
+        <div className="mx-auto mt-10 max-w-3xl border-y border-neutral-800 py-5 md:mt-12 md:py-7">
+          <p className="sr-only">{bmProofStatement}</p>
+          <dl
+            aria-hidden="true"
+            className="grid grid-cols-1 divide-y divide-neutral-800/80 sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+          >
+            {bmProofPoints.map((point) => (
+              <div
+                key={point.label}
+                className="flex items-baseline justify-between gap-5 py-2.5 sm:flex-col sm:items-center sm:justify-start sm:gap-1.5 sm:px-4 sm:py-0 sm:text-center"
+              >
+                {/* `sm:order-*` puts the label above its figure on desktop and
+                    beside it on a phone, off one DOM order. A `dl` pairs them
+                    either way, so nothing is lost by flipping which reads
+                    first.
+
+                    `sm:justify-start` is not redundant with the base
+                    `justify-between`: at `sm` the flex direction turns and
+                    `justify-between` starts governing the vertical axis, which
+                    pinned each figure to the bottom of a row sized by the one
+                    that wraps to two lines - so two of the three sat a line
+                    lower than the third for no reason a reader could see. */}
+                <dt className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400/80 sm:order-1 sm:text-xs">
+                  {point.label}
+                </dt>
+                <dd className="text-right text-base font-semibold leading-snug text-white text-balance sm:order-2 sm:text-center sm:text-lg">
+                  {point.figure}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
 
         {/* Left-aligned on a phone, centred from `sm` up. Centred text has a
             ragged left edge as well as a ragged right one, which costs nothing
@@ -175,7 +223,7 @@ export function BmManifestoSection() {
             enough that the centre axis is back to being free. This is the one
             readability fix in the merge that changes how the section is set
             rather than how it is spaced. */}
-        <p className="mx-auto mt-12 max-w-2xl text-left text-lg leading-relaxed text-neutral-300 text-pretty sm:text-center md:mt-16">
+        <p className="mx-auto mt-10 max-w-2xl text-left text-lg leading-relaxed text-neutral-300 text-pretty sm:text-center md:mt-12">
           {bmCoreBelief.clarifier}
         </p>
 
@@ -191,7 +239,7 @@ export function BmManifestoSection() {
             the least length to be seen by. */}
         <div
           aria-hidden="true"
-          className="mx-auto my-16 h-px w-[clamp(90px,18vw,240px)] md:my-24"
+          className="mx-auto my-12 h-px w-[clamp(90px,18vw,240px)] md:my-14"
           style={{
             background:
               "linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.22) 32%, rgba(251, 191, 36, 0.9) 50%, rgba(255, 255, 255, 0.22) 68%, rgba(255, 255, 255, 0) 100%)",
@@ -215,7 +263,7 @@ export function BmManifestoSection() {
               on the element, where stylesheet order — not class order — picks
               the winner. Index-driven, so the closing line is whichever one the
               owner ends on rather than a hardcoded third. */}
-          <div className="mt-10 space-y-6 md:mt-12 md:space-y-8">
+          <div className="mt-8 space-y-5 md:mt-10 md:space-y-6">
             {bmTransition.paragraphs.map((paragraph, index) => (
               <p
                 key={paragraph}
