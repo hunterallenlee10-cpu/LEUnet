@@ -59,7 +59,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
-| 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
+| 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Built, **locked off the page** until the owner launches it — `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
 | ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — merged up into slot 2 on 2026-09-07, then **off the page entirely** on 2026-09-13, see the note below | Not on the page in any slot; the copy is unchanged and still `bmTransition` |
 | 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
 
@@ -142,6 +142,20 @@ its slot and the later sections are **not** renumbered; the table's #7 is a
 hole in the live page today, not a mistake. Anything below that describes
 section 7 as rendering describes the built section, not the page as it
 currently ships.
+
+**Section 8, The Journey, is locked — paused like section 7, but behind a
+switch.** The owner asked it off the page on 2026-09-13 until they are ready
+to launch it, and because launching is the stated intent, the pause is a flag
+rather than a deleted line: `BM_JOURNEY_LOCKED` in `data/business-mastery.ts`.
+**Unlocking is flipping that one `true` to `false`** — nothing else. Two
+places read it: `page.tsx` renders `BmJourneyTimeline` only when unlocked, and
+`BmFinalCTASection` holds `bg-neutral-950` while locked (with the timeline —
+the neutral-950 ground between two black sections — off the page, the offer
+section and the closing CTA would otherwise abut as two black sections with
+amber glows, the exact join the note above records). The component,
+`bmJourney`, and `bmChapters` are all whole and unchanged, so the section
+comes back exactly as it last rendered, coming-soon markers and all. Slot 8
+keeps its number on the same terms as slot 7's hole.
 
 ### Why the added section sits where it does
 
@@ -260,12 +274,14 @@ against that standard before rendering:
 Owner's call: for anything not decided yet, put "coming soon" and render
 whatever information does exist. One shared component (`BmComingSoon`), one
 consistent look — a quiet amber-outlined marker, not a broken-feeling stub —
-used in three places, two of which are on the page today:
+used in three places. Only the guarantee expandable is on the page today: the
+founder section is paused and the journey timeline is locked (§3), so their
+markers render nowhere until each section comes back.
 
 | Where | What renders now | What's coming |
 | --- | --- | --- |
 | Why I Built LEU (8) — *section paused, §3* | The legacy statement (§9 below) + the supporting idea | The full founder story from the My Story document |
-| Journey timeline (9) | The 14 chapter titles as the interactive structure | Each chapter's story |
+| Journey timeline (9) — *section locked, §3* | The 14 chapter titles as the interactive structure | Each chapter's story |
 | Guarantee expandable (6) | Plain-language guarantee summary | Full terms, eligibility, refund conditions, ToS |
 
 The timeline is worth building fully now even with empty chapters: the

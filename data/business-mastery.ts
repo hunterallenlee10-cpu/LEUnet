@@ -307,6 +307,26 @@ export const bmFounder = {
 
 // --- 8. My Journey ---------------------------------------------------------
 
+/**
+ * THE LOCK ON THE JOURNEY (section 8). While this is `true`, the page does
+ * not render the timeline at all — the section is locked away until the owner
+ * is ready to launch it (owner's request, 2026-09-13).
+ *
+ * TO UNLOCK: change `true` to `false` on this one line. That is the whole
+ * launch — nothing else needs touching. Everything the section is made of
+ * (`bmJourney`, `bmChapters`, BmJourneyTimeline.tsx) stays whole and unchanged
+ * while locked, so it comes back exactly as it last rendered.
+ *
+ * Two places read this flag, and both revert on the same flip:
+ * - `app/business-mastery/page.tsx` renders BmJourneyTimeline only when
+ *   unlocked.
+ * - BmFinalCTASection holds `bg-neutral-950` while locked: the timeline is
+ *   the neutral-950 ground between the black offer section and the black
+ *   closing CTA, and with it off the page those two would abut — the exact
+ *   two-black-sections join the page's design record avoids (page.tsx).
+ */
+export const BM_JOURNEY_LOCKED: boolean = true;
+
 export const bmJourney = {
   heading: "The Journey",
   description: "The experiences that built LEU.",
