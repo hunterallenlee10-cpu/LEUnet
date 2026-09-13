@@ -53,33 +53,42 @@ The owner's flow, with the added section slotted where it does the most work:
 | # | Section | Content source | State |
 | --- | --- | --- | --- |
 | 1 | Hero — manifesto | Owner doc §1: title, "No great accomplishment…", "Speedrun Your Way to Success", CTA `ACHIEVE YOUR DREAMS →` scrolls to the offer | Ready |
-| 2 | **The Manifesto** — the Core Belief and "Your Journey Is Just Beginning" merged | Owner doc §2 ("Nobody Builds Something Great Alone", network as the driving force, hard work + investment are both required) **plus owner doc §8**, which used to be slot 9 | Ready (see §6 on the proof claims). Merged 2026-09-07 — rationale below the table |
+| 2 | **The Manifesto** | Owner doc §2 ("Nobody Builds Something Great Alone", network as the driving force, hard work + investment are both required). Owner doc §8 was merged in here on 2026-09-07 and taken back off on 2026-09-13 | Ready (see §6 on the proof claims) |
 | 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing) + mission line | Ready |
 | 4 | **Our Core Tenets** | The owner's three tenets, supplied 2026-09-07: Speed, Money In, For Free. Replaced the 8-step "How to Build Your Own Empire" framework (Starting from zero → Creating freedom) in this slot | Ready. Titles and heading are the owner's; the three one-line descriptions are build copy — see the note on `bmTenets` before editing "For Free" |
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
 | 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
-| ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — **merged up into slot 2**, see the note below | Gone as a slot; the copy is unchanged and still `bmTransition` |
+| ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — merged up into slot 2 on 2026-09-07, then **off the page entirely** on 2026-09-13, see the note below | Not on the page in any slot; the copy is unchanged and still `bmTransition` |
 | 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
 
-**Sections 2 and 9 are one section now (2026-09-07), at the owner's
+**Sections 2 and 9 became one section on 2026-09-07, at the owner's
 request.** They were always the same claim made twice — a centred column of
 neutral-300 paragraphs on neutral-950, arguing that nobody builds alone — and
 eight sections apart they read as two text walls rather than as one thought.
-`BmManifestoSection.tsx` carries both; `BmCoreBeliefSection.tsx` and
-`BmTransitionSection.tsx` are deleted. **No copy changed**: every sentence is
+`BmManifestoSection.tsx` carried both; `BmCoreBeliefSection.tsx` and
+`BmTransitionSection.tsx` are deleted. **No copy changed**: every sentence was
 still the owner's, verbatim, from `bmCoreBelief`, `bmProofStatement` and
 `bmTransition`, only re-ordered and re-grouped. `bmTransition` stays in the data
-file under its own name.
+file under its own name, and did so through what happened next.
 
-**The Core Philosophy block came off the same slot later that day**, also at the
+**The pivot came back off on 2026-09-13**, at the owner's request, which ends
+the merge: slot 2 is the Core Belief and the proof line, and owner doc §8 is not
+on the page in any slot. `bmTransition` is unchanged in the data file and
+renders nowhere — the same treatment `bmFoundingCounter` gets, and for the same
+reason. **The gold seam rule went with it**, because it existed only to divide
+the two halves and would otherwise be a hairline dividing the last paragraph
+from the section's bottom padding; it has to come back with the pivot, not
+before it. That also settles the trade recorded at the foot of this section:
+the first-person "me" no longer arrives six sections before the story it refers
+to, because it is not on the page at all.
+
+**The Core Philosophy block came off slot 2 on 2026-09-07**, also at the
 owner's request. It was the amber card in the old section and survived the merge
-as the pull-quote; removing it leaves slot 2 as a single centred column, with the
-gold seam rule and the interval around it as the only contrast between the
-movements. `bmCoreBelief.philosophyTitle` and `bmCoreBelief.philosophy` are
-unchanged in the data file and render nowhere now — the same treatment
-`bmFoundingCounter` gets, and for the same reason.
+as the pull-quote; removing it left slot 2 as a single centred column.
+`bmCoreBelief.philosophyTitle` and `bmCoreBelief.philosophy` are unchanged in
+the data file and render nowhere now, on the same terms.
 
 **Two more lines came off the page the same day**, also at the owner's request
 and on the same terms: `bmProgram.closer` ("If someone doesn't even know what
@@ -93,15 +102,17 @@ includes, and a list of inclusions sitting directly under the page's one action
 needs checking against §6 before it goes back, while price and guarantee terms
 are still Phase C gates.
 
-Slot 2 rather than slot 9, and the trade is real enough to record. Slot 2 wins
-because `bmProofStatement` is the page's only credibility claim and has to be
-read *before* the offer and the application form at slot 6, not after them. What
-it costs: `bmTransition` is written in the first person and this table used to
-define it as "the transition from my story to your story", so at slot 2 the "me"
-in "Everything that came before LEU taught me something" arrives six sections
-before the story it refers to (the timeline, slot 8), and the merged column runs
-we → I → you under one heading. Moving the whole section below the timeline is
-one line in `page.tsx` if that trade ever reads the wrong way round.
+Slot 2 rather than slot 9, and the trade was real enough to record — it is
+history now that the pivot is off the page, and it is the first thing to read if
+it ever goes back. Slot 2 won because `bmProofStatement` is the page's only
+credibility claim and has to be read *before* the offer and the application form
+at slot 6, not after them. What it cost: `bmTransition` is written in the first
+person and this table used to define it as "the transition from my story to your
+story", so at slot 2 the "me" in "Everything that came before LEU taught me
+something" arrived six sections before the story it refers to (the timeline,
+slot 8), and the merged column ran we → I → you under one heading. Moving the
+whole section below the timeline is one line in `page.tsx` if that trade ever
+reads the wrong way round again.
 
 Removing slot 9 also removed a join. That section existed so the timeline would
 not run straight into a sales pitch, and without it slots 8 and 10 abut — two

@@ -339,6 +339,25 @@ export const bmChapters: BmChapter[] = [
 
 // --- 9. Your Journey Is Just Beginning -------------------------------------
 
+/**
+ * NOTHING RENDERS THIS RIGHT NOW. The owner asked the pivot off the page on
+ * 2026-09-13, and it is kept on the same terms as `bmCoreBelief.philosophy`,
+ * `bmProgram.closer`, `bmFinalCta.supporting` and `bmFoundingCounter`: it is
+ * the owner's own confirmed copy, and taking a block off a page is not the
+ * same decision as deleting the words.
+ *
+ * It has now been off the page twice for different reasons, which is worth
+ * knowing before restoring it. As slot 9 it was its own section, deleted when
+ * it merged up into BmManifestoSection on 2026-09-07; as the closing movement
+ * of that section it came off on 2026-09-13. BmManifestoSection records where
+ * it sat and what has to come back with it — the gold seam rule that
+ * introduced it exists only to divide the section's halves and went out at the
+ * same time.
+ *
+ * Because it is unrendered, editing it changes nothing on the site. The moment
+ * it renders again, the file header's rule applies to it in full: these are the
+ * owner's sentences, verbatim, not to be softened or improved.
+ */
 export const bmTransition = {
   heading: "Your Journey Is Just Beginning.",
   paragraphs: [
