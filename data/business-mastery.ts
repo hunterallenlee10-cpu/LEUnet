@@ -308,22 +308,21 @@ export const bmFounder = {
 // --- 8. My Journey ---------------------------------------------------------
 
 /**
- * THE LOCK ON THE JOURNEY (section 8). While this is `true`, the page does
- * not render the timeline at all — the section is locked away until the owner
- * is ready to launch it (owner's request, 2026-09-13).
+ * THE LOCK ON THE JOURNEY (section 8). While this is `true`, the page renders
+ * the section as BmJourneyLocked — visibly present, visibly locked: the
+ * section's title and a "Locked Until Complete" marker where the interactive
+ * timeline will be. The owner asked for the section held back until launch on
+ * 2026-09-13, and the same day chose this visible lock over taking the
+ * section off the page.
  *
  * TO UNLOCK: change `true` to `false` on this one line. That is the whole
- * launch — nothing else needs touching. Everything the section is made of
- * (`bmJourney`, `bmChapters`, BmJourneyTimeline.tsx) stays whole and unchanged
- * while locked, so it comes back exactly as it last rendered.
- *
- * Two places read this flag, and both revert on the same flip:
- * - `app/business-mastery/page.tsx` renders BmJourneyTimeline only when
- *   unlocked.
- * - BmFinalCTASection holds `bg-neutral-950` while locked: the timeline is
- *   the neutral-950 ground between the black offer section and the black
- *   closing CTA, and with it off the page those two would abut — the exact
- *   two-black-sections join the page's design record avoids (page.tsx).
+ * launch — nothing else needs touching. `app/business-mastery/page.tsx` is
+ * the only reader of the flag, and it swaps BmJourneyLocked for
+ * BmJourneyTimeline on the flip. Everything the open section is made of
+ * (`bmJourney`, `bmChapters`, BmJourneyTimeline.tsx) stays whole and
+ * unchanged while locked, so it arrives exactly as it last rendered. Both
+ * states sit on the same neutral-950 ground, so the page's light/dark
+ * alternation never notices the flip.
  */
 export const BM_JOURNEY_LOCKED: boolean = true;
 
@@ -337,6 +336,11 @@ export const bmJourney = {
     "The full story behind each chapter is being written and will be added here.",
   /** The one-line body every chapter slide carries until its story exists. */
   chapterNote: "This chapter's story is being written.",
+  /** The lock treatment (BM_JOURNEY_LOCKED): the badge and the line beside
+   * it, shown by BmJourneyLocked while the timeline is locked. Build copy,
+   * safe to edit. */
+  lockedLabel: "Locked Until Complete",
+  lockedNote: "The story is being written. The timeline opens when it's done.",
 } as const;
 
 // Chapter titles are the owner's working list. An alternative, more cinematic

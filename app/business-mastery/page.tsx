@@ -8,6 +8,7 @@ import { BmTenetsSection } from "@/components/business-mastery/BmTenetsSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
+import { BmJourneyLocked } from "@/components/business-mastery/BmJourneyLocked";
 import { BmFinalCTASection } from "@/components/business-mastery/BmFinalCTASection";
 import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
 
@@ -85,15 +86,16 @@ export default function BusinessMasteryPage() {
           out alone…") is the bridge now, and the timeline sits on neutral-950
           so the two are separated by the page's light/dark alternation rather
           than abutting as two black sections. */}
-      {/* Section 8, The Journey, is LOCKED — off the page until the owner is
-          ready to launch it (2026-09-13). The lock is BM_JOURNEY_LOCKED in
-          data/business-mastery.ts, and flipping it to false there is the
-          whole unlock: this line, its import, BmJourneyTimeline, and the
-          journey data all stay in place. While it is locked, the black offer
-          section and the black closing CTA are the sections left abutting, so
-          BmFinalCTASection reads the same flag and holds neutral-950 until
-          the timeline is back between them. */}
-      {!BM_JOURNEY_LOCKED && <BmJourneyTimeline />}
+      {/* Section 8, The Journey, is LOCKED — on the page, visibly not open.
+          While BM_JOURNEY_LOCKED (data/business-mastery.ts) is true, the slot
+          renders BmJourneyLocked: the section's title and a "Locked Until
+          Complete" marker in place of the interactive timeline. The owner
+          asked the section held back until launch on 2026-09-13, and the same
+          day chose this visible lock over having it off the page entirely.
+          Flipping that one flag to false is the whole unlock. Both components
+          sit on neutral-950, so the join described above holds in either
+          state and BmFinalCTASection stays black throughout. */}
+      {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
       <BmFinalCTASection />
 
       <MainFooter />
