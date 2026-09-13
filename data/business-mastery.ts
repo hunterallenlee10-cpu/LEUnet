@@ -309,11 +309,12 @@ export const bmFounder = {
 
 /**
  * THE LOCK ON THE JOURNEY (section 8). While this is `true`, the page renders
- * the section as BmJourneyLocked — visibly present, visibly locked: the
- * section's title and a "Locked Until Complete" marker where the interactive
+ * the section as BmJourneyLocked — visibly present, visibly not open: the
+ * section's title and the shared Coming Soon marker where the interactive
  * timeline will be. The owner asked for the section held back until launch on
- * 2026-09-13, and the same day chose this visible lock over taking the
- * section off the page.
+ * 2026-09-13, the same day chose this visible placeholder over taking the
+ * section off the page, and then chose "Coming Soon" over a lock badge for
+ * its marker.
  *
  * TO UNLOCK: change `true` to `false` on this one line. That is the whole
  * launch — nothing else needs touching. `app/business-mastery/page.tsx` is
@@ -336,11 +337,17 @@ export const bmJourney = {
     "The full story behind each chapter is being written and will be added here.",
   /** The one-line body every chapter slide carries until its story exists. */
   chapterNote: "This chapter's story is being written.",
-  /** The lock treatment (BM_JOURNEY_LOCKED): the badge and the line beside
-   * it, shown by BmJourneyLocked while the timeline is locked. Build copy,
-   * safe to edit. */
-  lockedLabel: "Locked Until Complete",
+  /** The line beside the locked placeholder's Coming Soon badge
+   * (BmJourneyLocked, while BM_JOURNEY_LOCKED is true). Build copy, safe to
+   * edit. */
   lockedNote: "The story is being written. The timeline opens when it's done.",
+  /** NOTHING RENDERS THIS RIGHT NOW. It was the locked placeholder's badge —
+   * "Locked Until Complete" behind a Lock icon — until the owner asked the
+   * badge to read "Coming Soon" instead (2026-09-13, the same day the lock
+   * itself arrived), which the shared BmComingSoon carries as its fixed
+   * label. Kept so putting the lock wording back is a one-line swap in
+   * BmJourneyLocked.tsx. */
+  lockedLabel: "Locked Until Complete",
 } as const;
 
 // Chapter titles are the owner's working list. An alternative, more cinematic

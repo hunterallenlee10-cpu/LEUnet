@@ -88,13 +88,14 @@ export default function BusinessMasteryPage() {
           than abutting as two black sections. */}
       {/* Section 8, The Journey, is LOCKED — on the page, visibly not open.
           While BM_JOURNEY_LOCKED (data/business-mastery.ts) is true, the slot
-          renders BmJourneyLocked: the section's title and a "Locked Until
-          Complete" marker in place of the interactive timeline. The owner
-          asked the section held back until launch on 2026-09-13, and the same
-          day chose this visible lock over having it off the page entirely.
-          Flipping that one flag to false is the whole unlock. Both components
-          sit on neutral-950, so the join described above holds in either
-          state and BmFinalCTASection stays black throughout. */}
+          renders BmJourneyLocked: the section's title and the shared Coming
+          Soon marker in place of the interactive timeline. The owner asked
+          the section held back until launch on 2026-09-13, the same day chose
+          this visible placeholder over having it off the page entirely, and
+          then chose "Coming Soon" over a lock badge for its marker. Flipping
+          that one flag to false is the whole unlock. Both components sit on
+          neutral-950, so the join described above holds in either state and
+          BmFinalCTASection stays black throughout. */}
       {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
       <BmFinalCTASection />
 
