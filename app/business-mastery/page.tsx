@@ -8,7 +8,9 @@ import { BmTenetsSection } from "@/components/business-mastery/BmTenetsSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
+import { BmJourneyLocked } from "@/components/business-mastery/BmJourneyLocked";
 import { BmFinalCTASection } from "@/components/business-mastery/BmFinalCTASection";
+import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
 
 const title = "LEU Business Mastery | Speedrun Your Way to Success";
 const description =
@@ -78,13 +80,23 @@ export default function BusinessMasteryPage() {
           asked that half back off the manifesto on 2026-09-13. `bmTransition`
           is whole and unchanged in the data file either way.
 
-          Its removal is why the join below is what it is. That section existed
-          so the timeline would not run straight into a sales pitch: the closing
-          CTA's own copy ("You can keep trying to figure everything out alone…")
-          is the bridge now, and the timeline drops to neutral-950 so the two
-          are still separated by the page's light/dark alternation rather than
-          abutting as two black sections. */}
-      <BmJourneyTimeline />
+          Its removal is why the timeline's join is what it is. That section
+          existed so the timeline would not run straight into a sales pitch:
+          the closing CTA's own copy ("You can keep trying to figure everything
+          out alone…") is the bridge now, and the timeline sits on neutral-950
+          so the two are separated by the page's light/dark alternation rather
+          than abutting as two black sections. */}
+      {/* Section 8, The Journey, is LOCKED — on the page, visibly not open.
+          While BM_JOURNEY_LOCKED (data/business-mastery.ts) is true, the slot
+          renders BmJourneyLocked: the section's title and the shared Coming
+          Soon marker in place of the interactive timeline. The owner asked
+          the section held back until launch on 2026-09-13, the same day chose
+          this visible placeholder over having it off the page entirely, and
+          then chose "Coming Soon" over a lock badge for its marker. Flipping
+          that one flag to false is the whole unlock. Both components sit on
+          neutral-950, so the join described above holds in either state and
+          BmFinalCTASection stays black throughout. */}
+      {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
       <BmFinalCTASection />
 
       <MainFooter />

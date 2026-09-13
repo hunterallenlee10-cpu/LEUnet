@@ -307,6 +307,26 @@ export const bmFounder = {
 
 // --- 8. My Journey ---------------------------------------------------------
 
+/**
+ * THE LOCK ON THE JOURNEY (section 8). While this is `true`, the page renders
+ * the section as BmJourneyLocked — visibly present, visibly not open: the
+ * section's title and the shared Coming Soon marker where the interactive
+ * timeline will be. The owner asked for the section held back until launch on
+ * 2026-09-13, the same day chose this visible placeholder over taking the
+ * section off the page, and then chose "Coming Soon" over a lock badge for
+ * its marker.
+ *
+ * TO UNLOCK: change `true` to `false` on this one line. That is the whole
+ * launch — nothing else needs touching. `app/business-mastery/page.tsx` is
+ * the only reader of the flag, and it swaps BmJourneyLocked for
+ * BmJourneyTimeline on the flip. Everything the open section is made of
+ * (`bmJourney`, `bmChapters`, BmJourneyTimeline.tsx) stays whole and
+ * unchanged while locked, so it arrives exactly as it last rendered. Both
+ * states sit on the same neutral-950 ground, so the page's light/dark
+ * alternation never notices the flip.
+ */
+export const BM_JOURNEY_LOCKED: boolean = true;
+
 export const bmJourney = {
   heading: "The Journey",
   description: "The experiences that built LEU.",
@@ -317,6 +337,17 @@ export const bmJourney = {
     "The full story behind each chapter is being written and will be added here.",
   /** The one-line body every chapter slide carries until its story exists. */
   chapterNote: "This chapter's story is being written.",
+  /** The line beside the locked placeholder's Coming Soon badge
+   * (BmJourneyLocked, while BM_JOURNEY_LOCKED is true). Build copy, safe to
+   * edit. */
+  lockedNote: "The story is being written. The timeline opens when it's done.",
+  /** NOTHING RENDERS THIS RIGHT NOW. It was the locked placeholder's badge —
+   * "Locked Until Complete" behind a Lock icon — until the owner asked the
+   * badge to read "Coming Soon" instead (2026-09-13, the same day the lock
+   * itself arrived), which the shared BmComingSoon carries as its fixed
+   * label. Kept so putting the lock wording back is a one-line swap in
+   * BmJourneyLocked.tsx. */
+  lockedLabel: "Locked Until Complete",
 } as const;
 
 // Chapter titles are the owner's working list. An alternative, more cinematic

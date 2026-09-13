@@ -59,7 +59,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
-| 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Titles only. Chapter bodies are coming-soon until the My Story document is written |
+| 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Built, **visibly locked** until the owner launches it — the slot renders a Coming Soon placeholder; `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
 | ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — merged up into slot 2 on 2026-09-07, then **off the page entirely** on 2026-09-13, see the note below | Not on the page in any slot; the copy is unchanged and still `bmTransition` |
 | 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
 
@@ -143,6 +143,25 @@ hole in the live page today, not a mistake. Anything below that describes
 section 7 as rendering describes the built section, not the page as it
 currently ships.
 
+**Section 8, The Journey, is locked — on the page, visibly not open.** The
+owner asked it held back until launch on 2026-09-13, the same day chose a
+visible placeholder over having it off the page entirely, and then chose
+"Coming Soon" over a lock badge for its marker. Because launching is the
+stated intent, the lock is a flag rather than a deleted line:
+`BM_JOURNEY_LOCKED` in `data/business-mastery.ts`, read only by `page.tsx`.
+While `true`, the slot renders `BmJourneyLocked` — the section's eyebrow and
+title as the intro slide sets them, a chapter tease derived from `bmChapters`
+(count, first title, last title, so it cannot drift from the data), and the
+shared `BmComingSoon` marker with its own note (`bmJourney.lockedNote`) where
+the timeline's start affordance would be. The retired badge text survives
+unrendered as `bmJourney.lockedLabel`. **Unlocking is flipping that one
+`true` to `false`** — nothing else. `BmJourneyTimeline`, `bmJourney`, and
+`bmChapters` are all whole and unchanged, so the timeline arrives exactly as
+it last rendered, coming-soon markers and all. Both states sit on
+`bg-neutral-950`, so the join the note above records is intact throughout
+and the closing CTA stays black. Slot 8 keeps its number on the same terms
+as slot 7's hole.
+
 ### Why the added section sits where it does
 
 - **Core Tenets (4)** lands between "who this is for" and "what the program
@@ -173,6 +192,7 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 | `components/business-mastery/BmApplicationForm.tsx` | 6 — the form (fields in §5) |
 | `components/business-mastery/BmFounderSection.tsx` | 7 — Why I Built LEU (built, not currently rendered — §3) |
 | `components/business-mastery/BmJourneyTimeline.tsx` | 8 — interactive timeline |
+| `components/business-mastery/BmJourneyLocked.tsx` | 8 — the Coming Soon placeholder rendered while `BM_JOURNEY_LOCKED` is true (§3) |
 | `components/business-mastery/BmFinalCTASection.tsx` | 10 |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
 | `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |
@@ -260,12 +280,20 @@ against that standard before rendering:
 Owner's call: for anything not decided yet, put "coming soon" and render
 whatever information does exist. One shared component (`BmComingSoon`), one
 consistent look — a quiet amber-outlined marker, not a broken-feeling stub —
-used in three places, two of which are on the page today:
+used in three places. Two render today: the guarantee expandable's, and the
+journey's — carried by the locked placeholder (`BmJourneyLocked`, §3) with
+its own note (`bmJourney.lockedNote`) while the timeline is closed, and by
+the timeline's intro slide (`bmJourney.comingSoonNote`) once it opens. This
+is the journey's sanctioned marker in either state, not a fourth place. The
+placeholder briefly carried a Lock-badged "Locked Until Complete" instead,
+until the owner chose "Coming Soon" the same day; the retired badge text
+survives unrendered as `bmJourney.lockedLabel`. The founder section is
+paused (§3), so its marker renders nowhere until the section returns.
 
 | Where | What renders now | What's coming |
 | --- | --- | --- |
 | Why I Built LEU (8) — *section paused, §3* | The legacy statement (§9 below) + the supporting idea | The full founder story from the My Story document |
-| Journey timeline (9) | The 14 chapter titles as the interactive structure | Each chapter's story |
+| Journey timeline (9) — *section locked, §3* | The locked placeholder: title, chapter tease, Coming Soon. Once unlocked: the 14 chapter titles as the interactive structure | Each chapter's story |
 | Guarantee expandable (6) | Plain-language guarantee summary | Full terms, eligibility, refund conditions, ToS |
 
 The timeline is worth building fully now even with empty chapters: the
