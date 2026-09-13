@@ -2,19 +2,36 @@ import {
   bmCoreBelief,
   bmProofPoints,
   bmProofStatement,
-  bmTransition,
 } from "@/data/business-mastery";
 
 /**
  * Section 2 — the page's manifesto, and the hero's second breath.
  *
- * This is the old Core Belief section (slot 2) and the old "Your Journey Is
- * Just Beginning." transition (slot 9) folded into one argument: nobody builds
- * alone, here is what we have actually built, here is what it cost to learn,
- * and here is why you don't have to learn it that way. The two were always the
- * same claim made twice at opposite ends of the page — both a centred column of
- * neutral-300 paragraphs on neutral-950 — and eight sections apart they read as
- * two text walls rather than as one thought. Together they read as one.
+ * This is the old Core Belief section (slot 2). It also carried the old "Your
+ * Journey Is Just Beginning." transition (slot 9) for six days — merged in on
+ * 2026-09-07 because the two were the same claim made twice at opposite ends of
+ * the page, and taken back off on 2026-09-13. What is left is one argument in
+ * two movements: nobody builds alone, and here is what we have actually built.
+ *
+ * THE PIVOT IS OUT, at the owner's request (2026-09-13), on the same terms as
+ * the Core Philosophy block below: `bmTransition` is untouched in the data file
+ * and renders nowhere now. Taking a block off a page is not the same decision
+ * as deleting the words.
+ *
+ * THE GOLD SEAM RULE WENT WITH IT, and has to come back with it. It existed to
+ * divide the two halves and nothing else, so left behind it would be a hairline
+ * under the last paragraph dividing the section from its own bottom padding.
+ * Both are one revert away and docs/BUSINESS-MASTERY.md §3 carries the record.
+ *
+ * IT ALSO SETTLES WHAT THE MERGE COST, which this comment used to record as the
+ * reason to revisit it. `bmTransition` is written in the first person and
+ * docs/BUSINESS-MASTERY.md §3 defined it as "the transition from my story to
+ * your story", so at slot 2 the "me" in "Everything that came before LEU taught
+ * me something" arrived six sections before the story it refers to
+ * (BmJourneyTimeline, slot 8) and the column ran we → I → you under one
+ * heading. It runs we → we now. If the pivot ever goes back, that problem goes
+ * back with it, and the fix is still the one recorded then: the whole section
+ * below the timeline, one line in page.tsx.
  *
  * Every sentence is the owner's, verbatim from data/business-mastery.ts, only
  * re-ordered and re-grouped. The eyebrow is the only string the build wrote —
@@ -22,21 +39,13 @@ import {
  * We Build"), which is why it lives here and not in the data file, where the
  * owner's confirmed copy lives.
  *
- * WHAT THE MERGE COSTS, recorded because it is the reason to revisit this.
- * `bmTransition` is written in the first person and docs/BUSINESS-MASTERY.md §3
- * defines it as "the transition from my story to your story". At slot 2 the
- * "me" in "Everything that came before LEU taught me something" arrives before
- * the story it refers to (BmJourneyTimeline, slot 8), so the column runs we →
- * I → you under one heading. Slot 2 wins anyway because the proof line is the
- * page's only credibility claim and it has to be read before the offer and the
- * application form at slot 6, not after them. Moving the whole section below the
- * timeline is one line in page.tsx if the owner would rather keep the pivot.
- *
- * Three movements, and the reader should be able to feel where each one starts
- * without being told: the belief, the record, the pivot. The old design ran all
- * of it as one undifferentiated centred stack, which is what made it a wall on
- * a phone. What separates them here is a rule and interval — not headings,
- * boxes, or numbers.
+ * Two movements, and the reader should be able to feel where the second one
+ * starts without being told: the belief, then the record. The old design ran
+ * all of it as one undifferentiated centred stack, which is what made it a wall
+ * on a phone. What separates them now is the proof row's two hairlines and the
+ * interval around them — not headings, boxes, or numbers. It was three
+ * movements while the pivot stood, and the gold rule was the third one's
+ * introduction.
  *
  * THE CORE PHILOSOPHY BLOCK IS OUT, at the owner's request (2026-09-07). It was
  * the amber card in the old slot-2 section, and it survived the merge as an
@@ -47,7 +56,8 @@ import {
  * rule and the interval around it. That is deliberate and it is enough at this
  * length, but if the section ever reads flat again, this is the thing that was
  * removed, and reinstating it is the block that used to sit between the
- * clarifier and the seam. `bmCoreBelief.philosophyTitle` and
+ * clarifier and the gold seam rule, which is to say at the foot of the section
+ * as it now stands. `bmCoreBelief.philosophyTitle` and
  * `bmCoreBelief.philosophy` are untouched in the data file and now render
  * nowhere — see the note on them there.
  *
@@ -67,14 +77,17 @@ import {
  *    fold behind a `min-h-[calc(100vh-80px)]` hero — the animation would always
  *    have finished before anyone saw it. Motion nobody can see is dead code,
  *    not restraint. Nothing here moves.
- *  - `.bmh-rule`, as a class. It reads `--bmh-u` and `--bmh-hair`, declared
+ *  - `.bmh-rule`, as a class. Nothing in this file draws a rule since the seam
+ *    came out, so this is dormant rather than gone: it is what the seam has to
+ *    do again the moment the pivot brings it back. It reads `--bmh-u` and
+ *    `--bmh-hair`, declared
  *    only on `.bmh`; used outside that ancestor every `calc(var(--bmh-u) * n)`
  *    is invalid at computed-value time, so the margins drop and the gradient
  *    resolves to nothing — a transparent line with an amber shadow floating in
  *    space. Putting `.bmh` on an ancestor instead drags its black `::before`
  *    veil across a section with no constellation to protect against. So the
  *    seam rule below is that gradient reproduced inline. If `.bmh-rule` is ever
- *    retuned, retune this with it; it is a copy, not a reference.
+ *    retuned, the seam is a copy and not a reference, so it does not follow.
  *  - `.bmh-eyebrow`. Portable, and prettier than the house eyebrow, but its
  *    size caps at `2vh` — tuned for a hero that owns the viewport, wrong for a
  *    section that scrolls. This slot sits between the hero and BmAudienceSection
@@ -227,57 +240,6 @@ export function BmManifestoSection() {
           {bmCoreBelief.clarifier}
         </p>
 
-        {/* --- The seam ---------------------------------------------------- */}
-        {/* The only divider in the section, and the join between the two
-            sections this one replaced. The hero's rule, values inlined — see
-            the note above on why the class itself cannot travel — but carried
-            brighter than `.bmh-rule` on purpose: that rule sits on pure black
-            over a lit constellation and would glare at these alphas, while this
-            one sits on flat neutral-950 with a 0.07-alpha wash behind it, where
-            the hero's 0.55 gold and 0.14 white read as a smudge rather than a
-            line. Verified at 320px, where the rule is at its 90px floor and has
-            the least length to be seen by. */}
-        <div
-          aria-hidden="true"
-          className="mx-auto my-12 h-px w-[clamp(90px,18vw,240px)] md:my-14"
-          style={{
-            background:
-              "linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.22) 32%, rgba(251, 191, 36, 0.9) 50%, rgba(255, 255, 255, 0.22) 68%, rgba(255, 255, 255, 0) 100%)",
-            boxShadow: "0 0 14px rgba(251, 191, 36, 0.4)",
-          }}
-        />
-
-        {/* --- Movement three: the pivot ----------------------------------- */}
-        <div className="mx-auto max-w-2xl text-center">
-          {/* An h3, not a second h2. One section carries one h2, and this is the
-              closing movement of the argument above it rather than a new
-              argument — the gold rule already says "new movement" visually, so
-              the heading does not need to claim it structurally as well. The
-              uppercase is `text-transform`, not retyped copy. */}
-          <h3 className="text-2xl font-bold uppercase tracking-[0.14em] text-white text-balance indent-[0.14em] sm:text-3xl">
-            {bmTransition.heading}
-          </h3>
-
-          {/* The colour lives in each branch of the ternary. Put the neutral on
-              the base class and the amber on the last item alone and both land
-              on the element, where stylesheet order — not class order — picks
-              the winner. Index-driven, so the closing line is whichever one the
-              owner ends on rather than a hardcoded third. */}
-          <div className="mt-8 space-y-5 md:mt-10 md:space-y-6">
-            {bmTransition.paragraphs.map((paragraph, index) => (
-              <p
-                key={paragraph}
-                className={
-                  index === bmTransition.paragraphs.length - 1
-                    ? "text-center text-xl font-semibold leading-relaxed text-amber-400 text-balance sm:text-2xl"
-                    : "text-left text-lg leading-relaxed text-neutral-300 text-pretty sm:text-center sm:text-xl"
-                }
-              >
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
