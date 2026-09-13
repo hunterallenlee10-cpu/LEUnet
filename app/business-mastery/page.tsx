@@ -71,15 +71,19 @@ export default function BusinessMasteryPage() {
           and The Evolution (docs/BUSINESS-MASTERY.md §3) the sections after
           it are NOT renumbered, because the numbering has to survive the
           section coming back. */}
-      {/* Section 9, Your Journey Is Just Beginning, is not paused like 7 — it
-          has been merged into BmManifestoSection at slot 2, and
-          BmTransitionSection.tsx is deleted rather than left behind
-          (docs/BUSINESS-MASTERY.md §3). That section existed so the timeline
-          would not run straight into a sales pitch, so removing it puts that
-          join back: the closing CTA's own copy ("You can keep trying to figure
-          everything out alone…") is the bridge now, and the timeline drops to
-          neutral-950 so the two are still separated by the page's light/dark
-          alternation rather than abutting as two black sections. */}
+      {/* Section 9, Your Journey Is Just Beginning, is off the page entirely
+          (docs/BUSINESS-MASTERY.md §3). It stopped being its own section on
+          2026-09-07, when it merged into BmManifestoSection at slot 2 and
+          BmTransitionSection.tsx was deleted rather than left behind; the owner
+          asked that half back off the manifesto on 2026-09-13. `bmTransition`
+          is whole and unchanged in the data file either way.
+
+          Its removal is why the join below is what it is. That section existed
+          so the timeline would not run straight into a sales pitch: the closing
+          CTA's own copy ("You can keep trying to figure everything out alone…")
+          is the bridge now, and the timeline drops to neutral-950 so the two
+          are still separated by the page's light/dark alternation rather than
+          abutting as two black sections. */}
       <BmJourneyTimeline />
       <BmFinalCTASection />
 
