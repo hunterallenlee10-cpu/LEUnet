@@ -161,8 +161,10 @@ export const bmAudiences: BmAudience[] = [
 // do not grow the list back into a framework - three is the point. The
 // heading is the owner's phrase as well, title-cased to match every other
 // heading on the page. The one-line descriptions expand each title in the
-// same register; they are the build's copy, not the owner's, and are the
-// safest place to edit.
+// same register; "Money In" and "For Free" are the build's copy, not the
+// owner's, and are the safest place to edit. The "Speed" description is the
+// owner's own, supplied 2026-09-15, replacing the build's line — the file
+// header's rule applies to it: verbatim, not to be softened or improved.
 //
 // One of them is load-bearing. "For Free" is about what it takes to START A
 // BUSINESS - free tools and the member's own effort - and must never be
@@ -184,7 +186,7 @@ export const bmTenets: BmTenet[] = [
     number: 1,
     title: "Speed",
     description:
-      "Speed comes from people who have already done it, not from figuring everything out alone.",
+      "Forward momentum coupled with instant action is how winners stay ahead. Plan to move quickly and destroy the habit of procrastination.",
   },
   {
     id: "money-in",
