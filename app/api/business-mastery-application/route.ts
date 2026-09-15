@@ -92,7 +92,7 @@ Where They Are Right Now: ${body.stage}
 What They're Building:
 ${building}
 
-Why They Want In as a Founding Member:
+Why They Want In as a Member:
 ${why || "Not provided"}
     `.trim();
 
