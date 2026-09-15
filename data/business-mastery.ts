@@ -212,7 +212,10 @@ export const bmTenets: BmTenet[] = [
 // --- 5. What LEU Business Mastery Actually Is ------------------------------
 
 export const bmProgram = {
-  heading: "NOT a Course. A Coach.",
+  // The owner's replacement for "NOT a Course. A Coach." (2026-09-15),
+  // title-cased to match every other heading on the page, with the plural
+  // apostrophe dropped ("entrepreneur's" -> "Entrepreneurs").
+  heading: "A Network of Dedicated Entrepreneurs.",
   description:
     "Members are not simply purchasing prerecorded information. They're entering a business-development environment.",
   /**
