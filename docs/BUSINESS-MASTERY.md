@@ -102,6 +102,12 @@ includes, and a list of inclusions sitting directly under the page's one action
 needs checking against §6 before it goes back, while price and guarantee terms
 are still Phase C gates.
 
+**The clarifier came off slot 2 on 2026-09-15**, at the owner's request and on
+the same terms: `bmCoreBelief.clarifier` ("LEU Business Mastery is not about
+avoiding hard work…") is unchanged in the data file and renders nowhere. It was
+the section's last paragraph, under the proof row, so slot 2 now ends on the
+proof line.
+
 Slot 2 rather than slot 9, and the trade was real enough to record — it is
 history now that the pivot is off the page, and it is the first thing to read if
 it ever goes back. Slot 2 won because `bmProofStatement` is the page's only

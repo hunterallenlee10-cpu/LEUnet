@@ -64,6 +64,14 @@ export const bmCoreBelief = {
     "Be prepared to work harder than you've ever worked. Learn more than you've ever learned. Achieve more than you've ever achieved.",
   lead: "None of this happens without one of the greatest driving forces behind success:",
   force: "Network.",
+  /**
+   * NOTHING RENDERS THIS RIGHT NOW. The owner asked it off the page on
+   * 2026-09-15, and it is kept on the same terms as the two below: it is the
+   * owner's own confirmed copy, and taking a paragraph off a page is not the
+   * same decision as deleting the words. It was the last paragraph of
+   * BmManifestoSection, under the proof row. If it renders again, the file
+   * header's rule applies: the owner's sentence, verbatim.
+   */
   clarifier:
     "LEU Business Mastery is not about avoiding hard work. It is about making that hard work more effective by putting you around people, information, systems, and opportunities that can accelerate your progress.",
   /**
