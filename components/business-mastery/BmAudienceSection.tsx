@@ -1,4 +1,8 @@
-import { bmAudienceHeading, bmAudiences } from "@/data/business-mastery";
+import {
+  bmAudienceHeading,
+  bmAudienceSubheading,
+  bmAudiences,
+} from "@/data/business-mastery";
 
 /** Section 3 — the four kinds of people the program is built for.
  *
@@ -14,7 +18,8 @@ export function BmAudienceSection() {
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
             Who This Is For
           </p>
-          <h2 className="heading-lg text-white">{bmAudienceHeading}</h2>
+          <h2 className="heading-lg mb-4 text-white">{bmAudienceHeading}</h2>
+          <p className="text-lg text-neutral-400">{bmAudienceSubheading}</p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

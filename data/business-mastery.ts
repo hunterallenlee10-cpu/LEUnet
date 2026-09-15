@@ -126,6 +126,11 @@ export const bmProofPoints = [
 
 export const bmAudienceHeading = "Built for People Who Know They Want More.";
 
+/** The line under the heading above, chosen by the owner on 2026-09-15. The
+ * file header's rule applies: the owner's sentence, verbatim. */
+export const bmAudienceSubheading =
+  "Because traffic, cubicle, sleep, repeat was never the dream.";
+
 export const bmAudiences: BmAudience[] = [
   {
     id: "aspiring",
