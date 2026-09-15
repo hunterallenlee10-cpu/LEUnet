@@ -356,7 +356,7 @@ export const bmJourney = {
    * owner's sentence, supplied 2026-09-15 — the file header's rule applies:
    * verbatim, not to be softened or improved. It replaced a line derived
    * from `bmChapters` (count, first title, last title). */
-  lockedTease: "The Chapters of life that lead to Lee Enterprises Unlimited",
+  lockedTease: "The Chapters of life that led to Lee Enterprises Unlimited",
   /** The line beside the locked placeholder's Coming Soon badge
    * (BmJourneyLocked, while BM_JOURNEY_LOCKED is true). Build copy, safe to
    * edit. */
