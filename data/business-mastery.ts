@@ -352,6 +352,11 @@ export const bmJourney = {
     "The full story behind each chapter is being written and will be added here.",
   /** The one-line body every chapter slide carries until its story exists. */
   chapterNote: "This chapter's story is being written.",
+  /** The tease line on the locked placeholder, under the section title. The
+   * owner's sentence, supplied 2026-09-15 — the file header's rule applies:
+   * verbatim, not to be softened or improved. It replaced a line derived
+   * from `bmChapters` (count, first title, last title). */
+  lockedTease: "The Chapters of life that lead to Lee Enterprises Unlimited",
   /** The line beside the locked placeholder's Coming Soon badge
    * (BmJourneyLocked, while BM_JOURNEY_LOCKED is true). Build copy, safe to
    * edit. */

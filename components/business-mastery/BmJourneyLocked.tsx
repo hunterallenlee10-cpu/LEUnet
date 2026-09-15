@@ -1,4 +1,4 @@
-import { bmChapters, bmJourney } from "@/data/business-mastery";
+import { bmJourney } from "@/data/business-mastery";
 import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
 
 /**
@@ -18,10 +18,10 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
  * (see the join note in page.tsx), which is why locking the section never
  * touches BmFinalCTASection.
  *
- * The tease line is derived from `bmChapters` — count, first title, last
- * title — rather than written out, so it cannot drift from the data when
- * chapter titles get settled (docs/BUSINESS-MASTERY.md §7 records that the
- * names are still the owner's working list).
+ * The tease line is the owner's sentence (`bmJourney.lockedTease`, 2026-09-15).
+ * It replaced a line derived from `bmChapters` (count, first title, last
+ * title), so unlike that one it no longer tracks the chapter data — if the
+ * chapter list changes shape, this line doesn't notice.
  *
  * The marker is the page's shared BmComingSoon, at the owner's request
  * (2026-09-13) — the badge briefly read "Locked Until Complete" behind a
@@ -33,9 +33,6 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
  * intro slide once the timeline opens).
  */
 export function BmJourneyLocked() {
-  const first = bmChapters[0];
-  const last = bmChapters[bmChapters.length - 1];
-
   return (
     <section className="relative overflow-hidden bg-neutral-950 py-20 md:py-28">
       <div className="absolute inset-0" aria-hidden="true">
@@ -55,7 +52,7 @@ export function BmJourneyLocked() {
         </p>
 
         <p className="mt-6 text-xs font-semibold uppercase tracking-[0.35em] text-neutral-500 sm:text-sm">
-          {bmChapters.length} Chapters · {first.title} → {last.title}
+          {bmJourney.lockedTease}
         </p>
 
         <div className="mt-10">
