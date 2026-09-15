@@ -124,7 +124,7 @@ export function BmApplicationForm() {
           Application Received
         </h3>
         <p className="mb-6 text-neutral-300">
-          Thank you for applying to become a founding member. We&apos;ll review
+          Thank you for applying to become a member. We&apos;ll review
           your application and reach out personally to talk through the next
           step.
         </p>
@@ -279,7 +279,7 @@ export function BmApplicationForm() {
 
       <div className="mt-5">
         <label htmlFor="why" className={labelClass}>
-          Why Do You Want In as a Founding Member?
+          Why Do You Want In as a Member?
         </label>
         <textarea
           id="why"

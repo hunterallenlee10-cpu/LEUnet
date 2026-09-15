@@ -14,7 +14,7 @@ import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
 
 const title = "LEU Business Mastery | Speedrun Your Way to Success";
 const description =
-  "A business-development network for entrepreneurs at every stage: subject-specific classes, live webinars, daily calls, personal coaching, hands-on help, and a private professional network. Founding member spots are limited.";
+  "A business-development network for entrepreneurs at every stage: subject-specific classes, live webinars, daily calls, personal coaching, hands-on help, and a private professional network. Member spots are limited.";
 
 export const metadata: Metadata = {
   title,
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "start a business",
     "young entrepreneurs",
     "business community",
-    "founding member",
+    "member",
   ],
   alternates: {
     canonical: "/business-mastery",
