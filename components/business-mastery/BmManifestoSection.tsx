@@ -18,6 +18,15 @@ import {
  * and renders nowhere now. Taking a block off a page is not the same decision
  * as deleting the words.
  *
+ * THE CLARIFIER IS OUT, at the owner's request (2026-09-15), on the same
+ * terms: `bmCoreBelief.clarifier` ("LEU Business Mastery is not about avoiding
+ * hard work…") is untouched in the data file and renders nowhere now. It was
+ * the section's last paragraph, so the proof row is the foot of the section
+ * and the argument ends on the record rather than a caveat. It takes with it
+ * the merge's one fix to how the section is set rather than spaced — the
+ * clarifier was left-aligned below `sm` because it ran seven lines at 320px,
+ * and nothing left in the section runs long enough to need that.
+ *
  * THE GOLD SEAM RULE WENT WITH IT, and has to come back with it. It existed to
  * divide the two halves and nothing else, so left behind it would be a hairline
  * under the last paragraph dividing the section from its own bottom padding.
@@ -56,8 +65,8 @@ import {
  * rule and the interval around it. That is deliberate and it is enough at this
  * length, but if the section ever reads flat again, this is the thing that was
  * removed, and reinstating it is the block that used to sit between the
- * clarifier and the gold seam rule, which is to say at the foot of the section
- * as it now stands. `bmCoreBelief.philosophyTitle` and
+ * clarifier and the gold seam rule — both also off the page now, so its slot
+ * is under the proof row. `bmCoreBelief.philosophyTitle` and
  * `bmCoreBelief.philosophy` are untouched in the data file and now render
  * nowhere — see the note on them there.
  *
@@ -232,17 +241,6 @@ export function BmManifestoSection() {
             ))}
           </dl>
         </div>
-
-        {/* Left-aligned on a phone, centred from `sm` up. Centred text has a
-            ragged left edge as well as a ragged right one, which costs nothing
-            over two or three lines and a great deal over seven — and seven is
-            what this paragraph becomes at 320px. From `sm` the measure is short
-            enough that the centre axis is back to being free. This is the one
-            readability fix in the merge that changes how the section is set
-            rather than how it is spaced. */}
-        <p className="mx-auto mt-10 max-w-2xl text-left text-lg leading-relaxed text-neutral-300 text-pretty sm:text-center md:mt-12">
-          {bmCoreBelief.clarifier}
-        </p>
 
       </div>
     </section>
