@@ -7,12 +7,12 @@ import { companyInfo } from "@/data/company";
 import { sectionIds } from "@/data/navigation";
 
 export const metadata = {
-  title: `Sponsors | ${companyInfo.name}`,
+  title: `Partners | ${companyInfo.name}`,
   description:
-    "The sponsors backing the Lee Enterprises Unlimited portfolio — to be listed soon.",
+    "The partners backing the Lee Enterprises Unlimited portfolio — to be listed soon.",
 };
 
-export default function SponsorsPage() {
+export default function PartnersPage() {
   return (
     <main className="relative w-full overflow-hidden bg-neutral-950">
       <MainHeader />
@@ -32,13 +32,13 @@ export default function SponsorsPage() {
       <section className="relative mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-6xl flex-col px-6 pt-32 pb-24 sm:pt-40">
         <header className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center rounded-full border border-amber-300/25 bg-amber-300/[0.07] px-3.5 py-1.5 text-xs font-medium tracking-wide text-amber-200/90 uppercase">
-            Sponsors
+            Partners
           </span>
 
           <h1 className="mt-6 text-4xl leading-[1.1] font-semibold tracking-tight text-white sm:text-5xl">
             Our{" "}
             <span className="bg-gradient-to-r from-amber-200 via-amber-300 to-amber-500 bg-clip-text text-transparent">
-              Sponsors
+              Partners
             </span>
           </h1>
 
@@ -61,17 +61,17 @@ export default function SponsorsPage() {
           </span>
 
           <h2 className="mt-6 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            Sponsors to be listed soon
+            Partners to be listed soon
           </h2>
 
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-neutral-400">
-            We&apos;re putting together our first sponsor lineup. Check back
+            We&apos;re putting together our first partner lineup. Check back
             soon to see the people and businesses backing our work.
           </p>
 
           <div className="mt-8 border-t border-white/10 pt-8">
             <p className="text-xs font-semibold tracking-[0.18em] text-neutral-500 uppercase">
-              Interested in sponsoring?
+              Interested in partnering?
             </p>
 
             <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
