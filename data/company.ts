@@ -5,12 +5,12 @@ export const companyInfo = {
     "Lee Enterprises Unlimited is a holding company dedicated to building and scaling exceptional ventures across marketing and apparel. Each venture is designed to deliver premium value and results.",
   heroTitle: "Lee Enterprises Unlimited",
   /**
-   * Renders in three places, not just the homepage hero: the /sponsors and
+   * Renders in three places, not just the homepage hero: the /partners and
    * /support pages both use it as the strapline under their H1.
    */
   heroSubtitle: "Unlimited Opportunity. Unified Excellence.",
   /**
-   * Homepage hero only - unlike `heroSubtitle` above, /sponsors and /support
+   * Homepage hero only - unlike `heroSubtitle` above, /partners and /support
    * take that line without this one, so this can address a visitor who has
    * not yet said what they need.
    */

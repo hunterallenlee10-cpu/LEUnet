@@ -200,7 +200,7 @@ export function MainHeader() {
             `xl`, not `lg`. Flattening the Ventures tab put six entries in this
             bar instead of five, two of them long ("Marketing Mastery",
             "Thread T-Shirts"), and the row also carries the logo plus the
-            Support Us / Get Started / Sponsors cluster. Measured in the browser
+            Support Us / Get Started / Partners cluster. Measured in the browser
             at the Geist face this ships, back when that first label still read
             "Lee Marketing Mastery": the six items needed ~720px against the
             555px left over at 1024px, and they did not fit at any label length
@@ -343,10 +343,10 @@ export function MainHeader() {
           {/* Outlined rather than filled, so Get Started stays the one
               primary CTA. A real route, like Support Us above. */}
           <Link
-            href="/sponsors"
+            href="/partners"
             className="px-6 py-2 rounded-lg font-semibold border border-amber-400/40 text-amber-300 hover:border-amber-300 hover:text-amber-200 transition-colors whitespace-nowrap"
           >
-            Sponsors
+            Partners
           </Link>
         </div>
 
@@ -471,14 +471,14 @@ export function MainHeader() {
               Get Started
             </button>
 
-            {/* Sponsors sits after Get Started here too, mirroring the
+            {/* Partners sits after Get Started here too, mirroring the
                 desktop order, in the same outlined-secondary treatment. */}
             <Link
-              href="/sponsors"
+              href="/partners"
               onClick={() => setMobileMenuOpen(false)}
               className="block w-full mt-2 px-4 py-3 text-center border border-amber-400/40 text-amber-300 rounded-lg font-semibold hover:border-amber-300 hover:text-amber-200 transition-colors"
             >
-              Sponsors
+              Partners
             </Link>
           </nav>
         </div>

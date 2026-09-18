@@ -68,6 +68,15 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // The sponsors page was renamed to /partners on 2026-09-18, wording and
+      // all. Same-origin rename with no plan to bring /sponsors back, so a
+      // permanent 308 is safe here in a way the H1 redirects below explain it
+      // is not for a host that might still change.
+      {
+        source: "/sponsors",
+        destination: "/partners",
+        permanent: true,
+      },
       // H1 Performance moved to its own site on 2026-09-01 and came off this
       // site entirely on 2026-09-03 (docs/H1.md, config/h1-site.mjs). These
       // redirects outlive the listing on purpose: /h1-performance was a real
