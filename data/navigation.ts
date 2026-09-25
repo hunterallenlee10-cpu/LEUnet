@@ -1,4 +1,5 @@
 import { NavItem } from "@/types";
+import { THREAD_SITE_URL } from "@/lib/thread-site";
 
 // Business Mastery is LEU's flagship program rather than one of the two
 // ventures, which is why its route lives here rather than in `venturePages`.
@@ -8,16 +9,21 @@ export const businessMasteryPage = "/business-mastery";
 // missing from this map has no page of its own and falls back to its homepage
 // section anchor, which is why lookups are optional everywhere it's used.
 //
-// Both ventures have a page, and both are routes on this domain. H1 Performance
-// held the one absolute entry here while it was still listed as a venture; it
-// is off this site entirely now, and docs/H1.md records what that left behind.
+// Both ventures have a page. Lee Marketing Mastery's is a route on this domain;
+// Thread T-Shirts' is its own site since 2026-09-25 (docs/THREAD.md), so its
+// entry is an absolute URL, read from the one shared constant every link to
+// Thread uses. H1 Performance held an absolute entry here the same way while
+// it was still listed as a venture; it is off this site entirely now, and
+// docs/H1.md records what that left behind.
 //
-// MainFooter reads this to route its "Our Ventures" rows. The header no longer
-// does: since the Ventures menu was flattened (see `navigationItems` below) the
-// two ventures are top-level entries that name their own hrefs.
+// MainFooter reads this map for its "Our Ventures" rows and renders each as a
+// Link, which handles an external href. The two venture entries in
+// `navigationItems` below take their hrefs from it too, and MainHeader's
+// handleNavClick navigates to anything that is not a `#` anchor, so Thread's
+// absolute URL is a full navigation there rather than a scroll.
 export const venturePages: Record<string, string> = {
   lmm: "/lee-marketing-mastery",
-  thread: "/thread-t-shirts",
+  thread: THREAD_SITE_URL,
 };
 
 // The nav is flat: every destination is one top-level entry, and an entry with

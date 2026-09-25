@@ -93,12 +93,14 @@ export function WebsitesHeroSection() {
               {/* Wording chosen so it stays true no matter how the Work section
                   is titled. "See Live Sites We've Built" implied five separate
                   websites for five separate businesses; the portfolio is three
-                  entries, all routes on this domain, two of which are the page
-                  the visitor is reading. (It was four until H1 Performance came
-                  off this site - docs/H1.md - which is exactly the kind of
-                  change this wording was written to survive.) Pointing at live
-                  work makes the same promise - you can open it right now -
-                  without counting sites we do not have. */}
+                  entries - two routes on this domain, both of them the page the
+                  visitor is reading, and Thread T-Shirts on its own site. (It
+                  was four until H1 Performance came off this site - docs/H1.md -
+                  and all three were routes here until Thread moved out -
+                  docs/THREAD.md - which is exactly the kind of change this
+                  wording was written to survive.) Pointing at live work makes
+                  the same promise - you can open it right now - without
+                  counting sites we do not have. */}
               <button
                 onClick={() => smoothScrollToElement("website-work")}
                 className="btn-secondary inline-flex items-center justify-center gap-2"

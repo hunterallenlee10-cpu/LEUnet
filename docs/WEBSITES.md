@@ -30,7 +30,7 @@ what §3 forbids was on the page at some point and had to be taken back off.
 | Promise | One outcome: the finished site turns a visitor into a customer |
 | Offer | New builds, redesigns, "Never Miss a Lead", optional care plans |
 | Prices | **Hidden.** Every CTA routes to the quote form |
-| Proof | LEU's own live sites, linked: three routes on this domain. No client work claimed |
+| Proof | LEU's own live sites, linked: two routes on this domain plus Thread T-Shirts on its own site. No client work claimed |
 | Testimonials | **None.** Not a single fabricated quote - see §3 |
 | Lead capture | Own API route, own subject line |
 | Contact | `ceo@leeenterprisesunlimited.com`, same as every other form |
@@ -61,8 +61,9 @@ figure invites the wrong conversation before scope is known.
 from - page count, whether content exists, required functionality, and
 post-launch care - so a visitor can self-qualify without a number.
 
-This matches the Thread precedent (`docs/THREAD.md` §1), where prices are hidden
-because they were not settled.
+This matches the Thread precedent (`docs/THREAD.md` in the Thread repo), where
+prices stayed hidden until they were settled - `priceCents: null` still renders
+"Price coming soon" for any piece without one.
 
 ### One offering, one name, three places
 
@@ -97,7 +98,7 @@ read as anything but a price list.
 | 3 | The shift | `WebsitesShiftSection` | Why the old site stopped working |
 | 4 | Problem | `WebsitesProblemSection` | A site that sits there vs one that sells |
 | 5 | What we build | `WebsitesServicesSection` | All four offerings, expandable |
-| 6 | Proof | `WebsitesWorkSection` | Three live sites, each clickable, all routes on this domain |
+| 6 | Proof | `WebsitesWorkSection` | Three live sites, each clickable: two routes on this domain, one on its own |
 | 7 | Process | `WebsitesProcessSection` | Six steps, no surprises |
 | 8 | Pricing | `WebsitesPricingSection` | What a quote is built from |
 | 9 | Quote form | `WebsitesInquiryCTA` + `WebsitesInquiryForm` | The conversion |
@@ -178,7 +179,7 @@ answers. What the codebase actually does:
 | Claimable | Because |
 | --- | --- |
 | How many people arrive, and which pages they land on | `Analytics` from `@vercel/analytics/next` is mounted in `app/layout.tsx` in production. It reports pageviews and landing pages. |
-| Every enquiry is emailed the moment it is sent, labeled by which form sent it | Every route in `app/api/` builds a subject line naming the form and the business before sending - `website-inquiry`, `thread-order`, `lmm-consultation`, `marketing-inquiry`, `business-mastery-application`. |
+| Every enquiry is emailed the moment it is sent, labeled by which form sent it | Every route in `app/api/` builds a subject line naming the form and the business before sending - `website-inquiry`, `lmm-consultation`, `marketing-inquiry`, `business-mastery-application`. (Thread's `thread-order` works the same way, from its own site since 2026-09-25.) |
 
 **Not claimable, in any wording:**
 
@@ -243,29 +244,35 @@ and the page says so plainly rather than hedging.
 
 What `websitePortfolio` actually is, and what the copy must keep saying:
 
-- **Three entries, all live and clickable right now**: `/thread-t-shirts`,
-  `/lee-marketing-mastery`, `/`. It was four until H1 Performance came off this
-  site on 2026-09-03 - `docs/H1.md` §4 records every count that moved with it.
+- **Three entries, all live and clickable right now**: Thread T-Shirts on its
+  own site (`THREAD_SITE_URL`), `/lee-marketing-mastery`, and `/`. It was four
+  until H1 Performance came off this site on 2026-09-03 - `docs/H1.md` §4
+  records every count that moved with it - and Thread's entry was the route
+  `/thread-t-shirts` until the page moved to its own site on 2026-09-25
+  (`docs/THREAD.md`).
 - **They are Lee Enterprises Unlimited's own ventures, not client work.** This
   caveat stays in the first sentence of the Work section lead, unsoftened. It is
   not a weakness to apologize for: a prospect can open these and use them, which
   a testimonial does not allow.
-- **All three are routes on this one domain and deployment**, two of them the
-  site the visitor is currently reading. A heading reading "Five Sites You Can
-  Open Right Now", and a hero CTA reading "See Live Sites We've Built", implied
-  five separate websites for five separate businesses - a bigger claim than the
-  truth, and checkable in one click, which is the worst possible combination.
-  The section heading reads "Every Site on This Domain Was Built...", the
-  eyebrow "Three Live Sites, All Ours", and the lead paragraph states outright
-  that all three run here and two of them are the page being read. "On This
-  Domain" came out for the two days H1 Performance was listed on its own domain,
-  because it then excluded an entry the list showed; it is true again and it is
-  the phrase that keeps "three sites" from reading as three separate builds for
-  three separate clients. If an entry ever moves off this domain again, that
-  qualifier comes out with it. The hero's secondary CTA reads "See the Live
-  Work" so it stays true regardless of how the section is titled.
+- **Two are routes on this one domain and deployment, and both are the site the
+  visitor is currently reading; the third, Thread T-Shirts, runs as its own
+  site.** A heading reading "Five Sites You Can Open Right Now", and a hero CTA
+  reading "See Live Sites We've Built", implied five separate websites for five
+  separate businesses - a bigger claim than the truth, and checkable in one
+  click, which is the worst possible combination. The section heading reads
+  "Every Site We Run Was Built...", the eyebrow "Three Live Sites, All Ours",
+  and the lead paragraph states outright that two of the three run here, both
+  of them the page being read, and that Thread runs as its own site from its
+  own codebase. The heading said "Every Site on This Domain" while every entry
+  was a route here - the phrase that keeps "three sites" from reading as three
+  separate builds for three separate clients - and it has come out twice when
+  that stopped being true: for the two days H1 Performance was listed on its
+  own domain, and since Thread moved to its own site. If every entry is ever a
+  route here again, it can come back. The hero's secondary CTA reads "See the
+  Live Work" so it stays true regardless of how the section is titled.
 - **Thread T-Shirts really does have a working catalog, cart and order-request
-  flow**, backed by `app/api/thread-order/route.ts`. That claim is accurate.
+  flow**, backed by `app/api/thread-order/route.ts` in the Thread repo. That
+  claim is accurate.
 - **The Lee Enterprises Unlimited entry does not route its contact form.**
   `app/api/contact/route.ts` sends every submission to a single
   `CONTACT_TO_EMAIL` recipient and varies only the subject line by the venture

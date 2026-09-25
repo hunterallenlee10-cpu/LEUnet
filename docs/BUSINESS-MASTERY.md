@@ -181,9 +181,10 @@ as slot 7's hole.
 
 ## 4. Files
 
-Follows the venture-page architecture exactly (see `docs/THREAD.md` here, or
-`docs/H1.md` in the H1 Performance repo, for the precedent; the H1 page that
-set it has since moved to its own repo - see this repo's `docs/H1.md`).
+Follows the venture-page architecture exactly (see `docs/THREAD.md` in the
+Thread repo, or `docs/H1.md` in the H1 Performance repo, for the precedent;
+both pages that set it have since moved to their own repos - see this repo's
+`docs/THREAD.md` and `docs/H1.md`).
 
 | File | Contents |
 | --- | --- |
@@ -202,7 +203,7 @@ set it has since moved to its own repo - see this repo's `docs/H1.md`).
 | `components/business-mastery/BmFinalCTASection.tsx` | 10 |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
 | `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |
-| `app/api/business-mastery-application/route.ts` | Application form handler, same Resend pattern as `app/api/thread-order/route.ts` and the other venture forms |
+| `app/api/business-mastery-application/route.ts` | Application form handler, same Resend pattern as the other venture forms (Thread's `app/api/thread-order/route.ts` now lives in the Thread repo) |
 | `components/sections/BusinessMasterySection.tsx` | Homepage teaser (§8) |
 
 ### Edits outside the new page
@@ -225,9 +226,9 @@ Easy to move later if the header gets crowded.
 
 ## 5. The application form
 
-Same skeleton as the other venture forms (Thread's order request, the LMM
-consultations; the H1 consultation form it was modelled on now lives in the H1
-repo): honeypot field, server-side validation, per-field errors, Resend
+Same skeleton as the other venture forms (the LMM consultations; Thread's
+order request and the H1 consultation form it was modelled on now live in their
+own repos): honeypot field, server-side validation, per-field errors, Resend
 delivery, own subject line so a Business Mastery application is
 distinguishable in the inbox.
 

@@ -26,11 +26,30 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ## Payments
 
-Stripe Payments and Invoicing are wired up for both ventures on this site, and
-invoices can still be tagged `h1` for H1 Performance, which is invoiced from
-here even though it is no longer on this site ([docs/H1.md](docs/H1.md)). See
-[docs/STRIPE.md](docs/STRIPE.md) for setup, environment variables, and the
-go-live checklist.
+Stripe Payments and Invoicing are wired up here for both ventures this site
+lists, including Thread T-Shirts, whose own site takes no payment
+([docs/THREAD.md](docs/THREAD.md)). Invoices can still be tagged `h1` for H1
+Performance, which is invoiced from here even though it is no longer on this
+site ([docs/H1.md](docs/H1.md)). See [docs/STRIPE.md](docs/STRIPE.md) for
+setup, environment variables, and the go-live checklist.
+
+## Thread T-Shirts
+
+Thread T-Shirts runs from its own repo and website:
+[hunterallenlee10-cpu/TREAD](https://github.com/hunterallenlee10-cpu/TREAD).
+Unlike H1 Performance it is still one of this site's two ventures, so the nav,
+footer, websites portfolio and marketing page link to it, and `/thread-t-shirts`
+and the old `/thread/*` image paths redirect there instead of 404ing.
+
+All of that reads one value. Set `NEXT_PUBLIC_THREAD_SITE_URL` to the Thread
+site's origin in the Vercel environment (Production and Preview, no trailing
+slash), or attach `thread.leeenterprisesunlimited.com` to the Thread project —
+that subdomain is the fallback while the variable is unset. Do one of them
+before deploying the change that removed the page, and confirm the target
+answers first: the redirect becomes a permanent 308 once the variable is set,
+and a 308 is cached indefinitely.
+
+See [docs/THREAD.md](docs/THREAD.md) for what moved, what stayed, and why.
 
 ## H1 Performance
 
