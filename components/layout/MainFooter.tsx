@@ -132,7 +132,7 @@ export function MainFooter() {
                   links to is titled "LEU Business Mastery" (`bmHero.title`)
                   and the nav says "Business Mastery", so this row is
                   deliberately the odd one out rather than a typo to correct.
-                  It reads as a sibling of "Lee Marketing Mastery" above it. */}
+                  It reads as a sibling of "Lee Systems Co." above it. */}
               <li>
                 <Link
                   href={businessMasteryPage}

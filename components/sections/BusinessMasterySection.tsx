@@ -48,7 +48,7 @@ export function BusinessMasterySection() {
       />
 
       <div className="section-container relative z-[2] text-center">
-        {/* `.venture-masthead` — shared with the Lee Marketing Mastery teaser
+        {/* `.venture-masthead` — shared with the Lee Systems Co. teaser
             below, and it has to stay shared: the two doorways are deliberately
             the same shape, so the names may differ in wording and in nothing
             else. See the block in app/globals.css. */}

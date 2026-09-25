@@ -112,7 +112,7 @@ export const bmProofStatement =
  *
  * The file header's rule therefore governs both, and the three copies of this
  * claim cannot be allowed to drift: if the owner changes a figure, change it
- * in `bmProofStatement`, here, and in `lmmHomeTeaser.manifesto` (data/lmm.ts,
+ * in `bmProofStatement`, here, and in `leeSystemsHomeTeaser.manifesto` (data/lee-systems.ts,
  * which recasts the same sentence as the homepage headline) in the same edit,
  * or the site states two different track records at once.
  */

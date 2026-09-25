@@ -26,12 +26,24 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ## Payments
 
-Stripe Payments and Invoicing are wired up for Lee Marketing Mastery, the one
-venture on this site, and invoices can still be tagged `h1` for H1 Performance
-and `thread` for Thread T-Shirts, which are invoiced from here even though
-neither is on this site any more ([docs/H1.md](docs/H1.md),
+Stripe Payments and Invoicing are wired up for Lee Systems Co. (formerly Lee
+Marketing Mastery, still tagged `lmm`), the one venture on this site, and
+invoices can still be tagged `h1` for H1 Performance and `thread` for Thread
+T-Shirts, which are invoiced from here even though neither is on this site
+any more ([docs/H1.md](docs/H1.md),
 [docs/THREAD.md](docs/THREAD.md)). See [docs/STRIPE.md](docs/STRIPE.md) for
 setup, environment variables, and the go-live checklist.
+
+## Lee Systems Co.
+
+Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It lives at
+`/lee-systems` (main page), `/lee-systems/automation` and
+`/lee-systems/websites`, and every old `/lee-marketing-mastery/*` URL
+301-redirects to its new equivalent. Shared copy and brand details are in
+`data/lee-systems.ts`.
+
+See [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) for the page structure and
+**the list of placeholders still to fill in**.
 
 ## Thread T-Shirts
 
@@ -57,8 +69,8 @@ See [docs/THREAD.md](docs/THREAD.md) for what left, what stayed, and why.
 H1 Performance runs from its own repo and website:
 [hunterallenlee10-cpu/h1-performance](https://github.com/hunterallenlee10-cpu/h1-performance).
 It is no longer one of the ventures this site lists — nothing here names it or
-links to it. Lee Enterprises Unlimited lists one venture now, Lee Marketing
-Mastery, alongside its flagship program, LEU Business Mastery.
+links to it. Lee Enterprises Unlimited lists one venture now, Lee Systems Co.,
+alongside its flagship program, LEU Business Mastery.
 
 What remains is the redirect: `/h1-performance` and `/h1/*` forward to the H1
 site so the URLs that page used to answer on keep their inbound links and

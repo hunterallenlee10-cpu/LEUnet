@@ -11,50 +11,39 @@
  * promote it into a step title, the section heading, or anywhere earlier on the
  * page, and do not attach a duration to it: see the note on that paragraph.
  */
-import { LmmMark } from "@/components/lmm/LmmMark";
+import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
+import { PlaceholderBox } from "@/components/lee-systems/PlaceholderBox";
 
 const steps = [
   {
-    title: "Consultation",
+    title: "Quote",
     detail:
-      "A short conversation about what you sell, who buys it, and the one thing you want a visitor to do. Everything after this points at that action, so it is worth being specific here.",
+      "A short conversation about what you sell, who buys it, and what you want a visitor to do. You get a free quote and a timeline.",
   },
   {
-    title: "Structure and Content",
+    title: "Structure and Copy",
     detail:
-      "We map a page for each offer you actually want to sell, then draft the copy and produce the imagery for each one. The copy leads with the result the customer came for, not a description of the company.",
+      "We map a page for each service you want to sell and draft the copy for your review. If you have photos, branding or copy worth keeping, we keep them.",
   },
   {
-    // This step used to sell the contrast between a working site and a static
-    // mockup, which is a statement about how the work gets made rather than
-    // about what the owner gets from it. What he actually gets is a decision he
-    // can make on the device his customers use, before it is expensive to
-    // change. That is the line worth keeping.
-    title: "Design and Build",
+    title: "Full Build",
     detail:
-      "Layout options are produced for you to choose from, then the approved direction is built into a working site - so what you sign off on is something you have actually used on your own phone. Every screen ends in one obvious next step.",
+      "We build the complete, working site. Not a mockup: the real thing, on a private link you can open on your own phone.",
   },
   {
     title: "Review and Revisions",
     detail:
-      "You use the real site the way a customer will - open it cold on your phone, find your own service, send the form. Anything confusing at that stage would have cost you calls, so it gets fixed before anyone else sees it.",
+      "You use it the way a customer would and tell us what to change. We revise until it is right.",
   },
   {
-    // Scoped to exactly what the stack does. Vercel Analytics, wired up in
-    // app/layout.tsx, reports arrivals and landing pages; the API routes email
-    // every submission the moment it is sent, with a subject line naming the
-    // form. This step used to promise the owner could see "which pages produce
-    // calls and form fills" - there is no form-fill event tracking and no call
-    // tracking anywhere in this repo, so that was attribution we cannot
-    // deliver. If either is ever built, this is the step that gets to grow.
+    title: "Approve and Pay",
+    detail:
+      "Only once you have seen the finished site and approved it do you pay. If you decide not to go ahead, you owe nothing.",
+  },
+  {
     title: "Launch",
     detail:
-      "Domain, hosting, forms, and analytics are connected and tested together. From the first day you can see how many people arrive and which pages they land on, and every form emails you the moment someone sends it. Nothing goes live until you approve it.",
-  },
-  {
-    title: "After Launch",
-    detail:
-      "You take it from here, or a care plan keeps the site updated, backed up, and monitored. Pages get added as you add services or run a campaign. Either way, the site is yours.",
+      "Domain, forms and analytics are connected and tested, then the site goes live. You own it. An optional care plan keeps it updated afterwards.",
   },
 ];
 
@@ -63,20 +52,18 @@ export function WebsitesProcessSection() {
     <section className="py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          {/* Matches the eyebrow treatment on the automation and marketing
-              process sections - the three pages are one venture and their
-              equivalent sections should be recognisable as such. */}
-          <p className="mb-3 flex items-center justify-center gap-2.5 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            <LmmMark />
+          {/* Matches the eyebrow treatment on the automation page's process
+              section - the two pages are one brand and their equivalent
+              sections should be recognisable as such. */}
+          <p className="mb-3 flex items-center justify-center gap-2.5 text-sm font-semibold uppercase tracking-widest text-brass-300">
+            <LeeSystemsMark />
             The Process
           </p>
           <h2 className="heading-lg mb-6 text-white">
-            You Always Know What Happens Next.
+            You see the finished site before you pay
           </h2>
           <p className="text-lg leading-relaxed text-neutral-300">
-            Six steps from the first conversation to a launched site. Each one is
-            aimed at the same thing - a visitor who arrives and then acts.
-            Nothing is published without your approval.
+            Six steps from the first conversation to a launched site. Payment comes at step five, after the site is built and you have approved it.
           </p>
         </div>
 
@@ -84,11 +71,11 @@ export function WebsitesProcessSection() {
           {steps.map(({ title, detail }, i) => (
             <li
               key={title}
-              className="rounded-xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm transition-colors duration-300 hover:border-amber-400/40"
+              className="rounded-xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm transition-colors duration-300 hover:border-brass-400/40"
             >
               <span
                 aria-hidden="true"
-                className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg border border-amber-400/30 bg-amber-400/10 font-mono text-sm font-semibold text-amber-400"
+                className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg border border-brass-400/30 bg-brass-400/10 font-mono text-sm font-semibold text-brass-300"
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
@@ -100,22 +87,9 @@ export function WebsitesProcessSection() {
           ))}
         </ol>
 
-        {/* The only place on the page where timeline is mentioned, and it is
-            framed as what a stalled project costs the owner rather than as a
-            claim about how fast we work. This paragraph used to open with "most
-            builds are measured in weeks, not months", which is a typical
-            duration derived from a track record that does not exist yet - no
-            client build has been completed. The cost of a project that drags is
-            real and reasonable to state without it, so the point survives and
-            the number does not. Do not add a range here until there are enough
-            finished builds to average one; docs/WEBSITES.md section 7 and the
-            "how long does a build take" FAQ both make the same call. */}
-        <p className="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-neutral-500">
-          While a build drags on, the visitors you are paying to reach are
-          landing on the old site and deciding without you. That is the real cost
-          of a project that stalls, and it is why the timeline gets scoped with
-          you at the consultation instead of left open.
-        </p>
+        <PlaceholderBox label="Typical build time" className="mx-auto mt-10 max-w-2xl">
+          Add a typical range once a few client builds are finished, e.g. &ldquo;Most sites take 2&ndash;4 weeks.&rdquo; Until then, every quote includes its own timeline.
+        </PlaceholderBox>
       </div>
     </section>
   );

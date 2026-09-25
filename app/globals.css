@@ -441,6 +441,18 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+
+  /* Lee Systems Co. accent. 400 is the brand colour (#D4A857); on the site's
+     near-black it measures about 8.7:1, and near-black text on a brass-400
+     button clears WCAG AA with room to spare. The Lee Systems pages use this
+     scale where the rest of the site uses amber, so the venture reads as its
+     own brand without leaving the house palette. */
+  --color-brass-200: #ebd3a0;
+  --color-brass-300: #e0be78;
+  --color-brass-400: #d4a857;
+  --color-brass-500: #b98d3e;
+  --color-brass-600: #96702f;
+  --color-brass-950: #2a1f0c;
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -636,6 +648,16 @@
 
   .btn-secondary {
     @apply px-6 py-3 border-2 border-amber-400 text-amber-400 font-semibold rounded-lg hover:bg-amber-400/10 transition-all duration-200;
+  }
+
+  /* Lee Systems Co. buttons: the same shapes as the two above in brass, and
+     without the scale-on-hover, which is louder than the brand's calm tone. */
+  .btn-ls-primary {
+    @apply px-6 py-3 bg-brass-400 text-neutral-950 font-semibold rounded-lg hover:bg-brass-300 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
+  }
+
+  .btn-ls-secondary {
+    @apply px-6 py-3 border-2 border-brass-400 text-brass-300 font-semibold rounded-lg hover:bg-brass-400/10 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
   }
 
   .btn-tertiary {
@@ -877,12 +899,12 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Marketing Mastery - automation flow visual
+   Lee Systems Co. - automation flow visual
    Motion is decorative only: every animation below is disabled under
    prefers-reduced-motion, leaving the diagram fully legible and static.
 --------------------------------------------------------------------------- */
 
-@keyframes lmmFlowDot {
+@keyframes lsFlowDot {
   0% {
     offset-distance: 0%;
     opacity: 0;
@@ -897,13 +919,13 @@
   }
 }
 
-@keyframes lmmDash {
+@keyframes lsDash {
   to {
     stroke-dashoffset: -24;
   }
 }
 
-@keyframes lmmPulse {
+@keyframes lsPulse {
   0%,
   100% {
     opacity: 0.35;
@@ -951,7 +973,7 @@
    is the parent's height, which is content-driven and not known here; it is one
    6px element, so animating a layout property is cheaper than a magic pixel
    value that would go stale. */
-@keyframes lmmScanDot {
+@keyframes lsScanDot {
   0% {
     top: 0%;
     opacity: 0;
@@ -973,266 +995,87 @@
 }
 
 /* The numbered badge fills solid while the dot is standing on it. */
-@keyframes lmmScanBadge {
+@keyframes lsScanBadge {
   0%,
   100% {
-    border-color: rgba(251, 191, 36, 0.5);
+    border-color: rgba(212, 168, 87, 0.5);
     background-color: #0a0a0a;
-    color: #fbbf24;
+    color: #d4a857;
     box-shadow: none;
   }
   3%,
   23% {
-    border-color: #fcd34d;
-    background-color: #fbbf24;
+    border-color: #e0be78;
+    background-color: #d4a857;
     color: #0a0a0a;
-    box-shadow: 0 0 10px rgba(251, 191, 36, 0.55);
+    box-shadow: 0 0 10px rgba(212, 168, 87, 0.55);
   }
   30% {
-    border-color: rgba(251, 191, 36, 0.5);
+    border-color: rgba(212, 168, 87, 0.5);
     background-color: #0a0a0a;
-    color: #fbbf24;
+    color: #d4a857;
     box-shadow: none;
   }
 }
 
 /* The label brightens and picks up a glow on the same beat as its badge. */
-@keyframes lmmScanLabel {
+@keyframes lsScanLabel {
   0%,
   100% {
-    color: rgba(253, 230, 138, 0.55);
+    color: rgba(235, 211, 160, 0.55);
     text-shadow: none;
   }
   3%,
   23% {
-    color: #fde68a;
-    text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+    color: #ebd3a0;
+    text-shadow: 0 0 12px rgba(212, 168, 87, 0.5);
   }
   30% {
-    color: rgba(253, 230, 138, 0.55);
+    color: rgba(235, 211, 160, 0.55);
     text-shadow: none;
   }
 }
 
-.lmm-dash {
+.ls-dash {
   stroke-dasharray: 4 8;
-  animation: lmmDash 1.6s linear infinite;
+  animation: lsDash 1.6s linear infinite;
 }
 
-.lmm-packet {
-  animation: lmmFlowDot 4s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+.ls-packet {
+  animation: lsFlowDot 4s cubic-bezier(0.55, 0, 0.45, 1) infinite;
 }
 
-.lmm-status {
-  animation: lmmPulse 2.6s ease-in-out infinite;
+.ls-status {
+  animation: lsPulse 2.6s ease-in-out infinite;
 }
 
 /* One shared cycle length for all three. Each stop sets its own
    `animation-delay` inline at a third of this, so changing the duration here
-   changes the whole sequence - see LMM_SCAN_CYCLE_SECONDS in
+   changes the whole sequence - see LS_SCAN_CYCLE_SECONDS in
    `components/websites/BrowserFrameVisual.tsx`, which must be kept in step. */
-.lmm-scan-dot {
-  animation: lmmScanDot 10.5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+.ls-scan-dot {
+  animation: lsScanDot 10.5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
 }
 
-.lmm-scan-badge {
-  animation: lmmScanBadge 10.5s ease-in-out infinite;
+.ls-scan-badge {
+  animation: lsScanBadge 10.5s ease-in-out infinite;
 }
 
-.lmm-scan-label {
-  animation: lmmScanLabel 10.5s ease-in-out infinite;
-}
-
-/* ---------------------------------------------------------------------------
-   Lee Marketing Mastery hub - typed headline caret
-
-   Only the caret lives here. The typing itself is React state in
-   `components/lmm-hub/HubHeroTypedWord.tsx` - a keyframe cannot type three
-   different words letter by letter - so the split is: the component decides
-   what the caret stands next to and whether it is at rest, and this file
-   decides what a caret looks like and how it blinks.
-
-   Sized in em so it scales with heading-xl across its breakpoints, except for
-   the 3px width: a bar that grew with the font would read as a block on
-   desktop and vanish on mobile. Height stops around cap height because the
-   bar sits on the baseline like a glyph, not like a selection box. The blink
-   fades over ~50ms per edge rather than cutting, which is the "subtle" in
-   subtle cursor - a hard step at this size flashes.
---------------------------------------------------------------------------- */
-
-@keyframes lmmCaretBlink {
-  0%,
-  45% {
-    opacity: 1;
-  }
-  50%,
-  95% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.lmm-caret {
-  display: inline-block;
-  width: 3px;
-  height: 0.72em;
-  margin-left: 0.06em;
-  border-radius: 1px;
-  background-color: #fbbf24;
-  animation: lmmCaretBlink 1.1s ease-in-out infinite;
-}
-
-/* Solid while letters are actually arriving or leaving - a real caret only
-   blinks when the typist rests, and the component reports which is happening
-   via this attribute on its wrapper. */
-[data-lmm-resting="false"] .lmm-caret {
-  animation: none;
-}
-
-/* ---------------------------------------------------------------------------
-   Lee Marketing Mastery - channel mix visual
-
-   Seven channels reach one customer in turn, and the ring around them closes
-   one seventh further with each arrival. The panel replaced a static list of
-   channels: the copy beside it is about a person being found from several
-   directions, and a list cannot show that.
-
-   The ring ticks in steps rather than sweeping smoothly, because the argument
-   is that the touches are separate and add up. A smooth sweep would read as
-   one continuous thing happening.
-
-   Timings are derived, not guessed. A packet takes ~1s to travel and they
-   start 0.95s apart, so the seventh lands at 6.7s of the 8.4s cycle - the
-   percentages below are those arrival times, and the last 1.7s is the
-   completed state holding long enough to be read before it resets. Change the
-   cycle and every percentage here has to be recomputed; see
-   LMM_REACH_CYCLE_SECONDS in `components/marketing/ChannelMixVisual.tsx`,
-   which sets the per-packet delays and must stay in step.
---------------------------------------------------------------------------- */
-
-@keyframes lmmReachPkt {
-  0% {
-    offset-distance: 0%;
-    opacity: 0;
-  }
-  2% {
-    opacity: 1;
-  }
-  12% {
-    offset-distance: 100%;
-    opacity: 1;
-  }
-  14%,
-  100% {
-    offset-distance: 100%;
-    opacity: 0;
-  }
-}
-
-/* r=70, so the circumference is ~440 and each of the seven steps is ~63. */
-@keyframes lmmReachRing {
-  0%, 11.9% { stroke-dashoffset: 440; opacity: 0.85; }
-  13.9%, 23.2% { stroke-dashoffset: 377; opacity: 0.85; }
-  25.2%, 34.5% { stroke-dashoffset: 314; opacity: 0.85; }
-  36.5%, 45.8% { stroke-dashoffset: 252; opacity: 0.85; }
-  47.8%, 57.1% { stroke-dashoffset: 189; opacity: 0.85; }
-  59.1%, 68.5% { stroke-dashoffset: 126; opacity: 0.85; }
-  70.5%, 79.8% { stroke-dashoffset: 63; opacity: 0.85; }
-  81.8%, 96% { stroke-dashoffset: 0; opacity: 0.85; }
-  100% { stroke-dashoffset: 0; opacity: 0; }
-}
-
-@keyframes lmmReachCore {
-  0%, 79.8% {
-    stroke: rgba(251, 191, 36, 0.35);
-    filter: none;
-  }
-  86% {
-    stroke: #fcd34d;
-    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.55));
-  }
-  100% {
-    stroke: rgba(251, 191, 36, 0.35);
-    filter: none;
-  }
-}
-
-/* The centre names who it is about for most of the loop, then resolves to what
-   happened once the ring closes. */
-@keyframes lmmReachBefore {
-  0%, 79.8% { opacity: 1; }
-  83%, 96% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-@keyframes lmmReachAfter {
-  0%, 79.8% { opacity: 0; }
-  83%, 96% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-.lmm-reach-pkt {
-  animation: lmmReachPkt 8.4s cubic-bezier(0.45, 0, 0.5, 1) infinite;
-}
-
-.lmm-reach-ring {
-  stroke-dasharray: 440;
-  stroke-dashoffset: 440;
-  animation: lmmReachRing 8.4s ease-out infinite;
-}
-
-.lmm-reach-core {
-  animation: lmmReachCore 8.4s ease-in-out infinite;
-}
-
-.lmm-reach-before {
-  animation: lmmReachBefore 8.4s ease-in-out infinite;
-}
-
-.lmm-reach-after {
-  opacity: 0;
-  animation: lmmReachAfter 8.4s ease-in-out infinite;
+.ls-scan-label {
+  animation: lsScanLabel 10.5s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lmm-dash,
-  .lmm-packet,
-  .lmm-status,
-  .lmm-scan-dot,
-  .lmm-scan-badge,
-  .lmm-scan-label,
-  .lmm-reach-pkt,
-  .lmm-reach-ring,
-  .lmm-reach-core,
-  .lmm-reach-before,
-  .lmm-reach-after {
+  .ls-dash,
+  .ls-packet,
+  .ls-status,
+  .ls-scan-dot,
+  .ls-scan-badge,
+  .ls-scan-label {
     animation: none;
   }
 
-  /* The diagram rests on a closed ring and the label that says whose it is.
-     Not the resolved "Calls you." state: that line is the payoff the sequence
-     earns, and asserting it in a still frame states an outcome the diagram no
-     longer demonstrates. The packets go entirely - parked dots on the wires
-     would read as decoration. */
-  .lmm-reach-ring {
-    stroke-dashoffset: 0;
-  }
-
-  .lmm-reach-pkt {
-    display: none;
-  }
-
-  .lmm-reach-before {
-    opacity: 1;
-  }
-
-  .lmm-reach-after {
-    display: none;
-  }
-
-  .lmm-packet {
+  .ls-packet {
     opacity: 1;
   }
 
@@ -1240,22 +1083,14 @@
      legible on their own. The dots go entirely: with nothing moving they would
      be three identical markers sitting on three numbered badges, which is
      duplication rather than information. The numbers already carry the order. */
-  .lmm-scan-dot {
-    display: none;
-  }
-
-  /* Nothing types under reduced motion - HubHeroTypedWord holds its first
-     word still - and a cursor blinking after a word nobody is typing would be
-     motion for its own sake. Hidden here rather than by the component so the
-     right first frame paints before hydration. */
-  .lmm-caret {
+  .ls-scan-dot {
     display: none;
   }
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Marketing Mastery — "Signal Routes"
-   One consumer: components/lmm/LmmSignalRoutes.tsx, which the venture hub's
+   Lee Systems Co. — "Signal Routes"
+   One consumer: components/lee-systems/SignalRoutes.tsx, which the venture hub's
    hero and the homepage teaser that links to it both render. The geometry
    lives with the component; everything here is how a route is painted, and
    what travels down it.
@@ -1263,7 +1098,7 @@
    The layer draws over the warm-right/cool-left orbs each consumer lights,
    never instead of them: the orbs are the venture's tell, and both consumers
    now light themselves with the same pair, tuned in
-   components/sections/MarketingMasterySection.tsx. So nothing here paints a
+   components/sections/LeeSystemsSection.tsx. So nothing here paints a
    ground.
 
    The rule this block follows is that a route may never compete with the copy
@@ -1303,8 +1138,8 @@
    layers fall back to the default `add`, which unions them to fully opaque -
    i.e. to the unmasked field this block replaced, which is the right way for
    this to fail. */
-.lmmr-svg {
-  --lmmr-edge-mask: linear-gradient(
+.lsr-svg {
+  --lsr-edge-mask: linear-gradient(
     to bottom,
     transparent 0%,
     #000 13%,
@@ -1312,7 +1147,7 @@
     transparent 100%
   );
   /* Centred: the homepage teaser, whose column is centred in the section. */
-  --lmmr-copy-mask: radial-gradient(
+  --lsr-copy-mask: radial-gradient(
     ellipse 38% 42% at 50% 50%,
     rgba(0, 0, 0, 0.2) 0%,
     rgba(0, 0, 0, 0.62) 55%,
@@ -1324,8 +1159,8 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  -webkit-mask-image: var(--lmmr-copy-mask), var(--lmmr-edge-mask);
-  mask-image: var(--lmmr-copy-mask), var(--lmmr-edge-mask);
+  -webkit-mask-image: var(--lsr-copy-mask), var(--lsr-edge-mask);
+  mask-image: var(--lsr-copy-mask), var(--lsr-edge-mask);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
@@ -1336,8 +1171,8 @@
    on purpose - the offering switch over there is a `bg-white/[0.03]` panel with
    its own backdrop blur, so it already separates itself from the field and does
    not need the layer dimmed under it as well. */
-.lmmr-svg[data-focus="left"] {
-  --lmmr-copy-mask: radial-gradient(
+.lsr-svg[data-focus="left"] {
+  --lsr-copy-mask: radial-gradient(
     ellipse 32% 46% at 29% 50%,
     rgba(0, 0, 0, 0.2) 0%,
     rgba(0, 0, 0, 0.62) 55%,
@@ -1354,8 +1189,8 @@
    because the stacked hero puts the words above the offering switch rather than
    beside it. The breakpoint is Tailwind's `lg`; it has to track the grid. */
 @media (max-width: 1023.98px) {
-  .lmmr-svg[data-focus="left"] {
-    --lmmr-copy-mask: radial-gradient(
+  .lsr-svg[data-focus="left"] {
+    --lsr-copy-mask: radial-gradient(
       ellipse 52% 42% at 50% 42%,
       rgba(0, 0, 0, 0.2) 0%,
       rgba(0, 0, 0, 0.62) 55%,
@@ -1369,22 +1204,22 @@
    about where the single old weight was; everything else is new and quieter.
    Resist brightening these. If the field reads as empty the answer is more
    routes, not louder ones: the copy sits on top of all of them. */
-.lmmr-route {
+.lsr-route {
   fill: none;
   stroke-width: 1.15;
 }
 
-.lmmr-route--near {
-  stroke: rgba(251, 191, 36, 0.16);
+.lsr-route--near {
+  stroke: rgba(212, 168, 87, 0.16);
 }
 
-.lmmr-route--mid {
-  stroke: rgba(251, 191, 36, 0.1);
+.lsr-route--mid {
+  stroke: rgba(212, 168, 87, 0.1);
   stroke-width: 0.9;
 }
 
-.lmmr-route--far {
-  stroke: rgba(251, 191, 36, 0.055);
+.lsr-route--far {
+  stroke: rgba(212, 168, 87, 0.055);
   stroke-width: 0.7;
 }
 
@@ -1396,23 +1231,23 @@
    Near and mid only. The component does not render this pass for the far tier
    at all: a dashed overlay on a route at 0.055 is a second stroke nobody can
    see, and thirteen animated paths where eight will do. */
-.lmmr-drift {
+.lsr-drift {
   fill: none;
   stroke-width: 1.15;
   stroke-dasharray: 0.55 2.2;
-  animation: lmmrDrift 9s linear infinite;
+  animation: lsrDrift 9s linear infinite;
 }
 
-.lmmr-drift--near {
-  stroke: rgba(251, 191, 36, 0.26);
+.lsr-drift--near {
+  stroke: rgba(212, 168, 87, 0.26);
 }
 
-.lmmr-drift--mid {
-  stroke: rgba(251, 191, 36, 0.15);
+.lsr-drift--mid {
+  stroke: rgba(212, 168, 87, 0.15);
   stroke-width: 0.9;
 }
 
-@keyframes lmmrDrift {
+@keyframes lsrDrift {
   to {
     stroke-dashoffset: -2.75;
   }
@@ -1420,22 +1255,22 @@
 
 /* What travels. A 4%-long dash with 96% of gap behind it, slid the length of
    the path: one bright run per route per cycle, and nothing on the path
-   between runs. The easing is the venture's own `lmmFlowDot` curve, so a
+   between runs. The easing is the venture's own `lsFlowDot` curve, so a
    signal accelerates away and settles into its junction rather than moving at
    a constant rate. */
-.lmmr-signal {
+.lsr-signal {
   fill: none;
-  stroke: rgba(253, 230, 138, 0.9);
+  stroke: rgba(235, 211, 160, 0.9);
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-dasharray: 4 96;
   stroke-dashoffset: 100;
-  animation: lmmrSignal 7.8s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+  animation: lsrSignal 7.8s cubic-bezier(0.55, 0, 0.45, 1) infinite;
 }
 
 /* Holds at the start for the first fifth of the cycle, so the three staggered
    routes are quiet between arrivals instead of running end to end. */
-@keyframes lmmrSignal {
+@keyframes lsrSignal {
   0%,
   18% {
     stroke-dashoffset: 100;
@@ -1451,17 +1286,17 @@
   }
 }
 
-.lmmr-waypoint {
-  fill: rgba(251, 191, 36, 0.4);
+.lsr-waypoint {
+  fill: rgba(212, 168, 87, 0.4);
 }
 
-.lmmr-relay {
-  fill: rgba(251, 191, 36, 0.62);
+.lsr-relay {
+  fill: rgba(212, 168, 87, 0.62);
 }
 
-.lmmr-hub {
-  fill: rgba(253, 230, 138, 0.9);
-  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.55));
+.lsr-hub {
+  fill: rgba(235, 211, 160, 0.9);
+  filter: drop-shadow(0 0 6px rgba(212, 168, 87, 0.55));
 }
 
 /* The ring the junction throws, on the same 7.8s beat the signals run, timed
@@ -1469,14 +1304,14 @@
    transform: the circle has no box of its own to scale about, and giving it
    one with `transform-box` to save a property nothing else animates would be
    the more obscure of the two. */
-.lmmr-ring {
+.lsr-ring {
   fill: none;
-  stroke: rgba(251, 191, 36, 0.5);
+  stroke: rgba(212, 168, 87, 0.5);
   stroke-width: 1;
-  animation: lmmrRing 7.8s ease-out infinite;
+  animation: lsrRing 7.8s ease-out infinite;
 }
 
-@keyframes lmmrRing {
+@keyframes lsrRing {
   0%,
   62% {
     r: 6;
@@ -1492,7 +1327,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lmmr-drift {
+  .lsr-drift {
     animation: none;
   }
 
@@ -1501,8 +1336,8 @@
      circle the field never explains. What remains is the composition the
      motion moves through - routes, junctions, waypoints - which reads as a map
      on its own. */
-  .lmmr-signal,
-  .lmmr-ring {
+  .lsr-signal,
+  .lsr-ring {
     display: none;
   }
 }
@@ -1540,7 +1375,7 @@
     /* The previous hero's gold pool, high and centred. */
     radial-gradient(
       90% 70% at 50% 12%,
-      rgba(251, 191, 36, 0.13) 0%,
+      rgba(212, 168, 87, 0.13) 0%,
       rgba(180, 120, 20, 0.045) 45%,
       transparent 75%
     ),
@@ -1718,16 +1553,16 @@
 .bmh-eyebrow::before {
   background: linear-gradient(
     to right,
-    rgba(251, 191, 36, 0) 0%,
-    rgba(251, 191, 36, 0.62) 100%
+    rgba(212, 168, 87, 0) 0%,
+    rgba(212, 168, 87, 0.62) 100%
   );
 }
 
 .bmh-eyebrow::after {
   background: linear-gradient(
     to left,
-    rgba(251, 191, 36, 0) 0%,
-    rgba(251, 191, 36, 0.62) 100%
+    rgba(212, 168, 87, 0) 0%,
+    rgba(212, 168, 87, 0.62) 100%
   );
 }
 
@@ -1774,14 +1609,14 @@
      colour rather than the colour -- so this tier alone steps to 400. The
      masthead tier above stays hairline, which is what keeps the two apart. */
   font-weight: 400;
-  color: #fbbf24;
+  color: #d4a857;
   /* Two layers, both clipped to the glyphs: a specular band on top of the
      metal. The band is the moving part -- 300% wide so it is well off the
      word at either end of its travel, which is why the resting appearance is
      exactly the base gradient and nothing has to be restored when the sweep
      is switched off. The base layer stays at `100%` and never moves.
 
-     The base tops out at #fde68a rather than at something nearer white, and
+     The base tops out at #ebd3a0 rather than at something nearer white, and
      that ceiling is what makes the sweep visible at all: a highlight can only
      read as light if the surface it crosses has somewhere left to brighten.
      Set the middle stop near white and the band lands on pixels that are
@@ -1795,11 +1630,11 @@
     ),
     linear-gradient(
       100deg,
-      #f59e0b 0%,
-      #fbbf24 24%,
-      #fde68a 50%,
-      #fbbf24 76%,
-      #f59e0b 100%
+      #b98d3e 0%,
+      #d4a857 24%,
+      #ebd3a0 50%,
+      #d4a857 76%,
+      #b98d3e 100%
     );
   background-size: 300% 100%, 100% 100%;
   background-position: 120% 0, 0 0;
@@ -1807,8 +1642,8 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.45))
-    drop-shadow(0 0 22px rgba(251, 191, 36, 0.35));
+  filter: drop-shadow(0 0 2px rgba(212, 168, 87, 0.45))
+    drop-shadow(0 0 22px rgba(212, 168, 87, 0.35));
 }
 
 /* The sweep. Mostly this word sits still: the band crosses in the first
@@ -1876,11 +1711,11 @@
     to right,
     rgba(255, 255, 255, 0) 0%,
     var(--bmh-hair) 32%,
-    rgba(251, 191, 36, 0.55) 50%,
+    rgba(212, 168, 87, 0.55) 50%,
     var(--bmh-hair) 68%,
     rgba(255, 255, 255, 0) 100%
   );
-  box-shadow: 0 0 12px rgba(251, 191, 36, 0.28);
+  box-shadow: 0 0 12px rgba(212, 168, 87, 0.28);
 }
 
 /* The house `.text-glow-amber` treatment, at a slightly wider radius and lower
@@ -1891,7 +1726,7 @@
   font-size: min(clamp(14px, 1.45vw, 22px), 2.5vh);
   letter-spacing: 0.3em;
   text-indent: 0.3em;
-  text-shadow: 0 0 26px rgba(251, 191, 36, 0.42);
+  text-shadow: 0 0 26px rgba(212, 168, 87, 0.42);
 }
 
 .bmh-mechanism {
@@ -1918,13 +1753,13 @@
      and never becomes a second border. The transition is on the shadow as
      well as the colours the component sets, so the fill and the bloom arrive
      together instead of the fill snapping in ahead of it. */
-  box-shadow: 0 0 26px -8px rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 26px -8px rgba(212, 168, 87, 0.5);
   transition-property: color, background-color, border-color, box-shadow;
 }
 
 .bmh-cta:hover,
 .bmh-cta:focus-visible {
-  box-shadow: 0 0 38px -6px rgba(251, 191, 36, 0.75);
+  box-shadow: 0 0 38px -6px rgba(212, 168, 87, 0.75);
 }
 
 /* Slow, small, staggered, and in the order the argument is made. A quiet hero
@@ -2059,7 +1894,7 @@
 /* ---------------------------------------------------------------------------
    Homepage venture masthead
    Two consumers, and it must stay two: components/sections/BusinessMasterySection.tsx
-   and components/sections/MarketingMasterySection.tsx, the homepage's two
+   and components/sections/LeeSystemsSection.tsx, the homepage's two
    doorways. It names the venture above that section's manifesto.
 
    WHY THIS EXISTS. Both names were a 14px `text-sm font-semibold` amber line -
@@ -2069,7 +1904,7 @@
    homepage read two manifestos and no idea which company either belonged to.
 
    IT IS ONE CLASS ON PURPOSE, AND BOTH SECTIONS MUST KEEP USING IT.
-   MarketingMasterySection's header comment sets the rule: the two teasers are
+   LeeSystemsSection's header comment sets the rule: the two teasers are
    deliberately the same shape - eyebrow, manifesto, paragraph, status line,
    CTA - because two sections built the same way read as two of a kind, and
    giving one a composition of its own ranks it above the other before a word

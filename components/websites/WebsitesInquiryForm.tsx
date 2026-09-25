@@ -1,27 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
 
-// These options mirror the four cards in WebsitesServicesSection, so a visitor
-// picks the thing they just read about. The third used to read "Website with AI
-// features built in", which named the technology instead of the result, and then
-// "Lead capture and follow-up around the clock" - a third name for an offering
-// the card and the structured data in page.tsx both call "Never Miss a Lead".
-// Three names for one thing left the buyer unsure what they were selecting and
-// the owner unsure what the emailed enquiry referred to, so the card title now
-// leads the option and the plain-language gloss follows it. If the card is
-// retitled, retitle this and the hasOfferCatalog entry in page.tsx with it.
-//
-// Safe to rename: the value is posted to /api/website-inquiry, which only checks
-// that projectType is non-empty and then interpolates it into the notification
-// email. Nothing matches on the literal string, so the label can change without
-// touching the route. Verified in app/api/website-inquiry/route.ts.
+// What the visitor is asking about. The value is posted to /api/website-inquiry,
+// which only checks that projectType is non-empty and interpolates it into the
+// notification email, so a label can change without touching the route.
 const projectTypes = [
   "New website",
   "Redesign of my existing site",
-  "Never Miss a Lead - chat, intake, and follow-up",
+  "Website plus lead follow-up automation",
   "Care plan for a site I already have",
   "Not sure yet",
 ];
@@ -42,7 +31,7 @@ type FieldErrors = Partial<Record<keyof FormState | "form", string>>;
 
 const labelClass = "block text-sm font-semibold text-neutral-200 mb-2";
 const fieldClass =
-  "w-full rounded-lg border bg-neutral-900 px-4 py-2.5 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/60";
+  "w-full rounded-lg border bg-neutral-900 px-4 py-2.5 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brass-400/60";
 
 export function WebsitesInquiryForm() {
   const [formData, setFormData] = useState<FormState>(emptyForm);
@@ -128,9 +117,11 @@ export function WebsitesInquiryForm() {
 
   if (submitted) {
     return (
-      <div className="mx-auto max-w-2xl rounded-xl border border-amber-400/30 bg-amber-400/[0.06] p-10 text-center md:p-12">
+      <div
+        role="status"
+        className="mx-auto max-w-2xl rounded-xl border border-brass-400/30 bg-brass-400/[0.06] p-10 text-center md:p-12">
         <CheckCircle2
-          className="mx-auto mb-5 h-12 w-12 text-amber-400"
+          className="mx-auto mb-5 h-12 w-12 text-brass-300"
           aria-hidden="true"
         />
         <h3 className="mb-3 text-2xl font-bold text-white">
@@ -138,12 +129,13 @@ export function WebsitesInquiryForm() {
         </h3>
         <p className="mb-6 text-neutral-300">
           Thank you. We will review what you described and follow up with a
-          quote and a realistic timeline for the build.
+          free quote and a timeline. Remember: you do not pay until the site is
+          built and you have approved it.
         </p>
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="text-sm font-semibold text-amber-400 underline-offset-4 hover:underline"
+          className="text-sm font-semibold text-brass-300 underline-offset-4 hover:underline"
         >
           Submit another request
         </button>
@@ -161,15 +153,7 @@ export function WebsitesInquiryForm() {
       {/* Stacked on narrow screens so the heading keeps the full width
           instead of wrapping to three lines beside the mark. */}
       <div className="mb-2 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
-        {/* Decorative: the heading beside it names the service. */}
-        <Image
-          src="/lee-marketing-mastery-logo.png"
-          alt=""
-          width={48}
-          height={48}
-          loading="lazy"
-          className="h-12 w-12 shrink-0 rounded-full"
-        />
+        <LeeSystemsMark size="md" />
         <h3 className="text-2xl font-bold text-white">
           Request a Website Quote
         </h3>
@@ -262,7 +246,7 @@ export function WebsitesInquiryForm() {
       <div className="mt-5">
         <label htmlFor="projectType" className={labelClass}>
           What Are You Looking For?{" "}
-          <span className="text-amber-400" aria-hidden="true">
+          <span className="text-brass-300" aria-hidden="true">
             *
           </span>
         </label>
@@ -296,7 +280,7 @@ export function WebsitesInquiryForm() {
       <div className="mt-5">
         <label htmlFor="businessDescription" className={labelClass}>
           What Does Your Business Do?{" "}
-          <span className="text-amber-400" aria-hidden="true">
+          <span className="text-brass-300" aria-hidden="true">
             *
           </span>
         </label>
@@ -348,7 +332,7 @@ export function WebsitesInquiryForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-primary mt-8 inline-flex w-full items-center justify-center gap-2 group disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
+        className="btn-ls-primary mt-8 inline-flex w-full items-center justify-center gap-2 group disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isSubmitting ? "Sending..." : "Request My Free Quote"}
         {!isSubmitting && (
@@ -359,8 +343,8 @@ export function WebsitesInquiryForm() {
         )}
       </button>
 
-      <p className="mt-4 text-center text-sm text-neutral-500">
-        Free and no obligation. The first step is understanding your business.
+      <p className="mt-4 text-center text-sm text-neutral-400">
+        Free quote, no obligation. Your site is fully built before you pay anything.
       </p>
     </form>
   );
@@ -396,7 +380,7 @@ function Field({
         {required && (
           <>
             {" "}
-            <span className="text-amber-400" aria-hidden="true">
+            <span className="text-brass-300" aria-hidden="true">
               *
             </span>
           </>
