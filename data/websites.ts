@@ -10,6 +10,8 @@
  * ItemList alongside the FAQs.
  */
 
+import { THREAD_SITE_URL } from "@/lib/thread-site";
+
 /**
  * Two questions were deleted here rather than rewritten: "What does built with
  * AI actually mean here?" and "Is an AI-built website lower quality than a
@@ -182,15 +184,18 @@ export const websiteFaqs = [
  * has to be checkable in the code or on the page, same as a summary.
  *
  * One thing this list must never imply: these are three separate websites for
- * three separate businesses. They are three routes on one domain and one
- * deployment, and two of them are the site the visitor is reading. The section
- * heading in WebsitesWorkSection carries that honesty; do not undercut it here
- * by writing summaries that read like separate client engagements.
+ * three separate businesses. Two are routes on this domain and deployment, and
+ * both of those are the site the visitor is reading; the third is Thread
+ * T-Shirts, LEU's own venture, running as its own site since 2026-09-25
+ * (docs/THREAD.md). WebsitesWorkSection's lead paragraph states exactly that;
+ * do not undercut it here by writing summaries that read like separate client
+ * engagements.
  *
  * It was four entries until H1 Performance came off this site (docs/H1.md).
- * Every count in this file and in WebsitesWorkSection moved with it, and the
- * "on this domain" framing is simply true again now that no entry sits
- * elsewhere.
+ * Every count in this file and in WebsitesWorkSection moved with it. The "on
+ * this domain" framing was true again for three weeks after that, and came out
+ * when Thread moved to its own site - the same thing that happened for the two
+ * days H1 was listed on its own domain.
  */
 export interface WebsitePortfolioItem {
   name: string;
@@ -201,8 +206,14 @@ export interface WebsitePortfolioItem {
 
 export const websitePortfolio: WebsitePortfolioItem[] = [
   {
+    // Its own site since 2026-09-25 (docs/THREAD.md). It stays in this list
+    // because it is still one of LEU's own ventures and still a site a prospect
+    // can open and use; the href is the one shared constant every link to it
+    // reads. The summary and chips describe that site, which is the same page
+    // that was here. WebsitesWorkSection's copy describes the list as two
+    // routes here plus this one on its own - keep the two in step.
     name: "Thread T-Shirts",
-    href: "/thread-t-shirts",
+    href: THREAD_SITE_URL,
     summary:
       "Turns a team, a shop, or an event organizer browsing shirts into a written order request - garment, quantity, artwork, and deadline all captured - without a checkout system behind it. Nobody has to email to ask how ordering works.",
     highlights: [

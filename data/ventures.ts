@@ -1,5 +1,6 @@
 import { Venture } from "@/types";
 import { VENTURE_COLORS } from "@/lib/colors";
+import { THREAD_SITE_URL } from "@/lib/thread-site";
 
 export const ventures: Venture[] = [
   {
@@ -40,7 +41,9 @@ export const ventures: Venture[] = [
     description:
       "Thread creates premium everyday apparel and custom designs for individuals, brands, teams, businesses, and events. Every piece is built around lasting comfort, dependable quality, and a clean style you can wear with confidence.",
     ctaPrimary: "Design Your Own",
-    ctaPrimaryHref: "/thread-t-shirts#order-request",
+    // Thread's page is its own site since 2026-09-25 (docs/THREAD.md); the
+    // order request form keeps its section id there.
+    ctaPrimaryHref: `${THREAD_SITE_URL}/#order-request`,
     ctaSecondary: "View Styles",
     heroSubtitle: "Wear Your Style. Elevate Everyday Essentials.",
     heroDescription:

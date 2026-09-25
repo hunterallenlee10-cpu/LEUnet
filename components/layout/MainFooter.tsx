@@ -91,8 +91,9 @@ export function MainFooter() {
           <div>
             <h4 className="font-semibold text-white mb-4">Our Ventures</h4>
             <ul className="space-y-2">
-              {/* A venture with its own page links straight to that route; one
-                  without still falls back to its homepage section anchor. */}
+              {/* A venture with its own page links straight to it - a route
+                  here, or for Thread T-Shirts its own site (docs/THREAD.md);
+                  one without still falls back to its homepage section anchor. */}
               {ventures.map((venture) => {
                 const venturePage = venturePages[venture.id];
 

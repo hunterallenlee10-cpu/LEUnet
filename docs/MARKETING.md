@@ -23,7 +23,7 @@ confirmation, not code — see §7.
 | Route | `/lee-marketing-mastery/marketing` |
 | Button label | "Traditional & Digital Marketing" |
 | Prices | **Hidden.** Every CTA routes to the quote form |
-| Apparel | Links to `/thread-t-shirts` rather than duplicating it |
+| Apparel | Links to Thread's own site (`THREAD_SITE_URL`, `docs/THREAD.md`) rather than duplicating it |
 | Billboards / TV / radio | Framed as network-reachable, **not** standing offerings |
 | Testimonials | **None.** Same line as the other two pages |
 | Lead capture | Own API route, own subject line |

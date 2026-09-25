@@ -7,23 +7,26 @@ import { websitePortfolio } from "@/data/websites";
  * rest of the page sells - and it has to describe itself accurately, because a
  * prospect can click straight through and check.
  *
- * "On This Domain" in the heading is load-bearing: every entry is a route on
- * this one deployment, two of them this very site, and an earlier heading -
- * "Four Sites You Can Open Right Now" - read as four separate websites built
- * for four separate businesses. That was a bigger claim than the truth,
- * checkable in one click, which is the worst possible combination. ("This way",
- * before that, pointed at a production method the page no longer sells -
- * docs/WEBSITES.md §3.1.)
+ * The heading used to read "Every Site on This Domain Was Built to Turn a
+ * Visitor Into a Customer", and "on This Domain" was load-bearing while every
+ * entry was a route on this one deployment: an earlier heading - "Four Sites
+ * You Can Open Right Now" - read as four separate websites built for four
+ * separate businesses. That was a bigger claim than the truth, checkable in one
+ * click, which is the worst possible combination. ("This way", before that,
+ * pointed at a production method the page no longer sells - docs/WEBSITES.md
+ * §3.1.)
  *
- * "On This Domain" came out for two days: H1 Performance became a separate
- * site on its own domain on 2026-09-01, which made the phrase exclude an entry
- * the list still showed, and the heading read "Every Site We Run" instead. H1
- * came off this site entirely on 2026-09-03 (docs/H1.md), the list is three
- * routes on this one deployment again, and the qualifier is back because it is
- * true again and because it is the sentence that stops "three sites" being read
- * as three separate builds for three separate businesses. Do not let the copy
- * drift back toward "three sites we built for three businesses", and if an
- * entry ever moves off this domain again, the qualifier comes out with it.
+ * The qualifier has now come out twice, for the same reason. For two days H1
+ * Performance was listed while on its own domain; it came off this site on
+ * 2026-09-03 (docs/H1.md) and "On This Domain" went back. Since 2026-09-25
+ * Thread T-Shirts runs as its own site (docs/THREAD.md), so the phrase would
+ * exclude an entry the list still shows. The heading says "we run" instead,
+ * which is true of all three, and the lead paragraph states the actual
+ * structure - two routes here, both of them the site being read, and Thread on
+ * its own - so the reader is never left to discover it. The eyebrow was already
+ * true. Do not let the copy drift toward "three sites we built for three
+ * businesses", and if every entry is ever a route here again, "On This Domain"
+ * can come back.
  *
  * The "our own ventures, not client projects" line in the lead paragraph is a
  * deliberate honesty decision recorded in docs/WEBSITES.md §3. It stays in the
@@ -44,20 +47,21 @@ export function WebsitesWorkSection() {
             Three Live Sites, All Ours
           </p>
           <h2 className="heading-lg mb-6 text-white">
-            Every Site on This Domain Was Built to Turn a Visitor Into a
-            Customer.
+            Every Site We Run Was Built to Turn a Visitor Into a Customer.
           </h2>
           {/* Says out loud what the reader would work out anyway after two
               clicks: these are not three separate builds for three separate
-              clients. All three live here, and two of them are the site being
-              read right now. Conceding that costs nothing and buys the rest of
-              the section, because a prospect who catches you inflating one
-              claim stops believing the ones you did not inflate. */}
+              clients. Two live here, both of them the site being read right
+              now, and the third is our own venture on its own site. Conceding
+              that costs nothing and buys the rest of the section, because a
+              prospect who catches you inflating one claim stops believing the
+              ones you did not inflate. */}
           <p className="mb-4 text-lg leading-relaxed text-neutral-300">
             These are Lee Enterprises Unlimited&apos;s own ventures, not client
-            projects. All three run on this one domain, and two of them are the
+            projects. Two of the three run on this one domain, and both are the
             site you are reading - the home page above, and the Lee Marketing
-            Mastery hub this page belongs to. We would rather point you at
+            Mastery hub this page belongs to. The third, Thread T-Shirts, runs
+            as its own site from its own codebase. We would rather point you at
             businesses we actually run than at a screenshot of someone
             else&apos;s work.
           </p>

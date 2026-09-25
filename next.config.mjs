@@ -1,4 +1,5 @@
 import { resolveH1SiteUrl } from "./config/h1-site.mjs";
+import { resolveThreadSiteUrl } from "./config/thread-site.mjs";
 
 // The redirects below are the only thing left here that points at the H1 site.
 // H1 Performance is no longer one of the ventures this site lists, so no app
@@ -13,6 +14,21 @@ const H1_SITE_URL = resolveH1SiteUrl(process.env.NEXT_PUBLIC_H1_SITE_URL);
 // the variable to the real domain and it becomes a 308. docs/H1.md §5 spells
 // out the wiring and the ordering.
 const H1_REDIRECT_PERMANENT = Boolean(process.env.NEXT_PUBLIC_H1_SITE_URL);
+
+// Thread T-Shirts moved to its own site on 2026-09-25 and, unlike H1, is still
+// one of the ventures this site lists, so app code links to it as well as the
+// redirects below pointing there. Resolved once here and handed to the app
+// through `env`, so the redirect and every link read the same value.
+// docs/THREAD.md, config/thread-site.mjs.
+const THREAD_SITE_URL = resolveThreadSiteUrl(
+  process.env.NEXT_PUBLIC_THREAD_SITE_URL
+);
+
+// The same rule as H1's: a temporary 307 while the variable is unset and the
+// target is only the fallback, a permanent 308 once it names the real host.
+const THREAD_REDIRECT_PERMANENT = Boolean(
+  process.env.NEXT_PUBLIC_THREAD_SITE_URL
+);
 
 /**
  * Content Security Policy sized for a Stripe integration.
@@ -52,6 +68,12 @@ const securityHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Inlined into every bundle at build time, already resolved (fallback
+  // applied, trailing slash stripped), so lib/thread-site.ts never sees an
+  // unset variable inside a Next build.
+  env: {
+    NEXT_PUBLIC_THREAD_SITE_URL: THREAD_SITE_URL,
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -104,6 +126,30 @@ const nextConfig = {
         source: "/h1/:path*",
         destination: `${H1_SITE_URL}/h1/:path*`,
         permanent: H1_REDIRECT_PERMANENT,
+      },
+      // Thread T-Shirts moved to its own site on 2026-09-25 (docs/THREAD.md).
+      // /thread-t-shirts was a real page here, and the H1 site's footer still
+      // links to it for H1 apparel, so it forwards rather than 404ing. The
+      // Thread site is one page, so any sub-path collapses to its root; a
+      // `#catalog` or `#order-request` fragment survives the redirect in the
+      // browser, and the section ids are unchanged there.
+      {
+        source: "/thread-t-shirts",
+        destination: THREAD_SITE_URL,
+        permanent: THREAD_REDIRECT_PERMANENT,
+      },
+      {
+        source: "/thread-t-shirts/:path*",
+        destination: THREAD_SITE_URL,
+        permanent: THREAD_REDIRECT_PERMANENT,
+      },
+      // The product photos moved with the page. The Thread site serves the
+      // identical files at the same paths, so an old /thread/... image URL
+      // resolves instead of 404ing.
+      {
+        source: "/thread/:path*",
+        destination: `${THREAD_SITE_URL}/thread/:path*`,
+        permanent: THREAD_REDIRECT_PERMANENT,
       },
     ];
   },
