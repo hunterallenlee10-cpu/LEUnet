@@ -1,8 +1,14 @@
 export const companyInfo = {
   name: "Lee Enterprises Unlimited",
-  tagline: "Empowering Excellence Across Two Distinct Ventures",
+  /**
+   * `tagline` and `description` render nowhere today. Both counted and named
+   * Thread T-Shirts' apparel until Thread came off this site on 2026-09-25
+   * (docs/THREAD.md); they now describe the program and the venture the site
+   * actually leads to, so whoever wires them up is not handed stale copy.
+   */
+  tagline: "Empowering Excellence in Business and Marketing",
   description:
-    "Lee Enterprises Unlimited is a holding company dedicated to building and scaling exceptional ventures across marketing and apparel. Each venture is designed to deliver premium value and results.",
+    "Lee Enterprises Unlimited is a holding company dedicated to building and scaling exceptional ventures in business development and marketing. Each venture is designed to deliver premium value and results.",
   heroTitle: "Lee Enterprises Unlimited",
   /**
    * Renders in three places, not just the homepage hero: the /partners and
@@ -99,15 +105,16 @@ export const aboutSection = {
  * Nothing renders this today; it is kept as the copy a final CTA would use.
  * The list of interests used to read "marketing services, property cleaning,
  * athletic training, or premium apparel". Athletic training left with H1
- * Performance (docs/H1.md), and property cleaning named a venture this site has
- * never had - unrendered copy drifts, which is why both are cut here rather
- * than left for whoever wires this up.
+ * Performance (docs/H1.md), premium apparel with Thread T-Shirts
+ * (docs/THREAD.md), and property cleaning named a venture this site has never
+ * had - unrendered copy drifts, which is why all three are cut here rather than
+ * left for whoever wires this up.
  */
 export const ctaContent = {
   final: {
     title: "Ready to Get Started?",
     description:
-      "Whether you're interested in marketing services or premium apparel, we're here to help.",
+      "Whether you're interested in Business Mastery or marketing services, we're here to help.",
     buttonText: "Contact Us Today",
   },
 };

@@ -128,9 +128,9 @@ export function MainHeader() {
 
     // A page of its own uses a real route rather than a homepage anchor, so it
     // navigates directly from wherever the visitor happens to be. Only `#`
-    // anchors fall through to the scroll below. Thread T-Shirts' entry is an
-    // absolute URL - its page is its own site (docs/THREAD.md), as H1
-    // Performance's was while it was listed - and without the second test an
+    // anchors fall through to the scroll below. Nothing in the menu is an
+    // absolute URL today - H1 Performance was, while it was listed as a venture
+    // on its own domain (docs/H1.md) - and the test stays because without it an
     // off-site href would fall to the `!isHome` branch below and be navigated
     // to as "/https://…".
     if (href.startsWith("/") || /^https?:\/\//.test(href)) {
@@ -206,7 +206,12 @@ export function MainHeader() {
             555px left over at 1024px, and they did not fit at any label length
             worth having — so dropping the "Lee " does not buy the breakpoint
             back. They clear it comfortably at 1280px. Between the two, the
-            hamburger below serves the same links. */}
+            hamburger below serves the same links.
+
+            Thread T-Shirts' entry came out on 2026-09-25 (docs/THREAD.md),
+            leaving five. Measured again then: they need 540px against 561px
+            left over at 1024px. That fits with 21px to spare - one wider font
+            fallback from overflowing - so the breakpoint stays at `xl`. */}
         <nav className="hidden xl:flex items-center gap-6" aria-label="Main">
           {navigationItems.map((item) => {
             const isOpen = openDropdownId === item.id;

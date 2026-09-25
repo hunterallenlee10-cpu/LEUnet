@@ -15,11 +15,10 @@ const H1_SITE_URL = resolveH1SiteUrl(process.env.NEXT_PUBLIC_H1_SITE_URL);
 // out the wiring and the ordering.
 const H1_REDIRECT_PERMANENT = Boolean(process.env.NEXT_PUBLIC_H1_SITE_URL);
 
-// Thread T-Shirts moved to its own site on 2026-09-25 and, unlike H1, is still
-// one of the ventures this site lists, so app code links to it as well as the
-// redirects below pointing there. Resolved once here and handed to the app
-// through `env`, so the redirect and every link read the same value.
-// docs/THREAD.md, config/thread-site.mjs.
+// The same arrangement for Thread T-Shirts, which moved to its own site and
+// came off this one on 2026-09-25: the redirects below are the only thing left
+// here that points at it, so the value is resolved once, here, for them, and
+// no app code reads it. docs/THREAD.md, config/thread-site.mjs.
 const THREAD_SITE_URL = resolveThreadSiteUrl(
   process.env.NEXT_PUBLIC_THREAD_SITE_URL
 );
@@ -68,12 +67,6 @@ const securityHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Inlined into every bundle at build time, already resolved (fallback
-  // applied, trailing slash stripped), so lib/thread-site.ts never sees an
-  // unset variable inside a Next build.
-  env: {
-    NEXT_PUBLIC_THREAD_SITE_URL: THREAD_SITE_URL,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -127,10 +120,12 @@ const nextConfig = {
         destination: `${H1_SITE_URL}/h1/:path*`,
         permanent: H1_REDIRECT_PERMANENT,
       },
-      // Thread T-Shirts moved to its own site on 2026-09-25 (docs/THREAD.md).
-      // /thread-t-shirts was a real page here, and the H1 site's footer still
-      // links to it for H1 apparel, so it forwards rather than 404ing. The
-      // Thread site is one page, so any sub-path collapses to its root; a
+      // Thread T-Shirts moved to its own site and came off this one on
+      // 2026-09-25 (docs/THREAD.md). Like H1's, these redirects outlive the
+      // listing on purpose: /thread-t-shirts was a real page here for months,
+      // and the H1 site's footer still links to it for H1 apparel, so it
+      // forwards rather than 404ing. Nothing on this site links here any more.
+      // The Thread site is one page, so any sub-path collapses to its root; a
       // `#catalog` or `#order-request` fragment survives the redirect in the
       // browser, and the section ids are unchanged there.
       {

@@ -25,11 +25,17 @@ const cormorant = Cormorant_Garamond({
   variable: '--font-cormorant',
 })
 
+/**
+ * The descriptions name what the home page leads to: the flagship program and
+ * the one venture. They counted "two distinct ventures" until Thread T-Shirts
+ * came off this site on 2026-09-25 (docs/THREAD.md), and the `apparel` keyword
+ * went with it, as `athletic training` went with H1 Performance.
+ */
 export const metadata: Metadata = {
   metadataBase: new URL('https://leeenterprisesunlimited.com'),
   title: 'Lee Enterprises Unlimited | Premium Business Portfolio',
-  description: 'Lee Enterprises Unlimited is a holding company managing two distinct ventures: Lee Marketing Mastery and Thread T-Shirts. Each venture is dedicated to delivering premium value and measurable results.',
-  keywords: ['Lee Enterprises', 'marketing', 'apparel', 'business portfolio'],
+  description: 'Lee Enterprises Unlimited is the holding company behind LEU Business Mastery and Lee Marketing Mastery, each dedicated to delivering premium value and measurable results.',
+  keywords: ['Lee Enterprises', 'marketing', 'business portfolio'],
   authors: [{ name: 'Lee Enterprises Unlimited' }],
   creator: 'Lee Enterprises Unlimited',
   publisher: 'Lee Enterprises Unlimited',
@@ -38,7 +44,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://leeenterprisesunlimited.com',
     title: 'Lee Enterprises Unlimited',
-    description: 'A premium portfolio of two distinct business ventures dedicated to excellence.',
+    description: 'A premium business portfolio dedicated to excellence: LEU Business Mastery and Lee Marketing Mastery.',
     images: [
       {
         url: '/logos/leu-logo.png',
@@ -51,7 +57,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Lee Enterprises Unlimited',
-    description: 'Premium business portfolio of two distinct ventures.',
+    description: 'Premium business portfolio: LEU Business Mastery and Lee Marketing Mastery.',
   },
   icons: {
     icon: '/logos/leu-logo.png',

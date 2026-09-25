@@ -38,10 +38,12 @@ export const contactFormFields = {
     type: "select",
     required: true,
     /**
-     * The site's three destinations, in the order the nav lists them, then a
+     * The site's two destinations, in the order the nav lists them, then a
      * catch-all. LEU Business Mastery was missing entirely: it is the flagship
      * program, with its own page, nav tab and homepage section, and anyone
-     * contacting us about it had to file the inquiry under "Other".
+     * contacting us about it had to file the inquiry under "Other". Thread
+     * T-Shirts had an option here until it came off this site on 2026-09-25
+     * (docs/THREAD.md).
      *
      * Deliberately coarse. Lee Marketing Mastery sells three separate
      * offerings, but each has its own form on its own page with its own
@@ -52,7 +54,6 @@ export const contactFormFields = {
       { value: "", label: "Select a venture or service..." },
       { value: "business-mastery", label: "LEU Business Mastery" },
       { value: "lmm", label: "Lee Marketing Mastery" },
-      { value: "thread", label: "Thread T-Shirts" },
       { value: "other", label: "Other / Lee Enterprises Inquiry" },
     ],
   },

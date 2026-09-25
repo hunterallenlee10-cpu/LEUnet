@@ -26,38 +26,39 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ## Payments
 
-Stripe Payments and Invoicing are wired up here for both ventures this site
-lists, including Thread T-Shirts, whose own site takes no payment
-([docs/THREAD.md](docs/THREAD.md)). Invoices can still be tagged `h1` for H1
-Performance, which is invoiced from here even though it is no longer on this
-site ([docs/H1.md](docs/H1.md)). See [docs/STRIPE.md](docs/STRIPE.md) for
+Stripe Payments and Invoicing are wired up for Lee Marketing Mastery, the one
+venture on this site, and invoices can still be tagged `h1` for H1 Performance
+and `thread` for Thread T-Shirts, which are invoiced from here even though
+neither is on this site any more ([docs/H1.md](docs/H1.md),
+[docs/THREAD.md](docs/THREAD.md)). See [docs/STRIPE.md](docs/STRIPE.md) for
 setup, environment variables, and the go-live checklist.
 
 ## Thread T-Shirts
 
 Thread T-Shirts runs from its own repo and website:
 [hunterallenlee10-cpu/TREAD](https://github.com/hunterallenlee10-cpu/TREAD).
-Unlike H1 Performance it is still one of this site's two ventures, so the nav,
-footer, websites portfolio and marketing page link to it, and `/thread-t-shirts`
-and the old `/thread/*` image paths redirect there instead of 404ing.
+Like H1 Performance, it is no longer one of the ventures this site lists —
+nothing here names it or links to it.
 
-All of that reads one value. Set `NEXT_PUBLIC_THREAD_SITE_URL` to the Thread
-site's origin in the Vercel environment (Production and Preview, no trailing
-slash), or attach `thread.leeenterprisesunlimited.com` to the Thread project —
-that subdomain is the fallback while the variable is unset. Do one of them
-before deploying the change that removed the page, and confirm the target
-answers first: the redirect becomes a permanent 308 once the variable is set,
-and a 308 is cached indefinitely.
+What remains is the redirect: `/thread-t-shirts` and the old `/thread/*` image
+paths forward to the Thread site, so the URLs that page used to answer on keep
+their inbound links and search placement instead of 404ing. Set
+`NEXT_PUBLIC_THREAD_SITE_URL` to the Thread site's origin in the Vercel
+environment (Production and Preview, no trailing slash), or attach
+`thread.leeenterprisesunlimited.com` to the Thread project — that subdomain is
+the fallback while the variable is unset, and the redirect stays a temporary
+307 until the variable is set. Confirm the target answers first: once set, the
+redirect is a permanent 308, and a 308 is cached indefinitely.
 
-See [docs/THREAD.md](docs/THREAD.md) for what moved, what stayed, and why.
+See [docs/THREAD.md](docs/THREAD.md) for what left, what stayed, and why.
 
 ## H1 Performance
 
 H1 Performance runs from its own repo and website:
 [hunterallenlee10-cpu/h1-performance](https://github.com/hunterallenlee10-cpu/h1-performance).
 It is no longer one of the ventures this site lists — nothing here names it or
-links to it. Lee Enterprises Unlimited lists two ventures: Lee Marketing
-Mastery and Thread T-Shirts.
+links to it. Lee Enterprises Unlimited lists one venture now, Lee Marketing
+Mastery, alongside its flagship program, LEU Business Mastery.
 
 What remains is the redirect: `/h1-performance` and `/h1/*` forward to the H1
 site so the URLs that page used to answer on keep their inbound links and
