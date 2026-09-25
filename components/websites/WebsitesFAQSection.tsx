@@ -9,7 +9,7 @@ export function WebsitesFAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-20 md:py-28">
+    <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         {/* Same breath the automation and marketing FAQs take: the inquiry
             section above ends on a form, and the divider keeps this heading
@@ -37,7 +37,7 @@ export function WebsitesFAQSection() {
           </h2>
         </div>
 
-        <div className="mx-auto max-w-3xl divide-y divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]">
+        <div className="mx-auto max-w-3xl divide-y divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04]">
           {websiteFaqs.map(({ question, answer }, index) => {
             const isOpen = openIndex === index;
             return (
@@ -49,7 +49,7 @@ export function WebsitesFAQSection() {
                     aria-expanded={isOpen}
                     aria-controls={`website-faq-panel-${index}`}
                     id={`website-faq-trigger-${index}`}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.03] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brass-400"
+                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brass-400"
                   >
                     <span className="font-semibold text-white">{question}</span>
                     <ChevronDown

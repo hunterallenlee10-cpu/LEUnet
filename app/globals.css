@@ -611,8 +611,12 @@
   }
 
   /* Glass card components */
+  /* THE card. Every card on the site uses these values (GlassCard renders
+     the same thing), so a card looks and sizes the same on every page:
+     rounded-xl, a white/10 hairline, a white/[0.04] fill. Padding is p-6,
+     md:p-8 wherever a card holds text. */
   .glass-card {
-    @apply backdrop-blur-md bg-white/8 border border-white/10 rounded-lg;
+    @apply bg-white/[0.04] border border-white/10 rounded-xl;
   }
 
   .glass-card-sm {
@@ -895,6 +899,26 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* The mobile menu drawer slides in from the right edge. */
+@keyframes drawerIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobile-drawer {
+  animation: drawerIn 220ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-drawer {
+    animation: none;
   }
 }
 
@@ -1988,4 +2012,31 @@
   white-space: nowrap;
   color: rgb(252 211 77);
   text-shadow: 0 0 26px rgba(251, 191, 36, 0.42);
+}
+
+/* ---------------------------------------------------------------------------
+   Section stitching.
+
+   Every page sits on one continuous ground (the body's neutral-950); sections
+   no longer paint their own backgrounds or divider lines. A section's
+   decorative layer (orbs, glows, drawn fields) carries this class so it fades
+   out towards its top and bottom edges instead of being cut flat by the
+   section's `overflow-hidden`, which is what drew a visible line between one
+   section and the next.
+--------------------------------------------------------------------------- */
+.section-fade {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
 }

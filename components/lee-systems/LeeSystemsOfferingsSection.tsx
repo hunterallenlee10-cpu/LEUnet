@@ -16,7 +16,7 @@ const automationPoints = [
  */
 export function LeeSystemsOfferingsSection() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
@@ -26,12 +26,10 @@ export function LeeSystemsOfferingsSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="flex flex-col rounded-2xl border border-brass-400/40 bg-gradient-to-br from-brass-400/[0.10] via-white/[0.02] to-transparent p-8 md:p-10 lg:col-span-2">
+          <div className="flex flex-col rounded-xl border border-brass-400/40 bg-gradient-to-br from-brass-400/[0.10] via-white/[0.02] to-transparent p-6 md:p-8 lg:col-span-2">
             <div className="mb-5 flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center rounded-lg border border-brass-400/40 bg-brass-400/10">
-                <Workflow className="h-6 w-6 text-brass-300" aria-hidden="true" />
-              </span>
-              <span className="rounded-full border border-brass-400/30 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brass-300">
+              <Workflow className="h-7 w-7 text-brass-300" aria-hidden="true" />
+              <span className="text-xs font-semibold uppercase tracking-widest text-brass-300">
                 Our main service
               </span>
             </div>
@@ -70,10 +68,8 @@ export function LeeSystemsOfferingsSection() {
             </div>
           </div>
 
-          <div className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-8">
-            <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg border border-white/15 bg-white/[0.04]">
-              <Globe className="h-5 w-5 text-neutral-300" aria-hidden="true" />
-            </span>
+          <div className="flex flex-col rounded-xl border border-white/10 bg-white/[0.04] p-8">
+            <Globe className="mb-5 h-7 w-7 text-neutral-300" aria-hidden="true" />
             <h3 className="mb-3 text-2xl font-bold text-white">Website Builds</h3>
             <p className="mb-5 leading-relaxed text-neutral-400">
               Conversion-focused websites for small businesses: clear, fast on a

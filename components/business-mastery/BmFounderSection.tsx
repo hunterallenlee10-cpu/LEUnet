@@ -14,7 +14,7 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
  */
 export function BmFounderSection() {
   return (
-    <section className="bg-neutral-950 py-20 md:py-28">
+    <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">

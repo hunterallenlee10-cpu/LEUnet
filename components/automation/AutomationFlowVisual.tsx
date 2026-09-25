@@ -121,7 +121,7 @@ export function AutomationFlowVisual() {
             <div
               key={n.id}
               style={{ top: `${y}%` }}
-              className={`absolute flex -translate-y-1/2 items-center gap-2 rounded-lg border px-2.5 py-2 backdrop-blur-sm ${
+              className={`absolute flex -translate-y-1/2 items-center gap-2 rounded-lg border px-2.5 py-2  ${
                 x === 50
                   ? "left-1/2 -translate-x-1/2"
                   : x < 50
@@ -225,7 +225,7 @@ export function AutomationFlowVisual() {
             <div
               key={n.id}
               style={style}
-              className={`absolute flex -translate-y-1/2 items-center gap-2 rounded-lg border px-2.5 py-2 backdrop-blur-sm ${
+              className={`absolute flex -translate-y-1/2 items-center gap-2 rounded-lg border px-2.5 py-2  ${
                 width ?? ""
               } ${
                 n.emphasis

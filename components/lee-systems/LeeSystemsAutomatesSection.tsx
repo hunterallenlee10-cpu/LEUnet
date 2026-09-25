@@ -20,7 +20,7 @@ const icons = {
 /** Six concrete examples; the automation page has the full list by area. */
 export function LeeSystemsAutomatesSection() {
   return (
-    <section className="border-y border-white/10 bg-neutral-950/60 py-20 md:py-28">
+    <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
@@ -35,10 +35,8 @@ export function LeeSystemsAutomatesSection() {
           {automatedTasks.map(({ id, title, body }) => {
             const Icon = icons[id];
             return (
-              <li key={id} className="bg-neutral-950 p-7">
-                <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-brass-400/30 bg-brass-400/10">
-                  <Icon className="h-5 w-5 text-brass-300" aria-hidden="true" />
-                </span>
+              <li key={id} className="bg-neutral-950 p-6 md:p-8">
+                <Icon className="mb-4 h-7 w-7 text-brass-300" aria-hidden="true" />
                 <h3 className="mb-2 text-lg font-bold text-white">{title}</h3>
                 <p className="text-sm leading-relaxed text-neutral-400">{body}</p>
               </li>

@@ -88,10 +88,10 @@ export const contactFormFields = {
     options: [
       { value: "", label: "Select a budget range..." },
       { value: "under-1k", label: "Under $1,000" },
-      { value: "1k-5k", label: "$1,000 - $5,000" },
-      { value: "5k-10k", label: "$5,000 - $10,000" },
-      { value: "10k-25k", label: "$10,000 - $25,000" },
-      { value: "25k-50k", label: "$25,000 - $50,000" },
+      { value: "1k-5k", label: "$1,000 to $5,000" },
+      { value: "5k-10k", label: "$5,000 to $10,000" },
+      { value: "10k-25k", label: "$10,000 to $25,000" },
+      { value: "25k-50k", label: "$25,000 to $50,000" },
       { value: "50k-plus", label: "$50,000+" },
       { value: "not-sure", label: "Not sure yet" },
     ],
@@ -161,7 +161,7 @@ export function buildMailtoLink(
   data: Record<string, string | string[]>
 ): string {
   const to = contactEmail;
-  const subject = `Lee Enterprises Inquiry - ${data.ventureOfInterest}`;
+  const subject = `Lee Enterprises Inquiry: ${data.ventureOfInterest}`;
   const body = `
 Full Name: ${data.fullName}
 Email: ${data.email}

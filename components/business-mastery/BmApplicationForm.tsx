@@ -9,7 +9,7 @@ import { bmAudiences } from "@/data/business-mastery";
 // way. "Somewhere else" catches everyone the four don't fit.
 const stageOptions = [
   ...bmAudiences.map((audience) => audience.title),
-  "Somewhere else — I'll explain below",
+  "Somewhere else, I'll explain below",
 ];
 
 const emptyForm = {
@@ -26,7 +26,7 @@ type FieldErrors = Partial<Record<keyof FormState | "form", string>>;
 
 const labelClass = "block text-sm font-semibold text-neutral-200 mb-2";
 const fieldClass =
-  "w-full rounded-lg border bg-neutral-900 px-4 py-2.5 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/60";
+  "w-full rounded-lg border bg-neutral-900 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/60";
 
 /**
  * The founding-member application. Same skeleton as the H1 consultation
@@ -144,13 +144,13 @@ export function BmApplicationForm() {
       onSubmit={handleSubmit}
       noValidate
       aria-describedby="bm-form-description"
-      className="mx-auto max-w-3xl rounded-xl border border-neutral-800 bg-white/[0.02] p-6 backdrop-blur-sm md:p-10"
+      className="mx-auto max-w-3xl rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-10"
     >
       <div className="mb-8 text-center">
         <h3 className="mb-2 text-2xl font-bold text-white">Apply to Join</h3>
         <p id="bm-form-description" className="text-sm text-neutral-400">
-          Fields marked with an asterisk are required. No payment is taken here
-          — we review every application and follow up personally.
+          Fields marked with an asterisk are required. No payment is taken here.
+          We review every application and follow up personally.
         </p>
       </div>
 
@@ -246,7 +246,7 @@ export function BmApplicationForm() {
 
       <div className="mt-5">
         <label htmlFor="building" className={labelClass}>
-          What Are You Building — or What Do You Want to Build?{" "}
+          What Are You Building, or What Do You Want to Build?{" "}
           <span className="text-amber-400" aria-hidden="true">
             *
           </span>
@@ -261,7 +261,7 @@ export function BmApplicationForm() {
           aria-required="true"
           aria-invalid={errors.building ? "true" : undefined}
           aria-describedby={errors.building ? "building-error" : undefined}
-          placeholder="A business you're running, an idea you're chasing, or 'I don't know yet' — all three are real answers"
+          placeholder="A business you're running, an idea you're chasing, or 'I don't know yet'. All three are real answers"
           className={`${fieldClass} resize-none ${
             errors.building ? "border-red-500/60" : "border-neutral-700"
           }`}
@@ -287,7 +287,7 @@ export function BmApplicationForm() {
           rows={3}
           value={formData.why}
           onChange={handleChange}
-          placeholder="Optional — but it helps us understand who we're building with"
+          placeholder="Optional, but it helps us understand who we're building with"
           className={`${fieldClass} resize-none border-neutral-700`}
         />
       </div>

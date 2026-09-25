@@ -23,7 +23,7 @@ export function PlaceholderBox({ label, children, className }: PlaceholderBoxPro
         className
       )}
     >
-      <span className="mb-2 rounded-full border border-neutral-600 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-neutral-400">
+      <span className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-neutral-400">
         Placeholder
       </span>
       <p className="font-semibold text-neutral-200">{label}</p>

@@ -17,8 +17,8 @@ import {
  */
 export function LeeSystemsHeroSection() {
   return (
-    <section className="relative overflow-hidden bg-neutral-950 py-24 md:py-32">
-      <div className="absolute inset-0" aria-hidden="true">
+    <section className="relative isolate overflow-hidden py-24 md:py-32">
+      <div className="absolute inset-0 section-fade" aria-hidden="true">
         <div className="absolute -top-16 right-[18%] h-[34rem] w-[34rem] max-w-[80vw] translate-x-1/2 rounded-full bg-brass-400/[0.16] blur-3xl" />
         <div className="absolute -bottom-16 left-[20%] h-[28rem] w-[28rem] max-w-[70vw] -translate-x-1/2 rounded-full bg-slate-400/[0.09] blur-3xl" />
         <SignalRoutes focus="center" />

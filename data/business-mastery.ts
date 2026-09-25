@@ -319,7 +319,7 @@ export const bmFounder = {
   /** The original phrasing, kept as the recorded alternate. */
   legacyAlternate: "My legacy is a helping hand to all young entrepreneurs.",
   supporting:
-    "I want my legacy to be helping the next generation of entrepreneurs believe they can build something of their own — and giving them the guidance, network, resources, and opportunities to actually do it.",
+    "I want my legacy to be helping the next generation of entrepreneurs believe they can build something of their own, and giving them the guidance, network, resources, and opportunities to actually do it.",
   comingSoonNote: "The full story behind LEU is being written.",
 } as const;
 

@@ -47,7 +47,7 @@ const includes = [
 
 export function WebsitesServicesSection() {
   return (
-    <section id="website-includes" className="scroll-mt-24 py-20 md:py-28">
+    <section id="website-includes" className="relative isolate scroll-mt-24 py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
@@ -66,11 +66,9 @@ export function WebsitesServicesSection() {
           {includes.map(({ Icon, title, body }) => (
             <li
               key={title}
-              className="rounded-xl border border-white/10 bg-white/[0.03] p-6"
+              className="rounded-xl border border-white/10 bg-white/[0.04] p-6"
             >
-              <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-brass-400/30 bg-brass-400/10">
-                <Icon className="h-5 w-5 text-brass-300" aria-hidden="true" />
-              </span>
+              <Icon className="mb-4 h-7 w-7 text-brass-300" aria-hidden="true" />
               <h3 className="mb-2 font-semibold text-white">{title}</h3>
               <p className="text-sm leading-relaxed text-neutral-400">{body}</p>
             </li>

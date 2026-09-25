@@ -14,8 +14,8 @@ import { BM_OFFER_ID, bmFinalCta } from "@/data/business-mastery";
  */
 export function BmFinalCTASection() {
   return (
-    <section className="relative overflow-hidden bg-black py-24 md:py-32">
-      <div className="absolute inset-0" aria-hidden="true">
+    <section className="relative isolate overflow-hidden py-24 md:py-32">
+      <div className="absolute inset-0 section-fade" aria-hidden="true">
         <div
           className="absolute inset-0"
           style={{

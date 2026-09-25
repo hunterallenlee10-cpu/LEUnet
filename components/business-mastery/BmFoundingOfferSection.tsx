@@ -17,9 +17,9 @@ export function BmFoundingOfferSection() {
     <section
       id={BM_OFFER_ID}
       tabIndex={-1}
-      className="relative overflow-hidden bg-black py-20 outline-none md:py-28"
+      className="relative isolate overflow-hidden py-20 outline-none md:py-28"
     >
-      <div className="absolute inset-0" aria-hidden="true">
+      <div className="absolute inset-0 section-fade" aria-hidden="true">
         <div
           className="absolute inset-0"
           style={{

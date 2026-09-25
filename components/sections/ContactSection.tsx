@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { CheckCircle2, ChevronDown, Mail, Send } from "lucide-react";
+import { CheckCircle2, ChevronDown, Send } from "lucide-react";
 import { contactEmail, contactFormFields } from "@/data/contact";
 import { ContactFormData } from "@/types";
 import { sectionIds } from "@/data/navigation";
@@ -37,7 +37,7 @@ import { GlassCardPadded } from "@/components/cards/GlassCard";
  *  well cut into the panel. */
 const labelClass = "mb-2 block text-sm font-semibold text-neutral-200";
 const fieldClass =
-  "w-full rounded-lg border bg-neutral-950/70 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/50";
+  "w-full rounded-lg border bg-neutral-900 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/60";
 
 /** One place, so an errored control and a clean one can never drift apart. */
 const borderFor = (error?: string) =>
@@ -353,7 +353,7 @@ export function ContactSection() {
   return (
     <section
       id={sectionIds.contact}
-      className="relative overflow-hidden bg-neutral-950 py-20 md:py-32"
+      className="relative isolate overflow-hidden py-20 md:py-32"
     >
       {/* NOT `-z-10`, which is what this was. The section sets no z-index and
           so establishes no stacking context, which puts a negative layer inside
@@ -370,7 +370,7 @@ export function ContactSection() {
           things on the page and a utility section should not out-glow them.
           They also give the form's `backdrop-blur` card something to blur,
           which on flat black it did not have. */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div className="pointer-events-none absolute inset-0 section-fade" aria-hidden="true">
         <div className="absolute -top-24 right-[18%] h-[32rem] w-[32rem] max-w-[80vw] translate-x-1/2 rounded-full bg-amber-400/[0.10] blur-3xl" />
         <div className="absolute -bottom-24 left-[16%] h-[26rem] w-[26rem] max-w-[70vw] -translate-x-1/2 rounded-full bg-slate-400/[0.06] blur-3xl" />
       </div>
@@ -392,8 +392,7 @@ export function ContactSection() {
               an unadorned H2 while every other section on the page opens with
               a mark. */}
           <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
-            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/[0.07] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-              <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
               Contact
             </p>
             {/* One word carries the accent. The heading was pure white on near
@@ -461,7 +460,7 @@ export function ContactSection() {
                   so anyone who believed it assumed their enquiry had not been
                   sent. */}
               <p className="mb-8 text-neutral-300">
-                Thank you - your inquiry is with us. We will read it properly
+                Thank you, your inquiry is with us. We will read it properly
                 and get back to you by {sentVia}.
               </p>
               <button
@@ -606,7 +605,7 @@ export function ContactSection() {
                               className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-colors focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-amber-400 ${
                                 checked
                                   ? "border-amber-400/60 bg-amber-400/[0.14] text-amber-200"
-                                  : "border-neutral-700 bg-neutral-950/70 text-neutral-300 hover:border-amber-400/40"
+                                  : "border-neutral-700 bg-neutral-900 text-neutral-300 hover:border-amber-400/40"
                               }`}
                             >
                               <input

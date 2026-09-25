@@ -22,7 +22,7 @@ export const companyInfo = {
    */
   heroDescription:
     "Discover our team of master problem solvers. There is no field we cannot conquer, no task we cannot handle. Any project you give us, consider it done.",
-  logo: "/logos/leu-logo.png",
+  logo: "/logos/leu-logo.webp",
   logoAlt: "Lee Enterprises Unlimited logo",
   contactEmail: "ceo@leeenterprisesunlimited.com",
   website: "leeenterprisesunlimited.com",
@@ -71,7 +71,7 @@ export const aboutSection = {
   mission: {
     heading: "Our Mission",
     statement:
-      "Lee Enterprises Unlimited brings together a growing portfolio of specialized businesses under one vision: create value, deliver results that hold up, and build ventures designed to last. What ties them together is who they are for - people turning an idea into a business of their own, whether that means one of our services, a partnership, or a venture you start yourself.",
+      "Lee Enterprises Unlimited brings together a growing portfolio of specialized businesses under one vision: create value, deliver results that hold up, and build ventures designed to last. What ties them together is who they are for: people turning an idea into a business of their own, whether that means one of our services, a partnership, or a venture you start yourself.",
   },
   values: [
     {

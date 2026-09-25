@@ -17,10 +17,10 @@ export function AboutSection() {
   return (
     <section
       id={sectionIds.about}
-      className="relative py-20 md:py-32 bg-neutral-950 overflow-hidden"
+      className="relative isolate py-20 md:py-32 overflow-hidden"
     >
       {/* Background decoration */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10 section-fade">
         <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl" />
       </div>
 

@@ -9,7 +9,7 @@ export function WebsitesInquiryCTA() {
   return (
     <section
       id={leeSystemsAnchors.websiteForm}
-      className="scroll-mt-24 border-y border-white/10 bg-gradient-to-b from-neutral-950 via-brass-950/[0.15] to-neutral-950 py-20 md:py-28"
+      className="relative isolate scroll-mt-24 py-20 md:py-28"
     >
       <div className="section-container">
         <div className="mx-auto mb-12 max-w-3xl text-center">

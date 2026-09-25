@@ -105,7 +105,7 @@ What the Website Should Accomplish:
 ${body.goals?.trim() || "Not provided"}
     `.trim();
 
-    const subject = `Lee Systems Co. — New Website Request — ${businessName} — ${fullName}`;
+    const subject = `Lee Systems Co.: New Website Request from ${fullName}, ${businessName}`;
 
     // Checked up front so a missing key is reported as itself rather than as a
     // generic failure: the Resend constructor throws on an absent key.

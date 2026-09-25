@@ -110,7 +110,7 @@ Reply promised within 12 hours.
 
     // The subject line is what separates an audit request from a website
     // request in the inbox, so it names the brand and the form.
-    const subject = `Lee Systems Co. — New Automation Audit Request — ${businessName} — ${fullName}`;
+    const subject = `Lee Systems Co.: New Automation Audit Request from ${fullName}, ${businessName}`;
 
     // Checked up front so a missing key is reported as itself rather than as a
     // generic failure: the Resend constructor throws on an absent key.

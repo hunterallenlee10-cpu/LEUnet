@@ -22,7 +22,7 @@ const automatedSteps = [
 
 export function AutomationProblemSection() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
@@ -40,19 +40,14 @@ export function AutomationProblemSection() {
         </div>
 
         <div className="mx-auto grid max-w-5xl grid-cols-1 items-stretch gap-6 lg:grid-cols-[1fr_auto_1fr]">
-          <div className="rounded-xl border border-white/10 bg-white/[0.02] p-6 md:p-8">
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-8">
             <div className="mb-6 flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-900">
-                <X className="h-4 w-4 text-neutral-400" aria-hidden="true" />
-              </span>
+              <X className="h-7 w-7 text-neutral-400" aria-hidden="true" />
               <h3 className="font-semibold text-neutral-300">Run on memory</h3>
             </div>
-            <ol className="space-y-3">
+            <ol className="divide-y divide-white/5">
               {manualSteps.map((step, i) => (
-                <li
-                  key={step}
-                  className="flex items-center gap-3 rounded-lg border border-dashed border-neutral-800 bg-neutral-900/40 px-4 py-3"
-                >
+                <li key={step} className="flex items-center gap-3 py-3">
                   <span className="font-mono text-xs text-neutral-500">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -73,23 +68,12 @@ export function AutomationProblemSection() {
 
           <div className="rounded-xl border border-brass-400/30 bg-gradient-to-b from-brass-400/[0.07] to-transparent p-6 md:p-8">
             <div className="mb-6 flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-brass-400/40 bg-brass-400/10">
-                <Check className="h-4 w-4 text-brass-300" aria-hidden="true" />
-              </span>
+              <Check className="h-7 w-7 text-brass-300" aria-hidden="true" />
               <h3 className="font-semibold text-white">Run by a system</h3>
             </div>
-            <ol className="space-y-3">
+            <ol className="divide-y divide-white/5">
               {automatedSteps.map((step, i) => (
-                <li
-                  key={step}
-                  className="relative flex items-center gap-3 rounded-lg border border-white/10 bg-neutral-900/70 px-4 py-3"
-                >
-                  {i !== automatedSteps.length - 1 && (
-                    <span
-                      aria-hidden="true"
-                      className="absolute bottom-[-13px] left-8 h-3 w-px bg-brass-400/40"
-                    />
-                  )}
+                <li key={step} className="flex items-center gap-3 py-3">
                   <span className="font-mono text-xs text-brass-300/80">
                     {String(i + 1).padStart(2, "0")}
                   </span>

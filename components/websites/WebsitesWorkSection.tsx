@@ -12,7 +12,7 @@ export function WebsitesWorkSection() {
   return (
     <section
       id="website-work"
-      className="scroll-mt-24 border-y border-white/10 bg-neutral-950/60 py-20 md:py-28"
+      className="relative isolate scroll-mt-24 py-20 md:py-28"
     >
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">

@@ -9,8 +9,8 @@ import {
 
 export function LeeSystemsFinalCTA() {
   return (
-    <section className="relative overflow-hidden border-t border-white/10 py-20 md:py-28">
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
+    <section className="relative isolate overflow-hidden py-20 md:py-28">
+      <div className="absolute inset-0 -z-10 section-fade" aria-hidden="true">
         <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brass-400/10 blur-3xl" />
       </div>
 

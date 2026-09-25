@@ -21,7 +21,7 @@ const steps = [
 
 export function LeeSystemsHowItWorksSection() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">

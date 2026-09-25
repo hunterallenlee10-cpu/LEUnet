@@ -31,7 +31,7 @@ import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground
  */
 export function BmHeroSection() {
   return (
-    <section className="relative flex min-h-[calc(100vh-80px)] items-center overflow-hidden bg-black">
+    <section className="relative isolate flex min-h-[calc(100vh-80px)] items-center overflow-hidden">
       {/* A drifting network of nodes and links, with two craft crossing it and
           lighting what they pass. Geometry, palette and the reasoning behind
           each layer live with the component and with the styles in

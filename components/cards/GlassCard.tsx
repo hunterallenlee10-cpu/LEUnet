@@ -14,7 +14,7 @@ export function GlassCard({
   children,
   className,
   hover = true,
-  glassOpacity = "bg-white/8",
+  glassOpacity = "bg-white/[0.04]",
   borderColor = "border-white/10",
   onClick,
 }: GlassCardProps) {
@@ -22,10 +22,10 @@ export function GlassCard({
     <div
       onClick={onClick}
       className={cn(
-        "backdrop-blur-md rounded-lg border transition-all duration-300",
+        "rounded-xl border transition-colors duration-300",
         glassOpacity,
         borderColor,
-        hover && "hover:border-white/20 hover:backdrop-blur-lg",
+        hover && "hover:border-white/20",
         onClick && "cursor-pointer",
         className
       )}

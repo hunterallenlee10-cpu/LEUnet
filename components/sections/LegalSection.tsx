@@ -60,11 +60,16 @@ function AccordionItem({
  * padding. Nothing about this is worth breaking a phone over.
  */
 export function LegalSection() {
-  const [openPrivacy, setOpenPrivacy] = useState<number | null>(null);
-  const [openTerms, setOpenTerms] = useState<number | null>(null);
+  // One open item across BOTH lists, keyed "privacy-2" / "terms-0": opening
+  // any question closes whichever one was open before, including one in the
+  // other column. Two separate states let a Privacy and a Terms item sit open
+  // side by side.
+  const [openKey, setOpenKey] = useState<string | null>(null);
+  const toggle = (key: string) =>
+    setOpenKey((current) => (current === key ? null : key));
 
   return (
-    <section className="relative overflow-hidden bg-neutral-950 py-20 md:py-28">
+    <section className="relative isolate overflow-hidden py-20 md:py-28">
       {/* Both sections' orbs, kept and merged - amber high right from Privacy,
           cyan low left from Terms. They are NOT on `-z-10` any more: this
           section sets no z-index, so it establishes no stacking context, and a
@@ -72,7 +77,7 @@ export function LegalSection() {
           background where none of it survived. Neither orb has ever actually
           been visible. The content below carries `relative` so it still paints
           over them, which is the arrangement BusinessMasterySection uses. */}
-      <div className="absolute inset-0" aria-hidden="true">
+      <div className="absolute inset-0 section-fade" aria-hidden="true">
         <div className="absolute right-1/4 top-1/4 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
         <div className="absolute bottom-1/4 left-1/4 h-96 w-96 rounded-full bg-cyan-400/5 blur-3xl" />
       </div>
@@ -90,15 +95,13 @@ export function LegalSection() {
                   key={index}
                   title={section.heading}
                   content={section.content}
-                  isOpen={openPrivacy === index}
-                  onToggle={() =>
-                    setOpenPrivacy(openPrivacy === index ? null : index)
-                  }
+                  isOpen={openKey === `privacy-${index}`}
+                  onToggle={() => toggle(`privacy-${index}`)}
                 />
               ))}
             </div>
 
-            <GlassCard className="mt-8 p-6 bg-white/5 border-white/10">
+            <GlassCard hover={false} className="mt-8 p-6">
               <p className="text-neutral-400 text-sm">
                 If you have any questions about this Privacy Policy, please contact us at{" "}
                 <span className="text-amber-400 font-semibold">
@@ -127,15 +130,13 @@ export function LegalSection() {
                   key={index}
                   title={section.heading}
                   content={section.content}
-                  isOpen={openTerms === index}
-                  onToggle={() =>
-                    setOpenTerms(openTerms === index ? null : index)
-                  }
+                  isOpen={openKey === `terms-${index}`}
+                  onToggle={() => toggle(`terms-${index}`)}
                 />
               ))}
             </div>
 
-            <GlassCard className="mt-8 p-6 bg-white/5 border-white/10">
+            <GlassCard hover={false} className="mt-8 p-6">
               <p className="text-neutral-400 text-sm">
                 By accessing and using this website, you accept and agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use our website.
               </p>

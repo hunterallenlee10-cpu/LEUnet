@@ -107,7 +107,7 @@ export function AutomationServicesSection() {
   return (
     <section
       id="automation-services"
-      className="scroll-mt-24 bg-gradient-to-b from-neutral-950 to-brass-950/[0.12] py-20 md:py-28"
+      className="relative isolate scroll-mt-24 py-20 md:py-28"
     >
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
@@ -130,11 +130,9 @@ export function AutomationServicesSection() {
             return (
               <div
                 key={id}
-                className="flex flex-col rounded-xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm transition-colors duration-300 hover:border-brass-400/40"
+                className="flex flex-col rounded-xl border border-white/10 bg-white/[0.04] p-6 transition-colors duration-300 hover:border-brass-400/40 md:p-8"
               >
-                <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg border border-brass-400/30 bg-brass-400/10">
-                  <Icon className="h-5 w-5 text-brass-300" aria-hidden="true" />
-                </span>
+                <Icon className="mb-5 h-7 w-7 text-brass-300" aria-hidden="true" />
 
                 <h3 className="mb-3 text-lg font-bold text-white">{title}</h3>
                 <p className="mb-5 text-sm leading-relaxed text-neutral-400">

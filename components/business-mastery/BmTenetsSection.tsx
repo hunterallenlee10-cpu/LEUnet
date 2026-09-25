@@ -15,8 +15,8 @@ import { bmTenets, bmTenetsIntro } from "@/data/business-mastery";
  */
 export function BmTenetsSection() {
   return (
-    <section className="relative overflow-hidden bg-black py-20 md:py-28">
-      <div className="absolute inset-0" aria-hidden="true">
+    <section className="relative isolate overflow-hidden py-20 md:py-28">
+      <div className="absolute inset-0 section-fade" aria-hidden="true">
         <div className="absolute right-0 top-1/4 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
       </div>
 
@@ -37,7 +37,7 @@ export function BmTenetsSection() {
           {bmTenets.map((tenet) => (
             <li
               key={tenet.id}
-              className="rounded-xl border border-neutral-800 bg-neutral-900/40 p-6 transition-colors duration-300 hover:border-amber-400/30"
+              className="rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-8 transition-colors duration-300 hover:border-amber-400/30"
             >
               {/* Stacked rather than beside the title: at three columns the
                   old horizontal row left roughly 220px for the copy, which

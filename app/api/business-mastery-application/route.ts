@@ -96,7 +96,7 @@ Why They Want In as a Member:
 ${why || "Not provided"}
     `.trim();
 
-    const subject = `New Business Mastery Application — ${fullName}`;
+    const subject = `New Business Mastery Application from ${fullName}`;
 
     // Checked up front so a missing key is reported as itself rather than as a
     // generic failure: the Resend constructor throws on an absent key.

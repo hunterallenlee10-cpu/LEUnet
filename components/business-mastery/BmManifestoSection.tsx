@@ -128,8 +128,8 @@ import {
  */
 export function BmManifestoSection() {
   return (
-    <section className="relative bg-neutral-950 py-16 md:py-24">
-      <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+    <section className="relative isolate py-16 md:py-24">
+      <div className="absolute inset-0 z-0 overflow-hidden section-fade" aria-hidden="true">
         <div
           className="absolute inset-0"
           style={{

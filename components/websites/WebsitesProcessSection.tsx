@@ -49,7 +49,7 @@ const steps = [
 
 export function WebsitesProcessSection() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           {/* Matches the eyebrow treatment on the automation page's process
@@ -71,11 +71,11 @@ export function WebsitesProcessSection() {
           {steps.map(({ title, detail }, i) => (
             <li
               key={title}
-              className="rounded-xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm transition-colors duration-300 hover:border-brass-400/40"
+              className="rounded-xl border border-white/10 bg-white/[0.04] p-6 transition-colors duration-300 hover:border-brass-400/40 md:p-8"
             >
               <span
                 aria-hidden="true"
-                className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg border border-brass-400/30 bg-brass-400/10 font-mono text-sm font-semibold text-brass-300"
+                className="mb-3 block font-mono text-sm font-semibold text-brass-300"
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
@@ -88,7 +88,7 @@ export function WebsitesProcessSection() {
         </ol>
 
         <PlaceholderBox label="Typical build time" className="mx-auto mt-10 max-w-2xl">
-          Add a typical range once a few client builds are finished, e.g. &ldquo;Most sites take 2&ndash;4 weeks.&rdquo; Until then, every quote includes its own timeline.
+          Add a typical range once a few client builds are finished, e.g. &ldquo;Most sites take 2 to 4 weeks.&rdquo; Until then, every quote includes its own timeline.
         </PlaceholderBox>
       </div>
     </section>

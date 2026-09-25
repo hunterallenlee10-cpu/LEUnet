@@ -34,8 +34,8 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
  */
 export function BmJourneyLocked() {
   return (
-    <section className="relative overflow-hidden bg-neutral-950 py-20 md:py-28">
-      <div className="absolute inset-0" aria-hidden="true">
+    <section className="relative isolate overflow-hidden py-20 md:py-28">
+      <div className="absolute inset-0 section-fade" aria-hidden="true">
         <div className="absolute right-10 top-1/3 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
       </div>
 

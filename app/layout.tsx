@@ -48,8 +48,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/logos/leu-logo.png',
-        width: 1200,
-        height: 630,
+        width: 512,
+        height: 512,
         alt: 'Lee Enterprises Unlimited Logo',
       },
     ],
@@ -59,8 +59,10 @@ export const metadata: Metadata = {
     title: 'Lee Enterprises Unlimited',
     description: 'Premium business portfolio: LEU Business Mastery and Lee Systems Co.',
   },
+  // A 192px copy for the tab icon: the full logo used to be a 1.4 MB PNG and
+  // every page fetched it just to draw a 16px favicon.
   icons: {
-    icon: '/logos/leu-logo.png',
+    icon: '/logos/leu-logo-192.png',
   },
 }
 
