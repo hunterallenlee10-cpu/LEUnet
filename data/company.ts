@@ -15,7 +15,7 @@ export const companyInfo = {
    * not yet said what they need.
    */
   heroDescription:
-    "Discover our team of master problem solvers. There is no field we cannot conquer, no task we cannot handle. Any project you give us — consider it done.",
+    "Discover our team of master problem solvers. There is no field we cannot conquer, no task we cannot handle. Any project you give us, consider it done.",
   logo: "/logos/leu-logo.png",
   logoAlt: "Lee Enterprises Unlimited logo",
   contactEmail: "ceo@leeenterprisesunlimited.com",
