@@ -34,8 +34,8 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL('https://leeenterprisesunlimited.com'),
   title: 'Lee Enterprises Unlimited | Premium Business Portfolio',
-  description: 'Lee Enterprises Unlimited is the holding company behind LEU Business Mastery and Lee Marketing Mastery, each dedicated to delivering premium value and measurable results.',
-  keywords: ['Lee Enterprises', 'marketing', 'business portfolio'],
+  description: 'Lee Enterprises Unlimited is the holding company behind LEU Business Mastery and Lee Systems Co., each dedicated to delivering premium value and measurable results.',
+  keywords: ['Lee Enterprises', 'business automation', 'website design', 'business portfolio'],
   authors: [{ name: 'Lee Enterprises Unlimited' }],
   creator: 'Lee Enterprises Unlimited',
   publisher: 'Lee Enterprises Unlimited',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://leeenterprisesunlimited.com',
     title: 'Lee Enterprises Unlimited',
-    description: 'A premium business portfolio dedicated to excellence: LEU Business Mastery and Lee Marketing Mastery.',
+    description: 'A premium business portfolio dedicated to excellence: LEU Business Mastery and Lee Systems Co.',
     images: [
       {
         url: '/logos/leu-logo.png',
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Lee Enterprises Unlimited',
-    description: 'Premium business portfolio: LEU Business Mastery and Lee Marketing Mastery.',
+    description: 'Premium business portfolio: LEU Business Mastery and Lee Systems Co.',
   },
   icons: {
     icon: '/logos/leu-logo.png',

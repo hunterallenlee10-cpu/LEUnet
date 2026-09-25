@@ -3,7 +3,7 @@
 - **Stripe API version:** `2026-06-24.dahlia` (pinned in `lib/stripe.ts`)
 - **SDK:** `stripe` 22.3.x for Node
 - **Framework:** Next.js 16 App Router, Node runtime for all Stripe routes
-- **Account model:** one Stripe account covering Lee Marketing Mastery, the one venture on this site, plus H1 and Thread invoicing (`docs/H1.md`, `docs/THREAD.md`)
+- **Account model:** one Stripe account covering Lee Systems Co. (formerly Lee Marketing Mastery, still tagged `lmm`), the one venture on this site, plus H1 and Thread invoicing (`docs/H1.md`, `docs/THREAD.md`)
 
 Two flows are live in code:
 

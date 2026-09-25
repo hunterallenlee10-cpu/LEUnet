@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { LmmMarkDivider } from "@/components/lmm/LmmMark";
-import { websiteFaqs } from "@/data/websites";
+import { LeeSystemsMarkDivider } from "@/components/lee-systems/LeeSystemsMark";
+import { websiteFaqs } from "@/data/lee-systems";
 
 export function WebsitesFAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -14,7 +14,7 @@ export function WebsitesFAQSection() {
         {/* Same breath the automation and marketing FAQs take: the inquiry
             section above ends on a form, and the divider keeps this heading
             from landing directly under it. */}
-        <LmmMarkDivider className="mb-14" />
+        <LeeSystemsMarkDivider className="mb-14" />
 
         {/* This is the last heading a reader meets before the form, and it used
             to read "Questions About the Build", which frames the purchase as a
@@ -29,7 +29,7 @@ export function WebsitesFAQSection() {
             across, so asserting which ones are asked most is not something we
             can back. */}
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
             Questions
           </p>
           <h2 className="heading-lg text-white">
@@ -49,11 +49,11 @@ export function WebsitesFAQSection() {
                     aria-expanded={isOpen}
                     aria-controls={`website-faq-panel-${index}`}
                     id={`website-faq-trigger-${index}`}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.03] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-amber-400"
+                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.03] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brass-400"
                   >
                     <span className="font-semibold text-white">{question}</span>
                     <ChevronDown
-                      className={`h-5 w-5 shrink-0 text-amber-400 transition-transform duration-200 ${
+                      className={`h-5 w-5 shrink-0 text-brass-300 transition-transform duration-200 ${
                         isOpen ? "rotate-180" : ""
                       }`}
                       aria-hidden="true"

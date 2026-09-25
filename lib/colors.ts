@@ -14,14 +14,15 @@ export const LEU_COLORS = {
 
 export const VENTURE_COLORS: Record<string, VentureColors> = {
   lmm: {
-    primary: "#FFC107", // Bright gold/yellow from reference
-    accent: "#FF9800", // Orange
+    // Lee Systems Co. brass; matches --color-brass-* in app/globals.css.
+    primary: "#D4A857",
+    accent: "#B98D3E",
     dark: "#1A1A1A",
     light: "#FFFFFF",
     text: "#FFFFFF",
     textMuted: "#B0B0B0",
     border: "#2A2A2A",
-    glassBg: "rgba(255, 193, 7, 0.08)",
+    glassBg: "rgba(212, 168, 87, 0.08)",
     glassOpacity: "0.08",
   },
 };

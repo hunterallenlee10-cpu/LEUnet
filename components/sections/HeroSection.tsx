@@ -173,7 +173,7 @@ export function HeroSection() {
                   href={venturePages.lmm}
                   className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
-                  Marketing Mastery
+                  Lee Systems Co.
                 </Link>
               </div>
             </div>

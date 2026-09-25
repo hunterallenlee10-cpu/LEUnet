@@ -45,15 +45,16 @@ export const contactFormFields = {
      * T-Shirts had an option here until it came off this site on 2026-09-25
      * (docs/THREAD.md).
      *
-     * Deliberately coarse. Lee Marketing Mastery sells three separate
-     * offerings, but each has its own form on its own page with its own
-     * subject line; this is the general enquiry form, and splitting it here
-     * would duplicate that routing without the context those pages give.
+     * Deliberately coarse. Lee Systems Co. sells two offerings, and each has
+     * its own form on its own page with its own subject line; this is the
+     * general enquiry form, and splitting it here would duplicate that routing
+     * without the context those pages give. The value stays "lmm", the
+     * venture's id from before the rename; the route emails the label.
      */
     options: [
       { value: "", label: "Select a venture or service..." },
       { value: "business-mastery", label: "LEU Business Mastery" },
-      { value: "lmm", label: "Lee Marketing Mastery" },
+      { value: "lmm", label: "Lee Systems Co." },
       { value: "other", label: "Other / Lee Enterprises Inquiry" },
     ],
   },

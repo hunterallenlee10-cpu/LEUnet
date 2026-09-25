@@ -1,5 +1,11 @@
 # LMM Websites - Build Spec
 
+> **Historical.** This spec predates the 2026-09-25 rename of Lee Marketing
+> Mastery to Lee Systems Co. The page now lives at `/lee-systems/websites`,
+> leads with the "built before you pay" guarantee, and its copy, sections and
+> FAQ were rewritten (see `docs/LEE-SYSTEMS.md`). Paths and section names
+> below describe the old page. The claims standard in §3 still applies.
+
 Execution plan and settled decisions for `/lee-marketing-mastery/websites`, the
 Lee Marketing Mastery page that sells professionally built business websites
 around one job: turning a visitor into a customer.

@@ -9,12 +9,15 @@ function getResend(): Resend {
 }
 
 // Delivers to the site-wide contact address, matching the contact form, the
-// LMM consultation form and the payment notifications.
-// A separate route from /api/lmm-consultation rather than a shared one with a
+// Lee Systems automation audit form and the payment notifications.
+// A separate route from /api/automation-audit rather than a shared one with a
 // flag: the subject line is what distinguishes a website lead from an
 // automation lead in the inbox, and that only works if it is set here.
+// LMM_TO_EMAIL is still read so an environment configured before the Lee
+// Marketing Mastery rename keeps delivering where it did.
 const WEBSITE_TO_EMAIL =
   process.env.WEBSITE_TO_EMAIL ||
+  process.env.LEE_SYSTEMS_TO_EMAIL ||
   process.env.LMM_TO_EMAIL ||
   process.env.CONTACT_TO_EMAIL ||
   "ceo@leeenterprisesunlimited.com";
@@ -102,7 +105,7 @@ What the Website Should Accomplish:
 ${body.goals?.trim() || "Not provided"}
     `.trim();
 
-    const subject = `New Website Request — ${businessName} — ${fullName}`;
+    const subject = `Lee Systems Co. — New Website Request — ${businessName} — ${fullName}`;
 
     // Checked up front so a missing key is reported as itself rather than as a
     // generic failure: the Resend constructor throws on an absent key.

@@ -92,6 +92,41 @@ const nextConfig = {
         destination: "/partners",
         permanent: true,
       },
+      // Lee Marketing Mastery became Lee Systems Co. on 2026-09-25 and moved
+      // from /lee-marketing-mastery to /lee-systems. Same-origin rename with
+      // no plan to go back, so these are permanent. 301 rather than Next's
+      // default 308 for `permanent: true` because the owner asked for 301s;
+      // for page GETs the two are equivalent to browsers and search engines.
+      // The two offerings map to their new pages; the retired Traditional &
+      // Digital Marketing page, and any other old path, goes to the main
+      // page. Specific rules first: Next uses the first match.
+      {
+        source: "/lee-marketing-mastery",
+        destination: "/lee-systems",
+        statusCode: 301,
+      },
+      {
+        source: "/lee-marketing-mastery/automation",
+        destination: "/lee-systems/automation",
+        statusCode: 301,
+      },
+      {
+        source: "/lee-marketing-mastery/websites",
+        destination: "/lee-systems/websites",
+        statusCode: 301,
+      },
+      {
+        source: "/lee-marketing-mastery/:path*",
+        destination: "/lee-systems",
+        statusCode: 301,
+      },
+      // The old logo and social-sharing image went with the brand. Anything
+      // still linking to them (a cached share card, say) gets the new card.
+      {
+        source: "/og/lee-marketing-mastery.png",
+        destination: "/lee-systems/opengraph-image",
+        statusCode: 301,
+      },
       // H1 Performance moved to its own site on 2026-09-01 and came off this
       // site entirely on 2026-09-03 (docs/H1.md, config/h1-site.mjs). These
       // redirects outlive the listing on purpose: /h1-performance was a real
