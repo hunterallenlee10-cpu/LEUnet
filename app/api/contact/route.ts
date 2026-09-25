@@ -133,7 +133,7 @@ ${projectDescriptionTrimmed}
     `.trim();
 
     // Build subject line
-    const subject = `New Website Inquiry — ${ventureLabel} — ${fullNameTrimmed}`;
+    const subject = `New Website Inquiry: ${ventureLabel}, from ${fullNameTrimmed}`;
 
     // Send email via Resend
     const response = await getResend().emails.send({

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Workflow } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { AutomationFlowVisual } from "@/components/automation/AutomationFlowVisual";
 import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
@@ -19,8 +19,8 @@ import {
  */
 export function AutomationHeroSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-neutral-950 via-neutral-950 to-brass-950/20 py-24 md:py-32">
-      <div className="absolute inset-0 -z-10">
+    <section className="relative isolate overflow-hidden py-24 md:py-32">
+      <div className="absolute inset-0 -z-10 section-fade">
         <div className="absolute right-10 top-20 h-96 w-96 rounded-full bg-brass-400/10 blur-3xl" />
         <div className="absolute bottom-10 left-10 h-80 w-80 rounded-full bg-slate-400/5 blur-3xl" />
       </div>
@@ -30,12 +30,9 @@ export function AutomationHeroSection() {
           <div>
             <div className="mb-6 flex flex-wrap items-center gap-4">
               <LeeSystemsMark size="md" />
-              <div className="inline-flex items-center gap-2 rounded-full border border-brass-400/30 bg-brass-400/10 px-4 py-2">
-                <Workflow className="h-4 w-4 text-brass-300" aria-hidden="true" />
-                <span className="text-sm font-semibold tracking-wide text-brass-300">
-                  BUSINESS AUTOMATION
-                </span>
-              </div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-brass-300">
+                Business Automation
+              </p>
             </div>
 
             <h1 className="heading-xl mb-6 text-white">
@@ -88,7 +85,7 @@ export function AutomationHeroSection() {
           <div>
             <LeeSystemsSiblingLinks current={leeSystemsRoutes.automation} />
 
-            <div className="rounded-xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm md:p-7">
+            <div>
               <div className="mb-5 flex items-center justify-between">
                 <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
                   Example: a new lead

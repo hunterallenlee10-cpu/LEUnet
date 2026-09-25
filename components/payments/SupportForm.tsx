@@ -96,7 +96,7 @@ export function SupportForm({ className, title = "Support our work" }: SupportFo
 
       {selection === "custom" && (
         <p className="mt-4 text-sm leading-relaxed text-neutral-400">
-          You&apos;ll choose your amount on the next page — anywhere from{" "}
+          You&apos;ll choose your amount on the next page, anywhere from{" "}
           {formatAmountCompact(SUPPORT_MIN_CENTS)} to{" "}
           {formatAmountCompact(SUPPORT_MAX_CENTS)}.
         </p>

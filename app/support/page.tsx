@@ -51,11 +51,11 @@ export default function SupportPage() {
       {/* pt-32 clears the fixed header. */}
       <section className="relative mx-auto w-full max-w-6xl px-6 pt-32 pb-24 sm:pt-40">
         <header className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center rounded-full border border-amber-300/25 bg-amber-300/[0.07] px-3.5 py-1.5 text-xs font-medium tracking-wide text-amber-200/90 uppercase">
+          <p className="text-sm font-semibold uppercase tracking-widest text-amber-400">
             Support us
-          </span>
+          </p>
 
-          <h1 className="mt-6 text-4xl leading-[1.1] font-semibold tracking-tight text-white sm:text-5xl">
+          <h1 className="heading-xl mt-4 text-white">
             Support{" "}
             <span className="bg-gradient-to-r from-amber-200 via-amber-300 to-amber-500 bg-clip-text text-transparent">
               {companyInfo.name}

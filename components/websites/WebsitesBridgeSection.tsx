@@ -8,12 +8,10 @@ import { leeSystemsRoutes } from "@/data/lee-systems";
  */
 export function WebsitesBridgeSection() {
   return (
-    <section className="py-16 md:py-20">
+    <section className="relative isolate py-16 md:py-20">
       <div className="section-container">
-        <div className="mx-auto flex max-w-4xl flex-col items-start gap-6 rounded-2xl border border-white/10 bg-white/[0.03] p-8 md:flex-row md:items-center md:p-10">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-brass-400/30 bg-brass-400/10">
-            <Workflow className="h-6 w-6 text-brass-300" aria-hidden="true" />
-          </span>
+        <div className="mx-auto flex max-w-4xl flex-col items-start gap-6 rounded-xl border border-white/10 bg-white/[0.04] p-8 md:flex-row md:items-center md:p-10">
+          <Workflow className="shrink-0 h-7 w-7 text-brass-300" aria-hidden="true" />
           <div className="flex-1">
             <h2 className="mb-2 text-xl font-bold text-white md:text-2xl">
               Once your site brings in leads, we can automate the follow-up.

@@ -40,7 +40,7 @@ export function HeroSection() {
       // shorter. The band is reserved as top padding on the wrapper below
       // instead, and the height is a minimum so a column too tall for the
       // space grows the page rather than being clipped by `overflow-hidden`.
-      className="relative overflow-hidden bg-black min-h-[calc(100vh-80px)] lg:min-h-screen"
+      className="relative isolate overflow-hidden min-h-[calc(100vh-80px)] lg:min-h-screen"
     >
       {/* Animated background — "Aurora Veil". Two counter-rotating masked
           gradients over a warm pool, then grain and a scrim that keeps the

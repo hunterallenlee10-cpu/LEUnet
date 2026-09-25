@@ -163,8 +163,8 @@ export function BmJourneyTimeline() {
   // glows — with the timeline's scrubber running straight into the CTA's
   // headline.
   return (
-    <section className="relative overflow-hidden bg-neutral-950 py-16 md:py-20">
-      <div className="absolute inset-0" aria-hidden="true">
+    <section className="relative isolate overflow-hidden py-16 md:py-20">
+      <div className="absolute inset-0 section-fade" aria-hidden="true">
         <div className="absolute right-10 top-1/3 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl" />
       </div>
 
@@ -172,7 +172,7 @@ export function BmJourneyTimeline() {
         {/* Slides */}
         <div
           role="region"
-          aria-label="The Journey — interactive timeline"
+          aria-label="The Journey: interactive timeline"
           aria-roledescription="carousel"
           tabIndex={0}
           onKeyDown={handleKeyDown}
@@ -206,7 +206,7 @@ export function BmJourneyTimeline() {
                 onClick={() => goTo(1)}
                 className="group mt-10 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-white transition-colors hover:text-amber-400 sm:text-sm"
               >
-                {bmJourney.startCta} — {bmJourney.hint}
+                {bmJourney.startCta} · {bmJourney.hint}
                 <ChevronRight
                   className="h-4 w-4 text-amber-400 transition-transform group-hover:translate-x-1"
                   aria-hidden="true"
@@ -263,7 +263,7 @@ export function BmJourneyTimeline() {
               type="button"
               onClick={() => goTo(active - 1)}
               aria-label="Previous chapter"
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-neutral-700 bg-neutral-950/70 p-2.5 text-neutral-300 backdrop-blur-sm transition-colors hover:border-amber-400/60 hover:text-amber-400 sm:left-6"
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-neutral-700 bg-neutral-950/70 p-2.5 text-neutral-300  transition-colors hover:border-amber-400/60 hover:text-amber-400 sm:left-6"
             >
               <ChevronLeft className="h-6 w-6" aria-hidden="true" />
             </button>
@@ -273,7 +273,7 @@ export function BmJourneyTimeline() {
               type="button"
               onClick={() => goTo(active + 1)}
               aria-label="Next chapter"
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-neutral-700 bg-neutral-950/70 p-2.5 text-neutral-300 backdrop-blur-sm transition-colors hover:border-amber-400/60 hover:text-amber-400 sm:right-6"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-neutral-700 bg-neutral-950/70 p-2.5 text-neutral-300  transition-colors hover:border-amber-400/60 hover:text-amber-400 sm:right-6"
             >
               <ChevronRight className="h-6 w-6" aria-hidden="true" />
             </button>

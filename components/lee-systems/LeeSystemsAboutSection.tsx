@@ -5,9 +5,9 @@ import { leeSystems } from "@/data/lee-systems";
 /** A short, factual About: who, where, and whose company it is. */
 export function LeeSystemsAboutSection() {
   return (
-    <section id="about" className="scroll-mt-24 py-16 md:py-20">
+    <section id="about" className="relative isolate scroll-mt-24 py-16 md:py-20">
       <div className="section-container">
-        <div className="mx-auto flex max-w-3xl flex-col items-start gap-6 rounded-2xl border border-white/10 bg-white/[0.03] p-8 sm:flex-row md:p-10">
+        <div className="mx-auto flex max-w-3xl flex-col items-start gap-6 sm:flex-row">
           <LeeSystemsMark size="md" />
           <div>
             <h2 className="mb-3 text-2xl font-bold text-white">

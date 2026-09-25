@@ -91,6 +91,29 @@ export function MainHeader() {
     smoothScrollToElement(sectionId, { focus: true });
   }, [mobileMenuOpen]);
 
+  // With hover no longer opening or closing the desktop dropdown, a click
+  // anywhere outside it, or Escape, is what closes it. Also closes the mobile
+  // drawer on Escape.
+  useEffect(() => {
+    if (!openDropdownId && !mobileMenuOpen) return;
+    const onPointerDown = (event: PointerEvent) => {
+      if (mobileMenuOpen) return;
+      if (openWrapperRef.current?.contains(event.target as Node)) return;
+      setOpenDropdownId(null);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setOpenDropdownId(null);
+      setMobileMenuOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [openDropdownId, mobileMenuOpen]);
+
   const cancelClose = () => {
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
@@ -161,293 +184,89 @@ export function MainHeader() {
   };
 
   return (
-    <header
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        // Open mobile menu: opaque and full-height (dvh, so iOS Safari's
-        // collapsing toolbars don't leave a strip of page peeking out at the
-        // bottom), a flex column so the menu pane can take the leftover
-        // height. xl:h-auto in case the state lingers across a resize to
-        // desktop, where the menu markup is hidden.
-        mobileMenuOpen
-          ? "h-dvh xl:h-auto flex flex-col bg-neutral-950"
-          : isScrolled
-            ? "bg-neutral-950 backdrop-blur-md border-b border-neutral-800"
-            : "bg-neutral-950/50 backdrop-blur-sm"
-      }`}
-      style={
-        isScrolled
-          ? {
-              boxShadow: `0 0 30px rgba(212, 175, 55, 0.1)`,
-            }
-          : {}
-      }
-    >
-      <div className="w-full shrink-0 max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <Link href={isHome ? "#hero" : "/"} className="flex items-center group">
-          <div className="relative w-10 h-10">
-            <Image
-              src={companyInfo.logo}
-              alt={companyInfo.logoAlt}
-              fill
-              className="object-contain"
-            />
-          </div>
-        </Link>
-
-        {/* Desktop Navigation.
-
-            `xl`, not `lg`. Flattening the Ventures tab put six entries in this
-            bar instead of five, two of them long ("Marketing Mastery",
-            "Thread T-Shirts"), and the row also carries the logo plus the
-            Support Us / Get Started / Partners cluster. Measured in the browser
-            at the Geist face this ships, back when that first label still read
-            "Lee Marketing Mastery": the six items needed ~720px against the
-            555px left over at 1024px, and they did not fit at any label length
-            worth having — so dropping the "Lee " does not buy the breakpoint
-            back. They clear it comfortably at 1280px. Between the two, the
-            hamburger below serves the same links.
-
-            Thread T-Shirts' entry came out on 2026-09-25 (docs/THREAD.md),
-            leaving five. Measured again then: they need 540px against 561px
-            left over at 1024px. That fits with 21px to spare - one wider font
-            fallback from overflowing - so the breakpoint stays at `xl`. */}
-        <nav className="hidden xl:flex items-center gap-6" aria-label="Main">
-          {navigationItems.map((item) => {
-            const isOpen = openDropdownId === item.id;
-            const panelId = `${item.id}-desktop-menu`;
-
-            // A plain entry is a button, not a Link, because most of them are
-            // homepage anchors that handleNavClick scrolls to.
-            if (!item.subItems) {
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.href, item.id)}
-                  className="text-white hover:text-amber-400 transition-colors relative group"
-                >
-                  {item.label}
-                  <span className="absolute bottom-0 left-0 w-0 group-hover:w-full h-0.5 bg-amber-400 transition-all duration-300" />
-                </button>
-              );
-            }
-
-            return (
-              <div
-                key={item.id}
-                className="relative"
-                ref={isOpen ? openWrapperRef : undefined}
-                onMouseEnter={() => openDropdown(item.id)}
-                onMouseLeave={closeDropdownSoon}
-                onFocus={() => openDropdown(item.id)}
-                onBlur={closeDropdownSoon}
-                onKeyDown={(event) => {
-                  if (event.key === "Escape" && isOpen) {
-                    closeDropdown();
-                    // Focus would otherwise fall to <body> when the panel
-                    // unmounts out from under it.
-                    event.currentTarget.querySelector("button")?.focus();
-                    return;
-                  }
-                  // The tab navigates on Enter, so Enter cannot also be the
-                  // "open the menu" key. Without this, Escape would be a
-                  // one-way door: focus stays on the tab, and reopening the
-                  // panel would mean tabbing away and back.
-                  if (event.key === "ArrowDown") {
-                    event.preventDefault();
-                    openDropdown(item.id);
-                  }
-                }}
-              >
-                {/* The trigger navigates, like every other entry in this bar -
-                    it is the venture's own page. The dropdown is disclosure on
-                    top of that, opened by hover or by focus, which is why the
-                    three sub-items are only its three offering pages and not a
-                    fourth row repeating this destination. */}
-                <button
-                  onClick={() => handleNavClick(item.href, item.id)}
-                  className="flex items-center gap-1 text-white hover:text-amber-400 transition-colors relative group"
-                  aria-expanded={isOpen}
-                  aria-controls={panelId}
-                >
-                  {item.label}
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                    aria-hidden="true"
-                  />
-                  <span className="absolute bottom-0 left-0 w-0 group-hover:w-full h-0.5 bg-amber-400 transition-all duration-300" />
-                </button>
-
-                {/* The 10px offset from the tab is the wrapper's `pt-2.5`,
-                    not a `top-[calc(100%+10px)]` on the panel, so the gap is
-                    part of the menu's hit area. As a dead strip it armed the
-                    200ms close timer every time the pointer travelled down
-                    into the panel.
-
-                    No `overflow-hidden` on the panel: it would clip the focus
-                    ring on the first and last rows. They round their own hover
-                    backgrounds instead, which is all it would be doing. */}
-                {isOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50">
-                    <ul
-                      id={panelId}
-                      className="w-72 bg-neutral-950/95 backdrop-blur-md border border-neutral-800 border-t-amber-500/30 rounded-lg shadow-2xl"
-                      style={{
-                        animation: "fadeInSlide 200ms ease-out forwards",
-                      }}
-                    >
-                      {item.subItems.map((subItem, index) => (
-                        <li key={subItem.id}>
-                          <button
-                            onClick={() => handleNavClick(subItem.href, subItem.id)}
-                            className={`w-full text-left px-4 py-3.5 text-white hover:bg-neutral-900/80 hover:text-amber-400 hover:translate-x-0.5 transition-all duration-150 group flex items-center justify-between ${
-                              index !== item.subItems!.length - 1
-                                ? "border-b border-neutral-800/50"
-                                : ""
-                            } ${index === 0 ? "rounded-t-lg" : ""} ${
-                              index === item.subItems!.length - 1 ? "rounded-b-lg" : ""
-                            }`}
-                          >
-                            <span className="font-medium text-sm">{subItem.label}</span>
-                            <span
-                              className="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
-                              aria-hidden="true"
-                            >
-                              →
-                            </span>
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-
-        {/* Support link + CTA Button - Desktop */}
-        <div className="hidden sm:flex items-center gap-6">
-          {/* A real route rather than a section, so this is a Link and not a
-              handleNavClick button like the rest of the nav. */}
-          <Link
-            href="/support"
-            className="text-white hover:text-amber-400 transition-colors relative group whitespace-nowrap"
-          >
-            Support Us
-            <span className="absolute bottom-0 left-0 w-0 group-hover:w-full h-0.5 bg-amber-400 transition-all duration-300" />
+    <>
+      <header
+        className={`fixed top-0 z-50 w-full transition-colors duration-300 ${
+          isScrolled
+            ? "bg-neutral-950 border-b border-neutral-800"
+            : "bg-neutral-950/70 backdrop-blur-sm"
+        }`}
+      >
+        {/* Full width with side padding rather than a centred max-w-7xl
+            column: the logo sits at the left edge of the screen and the
+            actions at the right, at every width. */}
+        <div className="flex w-full items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-10">
+          <Link href={isHome ? "#hero" : "/"} className="flex shrink-0 items-center">
+            <div className="relative h-10 w-10">
+              <Image
+                src={companyInfo.logo}
+                alt={companyInfo.logoAlt}
+                fill
+                sizes="40px"
+                priority
+                className="object-contain"
+              />
+            </div>
           </Link>
 
-          <button
-            onClick={() => handleNavClick(`#${sectionIds.contact}`, "nav-contact")}
-            className="px-6 py-2 bg-amber-400 text-neutral-950 rounded-lg font-semibold hover:bg-amber-300 transition-colors"
-          >
-            Get Started
-          </button>
-
-          {/* Outlined rather than filled, so Get Started stays the one
-              primary CTA. A real route, like Support Us above. */}
-          <Link
-            href="/partners"
-            className="px-6 py-2 rounded-lg font-semibold border border-amber-400/40 text-amber-300 hover:border-amber-300 hover:text-amber-200 transition-colors whitespace-nowrap"
-          >
-            Partners
-          </Link>
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => {
-            setMobileMenuOpen(!mobileMenuOpen);
-            closeDropdown();
-          }}
-          className="xl:hidden p-2 text-white hover:text-amber-400 transition-colors"
-          aria-label="Toggle menu"
-          aria-expanded={mobileMenuOpen}
-        >
-          {mobileMenuOpen ? (
-            <X className="w-6 h-6" />
-          ) : (
-            <Menu className="w-6 h-6" />
-          )}
-        </button>
-      </div>
-
-      {/* Mobile Menu. Fills the rest of the full-height header so the page
-          never shows through under it, and scrolls its own content — inside
-          a fixed header, anything past the bottom edge would otherwise be
-          unreachable once a dropdown is expanded. overscroll-contain keeps
-          that inner scroll from chaining to the locked page, and the bottom
-          padding clears the iPhone home indicator. */}
-      {mobileMenuOpen && (
-        <div className="xl:hidden flex-1 min-h-0 overflow-y-auto overscroll-contain bg-neutral-900 border-t border-neutral-800">
-          <nav
-            className="px-4 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] space-y-2"
-            aria-label="Main"
-          >
+          {/* Desktop navigation, from `xl` up; below that the drawer serves
+              the same links. Hovering an item only changes its colour: no
+              underline sweep, no tooltip, no menu. The one dropdown opens
+              from a click on its chevron. */}
+          <nav className="hidden xl:flex items-center gap-7" aria-label="Main">
             {navigationItems.map((item) => {
               const isOpen = openDropdownId === item.id;
-              const panelId = `${item.id}-mobile-menu`;
+              const panelId = `${item.id}-desktop-menu`;
+
+              if (!item.subItems) {
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.href, item.id)}
+                    className="text-white transition-colors hover:text-amber-400"
+                  >
+                    {item.label}
+                  </button>
+                );
+              }
 
               return (
-                <div key={item.id}>
-                  {item.subItems ? (
-                    // Split row: the label navigates to the venture's page like
-                    // its siblings, and the chevron is a separate control that
-                    // expands the list. There is no hover on touch, so a row
-                    // that did both would have to pick one and strand the
-                    // other. The chevron is a 48px square rather than a bare
-                    // icon so it clears the 44px touch-target minimum.
-                    <div className="flex items-stretch">
-                      <button
-                        onClick={() => handleNavClick(item.href, item.id)}
-                        className="flex-1 text-left px-4 py-3 text-white hover:bg-neutral-800 rounded-l-lg"
-                      >
-                        {item.label}
-                      </button>
-                      <button
-                        onClick={() => (isOpen ? closeDropdown() : openDropdown(item.id))}
-                        className="w-12 flex items-center justify-center text-white hover:bg-neutral-800 rounded-r-lg"
-                        aria-label={`${item.label} pages`}
-                        aria-expanded={isOpen}
-                        aria-controls={panelId}
-                      >
-                        <ChevronDown
-                          className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
-                          aria-hidden="true"
-                        />
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => handleNavClick(item.href, item.id)}
-                      className="w-full text-left px-4 py-3 text-white hover:bg-neutral-800 rounded-lg"
-                    >
-                      {item.label}
-                    </button>
-                  )}
+                <div
+                  key={item.id}
+                  className="relative flex items-center gap-1"
+                  ref={isOpen ? openWrapperRef : undefined}
+                  onBlur={closeDropdownSoon}
+                >
+                  <button
+                    onClick={() => handleNavClick(item.href, item.id)}
+                    className="text-white transition-colors hover:text-amber-400"
+                  >
+                    {item.label}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => (isOpen ? closeDropdown() : openDropdown(item.id))}
+                    className="rounded p-1 text-white transition-colors hover:text-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
+                    aria-label={`${item.label} pages`}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                  >
+                    <ChevronDown
+                      className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                      aria-hidden="true"
+                    />
+                  </button>
 
-                  {/* Same panel treatment as the desktop dropdown — dark
-                      surface, hairline separators, white labels with amber
-                      reserved for the pressed state — so the menu reads as one
-                      design on both breakpoints. Unlike the desktop panel,
-                      `overflow-hidden` is safe here (nothing is positioned
-                      outside it) and rounds the end rows' pressed
-                      backgrounds. */}
-                  {item.subItems && isOpen && (
+                  {isOpen && (
                     <ul
                       id={panelId}
-                      className="mt-2 bg-neutral-950/95 border border-neutral-800 border-t-amber-500/30 rounded-lg shadow-2xl overflow-hidden"
+                      className="absolute left-1/2 top-full z-50 mt-3 w-64 -translate-x-1/2 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950 shadow-2xl"
                     >
-                      {item.subItems.map((subItem, index) => (
+                      {item.subItems.map((subItem) => (
                         <li key={subItem.id}>
                           <button
                             onClick={() => handleNavClick(subItem.href, subItem.id)}
-                            className={`w-full text-left px-4 py-3.5 font-medium text-sm text-white hover:bg-neutral-900/80 hover:text-amber-400 active:bg-neutral-900/80 active:text-amber-400 transition-all duration-150 ${
-                              index !== item.subItems!.length - 1
-                                ? "border-b border-neutral-800/50"
-                                : ""
-                            }`}
+                            className="w-full px-4 py-3 text-left text-sm font-medium text-white transition-colors hover:bg-neutral-900 hover:text-amber-400"
                           >
                             {subItem.label}
                           </button>
@@ -458,36 +277,169 @@ export function MainHeader() {
                 </div>
               );
             })}
-
-            {/* Mobile support link */}
-            <Link
-              href="/support"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block w-full px-4 py-3 text-white hover:bg-neutral-800 rounded-lg"
-            >
-              Support Us
-            </Link>
-
-            {/* Mobile CTA */}
-            <button
-              onClick={() => handleNavClick(`#${sectionIds.contact}`, "nav-contact")}
-              className="w-full mt-4 px-4 py-3 bg-amber-400 text-neutral-950 rounded-lg font-semibold hover:bg-amber-300 transition-colors"
-            >
-              Get Started
-            </button>
-
-            {/* Partners sits after Get Started here too, mirroring the
-                desktop order, in the same outlined-secondary treatment. */}
-            <Link
-              href="/partners"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block w-full mt-2 px-4 py-3 text-center border border-amber-400/40 text-amber-300 rounded-lg font-semibold hover:border-amber-300 hover:text-amber-200 transition-colors"
-            >
-              Partners
-            </Link>
           </nav>
+
+          <div className="flex items-center gap-3 sm:gap-5">
+            {/* Desktop actions. From `sm` they sit in the bar; below that they
+                live in the drawer, so nothing in the bar can crowd or clip the
+                logo and the menu button on a phone. */}
+            <div className="hidden sm:flex items-center gap-5">
+              <Link
+                href="/support"
+                className="whitespace-nowrap text-white transition-colors hover:text-amber-400"
+              >
+                Support Us
+              </Link>
+              <button
+                onClick={() => handleNavClick(`#${sectionIds.contact}`, "nav-contact")}
+                className="whitespace-nowrap rounded-lg bg-amber-400 px-5 py-2 font-semibold text-neutral-950 transition-colors hover:bg-amber-300"
+              >
+                Get Started
+              </button>
+              <Link
+                href="/partners"
+                className="whitespace-nowrap rounded-lg border border-amber-400/40 px-5 py-2 font-semibold text-amber-300 transition-colors hover:border-amber-300 hover:text-amber-200"
+              >
+                Partners
+              </Link>
+            </div>
+
+            <button
+              onClick={() => {
+                setMobileMenuOpen(true);
+                closeDropdown();
+              }}
+              className="p-2 text-white transition-colors hover:text-amber-400 xl:hidden"
+              aria-label="Open menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile drawer: slides over from the right at 75% of the screen width,
+          with the page dimmed behind it. Rendered outside <header> because the
+          header's backdrop-filter would otherwise become the containing block
+          for these fixed elements and trap them inside the bar. Tapping the
+          dimmed strip, the close button, a link or Escape closes it. */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-[60] xl:hidden">
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setMobileMenuOpen(false)}
+            className="absolute inset-0 h-full w-full cursor-default bg-black/60"
+          />
+          <div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            className="mobile-drawer absolute inset-y-0 right-0 flex w-[75vw] flex-col border-l border-neutral-800 bg-neutral-950 shadow-2xl"
+          >
+            <div className="flex items-center justify-end px-4 py-4">
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2 text-white transition-colors hover:text-amber-400"
+                aria-label="Close menu"
+                autoFocus
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <nav
+              className="flex-1 min-h-0 space-y-1 overflow-y-auto overscroll-contain px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
+              aria-label="Main"
+            >
+              {navigationItems.map((item) => {
+                const isOpen = openDropdownId === item.id;
+                const panelId = `${item.id}-mobile-menu`;
+
+                return (
+                  <div key={item.id}>
+                    {item.subItems ? (
+                      // Split row: the label goes to the venture's page and the
+                      // 48px chevron square expands its pages.
+                      <div className="flex items-stretch">
+                        <button
+                          onClick={() => handleNavClick(item.href, item.id)}
+                          className="flex-1 rounded-l-lg px-3 py-3 text-left text-white hover:bg-neutral-900"
+                        >
+                          {item.label}
+                        </button>
+                        <button
+                          onClick={() => (isOpen ? closeDropdown() : openDropdown(item.id))}
+                          className="flex w-12 items-center justify-center rounded-r-lg text-white hover:bg-neutral-900"
+                          aria-label={`${item.label} pages`}
+                          aria-expanded={isOpen}
+                          aria-controls={panelId}
+                        >
+                          <ChevronDown
+                            className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                            aria-hidden="true"
+                          />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => handleNavClick(item.href, item.id)}
+                        className="w-full rounded-lg px-3 py-3 text-left text-white hover:bg-neutral-900"
+                      >
+                        {item.label}
+                      </button>
+                    )}
+
+                    {/* Indented rather than boxed, so the drawer never puts a
+                        card inside itself. */}
+                    {item.subItems && isOpen && (
+                      <ul id={panelId} className="mb-1 ml-3 border-l border-neutral-800 pl-2">
+                        {item.subItems.map((subItem) => (
+                          <li key={subItem.id}>
+                            <button
+                              onClick={() => handleNavClick(subItem.href, subItem.id)}
+                              className="w-full rounded-lg px-3 py-2.5 text-left text-sm text-neutral-300 hover:bg-neutral-900 hover:text-amber-400"
+                            >
+                              {subItem.label}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                );
+              })}
+
+              <Link
+                href="/support"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block w-full rounded-lg px-3 py-3 text-white hover:bg-neutral-900"
+              >
+                Support Us
+              </Link>
+
+              <div className="space-y-2 pt-4">
+                <button
+                  onClick={() => handleNavClick(`#${sectionIds.contact}`, "nav-contact")}
+                  className="w-full rounded-lg bg-amber-400 px-4 py-3 font-semibold text-neutral-950 transition-colors hover:bg-amber-300"
+                >
+                  Get Started
+                </button>
+                <Link
+                  href="/partners"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full rounded-lg border border-amber-400/40 px-4 py-3 text-center font-semibold text-amber-300 transition-colors hover:border-amber-300 hover:text-amber-200"
+                >
+                  Partners
+                </Link>
+              </div>
+            </nav>
+          </div>
         </div>
       )}
-    </header>
+    </>
   );
 }

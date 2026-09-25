@@ -31,7 +31,7 @@ const steps = [
 
 export function AutomationProcessSection() {
   return (
-    <section className="border-y border-white/10 bg-neutral-950/60 py-20 md:py-28">
+    <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-16 max-w-3xl text-center">
           <p className="mb-3 flex items-center justify-center gap-2.5 text-sm font-semibold uppercase tracking-widest text-brass-300">

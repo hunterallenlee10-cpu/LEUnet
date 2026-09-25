@@ -49,7 +49,7 @@ export function BrowserFrameVisual() {
   return (
     <div
       aria-hidden="true"
-      className="rounded-xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm md:p-7"
+      className="rounded-xl border border-white/10 bg-white/[0.04] p-5 md:p-7"
     >
       <div className="mb-5 flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">

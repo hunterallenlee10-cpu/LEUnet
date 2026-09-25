@@ -20,7 +20,7 @@ export function LeeSystemsSection() {
   return (
     <section
       id={sectionIds.leeSystems}
-      className="relative overflow-hidden bg-black py-20 md:py-32"
+      className="relative isolate overflow-hidden py-20 md:py-32"
     >
       {/* The Lee Systems main page hero's two offset orbs — warm high and right, cool low and
           left — rather than the sibling section's single centred pool, so each
@@ -36,7 +36,7 @@ export function LeeSystemsSection() {
           THE LEE SYSTEMS MAIN PAGE HERO RUNS THIS EXACT PAIR, so clicking
           through lands on the same light. Both sides are tuned here; if these
           values change, change `LeeSystemsHeroSection` with them. */}
-      <div className="absolute inset-0" aria-hidden="true">
+      <div className="absolute inset-0 section-fade" aria-hidden="true">
         <div className="absolute -top-16 right-[18%] h-[34rem] w-[34rem] max-w-[80vw] translate-x-1/2 rounded-full bg-brass-400/[0.16] blur-3xl" />
         <div className="absolute -bottom-16 left-[20%] h-[28rem] w-[28rem] max-w-[70vw] -translate-x-1/2 rounded-full bg-slate-400/[0.09] blur-3xl" />
 

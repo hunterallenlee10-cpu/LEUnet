@@ -35,7 +35,7 @@ const pillarIcons: Record<string, React.ReactNode> = {
  */
 export function BmProgramSection() {
   return (
-    <section className="bg-neutral-950 py-20 md:py-28">
+    <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
@@ -45,43 +45,58 @@ export function BmProgramSection() {
           <p className="text-lg text-neutral-400">{bmProgram.description}</p>
         </div>
 
+        {/* Every card in the grid is the same size. The one pillar that is a
+            list rather than a description (Tools & Resources) used to be an
+            extra-wide card spanning the whole row, which broke the grid's
+            rhythm; it now sits under the grid as plain text instead. */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {bmPillars.map((pillar) => (
-            <div
-              key={pillar.id}
-              className={`glass-card rounded-xl p-6 transition-colors duration-300 hover:border-amber-400/30 md:p-7 ${
-                pillar.items ? "md:col-span-2 lg:col-span-3" : ""
-              }`}
-            >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-400/10 text-amber-400">
+          {bmPillars
+            .filter((pillar) => !pillar.items)
+            .map((pillar) => (
+              <div
+                key={pillar.id}
+                className="glass-card p-6 transition-colors duration-300 hover:border-amber-400/30 md:p-8"
+              >
+                <div className="mb-4 text-amber-400">
+                  {pillarIcons[pillar.id]}
+                </div>
+                <h3 className="mb-2 text-lg font-bold text-white">
+                  {pillar.title}
+                </h3>
+                <p className="leading-relaxed text-neutral-300">
+                  {pillar.description}
+                </p>
+              </div>
+            ))}
+        </div>
+
+        {bmPillars
+          .filter((pillar) => pillar.items)
+          .map((pillar) => (
+            <div key={pillar.id} className="mx-auto mt-14 max-w-4xl text-center">
+              <div className="mb-4 flex justify-center text-amber-400">
                 {pillarIcons[pillar.id]}
               </div>
-              <h3 className="mb-2 text-lg font-bold text-white">
-                {pillar.title}
-              </h3>
-              <p className="leading-relaxed text-neutral-300">
+              <h3 className="mb-2 text-lg font-bold text-white">{pillar.title}</h3>
+              <p className="mb-6 leading-relaxed text-neutral-300">
                 {pillar.description}
               </p>
-
-              {pillar.items && (
-                <ul className="mt-5 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
-                  {pillar.items.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-baseline gap-2.5 text-neutral-300"
-                    >
-                      <span
-                        className="h-1.5 w-1.5 shrink-0 translate-y-[-1px] rounded-full bg-amber-400"
-                        aria-hidden="true"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <ul className="mx-auto grid max-w-3xl grid-cols-1 gap-x-6 gap-y-2 text-left sm:grid-cols-2 lg:grid-cols-3">
+                {pillar.items!.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-baseline gap-2.5 text-neutral-300"
+                  >
+                    <span
+                      className="h-1.5 w-1.5 shrink-0 translate-y-[-1px] rounded-full bg-amber-400"
+                      aria-hidden="true"
+                    />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
-        </div>
       </div>
     </section>
   );

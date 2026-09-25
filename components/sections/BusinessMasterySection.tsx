@@ -16,7 +16,7 @@ export function BusinessMasterySection() {
   return (
     <section
       id={sectionIds.businessMastery}
-      className="relative overflow-hidden bg-black py-20 md:py-32"
+      className="relative isolate overflow-hidden py-20 md:py-32"
     >
       {/* The same "Constellation" field the page's own hero runs, rather than
           a gradient that merely shares its palette: this block is the doorway
@@ -31,7 +31,12 @@ export function BusinessMasterySection() {
           drawing a field whose density is derived from the box it is given,
           so a 600px band composes like the full-height hero rather than a
           crop of it. */}
-      <BmHeroBackground />
+      {/* Wrapped so the field fades out at its top and bottom edges like
+          every other section's background, instead of ending in a straight
+          line against the Lee Systems section below. */}
+      <div className="absolute inset-0 section-fade" aria-hidden="true">
+        <BmHeroBackground />
+      </div>
 
       {/* Ceiling fade. The field's ground is at its lightest along its top
           edge - the gold pool it opens with sits at 12% of the frame - so
