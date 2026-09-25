@@ -24,22 +24,10 @@ export const VENTURE_COLORS: Record<string, VentureColors> = {
     glassBg: "rgba(255, 193, 7, 0.08)",
     glassOpacity: "0.08",
   },
-  thread: {
-    primary: "#D4AF37", // Gold (luxury)
-    accent: "#F4D03F", // Lighter gold
-    dark: "#1A1A1A",
-    light: "#FFFFFF",
-    text: "#FFFFFF",
-    textMuted: "#B0B0B0",
-    border: "#3A3A3A",
-    glassBg: "rgba(212, 175, 55, 0.08)",
-    glassOpacity: "0.08",
-  },
 };
 
 export const VENTURES_BY_ID = {
   lmm: "lmm",
-  thread: "thread",
 } as const;
 
 export function getVentureColors(ventureId: string): VentureColors {
@@ -57,13 +45,10 @@ export function getTailwindColorClass(
       dark: "bg-neutral-950",
       light: "bg-white",
     },
-    thread: {
-      primary: "from-yellow-500 to-amber-500",
-      accent: "from-yellow-400 to-amber-400",
-      dark: "bg-neutral-950",
-      light: "bg-white",
-    },
   };
 
-  return colorMap[ventureId]?.[intensity] || colorMap.thread.primary;
+  // An unknown venture used to fall back to Thread's entry, which was the LEU
+  // gold under another name. Thread came off this site on 2026-09-25
+  // (docs/THREAD.md); LMM's is the one map left.
+  return colorMap[ventureId]?.[intensity] || colorMap.lmm.primary;
 }

@@ -30,7 +30,7 @@ what §3 forbids was on the page at some point and had to be taken back off.
 | Promise | One outcome: the finished site turns a visitor into a customer |
 | Offer | New builds, redesigns, "Never Miss a Lead", optional care plans |
 | Prices | **Hidden.** Every CTA routes to the quote form |
-| Proof | LEU's own live sites, linked: two routes on this domain plus Thread T-Shirts on its own site. No client work claimed |
+| Proof | LEU's own live sites, linked: two routes on this domain. No client work claimed |
 | Testimonials | **None.** Not a single fabricated quote - see §3 |
 | Lead capture | Own API route, own subject line |
 | Contact | `ceo@leeenterprisesunlimited.com`, same as every other form |
@@ -38,7 +38,7 @@ what §3 forbids was on the page at some point and had to be taken back off.
 
 ### Why a sub-route and not a venture of its own
 
-This is a Lee Marketing Mastery offering, not a sibling of Thread.
+This is a Lee Marketing Mastery offering, not a venture of its own.
 Nesting it under `/lee-marketing-mastery/` makes the parent-child relationship
 legible in the URL itself, and both the hero and the final CTA link back up to
 the parent page.
@@ -98,7 +98,7 @@ read as anything but a price list.
 | 3 | The shift | `WebsitesShiftSection` | Why the old site stopped working |
 | 4 | Problem | `WebsitesProblemSection` | A site that sits there vs one that sells |
 | 5 | What we build | `WebsitesServicesSection` | All four offerings, expandable |
-| 6 | Proof | `WebsitesWorkSection` | Three live sites, each clickable: two routes on this domain, one on its own |
+| 6 | Proof | `WebsitesWorkSection` | Two live sites, each clickable, both routes on this domain |
 | 7 | Process | `WebsitesProcessSection` | Six steps, no surprises |
 | 8 | Pricing | `WebsitesPricingSection` | What a quote is built from |
 | 9 | Quote form | `WebsitesInquiryCTA` + `WebsitesInquiryForm` | The conversion |
@@ -179,7 +179,7 @@ answers. What the codebase actually does:
 | Claimable | Because |
 | --- | --- |
 | How many people arrive, and which pages they land on | `Analytics` from `@vercel/analytics/next` is mounted in `app/layout.tsx` in production. It reports pageviews and landing pages. |
-| Every enquiry is emailed the moment it is sent, labeled by which form sent it | Every route in `app/api/` builds a subject line naming the form and the business before sending - `website-inquiry`, `lmm-consultation`, `marketing-inquiry`, `business-mastery-application`. (Thread's `thread-order` works the same way, from its own site since 2026-09-25.) |
+| Every enquiry is emailed the moment it is sent, labeled by which form sent it | Every route in `app/api/` builds a subject line naming the form and the business before sending - `website-inquiry`, `lmm-consultation`, `marketing-inquiry`, `business-mastery-application`. |
 
 **Not claimable, in any wording:**
 
@@ -244,42 +244,38 @@ and the page says so plainly rather than hedging.
 
 What `websitePortfolio` actually is, and what the copy must keep saying:
 
-- **Three entries, all live and clickable right now**: Thread T-Shirts on its
-  own site (`THREAD_SITE_URL`), `/lee-marketing-mastery`, and `/`. It was four
-  until H1 Performance came off this site on 2026-09-03 - `docs/H1.md` §4
-  records every count that moved with it - and Thread's entry was the route
-  `/thread-t-shirts` until the page moved to its own site on 2026-09-25
-  (`docs/THREAD.md`).
+- **Two entries, both live and clickable right now**: `/lee-marketing-mastery`
+  and `/`. It was four until H1 Performance came off this site on 2026-09-03,
+  and three until Thread T-Shirts did on 2026-09-25 - `docs/H1.md` §4 and
+  `docs/THREAD.md` §4 record every count that moved with each.
 - **They are Lee Enterprises Unlimited's own ventures, not client work.** This
   caveat stays in the first sentence of the Work section lead, unsoftened. It is
   not a weakness to apologize for: a prospect can open these and use them, which
   a testimonial does not allow.
-- **Two are routes on this one domain and deployment, and both are the site the
-  visitor is currently reading; the third, Thread T-Shirts, runs as its own
-  site.** A heading reading "Five Sites You Can Open Right Now", and a hero CTA
-  reading "See Live Sites We've Built", implied five separate websites for five
-  separate businesses - a bigger claim than the truth, and checkable in one
-  click, which is the worst possible combination. The section heading reads
-  "Every Site We Run Was Built...", the eyebrow "Three Live Sites, All Ours",
-  and the lead paragraph states outright that two of the three run here, both
-  of them the page being read, and that Thread runs as its own site from its
-  own codebase. The heading said "Every Site on This Domain" while every entry
-  was a route here - the phrase that keeps "three sites" from reading as three
-  separate builds for three separate clients - and it has come out twice when
-  that stopped being true: for the two days H1 Performance was listed on its
-  own domain, and since Thread moved to its own site. If every entry is ever a
-  route here again, it can come back. The hero's secondary CTA reads "See the
-  Live Work" so it stays true regardless of how the section is titled.
-- **Thread T-Shirts really does have a working catalog, cart and order-request
-  flow**, backed by `app/api/thread-order/route.ts` in the Thread repo. That
-  claim is accurate.
+- **Both are routes on this one domain and deployment, and both are the site
+  the visitor is currently reading.** A heading reading "Five Sites You Can
+  Open Right Now", and a hero CTA reading "See Live Sites We've Built", implied
+  five separate websites for five separate businesses - a bigger claim than the
+  truth, and checkable in one click, which is the worst possible combination.
+  The section heading reads "Every Site on This Domain Was Built...", the
+  eyebrow "Two Live Sites, All Ours", and the lead paragraph states outright
+  that both run here and both are the page being read. "On This Domain" came
+  out for the two days H1 Performance was listed on its own domain, because it
+  then excluded an entry the list showed; it is the phrase that keeps "two
+  sites" from reading as two separate builds for two separate clients. If an
+  entry ever moves off this domain again, that qualifier comes out with it. The
+  hero's secondary CTA reads "See the Live Work" so it stays true regardless of
+  how the section is titled.
 - **The Lee Enterprises Unlimited entry does not route its contact form.**
   `app/api/contact/route.ts` sends every submission to a single
   `CONTACT_TO_EMAIL` recipient and varies only the subject line by the venture
   the visitor selected. The claim is that the enquiry arrives already labeled -
   that is labeling, not routing. The old "Routed contact form" chip is now
   "Venture-labeled enquiries". Do not restore the routing wording unless the
-  route changes.
+  route changes. Its other two chips counted ventures until Thread came off
+  this site; they now read "Two destinations, one site" and "A section for
+  each" - the flagship program and the one venture - and the summary names
+  both.
 - **Lee Marketing Mastery is the one entry that demonstrates page-per-offer** -
   a hub at `/lee-marketing-mastery` plus a page per offering at `/automation`,
   `/websites` and `/marketing`, one of which is the page the FAQ sits on. The
@@ -292,9 +288,9 @@ What `websitePortfolio` actually is, and what the copy must keep saying:
   strip, the Shift section, the Problem section and the FAQ, so it is used
   deliberately and by name. The first FAQ answer invites the reader to verify
   page-per-offer and therefore points at **this entry specifically**, not at the
-  portfolio as a whole - two of the three entries are single long pages, so the
-  broader invitation failed on inspection. Do not widen it back out unless the
-  other entries actually gain sub-pages.
+  portfolio as a whole - the other entries were single long pages, so the
+  broader invitation failed on inspection, and the one left, the home page,
+  still is. Do not widen it back out unless the home page gains sub-pages.
 
 No screenshots of work we did not do, either. `BrowserFrameVisual` is an
 abstract wireframe for exactly this reason - a stock screenshot in a hero

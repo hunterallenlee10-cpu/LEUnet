@@ -91,9 +91,8 @@ export function MainFooter() {
           <div>
             <h4 className="font-semibold text-white mb-4">Our Ventures</h4>
             <ul className="space-y-2">
-              {/* A venture with its own page links straight to it - a route
-                  here, or for Thread T-Shirts its own site (docs/THREAD.md);
-                  one without still falls back to its homepage section anchor. */}
+              {/* A venture with its own page links straight to that route; one
+                  without still falls back to its homepage section anchor. */}
               {ventures.map((venture) => {
                 const venturePage = venturePages[venture.id];
 
@@ -118,15 +117,16 @@ export function MainFooter() {
                 );
               })}
 
-              {/* Business Mastery is the flagship program rather than a third
+              {/* Business Mastery is the flagship program rather than a
                   venture, which is why it is a hardcoded row here instead of
-                  an entry in `ventures` - that array is the two ventures, and
-                  the header keeps the same separation by giving the program a
-                  nav entry of its own. (It kept it when the header's Ventures
-                  menu was flattened: the two ventures are now top-level
-                  entries beside the program rather than rows inside a menu.)
-                  Here it sits last, after both ventures, at the owner's
-                  request - the header leads with it instead.
+                  an entry in `ventures` - that array is the ventures (one since
+                  Thread T-Shirts came off this site, docs/THREAD.md), and the
+                  header keeps the same separation by giving the program a nav
+                  entry of its own. (It kept it when the header's Ventures menu
+                  was flattened: the venture is now a top-level entry beside
+                  the program rather than a row inside a menu.) Here it sits
+                  last, after the venture, at the owner's request - the header
+                  leads with it instead.
 
                   "Lee", not "LEU", is also the owner's call: the page it
                   links to is titled "LEU Business Mastery" (`bmHero.title`)

@@ -46,9 +46,14 @@ export const marketingFaqs = [
       "Digital channels report on themselves - impressions, clicks, cost per lead, and conversions are all measurable. Traditional channels are harder to attribute, so we use trackable phone numbers, dedicated landing pages, or offer codes where it makes sense. We would rather tell you a channel is unmeasurable than invent a number for it.",
   },
   {
+    // This answer named the producer, and the page linked out to it, until
+    // that venture came off this site on 2026-09-25 (docs/THREAD.md). The offer
+    // stands, so the answer still says yes; it no longer points anywhere, and
+    // it dropped "rather than through an outside supplier", which only that
+    // venture could back.
     question: "Can you handle branded apparel too?",
     answer:
-      "Yes, through Thread T-Shirts, our own apparel venture. Shirts, hats, and team gear are produced there rather than through an outside supplier, which keeps the branding consistent with the rest of your campaign.",
+      "Yes. Shirts, hats, and team gear can be produced alongside the rest of your campaign, so the branding stays consistent with everything else you run.",
   },
   {
     question: "What if I need something that is not on this page?",

@@ -217,9 +217,11 @@ both pages that set it have since moved to their own repos - see this repo's
 
 Nav placement: its own entry in the main nav (it is the flagship program, not
 one of the ventures, so it did not belong inside the Ventures menu). That menu
-has since been flattened at the owner's request — the two ventures are
-top-level entries beside this one now, with Lee Marketing Mastery keeping its
-three offerings in a dropdown of its own. Business Mastery leads the three.
+has since been flattened at the owner's request — the ventures became
+top-level entries beside this one, with Lee Marketing Mastery keeping its three
+offerings in a dropdown of its own. Lee Marketing Mastery is the one venture
+left since Thread T-Shirts came off this site (`docs/THREAD.md`); Business
+Mastery leads the two.
 Easy to move later if the header gets crowded.
 
 ---

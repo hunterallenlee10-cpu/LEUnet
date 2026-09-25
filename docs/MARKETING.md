@@ -23,7 +23,7 @@ confirmation, not code — see §7.
 | Route | `/lee-marketing-mastery/marketing` |
 | Button label | "Traditional & Digital Marketing" |
 | Prices | **Hidden.** Every CTA routes to the quote form |
-| Apparel | Links to Thread's own site (`THREAD_SITE_URL`, `docs/THREAD.md`) rather than duplicating it |
+| Apparel | Answered in the FAQ and offered as an inquiry-form channel; no card, no link out (`docs/THREAD.md`) |
 | Billboards / TV / radio | Framed as network-reachable, **not** standing offerings |
 | Testimonials | **None.** Same line as the other two pages |
 | Lead capture | Own API route, own subject line |
@@ -39,9 +39,13 @@ website development already have their own pages. `MarketingRelatedSection`
 cross-links to both rather than restating them, which keeps each page's claim
 distinct and gives the three offerings an obvious path between them.
 
-The traditional list is print, signage, and vehicle graphics. Branded apparel is
-a real capability but it is produced by Thread, so it renders as a link-out card
-rather than a fourth service card with a details toggle that goes nowhere.
+The traditional list is print, signage, and vehicle graphics. Branded apparel
+rendered as a link-out card to Thread T-Shirts, which produces it, rather than a
+fourth service card with a details toggle that goes nowhere - until Thread came
+off this site on 2026-09-25 (`docs/THREAD.md`). The card went with it. The offer
+stands: the FAQ still answers "Can you handle branded apparel too?" with a yes,
+no longer naming a producer, and "Branded apparel" is still a channel on the
+inquiry form.
 
 ### Why billboards and TV are not in the offer catalog
 
@@ -68,7 +72,7 @@ four inputs instead. Matches the automation and websites pages.
 | Outcome strip | `MarketingOutcomeStrip` | Four concrete outcomes |
 | Why both | `MarketingProblemSection` | Digital-only vs traditional-only vs both |
 | Digital | `MarketingDigitalSection` | Six online channels |
-| Traditional | `MarketingTraditionalSection` | Three offline channels + Thread link |
+| Traditional | `MarketingTraditionalSection` | Three offline channels |
 | Unique ideas | `MarketingCustomIdeasSection` | Billboards, TV, sponsorships |
 | Process | `MarketingProcessSection` | Six steps |
 | Pricing | `MarketingPricingSection` | What a quote is built from |

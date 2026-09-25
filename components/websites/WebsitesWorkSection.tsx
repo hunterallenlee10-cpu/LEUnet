@@ -7,26 +7,22 @@ import { websitePortfolio } from "@/data/websites";
  * rest of the page sells - and it has to describe itself accurately, because a
  * prospect can click straight through and check.
  *
- * The heading used to read "Every Site on This Domain Was Built to Turn a
- * Visitor Into a Customer", and "on This Domain" was load-bearing while every
- * entry was a route on this one deployment: an earlier heading - "Four Sites
- * You Can Open Right Now" - read as four separate websites built for four
- * separate businesses. That was a bigger claim than the truth, checkable in one
- * click, which is the worst possible combination. ("This way", before that,
- * pointed at a production method the page no longer sells - docs/WEBSITES.md
- * §3.1.)
+ * "On This Domain" in the heading is load-bearing: every entry is a route on
+ * this one deployment, both of them this very site, and an earlier heading -
+ * "Four Sites You Can Open Right Now" - read as four separate websites built
+ * for four separate businesses. That was a bigger claim than the truth,
+ * checkable in one click, which is the worst possible combination. ("This way",
+ * before that, pointed at a production method the page no longer sells -
+ * docs/WEBSITES.md §3.1.)
  *
- * The qualifier has now come out twice, for the same reason. For two days H1
- * Performance was listed while on its own domain; it came off this site on
- * 2026-09-03 (docs/H1.md) and "On This Domain" went back. Since 2026-09-25
- * Thread T-Shirts runs as its own site (docs/THREAD.md), so the phrase would
- * exclude an entry the list still shows. The heading says "we run" instead,
- * which is true of all three, and the lead paragraph states the actual
- * structure - two routes here, both of them the site being read, and Thread on
- * its own - so the reader is never left to discover it. The eyebrow was already
- * true. Do not let the copy drift toward "three sites we built for three
- * businesses", and if every entry is ever a route here again, "On This Domain"
- * can come back.
+ * The list has shrunk twice. H1 Performance came off this site on 2026-09-03
+ * (docs/H1.md), after two days listed on its own domain during which "On This
+ * Domain" came out because it excluded an entry the list still showed. Thread
+ * T-Shirts came off on 2026-09-25 (docs/THREAD.md). Two entries remain, both
+ * routes here and both the site being read, and the lead paragraph says so
+ * outright rather than letting "two sites" read as two separate builds for two
+ * separate businesses. Do not let the copy drift that way, and if an entry ever
+ * moves off this domain, the qualifier comes out with it.
  *
  * The "our own ventures, not client projects" line in the lead paragraph is a
  * deliberate honesty decision recorded in docs/WEBSITES.md §3. It stays in the
@@ -44,26 +40,24 @@ export function WebsitesWorkSection() {
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            Three Live Sites, All Ours
+            Two Live Sites, All Ours
           </p>
           <h2 className="heading-lg mb-6 text-white">
-            Every Site We Run Was Built to Turn a Visitor Into a Customer.
+            Every Site on This Domain Was Built to Turn a Visitor Into a
+            Customer.
           </h2>
           {/* Says out loud what the reader would work out anyway after two
-              clicks: these are not three separate builds for three separate
-              clients. Two live here, both of them the site being read right
-              now, and the third is our own venture on its own site. Conceding
-              that costs nothing and buys the rest of the section, because a
-              prospect who catches you inflating one claim stops believing the
-              ones you did not inflate. */}
+              clicks: these are not two separate builds for two separate
+              clients. Both live here, and both are the site being read right
+              now. Conceding that costs nothing and buys the rest of the
+              section, because a prospect who catches you inflating one claim
+              stops believing the ones you did not inflate. */}
           <p className="mb-4 text-lg leading-relaxed text-neutral-300">
             These are Lee Enterprises Unlimited&apos;s own ventures, not client
-            projects. Two of the three run on this one domain, and both are the
-            site you are reading - the home page above, and the Lee Marketing
-            Mastery hub this page belongs to. The third, Thread T-Shirts, runs
-            as its own site from its own codebase. We would rather point you at
-            businesses we actually run than at a screenshot of someone
-            else&apos;s work.
+            projects. Both run on this one domain, and both are the site you
+            are reading - the home page above, and the Lee Marketing Mastery
+            hub this page belongs to. We would rather point you at businesses
+            we actually run than at a screenshot of someone else&apos;s work.
           </p>
           {/* The instruction matters more than the list. A prospect who runs
               this test once has verified the promise themselves, which is worth
@@ -93,9 +87,9 @@ export function WebsitesWorkSection() {
               with the LMM entry's summary in data/websites.ts, which the reader
               sees on the same screen.
 
-              Two of the three portfolio entries are still single long pages, so
-              this points at that one entry specifically; do not widen it to the
-              portfolio as a whole unless the others gain sub-pages. */}
+              The other portfolio entry, the home page, is a single long page,
+              so this points at the LMM entry specifically; do not widen it to
+              the portfolio as a whole unless the home page gains sub-pages. */}
           <p className="text-lg leading-relaxed text-neutral-400">
             And if you would rather see a page per offer than read about one,
             open Lee Marketing Mastery: a hub about the business, plus its own

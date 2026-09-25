@@ -92,11 +92,10 @@ export function WebsitesHeroSection() {
               </button>
               {/* Wording chosen so it stays true no matter how the Work section
                   is titled. "See Live Sites We've Built" implied five separate
-                  websites for five separate businesses; the portfolio is three
-                  entries - two routes on this domain, both of them the page the
-                  visitor is reading, and Thread T-Shirts on its own site. (It
-                  was four until H1 Performance came off this site - docs/H1.md -
-                  and all three were routes here until Thread moved out -
+                  websites for five separate businesses; the portfolio is two
+                  entries, both routes on this domain, both of them the page the
+                  visitor is reading. (It was four until H1 Performance came off
+                  this site - docs/H1.md - and three until Thread T-Shirts did -
                   docs/THREAD.md - which is exactly the kind of change this
                   wording was written to survive.) Pointing at live work makes
                   the same promise - you can open it right now - without

@@ -10,8 +10,6 @@
  * ItemList alongside the FAQs.
  */
 
-import { THREAD_SITE_URL } from "@/lib/thread-site";
-
 /**
  * Two questions were deleted here rather than rewritten: "What does built with
  * AI actually mean here?" and "Is an AI-built website lower quality than a
@@ -64,8 +62,8 @@ export const websiteFaqs = [
     // This answer invites the reader to go verify something, which means the
     // portfolio has to actually show whatever this sentence says it shows. It
     // used to list "a focused page for each offer" as visible in the portfolio;
-    // two of the three entries are single long pages, so the invitation failed
-    // on inspection. It now points at the one entry that genuinely demonstrates
+    // the other entries were single long pages, so the invitation failed on
+    // inspection. It now points at the one entry that genuinely demonstrates
     // page-per-offer - Lee Marketing Mastery, which is a hub about the venture
     // with its own page for websites, marketing, and automation, one of which
     // is the page this FAQ sits on.
@@ -76,9 +74,9 @@ export const websiteFaqs = [
     // for a while, because /lee-marketing-mastery was itself the automation
     // page and carried that offering inline; automation now has its own route
     // and the broader phrasing is simply correct. Still do not widen the
-    // invitation out to the whole portfolio: the other two entries remain
-    // single long pages, which is the reason this sentence names one entry
-    // rather than gesturing at all three.
+    // invitation out to the whole portfolio: the other entry, the LEU home
+    // page, is a single long page, which is the reason this sentence names one
+    // entry rather than gesturing at both.
     question: "How do I know it will actually bring in customers?",
     answer:
       "We do not publish client results, because the sites in the portfolio on this page are our own ventures rather than client projects. What we offer instead is inspection: every one is live right now, so open one on your phone, read the first screen, and send the form the way a customer would. For the page-per-offer structure, look at the Lee Marketing Mastery entry - a hub about the business, plus its own page for websites, marketing, and automation, one of which you are reading. What gets built for you follows the same pattern: copy that leads with the outcome someone came looking for, one obvious next step on every screen, and measurement connected before launch rather than months later.",
@@ -183,19 +181,15 @@ export const websiteFaqs = [
  * CONTACT_TO_EMAIL address with only the subject line varying by venture. A chip
  * has to be checkable in the code or on the page, same as a summary.
  *
- * One thing this list must never imply: these are three separate websites for
- * three separate businesses. Two are routes on this domain and deployment, and
- * both of those are the site the visitor is reading; the third is Thread
- * T-Shirts, LEU's own venture, running as its own site since 2026-09-25
- * (docs/THREAD.md). WebsitesWorkSection's lead paragraph states exactly that;
- * do not undercut it here by writing summaries that read like separate client
- * engagements.
+ * One thing this list must never imply: these are two separate websites for
+ * two separate businesses. They are two routes on one domain and one
+ * deployment, and both of them are the site the visitor is reading. The section
+ * heading in WebsitesWorkSection carries that honesty; do not undercut it here
+ * by writing summaries that read like separate client engagements.
  *
- * It was four entries until H1 Performance came off this site (docs/H1.md).
- * Every count in this file and in WebsitesWorkSection moved with it. The "on
- * this domain" framing was true again for three weeks after that, and came out
- * when Thread moved to its own site - the same thing that happened for the two
- * days H1 was listed on its own domain.
+ * It was four entries until H1 Performance came off this site (docs/H1.md), and
+ * three until Thread T-Shirts did on 2026-09-25 (docs/THREAD.md). Every count in
+ * this file and in WebsitesWorkSection moved with each.
  */
 export interface WebsitePortfolioItem {
   name: string;
@@ -205,23 +199,6 @@ export interface WebsitePortfolioItem {
 }
 
 export const websitePortfolio: WebsitePortfolioItem[] = [
-  {
-    // Its own site since 2026-09-25 (docs/THREAD.md). It stays in this list
-    // because it is still one of LEU's own ventures and still a site a prospect
-    // can open and use; the href is the one shared constant every link to it
-    // reads. The summary and chips describe that site, which is the same page
-    // that was here. WebsitesWorkSection's copy describes the list as two
-    // routes here plus this one on its own - keep the two in step.
-    name: "Thread T-Shirts",
-    href: THREAD_SITE_URL,
-    summary:
-      "Turns a team, a shop, or an event organizer browsing shirts into a written order request - garment, quantity, artwork, and deadline all captured - without a checkout system behind it. Nobody has to email to ask how ordering works.",
-    highlights: [
-      "Filterable catalog",
-      "Cart and order request",
-      "Bulk order path",
-    ],
-  },
   {
     // The one entry that demonstrates page-per-offer, which is why the first FAQ
     // sends the reader here specifically rather than at the portfolio as a
@@ -254,13 +231,20 @@ export const websitePortfolio: WebsitePortfolioItem[] = [
     // only the subject line by the venture the visitor selected. That is still
     // worth claiming - the enquiry arrives already labeled - but it is labeling,
     // not routing. Do not restore the routing wording unless the route changes.
+    //
+    // It also sorted a visitor between "two ventures" until Thread T-Shirts
+    // came off this site (docs/THREAD.md). The two destinations the home page
+    // leads to now are the flagship program and the one venture, and the
+    // contact form offers exactly those two, so the summary names them and the
+    // chips stop counting ventures. "Venture-labeled enquiries" stays: the
+    // form's own question is which venture or service the visitor is here about.
     name: "Lee Enterprises Unlimited",
     href: "/",
     summary:
-      "Sends a visitor who came for one of two very different businesses to the right one without making them guess, then asks on the contact form which venture they are here about - so the enquiry lands already labeled instead of as a blank “get in touch” message.",
+      "Sends a visitor who came for LEU Business Mastery or for Lee Marketing Mastery to the right one without making them guess, then asks on the contact form which one they are here about - so the enquiry lands already labeled instead of as a blank “get in touch” message.",
     highlights: [
-      "Two ventures, one site",
-      "Venture-by-venture detail",
+      "Two destinations, one site",
+      "A section for each",
       "Venture-labeled enquiries",
     ],
   },

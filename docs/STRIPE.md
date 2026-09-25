@@ -3,7 +3,7 @@
 - **Stripe API version:** `2026-06-24.dahlia` (pinned in `lib/stripe.ts`)
 - **SDK:** `stripe` 22.3.x for Node
 - **Framework:** Next.js 16 App Router, Node runtime for all Stripe routes
-- **Account model:** one Stripe account covering the two ventures on this site, plus H1 invoicing (`docs/H1.md`)
+- **Account model:** one Stripe account covering Lee Marketing Mastery, the one venture on this site, plus H1 and Thread invoicing (`docs/H1.md`, `docs/THREAD.md`)
 
 Two flows are live in code:
 
@@ -123,9 +123,9 @@ Performance is off the LEU site entirely (`docs/H1.md`) and its own site takes
 no payment, but H1 clients are still invoiced from here, so the tag is
 unchanged. This route sits behind `STRIPE_ADMIN_TOKEN` and renders nothing, so
 accepting `h1` says nothing to a visitor about which ventures LEU lists.
-Thread T-Shirts runs from its own site too since 2026-09-25 (`docs/THREAD.md`)
-and takes no payment there; a Thread customer who needs an invoice is invoiced
-from here, tagged `thread`, as before.
+Thread T-Shirts is the same case since 2026-09-25 (`docs/THREAD.md`): off this
+site entirely, taking no payment on its own, and invoiced from here, tagged
+`thread`, as before.
 
 ---
 

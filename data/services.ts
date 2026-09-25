@@ -62,50 +62,6 @@ export const ventureServices = {
       icon: "📈",
     },
   ],
-  thread: [
-    {
-      id: "thread-quality",
-      title: "Premium Quality",
-      description:
-        "High-quality fabrics selected for lasting comfort, durability, breathability, and everyday wear.",
-      icon: "✨",
-    },
-    {
-      id: "thread-support",
-      title: "Support Small Business",
-      description:
-        "Every apparel purchase helps support the growth of our businesses, brands, and the vision behind Lee Enterprises Unlimited.",
-      icon: "🤝",
-    },
-    {
-      id: "thread-design",
-      title: "Clean Design",
-      description:
-        "Timeless looks that keep your style sharp and effortless.",
-      icon: "🎨",
-    },
-    {
-      id: "thread-shipping",
-      title: "Fast, Reliable Shipping",
-      description:
-        "Quick, dependable delivery that gets your order to you without unnecessary delays.",
-      icon: "📦",
-    },
-    {
-      id: "thread-custom",
-      title: "Custom Designs",
-      description:
-        "Original apparel designs created for individuals, brands, teams, businesses, and special events.",
-      icon: "✍️",
-    },
-    {
-      id: "thread-personal",
-      title: "Personalized Apparel",
-      description:
-        "Personalized apparel tailored to your vision, style, message, and intended audience. Contact us today to get started.",
-      icon: "👕",
-    },
-  ],
 };
 
 export const ventureValuesProps = {
@@ -133,32 +89,6 @@ export const ventureValuesProps = {
       title: "Proven Systems",
       description:
         "Our tested systems have delivered measurable growth across businesses of every size—from independent startups to nine-figure enterprises. Every strategy is built to scale, perform, and produce real results.",
-    },
-  ],
-  thread: [
-    {
-      id: "thread-fabric",
-      title: "Premium Comfort",
-      description:
-        "Soft, breathable fabrics selected for all-day comfort and dependable everyday wear.",
-    },
-    {
-      id: "thread-fit",
-      title: "Perfect, Reliable Fit",
-      description:
-        "Thoughtfully designed sizing and cuts that provide a comfortable, confident fit.",
-    },
-    {
-      id: "thread-craft",
-      title: "Quality Craftsmanship",
-      description:
-        "Quality materials and careful construction designed to maintain their look, feel, and shape.",
-    },
-    {
-      id: "thread-versatile",
-      title: "Versatile Styles",
-      description:
-        "Clean, modern apparel made for everyday wear, special occasions, teams, brands, and events. ",
     },
   ],
 };

@@ -1,7 +1,13 @@
 import { Venture } from "@/types";
 import { VENTURE_COLORS } from "@/lib/colors";
-import { THREAD_SITE_URL } from "@/lib/thread-site";
 
+/**
+ * The ventures this site lists. One now: Thread T-Shirts came off this site on
+ * 2026-09-25 after moving to its own (docs/THREAD.md), as H1 Performance did on
+ * 2026-09-03 (docs/H1.md). LEU Business Mastery is the flagship program rather
+ * than a venture, so it is not in this list; MainFooter and the nav give it an
+ * entry of its own.
+ */
 export const ventures: Venture[] = [
   {
     id: "lmm",
@@ -31,24 +37,6 @@ export const ventures: Venture[] = [
     heroDescription:
       "Done-For-You Marketing & Systems That Drives Leads, Builds Trust, and Scales Businesses.",
     colors: VENTURE_COLORS.lmm,
-  },
-  {
-    id: "thread",
-    name: "Thread T-Shirts",
-    tagline: "Premium Casual Wear Designed for Everyday Excellence",
-    logo: "/logos/thread-logo.png",
-    logoAlt: "Thread T-Shirts logo",
-    description:
-      "Thread creates premium everyday apparel and custom designs for individuals, brands, teams, businesses, and events. Every piece is built around lasting comfort, dependable quality, and a clean style you can wear with confidence.",
-    ctaPrimary: "Design Your Own",
-    // Thread's page is its own site since 2026-09-25 (docs/THREAD.md); the
-    // order request form keeps its section id there.
-    ctaPrimaryHref: `${THREAD_SITE_URL}/#order-request`,
-    ctaSecondary: "View Styles",
-    heroSubtitle: "Wear Your Style. Elevate Everyday Essentials.",
-    heroDescription:
-      "Stylish. Comfortable. Made to last. Thread T-Shirts are designed for those who expect more from their everyday wear.",
-    colors: VENTURE_COLORS.thread,
   },
 ];
 
