@@ -21,7 +21,7 @@ export const companyInfo = {
    * not yet said what they need.
    */
   heroDescription:
-    "Discover our team of master problem solvers. There is no field we cannot conquer, no task we cannot handle. Any project you give us, consider it done.",
+    "Business Mastery, gives you the personal coaching, classes and network to grow your business. Lee Systems builds every structure to flow revenue directly into your account.",
   logo: "/logos/leu-logo.webp",
   logoAlt: "Lee Enterprises Unlimited logo",
   /**
