@@ -402,8 +402,8 @@ export function ContactSection() {
             <h2 className="heading-lg text-white">
               Get In <span className="gradient-text">Touch</span>
             </h2>
-            {/* The same rule the mission panel uses under its heading: a short
-                deliberate mark in place of a flat gap. */}
+            {/* A short deliberate mark under the heading in place of a flat
+                gap. */}
             <span
               aria-hidden="true"
               className="mx-auto mt-5 block h-px w-16 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent"
