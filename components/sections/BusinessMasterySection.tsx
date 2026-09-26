@@ -40,7 +40,7 @@ export function BusinessMasterySection() {
 
       {/* Ceiling fade. The field's ground is at its lightest along its top
           edge - the gold pool it opens with sits at 12% of the frame - so
-          against the flat `bg-neutral-950` of the About section above it, the
+          against the flat `bg-neutral-950` of the section above it, the
           section boundary read as a hard horizontal line. The previous static
           pool was centred and reached the edge already black, which is why
           this is new. Same idiom as the floor fade under the hero on

@@ -70,14 +70,6 @@ export function MainFooter() {
               </li>
               <li>
                 <button
-                  onClick={() => handleLinkClick(sectionIds.about)}
-                  className="text-neutral-400 hover:text-amber-400 transition-colors text-sm"
-                >
-                  About
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={() => handleLinkClick(sectionIds.contact)}
                   className="text-neutral-400 hover:text-amber-400 transition-colors text-sm"
                 >

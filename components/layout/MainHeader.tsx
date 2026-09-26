@@ -209,7 +209,12 @@ export function MainHeader() {
             column: the logo sits at the left edge of the screen and the
             actions at the right, at every width. */}
         <div className="flex w-full items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-10">
-          <Link href={isHome ? "#hero" : "/"} className="flex shrink-0 items-center">
+          {/* The company name sits beside the logo here rather than above the
+              hero headline, so it is on every page, not just the homepage.
+              Hidden from `sm` to `md`: that is where the three action buttons
+              join the bar, and at those widths the name and the buttons
+              cannot both fit. */}
+          <Link href={isHome ? "#hero" : "/"} className="flex shrink-0 items-center gap-3">
             <div className="relative h-10 w-10">
               <Image
                 src={companyInfo.logo}
@@ -220,13 +225,18 @@ export function MainHeader() {
                 className="object-contain"
               />
             </div>
+            <span className="whitespace-nowrap text-xs font-semibold uppercase tracking-widest text-amber-400 sm:hidden md:inline lg:text-sm">
+              {companyInfo.name}
+            </span>
           </Link>
 
           {/* Desktop navigation, from `xl` up; below that the drawer serves
               the same links. Hovering a plain item only changes its colour.
               The one dropdown opens on hover, and from a click on its chevron
-              for keyboard and touch. */}
-          <nav className="hidden xl:flex items-center gap-10 text-[17px]" aria-label="Main">
+              for keyboard and touch. The gap is tighter below `2xl`, where the
+              company name beside the logo leaves the bar too little room for
+              the wider spacing. */}
+          <nav className="hidden xl:flex items-center gap-7 whitespace-nowrap text-[17px] 2xl:gap-10" aria-label="Main">
             {navigationItems.map((item) => {
               const isOpen = openDropdownId === item.id;
               const panelId = `${item.id}-desktop-menu`;

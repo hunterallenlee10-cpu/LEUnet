@@ -47,11 +47,6 @@ export const navigationItems: NavItem[] = [
     id: "nav-home",
   },
   {
-    label: "About",
-    href: "#about",
-    id: "nav-about",
-  },
-  {
     label: "Business Mastery",
     href: businessMasteryPage,
     id: "nav-business-mastery",
@@ -90,7 +85,6 @@ export const sectionIds = {
   businessMastery: "business-mastery",
   leeSystems: "lee-systems",
   sharedValues: "shared-values",
-  about: "about",
   contact: "contact",
   privacy: "privacy",
   terms: "terms",
