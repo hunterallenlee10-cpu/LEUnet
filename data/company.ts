@@ -24,6 +24,11 @@ export const companyInfo = {
     "Discover our team of master problem solvers. There is no field we cannot conquer, no task we cannot handle. Any project you give us, consider it done.",
   logo: "/logos/leu-logo.webp",
   logoAlt: "Lee Enterprises Unlimited logo",
+  /**
+   * The LEU monogram without the name lettered under it, for the header,
+   * where the full name is set as text right beside it. 204x160.
+   */
+  mark: "/logos/leu-mark.webp",
   contactEmail: "ceo@leeenterprisesunlimited.com",
   website: "leeenterprisesunlimited.com",
 };
