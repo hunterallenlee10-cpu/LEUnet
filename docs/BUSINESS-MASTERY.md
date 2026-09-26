@@ -204,13 +204,13 @@ both pages that set it have since moved to their own repos - see this repo's
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
 | `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |
 | `app/api/business-mastery-application/route.ts` | Application form handler, same Resend pattern as the other venture forms (Thread's `app/api/thread-order/route.ts` now lives in the Thread repo) |
-| `components/sections/BusinessMasterySection.tsx` | Homepage teaser (§8) |
+| `components/sections/BusinessMasterySection.tsx` | Homepage teaser (§8), rendered as the left panel of `components/sections/VenturesSection.tsx` |
 
 ### Edits outside the new page
 
 | File | Edit |
 | --- | --- |
-| `app/page.tsx` | Render `BusinessMasterySection` directly after `PortfolioSection` (that Portfolio section has since been removed, and so has `AboutSection`, so the teaser now follows the hero) |
+| `app/page.tsx` | Render `BusinessMasterySection` directly after `PortfolioSection` (that Portfolio section has since been removed, and so has `AboutSection`, so the teaser now follows the hero; it is now rendered through `VenturesSection`, beside the Lee Systems Co. teaser) |
 | `components/sections/PortfolioSection.tsx` | Wire the "Start your own venture" button to `/business-mastery` (it was `type="button"` with no destination — the comment there said intentionally unwired *for now*; now was over). Superseded: the whole section was later removed from the homepage. |
 | `components/sections/AboutSection.tsx` | Wire the "Get started on your dreams" button under the mission statement to `/business-mastery` (same story as the Portfolio button: `type="button"`, no destination, a comment saying intentionally unwired *for now*). The mission copy ends on making dreams of starting a business come true, so this program is where that sentence lands. |
 | `data/navigation.ts` | Add `businessMastery: "/business-mastery"` to the page map, a nav entry for it, and a `businessMastery` key in `sectionIds` for the homepage teaser anchor |
@@ -362,6 +362,16 @@ being true.
 The page's own counter has since gone the same way, for the same reason —
 a "Limited Spots" box in the offer section (§6.2). Both surfaces now make an
 unquantified scarcity claim, and no rendered figure remains to check.
+
+Since 2026-09-26 it is no longer a full-width section of its own: it is the
+left half of `VenturesSection`, under a shared heading - "Learn to build it,
+or have it built for you." - side by side with the Lee Systems Co. teaser from
+1024px up, with an "or" on the seam between them, and stacked above it on
+smaller screens. It opens with a "Learn it yourself" label; the heading and
+both labels are `venturesHome` in `data/company.ts`. The copy is centred in
+the panel, the whole panel links to `/business-mastery`, and pointing at one
+panel dims the other. The layout lives in `.ventures` in `app/globals.css`;
+the teaser's own copy above is unchanged.
 
 It deliberately does **not** repeat the pillars or audiences; the page does
 that. It shipped alongside a second homepage CTA to the same place — the

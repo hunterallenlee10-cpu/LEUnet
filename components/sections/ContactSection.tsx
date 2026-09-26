@@ -364,7 +364,7 @@ export function ContactSection() {
           content below takes `relative` so it still paints over the orbs.
 
           Two offset orbs rather than one centred pool, matching the pair on
-          LeeSystemsSection directly above so the light carries across the
+          LeeSystemsSection, the right half of the pair directly above, so the light carries across the
           seam instead of stopping dead at it. Dimmer than that pair on purpose
           (0.10/0.06 against its 0.16/0.09): the doorways are the brightest
           things on the page and a utility section should not out-glow them.
