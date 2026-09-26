@@ -215,16 +215,17 @@ export function MainHeader() {
               join the bar, and at those widths the name and the buttons
               cannot both fit. */}
           <Link href={isHome ? "#hero" : "/"} className="flex shrink-0 items-center gap-3">
-            <div className="relative h-10 w-10">
-              <Image
-                src={companyInfo.logo}
-                alt={companyInfo.logoAlt}
-                fill
-                sizes="40px"
-                priority
-                className="object-contain"
-              />
-            </div>
+            {/* The monogram alone, not the full logo: that one letters the
+                name under the mark, which would repeat the text beside it. */}
+            <Image
+              src={companyInfo.mark}
+              alt={companyInfo.logoAlt}
+              width={204}
+              height={160}
+              sizes="51px"
+              priority
+              className="h-10 w-auto"
+            />
             <span className="whitespace-nowrap text-xs font-semibold uppercase tracking-widest text-amber-400 sm:hidden md:inline lg:text-sm">
               {companyInfo.name}
             </span>
