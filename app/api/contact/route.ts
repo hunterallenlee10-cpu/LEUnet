@@ -64,11 +64,6 @@ export async function POST(request: NextRequest) {
       errors.phone = "Please enter a valid phone number";
     }
 
-    // Venture selection validation
-    if (!body.ventureOfInterest) {
-      errors.ventureOfInterest = "Please select a venture or service";
-    }
-
     // Contact method validation
     if (!body.preferredContactMethod) {
       errors.preferredContactMethod = "Please select a contact method";

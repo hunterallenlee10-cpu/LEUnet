@@ -236,11 +236,6 @@ export function ContactSection() {
       newErrors.phone = "Please enter a valid phone number";
     }
 
-    // Venture selection validation
-    if (!formData.ventureOfInterest) {
-      newErrors.ventureOfInterest = "Please select a venture or service";
-    }
-
     // Contact method validation
     if (!formData.preferredContactMethod) {
       newErrors.preferredContactMethod = "Please select a contact method";
@@ -632,15 +627,6 @@ export function ContactSection() {
                 </FormGroup>
 
                 <FormGroup title="Your project">
-                  <SelectField
-                    id="ventureOfInterest"
-                    label={contactFormFields.ventureOfInterest.label}
-                    value={formData.ventureOfInterest || ""}
-                    onChange={handleInputChange}
-                    options={contactFormFields.ventureOfInterest.options}
-                    error={errors.ventureOfInterest}
-                  />
-
                   <div>
                     <label htmlFor="projectDescription" className={labelClass}>
                       {contactFormFields.projectDescription.label}
