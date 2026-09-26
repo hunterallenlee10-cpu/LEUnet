@@ -64,11 +64,6 @@ export async function POST(request: NextRequest) {
       errors.phone = "Please enter a valid phone number";
     }
 
-    // Venture selection validation
-    if (!body.ventureOfInterest) {
-      errors.ventureOfInterest = "Please select a venture or service";
-    }
-
     // Contact method validation
     if (!body.preferredContactMethod) {
       errors.preferredContactMethod = "Please select a contact method";
@@ -108,21 +103,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errors }, { status: 400 });
     }
 
-    // The select fields store codes ("lmm", "5k-10k"), which this used to email
-    // verbatim - an inquiry arrived reading "Venture or Service: lmm" and the
+    // The select fields store codes ("5k-10k", "1-3-months"), which this used to
+    // email verbatim - an inquiry arrived reading "Budget Range: 5k-10k" and the
     // owner had to translate their own form. optionLabel resolves each one back
     // to the label the visitor actually picked.
-    const ventureLabel = optionLabel(
-      contactFormFields.ventureOfInterest.options,
-      body.ventureOfInterest
-    );
-
+    //
     // Build email body with "Not provided" for optional empty fields
     const emailBody = `
 Full Name: ${fullNameTrimmed}
 Email Address: ${emailTrimmed}
 Phone Number: ${phoneTrimmed || "Not provided"}
-Venture or Service: ${ventureLabel}
 Preferred Contact Method: ${body.preferredContactMethod === "email" ? "Email" : "Phone"}
 Budget Range: ${optionLabel(contactFormFields.budgetRange.options, body.budgetRange)}
 Desired Timeline: ${optionLabel(contactFormFields.desiredTimeline.options, body.desiredTimeline)}
@@ -133,7 +123,7 @@ ${projectDescriptionTrimmed}
     `.trim();
 
     // Build subject line
-    const subject = `New Website Inquiry: ${ventureLabel}, from ${fullNameTrimmed}`;
+    const subject = `New Website Inquiry from ${fullNameTrimmed}`;
 
     // Send email via Resend
     const response = await getResend().emails.send({

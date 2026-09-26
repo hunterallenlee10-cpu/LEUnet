@@ -14,14 +14,14 @@ export const companyInfo = {
    * Renders in three places, not just the homepage hero: the /partners and
    * /support pages both use it as the strapline under their H1.
    */
-  heroSubtitle: "Unlimited Opportunity. Unified Excellence.",
+  heroSubtitle: "We teach you & Do it for you",
   /**
    * Homepage hero only - unlike `heroSubtitle` above, /partners and /support
    * take that line without this one, so this can address a visitor who has
    * not yet said what they need.
    */
   heroDescription:
-    "Discover our team of master problem solvers. There is no field we cannot conquer, no task we cannot handle. Any project you give us, consider it done.",
+    "Business Mastery, gives you the personal coaching, classes and network to grow your business. Lee Systems builds every structure to flow revenue directly into your account.",
   logo: "/logos/leu-logo.webp",
   logoAlt: "Lee Enterprises Unlimited logo",
   /**
