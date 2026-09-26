@@ -75,26 +75,6 @@ export function HeroSection() {
             
             {/* Left Column - 52% */}
             <div className="w-full space-y-6 md:space-y-8">
-              {/* Eyebrow */}
-              <div className="flex items-center gap-3 w-fit">
-                <div className="relative w-10 h-10">
-                  <Image
-                    src={companyInfo.logo}
-                    alt={companyInfo.logoAlt}
-                    width={40}
-                    height={40}
-                    className="object-contain"
-                  />
-                </div>
-                {/* From `companyInfo.name`, not a literal: this read "Lee
-                    Enterprises" while every other instance on the site carried
-                    "Unlimited", so the one line sitting next to the logo was
-                    the one place the company was named wrong. */}
-                <span className="text-xs sm:text-sm font-semibold text-amber-400 tracking-widest uppercase">
-                  {companyInfo.name}
-                </span>
-              </div>
-
               {/* Headline */}
               <div className="space-y-3">
                 <h1
