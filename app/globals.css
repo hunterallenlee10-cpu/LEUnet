@@ -1064,7 +1064,9 @@
     #000 87%,
     transparent 100%
   );
-  /* Centred: the homepage teaser, whose column is centred in the section. */
+  /* Centred: the hub hero's centred column. The homepage panel also asks for
+     `center` and widens it to a half-width panel's proportions under
+     `.ventures`, at the end of this file. */
   --lsr-copy-mask: radial-gradient(
     ellipse 38% 42% at 50% 50%,
     rgba(0, 0, 0, 0.2) 0%,
@@ -1933,4 +1935,335 @@
     #000 82%,
     transparent 100%
   );
+}
+
+/* ---------------------------------------------------------------------------
+   Homepage ventures pair
+   One consumer: components/sections/VenturesSection.tsx, with its two panels
+   in components/sections/BusinessMasterySection.tsx (left) and
+   components/sections/LeeSystemsSection.tsx (right).
+
+   The two doorways used to be full-width sections stacked one above the other.
+   From Tailwind's `lg` up they now sit side by side, joined by a gold seam;
+   below it they stack in the same order, divided by a hairline. Each panel
+   still owns its own light - this block owns only the frame around them.
+
+   Copy is left-aligned in both. A centred column that is half the width of the
+   screen reads as a narrow ribbon rather than as a column, and left-aligned
+   copy is what lets the two panels' rows line up across the seam.
+   --------------------------------------------------------------------------- */
+
+.ventures {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.venture-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* The site's `section-container` gutters, so the stacked copy sits on the
+     same left edge as every other section on a phone. */
+  padding: 5rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .venture-panel {
+    padding: 6rem 1.5rem;
+  }
+}
+
+/* Side by side. The grid stretches both panels to the taller one's height,
+   and each panel pins its status line and CTA to its own bottom
+   (`.venture-status`), so the two buttons sit on one line however differently
+   the manifestos wrap. Everything above the status line flows from the top, so
+   the mastheads and the first line of each manifesto line up too.
+
+   Not a five-row subgrid, which was tried: it lines up every row, but a row is
+   as tall as the longer of the pair, so the shorter Business Mastery manifesto
+   was left with a blank line under it before its paragraph. The spare space
+   belongs above the actions, where it reads as intended. */
+@media (min-width: 1024px) {
+  .ventures {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .venture-panel {
+    padding-block: 7.5rem 8rem;
+  }
+
+  .venture-status {
+    margin-top: auto;
+  }
+
+  /* The outer gutter tracks the edge of the site's `max-w-7xl` container
+     (80rem, plus its 2rem `lg:px-8`), so on a wide screen the pair's copy
+     starts and ends where every other section's does, while the backgrounds
+     still run to the edges of the window. The inner gutter is the seam's
+     breathing room. */
+  .venture-panel--start {
+    padding-left: max(2rem, calc(50vw - 38rem));
+    padding-right: clamp(3rem, 5vw, 5.5rem);
+  }
+
+  .venture-panel--end {
+    padding-left: clamp(3rem, 5vw, 5.5rem);
+    padding-right: max(2rem, calc(50vw - 38rem));
+  }
+}
+
+/* Stacked, a hairline along the top of the second panel stands in for the
+   seam. It fades out at both ends so it reads as the same gold as the seam
+   rather than as a border. */
+.venture-panel--end::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  right: 1rem;
+  z-index: 2;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(212, 168, 87, 0) 0%,
+    rgba(224, 190, 120, 0.45) 50%,
+    rgba(212, 168, 87, 0) 100%
+  );
+}
+
+@media (min-width: 1024px) {
+  .venture-panel--end::before {
+    display: none;
+  }
+}
+
+/* The copy paints above the background and the panel-wide link, and lets the
+   pointer through to that link so the whole panel is the target - apart from
+   the CTA itself, which takes its own hover. */
+.venture-copy {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.venture-cta {
+  pointer-events: auto;
+}
+
+.venture-panel-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* One size for both manifestos. It steps down from `heading-lg` at `lg`,
+   where a column is half the width it was, and grows back with the viewport:
+   at 1024px the Business Mastery line would otherwise break into five. */
+.venture-heading {
+  max-width: 22ch;
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+@media (min-width: 640px) {
+  .venture-heading {
+    font-size: 2.125rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .venture-heading {
+    font-size: clamp(1.875rem, 2.5vw, 2.75rem);
+  }
+}
+
+.venture-body {
+  max-width: 36rem;
+  color: rgb(212 212 212);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+@media (min-width: 640px) {
+  .venture-body {
+    font-size: 1.125rem;
+  }
+}
+
+/* `.venture-masthead` centres its name between two rules. Left-aligned, the
+   leading rule would point at the edge of the screen, so it goes, and the
+   name's indent - which exists only to put a tracked, centred line on true
+   centre - goes with it. The trailing rule stays and fades away from the
+   name, as it always did. */
+.venture-masthead--start {
+  justify-content: flex-start;
+}
+
+.venture-masthead--start::before {
+  display: none;
+}
+
+/* The shared rule is `flex: 1 1 0`, sized by the room a full-width line
+   leaves it. Left-aligned in a panel the line is only as wide as the name, so
+   there is no room to take and the rule collapses to nothing; it takes its
+   cap as a fixed width instead. */
+.venture-masthead--start::after {
+  flex: 0 0 clamp(24px, 5vw, 64px);
+}
+
+.venture-masthead--start span {
+  text-indent: 0;
+}
+
+/* The backgrounds were tuned for full-width bands with a centred column. In a
+   half-width panel the copy block is proportionally much larger, so both of
+   the protections that keep lines off the words are widened to match. */
+@media (min-width: 1024px) {
+  .ventures .bmc-scrim {
+    background: radial-gradient(
+      68% 56% at 50% 50%,
+      rgba(0, 0, 0, 0.64) 0%,
+      rgba(0, 0, 0, 0.3) 55%,
+      transparent 84%
+    );
+  }
+
+  .ventures .lsr-svg {
+    --lsr-copy-mask: radial-gradient(
+      ellipse 52% 46% at 50% 50%,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.62) 55%,
+      #000 100%
+    );
+  }
+}
+
+/* The seam. A 1px gold line drawn down the middle of a 24px box - the box is
+   wider than the line so the glint's glow is not clipped by the mask - fading
+   out at both ends so it never meets the sections above and below. */
+.ventures-seam {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .ventures-seam {
+    display: block;
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    left: 50%;
+    z-index: 3;
+    width: 24px;
+    transform: translateX(-50%);
+    pointer-events: none;
+    background: linear-gradient(
+        to bottom,
+        rgba(212, 168, 87, 0) 0%,
+        rgba(224, 190, 120, 0.5) 22%,
+        rgba(224, 190, 120, 0.5) 78%,
+        rgba(212, 168, 87, 0) 100%
+      )
+      center / 1px 100% no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 14%,
+      #000 86%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 14%,
+      #000 86%,
+      transparent 100%
+    );
+  }
+
+  /* A short bright run of light down the seam every few seconds: a signal
+     passing between the two businesses, in the vocabulary both backgrounds
+     already speak. It rests off the bottom for most of the cycle so it reads
+     as an event rather than as a loading bar. */
+  .ventures-seam::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -24%;
+    width: 1px;
+    height: 24%;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      to bottom,
+      rgba(253, 224, 150, 0) 0%,
+      rgba(253, 224, 150, 0.95) 70%,
+      rgba(253, 224, 150, 0) 100%
+    );
+    box-shadow: 0 0 10px 1px rgba(251, 191, 36, 0.45);
+    animation: ventures-seam-glint 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+}
+
+@keyframes ventures-seam-glint {
+  0% {
+    top: -24%;
+  }
+  55%,
+  100% {
+    top: 100%;
+  }
+}
+
+/* The spotlight. Pointing at one panel - or tabbing to its CTA - dims the
+   other one's light and copy, so the pair reads as a choice being made.
+   Pointer devices on the side-by-side layout only: stacked, the other panel is
+   off screen, and on touch there is no hover to end the dimming. */
+.venture-bg,
+.venture-copy {
+  transition: opacity 0.5s ease;
+}
+
+/* This block is unlayered, so the rule above outranks the button classes'
+   own `transition` in the components layer and would take away their hover
+   easing. The CTA gets both back. */
+.venture-copy.venture-cta {
+  transition:
+    all 0.2s ease,
+    opacity 0.5s ease;
+}
+
+@media (hover: hover) and (min-width: 1024px) {
+  .ventures:has(.venture-panel:hover) .venture-panel:not(:hover) .venture-bg,
+  .ventures:has(.venture-panel:focus-within)
+    .venture-panel:not(:focus-within)
+    .venture-bg {
+    opacity: 0.4;
+  }
+
+  .ventures:has(.venture-panel:hover) .venture-panel:not(:hover) .venture-copy,
+  .ventures:has(.venture-panel:focus-within)
+    .venture-panel:not(:focus-within)
+    .venture-copy {
+    opacity: 0.65;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ventures-seam::after {
+    display: none;
+  }
+
+  .venture-bg,
+  .venture-copy,
+  .venture-copy.venture-cta {
+    transition: none;
+  }
 }

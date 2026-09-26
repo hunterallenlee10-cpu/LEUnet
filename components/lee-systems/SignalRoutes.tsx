@@ -248,8 +248,9 @@ type SignalRoutesProps = {
   /**
    * Where the consuming section puts its copy, which is the one thing this
    * layer cannot work out for itself. Both current consumers (the Lee Systems
-   * main page hero and the homepage teaser) centre their copy; `left` is for a
-   * two-column hero with the words on the left. It selects the
+   * main page hero and the homepage panel) put their copy in the middle of the
+   * frame they hand this layer; `left` is for a two-column hero with the words
+   * on the left. It selects the
    * mask in app/globals.css that dims the field under the words.
    *
    * Required rather than defaulted. A new consumer that forgets to say gets a
