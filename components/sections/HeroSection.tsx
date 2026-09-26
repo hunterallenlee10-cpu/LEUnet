@@ -110,25 +110,25 @@ export function HeroSection() {
               <div className="grid grid-cols-3 gap-4 pt-2" style={{ maxWidth: "620px" }}>
                 <GlassCardPadded size="sm">
                   <div className="text-center">
-                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">1</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">50+</p>
                     <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
-                      Unified Vision
+                      Businesses built
                     </p>
                   </div>
                 </GlassCardPadded>
                 <GlassCardPadded size="sm">
                   <div className="text-center">
-                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">100%</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">1,000+</p>
                     <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
-                      Results Focused
+                      Businesses worked with
                     </p>
                   </div>
                 </GlassCardPadded>
                 <GlassCardPadded size="sm">
                   <div className="text-center">
-                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">∞</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">$150,000+</p>
                     <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
-                      Growth Potential
+                      Generated for our clients
                     </p>
                   </div>
                 </GlassCardPadded>
