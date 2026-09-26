@@ -32,6 +32,10 @@ export function MainHeader() {
   // The wrapper around whichever dropdown is open, so the close timer can ask
   // whether focus is still inside it before firing.
   const openWrapperRef = useRef<HTMLDivElement | null>(null);
+  // Whether the open dropdown was opened by the pointer resting on it. A
+  // chevron click on a hover-opened menu pins it open instead of toggling it
+  // shut under the pointer, since the visitor sees it open already.
+  const openedByHoverRef = useRef(false);
 
   // Every nav target is a section of the homepage. On any other route those
   // elements don't exist, so scrolling to them would silently do nothing.
@@ -91,9 +95,8 @@ export function MainHeader() {
     smoothScrollToElement(sectionId, { focus: true });
   }, [mobileMenuOpen]);
 
-  // With hover no longer opening or closing the desktop dropdown, a click
-  // anywhere outside it, or Escape, is what closes it. Also closes the mobile
-  // drawer on Escape.
+  // Besides the pointer leaving it, a click anywhere outside the desktop
+  // dropdown, or Escape, closes it. Also closes the mobile drawer on Escape.
   useEffect(() => {
     if (!openDropdownId && !mobileMenuOpen) return;
     const onPointerDown = (event: PointerEvent) => {
@@ -121,8 +124,9 @@ export function MainHeader() {
     }
   };
 
-  const openDropdown = (id: string) => {
+  const openDropdown = (id: string, byHover = false) => {
     cancelClose();
+    openedByHoverRef.current = byHover;
     setOpenDropdownId(id);
   };
 
@@ -130,6 +134,15 @@ export function MainHeader() {
     cancelClose();
     setOpenDropdownId(null);
     openWrapperRef.current = null;
+  };
+
+  const toggleDropdownFromChevron = (id: string) => {
+    if (openDropdownId !== id) return openDropdown(id);
+    if (openedByHoverRef.current) {
+      openedByHoverRef.current = false;
+      return;
+    }
+    closeDropdown();
   };
 
   // Debounced by 200ms so the pointer can cross the gap between the trigger and
@@ -210,10 +223,10 @@ export function MainHeader() {
           </Link>
 
           {/* Desktop navigation, from `xl` up; below that the drawer serves
-              the same links. Hovering an item only changes its colour: no
-              underline sweep, no tooltip, no menu. The one dropdown opens
-              from a click on its chevron. */}
-          <nav className="hidden xl:flex items-center gap-7" aria-label="Main">
+              the same links. Hovering a plain item only changes its colour.
+              The one dropdown opens on hover, and from a click on its chevron
+              for keyboard and touch. */}
+          <nav className="hidden xl:flex items-center gap-10 text-[17px]" aria-label="Main">
             {navigationItems.map((item) => {
               const isOpen = openDropdownId === item.id;
               const panelId = `${item.id}-desktop-menu`;
@@ -235,6 +248,11 @@ export function MainHeader() {
                   key={item.id}
                   className="relative flex items-center gap-1"
                   ref={isOpen ? openWrapperRef : undefined}
+                  onMouseEnter={() => {
+                    if (!isOpen) openDropdown(item.id, true);
+                    else cancelClose();
+                  }}
+                  onMouseLeave={closeDropdownSoon}
                   onBlur={closeDropdownSoon}
                 >
                   <button
@@ -245,7 +263,7 @@ export function MainHeader() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => (isOpen ? closeDropdown() : openDropdown(item.id))}
+                    onClick={() => toggleDropdownFromChevron(item.id)}
                     className="rounded p-1 text-white transition-colors hover:text-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
                     aria-label={`${item.label} pages`}
                     aria-expanded={isOpen}
@@ -257,22 +275,27 @@ export function MainHeader() {
                     />
                   </button>
 
+                  {/* The gap above the panel is padding on this wrapper rather
+                      than a margin on the list, so the pointer stays inside the
+                      hover area while crossing from the trigger to the rows. */}
                   {isOpen && (
-                    <ul
-                      id={panelId}
-                      className="absolute left-1/2 top-full z-50 mt-3 w-64 -translate-x-1/2 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950 shadow-2xl"
-                    >
-                      {item.subItems.map((subItem) => (
-                        <li key={subItem.id}>
-                          <button
-                            onClick={() => handleNavClick(subItem.href, subItem.id)}
-                            className="w-full px-4 py-3 text-left text-sm font-medium text-white transition-colors hover:bg-neutral-900 hover:text-amber-400"
-                          >
-                            {subItem.label}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 pt-3">
+                      <ul
+                        id={panelId}
+                        className="overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950 shadow-2xl"
+                      >
+                        {item.subItems.map((subItem) => (
+                          <li key={subItem.id}>
+                            <button
+                              onClick={() => handleNavClick(subItem.href, subItem.id)}
+                              className="w-full px-4 py-3 text-left text-sm font-medium text-white transition-colors hover:bg-neutral-900 hover:text-amber-400"
+                            >
+                              {subItem.label}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   )}
                 </div>
               );
