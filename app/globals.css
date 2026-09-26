@@ -1825,8 +1825,8 @@
 
    IT IS ONE CLASS ON PURPOSE, AND BOTH SECTIONS MUST KEEP USING IT.
    LeeSystemsSection's header comment sets the rule: the two teasers are
-   deliberately the same shape - eyebrow, manifesto, paragraph, status line,
-   CTA - because two sections built the same way read as two of a kind, and
+   deliberately the same shape - path label, eyebrow, manifesto, paragraph,
+   status line, CTA - because two sections built the same way read as two of a kind, and
    giving one a composition of its own ranks it above the other before a word
    is read. What separates them is the light behind them, which each section
    owns. So the names differ in wording and in nothing else.
@@ -1943,19 +1943,101 @@
    in components/sections/BusinessMasterySection.tsx (left) and
    components/sections/LeeSystemsSection.tsx (right).
 
-   The two doorways used to be full-width sections stacked one above the other.
-   From Tailwind's `lg` up they now sit side by side, joined by a gold seam;
-   below it they stack in the same order, divided by a hairline. Each panel
-   still owns its own light - this block owns only the frame around them.
+   The two doorways used to be full-width sections stacked one above the
+   other. They are now one section: a shared heading over the two panels, side
+   by side from Tailwind's `lg` up and joined by a gold seam with an "or" on it.
+   Below `lg` the panels stack in the same order and the "or" becomes a divider
+   between them. Each panel still owns its own light - this block owns only the
+   frame around them.
 
-   Copy is left-aligned in both. A centred column that is half the width of the
-   screen reads as a narrow ribbon rather than as a column, and left-aligned
-   copy is what lets the two panels' rows line up across the seam.
+   Each panel is a centred composition, as each teaser was when it had the full
+   width, so the pair reads as two matching doors either side of one axis: the
+   seam, the "or" on it and the "or" in the heading all sit on that axis.
    --------------------------------------------------------------------------- */
 
 .ventures {
   position: relative;
   isolation: isolate;
+}
+
+/* The heading sits on the page's plain ground rather than over either panel's
+   light: it belongs to both, so it sits on neither. */
+.ventures-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 5rem 1rem 0;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .ventures-head {
+    padding: 6rem 1.5rem 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ventures-head {
+    padding: 7rem 2rem 0;
+  }
+}
+
+/* Neutral, not gold: every gold line in this section names one of the two
+   businesses, and this one names neither. Mono and tracked like the mastheads
+   below it, so the section reads as one family. The indent matches the
+   tracking to put the line on true centre - see `.venture-masthead`. */
+.ventures-eyebrow {
+  font-family: var(--font-mono-geist);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  text-transform: uppercase;
+  color: rgb(163 163 163);
+}
+
+.ventures-title {
+  max-width: 20ch;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+@media (min-width: 640px) {
+  .ventures-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* One line from `lg` up, so the sentence lays itself over the pair: "Learn to
+   build it" over the left panel, "have it built for you" over the right, and
+   the "or" between them close to the seam. The two halves of the sentence are
+   within a character of the same length, which is what puts the break there
+   (data/company.ts says so beside the copy). Sized to stay one line at 1024px;
+   if a longer phrase ever breaks it, `balance` wraps it evenly. */
+@media (min-width: 1024px) {
+  .ventures-title {
+    max-width: none;
+    font-size: clamp(2rem, 3vw, 2.75rem);
+  }
+}
+
+/* Each phrase in its own panel's accent: amber is Business Mastery's, brass is
+   Lee Systems Co.'s. */
+.ventures-title-start {
+  color: rgb(251 191 36);
+}
+
+.ventures-title-end {
+  color: rgb(224 190 120);
+}
+
+.ventures-pair {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
 }
@@ -1966,35 +2048,36 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  /* The site's `section-container` gutters, so the stacked copy sits on the
-     same left edge as every other section on a phone. */
-  padding: 5rem 1rem;
+  align-items: center;
+  text-align: center;
+  /* The site's `section-container` gutters, so the stacked copy keeps the
+     same side margins as every other section on a phone. */
+  padding: 4rem 1rem 4.5rem;
 }
 
 @media (min-width: 640px) {
   .venture-panel {
-    padding: 6rem 1.5rem;
+    padding: 4.5rem 1.5rem 5.5rem;
   }
 }
 
 /* Side by side. The grid stretches both panels to the taller one's height,
    and each panel pins its status line and CTA to its own bottom
    (`.venture-status`), so the two buttons sit on one line however differently
-   the manifestos wrap. Everything above the status line flows from the top, so
-   the mastheads and the first line of each manifesto line up too.
+   the manifestos wrap. Everything above the status line flows from the top,
+   so the labels, the mastheads and the first line of each manifesto line up
+   too; the spare space in the shorter panel lands above its actions.
 
-   Not a five-row subgrid, which was tried: it lines up every row, but a row is
-   as tall as the longer of the pair, so the shorter Business Mastery manifesto
-   was left with a blank line under it before its paragraph. The spare space
-   belongs above the actions, where it reads as intended. */
+   Not a subgrid across every row, which was tried: it lines up every row, but
+   a row is as tall as the longer of the pair, so the shorter Business Mastery
+   manifesto was left with a blank line under it before its paragraph. */
 @media (min-width: 1024px) {
-  .ventures {
+  .ventures-pair {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .venture-panel {
-    padding-block: 7.5rem 8rem;
+    padding-block: 4.5rem 7rem;
   }
 
   .venture-status {
@@ -2002,43 +2085,19 @@
   }
 
   /* The outer gutter tracks the edge of the site's `max-w-7xl` container
-     (80rem, plus its 2rem `lg:px-8`), so on a wide screen the pair's copy
-     starts and ends where every other section's does, while the backgrounds
-     still run to the edges of the window. The inner gutter is the seam's
-     breathing room. */
+     (80rem, plus its 2rem `lg:px-8`), so on a wide screen each panel centres
+     its copy in the part of its half that lines up with the rest of the page,
+     and the pair stays gathered round the seam instead of drifting to the
+     window edges; the backgrounds still run to those edges. The inner gutter
+     keeps the copy clear of the "or" on the seam. */
   .venture-panel--start {
     padding-left: max(2rem, calc(50vw - 38rem));
-    padding-right: clamp(3rem, 5vw, 5.5rem);
+    padding-right: clamp(3.5rem, 6vw, 6.5rem);
   }
 
   .venture-panel--end {
-    padding-left: clamp(3rem, 5vw, 5.5rem);
+    padding-left: clamp(3.5rem, 6vw, 6.5rem);
     padding-right: max(2rem, calc(50vw - 38rem));
-  }
-}
-
-/* Stacked, a hairline along the top of the second panel stands in for the
-   seam. It fades out at both ends so it reads as the same gold as the seam
-   rather than as a border. */
-.venture-panel--end::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 1rem;
-  right: 1rem;
-  z-index: 2;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    rgba(212, 168, 87, 0) 0%,
-    rgba(224, 190, 120, 0.45) 50%,
-    rgba(212, 168, 87, 0) 100%
-  );
-}
-
-@media (min-width: 1024px) {
-  .venture-panel--end::before {
-    display: none;
   }
 }
 
@@ -2061,36 +2120,76 @@
   z-index: 1;
 }
 
-/* One size for both manifestos. It steps down from `heading-lg` at `lg`,
-   where a column is half the width it was, and grows back with the viewport:
-   at 1024px the Business Mastery line would otherwise break into five. */
+/* Which path the panel is. A tag rather than another eyebrow: the panel
+   already carries two small uppercase lines (the masthead and the status
+   line), and a third in the same voice would read as a stack of labels. Sans,
+   sentence case, in a pill, and the icon in the panel's accent. */
+.venture-path {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.875rem 0.375rem 0.75rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.03);
+  color: rgb(212 212 212);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.venture-path svg {
+  width: 0.9375rem;
+  height: 0.9375rem;
+  flex: none;
+}
+
+/* `.venture-masthead` is sized by the room its line leaves the two rules, and
+   a centred flex column shrinks each item to its content, which would leave
+   them none. Stretched to the column's width, the name centres and the rules
+   grow to their cap as they do at full width. */
+.venture-panel > .venture-masthead {
+  align-self: stretch;
+}
+
+/* One size for both manifestos, a step under the section heading above them.
+   It drops below `heading-lg` at `lg`, where a column is half the width it
+   was, and grows with the viewport only as far as the column does: from about
+   1440px the column's outer gutter tracks the site container, so the column
+   stops widening at roughly 500px, and a headline that kept growing past it
+   broke into three and four lines at 1920px. The measure is set so the
+   Business Mastery line takes two lines at desktop widths rather than three. */
 .venture-heading {
-  max-width: 22ch;
+  max-width: 26ch;
   color: #fff;
-  font-size: 1.75rem;
+  font-size: 1.625rem;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.18;
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
 @media (min-width: 640px) {
   .venture-heading {
-    font-size: 2.125rem;
+    font-size: 2rem;
   }
 }
 
 @media (min-width: 1024px) {
   .venture-heading {
-    font-size: clamp(1.875rem, 2.5vw, 2.75rem);
+    font-size: clamp(1.75rem, 2.3vw, 2.125rem);
   }
 }
 
+/* `pretty` because a centred paragraph shows a one-word last line more than a
+   ragged-right one does: at tablet widths both paragraphs ended on a lone
+   word. */
 .venture-body {
   max-width: 36rem;
   color: rgb(212 212 212);
   font-size: 1rem;
   line-height: 1.7;
+  text-wrap: pretty;
 }
 
 @media (min-width: 640px) {
@@ -2099,34 +2198,9 @@
   }
 }
 
-/* `.venture-masthead` centres its name between two rules. Left-aligned, the
-   leading rule would point at the edge of the screen, so it goes, and the
-   name's indent - which exists only to put a tracked, centred line on true
-   centre - goes with it. The trailing rule stays and fades away from the
-   name, as it always did. */
-.venture-masthead--start {
-  justify-content: flex-start;
-}
-
-.venture-masthead--start::before {
-  display: none;
-}
-
-/* The shared rule is `flex: 1 1 0`, sized by the room a full-width line
-   leaves it. Left-aligned in a panel the line is only as wide as the name, so
-   there is no room to take and the rule collapses to nothing; it takes its
-   cap as a fixed width instead. */
-.venture-masthead--start::after {
-  flex: 0 0 clamp(24px, 5vw, 64px);
-}
-
-.venture-masthead--start span {
-  text-indent: 0;
-}
-
-/* The backgrounds were tuned for full-width bands with a centred column. In a
-   half-width panel the copy block is proportionally much larger, so both of
-   the protections that keep lines off the words are widened to match. */
+/* The backgrounds were tuned for full-width bands. In a half-width panel the
+   copy block is proportionally much larger, so both of the protections that
+   keep lines off the words are widened to match. */
 @media (min-width: 1024px) {
   .ventures .bmc-scrim {
     background: radial-gradient(
@@ -2147,9 +2221,95 @@
   }
 }
 
+/* The "or". Stacked, it is a divider: a gold hairline across the join with
+   the badge in the middle, pulled half onto each panel by the negative margin
+   so it sits on the join rather than in a band of its own. */
+.ventures-or {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-block: -1.5rem;
+  padding-inline: 1rem;
+  pointer-events: none;
+}
+
+.ventures-or::before,
+.ventures-or::after {
+  content: "";
+  flex: 1 1 0;
+  height: 1px;
+}
+
+.ventures-or::before {
+  background: linear-gradient(
+    to right,
+    rgba(212, 168, 87, 0) 0%,
+    rgba(224, 190, 120, 0.45) 100%
+  );
+}
+
+.ventures-or::after {
+  background: linear-gradient(
+    to left,
+    rgba(212, 168, 87, 0) 0%,
+    rgba(224, 190, 120, 0.45) 100%
+  );
+}
+
+/* The ring in the ground colour cuts the line short of the badge on both
+   layouts, so the badge reads as sitting on the line rather than threaded on
+   it. Brass, the colour the two accents meet at. */
+.ventures-or span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(212, 168, 87, 0.5);
+  border-radius: 9999px;
+  background: rgb(10 10 10);
+  box-shadow:
+    0 0 0 6px rgb(10 10 10),
+    0 0 28px rgba(251, 191, 36, 0.22);
+  color: rgb(224 190 120);
+  font-family: var(--font-mono-geist);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-indent: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Side by side it sits on the seam, halfway down the pair. */
+@media (min-width: 1024px) {
+  .ventures-or {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    padding: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .ventures-or::before,
+  .ventures-or::after {
+    display: none;
+  }
+
+  .ventures-or span {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 0.875rem;
+  }
+}
+
 /* The seam. A 1px gold line drawn down the middle of a 24px box - the box is
-   wider than the line so the glint's glow is not clipped by the mask - fading
-   out at both ends so it never meets the sections above and below. */
+   wider than the line so the glint's glow is not clipped by the mask. It rises
+   out of the space under the heading and fades out before the pair ends, so it
+   never meets the section below. */
 .ventures-seam {
   display: none;
 }
@@ -2158,8 +2318,8 @@
   .ventures-seam {
     display: block;
     position: absolute;
-    top: 10%;
-    bottom: 10%;
+    top: 0;
+    bottom: 8%;
     left: 50%;
     z-index: 3;
     width: 24px;
@@ -2191,8 +2351,9 @@
 
   /* A short bright run of light down the seam every few seconds: a signal
      passing between the two businesses, in the vocabulary both backgrounds
-     already speak. It rests off the bottom for most of the cycle so it reads
-     as an event rather than as a loading bar. */
+     already speak. It passes behind the "or" on its way. It rests off the
+     bottom for most of the cycle so it reads as an event rather than as a
+     loading bar. */
   .ventures-seam::after {
     content: "";
     position: absolute;
@@ -2223,11 +2384,14 @@
 }
 
 /* The spotlight. Pointing at one panel - or tabbing to its CTA - dims the
-   other one's light and copy, so the pair reads as a choice being made.
-   Pointer devices on the side-by-side layout only: stacked, the other panel is
-   off screen, and on touch there is no hover to end the dimming. */
+   other one's light and copy, and the phrase in the heading that names it, so
+   the section reads as a choice being made. Pointer devices on the
+   side-by-side layout only: stacked, the other panel is off screen, and on
+   touch there is no hover to end the dimming. */
 .venture-bg,
-.venture-copy {
+.venture-copy,
+.ventures-title-start,
+.ventures-title-end {
   transition: opacity 0.5s ease;
 }
 
@@ -2241,18 +2405,27 @@
 }
 
 @media (hover: hover) and (min-width: 1024px) {
-  .ventures:has(.venture-panel:hover) .venture-panel:not(:hover) .venture-bg,
-  .ventures:has(.venture-panel:focus-within)
+  .ventures-pair:has(.venture-panel:hover) .venture-panel:not(:hover) .venture-bg,
+  .ventures-pair:has(.venture-panel:focus-within)
     .venture-panel:not(:focus-within)
     .venture-bg {
     opacity: 0.4;
   }
 
-  .ventures:has(.venture-panel:hover) .venture-panel:not(:hover) .venture-copy,
-  .ventures:has(.venture-panel:focus-within)
+  .ventures-pair:has(.venture-panel:hover)
+    .venture-panel:not(:hover)
+    .venture-copy,
+  .ventures-pair:has(.venture-panel:focus-within)
     .venture-panel:not(:focus-within)
     .venture-copy {
     opacity: 0.65;
+  }
+
+  .ventures:has(.venture-panel--end:hover) .ventures-title-start,
+  .ventures:has(.venture-panel--end:focus-within) .ventures-title-start,
+  .ventures:has(.venture-panel--start:hover) .ventures-title-end,
+  .ventures:has(.venture-panel--start:focus-within) .ventures-title-end {
+    opacity: 0.45;
   }
 }
 
@@ -2263,7 +2436,9 @@
 
   .venture-bg,
   .venture-copy,
-  .venture-copy.venture-cta {
+  .venture-copy.venture-cta,
+  .ventures-title-start,
+  .ventures-title-end {
     transition: none;
   }
 }

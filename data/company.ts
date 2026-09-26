@@ -34,6 +34,30 @@ export const companyInfo = {
 };
 
 /**
+ * The homepage section that puts the two ventures side by side
+ * (components/sections/VenturesSection.tsx): the heading over the pair, and
+ * the label at the top of each panel.
+ *
+ * The heading renders as `{start}, or {end}.`, and its two phrases are the two
+ * panels in order - `start` is Business Mastery on the left, `end` is Lee
+ * Systems Co. on the right - each set in that panel's accent. Keep them in that
+ * order, and keep them close in length: from 1024px up the heading is one
+ * line, and two phrases of about the same length are what put its "or" over
+ * the seam between the panels.
+ */
+export const venturesHome = {
+  eyebrow: "Two ways to work with LEU",
+  title: {
+    start: "Learn to build it",
+    end: "have it built for you",
+  },
+  labels: {
+    businessMastery: "Learn it yourself",
+    leeSystems: "Done for you",
+  },
+} as const;
+
+/**
  * Nothing renders this today; it is kept as the copy a final CTA would use.
  * The list of interests used to read "marketing services, property cleaning,
  * athletic training, or premium apparel". Athletic training left with H1

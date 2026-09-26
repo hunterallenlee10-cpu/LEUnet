@@ -364,11 +364,14 @@ a "Limited Spots" box in the offer section (§6.2). Both surfaces now make an
 unquantified scarcity claim, and no rendered figure remains to check.
 
 Since 2026-09-26 it is no longer a full-width section of its own: it is the
-left half of `VenturesSection`, side by side with the Lee Systems Co. teaser
-from 1024px up and stacked above it on smaller screens. The copy is
-left-aligned, the whole panel links to `/business-mastery`, and pointing at
-one panel dims the other. The layout lives in `.ventures` in
-`app/globals.css`; the content above is unchanged.
+left half of `VenturesSection`, under a shared heading - "Learn to build it,
+or have it built for you." - side by side with the Lee Systems Co. teaser from
+1024px up, with an "or" on the seam between them, and stacked above it on
+smaller screens. It opens with a "Learn it yourself" label; the heading and
+both labels are `venturesHome` in `data/company.ts`. The copy is centred in
+the panel, the whole panel links to `/business-mastery`, and pointing at one
+panel dims the other. The layout lives in `.ventures` in `app/globals.css`;
+the teaser's own copy above is unchanged.
 
 It deliberately does **not** repeat the pillars or audiences; the page does
 that. It shipped alongside a second homepage CTA to the same place — the

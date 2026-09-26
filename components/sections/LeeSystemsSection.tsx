@@ -1,19 +1,20 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Wrench } from "lucide-react";
 import { sectionIds, venturePages } from "@/data/navigation";
 import { leeSystemsHomeTeaser } from "@/data/lee-systems";
+import { venturesHome } from "@/data/company";
 import { SignalRoutes } from "@/components/lee-systems/SignalRoutes";
 
 /**
  * Homepage doorway to /lee-systems, and the sibling of `BusinessMasterySection`:
  * the site's two main things sit side by side in `VenturesSection`, this one
- * on the right.
+ * on the right, under the heading's "have it built for you".
  *
- * DELIBERATELY THE SAME SHAPE as the Business Mastery panel - eyebrow,
- * manifesto, one paragraph, one status line, one CTA - so the two read as two
- * of a kind. What differs is the light: this one carries the Lee Systems main
- * page's background (the warm-right/cool-left orbs and "Signal Routes"), so a
- * visitor who clicks through recognises where they came from.
+ * DELIBERATELY THE SAME SHAPE as the Business Mastery panel - path label,
+ * eyebrow, manifesto, one paragraph, one status line, one CTA - so the two
+ * read as two of a kind. What differs is the light: this one carries the Lee
+ * Systems main page's background (the warm-right/cool-left orbs and "Signal
+ * Routes"), so a visitor who clicks through recognises where they came from.
  *
  * It was the Lee Marketing Mastery teaser until the rename on 2026-09-25.
  */
@@ -21,7 +22,7 @@ export function LeeSystemsSection() {
   return (
     <article
       id={sectionIds.leeSystems}
-      aria-labelledby="venture-ls-title"
+      aria-labelledby="venture-ls-name"
       className="venture-panel venture-panel--end group/panel"
     >
       {/* The Lee Systems main page hero's two offset orbs — warm high and right, cool low and
@@ -47,10 +48,10 @@ export function LeeSystemsSection() {
             so it stays under the copy, which carries `.venture-copy` and so
             paints above.
 
-            `center`: the copy sits in the middle of the panel. `.ventures`
-            in app/globals.css widens that mask to the panel's proportions,
-            which are taller and narrower than the full-width band it was
-            tuned for. */}
+            `center`: the copy is centred in the panel. `.ventures` in
+            app/globals.css widens that mask to the panel's proportions, which
+            are taller and narrower than the full-width band it was tuned
+            for. */}
         <SignalRoutes focus="center" />
       </div>
 
@@ -63,15 +64,22 @@ export function LeeSystemsSection() {
         tabIndex={-1}
       />
 
+      {/* The same label as the Business Mastery panel's, for the other
+          path. */}
+      <p className="venture-copy venture-path mb-6">
+        <Wrench className="text-brass-400" aria-hidden="true" />
+        {venturesHome.labels.leeSystems}
+      </p>
+
       {/* `.venture-masthead` — shared with the Business Mastery panel. Same
           treatment, same measurements; only the name differs, which is the
           whole of what keeps the two panels reading as two of a kind. */}
-      <p className="venture-copy venture-masthead venture-masthead--start mb-5">
-        <span>{leeSystemsHomeTeaser.eyebrow}</span>
+      <p className="venture-copy venture-masthead mb-5">
+        <span id="venture-ls-name">{leeSystemsHomeTeaser.eyebrow}</span>
       </p>
-      <h2 id="venture-ls-title" className="venture-copy venture-heading mb-6">
+      <h3 className="venture-copy venture-heading mb-6">
         {leeSystemsHomeTeaser.manifesto}
-      </h2>
+      </h3>
       <p className="venture-copy venture-body mb-8">
         {leeSystemsHomeTeaser.subtitle} {leeSystemsHomeTeaser.description}
       </p>

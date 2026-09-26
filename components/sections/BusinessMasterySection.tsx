@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, GraduationCap } from "lucide-react";
 import { businessMasteryPage, sectionIds } from "@/data/navigation";
 import { bmHero } from "@/data/business-mastery";
+import { venturesHome } from "@/data/company";
 import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground";
 
 /**
@@ -13,13 +14,15 @@ import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground
  * page's counter stands alone. docs/BUSINESS-MASTERY.md §8.
  *
  * It is the left half of `VenturesSection`, not a section of its own: the
- * grid, the seam and the hover spotlight live there.
+ * heading over the pair, the grid, the seam and the hover spotlight live
+ * there. The article is named by the business rather than by the manifesto,
+ * so a screen reader announces which door this is before what it says.
  */
 export function BusinessMasterySection() {
   return (
     <article
       id={sectionIds.businessMastery}
-      aria-labelledby="venture-bm-title"
+      aria-labelledby="venture-bm-name"
       className="venture-panel venture-panel--start group/panel"
     >
       {/* The same "Constellation" field the page's own hero runs, rather than
@@ -45,10 +48,10 @@ export function BusinessMasterySection() {
 
       {/* Ceiling fade. The field's ground is at its lightest along its top
           edge - the gold pool it opens with sits at 12% of the frame - so
-          against the flat `bg-neutral-950` of the hero above it, the
-          boundary read as a hard horizontal line. It belongs to the join
-          between two sections rather than to the field, so it sits outside
-          the background component. */}
+          against the flat `bg-neutral-950` under the section heading above
+          it, the boundary read as a hard horizontal line. It belongs to the
+          join rather than to the field, so it sits outside the background
+          component. */}
       <div
         className="absolute inset-x-0 top-0 z-[1] h-28 bg-gradient-to-b from-neutral-950 to-transparent"
         aria-hidden="true"
@@ -68,16 +71,24 @@ export function BusinessMasterySection() {
         tabIndex={-1}
       />
 
+      {/* Which of the heading's two paths this is, in words a visitor
+          scanning for "which one is for me" is already using. The icon takes
+          the panel's accent. */}
+      <p className="venture-copy venture-path mb-6">
+        <GraduationCap className="text-amber-400" aria-hidden="true" />
+        {venturesHome.labels.businessMastery}
+      </p>
+
       {/* `.venture-masthead` — shared with the Lee Systems Co. panel, and it
           has to stay shared: the two doorways are deliberately the same shape,
           so the names may differ in wording and in nothing else. See the
           block in app/globals.css. */}
-      <p className="venture-copy venture-masthead venture-masthead--start mb-5">
-        <span>LEU Business Mastery</span>
+      <p className="venture-copy venture-masthead mb-5">
+        <span id="venture-bm-name">LEU Business Mastery</span>
       </p>
-      <h2 id="venture-bm-title" className="venture-copy venture-heading mb-6">
+      <h3 className="venture-copy venture-heading mb-6">
         {bmHero.manifesto}
-      </h2>
+      </h3>
       <p className="venture-copy venture-body mb-8">
         {bmHero.subtitle} {bmHero.description}
       </p>
