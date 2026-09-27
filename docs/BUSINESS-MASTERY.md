@@ -61,7 +61,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
 | 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Built, **visibly locked** until the owner launches it — the slot renders a Coming Soon placeholder; `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
 | ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — merged up into slot 2 on 2026-09-07, then **off the page entirely** on 2026-09-13, see the note below | Not on the page in any slot; the copy is unchanged and still `bmTransition` |
-| 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
+| 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | **Not on the page right now** — pulled at the owner's request on 2026-09-27; `BmFinalCTASection` and `bmFinalCta` are intact |
 
 **Sections 2 and 9 became one section on 2026-09-07, at the owner's
 request.** They were always the same claim made twice — a centred column of
@@ -200,7 +200,7 @@ both pages that set it have since moved to their own repos - see this repo's
 | `components/business-mastery/BmFounderSection.tsx` | 7 — Why I Built LEU (built, not currently rendered — §3) |
 | `components/business-mastery/BmJourneyTimeline.tsx` | 8 — interactive timeline |
 | `components/business-mastery/BmJourneyLocked.tsx` | 8 — the Coming Soon placeholder rendered while `BM_JOURNEY_LOCKED` is true (§3) |
-| `components/business-mastery/BmFinalCTASection.tsx` | 10 |
+| `components/business-mastery/BmFinalCTASection.tsx` | 10 (built, not currently rendered — §3) |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
 | `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |
 | `app/api/business-mastery-application/route.ts` | Application form handler, same Resend pattern as the other venture forms (Thread's `app/api/thread-order/route.ts` now lives in the Thread repo) |

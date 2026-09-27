@@ -9,7 +9,6 @@ import { BmProgramSection } from "@/components/business-mastery/BmProgramSection
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
 import { BmJourneyLocked } from "@/components/business-mastery/BmJourneyLocked";
-import { BmFinalCTASection } from "@/components/business-mastery/BmFinalCTASection";
 import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
 
 const title = "LEU Business Mastery | Speedrun Your Way to Success";
@@ -85,7 +84,8 @@ export default function BusinessMasteryPage() {
           the closing CTA's own copy ("You can keep trying to figure everything
           out alone…") is the bridge now, and the timeline sits on neutral-950
           so the two are separated by the page's light/dark alternation rather
-          than abutting as two black sections. */}
+          than abutting as two black sections. (The closing CTA is itself off
+          the page since 2026-09-27 — see below.) */}
       {/* Section 8, The Journey, is LOCKED — on the page, visibly not open.
           While BM_JOURNEY_LOCKED (data/business-mastery.ts) is true, the slot
           renders BmJourneyLocked: the section's title and the shared Coming
@@ -97,7 +97,10 @@ export default function BusinessMasteryPage() {
           neutral-950, so the join described above holds in either state and
           BmFinalCTASection stays black throughout. */}
       {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
-      <BmFinalCTASection />
+      {/* Section 10, Achieve Your Dreams Today, came off at the owner's
+          request on 2026-09-27, so the page now ends on the journey slot.
+          BmFinalCTASection and `bmFinalCta` are intact; putting it back is
+          this line plus its import. */}
 
       <MainFooter />
     </main>
