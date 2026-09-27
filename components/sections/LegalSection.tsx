@@ -56,6 +56,10 @@ function AccordionItem({
  * is the point rather than a regression - either link brings up the whole legal
  * block, and on desktop both are on screen at once.
  *
+ * Off the homepage since 2026-09-27 at the owner's request; it now renders on
+ * app/legal/page.tsx, and the footer's Legal links point at /legal#privacy
+ * and /legal#terms.
+ *
  * Below `lg` the columns stack, which is the old layout minus one section's
  * padding. Nothing about this is worth breaking a phone over.
  */
@@ -69,7 +73,7 @@ export function LegalSection() {
     setOpenKey((current) => (current === key ? null : key));
 
   return (
-    <section className="relative isolate overflow-hidden py-20 md:py-28">
+    <section className="relative isolate overflow-hidden pb-20 pt-32 md:pb-28 md:pt-40">
       {/* Both sections' orbs, kept and merged - amber high right from Privacy,
           cyan low left from Terms. They are NOT on `-z-10` any more: this
           section sets no z-index, so it establishes no stacking context, and a
