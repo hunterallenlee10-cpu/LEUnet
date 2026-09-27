@@ -5,7 +5,6 @@ import {
   Phone,
   Presentation,
   UserRound,
-  Wrench,
 } from "lucide-react";
 import { bmPillars, bmProgram } from "@/data/business-mastery";
 
@@ -18,13 +17,15 @@ const pillarIcons: Record<string, React.ReactNode> = {
   coaching: <UserRound className="h-6 w-6" aria-hidden="true" />,
   "hands-on": <Hammer className="h-6 w-6" aria-hidden="true" />,
   community: <MessagesSquare className="h-6 w-6" aria-hidden="true" />,
-  tools: <Wrench className="h-6 w-6" aria-hidden="true" />,
 };
 
 /**
- * Section 5 — what membership actually is. Seven pillars; the Tools &
- * Resources pillar carries its list and spans wider so ten bullets don't
- * squeeze into a narrow card.
+ * Section 5 — what membership actually is. Six pillar cards.
+ *
+ * The Tools & Resources pillar (the one carrying a bullet list) used to sit
+ * under the grid as plain text and came off at the owner's request
+ * (2026-09-27). Its content is intact in the data file; the grid still skips
+ * any pillar with `items`, so it stays hidden until rendered here again.
  *
  * `bmProgram.closer` used to run as one centred paragraph under the grid and
  * came off at the owner's request (2026-09-07). The section ends on the pillars
@@ -45,10 +46,9 @@ export function BmProgramSection() {
           <p className="text-lg text-neutral-400">{bmProgram.description}</p>
         </div>
 
-        {/* Every card in the grid is the same size. The one pillar that is a
-            list rather than a description (Tools & Resources) used to be an
-            extra-wide card spanning the whole row, which broke the grid's
-            rhythm; it now sits under the grid as plain text instead. */}
+        {/* Every card in the grid is the same size. Pillars that are a list
+            rather than a description (Tools & Resources) are left out; see
+            the note above. */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {bmPillars
             .filter((pillar) => !pillar.items)
@@ -70,33 +70,6 @@ export function BmProgramSection() {
             ))}
         </div>
 
-        {bmPillars
-          .filter((pillar) => pillar.items)
-          .map((pillar) => (
-            <div key={pillar.id} className="mx-auto mt-14 max-w-4xl text-center">
-              <div className="mb-4 flex justify-center text-amber-400">
-                {pillarIcons[pillar.id]}
-              </div>
-              <h3 className="mb-2 text-lg font-bold text-white">{pillar.title}</h3>
-              <p className="mb-6 leading-relaxed text-neutral-300">
-                {pillar.description}
-              </p>
-              <ul className="mx-auto grid max-w-3xl grid-cols-1 gap-x-6 gap-y-2 text-left sm:grid-cols-2 lg:grid-cols-3">
-                {pillar.items!.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-baseline gap-2.5 text-neutral-300"
-                  >
-                    <span
-                      className="h-1.5 w-1.5 shrink-0 translate-y-[-1px] rounded-full bg-amber-400"
-                      aria-hidden="true"
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
       </div>
     </section>
   );
