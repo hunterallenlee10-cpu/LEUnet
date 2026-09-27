@@ -234,16 +234,16 @@ own repos): honeypot field, server-side validation, per-field errors, Resend
 delivery, own subject line so a Business Mastery application is
 distinguishable in the inbox.
 
-Proposed fields:
+Fields. The stage dropdown and the separate "what are you building" / "why
+do you want in" textareas were folded into one open question on 2026-09-27
+at the owner's request:
 
 | Field | Required |
 | --- | --- |
 | Full name | yes |
 | Email | yes |
 | Phone | yes |
-| Where are you right now? (the three audience stages from §3 as options, so the answer maps to the page's own language) | yes |
-| What are you building — or what do you want to build? | yes |
-| Why do you want in as a founding member? | no |
+| Tell us your story (one open textarea; its hint asks where they are, what they're building, what's holding them back, and what they want from membership) | yes |
 | Honeypot | hidden |
 
 Env override pattern mirrors the other routes:

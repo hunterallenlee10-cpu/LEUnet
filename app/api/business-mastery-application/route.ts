@@ -24,9 +24,7 @@ interface BmApplicationRequest {
   fullName: string;
   email: string;
   phone: string;
-  stage: string;
-  building: string;
-  why?: string;
+  story: string;
   honeypot?: string;
 }
 
@@ -65,35 +63,24 @@ export async function POST(request: NextRequest) {
       errors.phone = "Please enter a valid phone number";
     }
 
-    if (!body.stage) {
-      errors.stage = "Please tell us where you are right now";
-    }
-
-    const building = body.building?.trim() || "";
-    if (!building) {
-      errors.building = "Please tell us what you want to build";
-    } else if (building.length < 10) {
-      errors.building = "Please add a little more detail";
+    const story = body.story?.trim() || "";
+    if (!story) {
+      errors.story = "Please tell us about where you are and what you want to build";
+    } else if (story.length < 20) {
+      errors.story = "Please add a little more detail";
     }
 
     if (Object.keys(errors).length > 0) {
       return NextResponse.json({ errors }, { status: 400 });
     }
 
-    const why = body.why?.trim();
-
     const emailBody = `
 Applicant: ${fullName}
 Email Address: ${email}
 Phone Number: ${phone}
 
-Where They Are Right Now: ${body.stage}
-
-What They're Building:
-${building}
-
-Why They Want In as a Member:
-${why || "Not provided"}
+Their Story:
+${story}
     `.trim();
 
     const subject = `New Business Mastery Application from ${fullName}`;
