@@ -1,7 +1,7 @@
 import { ChevronDown, ShieldCheck } from "lucide-react";
 import { BM_OFFER_ID, bmOffer } from "@/data/business-mastery";
 import { BmApplicationForm } from "@/components/business-mastery/BmApplicationForm";
-import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
+import { companyInfo } from "@/data/company";
 
 /**
  * Section 6 — the conversion section every CTA on the page points at. The
@@ -63,7 +63,8 @@ export function BmFoundingOfferSection() {
 
         {/* 90-day guarantee. Native <details> keeps it dependency-free; the
             full legal terms are a Phase C gate — see docs/BUSINESS-MASTERY.md
-            §6 — so the body carries the summary and the coming-soon marker. */}
+            §6 — so the body carries the summary and points people to email
+            for the details. */}
         <details className="group mx-auto mt-8 max-w-2xl rounded-xl border border-neutral-800 bg-neutral-900/40">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 [&::-webkit-details-marker]:hidden">
             <span className="flex items-center gap-3">
@@ -84,9 +85,15 @@ export function BmFoundingOfferSection() {
             <p className="leading-relaxed text-neutral-300">
               {bmOffer.guaranteeSummary}
             </p>
-            <div className="mt-5">
-              <BmComingSoon note={bmOffer.guaranteeTermsNote} />
-            </div>
+            <p className="mt-4 text-sm leading-relaxed text-neutral-400">
+              {bmOffer.guaranteeTermsNote}{" "}
+              <a
+                href={`mailto:${companyInfo.contactEmail}`}
+                className="font-medium text-amber-400 underline-offset-4 hover:underline"
+              >
+                {companyInfo.contactEmail}
+              </a>
+            </p>
           </div>
         </details>
 

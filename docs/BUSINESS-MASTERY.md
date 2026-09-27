@@ -278,7 +278,8 @@ against that standard before rendering:
    anything, and holds only while spots really are limited.
 3. **The 90-day guarantee.** *Stated* in this build — allowed because no
    payment is taken on-page — with its expandable showing a plain-language
-   summary plus a coming-soon note for the full terms. Full guarantee terms,
+   summary plus a line pointing to the contact email for the full terms
+   (it carried a coming-soon marker until 2026-09-27). Full guarantee terms,
    eligibility, refund conditions, and ToS must exist **before Phase C ships
    any checkout**. That is a hard gate, not a nice-to-have.
 
@@ -289,21 +290,22 @@ against that standard before rendering:
 Owner's call: for anything not decided yet, put "coming soon" and render
 whatever information does exist. One shared component (`BmComingSoon`), one
 consistent look — a quiet amber-outlined marker, not a broken-feeling stub —
-used in three places. Two render today: the guarantee expandable's, and the
-journey's — carried by the locked placeholder (`BmJourneyLocked`, §3) with
+used in three places. One renders today: the journey's — carried by the locked placeholder (`BmJourneyLocked`, §3) with
 its own note (`bmJourney.lockedNote`) while the timeline is closed, and by
 the timeline's intro slide (`bmJourney.comingSoonNote`) once it opens. This
 is the journey's sanctioned marker in either state, not a fourth place. The
 placeholder briefly carried a Lock-badged "Locked Until Complete" instead,
 until the owner chose "Coming Soon" the same day; the retired badge text
 survives unrendered as `bmJourney.lockedLabel`. The founder section is
-paused (§3), so its marker renders nowhere until the section returns.
+paused (§3), so its marker renders nowhere until the section returns. The
+guarantee expandable dropped its marker on 2026-09-27 at the owner's request
+and now points people to the contact email instead.
 
 | Where | What renders now | What's coming |
 | --- | --- | --- |
 | Why I Built LEU (8) — *section paused, §3* | The legacy statement (§9 below) + the supporting idea | The full founder story from the My Story document |
 | Journey timeline (9) — *section locked, §3* | The locked placeholder: title, chapter tease, Coming Soon. Once unlocked: the 14 chapter titles as the interactive structure | Each chapter's story |
-| Guarantee expandable (6) | Plain-language guarantee summary | Full terms, eligibility, refund conditions, ToS |
+| Guarantee expandable (6) — *no marker since 2026-09-27* | Plain-language guarantee summary + contact email for the details | Full terms, eligibility, refund conditions, ToS |
 
 The timeline is worth building fully now even with empty chapters: the
 interaction model gets designed and settled, and the story drops in later as

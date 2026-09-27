@@ -2,7 +2,8 @@ import { Hourglass } from "lucide-react";
 
 /**
  * The one marker for content the page is honest about not having yet — the
- * journey chapters, the full founder story, the guarantee's legal terms.
+ * journey chapters and the full founder story (the guarantee's legal terms
+ * used it until 2026-09-27).
  * docs/BUSINESS-MASTERY.md §7 lists the three places it may appear; a fourth
  * use probably means content is being deferred that should just be written.
  *
