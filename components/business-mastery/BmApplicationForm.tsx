@@ -2,23 +2,12 @@
 
 import { useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { bmAudiences } from "@/data/business-mastery";
-
-// The stage options are the three audience stages from the section above, so
-// the applicant answers in the page's own language and the inbox reads the
-// same way. "Somewhere else" catches everyone the three don't fit.
-const stageOptions = [
-  ...bmAudiences.map((audience) => audience.title),
-  "Somewhere else, I'll explain below",
-];
 
 const emptyForm = {
   fullName: "",
   email: "",
   phone: "",
-  stage: "",
-  building: "",
-  why: "",
+  story: "",
 };
 
 type FormState = typeof emptyForm;
@@ -42,9 +31,7 @@ export function BmApplicationForm() {
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -60,9 +47,8 @@ export function BmApplicationForm() {
     const phone = formData.phone.trim();
     if (!phone || !/^[\d\s\-().+]+$/.test(phone) || phone.length < 10)
       next.phone = "Please enter a valid phone number";
-    if (!formData.stage) next.stage = "Please tell us where you are right now";
-    if (formData.building.trim().length < 10)
-      next.building = "Please tell us a little more about what you want to build";
+    if (formData.story.trim().length < 20)
+      next.story = "Please tell us a little more about where you are and what you want to build";
     return next;
   };
 
@@ -176,7 +162,7 @@ export function BmApplicationForm() {
         </p>
       )}
 
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
         <Field
           id="fullName"
           label="Full Name"
@@ -209,87 +195,47 @@ export function BmApplicationForm() {
           placeholder="(240) 000-0000"
           autoComplete="tel"
         />
-        <div>
-          <label htmlFor="stage" className={labelClass}>
-            Where Are You Right Now?{" "}
-            <span className="text-amber-400" aria-hidden="true">
-              *
-            </span>
-          </label>
-          <select
-            id="stage"
-            name="stage"
-            value={formData.stage}
-            onChange={handleChange}
-            required
-            aria-required="true"
-            aria-invalid={errors.stage ? "true" : undefined}
-            aria-describedby={errors.stage ? "stage-error" : undefined}
-            className={`${fieldClass} ${
-              errors.stage ? "border-red-500/60" : "border-neutral-700"
-            }`}
-          >
-            <option value="">Select an option...</option>
-            {stageOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          {errors.stage && (
-            <p id="stage-error" role="alert" className="mt-2 text-sm text-red-400">
-              {errors.stage}
-            </p>
-          )}
-        </div>
       </div>
 
+      {/* One open question in place of the old stage dropdown and the two
+          separate textareas (owner's request, 2026-09-27). The hint names
+          the four things the follow-up call needs, so a single box still
+          gets them. */}
       <div className="mt-5">
-        <label htmlFor="building" className={labelClass}>
-          What Are You Building, or What Do You Want to Build?{" "}
+        <label htmlFor="story" className={labelClass}>
+          Tell Us Your Story{" "}
           <span className="text-amber-400" aria-hidden="true">
             *
           </span>
         </label>
+        <p id="story-hint" className="mb-3 text-sm text-neutral-400">
+          Where you are right now, what you&apos;re building or want to build,
+          what&apos;s holding you back, and what you&apos;re hoping to get out
+          of membership. An idea, a business you already run, or &ldquo;I
+          don&apos;t know yet&rdquo; are all real answers.
+        </p>
         <textarea
-          id="building"
-          name="building"
-          rows={4}
-          value={formData.building}
+          id="story"
+          name="story"
+          rows={7}
+          value={formData.story}
           onChange={handleChange}
           required
           aria-required="true"
-          aria-invalid={errors.building ? "true" : undefined}
-          aria-describedby={errors.building ? "building-error" : undefined}
-          placeholder="A business you're running, an idea you're chasing, or 'I don't know yet'. All three are real answers"
-          className={`${fieldClass} resize-none ${
-            errors.building ? "border-red-500/60" : "border-neutral-700"
+          aria-invalid={errors.story ? "true" : undefined}
+          aria-describedby={
+            errors.story ? "story-hint story-error" : "story-hint"
+          }
+          placeholder="The more we know, the better we can help."
+          className={`${fieldClass} resize-y ${
+            errors.story ? "border-red-500/60" : "border-neutral-700"
           }`}
         />
-        {errors.building && (
-          <p
-            id="building-error"
-            role="alert"
-            className="mt-2 text-sm text-red-400"
-          >
-            {errors.building}
+        {errors.story && (
+          <p id="story-error" role="alert" className="mt-2 text-sm text-red-400">
+            {errors.story}
           </p>
         )}
-      </div>
-
-      <div className="mt-5">
-        <label htmlFor="why" className={labelClass}>
-          Why Do You Want In as a Member?
-        </label>
-        <textarea
-          id="why"
-          name="why"
-          rows={3}
-          value={formData.why}
-          onChange={handleChange}
-          placeholder="Optional, but it helps us understand who we're building with"
-          className={`${fieldClass} resize-none border-neutral-700`}
-        />
       </div>
 
       <button
