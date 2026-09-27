@@ -216,8 +216,11 @@ export const bmProgram = {
   // title-cased to match every other heading on the page, with the plural
   // apostrophe dropped ("entrepreneur's" -> "Entrepreneurs").
   heading: "A Network of Dedicated Entrepreneurs.",
+  // The owner's wording, supplied 2026-09-27; it replaced "Members are not
+  // simply purchasing prerecorded information. They're entering a
+  // business-development environment."
   description:
-    "Members are not simply purchasing prerecorded information. They're entering a business-development environment.",
+    "Learn the skills to start, build, & develop your business to the next level.",
   /**
    * NOTHING RENDERS THIS RIGHT NOW. The owner asked the closing line off
    * section 5 on 2026-09-07, in the same pass that took the Core Philosophy
