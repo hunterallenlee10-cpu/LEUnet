@@ -239,9 +239,9 @@ export const bmProgram = {
 export const bmPillars: BmPillar[] = [
   {
     id: "classes",
-    title: "Subject-Specific Classes",
+    title: "Subject-Specific Demos",
     description:
-      "Step-by-step education covering different areas of starting, operating, and growing businesses.",
+      "Watch real business tasks done start to finish, with demos broken down by subject across starting, operating, and growing a business.",
   },
   {
     id: "webinars",
