@@ -19,9 +19,11 @@ const stageIcons: Record<string, React.ReactNode> = {
  * `bmAudiences`). The stages are drawn as a path: an icon badge above each
  * card, joined by a thin amber line from md up, and the last card carries a
  * warmer border so the row ends on "Ready to Grow". Below md the cards stack,
- * the badge row drops out, and a small icon moves into each card's stage
- * label instead - badges above full-width stacked cards added length without
- * adding meaning.
+ * the badge row drops out, and the icon moves inside each card instead -
+ * badges above full-width stacked cards added length without adding meaning.
+ *
+ * Badges and card text are centred, and the "Stage 01" labels and large
+ * watermark numerals came off at the owner's request (2026-09-27).
  *
  * Hover treatment is plain Tailwind. It was never the H1 page's `.h1-live`
  * vocabulary: that class drew its ring from a `--h1c-gold` property only the
@@ -43,12 +45,11 @@ export function BmAudienceSection() {
 
         <ol className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-3">
           {bmAudiences.map((audience, index) => {
-            const stage = String(index + 1).padStart(2, "0");
             const isLast = index === lastIndex;
 
             return (
               <li key={audience.id} className="flex flex-col">
-                <div className="relative mb-6 hidden items-center md:flex">
+                <div className="relative mb-6 hidden items-center justify-center md:flex">
                   <span
                     className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full border bg-neutral-950 text-amber-400 ${
                       isLast
@@ -58,35 +59,28 @@ export function BmAudienceSection() {
                   >
                     {stageIcons[audience.id]}
                   </span>
-                  {/* Runs from this badge to the next one, across the grid
-                      gap (gap-6 = 1.5rem, so -right-6 lands on its edge). */}
+                  {/* Badges sit centred in their columns, so the line runs from
+                      1rem past this badge's right edge (50% + 1.75rem radius)
+                      to 1rem short of the next badge's left edge: half a
+                      column plus the gap-6 gutter, less that radius. */}
                   {!isLast && (
                     <span
-                      className="absolute left-[4.5rem] -right-5 top-1/2 hidden h-px bg-gradient-to-r from-amber-400/60 to-amber-400/15 md:block"
+                      className="absolute left-[calc(50%+2.75rem)] right-[calc(-50%+1.25rem)] top-1/2 hidden h-px bg-gradient-to-r from-amber-400/60 to-amber-400/15 md:block"
                       aria-hidden="true"
                     />
                   )}
                 </div>
 
                 <div
-                  className={`relative flex-1 overflow-hidden rounded-xl border p-6 transition-colors duration-300 md:p-8 ${
+                  className={`relative flex-1 overflow-hidden rounded-xl border p-6 text-center transition-colors duration-300 md:p-8 ${
                     isLast
                       ? "border-amber-400/35 bg-amber-400/[0.05] hover:border-amber-400/60"
                       : "border-white/10 bg-white/[0.04] hover:border-amber-400/30"
                   }`}
                 >
-                  <span
-                    className="pointer-events-none absolute -right-1 -top-3 select-none text-8xl font-bold tabular-nums text-white/[0.04]"
-                    aria-hidden="true"
-                  >
-                    {stage}
-                  </span>
-                  <p className="relative mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-amber-400">
-                    <span className="md:hidden [&_svg]:h-4 [&_svg]:w-4">
-                      {stageIcons[audience.id]}
-                    </span>
-                    Stage {stage}
-                  </p>
+                  <div className="mb-3 flex justify-center text-amber-400 md:hidden">
+                    {stageIcons[audience.id]}
+                  </div>
                   <h3 className="relative mb-3 text-xl font-bold text-white">
                     {audience.title}
                   </h3>
