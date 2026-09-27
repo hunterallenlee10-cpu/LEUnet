@@ -21,7 +21,7 @@ export const companyInfo = {
    * not yet said what they need.
    */
   heroDescription:
-    "Business Mastery, gives you the personal coaching, classes and network to grow your business. Lee Systems builds every structure to flow revenue directly into your account.",
+    "Business Mastery gives you the personal help, step by step demonstrations, and network to grow your business. Lee Systems builds the systems that bring revenue straight into your account.",
   logo: "/logos/leu-logo.webp",
   logoAlt: "Lee Enterprises Unlimited logo",
   /**
