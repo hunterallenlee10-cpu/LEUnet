@@ -140,14 +140,16 @@ export function MainFooter() {
           <div>
             <h4 className="font-semibold text-white mb-4">Legal</h4>
             <ul className="space-y-2">
+              {/* The legal text lives on its own /legal page rather than the
+                  homepage, so these are plain links, not section scrolls. */}
               {footerContent.links.map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => handleLinkClick(link.href.replace("#", ""))}
+                  <Link
+                    href={link.href}
                     className="text-neutral-400 hover:text-amber-400 transition-colors text-sm"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
