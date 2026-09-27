@@ -131,30 +131,30 @@ export const bmAudienceHeading = "Built for People Who Know They Want More.";
 export const bmAudienceSubheading =
   "Because traffic, cubicle, sleep, repeat was never the dream.";
 
+// Three stages, read left to right as a path. The owner asked on 2026-09-27
+// for the original four audiences cut to three: "Aspiring Entrepreneurs" and
+// "Young Entrepreneurs" merged into stage 01 ("Young" was an age, not a
+// stage, and overlapped with "Aspiring"). Stages 02 and 03 are the owner's
+// "Early-Stage" and "Growing" lines, lightly trimmed. The titles double as
+// the application form's "Where are you right now?" options.
 export const bmAudiences: BmAudience[] = [
   {
-    id: "aspiring",
-    title: "Aspiring Entrepreneurs",
+    id: "starting",
+    title: "Starting From Zero",
     description:
-      "You know you want to build something, but you don't know where to start.",
-  },
-  {
-    id: "young",
-    title: "Young Entrepreneurs",
-    description:
-      "You have ambition, but may lack experience, connections, systems, capital, or guidance.",
+      "You know you want to build something but don't know where to start, and you may lack the experience, connections, or capital to get going.",
   },
   {
     id: "early",
-    title: "Early-Stage Business Owners",
+    title: "Just Getting Started",
     description:
       "You've already started, but you're figuring everything out as you go.",
   },
   {
     id: "growing",
-    title: "Growing Business Owners",
+    title: "Ready to Grow",
     description:
-      "You already have something working and want help taking it to another level.",
+      "You have something working and want help taking it to the next level.",
   },
 ];
 

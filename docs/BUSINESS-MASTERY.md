@@ -54,7 +54,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | --- | --- | --- | --- |
 | 1 | Hero — manifesto | Owner doc §1: title, "No great accomplishment…", "Speedrun Your Way to Success", CTA `ACHIEVE YOUR DREAMS →` scrolls to the offer | Ready |
 | 2 | **The Manifesto** | Owner doc §2 ("Nobody Builds Something Great Alone", network as the driving force, hard work + investment are both required). Owner doc §8 was merged in here on 2026-09-07 and taken back off on 2026-09-13 | Ready (see §6 on the proof claims) |
-| 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing) + mission line | Ready |
+| 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing), cut to three stages on 2026-09-27 at the owner's request (Starting From Zero / Just Getting Started / Ready to Grow) — Aspiring and Young merged | Ready |
 | 4 | **Our Core Tenets** | The owner's three tenets, supplied 2026-09-07: Speed, Money In, For Free. Replaced the 8-step "How to Build Your Own Empire" framework (Starting from zero → Creating freedom) in this slot | Ready. Titles and heading are the owner's; the Speed description is the owner's own copy (supplied 2026-09-15), the other two one-line descriptions are build copy — see the note on `bmTenets` before editing "For Free" |
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + six pillars (classes, webinars, daily calls, coaching, hands-on help, community); Tools & Resources removed 2026-09-27, data kept | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
@@ -188,11 +188,11 @@ both pages that set it have since moved to their own repos - see this repo's
 
 | File | Contents |
 | --- | --- |
-| `data/business-mastery.ts` | All page copy, the four audiences, the 3 core tenets, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered), palette constants |
+| `data/business-mastery.ts` | All page copy, the three audience stages, the 3 core tenets, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered), palette constants |
 | `types/index.ts` | Business Mastery interfaces appended |
 | `components/business-mastery/BmHeroSection.tsx` | 1 — manifesto hero |
 | `components/business-mastery/BmManifestoSection.tsx` | 2 — the merged manifesto (replaced `BmCoreBeliefSection.tsx` and `BmTransitionSection.tsx`) |
-| `components/business-mastery/BmAudienceSection.tsx` | 3 — four audience cards + mission |
+| `components/business-mastery/BmAudienceSection.tsx` | 3 — three audience stage cards |
 | `components/business-mastery/BmTenetsSection.tsx` | 4 — the three core tenets |
 | `components/business-mastery/BmProgramSection.tsx` | 5 — "NOT a Course. A Coach." + pillars |
 | `components/business-mastery/BmFoundingOfferSection.tsx` | 6 — offer, limited-spots box, guarantee expandable |
@@ -241,7 +241,7 @@ Proposed fields:
 | Full name | yes |
 | Email | yes |
 | Phone | yes |
-| Where are you right now? (the four audiences from §3 as options, so the answer maps to the page's own language) | yes |
+| Where are you right now? (the three audience stages from §3 as options, so the answer maps to the page's own language) | yes |
 | What are you building — or what do you want to build? | yes |
 | Why do you want in as a founding member? | no |
 | Honeypot | hidden |

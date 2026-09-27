@@ -4,9 +4,9 @@ import { useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { bmAudiences } from "@/data/business-mastery";
 
-// The stage options are the four audiences from the section above, so the
-// applicant answers in the page's own language and the inbox reads the same
-// way. "Somewhere else" catches everyone the four don't fit.
+// The stage options are the three audience stages from the section above, so
+// the applicant answers in the page's own language and the inbox reads the
+// same way. "Somewhere else" catches everyone the three don't fit.
 const stageOptions = [
   ...bmAudiences.map((audience) => audience.title),
   "Somewhere else, I'll explain below",
