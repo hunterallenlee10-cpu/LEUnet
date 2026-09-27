@@ -265,7 +265,7 @@ export const bmPillars: BmPillar[] = [
     id: "hands-on",
     title: "Hands-On Help",
     description:
-      "We don't just tell you what to do. We help you work through it.",
+      "We don't just tell you what to do. We help you work through it. We provide step-by-step, bulletproof instruction for success.",
   },
   {
     id: "community",
