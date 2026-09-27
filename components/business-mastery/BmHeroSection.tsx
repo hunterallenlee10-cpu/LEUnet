@@ -66,7 +66,7 @@ export function BmHeroSection() {
           </p>
 
           <h1 className="bmh-rise mt-[calc(var(--bmh-u)*2.4)] font-light uppercase leading-[1.1] [animation-delay:150ms]">
-            <span className="bmh-title-a text-white/85">LEU Business</span>
+            <span className="bmh-title-a text-white/85">Business</span>
             <span className="bmh-title-b">Mastery</span>
           </h1>
 
