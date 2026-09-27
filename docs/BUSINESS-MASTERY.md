@@ -56,12 +56,12 @@ The owner's flow, with the added section slotted where it does the most work:
 | 2 | **The Manifesto** | Owner doc §2 ("Nobody Builds Something Great Alone", network as the driving force, hard work + investment are both required). Owner doc §8 was merged in here on 2026-09-07 and taken back off on 2026-09-13 | Ready (see §6 on the proof claims) |
 | 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing) + mission line | Ready |
 | 4 | **Our Core Tenets** | The owner's three tenets, supplied 2026-09-07: Speed, Money In, For Free. Replaced the 8-step "How to Build Your Own Empire" framework (Starting from zero → Creating freedom) in this slot | Ready. Titles and heading are the owner's; the Speed description is the owner's own copy (supplied 2026-09-15), the other two one-line descriptions are build copy — see the note on `bmTenets` before editing "For Free" |
-| 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + seven pillars (classes, webinars, daily calls, coaching, hands-on help, community, tools & resources) | Ready |
+| 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + six pillars (classes, webinars, daily calls, coaching, hands-on help, community); Tools & Resources removed 2026-09-27, data kept | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
 | 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Built, **visibly locked** until the owner launches it — the slot renders a Coming Soon placeholder; `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
 | ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — merged up into slot 2 on 2026-09-07, then **off the page entirely** on 2026-09-13, see the note below | Not on the page in any slot; the copy is unchanged and still `bmTransition` |
-| 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | Ready |
+| 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | **Not on the page right now** — pulled at the owner's request on 2026-09-27; `BmFinalCTASection` and `bmFinalCta` are intact |
 
 **Sections 2 and 9 became one section on 2026-09-07, at the owner's
 request.** They were always the same claim made twice — a centred column of
@@ -200,7 +200,7 @@ both pages that set it have since moved to their own repos - see this repo's
 | `components/business-mastery/BmFounderSection.tsx` | 7 — Why I Built LEU (built, not currently rendered — §3) |
 | `components/business-mastery/BmJourneyTimeline.tsx` | 8 — interactive timeline |
 | `components/business-mastery/BmJourneyLocked.tsx` | 8 — the Coming Soon placeholder rendered while `BM_JOURNEY_LOCKED` is true (§3) |
-| `components/business-mastery/BmFinalCTASection.tsx` | 10 |
+| `components/business-mastery/BmFinalCTASection.tsx` | 10 (built, not currently rendered — §3) |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
 | `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |
 | `app/api/business-mastery-application/route.ts` | Application form handler, same Resend pattern as the other venture forms (Thread's `app/api/thread-order/route.ts` now lives in the Thread repo) |
@@ -278,7 +278,8 @@ against that standard before rendering:
    anything, and holds only while spots really are limited.
 3. **The 90-day guarantee.** *Stated* in this build — allowed because no
    payment is taken on-page — with its expandable showing a plain-language
-   summary plus a coming-soon note for the full terms. Full guarantee terms,
+   summary plus a line pointing to the contact email for the full terms
+   (it carried a coming-soon marker until 2026-09-27). Full guarantee terms,
    eligibility, refund conditions, and ToS must exist **before Phase C ships
    any checkout**. That is a hard gate, not a nice-to-have.
 
@@ -289,21 +290,22 @@ against that standard before rendering:
 Owner's call: for anything not decided yet, put "coming soon" and render
 whatever information does exist. One shared component (`BmComingSoon`), one
 consistent look — a quiet amber-outlined marker, not a broken-feeling stub —
-used in three places. Two render today: the guarantee expandable's, and the
-journey's — carried by the locked placeholder (`BmJourneyLocked`, §3) with
+used in three places. One renders today: the journey's — carried by the locked placeholder (`BmJourneyLocked`, §3) with
 its own note (`bmJourney.lockedNote`) while the timeline is closed, and by
 the timeline's intro slide (`bmJourney.comingSoonNote`) once it opens. This
 is the journey's sanctioned marker in either state, not a fourth place. The
 placeholder briefly carried a Lock-badged "Locked Until Complete" instead,
 until the owner chose "Coming Soon" the same day; the retired badge text
 survives unrendered as `bmJourney.lockedLabel`. The founder section is
-paused (§3), so its marker renders nowhere until the section returns.
+paused (§3), so its marker renders nowhere until the section returns. The
+guarantee expandable dropped its marker on 2026-09-27 at the owner's request
+and now points people to the contact email instead.
 
 | Where | What renders now | What's coming |
 | --- | --- | --- |
 | Why I Built LEU (8) — *section paused, §3* | The legacy statement (§9 below) + the supporting idea | The full founder story from the My Story document |
 | Journey timeline (9) — *section locked, §3* | The locked placeholder: title, chapter tease, Coming Soon. Once unlocked: the 14 chapter titles as the interactive structure | Each chapter's story |
-| Guarantee expandable (6) | Plain-language guarantee summary | Full terms, eligibility, refund conditions, ToS |
+| Guarantee expandable (6) — *no marker since 2026-09-27* | Plain-language guarantee summary + contact email for the details | Full terms, eligibility, refund conditions, ToS |
 
 The timeline is worth building fully now even with empty chapters: the
 interaction model gets designed and settled, and the story drops in later as

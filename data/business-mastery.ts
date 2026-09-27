@@ -216,8 +216,11 @@ export const bmProgram = {
   // title-cased to match every other heading on the page, with the plural
   // apostrophe dropped ("entrepreneur's" -> "Entrepreneurs").
   heading: "A Network of Dedicated Entrepreneurs.",
+  // The owner's wording, supplied 2026-09-27; it replaced "Members are not
+  // simply purchasing prerecorded information. They're entering a
+  // business-development environment."
   description:
-    "Members are not simply purchasing prerecorded information. They're entering a business-development environment.",
+    "Learn the skills to start, build, & develop your business to the next level.",
   /**
    * NOTHING RENDERS THIS RIGHT NOW. The owner asked the closing line off
    * section 5 on 2026-09-07, in the same pass that took the Core Philosophy
@@ -298,10 +301,12 @@ export const bmOffer = {
   guaranteeHeading: "90-Day Money-Back Guarantee",
   guaranteeSummary:
     "Join, get inside the network, and see the value for yourself. If Business Mastery isn't for you, tell us within 90 days of joining and we'll refund your payment.",
-  // Rendered inside the guarantee expandable. The full legal terms are a hard
-  // gate for Phase C (checkout) — see docs/BUSINESS-MASTERY.md §6.
+  // Rendered inside the guarantee expandable, followed by the contact email.
+  // Replaced the "Coming Soon" marker and its note at the owner's request
+  // (2026-09-27). The full legal terms are still a hard gate for Phase C
+  // (checkout) — see docs/BUSINESS-MASTERY.md §6.
   guaranteeTermsNote:
-    "Full guarantee terms, eligibility requirements, refund conditions, and Terms of Service are being finalized and will be published here.",
+    "Have questions about eligibility, refund conditions, or the full guarantee terms? Reach out and we'll walk you through exactly how it works:",
 } as const;
 
 // --- 7. Why I Built LEU ----------------------------------------------------
