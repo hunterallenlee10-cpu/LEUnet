@@ -350,6 +350,10 @@
   text-decoration: underline;
 }
 
+.hero-split-half--bm .hero-split-link {
+  color: rgb(251 191 36);
+}
+
 /* ---- the seam ---- */
 
 /* Below 1024px the halves stack and this is the divider between them, with
