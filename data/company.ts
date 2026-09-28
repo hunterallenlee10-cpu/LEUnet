@@ -1,112 +1,36 @@
+import { site } from "@/data/site";
+
 /**
- * The site's own origin, no trailing slash. Canonical links, share cards,
- * structured data and Stripe's return URLs are all built from it, so it is the
- * one place to change if the primary domain ever moves (to the www host, say).
+ * The site's own origin, no trailing slash: the www host, which the bare
+ * domain redirects to. Canonical links, share cards, the sitemap and
+ * structured data are all built from it. It lives in data/site.ts with the
+ * other business facts.
  */
-export const SITE_URL = "https://leeenterprisesunlimited.com";
+export const SITE_URL = site.url;
 
 export const companyInfo = {
-  name: "Lee Enterprises Unlimited",
+  name: site.name,
   /**
-   * `tagline` and `description` render nowhere today. Both counted and named
-   * Thread T-Shirts' apparel until Thread came off this site on 2026-09-25
-   * (docs/THREAD.md); they now describe the program and the venture the site
-   * actually leads to, so whoever wires them up is not handed stale copy.
+   * The full logo, with the name lettered under the mark: a 288px copy for
+   * the homepage hero, which draws it at up to 132px (the site serves images
+   * as they are). The 512px original is public/logos/leu-logo.png, which the
+   * link-preview images use.
    */
-  tagline: "Empowering Excellence in Business and Marketing",
-  description:
-    "Lee Enterprises Unlimited is a holding company dedicated to building and scaling exceptional ventures in business development and marketing. Each venture is designed to deliver premium value and results.",
-  heroTitle: "Lee Enterprises Unlimited",
-  /**
-   * Renders in three places, not just the homepage hero: the /partners and
-   * /support pages both use it as the strapline under their H1.
-   */
-  heroSubtitle: "Mastery that makes you better. Systems that make you money.",
-  logo: "/logos/leu-logo.webp",
+  logo: "/logos/leu-logo-288.webp",
   logoAlt: "Lee Enterprises Unlimited logo",
   /**
    * The LEU monogram without the name lettered under it, for the header,
    * where the full name is set as text right beside it. 204x160.
    */
   mark: "/logos/leu-mark.webp",
-  contactEmail: "ceo@leeenterprisesunlimited.com",
-};
-
-/**
- * The homepage hero's fork (components/sections/HeroSection.tsx): the line
- * under the brand block, then one entry per doorway. It previews the same
- * choice `venturesHome` below details, so each title restates one phrase of
- * that heading as a standalone line and each label matches that panel's -
- * change either pair together. The blurbs split the one-sentence description
- * the old single-column hero carried (it named both ventures in one breath)
- * into a half per venture; nothing else renders that sentence, which is why
- * it is gone rather than kept beside these.
- */
-export const heroFork = {
-  lede: "Two ways to work with LEU — pick your path",
-  businessMastery: {
-    label: "Learn it yourself",
-    title: "Learn to build it",
-    blurb:
-      "Business Mastery gives you the roadmap, mentorship, and network to scale your own venture.",
-    cta: "Business Mastery",
-  },
-  leeSystems: {
-    label: "Done for you",
-    title: "Have it built for you",
-    blurb:
-      "Lee Systems builds the automated foundation that turns growth into steady, predictable income.",
-    cta: "Lee Systems Co.",
-  },
-} as const;
-
-/**
- * The homepage section that puts the two ventures side by side
- * (components/sections/VenturesSection.tsx): the heading over the pair, and
- * the label at the top of each panel.
- *
- * The heading renders as `{start}, or {end}.`, and its two phrases are the two
- * panels in order - `start` is Business Mastery on the left, `end` is Lee
- * Systems Co. on the right - each set in that panel's accent. Keep them in that
- * order, and keep them close in length: from 1024px up the heading is one
- * line, and two phrases of about the same length are what put its "or" over
- * the seam between the panels.
- */
-export const venturesHome = {
-  eyebrow: "Two ways to work with LEU",
-  title: {
-    start: "Learn to build it",
-    end: "have it built for you",
-  },
-  labels: {
-    businessMastery: "Learn it yourself",
-    leeSystems: "Done for you",
-  },
-} as const;
-
-/**
- * Nothing renders this today; it is kept as the copy a final CTA would use.
- * The list of interests used to read "marketing services, property cleaning,
- * athletic training, or premium apparel". Athletic training left with H1
- * Performance (docs/H1.md), premium apparel with Thread T-Shirts
- * (docs/THREAD.md), and property cleaning named a venture this site has never
- * had - unrendered copy drifts, which is why all three are cut here rather than
- * left for whoever wires this up.
- */
-export const ctaContent = {
-  final: {
-    title: "Ready to Get Started?",
-    description:
-      "Whether you're interested in Business Mastery or marketing services, we're here to help.",
-    buttonText: "Contact Us Today",
-  },
+  contactEmail: site.email,
 };
 
 export const footerContent = {
   copyright: `© ${new Date().getFullYear()} Lee Enterprises Unlimited. All rights reserved.`,
   links: [
-    { label: "Privacy Policy", href: "/legal#privacy" },
-    { label: "Terms of Service", href: "/legal#terms" },
+    { label: "Privacy policy", href: "/legal#privacy" },
+    { label: "Terms of service", href: "/legal#terms" },
   ],
 };
 

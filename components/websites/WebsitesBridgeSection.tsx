@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Workflow } from "lucide-react";
+import { Workflow } from "lucide-react";
 import { leeSystemsRoutes } from "@/data/lee-systems";
 
 /**
@@ -18,18 +18,14 @@ export function WebsitesBridgeSection() {
             </h2>
             <p className="text-neutral-400">
               Instant replies, reminders and follow-up sequences, so every
-              enquiry the site captures gets answered.
+              inquiry the site captures gets answered.
             </p>
           </div>
           <Link
             href={leeSystemsRoutes.automation}
-            className="btn-ls-secondary group inline-flex shrink-0 items-center gap-2"
+            className="btn-ls-secondary inline-flex min-h-11 shrink-0 items-center justify-center"
           >
-            See Automation
-            <ArrowRight
-              className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
+            See automation
           </Link>
         </div>
       </div>

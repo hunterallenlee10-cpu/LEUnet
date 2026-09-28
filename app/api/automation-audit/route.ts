@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  auditIndustryOptions,
-  auditTeamSizeOptions,
-  automationAudit,
-} from "@/data/lee-systems";
+import { auditIndustryOptions, auditTeamSizeOptions } from "@/data/lee-systems";
+import { site } from "@/data/site";
 import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
 import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
 import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
@@ -111,7 +108,7 @@ Phone: ${phone}
 Biggest Time-Waster:
 ${timeWaster}
 
-Reply promised within ${automationAudit.responseTime}.
+${site.replyTime ? `Reply promised ${site.replyTime}, to set up their free consultation call.` : "They asked for a free consultation call."}
     `.trim();
 
     return await sendLeadEmail({
@@ -119,9 +116,11 @@ Reply promised within ${automationAudit.responseTime}.
       form: "automation audit form",
       to: AUDIT_TO_EMAIL,
       replyTo: email,
-      // The subject line is what separates an audit request from a website
-      // request in the inbox, so it names the brand and the form.
-      subject: `Lee Systems Co.: New Automation Audit Request from ${fullName}, ${businessName}`,
+      // The subject line is what separates a consultation request from a
+      // website request in the inbox, so it names the brand and the form. It
+      // said "Automation Audit Request" until the audit became the free
+      // consultation call on 2026-09-28.
+      subject: `Lee Systems Co.: New Consultation Request from ${fullName}, ${businessName}`,
       text: emailBody,
     });
   } catch (error) {

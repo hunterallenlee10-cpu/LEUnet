@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond } from "next/font/google";
+import { Cormorant_Garamond, Geist_Mono } from "next/font/google";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
@@ -21,43 +21,35 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
 });
 
-const title = "LEU Business Mastery | Speedrun Your Way to Success";
-const description =
-  "A business-development network for entrepreneurs at every stage: subject-specific classes, live webinars, daily calls, personal coaching, hands-on help, and a private professional network. Member spots are limited.";
+/** The hero's eyebrow, and likewise nothing else on the site. It was declared
+ *  in the root layout until 2026-09-28, which had every page preload a font
+ *  only this one draws. It feeds the `font-mono-geist` token in
+ *  app/globals.css. */
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
+const title = "Business Mastery | Learn to Start a Business and Use AI | LEU";
+const description =
+  "Courses, coaching and a community for people starting a business and learning to use AI. A paid monthly membership, part of Lee Enterprises Unlimited.";
+
+// The share image is app/business-mastery/opengraph-image.tsx.
 export const metadata: Metadata = {
-  title,
+  title: { absolute: title },
   description,
-  keywords: [
-    "business mastery program",
-    "entrepreneur network",
-    "business coaching",
-    "start a business",
-    "young entrepreneurs",
-    "business community",
-    "member",
-  ],
   alternates: {
     canonical: "/business-mastery",
   },
-  // This openGraph replaces the root layout's, so it carries the image itself.
-  // `summary`, because the image is the square logo.
   openGraph: {
     type: "website",
     url: "/business-mastery",
+    siteName: "Lee Enterprises Unlimited",
     title,
     description,
-    images: [
-      {
-        url: "/logos/leu-logo.png",
-        width: 512,
-        height: 512,
-        alt: "Lee Enterprises Unlimited Logo",
-      },
-    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title,
     description,
   },
@@ -76,53 +68,59 @@ export const metadata: Metadata = {
  */
 export default function BusinessMasteryPage() {
   return (
-    <main className={`w-full bg-neutral-950 ${cormorant.variable}`}>
+    <div
+      className={`min-h-screen w-full bg-neutral-950 ${cormorant.variable} ${geistMono.variable}`}
+    >
       <MainHeader />
 
-      <BmHeroSection />
-      <BmManifestoSection />
-      <BmAudienceSection />
-      <BmTenetsSection />
-      <BmProgramSection />
-      <BmFoundingOfferSection />
-      {/* Section 7, Why I Built LEU, is out at the owner's request — "for
-          now", so this is a pause rather than a deletion. BmFounderSection
-          and `bmFounder` are both intact and unchanged; putting the section
-          back is this line plus its import, nothing more. Unlike The Vision
-          and The Evolution (docs/BUSINESS-MASTERY.md §3) the sections after
-          it are NOT renumbered, because the numbering has to survive the
-          section coming back. */}
-      {/* Section 9, Your Journey Is Just Beginning, is off the page entirely
-          (docs/BUSINESS-MASTERY.md §3). It stopped being its own section on
-          2026-09-07, when it merged into BmManifestoSection at slot 2 and
-          BmTransitionSection.tsx was deleted rather than left behind; the owner
-          asked that half back off the manifesto on 2026-09-13. `bmTransition`
-          is whole and unchanged in the data file either way.
+      <main>
+        <BmHeroSection />
+        <BmManifestoSection />
+        <BmAudienceSection />
+        <BmTenetsSection />
+        <BmProgramSection />
+        <BmFoundingOfferSection />
+        {/* Section 7, Why I Built LEU, is out at the owner's request — "for
+            now", so this is a pause rather than a deletion. BmFounderSection
+            and `bmFounder` are both intact and unchanged; putting the section
+            back is this line plus its import, nothing more. Unlike The Vision
+            and The Evolution (docs/BUSINESS-MASTERY.md §3) the sections after
+            it are NOT renumbered, because the numbering has to survive the
+            section coming back. */}
+        {/* Section 9, Your Journey Is Just Beginning, is off the page entirely
+            (docs/BUSINESS-MASTERY.md §3). It stopped being its own section on
+            2026-09-07, when it merged into BmManifestoSection at slot 2 and
+            BmTransitionSection.tsx was deleted rather than left behind; the owner
+            asked that half back off the manifesto on 2026-09-13. `bmTransition`
+            is whole and unchanged in the data file either way.
 
-          Its removal is why the timeline's join is what it is. That section
-          existed so the timeline would not run straight into a sales pitch:
-          the closing CTA's own copy ("You can keep trying to figure everything
-          out alone…") is the bridge now, and the timeline sits on neutral-950
-          so the two are separated by the page's light/dark alternation rather
-          than abutting as two black sections. (The closing CTA is itself off
-          the page since 2026-09-27 — see below.) */}
-      {/* Section 8, The Journey, is LOCKED — on the page, visibly not open.
-          While BM_JOURNEY_LOCKED (data/business-mastery.ts) is true, the slot
-          renders BmJourneyLocked: the section's title and the shared Coming
-          Soon marker in place of the interactive timeline. The owner asked
-          the section held back until launch on 2026-09-13, the same day chose
-          this visible placeholder over having it off the page entirely, and
-          then chose "Coming Soon" over a lock badge for its marker. Flipping
-          that one flag to false is the whole unlock. Both components sit on
-          neutral-950, so the join described above holds in either state and
-          BmFinalCTASection stays black throughout. */}
-      {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
+            Its removal is why the timeline's join is what it is. That section
+            existed so the timeline would not run straight into a sales pitch:
+            the closing CTA's own copy ("You can keep trying to figure everything
+            out alone…") is the bridge now, and the timeline sits on neutral-950
+            so the two are separated by the page's light/dark alternation rather
+            than abutting as two black sections. (The closing CTA is itself off
+            the page since 2026-09-27 — see below.) */}
+        {/* Section 8, The Journey, is LOCKED — on the page, visibly not open.
+            While BM_JOURNEY_LOCKED (data/business-mastery.ts) is true, the slot
+            renders BmJourneyLocked: the section's title and the shared Coming
+            Soon marker in place of the interactive timeline. The owner asked
+            the section held back until launch on 2026-09-13, the same day chose
+            this visible placeholder over having it off the page entirely, and
+            then chose "Coming Soon" over a lock badge for its marker. Flipping
+            that one flag to false is the whole unlock. Both components sit on
+            neutral-950, so the join described above holds in either state and
+            BmFinalCTASection stays black throughout. The 2026-09-28 site fix
+            plan asked for this section off the page; the owner chose the same
+            day to keep it exactly as it is. */}
+        {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
+      </main>
       {/* Section 10, Achieve Your Dreams Today, came off at the owner's
           request on 2026-09-27, so the page now ends on the journey slot.
           BmFinalCTASection and `bmFinalCta` are intact; putting it back is
           this line plus its import. */}
 
       <MainFooter />
-    </main>
+    </div>
   );
 }

@@ -4,17 +4,9 @@ import { SITE_URL } from "@/data/company";
 
 /**
  * Pinned to the API version bundled with stripe@22.x. Upgrade this string and
- * the SDK together — never let it drift silently. scripts/stripe-setup.mjs has
- * its own copy.
+ * the SDK together — never let it drift silently.
  */
 const STRIPE_API_VERSION = "2026-06-24.dahlia" as const;
-
-/**
- * Stable label applied to every Checkout Session we create so the Dashboard can
- * compare this flow against any future ones. The 8-letter suffix is fixed on
- * purpose: a value that changed per request would make the comparison useless.
- */
-export const CHECKOUT_INTEGRATION_ID = "leu_checkout_qmwzptvx";
 
 let client: Stripe | null = null;
 
@@ -44,22 +36,4 @@ export function getStripe(): Stripe {
   }
 
   return client;
-}
-
-/**
- * Absolute origin used to build Checkout return URLs. Stripe rejects relative
- * URLs, so this must be a full origin in every environment.
- */
-export function getSiteUrl(): string {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL;
-  if (configured) return configured.replace(/\/$/, "");
-
-  if (process.env.VERCEL_ENV === "production") {
-    return SITE_URL;
-  }
-
-  const vercelUrl = process.env.VERCEL_URL;
-  if (vercelUrl) return `https://${vercelUrl}`;
-
-  return "http://localhost:3000";
 }

@@ -15,13 +15,13 @@ import {
  * actually needed.
  */
 const nodes = [
-  { id: "lead", label: "New Lead", Icon: Inbox },
-  { id: "reply", label: "Instant Reply", Icon: MessageSquare },
-  { id: "intake", label: "Intake Form", Icon: ClipboardList },
+  { id: "lead", label: "New lead", Icon: Inbox },
+  { id: "reply", label: "Instant reply", Icon: MessageSquare },
+  { id: "intake", label: "Intake form", Icon: ClipboardList },
   { id: "crm", label: "Your CRM", Icon: Database, emphasis: true },
-  { id: "followup", label: "Follow-Up Sequence", Icon: Send },
-  { id: "booked", label: "Booked Appointment", Icon: CalendarCheck, emphasis: true },
-  { id: "report", label: "Daily Report", Icon: BarChart3 },
+  { id: "followup", label: "Follow-up sequence", Icon: Send },
+  { id: "booked", label: "Booked appointment", Icon: CalendarCheck, emphasis: true },
+  { id: "report", label: "Daily report", Icon: BarChart3 },
 ];
 
 /**
@@ -30,7 +30,9 @@ const nodes = [
  * the connectors in viewBox units (340 x 430) - so the lines land under the
  * cards at any panel width. Connectors run centre to centre and the cards
  * paint over them, which is what lets the card heights vary (a label may
- * wrap on a narrow phone) without any endpoint drifting into view.
+ * wrap on a narrow phone) without any endpoint drifting into view. That only
+ * works if the cards are opaque, so these ones are: a translucent card let
+ * the line behind it run through its label.
  */
 const mobileAnchors = [
   { n: nodes[0], x: 28, y: 7 },
@@ -129,8 +131,8 @@ export function AutomationFlowVisual() {
                     : "right-0 w-[56%]"
               } ${
                 n.emphasis
-                  ? "border-brass-400/45 bg-brass-400/10"
-                  : "border-white/10 bg-neutral-900/80"
+                  ? "border-brass-400/45 bg-neutral-950 bg-gradient-to-b from-brass-400/10 to-brass-400/10"
+                  : "border-white/10 bg-neutral-900"
               }`}
             >
               <n.Icon

@@ -1,14 +1,16 @@
 import { FaqAccordion } from "@/components/lee-systems/FaqAccordion";
-import { LeeSystemsMarkDivider } from "@/components/lee-systems/LeeSystemsMark";
 import { websiteFaqs } from "@/data/lee-systems";
 
 export function WebsitesFAQSection() {
   return (
     <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
-        {/* Same breath the automation FAQ takes: the divider separates the
+        {/* Same breath the automation FAQ takes: the hairline separates the
             questions from the process section above. */}
-        <LeeSystemsMarkDivider className="mb-14" />
+        <div
+          aria-hidden="true"
+          className="mx-auto mb-14 h-px max-w-md bg-gradient-to-r from-transparent via-brass-400/30 to-transparent"
+        />
 
         {/* This heading comes just before the form, with only the short bridge
             panel between them. It used to read "Questions About the Build",
@@ -23,11 +25,9 @@ export function WebsitesFAQSection() {
             across, so asserting which ones are asked most is not something we
             can back. */}
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            Questions
-          </p>
+          <p className="mb-3 text-sm font-semibold text-brass-300">Questions</p>
           <h2 className="heading-lg text-white">
-            What You Probably Want to Know First.
+            What you probably want to know first
           </h2>
         </div>
 

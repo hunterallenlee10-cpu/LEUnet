@@ -7,10 +7,9 @@ import { companyInfo } from "@/data/company";
 const title = `Privacy Policy & Terms of Service | ${companyInfo.name}`;
 const description = `Privacy Policy and Terms of Service for ${companyInfo.name}.`;
 
-// Its own share card, not the homepage's. This openGraph replaces the root
-// layout's, so it carries the image itself.
+// Its own title, description and share image (app/legal/opengraph-image.tsx).
 export const metadata: Metadata = {
-  title,
+  title: { absolute: title },
   description,
   alternates: {
     canonical: "/legal",
@@ -18,19 +17,12 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/legal",
+    siteName: companyInfo.name,
     title,
     description,
-    images: [
-      {
-        url: "/logos/leu-logo.png",
-        width: 512,
-        height: 512,
-        alt: "Lee Enterprises Unlimited Logo",
-      },
-    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title,
     description,
   },
@@ -40,10 +32,12 @@ export const metadata: Metadata = {
 // reached from the footer's Legal links.
 export default function LegalPage() {
   return (
-    <main className="w-full bg-neutral-950">
+    <div className="min-h-screen bg-neutral-950">
       <MainHeader />
-      <LegalSection />
+      <main>
+        <LegalSection />
+      </main>
       <MainFooter />
-    </main>
+    </div>
   );
 }

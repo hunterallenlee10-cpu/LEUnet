@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { flushSync } from "react-dom";
+import { CheckCircle2 } from "lucide-react";
 import {
   auditIndustryOptions,
   auditTeamSizeOptions,
-  automationAudit,
   leeSystems,
 } from "@/data/lee-systems";
+import { site } from "@/data/site";
 import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
+import { BookCallLink } from "@/components/ui/BookCallLink";
 
 const emptyForm = {
   fullName: "",
@@ -28,9 +30,10 @@ const fieldClass =
   "w-full rounded-lg border bg-neutral-900 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brass-400/60";
 
 /**
- * The Automation Audit request. Posts to /api/automation-audit, which checks
- * the same rules server side and emails the request; the recipient is set
- * there and never sent from the browser.
+ * The free consultation request on the automation page (it requested the free
+ * Automation Audit until 2026-09-28). Posts to /api/automation-audit, which
+ * checks the same rules server side and emails the request; the recipient is
+ * set there and never sent from the browser.
  */
 export function AutomationAuditForm() {
   const [formData, setFormData] = useState<FormState>(emptyForm);
@@ -39,6 +42,7 @@ export function AutomationAuditForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const successRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   // The success panel replaces the form, taking the focused submit button with
   // it, so focus would fall back to <body>. Moving it to the panel keeps a
@@ -76,12 +80,27 @@ export function AutomationAuditForm() {
     return next;
   };
 
+  /** Shows the errors, then puts focus on the first field that needs fixing,
+   *  in the order the form lists them, which on a phone also scrolls it into
+   *  view. The errors are applied first so the field is already marked
+   *  invalid and described by its message when focus lands on it. */
+  const showErrors = (found: FieldErrors) => {
+    flushSync(() => setErrors(found));
+    const names = Object.keys(found).filter((name) => name !== "form");
+    if (names.length === 0) return;
+    formRef.current
+      ?.querySelector<HTMLElement>(
+        names.map((name) => `[name="${CSS.escape(name)}"]`).join(", ")
+      )
+      ?.focus();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const found = validate();
     if (Object.keys(found).length > 0) {
-      setErrors(found);
+      showErrors(found);
       return;
     }
 
@@ -103,12 +122,12 @@ export function AutomationAuditForm() {
 
       const data = await response.json().catch(() => null);
       if (data?.errors) {
-        setErrors(data.errors as FieldErrors);
+        showErrors(data.errors as FieldErrors);
       } else {
         setErrors({
           form: `We couldn't send your request. Please try again, or email ${leeSystems.contactEmail}. Reference: ${
             data?.code || "unknown"
-          } · http_${response.status}`,
+          }, http_${response.status}`,
         });
       }
     } catch {
@@ -133,16 +152,24 @@ export function AutomationAuditForm() {
           aria-hidden="true"
         />
         <h3 className="mb-3 text-2xl font-bold text-white">
-          Audit Request Received
+          Details received
         </h3>
         <p className="mb-6 text-neutral-300">
-          Thank you. We will reply within {automationAudit.responseTime} to set
-          up a short call about how your business runs today.
+          Thank you.{" "}
+          {site.replyTime
+            ? `We'll reply ${site.replyTime} to set up your free consultation call.`
+            : "We'll get back to you to set up your free consultation call."}
         </p>
+        {site.bookingUrl && (
+          <div className="mb-6">
+            <p className="mb-4 text-neutral-300">Rather pick a time now?</p>
+            <BookCallLink />
+          </div>
+        )}
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="text-sm font-semibold text-brass-300 underline-offset-4 hover:underline"
+          className="inline-flex min-h-11 items-center text-sm font-semibold text-brass-300 underline-offset-4 hover:underline"
         >
           Submit another request
         </button>
@@ -152,6 +179,7 @@ export function AutomationAuditForm() {
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit}
       noValidate
       aria-describedby="audit-form-description"
@@ -159,11 +187,11 @@ export function AutomationAuditForm() {
     >
       <div className="mb-2">
         <h3 className="text-2xl font-bold text-white">
-          Book Your {automationAudit.price} {automationAudit.name}
+          Request your free consultation
         </h3>
       </div>
       <p id="audit-form-description" className="mb-8 text-sm text-neutral-400">
-        All fields are required. We reply within {automationAudit.responseTime}.
+        All fields are required.{site.replyTime && ` We reply ${site.replyTime}.`}
       </p>
 
       {/* Honeypot - visually hidden, ignored by real visitors */}
@@ -219,7 +247,7 @@ export function AutomationAuditForm() {
         />
         <SelectField
           id="teamSize"
-          label="Team Size"
+          label="Team size"
           error={errors.teamSize}
           value={formData.teamSize}
           onChange={handleChange}
@@ -229,7 +257,7 @@ export function AutomationAuditForm() {
 
       <div className="mt-5">
         <label htmlFor="timeWaster" className={labelClass}>
-          Biggest Time-Waster{" "}
+          Biggest time-waster{" "}
           <span className="text-brass-400" aria-hidden="true">
             *
           </span>
@@ -285,20 +313,13 @@ export function AutomationAuditForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-ls-primary group mt-8 inline-flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-60"
+        className="btn-ls-primary mt-8 inline-flex min-h-11 w-full items-center justify-center disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? "Sending..." : `Book My ${automationAudit.name}`}
-        {!isSubmitting && (
-          <ArrowRight
-            className="h-5 w-5 transition-transform group-hover:translate-x-1"
-            aria-hidden="true"
-          />
-        )}
+        {isSubmitting ? "Sending..." : "Send my details"}
       </button>
 
       <p className="mt-4 text-center text-sm text-neutral-400">
-        {automationAudit.price}, with no obligation. You get a written plan within{" "}
-        {automationAudit.turnaround}.
+        Free, with no obligation.
       </p>
     </form>
   );

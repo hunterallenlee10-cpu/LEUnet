@@ -36,8 +36,8 @@ export function BmAudienceSection() {
     <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            Who This Is For
+          <p className="mb-3 text-sm font-semibold text-amber-400">
+            Who this is for
           </p>
           <h2 className="heading-lg mb-4 text-white">{bmAudienceHeading}</h2>
           <p className="text-lg text-neutral-400">{bmAudienceSubheading}</p>

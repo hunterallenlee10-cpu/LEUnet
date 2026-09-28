@@ -2,6 +2,15 @@ import { ChevronDown, ShieldCheck } from "lucide-react";
 import { BM_OFFER_ID, bmOffer } from "@/data/business-mastery";
 import { BmApplicationForm } from "@/components/business-mastery/BmApplicationForm";
 import { companyInfo } from "@/data/company";
+import { site } from "@/data/site";
+
+const afterApplySteps = [
+  "Send your application. No payment is taken.",
+  "Hunter reviews it and follows up personally.",
+  site.businessMastery.platform
+    ? `You get access to the community on ${site.businessMastery.platform}.`
+    : site.businessMastery.afterJoining,
+];
 
 /**
  * Section 6 — the conversion section every CTA on the page points at. The
@@ -31,35 +40,33 @@ export function BmFoundingOfferSection() {
 
       <div className="section-container relative">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
+          <p className="mb-3 text-sm font-semibold text-amber-400">
             {bmOffer.eyebrow}
           </p>
           <h2 className="heading-lg text-white">{bmOffer.heading}</h2>
+          {/* How membership is paid for, and the price once one is set in
+              data/site.ts. Stated up front so nobody applies thinking it is
+              free. */}
+          {(site.businessMastery.format || site.businessMastery.price) && (
+            <p className="mt-4 text-lg text-neutral-300">
+              {[site.businessMastery.format, site.businessMastery.price]
+                .filter(Boolean)
+                .join(": ")}
+              .
+            </p>
+          )}
         </div>
 
-        {/* Limited-spots box. This carried the "5 / 20 FOUNDING MEMBERS"
-            counter and its progress bar until the owner asked for the words
-            alone — the same call already made on the homepage teaser (see
-            docs/BUSINESS-MASTERY.md §9). No figure renders anywhere now, so
-            §6.2's true-count rule no longer has a number to hold to; this box
-            states scarcity without quantifying it, and stays true only while
-            spots really are limited.
-
-            Sized to its content rather than the old `max-w-md`: one short line
-            in a 448px box reads as something that failed to load. */}
-        <div className="mt-10 flex justify-center">
-          <div className="inline-flex items-center gap-2.5 rounded-xl border border-amber-400/30 bg-neutral-950/80 px-7 py-4">
-            <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-60" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400" />
-            </span>
-            {/* The negative margin pulls back the trailing letter-space that
-                tracking adds after the final S, so the box pads evenly. */}
-            <span className="-mr-[0.25em] text-sm font-semibold uppercase tracking-[0.25em] text-white">
-              Limited Spots
-            </span>
-          </div>
-        </div>
+        {/* Scarcity, only when the owner states it in data/site.ts. The
+            "Limited Spots" box that sat here came off on 2026-09-28 at the
+            owner's request, with the homepage's "4 Spots Remain" line. Any
+            wording set there must be literally true, and shows exactly once,
+            here. */}
+        {site.businessMastery.scarcity && (
+          <p className="mt-8 text-center text-base font-semibold text-white">
+            {site.businessMastery.scarcity}
+          </p>
+        )}
 
         {/* 90-day guarantee. Native <details> keeps it dependency-free; the
             full legal terms are a Phase C gate — see docs/BUSINESS-MASTERY.md
@@ -96,6 +103,34 @@ export function BmFoundingOfferSection() {
             </p>
           </div>
         </details>
+
+        {/* What happens after you apply, while joining is by application
+            (`joinMode` "apply" in data/site.ts). The third step is the owner's
+            own description of joining; a named platform replaces it once
+            `platform` is set. */}
+        {site.businessMastery.joinMode === "apply" && (
+          <div className="mx-auto mt-14 max-w-3xl">
+            <h3 className="mb-6 text-center text-xl font-bold text-white">
+              What happens after you apply
+            </h3>
+            <ol className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {afterApplySteps.map((step, i) => (
+                <li
+                  key={step}
+                  className="rounded-xl border border-white/10 bg-white/[0.04] p-5"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="mb-2 block text-sm font-bold tabular-nums text-amber-400"
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p className="leading-relaxed text-neutral-200">{step}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
 
         <div className="mt-14">
           <BmApplicationForm />

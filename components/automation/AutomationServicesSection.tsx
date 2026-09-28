@@ -1,4 +1,5 @@
 import {
+  Phone,
   Inbox,
   Send,
   MessageSquare,
@@ -7,6 +8,7 @@ import {
   LayoutDashboard,
   ChevronDown,
 } from "lucide-react";
+import { site, telHref } from "@/data/site";
 
 /**
  * What gets automated, grouped by the part of the business it serves. Each
@@ -14,26 +16,39 @@ import {
  * so the grid scans in one pass and the detail is there for whoever wants it.
  * The toggle is a native <details>, so the section needs no client JS; the
  * shared `name` keeps one card open at a time.
+ *
+ * Calls comes first and runs the full width: AI call answering is the lead
+ * service, and its examples are exactly the capabilities the owner confirmed
+ * (`site.callAnswering` in data/site.ts), nothing added.
  */
 const areas = [
+  {
+    id: "calls",
+    Icon: Phone,
+    title: "Calls",
+    description:
+      "An AI assistant that answers your business calls 24/7. It works like a virtual receptionist and sales assistant.",
+    capabilities: site.callAnswering.capabilities,
+  },
   {
     id: "leads",
     Icon: Inbox,
     title: "Leads",
     description:
-      "Every enquiry from your website, phone, ads and directories is answered right away and lands in one place.",
+      "Every inquiry from your website, phone, ads and directories is answered right away and lands in one place.",
     capabilities: [
-      "Instant text and email reply to new enquiries",
+      "Instant text and email reply to new inquiries",
       "Missed-call text back",
       "Leads from every source collected into one list",
       "A text to you with the lead's details",
+      "New leads added to your CRM automatically",
       "Duplicate leads caught and merged",
     ],
   },
   {
     id: "sales-follow-up",
     Icon: Send,
-    title: "Sales Follow-Up",
+    title: "Sales follow-up",
     description:
       "Quotes, estimates and consultations get followed up on a schedule until the customer gives an answer.",
     capabilities: [
@@ -47,7 +62,7 @@ const areas = [
   {
     id: "client-communication",
     Icon: MessageSquare,
-    title: "Client Communication",
+    title: "Client communication",
     description:
       "Clients know what is happening without having to call and ask, and your team is not the one typing it.",
     capabilities: [
@@ -61,7 +76,7 @@ const areas = [
   {
     id: "reviews-referrals",
     Icon: Star,
-    title: "Reviews & Referrals",
+    title: "Reviews and referrals",
     description:
       "Happy customers are asked for a review and a referral at the moment they are most likely to give one.",
     capabilities: [
@@ -87,13 +102,13 @@ const areas = [
   {
     id: "internal-ops",
     Icon: LayoutDashboard,
-    title: "Internal Operations",
+    title: "Internal operations",
     description:
       "The copying, filing and checking your team does every day, handled in the background.",
     capabilities: [
       "Daily summary of leads, bookings and open items",
       "Data copied between your tools so nobody retypes it",
-      "Files and notes organised into the right folders",
+      "Files and notes organized into the right folders",
       "Team notifications when something needs a person",
       "Recurring admin tasks run on a schedule",
     ],
@@ -108,11 +123,11 @@ export function AutomationServicesSection() {
     >
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            What We Automate
+          <p className="mb-3 text-sm font-semibold text-brass-300">
+            What we automate
           </p>
           <h2 className="heading-lg mb-6 text-white">
-            Six areas where the busywork lives
+            Seven areas where the busywork lives
           </h2>
           <p className="text-lg leading-relaxed text-neutral-300">
             Most businesses start with one or two of these. Every system is
@@ -122,10 +137,14 @@ export function AutomationServicesSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {areas.map(({ id, Icon, title, description, capabilities }) => (
+          {areas.map(({ id, Icon, title, description, capabilities }, i) => (
             <div
               key={id}
-              className="flex flex-col rounded-xl border border-white/10 bg-white/[0.04] p-6 transition-colors duration-300 hover:border-brass-400/40 md:p-8"
+              className={`flex flex-col rounded-xl border p-6 transition-colors duration-300 md:p-8 ${
+                i === 0
+                  ? "border-brass-400/40 bg-gradient-to-br from-brass-400/[0.08] via-white/[0.02] to-transparent md:col-span-2 lg:col-span-3"
+                  : "border-white/10 bg-white/[0.04] hover:border-brass-400/40"
+              }`}
             >
               <Icon className="mb-5 h-7 w-7 text-brass-300" aria-hidden="true" />
 
@@ -133,6 +152,19 @@ export function AutomationServicesSection() {
               <p className="mb-5 text-sm leading-relaxed text-neutral-400">
                 {description}
               </p>
+
+              {id === "calls" && site.callAnswering.demoPhone && (
+                <p className="mb-5 text-sm font-semibold text-neutral-200">
+                  Call{" "}
+                  <a
+                    href={telHref(site.callAnswering.demoPhone)}
+                    className="text-brass-300 underline underline-offset-4"
+                  >
+                    {site.callAnswering.demoPhone}
+                  </a>{" "}
+                  to hear it answer.
+                </p>
+              )}
 
               <details name="automation-areas" className="group mt-auto">
                 <summary className="flex w-fit cursor-pointer list-none items-center gap-1.5 rounded text-sm font-semibold text-brass-300 transition-colors hover:text-brass-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass-300 [&::-webkit-details-marker]:hidden">
@@ -144,7 +176,11 @@ export function AutomationServicesSection() {
                   />
                 </summary>
 
-                <ul className="mt-4 space-y-2 border-t border-white/10 pt-4">
+                <ul
+                  className={`mt-4 grid gap-2 border-t border-white/10 pt-4 ${
+                    i === 0 ? "sm:grid-cols-2 lg:grid-cols-3" : ""
+                  }`}
+                >
                   {capabilities.map((capability) => (
                     <li
                       key={capability}

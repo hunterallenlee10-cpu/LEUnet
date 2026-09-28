@@ -1,19 +1,3 @@
-export interface Venture {
-  id: string;
-  name: string;
-}
-
-export interface ContactFormData {
-  fullName: string;
-  email: string;
-  phone: string;
-  preferredContactMethod: "email" | "phone";
-  projectDescription: string;
-  budgetRange: string;
-  desiredTimeline: string;
-  howHeardAboutUs: string;
-}
-
 export interface NavItem {
   label: string;
   href: string;

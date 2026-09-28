@@ -1,7 +1,8 @@
 import { BmAudience, BmChapter, BmPillar, BmTenet } from "@/types";
+import { site } from "@/data/site";
 
 // ---------------------------------------------------------------------------
-// LEU Business Mastery (/business-mastery)
+// Business Mastery (/business-mastery)
 //
 // Nearly every sentence here is the owner's own copy, carried verbatim from
 // the page plan recorded in docs/BUSINESS-MASTERY.md. The owner confirmed on
@@ -17,12 +18,25 @@ import { BmAudience, BmChapter, BmPillar, BmTenet } from "@/types";
 export const BM_OFFER_ID = "bm-offer";
 
 /**
+ * The one Business Mastery action, wherever it appears: "Apply to join" while
+ * people apply through the form on the page, "Join Business Mastery" once
+ * `joinMode` in data/site.ts is "join" and a join link is set.
+ */
+export const businessMasteryAction =
+  site.businessMastery.joinMode === "join" && site.businessMastery.joinUrl
+    ? { label: "Join Business Mastery", href: site.businessMastery.joinUrl }
+    : { label: "Apply to join", href: `/business-mastery#${BM_OFFER_ID}` };
+
+/**
  * The founding-member count. NOTHING RENDERS THIS RIGHT NOW - it is a record,
  * not display copy, and no page states a number of spots.
  *
  * It was the "5 / 20 FOUNDING MEMBERS" figure in the offer section until the
  * owner asked for a plain "Limited Spots" box there, which was also what
- * retired it from the homepage teaser before that (`bmHero.scarcityLine`).
+ * retired it from the homepage teaser before that. Both the box and the
+ * teaser's "Enrollment Closing Soon · 4 Spots Remain" line came off on
+ * 2026-09-28 at the owner's request; any scarcity wording now lives in
+ * `site.businessMastery.scarcity` (data/site.ts) and shows only when set.
  * Kept because it is the owner's real enrollment state and Phase C of
  * docs/BUSINESS-MASTERY.md is built around it - that phase derives the count
  * from completed Stripe payments and needs somewhere to put it.
@@ -38,31 +52,20 @@ export const bmFoundingCounter = {
 
 // --- 1. Hero ---------------------------------------------------------------
 
+// The manifesto and subtitle replaced "Learn how to build, scale, and
+// dominate." and "Speedrun Your Way to Success." on 2026-09-28, from the
+// owner's site fix plan. The description is the owner's line, kept.
 export const bmHero = {
-  manifesto: "Learn how to build, scale, and dominate.",
-  subtitle: "Speedrun Your Way to Success.",
+  manifesto: "Learn to start a business and actually use AI.",
+  subtitle: "Courses, coaching and a community of people building alongside you.",
   description:
     "Skip years of unnecessary trial and error by learning from people already building, failing, adapting, and winning.",
-  /** Homepage teaser only; the /business-mastery hero keeps `subtitle` and `description`. */
-  homeDescription:
-    "We exist to speedrun your success. Learn how to leverage world-class strategies and state-of-the-art tools to build and scale your business faster than ever.",
-  /**
-   * The scarcity line on the homepage teaser. This slot used to render the
-   * live "5 / 20 FOUNDING MEMBERS" figures from `bmFoundingCounter`; it is a
-   * flat statement now, at the owner's request. Unlike the counter it
-   * replaced, nothing in the repo can check it - it is a claim about the
-   * owner's own enrollment, so it stays true only as long as that is true.
-   * Change or remove it when enrollment is no longer closing, and update the
-   * spot count by hand whenever it changes.
-   */
-  scarcityLine: "Enrollment Closing Soon · 4 Spots Remain",
-  cta: "Achieve Your Dreams",
 } as const;
 
 // --- 2. The Core Belief ----------------------------------------------------
 
 export const bmCoreBelief = {
-  heading: "Nobody Builds Something Great Alone.",
+  heading: "Nobody builds something great alone.",
   message:
     "Be prepared to work harder than you've ever worked. Learn more than you've ever learned. Achieve more than you've ever achieved.",
   lead: "None of this happens without one of the greatest driving forces behind success:",
@@ -76,7 +79,7 @@ export const bmCoreBelief = {
    * header's rule applies: the owner's sentence, verbatim.
    */
   clarifier:
-    "LEU Business Mastery is not about avoiding hard work. It is about making that hard work more effective by putting you around people, information, systems, and opportunities that can accelerate your progress.",
+    "Business Mastery is not about avoiding hard work. It is about making that hard work more effective by putting you around people, information, systems, and opportunities that can accelerate your progress.",
   /**
    * NOTHING RENDERS THESE TWO RIGHT NOW. The owner asked the Core Philosophy
    * block off the page on 2026-09-07, and they are kept for the same reason
@@ -126,7 +129,7 @@ export const bmProofPoints = [
 
 // --- 3. Who This Is For ----------------------------------------------------
 
-export const bmAudienceHeading = "Built for People Who Know They Want More.";
+export const bmAudienceHeading = "Built for people who know they want more.";
 
 /** The line under the heading above, chosen by the owner on 2026-09-15. The
  * file header's rule applies: the owner's sentence, verbatim. */
@@ -141,19 +144,19 @@ export const bmAudienceSubheading =
 export const bmAudiences: BmAudience[] = [
   {
     id: "starting",
-    title: "Starting From Zero",
+    title: "Starting from zero",
     description:
       "You know you want to build something but don't know where to start, and you may lack the experience, connections, or capital to get going.",
   },
   {
     id: "early",
-    title: "Just Getting Started",
+    title: "Just getting started",
     description:
       "You've already started, but you're figuring everything out as you go.",
   },
   {
     id: "growing",
-    title: "Ready to Grow",
+    title: "Ready to grow",
     description:
       "You have something working and want help taking it to the next level.",
   },
@@ -162,26 +165,27 @@ export const bmAudiences: BmAudience[] = [
 // --- 4. Our Core Tenets ----------------------------------------------------
 
 // The three tenet titles are the owner's, in the owner's order: Speed, Money
-// In, For Free. They replaced the eight-step "How to Build Your Own Empire"
-// ladder at the owner's request. Do not rename, expand, or re-order them, and
-// do not grow the list back into a framework - three is the point. The
-// heading is the owner's phrase as well, title-cased to match every other
-// heading on the page. The one-line descriptions expand each title in the
-// same register; "Money In" and "For Free" are the build's copy, not the
-// owner's, and are the safest place to edit. The "Speed" description is the
-// owner's own, supplied 2026-09-15, replacing the build's line — the file
+// In, Start Lean. They replaced the eight-step "How to Build Your Own Empire"
+// ladder at the owner's request. Do not rename, expand, or re-order them
+// without the owner, and do not grow the list back into a framework - three
+// is the point. The titles stay capitalized as names; the heading is sentence
+// case like every other heading on the site. The one-line descriptions expand
+// each title in the same register; "Money In" and "Start Lean" are the
+// build's copy, not the owner's, and are the safest place to edit. The
+// "Speed" description is the owner's own, supplied 2026-09-15 — the file
 // header's rule applies to it: verbatim, not to be softened or improved.
 //
-// One of them is load-bearing. "For Free" is about what it takes to START A
-// BUSINESS - free tools and the member's own effort - and must never be
-// written so it can be read as a claim about the price of membership, which
-// is paid and carries the guarantee in `bmOffer`. Keep the word "free" tied
-// to what the business is built with, never to access, price, or a refund.
-// For the same reason nothing here lists the network, the tools library, or
-// anything else membership includes among the things that cost nothing.
+// "Start Lean" was "For Free" until 2026-09-28 (the owner's site fix plan),
+// because "For Free" beside a paid membership read as a claim about its
+// price. It is about what it takes to START A BUSINESS - free tools and the
+// member's own effort - and must never be written so it can be read as a
+// claim about the price of membership, which is paid monthly and carries the
+// guarantee in `bmOffer`. For the same reason nothing here lists the network,
+// the tools library, or anything else membership includes among the things
+// that cost nothing.
 
 export const bmTenetsIntro = {
-  heading: "Our Core Tenets",
+  heading: "Our core tenets",
   description:
     "Three principles sit behind everything we build and everything we help members build. Every part of Business Mastery runs on them.",
 } as const;
@@ -202,21 +206,21 @@ export const bmTenets: BmTenet[] = [
       "Revenue is the first real proof an idea works, so getting paid comes early, not last.",
   },
   {
-    id: "for-free",
+    id: "start-lean",
     number: 3,
-    title: "For Free",
+    title: "Start Lean",
     description:
       "A business can start with free tools and your own effort, long before it needs money.",
   },
 ];
 
-// --- 5. What LEU Business Mastery Actually Is ------------------------------
+// --- 5. What Business Mastery Actually Is ----------------------------------
 
 export const bmProgram = {
   // The owner's replacement for "NOT a Course. A Coach." (2026-09-15),
   // title-cased to match every other heading on the page, with the plural
   // apostrophe dropped ("entrepreneur's" -> "Entrepreneurs").
-  heading: "A Network of Dedicated Entrepreneurs.",
+  heading: "A network of dedicated entrepreneurs.",
   // The owner's wording, supplied 2026-09-27; it replaced "Members are not
   // simply purchasing prerecorded information. They're entering a
   // business-development environment."
@@ -240,43 +244,43 @@ export const bmProgram = {
 export const bmPillars: BmPillar[] = [
   {
     id: "classes",
-    title: "Subject-Specific Demos",
+    title: "Subject-specific demos",
     description:
       "Watch real business tasks done start to finish, with demos broken down by subject across starting, operating, and growing a business.",
   },
   {
     id: "webinars",
-    title: "Live Webinars",
+    title: "Live webinars",
     description:
       "Deeper sessions focused on specific strategies, problems, opportunities, and industries.",
   },
   {
     id: "calls",
-    title: "Daily Calls",
+    title: "Daily calls",
     description:
       "Regular access to conversations, lessons, accountability, collaboration, and guidance.",
   },
   {
     id: "coaching",
-    title: "Personal Coaching",
+    title: "Personal coaching",
     description:
       "Direct help based on each member's individual business, goals, situation, and problems.",
   },
   {
     id: "hands-on",
-    title: "Hands-On Help",
+    title: "Hands-on help",
     description:
       "We don't just tell you what to do. We help you work through it. We provide step-by-step, bulletproof instruction for success.",
   },
   {
     id: "community",
-    title: "Private Community & Professional Network",
+    title: "Private community and professional network",
     description:
       "A network of entrepreneurs building businesses alongside one another.",
   },
   {
     id: "tools",
-    title: "Tools & Resources",
+    title: "Tools and resources",
     description:
       "A growing library of what you need to build with, added to over time.",
     items: [
@@ -297,8 +301,8 @@ export const bmPillars: BmPillar[] = [
 // --- 6. Founding Member Offer ----------------------------------------------
 
 export const bmOffer = {
-  eyebrow: "Member Offer",
-  heading: "Join LEU Business Mastery",
+  eyebrow: "Member offer",
+  heading: "Join Business Mastery",
   guaranteeHeading: "90-Day Money-Back Guarantee",
   guaranteeSummary:
     "Join, get inside the network, and see the value for yourself. If Business Mastery isn't for you, tell us within 90 days of joining and we'll refund your payment.",
@@ -428,7 +432,7 @@ export const bmTransition = {
   paragraphs: [
     "Everything that came before LEU taught me something.",
     "Some lessons came from wins. Others came from failures. Some lessons took years to understand. Some came from risks. Some came from mistakes. Some came from simply refusing to stop.",
-    "LEU Business Mastery exists so you don't have to learn every lesson the hard way.",
+    "Business Mastery exists so you don't have to learn every lesson the hard way.",
   ],
 } as const;
 
@@ -441,7 +445,7 @@ export const bmFinalCta = {
   heading: "Achieve Your Dreams Today.",
   description:
     "You can keep trying to figure everything out alone. Or you can build alongside people who are doing it with you.",
-  cta: "Join LEU Business Mastery",
+  cta: "Join Business Mastery",
   /**
    * NOTHING RENDERS THIS RIGHT NOW — off the page 2026-09-07 at the owner's
    * request, alongside `bmProgram.closer`, and kept on the same terms as that

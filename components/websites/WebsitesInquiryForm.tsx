@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { flushSync } from "react-dom";
+import { CheckCircle2 } from "lucide-react";
 import { websiteProjectTypes } from "@/data/lee-systems";
+import { site } from "@/data/site";
 import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
+import { BookCallLink } from "@/components/ui/BookCallLink";
 
 const emptyForm = {
   fullName: "",
@@ -30,6 +33,7 @@ export function WebsitesInquiryForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const successRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   // The success panel replaces the form, taking the focused submit button with
   // it, so focus would fall back to <body>. Moving it to the panel keeps a
@@ -68,12 +72,27 @@ export function WebsitesInquiryForm() {
     return next;
   };
 
+  /** Shows the errors, then puts focus on the first field that needs fixing,
+   *  in the order the form lists them, which on a phone also scrolls it into
+   *  view. The errors are applied first so the field is already marked
+   *  invalid and described by its message when focus lands on it. */
+  const showErrors = (found: FieldErrors) => {
+    flushSync(() => setErrors(found));
+    const names = Object.keys(found).filter((name) => name !== "form");
+    if (names.length === 0) return;
+    formRef.current
+      ?.querySelector<HTMLElement>(
+        names.map((name) => `[name="${CSS.escape(name)}"]`).join(", ")
+      )
+      ?.focus();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const found = validate();
     if (Object.keys(found).length > 0) {
-      setErrors(found);
+      showErrors(found);
       return;
     }
 
@@ -97,12 +116,12 @@ export function WebsitesInquiryForm() {
 
       const data = await response.json().catch(() => null);
       if (data?.errors) {
-        setErrors(data.errors as FieldErrors);
+        showErrors(data.errors as FieldErrors);
       } else {
         setErrors({
-          form: `We couldn't send your request. Please try again, or email us directly. Reference: ${
+          form: `We couldn't send your request. Please try again, or email ${site.email}. Reference: ${
             data?.code || "unknown"
-          } · http_${response.status}`,
+          }, http_${response.status}`,
         });
       }
     } catch {
@@ -127,17 +146,23 @@ export function WebsitesInquiryForm() {
           aria-hidden="true"
         />
         <h3 className="mb-3 text-2xl font-bold text-white">
-          Website Request Received
+          Website request received
         </h3>
         <p className="mb-6 text-neutral-300">
           Thank you. We will review what you described and follow up with a
           free quote and a timeline. Remember: you do not pay until the site is
           built and you have approved it.
         </p>
+        {site.bookingUrl && (
+          <div className="mb-6">
+            <p className="mb-4 text-neutral-300">Want to talk it through now?</p>
+            <BookCallLink />
+          </div>
+        )}
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="text-sm font-semibold text-brass-300 underline-offset-4 hover:underline"
+          className="inline-flex min-h-11 items-center text-sm font-semibold text-brass-300 underline-offset-4 hover:underline"
         >
           Submit another request
         </button>
@@ -147,6 +172,7 @@ export function WebsitesInquiryForm() {
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit}
       noValidate
       aria-describedby="website-form-description"
@@ -154,7 +180,7 @@ export function WebsitesInquiryForm() {
     >
       <div className="mb-2">
         <h3 className="text-2xl font-bold text-white">
-          Request a Website Quote
+          Request a website quote
         </h3>
       </div>
       <p id="website-form-description" className="mb-8 text-sm text-neutral-400">
@@ -187,7 +213,7 @@ export function WebsitesInquiryForm() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <Field
           id="fullName"
-          label="Full Name"
+          label="Full name"
           required
           error={errors.fullName}
           value={formData.fullName}
@@ -198,7 +224,7 @@ export function WebsitesInquiryForm() {
         />
         <Field
           id="businessName"
-          label="Business Name"
+          label="Business name"
           required
           error={errors.businessName}
           value={formData.businessName}
@@ -209,7 +235,7 @@ export function WebsitesInquiryForm() {
         />
         <Field
           id="email"
-          label="Email Address"
+          label="Email address"
           type="email"
           required
           error={errors.email}
@@ -221,7 +247,7 @@ export function WebsitesInquiryForm() {
         />
         <Field
           id="phone"
-          label="Phone Number"
+          label="Phone number"
           type="tel"
           required
           error={errors.phone}
@@ -236,7 +262,7 @@ export function WebsitesInquiryForm() {
       <div className="mt-5">
         <Field
           id="currentWebsite"
-          label="Current Website"
+          label="Current website"
           type="url"
           error={errors.currentWebsite}
           value={formData.currentWebsite}
@@ -249,7 +275,7 @@ export function WebsitesInquiryForm() {
 
       <div className="mt-5">
         <label htmlFor="projectType" className={labelClass}>
-          What Are You Looking For?{" "}
+          What are you looking for?{" "}
           <span className="text-brass-300" aria-hidden="true">
             *
           </span>
@@ -283,7 +309,7 @@ export function WebsitesInquiryForm() {
 
       <div className="mt-5">
         <label htmlFor="businessDescription" className={labelClass}>
-          What Does Your Business Do?{" "}
+          What does your business do?{" "}
           <span className="text-brass-300" aria-hidden="true">
             *
           </span>
@@ -321,7 +347,7 @@ export function WebsitesInquiryForm() {
 
       <div className="mt-5">
         <label htmlFor="goals" className={labelClass}>
-          What Should the Website Accomplish?
+          What should the website accomplish?
         </label>
         <textarea
           id="goals"
@@ -338,15 +364,9 @@ export function WebsitesInquiryForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-ls-primary mt-8 inline-flex w-full items-center justify-center gap-2 group disabled:cursor-not-allowed disabled:opacity-60"
+        className="btn-ls-primary mt-8 inline-flex min-h-11 w-full items-center justify-center disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? "Sending..." : "Request My Free Quote"}
-        {!isSubmitting && (
-          <ArrowRight
-            className="h-5 w-5 transition-transform group-hover:translate-x-1"
-            aria-hidden="true"
-          />
-        )}
+        {isSubmitting ? "Sending..." : "Request my free quote"}
       </button>
 
       <p className="mt-4 text-center text-sm text-neutral-400">

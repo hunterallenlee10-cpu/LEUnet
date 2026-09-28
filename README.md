@@ -1,10 +1,21 @@
 # leu
 
-The Lee Enterprises Unlimited website: the homepage (`/`), LEU Business
-Mastery (`/business-mastery`), Lee Systems Co. (`/lee-systems`,
-`/lee-systems/automation`, `/lee-systems/websites`), `/partners`, `/support`
-and `/legal`. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript,
-hosted on Vercel.
+The Lee Enterprises Unlimited website: the homepage (`/`), Business Mastery
+(`/business-mastery`), Lee Systems Co. (`/lee-systems`,
+`/lee-systems/automation`, `/lee-systems/websites`), `/contact` and `/legal`,
+plus `/book`, a short address that forwards to wherever "Book a free call"
+goes. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript, hosted
+on Vercel.
+
+## Business facts
+
+Phone, email, the booking link, the reply-time promise, Instagram, the stats,
+the founder photo and bio, projects, and Business Mastery's price and join
+settings all live in one file: [`data/site.ts`](data/site.ts). Every page
+reads them from there. An empty value hides whatever needs it, or shows a
+"coming soon" slot while `showPlaceholders` is true (the photo, the bio and the
+projects). Adding the Lee Systems Co. booking link is one line there:
+`bookingUrl`.
 
 The repo was bootstrapped with [v0](https://v0.app) and is linked to a
 [v0 project](https://v0.app/chat/projects/prj_p4e4z6MPaVlpOBMeE2pJ7PACajYn),
@@ -37,13 +48,14 @@ reads.
 
 ## Payments
 
-Stripe Payments and Invoicing are wired up for Lee Systems Co. (formerly Lee
-Marketing Mastery, still tagged `lmm`), the one venture on this site, and
-invoices can still be tagged `h1` for H1 Performance and `thread` for Thread
-T-Shirts, which are invoiced from here even though neither is on this site
-any more ([docs/H1.md](docs/H1.md),
-[docs/THREAD.md](docs/THREAD.md)). See [docs/STRIPE.md](docs/STRIPE.md) for
-setup, environment variables, and the go-live checklist.
+Stripe Invoicing is wired up for Lee Systems Co. (formerly Lee Marketing
+Mastery, still tagged `lmm`), and invoices can still be tagged `h1` for H1
+Performance and `thread` for Thread T-Shirts, which are invoiced from here even
+though neither is on this site any more ([docs/H1.md](docs/H1.md),
+[docs/THREAD.md](docs/THREAD.md)). The public Support Us contribution page came
+off the site on 2026-09-28. See [docs/STRIPE.md](docs/STRIPE.md) for setup,
+environment variables, the go-live checklist, and the cleanup the removal
+leaves for Stripe and Vercel.
 
 ## Lee Systems Co.
 
@@ -54,7 +66,7 @@ Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It lives at
 `data/lee-systems.ts`.
 
 See [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) for the page structure and
-**the list of placeholders still to fill in**.
+what is still to fill in.
 
 ## Thread T-Shirts
 
@@ -80,8 +92,8 @@ See [docs/THREAD.md](docs/THREAD.md) for what left, what stayed, and why.
 H1 Performance runs from its own repo and website:
 [hunterallenlee10-cpu/h1-performance](https://github.com/hunterallenlee10-cpu/h1-performance).
 It is no longer one of the ventures this site lists — nothing here names it or
-links to it. Lee Enterprises Unlimited lists one venture now, Lee Systems Co.,
-alongside its flagship program, LEU Business Mastery.
+links to it. The site covers Lee Enterprises Unlimited, Lee Systems Co. and
+Business Mastery only.
 
 What remains is the redirect: `/h1-performance` and `/h1/*` forward to the H1
 site so the URLs that page used to answer on keep their inbound links and
@@ -96,14 +108,16 @@ what stayed, and why.
 
 ## Docs
 
+- [docs/TODO.md](docs/TODO.md) - Hunter's to-do list: what only he can do for
+  the site (links, photos, decisions, account set-up).
 - [docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md) - build spec and
   settled decisions for `/business-mastery` and its homepage presence.
 - [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) - the Lee Systems Co. pages, where
   their copy lives, and the placeholders still to fill in.
 - [docs/WEBSITES.md](docs/WEBSITES.md) - historical build spec for the websites
   page before the Lee Systems rename; its claims standard still applies.
-- [docs/STRIPE.md](docs/STRIPE.md) - support checkout and invoicing: setup,
-  environment variables, security and the go-live checklist.
+- [docs/STRIPE.md](docs/STRIPE.md) - invoicing: setup, environment
+  variables, security and the go-live checklist.
 - [docs/H1.md](docs/H1.md) - what H1 Performance's move to its own site left
   here, and why.
 - [docs/THREAD.md](docs/THREAD.md) - the same for Thread T-Shirts.

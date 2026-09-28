@@ -26,7 +26,7 @@ const includes = [
   {
     Icon: MessageSquareText,
     title: "Contact and lead forms",
-    body: "Forms that send enquiries straight to your inbox, with one clear next step on every page.",
+    body: "Forms that send inquiries straight to your inbox, with one clear next step on every page.",
   },
   {
     Icon: Search,
@@ -50,8 +50,8 @@ export function WebsitesServicesSection() {
     <section id="website-includes" className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            Included in Every Site
+          <p className="mb-3 text-sm font-semibold text-brass-300">
+            Included in every site
           </p>
           <h2 className="heading-lg mb-6 text-white">
             The basics, done properly, every time

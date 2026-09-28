@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { leeSystems } from "@/data/lee-systems";
+import { ogContentType, ogDomain, ogSize } from "@/lib/og";
 
 /**
  * The social-sharing card for the Lee Systems Co. pages, drawn at build time
@@ -7,11 +8,11 @@ import { leeSystems } from "@/data/lee-systems";
  * next to the pages it describes. Each route segment's `opengraph-image.tsx`
  * calls this with its own line.
  *
- * PLACEHOLDER: the "LS" square stands in for a logo until one exists
- * (components/lee-systems/LeeSystemsMark.tsx, docs/LEE-SYSTEMS.md).
+ * The name alone, set as a wordmark: Lee Systems Co. has no logo (the owner's
+ * call, 2026-09-28), so the "LS" stand-in square that used to sit beside it is
+ * gone. The foot names the parent company and the domain; no location.
  */
-export const ogSize = { width: 1200, height: 630 };
-export const ogContentType = "image/png";
+export { ogContentType, ogSize };
 
 export function renderLeeSystemsOg(line: string) {
   return new ImageResponse(
@@ -29,34 +30,16 @@ export function renderLeeSystemsOg(line: string) {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <div
-            style={{
-              width: 72,
-              height: 72,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              border: "2px solid rgba(212,168,87,0.7)",
-              borderRadius: 12,
-              color: "#E0BE78",
-              fontSize: 30,
-              fontWeight: 700,
-              letterSpacing: 2,
-            }}
-          >
-            LS
-          </div>
-          <div
-            style={{
-              fontSize: 34,
-              fontWeight: 700,
-              letterSpacing: 6,
-              color: "#F5F3EE",
-            }}
-          >
-            LEE SYSTEMS CO.
-          </div>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 34,
+            fontWeight: 700,
+            letterSpacing: 6,
+            color: "#F5F3EE",
+          }}
+        >
+          LEE SYSTEMS CO.
         </div>
 
         <div
@@ -80,11 +63,7 @@ export function renderLeeSystemsOg(line: string) {
           }}
         >
           <span>{leeSystems.tagline}</span>
-          {/* One template string, not two expressions: Satori wants a single
-              text child in an element that is not display: flex. */}
-          <span style={{ color: "#D4A857" }}>
-            {`${leeSystems.city}, ${leeSystems.region}`}
-          </span>
+          <span style={{ color: "#D4A857" }}>{ogDomain}</span>
         </div>
       </div>
     ),

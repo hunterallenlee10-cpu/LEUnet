@@ -20,7 +20,7 @@ export default function NotFound() {
       {/* pt-32 clears the fixed header; min-h keeps the footer from riding up
           under the short message, as on /partners. */}
       <section className="section-container flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center pt-32 pb-24 text-center">
-        <p className="text-sm font-semibold uppercase tracking-widest text-amber-400">
+        <p className="text-sm font-semibold text-amber-400">
           404
         </p>
 

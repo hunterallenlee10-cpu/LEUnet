@@ -1,11 +1,10 @@
 import { Search, Hammer, Play } from "lucide-react";
-import { automationAudit } from "@/data/lee-systems";
 
 const steps = [
   {
     Icon: Search,
     title: "Audit",
-    body: `A ${automationAudit.price.toLowerCase()} look at how leads, intake, follow-ups and admin run today. You get a written plan within ${automationAudit.turnaround}.`,
+    body: "On a free consultation call, we look at how calls, leads, intake, follow-ups and admin run today, and where things slip. Then you get a flat quote up front.",
   },
   {
     Icon: Hammer,
@@ -24,8 +23,8 @@ export function LeeSystemsHowItWorksSection() {
     <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            How It Works
+          <p className="mb-3 text-sm font-semibold text-brass-300">
+            How it works
           </p>
           <h2 className="heading-lg text-white">Audit. Build. Run.</h2>
         </div>

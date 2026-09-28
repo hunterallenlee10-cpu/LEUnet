@@ -1,11 +1,5 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import {
-  automationAudit,
-  leeSystems,
-  leeSystemsAnchors,
-  leeSystemsRoutes,
-} from "@/data/lee-systems";
+import { BookCallLink } from "@/components/ui/BookCallLink";
+import { site, telHref } from "@/data/site";
 
 export function LeeSystemsFinalCTA() {
   return (
@@ -19,29 +13,31 @@ export function LeeSystemsFinalCTA() {
           Find out what your business could stop doing by hand.
         </h2>
         <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-neutral-300">
-          The {automationAudit.name} is {automationAudit.price.toLowerCase()}. We
-          reply within {automationAudit.responseTime} and send a written plan
-          within {automationAudit.turnaround}.
+          It starts with a free consultation call. We look at where your time
+          goes, and you get a flat quote up front for anything worth
+          automating.
         </p>
 
-        <Link
-          href={`${leeSystemsRoutes.automation}#${leeSystemsAnchors.auditForm}`}
-          className="btn-ls-primary group inline-flex items-center justify-center gap-2"
-        >
-          Book a {automationAudit.price} {automationAudit.name}
-          <ArrowRight
-            className="h-5 w-5 transition-transform group-hover:translate-x-1"
-            aria-hidden="true"
-          />
-        </Link>
+        <BookCallLink />
 
         <p className="mt-8 text-sm text-neutral-400">
-          Prefer email?{" "}
+          Rather call or email?{" "}
+          {site.phone && (
+            <>
+              <a
+                href={telHref(site.phone)}
+                className="font-semibold text-neutral-200 underline underline-offset-4 hover:text-brass-300"
+              >
+                {site.phone}
+              </a>{" "}
+              or{" "}
+            </>
+          )}
           <a
-            href={`mailto:${leeSystems.contactEmail}`}
-            className="font-semibold text-neutral-200 underline underline-offset-4 hover:text-brass-300"
+            href={`mailto:${site.email}`}
+            className="break-all font-semibold text-neutral-200 underline underline-offset-4 hover:text-brass-300"
           >
-            {leeSystems.contactEmail}
+            {site.email}
           </a>
         </p>
       </div>

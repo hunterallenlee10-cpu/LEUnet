@@ -142,8 +142,8 @@ export function BmManifestoSection() {
       <div className="section-container relative z-[1]">
         {/* --- Movement one: the belief ----------------------------------- */}
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            What We Believe
+          <p className="mb-3 text-sm font-semibold text-amber-400">
+            What we believe
           </p>
 
           {/* `heading-lg`, like every other section heading. The merge makes

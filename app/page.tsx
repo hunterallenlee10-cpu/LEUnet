@@ -2,51 +2,60 @@ import type { Metadata } from "next";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { VenturesSection } from "@/components/sections/VenturesSection";
+import { PricingPromiseSection } from "@/components/shared/PricingPromiseSection";
+import { LeeSystemsSetupSection } from "@/components/sections/LeeSystemsSetupSection";
+import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
+import { WhoYoullWorkWithSection } from "@/components/sections/WhoYoullWorkWithSection";
 import { ContactSection } from "@/components/sections/ContactSection";
+import { site } from "@/data/site";
 
-const title = "Lee Enterprises Unlimited";
+const title = "Lee Enterprises Unlimited | AI Automation & Business Training";
+const description =
+  "Hire Lee Systems Co. for AI automation and websites, or learn to start a business and use AI with Business Mastery.";
 
 // The canonical and og:url live here rather than in the root layout, where
 // every page without its own would inherit them and point at the homepage.
-// This openGraph replaces the root one, so it repeats the image.
+// The share image is app/opengraph-image.tsx.
 export const metadata: Metadata = {
+  title: { absolute: title },
+  description,
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     url: "/",
+    siteName: site.name,
     title,
-    description:
-      "A premium business portfolio dedicated to excellence: LEU Business Mastery and Lee Systems Co.",
-    images: [
-      {
-        url: "/logos/leu-logo.png",
-        width: 512,
-        height: 512,
-        alt: "Lee Enterprises Unlimited Logo",
-      },
-    ],
+    description,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title,
-    description: "Premium business portfolio: LEU Business Mastery and Lee Systems Co.",
+    description,
   },
 };
 
+/**
+ * The homepage, in the order the site fix plan settled: the two paths, the
+ * pricing promise, what Lee Systems Co. sets up, recent work, who you'll work
+ * with, and the contact form. Nothing else goes here.
+ */
 export default function Home() {
   return (
-    <main className="w-full bg-neutral-950">
+    <div className="min-h-screen bg-neutral-950">
       <MainHeader />
 
-      <HeroSection />
-      <VenturesSection />
-
-      <ContactSection />
+      <main>
+        <HeroSection />
+        <PricingPromiseSection />
+        <LeeSystemsSetupSection />
+        <RecentWorkSection />
+        <WhoYoullWorkWithSection />
+        <ContactSection />
+      </main>
 
       <MainFooter />
-    </main>
+    </div>
   );
 }

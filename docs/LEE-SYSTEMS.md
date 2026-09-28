@@ -1,30 +1,64 @@
 # Lee Systems Co.
 
 Lee Systems Co. ("A Lee Enterprises Unlimited company") replaced Lee Marketing
-Mastery on 2026-09-25. It sells two things: **business automation** (the lead
-offer) and **website builds** (fully built before the client pays).
+Mastery on 2026-09-25. It sells **AI automation** (the lead offer, AI call
+answering included) and **website builds** (fully built before the client
+pays). The first step is always a free consultation call, booked with **"Book a
+free call"**.
 
 ## Pages
 
 | URL | What it is | Built from |
 | --- | --- | --- |
-| `/lee-systems` | Main page: hero, offerings (large Automation card, smaller Websites card), 6 things we automate, industries, proof, Audit → Build → Run, About, final CTA | `app/lee-systems/page.tsx`, `components/lee-systems/` |
-| `/lee-systems/automation` | Hero, problem, 6 automation areas, industries (law firms, home services), how the audit works, FAQ, audit form | `app/lee-systems/automation/page.tsx`, `components/automation/` |
-| `/lee-systems/websites` | Hero, "built before you pay" guarantee, what every site includes, portfolio, process, FAQ, bridge to automation, quote form | `app/lee-systems/websites/page.tsx`, `components/websites/` |
+| `/lee-systems` | Main page: hero, offerings (large Automation card, smaller Websites card), what gets automated, industries, recent work, Audit → Build → Run, About, final CTA | `app/lee-systems/page.tsx`, `components/lee-systems/` |
+| `/lee-systems/automation` | Hero, problem, the automation areas, industries (law firms, home services), how it works, FAQ, the consultation form | `app/lee-systems/automation/page.tsx`, `components/automation/` |
+| `/lee-systems/websites` | Hero, "built before you pay" guarantee, what every site includes, recent work, process, FAQ, bridge to automation, quote form | `app/lee-systems/websites/page.tsx`, `components/websites/` |
+| `/lee-systems/law-firms` | A page for law firms, to send prospects in that industry: the industry's summary as the headline, what we automate for them, the pricing promise, Audit → Build → Run, final CTA | `app/lee-systems/law-firms/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
+| `/lee-systems/home-services` | The same page for home services and roofing | `app/lee-systems/home-services/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
 
-Shared copy (brand details, audit terms, FAQs, industries, form dropdowns) is
-in `data/lee-systems.ts`. Change it there and every page that uses it follows.
+The two industry pages use only copy already on the site (the industry's
+entry in `leeSystemsIndustries`, which also holds each page's title and
+description). The industry cards on `/lee-systems` and
+`/lee-systems/automation` link to them, and both are in the sitemap.
+
+AI call answering leads both the main page's "what gets automated" grid and
+the automation page's areas, drawn full width. Its capabilities list is the
+owner's own, word for word, in `site.callAnswering` (`data/site.ts`).
+
+Shared copy (brand details, FAQs, industries, the pricing promise, form
+dropdowns) is in `data/lee-systems.ts`. Business facts (phone, email, the
+booking link, the reply time) are in `data/site.ts`.
+
+## Booking
+
+Every "Book a free call" on the site goes through `BookCallLink`
+(`components/ui/BookCallLink.tsx`) to `bookHref` in `data/site.ts`:
+
+- `bookingUrl` set (a Google Calendar booking page, say): straight to it.
+- `bookingUrl` empty (today): `/contact?interest=lee-systems`, the contact form
+  with Lee Systems Co. already picked.
+
+`/book` forwards to the same place, for print and word of mouth. The forms'
+thank-you messages and the "Rather talk now?" blocks show a "Book a free call"
+button only once `bookingUrl` is set.
+
+The offer changed on 2026-09-28 at the owner's request: the free
+**Automation Audit**, with its written plan in 5 business days, became a free
+**consultation call** followed by a flat quote up front. The automation form
+keeps the anchor id `audit` so old links still land on it.
 
 ## Forms
 
 | Form | Endpoint | Email subject |
 | --- | --- | --- |
-| Automation Audit (name, business, industry, team size, biggest time-waster, email, phone) | `/api/automation-audit` | `Lee Systems Co.: New Automation Audit Request from {name}, {business}` |
+| Automation consultation (name, business, industry, team size, biggest time-waster, email, phone) | `/api/automation-audit` | `Lee Systems Co.: New Consultation Request from {name}, {business}` |
 | Website quote | `/api/website-inquiry` | `Lee Systems Co.: New Website Request from {name}, {business}` |
+| The shared contact form, with Lee Systems Co. picked | `/api/contact` | `[Lee Systems Co.] New inquiry from {name}` |
 
-Both send through Resend to `LEE_SYSTEMS_TO_EMAIL`, then `LMM_TO_EMAIL`, then
-`CONTACT_TO_EMAIL` (website requests check `WEBSITE_TO_EMAIL` first). With none
-set, they go to ceo@leeenterprisesunlimited.com, as before.
+The first two send through Resend to `LEE_SYSTEMS_TO_EMAIL`, then
+`LMM_TO_EMAIL`, then `CONTACT_TO_EMAIL` (website requests check
+`WEBSITE_TO_EMAIL` first). With none set, they go to
+ceo@leeenterprisesunlimited.com. The contact form goes to `CONTACT_TO_EMAIL`.
 
 ## Redirects (301, `next.config.mjs`)
 
@@ -37,45 +71,38 @@ set, they go to ceo@leeenterprisesunlimited.com, as before.
 | any other `/lee-marketing-mastery/*` | `/lee-systems` |
 | `/og/lee-marketing-mastery.png` | `/lee-systems/opengraph-image` |
 
-## Placeholders to fill in
+## Still to fill in (all in `data/site.ts`)
 
-Each one shows on the page as a dashed box marked **PLACEHOLDER**, or is
-noted in code as `PLACEHOLDER`. Search the repo for `PlaceholderBox` to find
-the boxes.
+| What | Key | Until then |
+| --- | --- | --- |
+| Booking link | `bookingUrl` | "Book a free call" goes to the contact form |
+| Finished projects (name, one line, link or walkthrough) | `projects` | "Recent work" shows two "Project walkthrough coming soon" frames |
+| Founder photo | `founder.photo` | The About section shows a "Photo coming soon" frame |
+| Call-answering demo number | `callAnswering.demoPhone` | No demo line |
 
-| # | What | Where | What to supply |
-| --- | --- | --- | --- |
-| 1 | **Logo** | `components/lee-systems/LeeSystemsMark.tsx`, `lib/lee-systems-og.tsx` | A logo file. Until then, an "LS" monogram in type stands in on every page and in the social-sharing images. |
-| 2 | **Proof: case study** | Main page, "What it looks like in practice" (`components/lee-systems/LeeSystemsProofSection.tsx`) | One real client system: problem, what was built, a result you can verify. |
-| 3 | **Proof: screenshot or workflow** | Same section | A screenshot of a live automation or report, or a client quote used with permission. |
-| 4–7 | **Portfolio sites 1–4** | Websites page, "Sites we have built" (`components/websites/WebsitesWorkSection.tsx`) | Screenshot, business name, one line on what it does, link to the live site. |
-| 8 | **Typical build time** | Websites page, under the process (`components/websites/WebsitesProcessSection.tsx`) | A typical range, e.g. "2–4 weeks", once a few builds are done. |
-| 9 | **Phone number** | `data/lee-systems.ts` → `leeSystems.phone` | Leave `null` to keep it hidden; set it to show in the business listing for search engines. |
+Set `showPlaceholders` to `false` to hide every "coming soon" frame at once;
+empty slots then disappear instead.
 
-### Choices made with defaults (change in `data/lee-systems.ts` if wrong)
+## Settled choices
 
-- Headline: "Systems that run your business while you run the work."
-- Contact email: ceo@leeenterprisesunlimited.com, the parent company's
-  (`companyInfo.contactEmail` in `data/company.ts`) until Lee Systems Co. has
-  its own
-- Service area: Frederick, Maryland, and remote nationwide
-- Automation Audit: **free**, written plan within **5 business days**, reply within **12 hours**
-- Website pricing: quoted per project (no price shown)
-- Accent color: brass `#D4A857` (`--color-brass-*` in `app/globals.css`)
-
-### Carried over from Lee Marketing Mastery (check these)
-
-- The homepage teaser headline on leeenterprisesunlimited.com still reads
-  "50+ businesses built. 1,000+ worked with. $150,000+ generated for our
-  clients." These are the owner's figures from 2026-09-13, shared with
-  Business Mastery (`bmProofStatement`). Confirm they apply to Lee Systems Co.
-  or change `leeSystemsHomeTeaser.manifesto` in `data/lee-systems.ts`.
+- No logo: the name is set as a wordmark (the owner's call, 2026-09-28). The
+  "LS" stand-in square is gone from the pages and the link previews.
+- No location or service area anywhere, including the business info search
+  engines read (an Organization, with no address). The owner's call,
+  2026-09-28.
+- Pricing promise: flat upfront quote, no hidden fees, no revenue share, no
+  required ad spend, you choose the contract terms.
+- Website pricing: quoted per project (no price shown), and no typical build
+  time until real builds back one up.
+- Accent color: brass `#D4A857` (`--color-brass-*` in `app/globals.css`).
 - The venture's internal id stays `lmm` so existing Stripe invoice tags still
-  match. Only visible names changed.
+  match.
 
 ## What was retired
 
 - The Traditional & Digital Marketing page, its form and `/api/marketing-inquiry`.
 - The Lee Marketing Mastery hub components, logo PNG and social-sharing image.
+- The "Results" placeholder boxes, the four portfolio placeholder cards and the
+  "Typical build time" box (2026-09-28).
 - `MARKETING_TO_EMAIL` in `.env.example` (nothing reads it now; it can be
   removed from Vercel too).
