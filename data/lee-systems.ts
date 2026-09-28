@@ -69,6 +69,19 @@ export const auditTeamSizeOptions = [
 ] as const;
 
 /**
+ * What the website quote form asks the visitor to pick. The route checks the
+ * posted value against this list, the same way the audit route checks its two
+ * dropdowns above, so a label can change here without touching either.
+ */
+export const websiteProjectTypes = [
+  "New website",
+  "Redesign of my existing site",
+  "Website plus lead follow-up automation",
+  "Care plan for a site I already have",
+  "Not sure yet",
+] as const;
+
+/**
  * The six things the main page says get automated. Short on purpose: the
  * automation page carries the full list, grouped by area.
  */
