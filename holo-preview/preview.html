@@ -15,7 +15,7 @@
 
 /* The site's own values: app/globals.css (brass, the hero's ground and
    button) and Tailwind v4's neutrals. Dark only, like the site. The one
-   addition is a muted red, used only for the "leads lost" count. */
+   addition is a muted red, used only for the money-lost count. */
 :root {
   color-scheme: dark;
   --bg: #0a0a0a;
@@ -57,6 +57,9 @@ body {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+/* On a phone the toolbar wraps to several rows; pinned, it would cover
+   the top of the animation. */
+@media (max-width: 819px) { .pv-bar { position: static; } }
 .pv-bar-in {
   display: flex;
   flex-wrap: wrap;
@@ -224,6 +227,9 @@ body {
 }
 
 .holo-visual { position: absolute; inset: auto 0 0; height: 77%; z-index: 1; }
+/* The smallest phones: a touch less hologram, so a fix's bubble fits
+   between the headline and the icons at the top of the pipe. */
+@container holo (max-width: 319px) { .holo-visual { height: 75%; } }
 .holo-box {
   container: holobox / inline-size;
   position: relative;
@@ -234,9 +240,11 @@ body {
 }
 .holo-art { position: absolute; inset: 0; }
 
-/* The small booking button that stays up the whole time: under the
-   heading on phones, in the stage's top-right corner on wider screens. */
-.holo-book { display: flex; justify-content: center; margin: 0 0 0.75rem; }
+/* The small booking button that stays up until the end card, where the
+   big one takes over. Wide screens only: top-left of the stage, lined up
+   with the headline and clear of the hologram. A phone's stage has no
+   free corner for it, and its end card carries the same link. */
+.holo-book { display: none; }
 .holo-book-link {
   display: inline-flex;
   align-items: center;
@@ -281,15 +289,6 @@ body {
 }
 .holo-cap > span { display: block; }
 .holo-cap em { font-style: normal; color: var(--brass-400); }
-.holo-cap--brand {
-  color: var(--brass-200);
-  font-size: clamp(1rem, 4.6cqw, 1.25rem);
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-indent: 0.2em;
-  text-shadow: 0 0 18px rgb(212 168 87 / 0.55);
-  white-space: nowrap;
-}
 .holo-cap .holo-cap-b {
   margin-top: 0.4em;
   color: var(--ink-2);
@@ -298,7 +297,7 @@ body {
   letter-spacing: -0.01em;
 }
 
-/* the end card: a client result, the stats, the promise and the links */
+/* the end card: the stats, the promise and the links */
 .holo-end {
   position: absolute;
   inset: 0;
@@ -312,16 +311,6 @@ body {
   pointer-events: none;
 }
 .holo-results { display: grid; justify-items: center; width: 100%; }
-.holo-client {
-  margin: 0 0 1rem;
-  max-width: 22rem;
-  color: var(--ink-2);
-  font-size: 0.875rem;
-  line-height: 1.35;
-  text-align: center;
-  text-wrap: balance;
-}
-.holo-client-name { color: var(--brass-300); font-weight: 600; }
 .holo-stats {
   position: relative;
   display: grid;
@@ -434,7 +423,13 @@ body {
 /* ---- desktop: words on the left, the hologram on the right ---- */
 @container holo (min-width: 860px) {
   .holo-anim { max-width: max(860px, calc((100svh - 11rem) * 16 / 9)); }
-  .holo-book { position: absolute; top: 1rem; right: 1rem; z-index: 12; margin: 0; }
+  .holo-book {
+    display: block;
+    position: absolute;
+    top: clamp(1rem, 2.2cqw, 1.75rem);
+    left: clamp(2rem, 5.2cqw, 4.5rem);
+    z-index: 12;
+  }
   .holo-stage {
     display: grid;
     grid-template-columns: 42fr 58fr;
@@ -458,18 +453,20 @@ body {
     text-align: left;
   }
   .holo-cap { font-size: clamp(1.75rem, 3.45cqw, 2.75rem); line-height: 1.12; }
-  .holo-cap--brand { font-size: clamp(1.25rem, 2.2cqw, 1.75rem); text-indent: 0; }
   .holo-cap .holo-cap-b { font-size: 0.6em; margin-top: 0.55em; }
   .holo-end { display: contents; }
+  /* Centred in the space between the name at the top and the bank's
+     roof as the end card holds (after the slow push-in): that middle is
+     about a third of the way down the stage. The bottom margin lifts the
+     centred block's middle to it, however tall the block is. */
   .holo-results {
     grid-area: 1 / 2;
-    align-self: start;
+    align-self: center;
     justify-self: center;
     z-index: 7;
     width: auto;
-    margin-top: 10.5cqw;
+    margin-bottom: 18.3cqw;
   }
-  .holo-client { margin-bottom: 1.6cqw; max-width: 26em; font-size: max(0.9375rem, 1.35cqw); }
   .holo-stats {
     max-width: none;
     width: auto;
@@ -702,7 +699,6 @@ body {
   z-index: 5;
   text-align: center;
   transform: translateY(-50%);
-  transition: opacity 0.45s ease;
 }
 .holo-wordmark {
   display: inline-block;
@@ -722,7 +718,8 @@ body {
   z-index: 5;
   display: grid;
   align-items: end;
-  max-width: 40%;
+  width: max-content;
+  max-width: max(40%, 6.5rem);
   margin: 0;
   font-size: max(0.78rem, 2.75cqw);
   line-height: 1.2;
@@ -733,21 +730,25 @@ body {
 .holo-tag > span { grid-area: 1 / 1; }
 .holo-tag--l, .holo-tag--r { bottom: calc(100% - var(--yb)); }
 .holo-tag--l { right: 58.33%; justify-items: end; text-align: right; }
+/* The smallest phones: a two-line name for the first gap would reach the
+   phone icon above it, so it sits a little further out. */
+@container holo (max-width: 319px) { .holo-tag--top { right: 63%; } }
 .holo-tag--r { left: 58.33%; }
 .holo-tag .is-problem { color: var(--ink-3); }
 .holo-tag .is-fix { color: var(--brass-300); opacity: 0; }
-.holo-tag--web { left: 81.25%; top: 28.15%; max-width: none; white-space: nowrap; color: var(--brass-300); transform: translate(-50%, -50%); }
+.holo-tag--web { left: 81.25%; top: calc(26.67% + 2px); max-width: none; white-space: nowrap; color: var(--brass-300); transform: translateX(-50%); }
 .holo-tag--bank { display: block; left: 71.67%; top: 71.5%; max-width: none; white-space: nowrap; color: var(--brass-200); line-height: 1.25; }
 .holo-tag .holo-tag-in { display: block; }
 
-/* The count under the bank: leads lost in muted red, then leads caught
-   in gold. It counts the coins in the animation, nothing else. */
+/* The count under the bank: money lost in muted red while the gaps
+   leak, then money recovered in gold. It steps with the coins in the
+   animation, up to the two amounts in EDIT HERE. */
 .holo-counter-pos {
   position: absolute;
   left: 50%;
-  top: 88.9%;
+  top: calc(85.56% + 3px);
   z-index: 6;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 .holo-counter {
   --c-ink: var(--loss);
@@ -768,7 +769,7 @@ body {
   font-variant-numeric: tabular-nums;
   box-shadow: 0 0 18px var(--c-glow);
 }
-.holo-counter[data-mode="caught"] {
+.holo-counter[data-mode="gain"] {
   --c-ink: var(--brass-200);
   --c-line: rgb(212 168 87 / 0.6);
   --c-glow: rgb(212 168 87 / 0.2);
@@ -780,7 +781,7 @@ body {
   background: var(--c-ink);
   box-shadow: 0 0 8px var(--c-ink);
 }
-.holo-counter-n { display: inline-block; min-width: 1.2em; text-align: right; }
+.holo-counter-n { display: inline-block; }
 
 /* What each fix does, shown for a moment after it seals: small,
    gold-outlined, and gone again. The text changes with the niche. */
@@ -805,6 +806,10 @@ body {
 @container holo (min-width: 860px) {
   .holo-pop { font-size: max(12px, 1.1cqw); }
 }
+@container holo (max-width: 319px) {
+  .holo-pop { padding: 0.3em 0.6em; line-height: 1.22; }
+  .holo-pop--list { padding: 0.3em; }
+}
 .holo-pop svg { flex: none; width: 1.1em; height: 1.1em; margin-top: 0.1em; color: var(--brass-300); }
 .holo-pop--call { border-bottom-right-radius: 0.2em; }
 .holo-pop--text { border-bottom-left-radius: 0.2em; }
@@ -828,16 +833,11 @@ body {
 .holo-list-row i:nth-child(2) { width: 4.4em; }
 .holo-list-row i:nth-child(3) { width: 2.2em; opacity: 0.7; }
 
-/* On a phone the end card needs the whole stage: the bank, its gold,
-   its label and the name at the top step aside. */
-.hv-bank-hold, .holo-layer--under, .holo-tag--bank { transition: opacity 0.5s ease; }
-@container holo (max-width: 859px) {
-  .holo-stage[data-pop="on"] .holo-wordmark-wrap,
-  .holo-stage[data-scene="end"] .holo-wordmark-wrap,
-  .holo-stage[data-scene="end"] .hv-bank-hold,
-  .holo-stage[data-scene="end"] .holo-layer--under,
-  .holo-stage[data-scene="end"] .holo-tag--bank { opacity: 0; }
-}
+/* On a phone the end card needs the whole stage. Once the pipe has
+   folded into the bank, the bank, its gold and its label fade and the
+   beam dims behind the words; the small name at the top steps aside
+   while the fixes show. The timeline does this (renderPhone), so every
+   frame is the same however it is reached. */
 
 /* Before the script runs (or without it) the stage shows its last frame:
    the result, the stats, the promise and the links. */
@@ -851,8 +851,13 @@ body {
 .holo:not(.is-ready) .holo-counter-pos,
 .holo:not(.is-ready) .holo-coins { opacity: 0; }
 .holo:not(.is-ready) .holo-base-glow { opacity: 0.6; }
+.holo:not(.is-ready) .holo-book { visibility: hidden; }
+@container holo (max-width: 859px) {
+  .holo:not(.is-ready) .holo-wordmark-wrap { opacity: 0; }
+}
 
-/* ---- controls: play/pause/replay, sound, and the progress line ---- */
+/* ---- controls: play/pause/replay, sound, and the progress line,
+   one segment per chapter ---- */
 .holo-controls {
   display: flex;
   align-items: center;
@@ -893,17 +898,23 @@ body {
 .holo-sound[aria-pressed="true"] .i-on { display: block; }
 .holo-sound[aria-pressed="true"] .i-off { display: none; }
 .holo-progress {
+  display: flex;
   flex: 1;
+  gap: 3px;
   min-width: 2rem;
   height: 2px;
+}
+.holo-progress-seg {
+  flex: 1 1 0;
+  min-width: 2px;
   overflow: hidden;
   border-radius: 2px;
   background: rgb(255 255 255 / 0.1);
 }
-.holo-progress span {
+.holo-progress-seg > span {
   display: block;
   height: 100%;
-  background: linear-gradient(to right, var(--gold-lo), var(--brass-400), var(--gold-hi));
+  background: var(--brass-400);
   transform: scaleX(0);
   transform-origin: 0 50%;
 }
@@ -939,7 +950,6 @@ body {
   padding: 2.5rem 1.25rem 3rem;
   text-align: center;
 }
-.holo-static-foot .holo-client { margin: 0; }
 .holo-static-stats {
   display: flex;
   flex-wrap: wrap;
@@ -1022,9 +1032,9 @@ body {
               <li>Websites: Built to bring in leads, and fully built before you pay.</li>
             </ul>
 
-            <div class="holo-book"><a class="holo-book-link" href="/contact?interest=lee-systems">Book a free call</a></div>
-
             <div class="holo-stage" data-scene="end">
+              <div class="holo-book"><a class="holo-book-link" href="/contact?interest=lee-systems">Book a free call</a></div>
+
               <div class="holo-visual">
                 <div class="holo-box">
                   <div class="holo-art" aria-hidden="true">
@@ -1174,7 +1184,7 @@ body {
                     <div class="holo-coins"></div>
 
                     <div class="holo-wordmark-wrap"><p class="holo-wordmark">LEE SYSTEMS CO.</p></div>
-                    <p class="holo-tag holo-tag--l" style="--yb:27.04%"><span class="is-problem">Missed call</span><span class="is-fix">AI call answering</span></p>
+                    <p class="holo-tag holo-tag--l holo-tag--top" style="--yb:27.04%"><span class="is-problem">Missed call</span><span class="is-fix">AI call answering</span></p>
                     <p class="holo-tag holo-tag--r" style="--yb:39.63%"><span class="is-problem">No reply</span><span class="is-fix">Instant follow-up</span></p>
                     <p class="holo-tag holo-tag--l" style="--yb:52.22%"><span class="is-problem">Lost details</span><span class="is-fix">CRM and intake</span></p>
                     <p class="holo-tag holo-tag--web"><span class="holo-tag-in">Websites</span></p>
@@ -1183,7 +1193,7 @@ body {
                     <div class="holo-counter-pos">
                       <div class="holo-counter" data-mode="lost">
                         <span class="holo-counter-dot"></span>
-                        <span><span class="holo-counter-n">0</span> <span class="holo-counter-word">leads lost</span></span>
+                        <span><span class="holo-counter-n">−$0</span> <span class="holo-counter-word">lost</span></span>
                       </div>
                     </div>
                   </div>
@@ -1192,7 +1202,6 @@ body {
 
               <div class="holo-caps">
                 <p class="holo-cap">Missed calls are missed <em>money</em>.</p>
-                <p class="holo-cap holo-cap--brand">LEE SYSTEMS CO.</p>
                 <p class="holo-cap">Automations catch <em>every lead</em>.</p>
                 <p class="holo-cap"><span class="holo-cap-a">A website that brings <em>more in</em>.</span> <span class="holo-cap-b">See it built first.</span></p>
               </div>
@@ -1214,7 +1223,6 @@ body {
 
               <div class="holo-end">
                 <div class="holo-results">
-                  <p class="holo-client"><span class="holo-client-name">[CLIENT NAME]:</span> [RESULT] in [TIMEFRAME]</p>
                   <ul class="holo-stats">
                     <li class="holo-stat holo-stat--lead">
                       <b><span class="holo-sr">$150,000+</span><span class="holo-num" aria-hidden="true" data-count="150000" data-prefix="$">$150,000</span><span class="holo-plus" aria-hidden="true">+</span></b>
@@ -1249,7 +1257,7 @@ body {
                 </svg>
                 <span class="holo-toggle-label">Play</span>
               </button>
-              <div class="holo-progress" aria-hidden="true"><span></span></div>
+              <div class="holo-progress" aria-hidden="true"></div>
               <button type="button" class="holo-sound" aria-pressed="false">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                   <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
@@ -1287,7 +1295,6 @@ body {
                 </li>
               </ul>
               <div class="holo-static-foot">
-                <p class="holo-client"><span class="holo-client-name">[CLIENT NAME]:</span> [RESULT] in [TIMEFRAME]</p>
                 <ul class="holo-static-stats">
                   <li><b>$150,000+</b><span>Generated for our clients</span></li>
                   <li><b>1,000+</b><span>Businesses worked with</span></li>
@@ -1318,26 +1325,28 @@ body {
 
 <script>
 /* =========================================================================
-   EDIT HERE: the figures on the end card.
+   EDIT HERE: the counter's two amounts and the end card's stats.
 
-   Only put numbers here that are true and approved. Each stat counts up
-   from zero to its value, then its suffix appears. The first stat is shown
-   first and largest.
-
-   clientResult is the one named client line above the stats. Fill in all
-   three parts. Leave all three empty ("") to hide the line.
+   LOSS_END      The red count under the bank climbs to this while the
+                 gaps leak, and freezes on it the moment the first leak
+                 is sealed:  "−$4,200 lost"
+   RECOVERED_END After a beat the count turns gold and climbs on from
+                 LOSS_END to this by the end of the website scene:
+                 "+$12,800 recovered". Keep it above LOSS_END, since the
+                 count never goes back down.
+   STATS         The end card's numbers. Only put numbers here that are
+                 true and approved. Each counts up from zero to its value,
+                 then its suffix appears. The first is shown first and
+                 largest.
    ========================================================================= */
 window.HOLO_EDIT = {
-  stats: [
+  LOSS_END: 4200,
+  RECOVERED_END: 12800,
+  STATS: [
     { value: 150000, prefix: "$", suffix: "+", label: "Generated for our clients" },
     { value: 1000, prefix: "", suffix: "+", label: "Businesses worked with" },
     { value: 50, prefix: "", suffix: "+", label: "Businesses built" }
-  ],
-  clientResult: {
-    name: "[CLIENT NAME]",
-    result: "[RESULT]",
-    timeframe: "[TIMEFRAME]"
-  }
+  ]
 };
 </script>
 <script>/*!
@@ -1365,7 +1374,7 @@ window.HOLO_EDIT = {
   /* ---------- timing, in seconds (about 30 in all) ---------- */
   var T = {
     total: 30,
-    scenes: [["leak", 0], ["switch", 7.5], ["seal", 9.3], ["web", 15.2], ["end", 22.0]],
+    scenes: [["leak", 0], ["switch", 7.9], ["seal", 8.9], ["web", 15.2], ["end", 22.0]],
     // the coin stream: it starts before 0, so coins are already falling at
     // the first frame
     firstCoin: -2.2,
@@ -1374,30 +1383,30 @@ window.HOLO_EDIT = {
     widenAt: 17.1,
     coinEveryWide: 0.12,
     lastCoin: 19.8,
-    // each gap: its automation starts (no more leaks), then it seals
-    fixStart: [9.35, 11.05, 12.75],
-    sealAt: [9.9, 11.6, 13.3],
+    // each gap: its automation starts, then it seals. Once the first gap
+    // seals no coin is lost anywhere: the automations are on.
+    fixStart: [8.95, 10.85, 12.75],
+    sealAt: [9.5, 11.4, 13.3],
     leakChance: [0.42, 0.4, 0.4],
-    // the counter holds still once the last gap seals, then flips to
-    // counting leads caught
-    counterFlip: 13.9,
-    // the bank account is full
-    full: 21.8,
-    // captions (the first is up at 0)
-    cap1Out: 7.0,
-    brand: [7.55, 8.9],
-    cap2: [9.9, 14.8],
+    // the money-lost count freezes at the first seal, holds a beat, then
+    // turns over to money recovered
+    counterFlip: 10.1,
+    // captions (the first is up at 0 and hands straight to the second)
+    cap1Out: 9.05,
+    cap2: [9.5, 14.8],
     cap3: [15.35, 21.6],
     cap3b: 16.1,
     // each fix's moment on screen: in, out
-    pops: [[10.05, 11.3], [11.75, 13.0], [13.45, 14.75]],
-    // end card
-    client: 22.4,
-    stats: 22.9,
-    statsSmall: 23.5,
+    pops: [[9.65, 11.0], [11.55, 12.9], [13.45, 14.8]],
+    // end card: the pipe folds into the bank (start, length), the bank
+    // flashes as it lands, and the numbers rise out of the beam
+    collapse: [22.0, 0.7],
+    full: 22.7,
+    stats: 23.0,
+    statsSmall: 23.6,
     countLead: 2.6,
     countSmall: 2.2,
-    pushIn: [22.9, 29.4],
+    pushIn: [23.0, 29.4],
     trust: 26.1,
     ctas: 26.7
   };
@@ -1481,8 +1490,9 @@ window.HOLO_EDIT = {
   function clamp01(u) { return u < 0 ? 0 : u > 1 ? 1 : u; }
 
   /* ---------- the coin stream: every coin planned up front ----------
-     Seeded, so every playthrough is the same. Before a gap's automation
-     starts, some coins fall out of it; after, every coin reaches the bank. */
+     Seeded, so every playthrough is the same. Until a gap's automation
+     starts, some coins fall out of it; from the first seal on, every coin
+     reaches the bank. */
   function planStream() {
     var rnd = mulberry32(20260928);
     var coins = [];
@@ -1507,7 +1517,7 @@ window.HOLO_EDIT = {
       var forced = i < 4 ? [0, 1, 2, -1][i] : null;
       for (var g = 0; g < 3; g++) {
         var tGap = c.tMouth + (G.gapY[g] - G.mouthY) / G.speed;
-        if (tGap >= T.fixStart[g]) continue;
+        if (tGap >= Math.min(T.fixStart[g], T.sealAt[0])) continue;
         var roll = rnd();
         if (forced !== null ? forced === g : roll < T.leakChance[g]) { c.leak = g; break; }
       }
@@ -1537,10 +1547,11 @@ window.HOLO_EDIT = {
     function times(filter, key) {
       return coins.filter(filter).map(function (c) { return c[key]; }).sort(function (a, b) { return a - b; });
     }
-    // every coin that reaches the bank, and every one that falls out
+    // every coin that reaches the bank, and every one that falls out; the
+    // counter steps once per leak, then once per coin banked after it flips
     var deposits = times(function (c) { return c.slot >= 0 && c.leak < 0; }, "tEnter");
     var leaks = times(function (c) { return c.slot >= 0 && c.leak >= 0; }, "tGap");
-    var catches = deposits.filter(function (d) { return d > T.sealAt[2]; });
+    var gains = deposits.filter(function (d) { return d >= T.counterFlip; });
 
     function levelAt(time) {
       var sum = 0;
@@ -1566,7 +1577,7 @@ window.HOLO_EDIT = {
       coins: coins,
       slots: slots,
       leaks: leaks,
-      catches: catches,
+      gains: gains,
       levelAt: levelAt,
       pulseAt: pulseAt,
       lastDeposit: deposits[deposits.length - 1]
@@ -1771,7 +1782,7 @@ window.HOLO_EDIT = {
     return node;
   }
   function applyEdits(root) {
-    var stats = EDIT.stats && EDIT.stats.length ? EDIT.stats : null;
+    var stats = EDIT.STATS && EDIT.STATS.length ? EDIT.STATS : null;
     if (stats) {
       var ul = root.querySelector(".holo-stats");
       var sul = root.querySelector(".holo-static-stats");
@@ -1800,17 +1811,11 @@ window.HOLO_EDIT = {
         sul.appendChild(sli);
       });
     }
-    var cr = EDIT.clientResult;
-    if (cr) {
-      var empty = !cr.name && !cr.result && !cr.timeframe;
-      Array.prototype.forEach.call(root.querySelectorAll(".holo-client"), function (p) {
-        p.hidden = empty;
-        p.textContent = "";
-        p.appendChild(el("span", "holo-client-name", cr.name + ":"));
-        p.appendChild(document.createTextNode(" " + cr.result + " in " + cr.timeframe));
-      });
-    }
   }
+
+  // the counter's amounts; the recovered one never ends below the loss
+  var LOSS_END = Math.max(0, Number(EDIT.LOSS_END) || 0);
+  var RECOVERED_END = Math.max(LOSS_END, Number(EDIT.RECOVERED_END) || 0);
 
   /* ---------- the controller ---------- */
   function createHolo(root) {
@@ -1826,7 +1831,7 @@ window.HOLO_EDIT = {
     var toggleLabel = q(".holo-toggle-label");
     var soundBtn = q(".holo-sound");
     var soundLabel = q(".holo-sound-label");
-    var progress = q(".holo-progress span");
+    var progressWrap = q(".holo-progress");
     var vaultFill = q(".holo-vault-fill");
     var vaultLine = q(".holo-vault-line");
     var bankGlow = q(".holo-bank-glow");
@@ -1837,6 +1842,11 @@ window.HOLO_EDIT = {
     var counterDot = q(".holo-counter-dot");
     var problems = qa(".holo-tag .is-problem");
     var visual = q(".holo-visual");
+    var bankHold = q(".hv-bank-hold");
+    var underLayer = q(".holo-layer--under");
+    var bankTag = q(".holo-tag--bank");
+    var glowCopy = q(".hv-glow");
+    var wordmarkWrap = q(".holo-wordmark-wrap");
     var popEls = [q(".holo-pop--call"), q(".holo-pop--text"), q(".holo-pop--list")];
     var counters = qa(".holo-stage .holo-num").map(function (node, i) {
       return {
@@ -1852,13 +1862,13 @@ window.HOLO_EDIT = {
     var reducedQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     var sound = createSound();
     var override = null;
-    var tl = null, dust = null, plan = null, coinEls = [], k = 1, coinUnits = 17;
+    var tl = null, dust = null, plan = null, coinEls = [], k = 1, coinUnits = 17, isPhone = false;
     var inView = false, near = false;
     var pageVisible = document.visibilityState === "visible";
     var userPaused = false, started = false, done = false;
     var state = "";
     var niche = "general";
-    var lastScene = "", lastCta = "", lastPop = "";
+    var lastScene = "", lastCta = "";
     var counterMode = "", counterText = "", counterWordText = "";
     var listeners = [];
 
@@ -1918,21 +1928,73 @@ window.HOLO_EDIT = {
       bankGlow.style.opacity = (0.08 + 0.92 * L).toFixed(3);
       medalGlow.style.opacity = Math.min(1, 0.25 + plan.pulseAt(t)).toFixed(3);
     }
-    // leads lost while the gaps are open; after the last seal and a beat,
-    // leads caught
+    // Money lost, in red, one step per coin that falls out, up to
+    // LOSS_END. No coin is lost after the first seal, so the count stands
+    // still from there; the timeline dims it for a beat and turns it over.
+    // Then money recovered, in gold, from LOSS_END up to RECOVERED_END,
+    // one step per coin banked. It never goes down.
     function renderCounter(t) {
-      var caught = t >= T.counterFlip;
-      var list = caught ? plan.catches : plan.leaks;
+      var gain = t >= T.counterFlip;
+      var list = gain ? plan.gains : plan.leaks;
       var n = 0, last = -99;
       for (var i = 0; i < list.length && list[i] <= t; i++) { n++; last = list[i]; }
-      var mode = caught ? "caught" : "lost";
+      var share = list.length ? n / list.length : 1;
+      var amount = gain ? LOSS_END + (RECOVERED_END - LOSS_END) * share : LOSS_END * share;
+      // round the steps to $10; the last one lands on the exact amount
+      if (share < 1) amount = Math.round(amount / 10) * 10;
+      var mode = gain ? "gain" : "lost";
       if (mode !== counterMode) { counterEl.setAttribute("data-mode", mode); counterMode = mode; }
-      var text = String(n);
+      var text = (gain ? "+" : "\u2212") + "$" + Math.round(amount).toLocaleString("en-US");
       if (text !== counterText) { counterNum.textContent = text; counterText = text; }
-      var word = (n === 1 ? "lead " : "leads ") + mode;
+      var word = gain ? "recovered" : "lost";
       if (word !== counterWordText) { counterWord.textContent = word; counterWordText = word; }
-      counterNum.style.transform = "scale(" + (1 + 0.14 * Math.exp(-Math.max(0, t - last) / 0.09)).toFixed(3) + ")";
-      counterDot.style.opacity = (!caught && t < T.sealAt[2] ? 0.55 + 0.45 * Math.sin(t * 7) : 1).toFixed(3);
+      // each step flashes: brighter, and only a touch bigger, so the wider
+      // amounts never reach the word beside them
+      var kick = Math.exp(-Math.max(0, t - last) / 0.09);
+      counterNum.style.transform = "scale(" + (1 + 0.035 * kick).toFixed(3) + ")";
+      counterNum.style.filter = kick > 0.01 ? "brightness(" + (1 + 0.7 * kick).toFixed(3) + ")" : "";
+      // the dot blinks while money leaks, and holds still once it stops
+      counterDot.style.opacity = (t < T.sealAt[0] ? 0.55 + 0.45 * Math.sin(t * 7) : 1).toFixed(3);
+    }
+    function setOpacity(node, a) {
+      var v = a >= 0.999 ? "" : a.toFixed(3);
+      if (node._op !== v) { node.style.opacity = v; node._op = v; }
+    }
+    // Phones only (see the CSS note): the bank and its glow step aside once
+    // the pipe has folded in, the beam dims behind the end card, and the
+    // small name at the top is out of the way while the fixes show.
+    function renderPhone(t) {
+      var bank = 1, beam = 1, mark = 1;
+      if (isPhone) {
+        var folded = T.collapse[0] + T.collapse[1];
+        bank = 1 - clamp01((t - folded) / 0.5);
+        beam = 1 - 0.65 * clamp01((t - folded - 0.3) / 0.6);
+        var fixesIn = T.pops[0][0] - 0.35, fixesOut = T.pops[T.pops.length - 1][1] + 0.4;
+        mark = Math.min(1 - clamp01((t - fixesIn) / 0.3) + clamp01((t - fixesOut) / 0.3),
+          1 - clamp01((t - T.collapse[0]) / 0.3));
+      }
+      setOpacity(bankHold, bank);
+      setOpacity(underLayer, bank);
+      setOpacity(bankTag, bank);
+      setOpacity(glowCopy, bank);
+      setOpacity(visual, beam);
+      setOpacity(wordmarkWrap, mark);
+    }
+    // one segment per chapter, each filling in its own time
+    var segs = T.scenes.map(function (sc, i) {
+      var end = i + 1 < T.scenes.length ? T.scenes[i + 1][1] : T.total;
+      var seg = el("span", "holo-progress-seg");
+      seg.style.flexGrow = String(end - sc[1]);
+      var fill = el("span");
+      seg.appendChild(fill);
+      progressWrap.appendChild(seg);
+      return { fill: fill, start: sc[1], dur: end - sc[1], last: "" };
+    });
+    function renderProgress(t) {
+      segs.forEach(function (sg) {
+        var v = "scaleX(" + clamp01((t - sg.start) / sg.dur).toFixed(4) + ")";
+        if (v !== sg.last) { sg.fill.style.transform = v; sg.last = v; }
+      });
     }
     var countEase = gsap.parseEase("power3.out");
     function renderCounts(t) {
@@ -1952,14 +2014,12 @@ window.HOLO_EDIT = {
       renderMeter(t);
       renderCounter(t);
       renderCounts(t);
-      progress.style.transform = "scaleX(" + (t / T.total).toFixed(4) + ")";
+      renderPhone(t);
+      renderProgress(t);
       var scene = sceneAt(t);
       if (scene !== lastScene) { stage.setAttribute("data-scene", scene); lastScene = scene; }
       var cta = t >= T.ctas ? "on" : "";
       if (cta !== lastCta) { stage.setAttribute("data-cta", cta); lastCta = cta; }
-      // on phones a fix's moment sits where the small name is; it steps aside
-      var pop = T.pops.some(function (span) { return t >= span[0] - 0.15 && t <= span[1] + 0.35; }) ? "on" : "";
-      if (pop !== lastPop) { stage.setAttribute("data-pop", pop); lastPop = pop; }
       emit();
     }
     function playSfx(name, arg) {
@@ -1978,8 +2038,8 @@ window.HOLO_EDIT = {
       var boost = q(".holo-cone-boost");
       var baseGlow = q(".holo-base-glow");
       var pipeGlow = q(".holo-pipe-glow");
-      var caps = qa(".holo-cap:not(.holo-cap--brand)");
-      var tags = qa(".holo-tag--l, .holo-tag--r");
+      var caps = qa(".holo-cap");
+      var book = q(".holo-book");
       var fixes = qa(".holo-tag .is-fix");
       var seals = [q(".hv-seal-1"), q(".hv-seal-2"), q(".hv-seal-3")];
       var breaks = [q(".hv-break-1"), q(".hv-break-2"), q(".hv-break-3")];
@@ -2021,16 +2081,18 @@ window.HOLO_EDIT = {
         burst(g, at);
         tl.call(playSfx, ["seal"], at)
           .to(breaks[g], { opacity: 0, duration: 0.2 }, at)
-          .to(problems[g], { opacity: 0, y: -8, duration: 0.2, ease: "power2.in" }, at + 0.02)
-          .fromTo(fixes[g], { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, at + 0.1);
+          .to(problems[g], { opacity: 0, duration: 0.18, ease: "power2.in" }, at)
+          .fromTo(fixes[g], { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, at + 0.18);
       }
+      // a fix's bubble grows in place, and shrinks away: sliding, it would
+      // touch the headline or the icons on a small phone
       function pop(i) {
-        tl.fromTo(pops[i], { opacity: 0, y: 8, scale: 0.94 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "power3.out" }, T.pops[i][0])
-          .to(pops[i], { opacity: 0, y: -6, duration: 0.35, ease: "power2.in" }, T.pops[i][1]);
+        tl.fromTo(pops[i], { opacity: 0, scale: 0.94 },
+          { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, T.pops[i][0])
+          .to(pops[i], { opacity: 0, scale: 0.97, duration: 0.35, ease: "power2.in" }, T.pops[i][1]);
       }
 
-      /* 1. The leak (0 to 7.5s). Already running at the first frame: the
+      /* 1. The leak (0 to 7.9s). Already running at the first frame: the
             coins started before it and the headline is up. */
       tl.fromTo(q(".holo-scan"), { yPercent: 0 }, { yPercent: -50, duration: T.total, ease: "none" }, 0);
       capOut(caps[0], T.cap1Out);
@@ -2039,37 +2101,41 @@ window.HOLO_EDIT = {
         if (c.slot >= 0 && c.leak >= 0 && c.tGap > 0.02) tl.call(playSfx, ["drip"], c.tGap);
       });
 
-      /* 2. Switch on (7.5 to 9.3s): the name appears, a pulse runs the pipe. */
+      /* 2. Switch on (7.9 to 8.9s): the name lights up over the hologram
+            and a pulse runs down the pipe. The headline stays up until the
+            first seal, then hands straight to the next one. */
       chroma(S.switch);
-      var brand = q(".holo-cap--brand");
-      tl.fromTo(brand, { opacity: 0, scaleX: 1.1, filter: "blur(10px)", transformOrigin: "50% 50%" },
-        { opacity: 1, scaleX: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, T.brand[0])
-        .to(brand, { opacity: 0.45, duration: 0.05, ease: "none", repeat: 1, yoyo: true }, T.brand[0] + 0.8)
-        .to(brand, { opacity: 0, filter: "blur(6px)", duration: 0.35, ease: "power2.in" }, T.brand[1])
-        .fromTo(q(".holo-wordmark"), { opacity: 0, scaleX: 1.14, filter: "blur(8px)" },
-          { opacity: 1, scaleX: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, S.switch + 0.45)
-        .fromTo(boost, { opacity: 0 }, { opacity: 0.6, duration: 0.8, ease: "power2.out" }, S.switch + 0.2)
-        .fromTo(baseGlow, { scale: 1 }, { scale: 1.12, duration: 0.6, ease: "power2.out" }, S.switch + 0.15)
-        .fromTo(q(".holo-pulse"), { y: 70, opacity: 0 }, { y: 282, opacity: 1, duration: 1.1, ease: "power1.in" }, S.switch + 0.15)
-        .to(q(".holo-pulse"), { y: 322, opacity: 0, duration: 0.25, ease: "power1.out" }, S.switch + 1.25)
-        .fromTo(pipeGlow, { opacity: 0, scaleX: 1 }, { opacity: 0.9, duration: 0.6, ease: "power2.out" }, S.switch + 0.3)
-        .to(pipeGlow, { opacity: 0.35, duration: 0.8, ease: "power2.inOut" }, S.switch + 1.5);
+      tl.fromTo(q(".holo-wordmark"), { opacity: 0, scaleX: 1.14, filter: "blur(8px)" },
+          { opacity: 1, scaleX: 1, filter: "blur(0px)", duration: 0.7, ease: "power3.out" }, S.switch + 0.15)
+        .fromTo(boost, { opacity: 0 }, { opacity: 0.6, duration: 0.8, ease: "power2.out" }, S.switch + 0.1)
+        .fromTo(baseGlow, { scale: 1 }, { scale: 1.12, duration: 0.6, ease: "power2.out" }, S.switch + 0.1)
+        .fromTo(q(".holo-pulse"), { y: 70, opacity: 0 }, { y: 282, opacity: 1, duration: 0.8, ease: "power1.in" }, S.switch + 0.1)
+        .to(q(".holo-pulse"), { y: 322, opacity: 0, duration: 0.2, ease: "power1.out" }, S.switch + 0.9)
+        .fromTo(pipeGlow, { opacity: 0, scaleX: 1 }, { opacity: 0.9, duration: 0.5, ease: "power2.out" }, S.switch + 0.2)
+        .to(pipeGlow, { opacity: 0.35, duration: 0.8, ease: "power2.inOut" }, S.switch + 1.1);
       // each break sparks as the pulse passes it
       G.gapY.forEach(function (gy, g) {
         tl.to(breaks[g], { opacity: 0.2, duration: 0.07, ease: "none", repeat: 3, yoyo: true },
-          S.switch + 0.15 + 1.1 * Math.sqrt((gy - 118) / 212));
+          S.switch + 0.1 + 0.8 * Math.sqrt((gy - 118) / 212));
       });
 
-      /* 3. Seal (9.3 to 15.2s): each fix lands fast, then shows its work. */
+      /* 3. Seal (8.9 to 15.2s): each fix lands fast, then shows its work. */
       var amps = [0.35, 0.7, 1, 0.55, 0.9, 0.5, 0.3];
       tl.fromTo(q(".hv-wave"), { opacity: 0, scaleX: 1, transformOrigin: "100% 50%" }, { opacity: 1, duration: 0.15 }, T.fixStart[0])
         .fromTo(qa(".hv-wave-bar"), { scaleY: 0.12, transformOrigin: "50% 50%" },
           { scaleY: function (i) { return amps[i]; }, duration: 0.13, ease: "sine.inOut", stagger: 0.025, repeat: 2, yoyo: true }, T.fixStart[0] + 0.03)
         .to(q(".hv-wave"), { scaleX: 0, opacity: 0, duration: 0.18, ease: "power2.in" }, T.sealAt[0] - 0.12);
       seal(0, T.sealAt[0]);
-      // the headline changes the moment the first leak seals
+      // the headline changes the moment the first leak seals, and the
+      // money-lost count freezes: a small pulse, a dim beat, then it turns
+      // over to money recovered
       capIn(caps[1], T.cap2[0]);
       pop(0);
+      tl.fromTo(counterEl, { scale: 1 }, { scale: 1.08, duration: 0.12, ease: "power2.out" }, T.sealAt[0])
+        .to(counterEl, { scale: 1, duration: 0.3, ease: "power2.inOut" }, T.sealAt[0] + 0.12)
+        .fromTo(counterEl, { opacity: 1 }, { opacity: 0.55, duration: 0.3, ease: "power1.out" }, T.sealAt[0] + 0.1)
+        .to(counterEl, { scaleY: 0, duration: 0.14, ease: "power2.in" }, T.counterFlip - 0.14)
+        .to(counterEl, { scaleY: 1, opacity: 1, duration: 0.26, ease: "power3.out" }, T.counterFlip);
 
       tl.fromTo(q(".hv-watch"), { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" },
         { opacity: 1, scale: 1, duration: 0.22, ease: "power3.out" }, T.fixStart[1])
@@ -2088,9 +2154,6 @@ window.HOLO_EDIT = {
       seal(2, T.sealAt[2]);
       pop(2);
       tl.fromTo(q(".holo-list-card"), { opacity: 0, x: 18 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, T.pops[2][0] + 0.12);
-      // the counter holds, then flips over to leads caught
-      tl.to(counterEl, { scaleY: 0, duration: 0.14, ease: "power2.in" }, T.counterFlip - 0.14)
-        .to(counterEl, { scaleY: 1, duration: 0.26, ease: "power3.out" }, T.counterFlip);
       capOut(caps[1], T.cap2[1]);
 
       /* 4. Website (15.2 to 22s): a site builds itself and adds a stream. */
@@ -2107,7 +2170,7 @@ window.HOLO_EDIT = {
         .fromTo(q(".hv-web-btn"), { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" },
           { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, S.web + 0.9)
         .fromTo(q(".hv-conn"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.45, ease: "power2.inOut" }, S.web + 1.0)
-        .fromTo(q(".holo-tag--web .holo-tag-in"), { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, S.web + 1.1)
+        .fromTo(q(".holo-tag--web .holo-tag-in"), { opacity: 0, filter: "blur(4px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power2.out" }, S.web + 1.1)
         .to(q(".hv-wall-l"), { x: -9.5, duration: 0.8, ease: "power2.inOut" }, T.widenAt - 0.05)
         .to(q(".hv-wall-r"), { x: 9.5, duration: 0.8, ease: "power2.inOut" }, T.widenAt - 0.05)
         .to(q(".hv-pipe .hv-glass"), { scaleX: 1.5, transformOrigin: "50% 50%", duration: 0.8, ease: "power2.inOut" }, T.widenAt - 0.05)
@@ -2115,25 +2178,30 @@ window.HOLO_EDIT = {
         .to(boost, { opacity: 0.85, duration: 1.0, ease: "power2.out" }, T.widenAt);
       flicker(18.6);
 
-      /* 5. End card (22 to 30s): the full bank's light rises into the
-            numbers, and the view pushes in slowly while they count. */
+      /* 5. End card (22 to 30s): the pipe and everything feeding it fold
+            down into the bank's roof, the bank flashes as they land, and
+            the numbers rise out of the beam while the view pushes in. */
+      var fold = T.collapse[0], foldFor = T.collapse[1];
+      chroma(fold + 0.05);
+      tl.fromTo(book, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.4, ease: "power2.in" }, fold)
+        .to([q(".hv-pipe"), q(".hv-icons"), q(".hv-web"), q(".hv-conn")],
+          { scale: 0.1, opacity: 0, svgOrigin: "240 338", duration: foldFor, ease: "power3.in" }, fold)
+        .to(pipeGlow, { scale: 0.1, opacity: 0, transformOrigin: "19px 218px", duration: foldFor, ease: "power3.in" }, fold)
+        .to(qa(".holo-tag--l"), { opacity: 0, scale: 0.8, y: 8, transformOrigin: "100% 100%", duration: 0.3, ease: "power2.out" }, fold)
+        .to(qa(".holo-tag--r"), { opacity: 0, scale: 0.8, y: 8, transformOrigin: "0% 100%", duration: 0.3, ease: "power2.out" }, fold)
+        .to([q(".holo-tag--web"), q(".holo-counter-pos")], { opacity: 0, duration: 0.3, ease: "power2.out" }, fold);
       burst(3, T.full);
       tl.fromTo(q(".holo-bank-flash"), { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, T.full)
-        .to(q(".holo-bank-flash"), { opacity: 0, duration: 0.7, ease: "power2.in" }, T.full + 0.25);
-      chroma(S.end + 0.05);
-      tl.to([q(".hv-pipe"), q(".hv-icons"), q(".hv-web"), q(".hv-conn"), pipeGlow, q(".holo-counter-pos")].concat(tags, [q(".holo-tag--web")]),
-        { opacity: 0, duration: 0.6, ease: "power2.in" }, S.end + 0.05)
-        .fromTo(q(".holo-lift"), { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.5, ease: "power2.out" }, S.end + 0.1)
-        .to(q(".holo-lift"), { opacity: 0, scaleY: 1.15, duration: 0.5, ease: "power1.in" }, S.end + 0.55)
-        .to(boost, { opacity: 0.45, duration: 0.9 }, S.end + 0.2)
-        .to(baseGlow, { opacity: 0.6, scale: 1, duration: 0.9 }, S.end + 0.2)
-        .fromTo(q(".holo-stage .holo-client"), { opacity: 0, y: 12, filter: "blur(6px)" },
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, T.client)
+        .to(q(".holo-bank-flash"), { opacity: 0, duration: 0.7, ease: "power2.in" }, T.full + 0.25)
+        .fromTo(q(".holo-lift"), { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.5, ease: "power2.out" }, T.full)
+        .to(q(".holo-lift"), { opacity: 0, scaleY: 1.15, duration: 0.5, ease: "power1.in" }, T.full + 0.5)
+        .to(boost, { opacity: 0.45, duration: 0.9 }, T.full)
+        .to(baseGlow, { opacity: 0.6, scale: 1, duration: 0.9 }, T.full)
         .fromTo(q(".holo-stats"), { "--holo-glow": 0 }, { "--holo-glow": 1, duration: 0.9 }, T.stats - 0.1)
-        .fromTo(q(".holo-stat--lead"), { opacity: 0, y: 16, scale: 0.94, filter: "blur(10px)" },
-          { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "power3.out" }, T.stats)
-        .fromTo(qa(".holo-stats .holo-stat:not(.holo-stat--lead)"), { opacity: 0, y: 14, filter: "blur(8px)" },
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power3.out", stagger: 0.15 }, T.statsSmall)
+        .fromTo(q(".holo-stat--lead"), { opacity: 0, y: 28, scale: 0.94, filter: "blur(10px)" },
+          { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.9, ease: "power3.out" }, T.stats)
+        .fromTo(qa(".holo-stats .holo-stat:not(.holo-stat--lead)"), { opacity: 0, y: 22, filter: "blur(8px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.75, ease: "power3.out", stagger: 0.15 }, T.statsSmall)
         .fromTo(qa(".holo-plus")[0], { opacity: 0 }, { opacity: 1, duration: 0.35 }, T.stats + T.countLead - 0.05)
         .fromTo(qa(".holo-plus").slice(1), { opacity: 0 }, { opacity: 1, duration: 0.35 }, T.statsSmall + T.countSmall - 0.05)
         .fromTo(box, { scale: 1, transformOrigin: "50% 76%" },
@@ -2150,7 +2218,8 @@ window.HOLO_EDIT = {
     /* ---- sizing ---- */
     // Each fix's moment: beside its label on wide screens (in the
     // hologram's units, turned into stage pixels), and centred under the
-    // headline on phones, where the sides are too narrow for a sentence.
+    // headline on phones, where the sides are too narrow for a sentence:
+    // 8px under it, or midway to the icons where there is less room.
     function placePops() {
       var bx = visual.offsetLeft + box.offsetLeft;
       var by = visual.offsetTop + box.offsetTop;
@@ -2164,10 +2233,13 @@ window.HOLO_EDIT = {
       }
       if (root.clientWidth < 860) {
         var caps = q(".holo-caps");
-        var cap = qa(".holo-cap:not(.holo-cap--brand)")[1];
-        var top = caps.offsetTop + cap.offsetTop + cap.offsetHeight + 8;
+        var cap = qa(".holo-cap")[1];
+        var from = caps.offsetTop + cap.offsetTop + cap.offsetHeight;
+        var to = by + 68 * kk;
         popEls.forEach(function (node) {
-          put(node, { left: "5%", right: "5%", top: top, width: "fit-content", maxWidth: "none", marginLeft: "auto", marginRight: "auto" });
+          put(node, { left: "5%", right: "5%", top: from, width: "fit-content", maxWidth: "none", marginLeft: "auto", marginRight: "auto" });
+          var gap = Math.min(8, Math.max(2, (to - from - node.offsetHeight) / 2));
+          node.style.top = (from + gap).toFixed(1) + "px";
         });
       } else {
         put(popEls[0], { right: sw - (bx + 205 * kk), top: by + 150 * kk, maxWidth: 0.42 * bw });
@@ -2180,7 +2252,8 @@ window.HOLO_EDIT = {
       if (!w) return;
       k = w / 480;
       box.style.setProperty("--holo-k", k.toFixed(4));
-      coinUnits = root.clientWidth < 860 ? 20 : 17;
+      isPhone = root.clientWidth < 860;
+      coinUnits = isPhone ? 20 : 17;
       coinsWrap.style.setProperty("--coin", (coinUnits * k).toFixed(2) + "px");
       if (dust) dust.resize(w, h);
       placePops();
