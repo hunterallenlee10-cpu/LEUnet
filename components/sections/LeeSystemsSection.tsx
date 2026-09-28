@@ -81,7 +81,7 @@ export function LeeSystemsSection() {
         {leeSystemsHomeTeaser.manifesto}
       </h3>
       <p className="venture-copy venture-body mb-8">
-        {leeSystemsHomeTeaser.subtitle} {leeSystemsHomeTeaser.description}
+        {leeSystemsHomeTeaser.description}
       </p>
 
       {/* The brand's own pulse rather than the sibling's `animate-ping`:
