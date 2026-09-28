@@ -20,7 +20,9 @@ export const companyInfo = {
 };
 
 export const footerContent = {
-  copyright: `© ${new Date().getFullYear()} Lee Enterprises Unlimited. All rights reserved.`,
+  /** The owner's wording (2026-09-28): the founding year, fixed, in place of
+   * the current year. */
+  copyright: "© Est. 2024 Lee Enterprises Unlimited. All rights reserved.",
   links: [
     { label: "Privacy policy", href: "/legal#privacy" },
     { label: "Terms of service", href: "/legal#terms" },

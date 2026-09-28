@@ -45,9 +45,11 @@ export default function ContactPage() {
 
         <div className="section-container relative">
           <div className="mx-auto max-w-2xl">
-            <h1 className="heading-xl text-white">Tell me what you need.</h1>
+            <h1 className="heading-xl text-center text-white text-balance">
+              Tell me what you need.
+            </h1>
             {site.replyTime && (
-              <p className="mt-4 text-lg text-neutral-300">
+              <p className="mt-4 text-center text-lg text-neutral-300">
                 I&apos;ll reply {site.replyTime}.
               </p>
             )}
