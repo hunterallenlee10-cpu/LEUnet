@@ -114,11 +114,10 @@ export const bmProofStatement =
  * is set. Each `value` is the number exactly as the sentence states it, and
  * each `label` is the sentence's own words for what that number counts.
  *
- * The file header's rule therefore governs both, and the three copies of this
+ * The file header's rule therefore governs both, and the two copies of this
  * claim cannot be allowed to drift: if the owner changes a figure, change it
- * in `bmProofStatement`, here, and in `leeSystemsHomeTeaser.manifesto` (data/lee-systems.ts,
- * which recasts the same sentence as the homepage headline) in the same edit,
- * or the site states two different track records at once.
+ * in `bmProofStatement` and here in the same edit, or the site states two
+ * different track records at once.
  */
 export const bmProofPoints = [
   { value: "50+", label: "Businesses built" },

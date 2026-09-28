@@ -229,10 +229,7 @@ export const websiteFaqs = [
  * The homepage teaser for Lee Systems Co., in the slot beside the Business
  * Mastery teaser, and the same shape as `bmHero` in data/business-mastery.ts.
  *
- * The manifesto is the owner's own track record, supplied 2026-09-13 and
- * carried over from the Lee Marketing Mastery teaser at the rename. It is the
- * same claim as `bmProofStatement` in data/business-mastery.ts, so a change to
- * the figures touches both in the same edit.
+ * The manifesto is the section's headline, set by the owner.
  *
  * `subtitle` and `description` are one sentence split at its colon; the
  * component joins them with a single space.
@@ -243,7 +240,7 @@ export const websiteFaqs = [
 export const leeSystemsHomeTeaser = {
   eyebrow: "Lee Systems Co.",
   manifesto:
-    "50+ businesses built. 1,000+ worked with. $150,000+ generated for our clients.",
+    "Elevate your business with AI.",
   subtitle: "That's what's behind every system we build:",
   description:
     "business automation that answers, follows up and files for you, and websites built before you pay.",
