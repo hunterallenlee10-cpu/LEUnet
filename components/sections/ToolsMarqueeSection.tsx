@@ -29,7 +29,7 @@ export function ToolsMarqueeSection() {
         id="tools-title"
         className="section-container mb-10 text-center text-sm font-semibold text-neutral-400 md:text-base"
       >
-        Built on n8n and AI, connected to the tools you already use.
+        Built cutting-edge, connected to the tools you already use.
       </h2>
 
       <div className="space-y-4">
