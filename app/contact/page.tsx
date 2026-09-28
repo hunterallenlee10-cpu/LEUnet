@@ -56,7 +56,7 @@ export default function ContactPage() {
               <ContactFormBlock headingLevel="h2" />
             </div>
 
-            <TalkNow headingLevel="h2" showEmail className="mt-10" />
+            <TalkNow headingLevel="h2" className="mt-10" />
           </div>
         </div>
       </main>
