@@ -3,7 +3,7 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
 
 /**
  * The journey while BM_JOURNEY_LOCKED is true (on the homepage since
- * 2026-09-28, right above Recent work): the section's presence without
+ * 2026-09-28, right above Our projects): the section's presence without
  * its interaction. The owner wants the timeline visible as a thing that
  * exists rather than absent, so this renders the intro slide's identity (the
  * "A Life in Full" eyebrow, the two-line title, the description) plus a
