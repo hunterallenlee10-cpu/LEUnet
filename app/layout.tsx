@@ -2,6 +2,7 @@ import { Geist } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { SITE_URL } from '@/data/company'
+import { SmoothScroll } from '@/components/layout/SmoothScroll'
 import './globals.css'
 
 const geistSans = Geist({ subsets: ['latin'] })
@@ -64,6 +65,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.className} antialiased bg-neutral-950 text-white`}
       >
+        <SmoothScroll />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
