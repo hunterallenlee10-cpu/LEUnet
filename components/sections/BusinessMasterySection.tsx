@@ -90,7 +90,7 @@ export function BusinessMasterySection() {
         {bmHero.manifesto}
       </h3>
       <p className="venture-copy venture-body mb-8">
-        {bmHero.subtitle} {bmHero.description}
+        {bmHero.homeDescription}
       </p>
 
       <div className="venture-copy venture-status mb-10 flex items-center gap-2.5">
