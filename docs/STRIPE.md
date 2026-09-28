@@ -53,16 +53,19 @@ STRIPE_SECRET_KEY=sk_test_... node scripts/stripe-setup.mjs
 
 It prints a `price_...` ID; put it in `STRIPE_PRICE_SUPPORT_CUSTOM`. The script
 is idempotent (it looks up `leu_support_custom_amount` before creating) and
-refuses to run against a live key.
+refuses to run against a live key. It keeps its own copy of the bounds and the
+API version, so change it together with `lib/support-config.ts` and
+`lib/stripe.ts`.
 
 Without that variable, preset amounts still work and "Other amount" returns a
-503.
+503, so set it in every environment that serves /support.
 
 ### Supporter details
 
 Name and message are collected as Checkout `custom_fields` on Stripe's page, so
 they never pass through LEU servers. Both are optional and arrive on the
-`checkout.session.completed` event.
+`checkout.session.completed` event, or on
+`checkout.session.async_payment_succeeded` for a bank debit that clears later.
 
 ### Usage
 
@@ -112,8 +115,12 @@ curl https://leeenterprisesunlimited.com/api/stripe/invoice \
 
 Finds or creates the Customer by email, opens a draft with
 `collection_method: "send_invoice"`, attaches each line, finalizes, and sends.
-Pass `"send": false` to review the draft in the Dashboard first. Response
-includes `hostedInvoiceUrl` and `invoicePdf`.
+Response includes `hostedInvoiceUrl` and `invoicePdf`.
+
+Pass `"send": false` to stop at the draft and review it in the Dashboard
+first. It is left unfinalized, so it is not yet numbered and its lines can
+still be edited; finalize and send it from the Dashboard. The response then
+has `"status": "draft"` and `null` for `hostedInvoiceUrl` and `invoicePdf`.
 
 Customers are reused by email so each client accumulates one payment history.
 
@@ -221,8 +228,14 @@ stripe trigger checkout.session.completed
 Endpoint `https://www.leeenterprisesunlimited.com/api/stripe/webhook`,
 subscribed to:
 
-`checkout.session.completed`, `checkout.session.async_payment_failed`,
-`payment_intent.payment_failed`, `invoice.paid`, `invoice.payment_failed`
+`checkout.session.completed`, `checkout.session.async_payment_succeeded`,
+`checkout.session.async_payment_failed`, `payment_intent.payment_failed`,
+`invoice.paid`, `invoice.payment_failed`
+
+`checkout.session.async_payment_succeeded` is what reports a delayed method (a
+bank debit) once it clears: its `checkout.session.completed` arrives unpaid and
+is skipped. An endpoint not subscribed to it never sends that "Support
+received" email.
 
 Every event is signature-verified against the raw request body before anything
 else runs. Handled events email `CONTACT_TO_EMAIL` through the Resend account
@@ -234,7 +247,8 @@ the apex when the site redirects apex → `www` and every delivery fails with a
 the edge answered, not the app. Match whatever `NEXT_PUBLIC_SITE_URL` uses.
 
 A `200` here does not prove the notification email sent. `notify()` returns
-silently when `RESEND_API_KEY` is unset and swallows Resend errors on purpose,
+silently when `RESEND_API_KEY` is unset, and logs a Resend error (as
+`[stripe] notification email rejected` or `... failed`) rather than failing,
 so a failed email never fails the webhook. Confirm delivery by reading the
 inbox, not the status code.
 
@@ -274,11 +288,15 @@ properly: register where you have nexus, add registrations at
 - Restricted keys over secret keys, one per environment.
 - All Stripe calls are server-side.
 - Webhook signatures verified on the raw body before handling.
-- CSP in `next.config.mjs` allows `https://*.stripe.com` for
-  script/frame/connect and `https://*.link.com` for Link. `'unsafe-inline'` is
-  present for Next's hydration bootstrap; to remove it, emit a per-request nonce
-  from middleware (a nonce and `'unsafe-inline'` cannot be combined — browsers
-  ignore the latter when a nonce is present).
+- Checkout is hosted and reached by a plain redirect: the site loads no
+  Stripe.js and embeds no Stripe UI, so the CSP in `next.config.mjs` allows no
+  Stripe hosts (a top-level navigation to `checkout.stripe.com` is not governed
+  by CSP). Adopting Stripe.js or embedded Checkout means adding
+  `https://*.stripe.com` (and `https://*.link.com` for Link) to
+  script/frame/connect. `'unsafe-inline'` is present for Next's hydration
+  bootstrap; to remove it, emit a per-request nonce from `proxy.ts` (Next 16's
+  name for middleware; a nonce and `'unsafe-inline'` cannot be combined —
+  browsers ignore the latter when a nonce is present).
 - Route errors log server-side and return generic messages so account detail
   doesn't leak.
 - If a key is ever exposed, roll it at <https://dashboard.stripe.com/apikeys>,
@@ -294,7 +312,9 @@ properly: register where you have nexus, add registrations at
       preset $50 — if the bounds drift, the form promises a range Stripe rejects
 - [ ] Swap test keys for live restricted keys (Vercel sensitive env vars)
 - [ ] Point `NEXT_PUBLIC_SITE_URL` at the canonical host, including `www`
-- [ ] Register the production webhook endpoint and set its signing secret
+- [ ] Register the production webhook endpoint, subscribed to every event in
+      §4 (including `checkout.session.async_payment_succeeded`), and set its
+      signing secret
 - [ ] Redeploy — env vars do nothing until a fresh build, and `/support`
       prerenders as static
 - [ ] Confirm account prefix + `SUPPORT` is ≤ 22 characters and ≥ 5 total

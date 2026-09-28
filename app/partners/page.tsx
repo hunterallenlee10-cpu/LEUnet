@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Handshake } from "lucide-react";
 
@@ -6,10 +7,37 @@ import { MainFooter } from "@/components/layout/MainFooter";
 import { companyInfo } from "@/data/company";
 import { sectionIds } from "@/data/navigation";
 
-export const metadata = {
-  title: `Partners | ${companyInfo.name}`,
-  description:
-    "The partners backing the Lee Enterprises Unlimited portfolio, to be listed soon.",
+const title = `Partners | ${companyInfo.name}`;
+const description =
+  "The partners backing the Lee Enterprises Unlimited portfolio, to be listed soon.";
+
+// Its own share card, not the homepage's. This openGraph replaces the root
+// layout's, so it carries the image itself.
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: {
+    canonical: "/partners",
+  },
+  openGraph: {
+    type: "website",
+    url: "/partners",
+    title,
+    description,
+    images: [
+      {
+        url: "/logos/leu-logo.png",
+        width: 512,
+        height: 512,
+        alt: "Lee Enterprises Unlimited Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title,
+    description,
+  },
 };
 
 export default function PartnersPage() {
@@ -55,7 +83,7 @@ export default function PartnersPage() {
 
         {/* Solid elevated surface, matching the /support form card, so the
             placeholder still reads as a finished page rather than a gap. */}
-        <div className="mx-auto mt-16 w-full max-w-2xl rounded-2xl border border-white/10 bg-neutral-900/70 p-8 text-center shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-xl sm:p-12">
+        <div className="mx-auto mt-16 w-full max-w-2xl rounded-2xl border border-white/10 bg-neutral-900/70 p-8 text-center shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9)] sm:p-12">
           <span className="mx-auto flex size-14 items-center justify-center rounded-full border border-amber-300/30 bg-amber-300/10">
             <Handshake className="size-7 text-amber-300" aria-hidden="true" />
           </span>

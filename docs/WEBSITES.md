@@ -5,6 +5,15 @@
 > leads with the "built before you pay" guarantee, and its copy, sections and
 > FAQ were rewritten (see `docs/LEE-SYSTEMS.md`). Paths and section names
 > below describe the old page. The claims standard in §3 still applies.
+>
+> Where the body no longer matches the code: website leads resolve
+> `WEBSITE_TO_EMAIL` → `LEE_SYSTEMS_TO_EMAIL` → `LMM_TO_EMAIL` →
+> `CONTACT_TO_EMAIL` (§4); the shared pieces in §6 are `LeeSystemsSiblingLinks`
+> in `components/lee-systems/` and the `.ls-status` dot, in the brass Lee
+> Systems palette; the quote form's project types are `websiteProjectTypes` in
+> `data/lee-systems.ts` (§1, §4); no section carries `scroll-mt-24`, because
+> html's `scroll-padding-top` offsets every anchor (§2); and the page has its
+> own `app/lee-systems/websites/opengraph-image.tsx` (§7).
 
 Execution plan and settled decisions for `/lee-marketing-mastery/websites`, the
 Lee Marketing Mastery page that sells professionally built business websites

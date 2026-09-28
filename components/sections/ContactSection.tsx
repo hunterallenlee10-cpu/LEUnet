@@ -2,36 +2,35 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CheckCircle2, ChevronDown, Send } from "lucide-react";
-import { contactEmail, contactFormFields } from "@/data/contact";
+import { contactFormFields } from "@/data/contact";
+import { companyInfo } from "@/data/company";
 import { ContactFormData } from "@/types";
 import { sectionIds } from "@/data/navigation";
+import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
 
 /**
  * The general enquiry form, and the site's fourth and most-visited one.
  *
  * BROUGHT IN LINE WITH ITS SIBLINGS, NOT REDESIGNED. The three offering forms
- * (MarketingInquiryForm, WebsitesInquiryForm, LmmConsultationForm) already
- * share a set of conventions this one predated and never picked up: a visible
- * `border-neutral-700` on every control, an amber focus ring, an asterisk on
- * required fields, a `role="alert"` banner for form-level errors, pill toggles
- * for a small set of choices, and a success panel that waits to be dismissed.
- * Everything below adopts those. Anything that looked "flat" here was mostly
- * this: fields drawn at `border-white/10` on a `bg-white/5` card are a lighter
- * rectangle on a light rectangle, and the two selects had `appearance-none`
- * with nothing put back, so a dropdown was indistinguishable from a text box.
+ * (WebsitesInquiryForm, AutomationAuditForm, BmApplicationForm) already share
+ * a set of conventions this one predated and never picked up: a visible
+ * `border-neutral-700` on every control, a focus ring and a required-field
+ * asterisk in the page's accent, a `role="alert"` banner for form-level
+ * errors, and a success panel that waits to be dismissed. Everything below
+ * adopts those. Anything that looked "flat" here was mostly this: fields drawn
+ * at `border-white/10` on a `bg-white/5` card are a lighter rectangle on a
+ * light rectangle, and the two selects had `appearance-none` with nothing put
+ * back, so a dropdown was indistinguishable from a text box.
  *
- * TWO FIELDS MOVED, and only two. The venture select opens the project group
- * instead of sharing a row with the phone number, and the contact-method
- * choice sits beside the phone number instead of at the foot of the form -
- * which is where the rule that governs it lives, since a phone number is only
- * required when someone asks to be called. Every field, label and option string
- * is otherwise exactly what it was.
+ * The contact-method choice sits beside the phone number rather than at the
+ * foot of the form, which is where the rule that governs it lives: a phone
+ * number is only required when someone asks to be called.
  */
 
 /** House form idiom, matching the three offering forms. The fill is darker than
  *  theirs because this form sits on a `bg-white/5` card rather than a
- *  `bg-white/[0.03]` one: `bg-neutral-900` against that ground is within a
+ *  `bg-white/[0.04]` one: `bg-neutral-900` against that ground is within a
  *  couple of values of the card itself, so the field would read as a border
  *  floating on nothing. Darker than the card, not lighter - the control is a
  *  well cut into the panel. */
@@ -43,7 +42,7 @@ const fieldClass =
 const borderFor = (error?: string) =>
   error ? "border-red-500/60" : "border-neutral-700";
 
-/** The amber asterisk the other three forms use. `aria-hidden` because the
+/** The asterisk the other three forms use, in amber. `aria-hidden` because the
  *  control itself carries `aria-required`, and a screen reader announcing
  *  "star" after every label is noise. */
 function RequiredMark() {
@@ -58,13 +57,13 @@ function RequiredMark() {
 }
 
 /**
- * A titled run of fields. Nine controls in one column is a wall; two named
+ * A titled run of fields. Eight controls in one column is a wall; two named
  * groups is a form someone can see the end of.
  *
  * `min-w-0` is load-bearing: a fieldset defaults to `min-width: min-content`,
  * which the grids inside would otherwise be unable to shrink below, and the
- * longest option string here ("Other / Lee Enterprises Inquiry") would set a
- * floor wider than a phone.
+ * longest option string here ("Select a budget range...") would set a floor
+ * wider than a phone.
  */
 function FormGroup({
   title,
@@ -167,19 +166,6 @@ export function ContactSection() {
   const [sentVia, setSentVia] = useState<"email" | "phone">("email");
   const successRef = useRef<HTMLDivElement>(null);
 
-  // Get selected venture from session storage. sessionStorage only exists in
-  // the browser, so this has to run after mount rather than as lazy initial
-  // state -- seeding the field during render would make the server and client
-  // emit different HTML and trip a hydration error. The one extra render on
-  // mount is the cost of that, hence the suppression below.
-  useEffect(() => {
-    const selectedVenture = sessionStorage.getItem("selectedVenture");
-    if (selectedVenture && selectedVenture !== "other") {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFormData((prev) => ({ ...prev, ventureOfInterest: selectedVenture }));
-    }
-  }, []);
-
   // The form is replaced by the success panel rather than hidden, so the focused
   // element is removed from the document and focus falls back to <body> - which
   // leaves a keyboard or screen reader user at the top of the page with no
@@ -191,23 +177,8 @@ export function ContactSection() {
     }
   }, [submitted]);
 
-  /**
-   * Back to a blank form, re-seeding the venture the way the mount effect does.
-   * Reading sessionStorage directly is safe here and not in that effect: this
-   * only ever runs from an event handler, so there is no server render to
-   * disagree with.
-   */
   const resetForm = () => {
-    const selectedVenture =
-      typeof window === "undefined"
-        ? null
-        : sessionStorage.getItem("selectedVenture");
-    setFormData({
-      preferredContactMethod: "email",
-      ...(selectedVenture && selectedVenture !== "other"
-        ? { ventureOfInterest: selectedVenture }
-        : {}),
-    });
+    setFormData({ preferredContactMethod: "email" });
     setHoneypot("");
     setErrors({});
   };
@@ -225,14 +196,14 @@ export function ContactSection() {
     // Email validation
     if (!formData.email?.trim()) {
       newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!isValidEmail(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
 
     // Phone validation - only required if phone is preferred contact method
     if (formData.preferredContactMethod === "phone" && !formData.phone?.trim()) {
       newErrors.phone = "Phone number is required";
-    } else if (formData.phone?.trim() && (!/^[\d\s\-().+]+$/.test(formData.phone) || formData.phone.length < 10)) {
+    } else if (formData.phone?.trim() && !isValidPhone(formData.phone)) {
       newErrors.phone = "Please enter a valid phone number";
     }
 
@@ -336,7 +307,7 @@ export function ContactSection() {
       setSubmitted(true);
       resetForm();
     } catch (error) {
-      console.error("[v0] Contact form submission error:", error);
+      console.error("[contact-form] Submission error:", error);
       setErrors({ form: "An error occurred. Please try again." });
     } finally {
       setIsSubmitting(false);
@@ -348,7 +319,11 @@ export function ContactSection() {
   return (
     <section
       id={sectionIds.contact}
-      className="relative isolate overflow-hidden py-20 md:py-32"
+      // Out of the tab order but focusable, so arriving at #contact - by the
+      // header's scroll (lib/scrollUtils.ts) or the hero's plain link - moves
+      // focus here.
+      tabIndex={-1}
+      className="relative isolate overflow-hidden py-20 outline-none md:py-32"
     >
       {/* NOT `-z-10`, which is what this was. The section sets no z-index and
           so establishes no stacking context, which puts a negative layer inside
@@ -362,9 +337,7 @@ export function ContactSection() {
           LeeSystemsSection, the right half of the pair directly above, so the light carries across the
           seam instead of stopping dead at it. Dimmer than that pair on purpose
           (0.10/0.06 against its 0.16/0.09): the doorways are the brightest
-          things on the page and a utility section should not out-glow them.
-          They also give the form's `backdrop-blur` card something to blur,
-          which on flat black it did not have. */}
+          things on the page and a utility section should not out-glow them. */}
       <div className="pointer-events-none absolute inset-0 section-fade" aria-hidden="true">
         <div className="absolute -top-24 right-[18%] h-[32rem] w-[32rem] max-w-[80vw] translate-x-1/2 rounded-full bg-amber-400/[0.10] blur-3xl" />
         <div className="absolute -bottom-24 left-[16%] h-[26rem] w-[26rem] max-w-[70vw] -translate-x-1/2 rounded-full bg-slate-400/[0.06] blur-3xl" />
@@ -414,16 +387,16 @@ export function ContactSection() {
               Tell us about your project, and let&apos;s discuss how we can help you achieve your goals.
             </p>
             {/* The one thing a contact section can offer that a form cannot:
-                a way to reach us without filling in nine fields. The address is
+                a way to reach us without filling in eight fields. The address is
                 already public in the footer and the legal block; it was just
                 absent from the page's actual contact section. */}
             <p className="mt-5 text-sm text-neutral-500">
               Prefer to write directly?{" "}
               <a
-                href={`mailto:${contactEmail}`}
+                href={`mailto:${companyInfo.contactEmail}`}
                 className="font-medium text-amber-400 underline decoration-amber-400/40 underline-offset-4 transition-colors hover:text-amber-300 hover:decoration-amber-400"
               >
-                {contactEmail}
+                {companyInfo.contactEmail}
               </a>
             </p>
           </div>
@@ -467,11 +440,7 @@ export function ContactSection() {
               </button>
             </div>
           ) : (
-            <GlassCardPadded
-              size="lg"
-              glassOpacity="bg-white/5"
-              borderColor="border-white/10"
-            >
+            <GlassCardPadded size="lg" glassOpacity="bg-white/5">
               <form
                 onSubmit={handleSubmit}
                 noValidate
@@ -511,6 +480,7 @@ export function ContactSection() {
                         name="fullName"
                         autoComplete="name"
                         placeholder={contactFormFields.fullName.placeholder}
+                        maxLength={FIELD_LIMITS.short}
                         value={formData.fullName || ""}
                         onChange={handleInputChange}
                         aria-required="true"
@@ -536,6 +506,7 @@ export function ContactSection() {
                         name="email"
                         autoComplete="email"
                         placeholder={contactFormFields.email.placeholder}
+                        maxLength={FIELD_LIMITS.email}
                         value={formData.email || ""}
                         onChange={handleInputChange}
                         aria-required="true"
@@ -567,6 +538,7 @@ export function ContactSection() {
                         name="phone"
                         autoComplete="tel"
                         placeholder={contactFormFields.phone.placeholder}
+                        maxLength={FIELD_LIMITS.phone}
                         value={formData.phone || ""}
                         onChange={handleInputChange}
                         aria-required={phoneRequired ? "true" : undefined}
@@ -581,8 +553,7 @@ export function ContactSection() {
                       )}
                     </div>
 
-                    {/* Pills rather than the browser's radios, matching the
-                        channel toggles on MarketingInquiryForm. The inputs are
+                    {/* Pills rather than the browser's radios. The inputs are
                         still radios and still keyboard-operable - they are
                         `sr-only` inside the label, and `focus-within` puts the
                         ring on the pill. */}
@@ -636,6 +607,7 @@ export function ContactSection() {
                       id="projectDescription"
                       name="projectDescription"
                       placeholder={contactFormFields.projectDescription.placeholder}
+                      maxLength={FIELD_LIMITS.long}
                       value={formData.projectDescription || ""}
                       onChange={handleInputChange}
                       rows={5}

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
-import { Resend } from "resend";
 
+import { DEFAULT_TO_EMAIL, FROM_EMAIL, getResend } from "@/lib/email";
 import { getStripe } from "@/lib/stripe";
 import { formatAmount } from "@/lib/money";
 
@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic";
  */
 const HANDLED_EVENTS = new Set<Stripe.Event["type"]>([
   "checkout.session.completed",
+  "checkout.session.async_payment_succeeded",
   "checkout.session.async_payment_failed",
   "payment_intent.payment_failed",
   "invoice.paid",
@@ -44,14 +45,24 @@ async function notify(subject: string, lines: string[]): Promise<void> {
   if (!apiKey) return;
 
   try {
-    const resend = new Resend(apiKey);
-    await resend.emails.send({
-      from:
-        process.env.CONTACT_FROM_EMAIL || "noreply@leeenterprisesunlimited.com",
-      to: process.env.CONTACT_TO_EMAIL || "ceo@leeenterprisesunlimited.com",
+    // Resend reports a rejected send (unverified sender, bad key, rate limit)
+    // in the result rather than by throwing, and logs nothing itself in
+    // production, so the result has to be checked here. Logged field by field
+    // because the error object prints as "[object Object]" on Vercel.
+    const { error } = await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: DEFAULT_TO_EMAIL,
       subject,
       text: lines.join("\n"),
     });
+    if (error) {
+      console.error(
+        "[stripe] notification email rejected",
+        `name=${error.name}`,
+        `message=${error.message}`,
+        `subject=${subject}`
+      );
+    }
   } catch (error) {
     // A failed notification must never fail the webhook — Stripe would retry
     // and we'd re-process a payment we already handled.
@@ -61,11 +72,13 @@ async function notify(subject: string, lines: string[]): Promise<void> {
 
 async function handleEvent(event: Stripe.Event): Promise<void> {
   switch (event.type) {
+    // A delayed method (a bank debit) sends `completed` while still unpaid,
+    // then `async_payment_succeeded` with the same Session once it clears.
+    case "checkout.session.async_payment_succeeded":
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
 
-      // Async methods (bank debits) complete later. Only treat a session as
-      // paid when Stripe says it is.
+      // Only treat a session as paid when Stripe says it is.
       if (session.payment_status !== "paid") {
         console.log(
           `[stripe] checkout ${session.id} completed but unpaid (${session.payment_status})`

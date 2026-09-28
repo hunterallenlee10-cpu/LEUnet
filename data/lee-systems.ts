@@ -14,6 +14,8 @@
  * cannot read an array back out of a "use client" module.
  */
 
+import { companyInfo } from "@/data/company";
+
 export const leeSystemsRoutes = {
   home: "/lee-systems",
   automation: "/lee-systems/automation",
@@ -30,14 +32,14 @@ export const leeSystems = {
   name: "Lee Systems Co.",
   tagline: "A Lee Enterprises Unlimited company",
   parentName: "Lee Enterprises Unlimited",
-  parentUrl: "https://www.leeenterprisesunlimited.com",
   headline: "Systems that run your business while you run the work.",
   owner: "Hunter Lee",
   city: "Frederick",
   region: "Maryland",
   regionCode: "MD",
   serviceArea: "Frederick, Maryland, and remote nationwide",
-  contactEmail: "ceo@leeenterprisesunlimited.com",
+  /** The parent company's inbox until Lee Systems Co. has its own. */
+  contactEmail: companyInfo.contactEmail,
   /** PLACEHOLDER: no phone number is published yet. Leave null to hide it. */
   phone: null as string | null,
 } as const;
@@ -66,6 +68,19 @@ export const auditTeamSizeOptions = [
   "6-15 people",
   "16-50 people",
   "More than 50",
+] as const;
+
+/**
+ * What the website quote form asks the visitor to pick. The route checks the
+ * posted value against this list, the same way the audit route checks its two
+ * dropdowns above, so a label can change here without touching either.
+ */
+export const websiteProjectTypes = [
+  "New website",
+  "Redesign of my existing site",
+  "Website plus lead follow-up automation",
+  "Care plan for a site I already have",
+  "Not sure yet",
 ] as const;
 
 /**

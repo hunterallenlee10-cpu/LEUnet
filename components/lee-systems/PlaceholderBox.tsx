@@ -1,10 +1,11 @@
-import { cn } from "@/lib/utils";
+import clsx from "clsx";
 
 interface PlaceholderBoxProps {
   /** What belongs here, in the owner's terms. */
   label: string;
   /** Optional detail: what to supply, or where it comes from. */
   children?: React.ReactNode;
+  /** Size and placement. Appended to the box's own classes, not merged. */
   className?: string;
 }
 
@@ -18,7 +19,7 @@ interface PlaceholderBoxProps {
 export function PlaceholderBox({ label, children, className }: PlaceholderBoxProps) {
   return (
     <div
-      className={cn(
+      className={clsx(
         "flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-neutral-700 bg-neutral-900/40 p-8 text-center",
         className
       )}

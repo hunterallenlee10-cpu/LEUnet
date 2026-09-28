@@ -30,8 +30,10 @@ Performance, which kept its listing here for two days after its page moved
 Nothing in `app/globals.css` was Thread's. The page kept its styling in its
 own `ThreadStyles` component, precisely so it would not touch this stylesheet,
 and used five shared utilities (`.section-container`, `.section-padding`,
-`.heading-xl`, `.heading-lg`, `.heading-md`) that the pages here still use. The
-stylesheet is unchanged.
+`.heading-xl`, `.heading-lg`, `.heading-md`), three of which
+(`.section-container`, `.heading-xl`, `.heading-lg`) the pages here still use;
+`.section-padding` and `.heading-md` were later removed as unused. The move
+left the stylesheet unchanged.
 
 ## 2. What left, with the listing
 
@@ -42,12 +44,12 @@ Nothing on this site names Thread T-Shirts, links to it, or counts it any more:
 | The `thread` record in `data/ventures.ts` | The footer's "Our Ventures" list (`MainFooter` renders one row per venture) |
 | `venturePages.thread` and the `nav-thread` entry in `data/navigation.ts` | The nav bar, desktop and mobile (`MainHeader`). Five entries remain; the desktop bar stays at `xl`, and `MainHeader` has the measurement that says why |
 | `sectionIds.thread` | Nothing — no page has rendered a Thread section to anchor to |
-| The `thread` option in `data/contact.ts` | The homepage contact form's "venture or service" select |
+| The `thread` option in `data/contact.ts` | The homepage contact form's "venture or service" select (since removed, along with its option list) |
 | The Thread card in `websitePortfolio` (`data/websites.ts`) | The Work section of `/lee-marketing-mastery/websites`, and the `ItemList` structured data that page emits |
 | The "Branded Apparel & Team Gear" link-out card in `MarketingTraditionalSection` | `/lee-marketing-mastery/marketing`, below the traditional services |
 | Thread's name in the apparel answer in `data/marketing.ts` | The same page's FAQ and its FAQPage structured data. The answer itself stayed — §3 |
-| `VENTURE_COLORS.thread`, `VENTURES_BY_ID.thread` and the `thread` Tailwind map in `lib/colors.ts` | Nothing rendered — the venture record was the only reader. `getTailwindColorClass`, which fell back to Thread's map, falls back to LMM's |
-| `ventureServices.thread` and `ventureValuesProps.thread` in `data/services.ts` | Nothing. That file has no consumer today; the Thread keys went with the venture rather than being left as stale entries |
+| `VENTURE_COLORS.thread`, `VENTURES_BY_ID.thread` and the `thread` Tailwind map in `lib/colors.ts` | Nothing rendered — the venture record was the only reader. `getTailwindColorClass`, which fell back to Thread's map, fell back to LMM's (`lib/colors.ts` itself was later deleted as unused) |
+| `ventureServices.thread` and `ventureValuesProps.thread` in `data/services.ts` | Nothing. The file itself was later deleted; the Thread keys went with the venture rather than being left as stale entries |
 | `lib/thread-site.ts` | Deleted. It existed so app code could read the Thread site's URL; no app code links to Thread now |
 | `public/logos/thread-logo.png` | Deleted. Only the venture record named it, in `logo`. The Thread repo carries its own copy |
 | "two distinct ventures: Lee Marketing Mastery and Thread T-Shirts" and the `apparel` keyword in `app/layout.tsx` | Page metadata, Open Graph and Twitter cards — they now name LEU Business Mastery and Lee Marketing Mastery |
@@ -98,7 +100,8 @@ this one domain and deployment, and both the site the visitor is reading:
 - The LEU portfolio card counted ventures. It now names the two destinations
   the home page leads to, LEU Business Mastery and Lee Marketing Mastery, and
   its chips read "Two destinations, one site", "A section for each" and
-  "Venture-labeled enquiries". The contact form offers exactly those two.
+  "Venture-labeled enquiries". The contact form offered exactly those two until
+  its venture select was removed.
 - The page's `ItemList` is two entries, both prefixed with `SITE_URL`.
 
 Worth knowing: with Thread gone, the portfolio is this site and nothing else.

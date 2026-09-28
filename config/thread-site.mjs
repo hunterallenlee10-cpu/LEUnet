@@ -25,7 +25,7 @@
  * this subdomain to the Thread project in Vercel, or set the variable to the
  * Thread site's origin, no trailing slash.
  */
-export const FALLBACK_THREAD_SITE_URL = "https://thread.leeenterprisesunlimited.com";
+const FALLBACK_THREAD_SITE_URL = "https://thread.leeenterprisesunlimited.com";
 
 /**
  * @param {string | undefined} configured `process.env.NEXT_PUBLIC_THREAD_SITE_URL`, read by the caller.

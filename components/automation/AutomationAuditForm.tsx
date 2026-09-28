@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import {
   auditIndustryOptions,
@@ -8,6 +8,7 @@ import {
   automationAudit,
   leeSystems,
 } from "@/data/lee-systems";
+import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
 
 const emptyForm = {
   fullName: "",
@@ -37,6 +38,16 @@ export function AutomationAuditForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const successRef = useRef<HTMLDivElement>(null);
+
+  // The success panel replaces the form, taking the focused submit button with
+  // it, so focus would fall back to <body>. Moving it to the panel keeps a
+  // keyboard or screen reader user on the confirmation.
+  useEffect(() => {
+    if (submitted) {
+      successRef.current?.focus();
+    }
+  }, [submitted]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -58,10 +69,9 @@ export function AutomationAuditForm() {
     if (!formData.teamSize) next.teamSize = "Please choose your team size";
     if (formData.timeWaster.trim().length < 10)
       next.timeWaster = "Please add a little more detail";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
+    if (!isValidEmail(formData.email.trim()))
       next.email = "Please enter a valid email address";
-    const phone = formData.phone.trim();
-    if (!phone || !/^[\d\s\-().+]+$/.test(phone) || phone.length < 10)
+    if (!isValidPhone(formData.phone.trim()))
       next.phone = "Please enter a valid phone number";
     return next;
   };
@@ -113,8 +123,10 @@ export function AutomationAuditForm() {
   if (submitted) {
     return (
       <div
+        ref={successRef}
+        tabIndex={-1}
         role="status"
-        className="mx-auto max-w-2xl rounded-xl border border-brass-400/30 bg-brass-400/[0.06] p-10 text-center md:p-12"
+        className="mx-auto max-w-2xl rounded-xl border border-brass-400/30 bg-brass-400/[0.06] p-10 text-center focus:outline-none md:p-12"
       >
         <CheckCircle2
           className="mx-auto mb-5 h-12 w-12 text-brass-300"
@@ -185,6 +197,7 @@ export function AutomationAuditForm() {
           onChange={handleChange}
           placeholder="Your name"
           autoComplete="name"
+          maxLength={FIELD_LIMITS.short}
         />
         <Field
           id="businessName"
@@ -194,6 +207,7 @@ export function AutomationAuditForm() {
           onChange={handleChange}
           placeholder="Your business name"
           autoComplete="organization"
+          maxLength={FIELD_LIMITS.short}
         />
         <SelectField
           id="industry"
@@ -226,6 +240,7 @@ export function AutomationAuditForm() {
           rows={4}
           value={formData.timeWaster}
           onChange={handleChange}
+          maxLength={FIELD_LIMITS.long}
           required
           aria-required="true"
           aria-invalid={errors.timeWaster ? "true" : undefined}
@@ -252,6 +267,7 @@ export function AutomationAuditForm() {
           onChange={handleChange}
           placeholder="you@company.com"
           autoComplete="email"
+          maxLength={FIELD_LIMITS.email}
         />
         <Field
           id="phone"
@@ -262,6 +278,7 @@ export function AutomationAuditForm() {
           onChange={handleChange}
           placeholder="(240) 000-0000"
           autoComplete="tel"
+          maxLength={FIELD_LIMITS.phone}
         />
       </div>
 
@@ -307,6 +324,7 @@ interface FieldProps {
   error?: string;
   placeholder?: string;
   autoComplete?: string;
+  maxLength?: number;
 }
 
 function Field({
@@ -318,6 +336,7 @@ function Field({
   error,
   placeholder,
   autoComplete,
+  maxLength,
 }: FieldProps) {
   return (
     <div>
@@ -337,6 +356,7 @@ function Field({
         aria-describedby={error ? `${id}-error` : undefined}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        maxLength={maxLength}
         className={`${fieldClass} ${error ? "border-red-500/60" : "border-neutral-700"}`}
       />
       {error && (

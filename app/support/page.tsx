@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Hammer, Sparkles, Users } from "lucide-react";
 
@@ -7,10 +8,37 @@ import { SupportForm } from "@/components/payments/SupportForm";
 import { companyInfo } from "@/data/company";
 import { sectionIds } from "@/data/navigation";
 
-export const metadata = {
-  title: `Support ${companyInfo.name}`,
-  description:
-    "Make a one-time contribution supporting the Lee Enterprises Unlimited portfolio.",
+const title = `Support ${companyInfo.name}`;
+const description =
+  "Make a one-time contribution supporting the Lee Enterprises Unlimited portfolio.";
+
+// Its own share card, not the homepage's. This openGraph replaces the root
+// layout's, so it carries the image itself.
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: {
+    canonical: "/support",
+  },
+  openGraph: {
+    type: "website",
+    url: "/support",
+    title,
+    description,
+    images: [
+      {
+        url: "/logos/leu-logo.png",
+        width: 512,
+        height: 512,
+        alt: "Lee Enterprises Unlimited Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title,
+    description,
+  },
 };
 
 const supportUses = [
@@ -35,8 +63,11 @@ const supportUses = [
 ];
 
 export default function SupportPage() {
+  // overflow-x-clip, not overflow-hidden: it still trims the orbs that hang
+  // off the sides, but it does not make <main> a scroll container, which would
+  // stop the sticky column below from ever sticking.
   return (
-    <main className="relative w-full overflow-hidden bg-neutral-950">
+    <main className="relative w-full overflow-x-clip bg-neutral-950">
       <MainHeader />
 
       {/* Ambient background. Purely decorative, so it stays out of the a11y
@@ -116,7 +147,7 @@ export default function SupportPage() {
 
           {/* A solid elevated surface rather than the glass card used
               elsewhere — on a payments page legibility beats the effect. */}
-          <div className="order-1 rounded-2xl border border-white/10 bg-neutral-900/70 p-6 shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9)] backdrop-blur-xl sm:p-8 lg:order-2">
+          <div className="order-1 rounded-2xl border border-white/10 bg-neutral-900/70 p-6 shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9)] sm:p-8 lg:order-2">
             <SupportForm />
           </div>
         </div>

@@ -30,25 +30,30 @@ const THREAD_REDIRECT_PERMANENT = Boolean(
 );
 
 /**
- * Content Security Policy sized for a Stripe integration.
+ * Content Security Policy. Everything the site loads is same-origin, Vercel
+ * Analytics included (/_vercel/insights).
  *
- * Stripe.js and Stripe's hosted/embedded UIs need to load scripts and frames
- * from https://*.stripe.com and call back to it. Link needs https://*.link.com.
+ * Stripe needs no allowances: support checkout is a hosted Checkout Session
+ * that the browser reaches by a top-level redirect, which CSP does not govern,
+ * and nothing here loads Stripe.js or embeds Stripe UI. If Stripe.js or
+ * embedded Checkout is ever adopted, add https://*.stripe.com to script-src,
+ * img-src, connect-src and frame-src (replacing its 'none'), and
+ * https://*.link.com (Link) to connect-src and frame-src.
  *
  * `'unsafe-inline'` in script-src is required by Next's inline hydration
- * bootstrap. To remove it, generate a per-request nonce in middleware and emit
- * the CSP from there instead. Note that `'unsafe-inline'` is ignored by browsers
+ * bootstrap. To remove it, generate a per-request nonce in proxy.ts (Next 16's
+ * name for middleware) and emit the CSP from there instead. Note that `'unsafe-inline'` is ignored by browsers
  * whenever a nonce or hash is present, so the two cannot simply be combined.
  */
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://js.stripe.com https://*.stripe.com",
+  "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.stripe.com",
+  "img-src 'self' data: blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://api.stripe.com https://*.stripe.com https://*.link.com",
-  "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://*.stripe.com https://*.link.com",
-  "form-action 'self' https://checkout.stripe.com https://*.stripe.com",
+  "connect-src 'self'",
+  "frame-src 'none'",
+  "form-action 'self'",
   "base-uri 'self'",
   "object-src 'none'",
   "frame-ancestors 'none'",
@@ -67,9 +72,11 @@ const securityHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  poweredByHeader: false,
+  // Images are served as-is, and this also turns /_next/image off (it 404s),
+  // so there is no optimizer endpoint to attack or bill for. Every <Image> is a
+  // small local webp (the footer draws its own 96px logo copy); give any new
+  // one a copy sized for its slot rather than turning optimisation on.
   images: {
     unoptimized: true,
   },

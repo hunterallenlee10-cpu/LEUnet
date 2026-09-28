@@ -8,6 +8,7 @@ import { AutomationIndustriesSection } from "@/components/automation/AutomationI
 import { AutomationProcessSection } from "@/components/automation/AutomationProcessSection";
 import { AutomationFAQSection } from "@/components/automation/AutomationFAQSection";
 import { AutomationAuditCTA } from "@/components/automation/AutomationAuditCTA";
+import { SITE_URL } from "@/data/company";
 import { automationFaqs, leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
 
 const title = "Business Automation for Service Businesses | Lee Systems Co.";
@@ -42,8 +43,6 @@ export const metadata: Metadata = {
     description,
   },
 };
-
-const SITE_URL = "https://leeenterprisesunlimited.com";
 
 /**
  * A `Service` whose provider is the `#business` node the Lee Systems main page

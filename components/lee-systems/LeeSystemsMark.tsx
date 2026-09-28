@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import clsx from "clsx";
 
 /**
  * The Lee Systems Co. mark: an "LS" monogram in a brass-edged square.
@@ -24,21 +24,19 @@ const sizeClasses = {
 
 interface LeeSystemsMarkProps {
   size?: keyof typeof sizeClasses;
-  className?: string;
 }
 
 /**
  * Decorative: every placement sits beside the name in text, so the mark is
  * hidden from screen readers rather than announcing the brand a second time.
  */
-export function LeeSystemsMark({ size = "xs", className }: LeeSystemsMarkProps) {
+export function LeeSystemsMark({ size = "xs" }: LeeSystemsMarkProps) {
   return (
     <span
       aria-hidden="true"
-      className={cn(
+      className={clsx(
         "inline-flex shrink-0 select-none items-center justify-center border border-brass-400/60 bg-brass-400/10 font-bold tracking-wider text-brass-300",
-        sizeClasses[size],
-        className
+        sizeClasses[size]
       )}
     >
       LS
@@ -54,7 +52,7 @@ export function LeeSystemsMark({ size = "xs", className }: LeeSystemsMarkProps) 
 export function LeeSystemsMarkDivider({ className }: { className?: string }) {
   return (
     <div
-      className={cn("mx-auto flex max-w-md items-center gap-5", className)}
+      className={clsx("mx-auto flex max-w-md items-center gap-5", className)}
       aria-hidden="true"
     >
       <span className="h-px flex-1 bg-gradient-to-r from-transparent to-brass-400/30" />

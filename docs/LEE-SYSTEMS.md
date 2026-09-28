@@ -19,8 +19,8 @@ in `data/lee-systems.ts`. Change it there and every page that uses it follows.
 
 | Form | Endpoint | Email subject |
 | --- | --- | --- |
-| Automation Audit (name, business, industry, team size, biggest time-waster, email, phone) | `/api/automation-audit` | `Lee Systems Co. — New Automation Audit Request — {business} — {name}` |
-| Website quote | `/api/website-inquiry` | `Lee Systems Co. — New Website Request — {business} — {name}` |
+| Automation Audit (name, business, industry, team size, biggest time-waster, email, phone) | `/api/automation-audit` | `Lee Systems Co.: New Automation Audit Request from {name}, {business}` |
+| Website quote | `/api/website-inquiry` | `Lee Systems Co.: New Website Request from {name}, {business}` |
 
 Both send through Resend to `LEE_SYSTEMS_TO_EMAIL`, then `LMM_TO_EMAIL`, then
 `CONTACT_TO_EMAIL` (website requests check `WEBSITE_TO_EMAIL` first). With none
@@ -45,7 +45,7 @@ the boxes.
 
 | # | What | Where | What to supply |
 | --- | --- | --- | --- |
-| 1 | **Logo** | `components/lee-systems/LeeSystemsMark.tsx`, `lib/lee-systems-og.tsx`, `data/ventures.ts` (`logo`) | A logo file. Until then, an "LS" monogram in type stands in on every page and in the social-sharing images. |
+| 1 | **Logo** | `components/lee-systems/LeeSystemsMark.tsx`, `lib/lee-systems-og.tsx` | A logo file. Until then, an "LS" monogram in type stands in on every page and in the social-sharing images. |
 | 2 | **Proof: case study** | Main page, "What it looks like in practice" (`components/lee-systems/LeeSystemsProofSection.tsx`) | One real client system: problem, what was built, a result you can verify. |
 | 3 | **Proof: screenshot or workflow** | Same section | A screenshot of a live automation or report, or a client quote used with permission. |
 | 4–7 | **Portfolio sites 1–4** | Websites page, "Sites we have built" (`components/websites/WebsitesWorkSection.tsx`) | Screenshot, business name, one line on what it does, link to the live site. |
@@ -55,7 +55,9 @@ the boxes.
 ### Choices made with defaults (change in `data/lee-systems.ts` if wrong)
 
 - Headline: "Systems that run your business while you run the work."
-- Contact email: ceo@leeenterprisesunlimited.com
+- Contact email: ceo@leeenterprisesunlimited.com, the parent company's
+  (`companyInfo.contactEmail` in `data/company.ts`) until Lee Systems Co. has
+  its own
 - Service area: Frederick, Maryland, and remote nationwide
 - Automation Audit: **free**, written plan within **5 business days**, reply within **12 hours**
 - Website pricing: quoted per project (no price shown)

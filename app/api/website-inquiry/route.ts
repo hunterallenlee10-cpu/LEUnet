@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
-
-// Constructed per request rather than at module scope: the Resend constructor
-// throws when the key is missing, which fails `next build` on any environment
-// that doesn't expose RESEND_API_KEY at build time.
-function getResend(): Resend {
-  return new Resend(process.env.RESEND_API_KEY);
-}
+import { websiteProjectTypes } from "@/data/lee-systems";
+import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
+import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
+import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
 
 // Delivers to the site-wide contact address, matching the contact form, the
 // Lee Systems automation audit form and the payment notifications.
@@ -19,30 +15,29 @@ const WEBSITE_TO_EMAIL =
   process.env.WEBSITE_TO_EMAIL ||
   process.env.LEE_SYSTEMS_TO_EMAIL ||
   process.env.LMM_TO_EMAIL ||
-  process.env.CONTACT_TO_EMAIL ||
-  "ceo@leeenterprisesunlimited.com";
+  DEFAULT_TO_EMAIL;
 
-const fromAddress =
-  process.env.CONTACT_FROM_EMAIL || "noreply@leeenterprisesunlimited.com";
-
+/** What the form posts. Typed `unknown` because a request can come from anywhere. */
 interface WebsiteInquiryRequest {
-  fullName: string;
-  businessName: string;
-  email: string;
-  phone: string;
-  currentWebsite?: string;
-  projectType: string;
-  businessDescription: string;
-  goals?: string;
-  honeypot?: string;
+  fullName?: unknown;
+  businessName?: unknown;
+  email?: unknown;
+  phone?: unknown;
+  currentWebsite?: unknown;
+  projectType?: unknown;
+  businessDescription?: unknown;
+  goals?: unknown;
+  honeypot?: unknown;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body: WebsiteInquiryRequest = await request.json();
+    const parsed = await readJsonBody(request);
+    if (parsed instanceof NextResponse) return parsed;
+    const body: WebsiteInquiryRequest = parsed;
 
     // Honeypot field check - silently return 200 if filled
-    if (body.honeypot && body.honeypot.trim() !== "") {
+    if (stringField(body.honeypot).trim() !== "") {
       return NextResponse.json(
         { message: "Thank you for your submission" },
         { status: 200 }
@@ -51,39 +46,60 @@ export async function POST(request: NextRequest) {
 
     const errors: Record<string, string> = {};
 
-    const fullName = body.fullName?.trim() || "";
+    const fullName = stringField(body.fullName).trim();
     if (!fullName) {
       errors.fullName = "Full name is required";
     } else if (fullName.length < 2) {
       errors.fullName = "Name must be at least 2 characters";
+    } else if (fullName.length > FIELD_LIMITS.short) {
+      errors.fullName = tooLongMessage(FIELD_LIMITS.short);
     }
 
-    const businessName = body.businessName?.trim() || "";
-    if (!businessName) errors.businessName = "Business name is required";
+    const businessName = stringField(body.businessName).trim();
+    if (!businessName) {
+      errors.businessName = "Business name is required";
+    } else if (businessName.length > FIELD_LIMITS.short) {
+      errors.businessName = tooLongMessage(FIELD_LIMITS.short);
+    }
 
-    const email = body.email?.trim() || "";
+    const email = stringField(body.email).trim();
     if (!email) {
       errors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    } else if (email.length > FIELD_LIMITS.email || !isValidEmail(email)) {
       errors.email = "Please enter a valid email address";
     }
 
-    const phone = body.phone?.trim() || "";
+    const phone = stringField(body.phone).trim();
     if (!phone) {
       errors.phone = "Phone number is required";
-    } else if (!/^[\d\s\-().+]+$/.test(phone) || phone.length < 10) {
+    } else if (phone.length > FIELD_LIMITS.phone || !isValidPhone(phone)) {
       errors.phone = "Please enter a valid phone number";
     }
 
-    if (!body.projectType) {
+    const currentWebsite = stringField(body.currentWebsite).trim();
+    if (currentWebsite.length > FIELD_LIMITS.short) {
+      errors.currentWebsite = tooLongMessage(FIELD_LIMITS.short);
+    }
+
+    // Checked against the form's own list so the email never carries a value
+    // the form could not have sent.
+    const projectType = stringField(body.projectType).trim();
+    if (!(websiteProjectTypes as readonly string[]).includes(projectType)) {
       errors.projectType = "Please select what you are looking for";
     }
 
-    const businessDescription = body.businessDescription?.trim() || "";
+    const businessDescription = stringField(body.businessDescription).trim();
     if (!businessDescription) {
       errors.businessDescription = "Please describe what your business does";
     } else if (businessDescription.length < 10) {
       errors.businessDescription = "Please add a little more detail";
+    } else if (businessDescription.length > FIELD_LIMITS.long) {
+      errors.businessDescription = tooLongMessage(FIELD_LIMITS.long);
+    }
+
+    const goals = stringField(body.goals).trim();
+    if (goals.length > FIELD_LIMITS.long) {
+      errors.goals = tooLongMessage(FIELD_LIMITS.long);
     }
 
     if (Object.keys(errors).length > 0) {
@@ -95,60 +111,26 @@ Full Name: ${fullName}
 Business Name: ${businessName}
 Email Address: ${email}
 Phone Number: ${phone}
-Current Website: ${body.currentWebsite?.trim() || "None / not provided"}
-What They Are Looking For: ${body.projectType}
+Current Website: ${currentWebsite || "None / not provided"}
+What They Are Looking For: ${projectType}
 
 What the Business Does:
 ${businessDescription}
 
 What the Website Should Accomplish:
-${body.goals?.trim() || "Not provided"}
+${goals || "Not provided"}
     `.trim();
 
-    const subject = `Lee Systems Co.: New Website Request from ${fullName}, ${businessName}`;
-
-    // Checked up front so a missing key is reported as itself rather than as a
-    // generic failure: the Resend constructor throws on an absent key.
-    if (!process.env.RESEND_API_KEY) {
-      console.error(
-        "[v0] RESEND_API_KEY is not set - the website inquiry form cannot send email."
-      );
-      return NextResponse.json(
-        { error: "Failed to send email", code: "email_not_configured" },
-        { status: 500 }
-      );
-    }
-
-    const response = await getResend().emails.send({
-      from: fromAddress,
+    return await sendLeadEmail({
+      tag: "website-inquiry",
+      form: "website inquiry form",
       to: WEBSITE_TO_EMAIL,
       replyTo: email,
-      subject,
+      subject: `Lee Systems Co.: New Website Request from ${fullName}, ${businessName}`,
       text: emailBody,
     });
-
-    if (response.error) {
-      // Logged field by field: Resend's error object stringifies to "[object
-      // Object]" through console.error on Vercel, hiding the actual reason.
-      console.error(
-        "[v0] Resend rejected the website inquiry email.",
-        `name=${response.error.name}`,
-        `message=${response.error.message}`,
-        `from=${fromAddress}`,
-        `to=${WEBSITE_TO_EMAIL}`
-      );
-      return NextResponse.json(
-        { error: "Failed to send email", code: "email_rejected" },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json(
-      { message: "Email sent successfully", id: response.data?.id },
-      { status: 200 }
-    );
   } catch (error) {
-    console.error("[v0] Website inquiry form error:", error);
+    console.error("[website-inquiry] Website inquiry form error:", error);
     return NextResponse.json(
       { error: "An error occurred while processing your request" },
       { status: 500 }

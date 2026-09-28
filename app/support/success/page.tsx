@@ -1,10 +1,22 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Check } from "lucide-react";
 
+import { companyInfo } from "@/data/company";
 import { getStripe } from "@/lib/stripe";
 import { formatAmount } from "@/lib/money";
 
 export const dynamic = "force-dynamic";
+
+// A post-checkout page, not something to list in search results.
+export const metadata: Metadata = {
+  title: `Thank you | ${companyInfo.name}`,
+  robots: { index: false, follow: false },
+};
+
+/** The shape of a Checkout Session id; anything else is not worth a Stripe call. */
+const CHECKOUT_SESSION_ID = /^cs_(test|live)_[A-Za-z0-9]+$/;
 
 interface SuccessPageProps {
   searchParams: Promise<{ session_id?: string }>;
@@ -15,15 +27,21 @@ export default async function SupportSuccessPage({
 }: SuccessPageProps) {
   const { session_id: sessionId } = await searchParams;
 
+  // Stripe's success redirect always carries the session id. Without one this
+  // is a bookmark or a typed URL, and there is nothing to thank anyone for.
+  if (!sessionId) redirect("/support");
+
   let amountLabel: string | null = null;
   let supporterName: string | null = null;
+  let found = false;
   let paid = false;
 
   // Reassurance only. The webhook is the trustworthy signal that money moved —
   // a supporter can always close this tab before it renders.
-  if (sessionId) {
+  if (CHECKOUT_SESSION_ID.test(sessionId)) {
     try {
       const session = await getStripe().checkout.sessions.retrieve(sessionId);
+      found = true;
       paid = session.payment_status === "paid";
 
       if (session.amount_total != null) {
@@ -57,10 +75,15 @@ export default async function SupportSuccessPage({
           {supporterName ? `Thank you, ${supporterName}` : "Thank you"}
         </h1>
 
+        {/* When the session could not be looked up, say nothing either way
+            about the payment: whoever lands here from Stripe has almost
+            certainly just paid, and must not be told otherwise. */}
         <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-neutral-400">
-          {paid
-            ? "Your contribution came through, and it genuinely helps."
-            : "We've received your contribution. If your payment method settles later, you'll get a confirmation once it clears."}
+          {!found
+            ? "We couldn't load your contribution's details just now. That doesn't affect the payment itself."
+            : paid
+              ? "Your contribution came through, and it genuinely helps."
+              : "We've received your contribution. If your payment method settles later, you'll get a confirmation once it clears."}
         </p>
 
         {amountLabel && (

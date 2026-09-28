@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { leeSystems } from "@/data/lee-systems";
 
 /**
  * The social-sharing card for the Lee Systems Co. pages, drawn at build time
@@ -78,8 +79,12 @@ export function renderLeeSystemsOg(line: string) {
             color: "#A3A3A3",
           }}
         >
-          <span>A Lee Enterprises Unlimited company</span>
-          <span style={{ color: "#D4A857" }}>Frederick, Maryland</span>
+          <span>{leeSystems.tagline}</span>
+          {/* One template string, not two expressions: Satori wants a single
+              text child in an element that is not display: flex. */}
+          <span style={{ color: "#D4A857" }}>
+            {`${leeSystems.city}, ${leeSystems.region}`}
+          </span>
         </div>
       </div>
     ),

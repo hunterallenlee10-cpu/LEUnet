@@ -1,3 +1,10 @@
+/**
+ * The site's own origin, no trailing slash. Canonical links, share cards,
+ * structured data and Stripe's return URLs are all built from it, so it is the
+ * one place to change if the primary domain ever moves (to the www host, say).
+ */
+export const SITE_URL = "https://leeenterprisesunlimited.com";
+
 export const companyInfo = {
   name: "Lee Enterprises Unlimited",
   /**
@@ -30,7 +37,6 @@ export const companyInfo = {
    */
   mark: "/logos/leu-mark.webp",
   contactEmail: "ceo@leeenterprisesunlimited.com",
-  website: "leeenterprisesunlimited.com",
 };
 
 /**

@@ -8,8 +8,8 @@ __v0_jsx-dev-runtime.ts
 
 # Environment variables
 # .env.example is committed on purpose; real values never are.
-.env
-.env*.local
+.env*
+!.env.example
 
 # Common ignores
 node_modules

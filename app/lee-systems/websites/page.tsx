@@ -9,6 +9,7 @@ import { WebsitesProcessSection } from "@/components/websites/WebsitesProcessSec
 import { WebsitesFAQSection } from "@/components/websites/WebsitesFAQSection";
 import { WebsitesBridgeSection } from "@/components/websites/WebsitesBridgeSection";
 import { WebsitesInquiryCTA } from "@/components/websites/WebsitesInquiryCTA";
+import { SITE_URL } from "@/data/company";
 import { leeSystems, leeSystemsRoutes, websiteFaqs } from "@/data/lee-systems";
 
 const title = "Small Business Websites, Built Before You Pay | Lee Systems Co.";
@@ -42,8 +43,6 @@ export const metadata: Metadata = {
     description,
   },
 };
-
-const SITE_URL = "https://leeenterprisesunlimited.com";
 
 /**
  * A `Service` under the `#business` node the Lee Systems main page defines,

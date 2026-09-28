@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+import { companyInfo } from "@/data/company";
+
+// A post-checkout page, not something to list in search results.
+export const metadata: Metadata = {
+  title: `Contribution canceled | ${companyInfo.name}`,
+  robots: { index: false, follow: false },
+};
 
 export default function SupportCanceledPage() {
   return (

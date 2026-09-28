@@ -16,13 +16,22 @@
  * deliberately "pay" rather than "donate".
  */
 
-/** Minimum contribution. Stripe's own floor for USD is 50 cents. */
+/**
+ * Minimum contribution. Stripe's own floor for USD is 50 cents.
+ * scripts/stripe-setup.mjs has its own copy.
+ */
 export const SUPPORT_MIN_CENTS = 500;
 
-/** Maximum contribution accepted without a conversation. */
+/**
+ * Maximum contribution accepted without a conversation.
+ * scripts/stripe-setup.mjs has its own copy.
+ */
 export const SUPPORT_MAX_CENTS = 250_000;
 
-/** Amount pre-filled on Stripe's page when the supporter enters their own. */
+/**
+ * Amount pre-filled on Stripe's page when the supporter enters their own.
+ * scripts/stripe-setup.mjs has its own copy.
+ */
 export const SUPPORT_PRESET_CENTS = 5_000;
 
 /** One-click amounts offered before the "other amount" option. */

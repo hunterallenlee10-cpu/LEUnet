@@ -39,7 +39,6 @@ export const bmFoundingCounter = {
 // --- 1. Hero ---------------------------------------------------------------
 
 export const bmHero = {
-  title: "LEU Business Mastery",
   manifesto: "Learn how to build, scale, and dominate.",
   subtitle: "Speedrun Your Way to Success.",
   description:
@@ -138,8 +137,7 @@ export const bmAudienceSubheading =
 // for the original four audiences cut to three: "Aspiring Entrepreneurs" and
 // "Young Entrepreneurs" merged into stage 01 ("Young" was an age, not a
 // stage, and overlapped with "Aspiring"). Stages 02 and 03 are the owner's
-// "Early-Stage" and "Growing" lines, lightly trimmed. The titles double as
-// the application form's "Where are you right now?" options.
+// "Early-Stage" and "Growing" lines, lightly trimmed.
 export const bmAudiences: BmAudience[] = [
   {
     id: "starting",
@@ -418,7 +416,7 @@ export const bmChapters: BmChapter[] = [
  * it merged up into BmManifestoSection on 2026-09-07; as the closing movement
  * of that section it came off on 2026-09-13. BmManifestoSection records where
  * it sat and what has to come back with it — the gold seam rule that
- * introduced it exists only to divide the section's halves and went out at the
+ * introduced it existed only to divide the section's halves and went out at the
  * same time.
  *
  * Because it is unrendered, editing it changes nothing on the site. The moment
@@ -435,6 +433,9 @@ export const bmTransition = {
 } as const;
 
 // --- 10. Achieve Your Dreams Today -----------------------------------------
+// Feeds BmFinalCTASection, which the page does not render at the moment (the
+// owner asked for that section off on 2026-09-27). Kept as-is so the section
+// can go back with no content work.
 
 export const bmFinalCta = {
   heading: "Achieve Your Dreams Today.",

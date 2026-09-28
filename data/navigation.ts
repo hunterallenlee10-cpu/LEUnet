@@ -4,9 +4,7 @@ import { NavItem } from "@/types";
 // why its route lives here rather than in `venturePages`.
 export const businessMasteryPage = "/business-mastery";
 
-// Single source of truth for venture id -> dedicated page route. A venture
-// missing from this map has no page of its own and falls back to its homepage
-// section anchor, which is why lookups are optional everywhere it's used.
+// Single source of truth for venture id -> dedicated page route.
 //
 // Lee Systems Co. is the one venture this site lists, and its page is a route
 // on this domain. It replaced Lee Marketing Mastery on 2026-09-25; the old
@@ -31,9 +29,8 @@ export const venturePages: Record<string, string> = {
 // dropdown. (Thread T-Shirts had the entry after it until it came off this
 // site on 2026-09-25 - docs/THREAD.md.)
 //
-// The Ventures tab's own href was "#ventures", an anchor no page has rendered
-// since the homepage Ventures section was removed (docs/BUSINESS-MASTERY.md
-// §4) — clicking the tab only ever toggled its menu. Nothing is lost with it.
+// The Ventures tab's own href was "#ventures", an anchor no page renders —
+// clicking the tab only ever toggled its menu. Nothing is lost with it.
 //
 // Order follows the rest of the site: Business Mastery is the flagship program
 // and leads, then Lee Systems Co., the venture in `data/ventures.ts`.
@@ -84,7 +81,6 @@ export const sectionIds = {
   hero: "hero",
   businessMastery: "business-mastery",
   leeSystems: "lee-systems",
-  sharedValues: "shared-values",
   contact: "contact",
   privacy: "privacy",
   terms: "terms",

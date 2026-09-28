@@ -1,17 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { navigationItems, sectionIds } from "@/data/navigation";
 import { companyInfo } from "@/data/company";
-import { getScrollPosition, smoothScrollToElement, debounce } from "@/lib/scrollUtils";
+import { smoothScrollToElement } from "@/lib/scrollUtils";
 
 export function MainHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Focus goes back here when the drawer closes, instead of dropping to <body>
+  // with the dialog that held it.
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   // A section tap inside the mobile menu can't scroll right away: the body
   // is still position-fixed by the scroll lock below, so the jump would be
   // swallowed. The target waits here until the lock is released. A ref, not
@@ -37,18 +40,33 @@ export function MainHeader() {
   // shut under the pointer, since the visitor sees it open already.
   const openedByHoverRef = useRef(false);
 
-  // Every nav target is a section of the homepage. On any other route those
-  // elements don't exist, so scrolling to them would silently do nothing.
+  // The `#` anchors (#hero, #contact) are sections of the homepage and only
+  // exist on /. Anywhere else they link to `/#…` instead; routes are plain
+  // links everywhere.
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const navHref = (href: string) => (href.startsWith("#") && !isHome ? `/${href}` : href);
 
+  // At most one read per frame, plus one on mount, so a page that loads
+  // already scrolled (a reload, a /#contact link) gets the solid bar at once.
+  // The mount read goes through the frame too, which keeps setState out of
+  // the effect body.
   useEffect(() => {
-    const handleScroll = debounce(() => {
-      setIsScrolled(getScrollPosition() > 200);
-    }, 10);
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setIsScrolled(window.scrollY > 200);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   // A close timer still pending when the header unmounts would setState on a
@@ -65,9 +83,12 @@ export function MainHeader() {
   // at its current offset instead, and put back on close. The restore jump is
   // explicitly instant because html has `scroll-smooth` — otherwise closing
   // the menu would visibly animate from the top of the page back down.
+  // Focus returns to the menu button, unless a section link is about to move
+  // it to its target.
   useEffect(() => {
     if (!mobileMenuOpen) return;
     const scrollY = window.scrollY;
+    const menuButton = menuButtonRef.current;
     const { style } = document.body;
     style.position = "fixed";
     style.top = `-${scrollY}px`;
@@ -83,6 +104,7 @@ export function MainHeader() {
       style.width = "";
       style.overflow = "";
       window.scrollTo({ top: scrollY, behavior: "instant" });
+      if (!pendingScrollIdRef.current) menuButton?.focus({ preventScroll: true });
     };
   }, [mobileMenuOpen]);
 
@@ -93,6 +115,19 @@ export function MainHeader() {
     const sectionId = pendingScrollIdRef.current;
     pendingScrollIdRef.current = null;
     smoothScrollToElement(sectionId, { focus: true });
+  }, [mobileMenuOpen]);
+
+  // The drawer and its button are hidden from `xl` up. Widening past that
+  // with the drawer open (a tablet rotated, a window resized) would otherwise
+  // leave the page scroll-locked behind a drawer nobody can see.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const xl = window.matchMedia("(min-width: 80rem)");
+    const onChange = (event: MediaQueryListEvent) => {
+      if (event.matches) setMobileMenuOpen(false);
+    };
+    xl.addEventListener("change", onChange);
+    return () => xl.removeEventListener("change", onChange);
   }, [mobileMenuOpen]);
 
   // Besides the pointer leaving it, a click anywhere outside the desktop
@@ -158,29 +193,17 @@ export function MainHeader() {
     }, 200);
   };
 
-  const handleNavClick = (href: string, id: string) => {
+  // Every nav entry is a <Link> (see `navHref`), so routes and off-home
+  // anchors navigate client-side on their own. The handler closes the menus,
+  // and on the homepage takes over `#` anchors to scroll in place. A modified
+  // click (new tab or window) is left entirely to the browser.
+  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     setMobileMenuOpen(false);
     closeDropdown();
+    if (!isHome || !href.startsWith("#")) return;
 
-    // A page of its own uses a real route rather than a homepage anchor, so it
-    // navigates directly from wherever the visitor happens to be. Only `#`
-    // anchors fall through to the scroll below. Nothing in the menu is an
-    // absolute URL today - H1 Performance was, while it was listed as a venture
-    // on its own domain (docs/H1.md) - and the test stays because without it an
-    // off-site href would fall to the `!isHome` branch below and be navigated
-    // to as "/https://…".
-    if (href.startsWith("/") || /^https?:\/\//.test(href)) {
-      window.location.assign(href);
-      return;
-    }
-
-    // Off the homepage, go there and let the browser resolve the hash on
-    // arrival rather than scrolling to an element that isn't on this page.
-    if (!isHome) {
-      window.location.assign(`/${href}`);
-      return;
-    }
-
+    event.preventDefault();
     const sectionId = href.replace("#", "");
     if (mobileMenuOpen) {
       // Body is scroll-locked until the close commits; scroll via the
@@ -189,11 +212,7 @@ export function MainHeader() {
     } else {
       smoothScrollToElement(sectionId, { focus: true });
     }
-
-    // Update URL
-    if (typeof window !== "undefined") {
-      window.history.replaceState(null, "", href);
-    }
+    window.history.replaceState(null, "", href);
   };
 
   return (
@@ -244,13 +263,14 @@ export function MainHeader() {
 
               if (!item.subItems) {
                 return (
-                  <button
+                  <Link
                     key={item.id}
-                    onClick={() => handleNavClick(item.href, item.id)}
+                    href={navHref(item.href)}
+                    onClick={(event) => handleNavClick(event, item.href)}
                     className="text-white transition-colors hover:text-amber-400"
                   >
                     {item.label}
-                  </button>
+                  </Link>
                 );
               }
 
@@ -266,19 +286,20 @@ export function MainHeader() {
                   onMouseLeave={closeDropdownSoon}
                   onBlur={closeDropdownSoon}
                 >
-                  <button
-                    onClick={() => handleNavClick(item.href, item.id)}
+                  <Link
+                    href={navHref(item.href)}
+                    onClick={(event) => handleNavClick(event, item.href)}
                     className="text-white transition-colors hover:text-amber-400"
                   >
                     {item.label}
-                  </button>
+                  </Link>
                   <button
                     type="button"
                     onClick={() => toggleDropdownFromChevron(item.id)}
                     className="rounded p-1 text-white transition-colors hover:text-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
                     aria-label={`${item.label} pages`}
                     aria-expanded={isOpen}
-                    aria-controls={panelId}
+                    aria-controls={isOpen ? panelId : undefined}
                   >
                     <ChevronDown
                       className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
@@ -297,12 +318,13 @@ export function MainHeader() {
                       >
                         {item.subItems.map((subItem) => (
                           <li key={subItem.id}>
-                            <button
-                              onClick={() => handleNavClick(subItem.href, subItem.id)}
-                              className="w-full px-4 py-3 text-left text-sm font-medium text-white transition-colors hover:bg-neutral-900 hover:text-amber-400"
+                            <Link
+                              href={navHref(subItem.href)}
+                              onClick={(event) => handleNavClick(event, subItem.href)}
+                              className="block w-full px-4 py-3 text-left text-sm font-medium text-white transition-colors hover:bg-neutral-900 hover:text-amber-400"
                             >
                               {subItem.label}
-                            </button>
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -324,12 +346,13 @@ export function MainHeader() {
               >
                 Support Us
               </Link>
-              <button
-                onClick={() => handleNavClick(`#${sectionIds.contact}`, "nav-contact")}
+              <Link
+                href={navHref(`#${sectionIds.contact}`)}
+                onClick={(event) => handleNavClick(event, `#${sectionIds.contact}`)}
                 className="whitespace-nowrap rounded-lg bg-amber-400 px-5 py-2 font-semibold text-neutral-950 transition-colors hover:bg-amber-300"
               >
                 Get Started
-              </button>
+              </Link>
               <Link
                 href="/partners"
                 className="whitespace-nowrap rounded-lg border border-amber-400/40 px-5 py-2 font-semibold text-amber-300 transition-colors hover:border-amber-300 hover:text-amber-200"
@@ -339,6 +362,7 @@ export function MainHeader() {
             </div>
 
             <button
+              ref={menuButtonRef}
               onClick={() => {
                 setMobileMenuOpen(true);
                 closeDropdown();
@@ -346,7 +370,7 @@ export function MainHeader() {
               className="p-2 text-white transition-colors hover:text-amber-400 xl:hidden"
               aria-label="Open menu"
               aria-expanded={mobileMenuOpen}
-              aria-controls="mobile-menu"
+              aria-controls={mobileMenuOpen ? "mobile-menu" : undefined}
             >
               <Menu className="h-6 w-6" />
             </button>
@@ -399,18 +423,19 @@ export function MainHeader() {
                       // Split row: the label goes to the venture's page and the
                       // 48px chevron square expands its pages.
                       <div className="flex items-stretch">
-                        <button
-                          onClick={() => handleNavClick(item.href, item.id)}
+                        <Link
+                          href={navHref(item.href)}
+                          onClick={(event) => handleNavClick(event, item.href)}
                           className="flex-1 rounded-l-lg px-3 py-3 text-left text-white hover:bg-neutral-900"
                         >
                           {item.label}
-                        </button>
+                        </Link>
                         <button
                           onClick={() => (isOpen ? closeDropdown() : openDropdown(item.id))}
                           className="flex w-12 items-center justify-center rounded-r-lg text-white hover:bg-neutral-900"
                           aria-label={`${item.label} pages`}
                           aria-expanded={isOpen}
-                          aria-controls={panelId}
+                          aria-controls={isOpen ? panelId : undefined}
                         >
                           <ChevronDown
                             className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
@@ -419,12 +444,13 @@ export function MainHeader() {
                         </button>
                       </div>
                     ) : (
-                      <button
-                        onClick={() => handleNavClick(item.href, item.id)}
-                        className="w-full rounded-lg px-3 py-3 text-left text-white hover:bg-neutral-900"
+                      <Link
+                        href={navHref(item.href)}
+                        onClick={(event) => handleNavClick(event, item.href)}
+                        className="block w-full rounded-lg px-3 py-3 text-left text-white hover:bg-neutral-900"
                       >
                         {item.label}
-                      </button>
+                      </Link>
                     )}
 
                     {/* Indented rather than boxed, so the drawer never puts a
@@ -433,12 +459,13 @@ export function MainHeader() {
                       <ul id={panelId} className="mb-1 ml-3 border-l border-neutral-800 pl-2">
                         {item.subItems.map((subItem) => (
                           <li key={subItem.id}>
-                            <button
-                              onClick={() => handleNavClick(subItem.href, subItem.id)}
-                              className="w-full rounded-lg px-3 py-2.5 text-left text-sm text-neutral-300 hover:bg-neutral-900 hover:text-amber-400"
+                            <Link
+                              href={navHref(subItem.href)}
+                              onClick={(event) => handleNavClick(event, subItem.href)}
+                              className="block w-full rounded-lg px-3 py-2.5 text-left text-sm text-neutral-300 hover:bg-neutral-900 hover:text-amber-400"
                             >
                               {subItem.label}
-                            </button>
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -456,12 +483,13 @@ export function MainHeader() {
               </Link>
 
               <div className="space-y-2 pt-4">
-                <button
-                  onClick={() => handleNavClick(`#${sectionIds.contact}`, "nav-contact")}
-                  className="w-full rounded-lg bg-amber-400 px-4 py-3 font-semibold text-neutral-950 transition-colors hover:bg-amber-300"
+                <Link
+                  href={navHref(`#${sectionIds.contact}`)}
+                  onClick={(event) => handleNavClick(event, `#${sectionIds.contact}`)}
+                  className="block w-full rounded-lg bg-amber-400 px-4 py-3 text-center font-semibold text-neutral-950 transition-colors hover:bg-amber-300"
                 >
                   Get Started
-                </button>
+                </Link>
                 <Link
                   href="/partners"
                   onClick={() => setMobileMenuOpen(false)}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 
+import { readJsonBody } from "@/lib/api";
 import { CHECKOUT_INTEGRATION_ID, getSiteUrl, getStripe } from "@/lib/stripe";
 import {
   SUPPORT_CURRENCY,
@@ -22,16 +23,12 @@ interface SupportRequest {
    * amount on Stripe's hosted page.
    */
   amountCents?: unknown;
-  email?: unknown;
 }
 
 export async function POST(request: NextRequest) {
-  let body: SupportRequest;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-  }
+  const parsed = await readJsonBody(request);
+  if (parsed instanceof NextResponse) return parsed;
+  const body: SupportRequest = parsed;
 
   const wantsCustomAmount =
     body.amountCents === undefined || body.amountCents === null;
@@ -52,12 +49,6 @@ export async function POST(request: NextRequest) {
       { status: 503 }
     );
   }
-
-  const email =
-    typeof body.email === "string" &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())
-      ? body.email.trim()
-      : undefined;
 
   // Custom amounts resolve to a Price whose min/max live in Stripe, so the
   // browser cannot influence the bounds. Presets are validated above.
@@ -88,7 +79,6 @@ export async function POST(request: NextRequest) {
       // `payment_method_types` is omitted so Stripe selects the eligible
       // methods with the best conversion for each supporter.
       line_items: [lineItem],
-      customer_email: email,
       integration_identifier: CHECKOUT_INTEGRATION_ID,
       // Collected on Stripe's page rather than ours, so the supporter's details
       // never touch our servers.

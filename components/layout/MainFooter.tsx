@@ -1,31 +1,20 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { smoothScrollToElement } from "@/lib/scrollUtils";
+import { HomeSectionLink } from "@/components/layout/HomeSectionLink";
 import { companyInfo, footerContent } from "@/data/company";
 import { businessMasteryPage, sectionIds, venturePages } from "@/data/navigation";
 import { ventures } from "@/data/ventures";
 
+/**
+ * A 96px copy of `companyInfo.logo` (512px) for the 48px mark below, so a
+ * subpage does not download the full logo just for the footer.
+ */
+const footerLogo = "/logos/leu-logo-96.webp";
+
+// A server component. The Home and Contact rows point at homepage sections
+// through HomeSectionLink, the one client piece: on / they scroll in place,
+// anywhere else they navigate to `/#id` client-side.
 export function MainFooter() {
-  // These all point at homepage sections, which don't exist on other routes.
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-
-  const handleLinkClick = (sectionId: string) => {
-    if (!isHome) {
-      window.location.assign(`/#${sectionId}`);
-      return;
-    }
-
-    smoothScrollToElement(sectionId, { focus: true });
-
-    if (typeof window !== "undefined") {
-      window.history.replaceState(null, "", `#${sectionId}`);
-    }
-  };
-
   return (
     <footer className="bg-neutral-950 border-t border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
@@ -36,14 +25,13 @@ export function MainFooter() {
             <div className="flex items-center gap-3 mb-4">
               <div className="relative w-12 h-12">
                 <Image
-                  src={companyInfo.logo}
+                  src={footerLogo}
                   alt={companyInfo.logoAlt}
                   fill
                   className="object-contain"
                 />
               </div>
               <div>
-                <h3 className="font-bold text-white text-lg"></h3>
                 <p className="text-xs text-amber-400">Lee Enterprises Unlimited</p>
               </div>
             </div>
@@ -61,20 +49,20 @@ export function MainFooter() {
             <h4 className="font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <button
-                  onClick={() => handleLinkClick(sectionIds.hero)}
-                  className="text-neutral-400 hover:text-amber-400 transition-colors text-sm"
+                <HomeSectionLink
+                  sectionId={sectionIds.hero}
+                  className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
                 >
                   Home
-                </button>
+                </HomeSectionLink>
               </li>
               <li>
-                <button
-                  onClick={() => handleLinkClick(sectionIds.contact)}
-                  className="text-neutral-400 hover:text-amber-400 transition-colors text-sm"
+                <HomeSectionLink
+                  sectionId={sectionIds.contact}
+                  className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
                 >
                   Contact
-                </button>
+                </HomeSectionLink>
               </li>
             </ul>
           </div>
@@ -83,31 +71,16 @@ export function MainFooter() {
           <div>
             <h4 className="font-semibold text-white mb-4">Our Ventures</h4>
             <ul className="space-y-2">
-              {/* A venture with its own page links straight to that route; one
-                  without still falls back to its homepage section anchor. */}
-              {ventures.map((venture) => {
-                const venturePage = venturePages[venture.id];
-
-                return (
-                  <li key={venture.id}>
-                    {venturePage ? (
-                      <Link
-                        href={venturePage}
-                        className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
-                      >
-                        {venture.name}
-                      </Link>
-                    ) : (
-                      <button
-                        onClick={() => handleLinkClick(venture.id)}
-                        className="text-neutral-400 hover:text-amber-400 transition-colors text-sm"
-                      >
-                        {venture.name}
-                      </button>
-                    )}
-                  </li>
-                );
-              })}
+              {ventures.map((venture) => (
+                <li key={venture.id}>
+                  <Link
+                    href={venturePages[venture.id]}
+                    className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
+                  >
+                    {venture.name}
+                  </Link>
+                </li>
+              ))}
 
               {/* Business Mastery is the flagship program rather than a
                   venture, which is why it is a hardcoded row here instead of
@@ -121,10 +94,10 @@ export function MainFooter() {
                   leads with it instead.
 
                   "Lee", not "LEU", is also the owner's call: the page it
-                  links to is titled "LEU Business Mastery" (`bmHero.title`)
-                  and the nav says "Business Mastery", so this row is
-                  deliberately the odd one out rather than a typo to correct.
-                  It reads as a sibling of "Lee Systems Co." above it. */}
+                  links to is titled "LEU Business Mastery" and the nav says
+                  "Business Mastery", so this row is deliberately the odd one
+                  out rather than a typo to correct. It reads as a sibling of
+                  "Lee Systems Co." above it. */}
               <li>
                 <Link
                   href={businessMasteryPage}
@@ -146,7 +119,7 @@ export function MainFooter() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-neutral-400 hover:text-amber-400 transition-colors text-sm"
+                    className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
                   >
                     {link.label}
                   </Link>

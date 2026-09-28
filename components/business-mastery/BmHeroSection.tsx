@@ -23,11 +23,13 @@ import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground
  * Still a server component. The CTA is a plain anchor: `html` carries
  * `scroll-smooth` and `scroll-padding-top: 80px` globally, so an in-page hash
  * link gets the smooth scroll and the header offset with no JS at all.
- * `BmHeroBackground` is the page's only client boundary, and it is a sibling of
- * the copy rather than a wrapper around it, so none of the words cross it.
+ * `BmHeroBackground` is this section's only client boundary, and it is a
+ * sibling of the copy rather than a wrapper around it, so none of the words
+ * cross it.
  *
- * Every string is `bmHero`, verbatim. The uppercase on the eyebrow and the two
- * title tiers is `text-transform`, not retyped copy.
+ * Every string below the title is `bmHero`, verbatim; the eyebrow and the two
+ * title tiers are the company's and the program's names, set here. The
+ * uppercase on all three is `text-transform`, not retyped copy.
  */
 export function BmHeroSection() {
   return (

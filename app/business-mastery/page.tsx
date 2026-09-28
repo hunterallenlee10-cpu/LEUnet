@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond } from "next/font/google";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
@@ -10,6 +11,15 @@ import { BmFoundingOfferSection } from "@/components/business-mastery/BmFounding
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
 import { BmJourneyLocked } from "@/components/business-mastery/BmJourneyLocked";
 import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
+
+/** The Business Mastery manifesto line, and nothing else on the site, which
+ *  is why it is declared here rather than in the root layout: only this page
+ *  preloads it. Only the two light weights the hero uses are fetched. */
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  variable: "--font-cormorant",
+});
 
 const title = "LEU Business Mastery | Speedrun Your Way to Success";
 const description =
@@ -30,14 +40,24 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/business-mastery",
   },
+  // This openGraph replaces the root layout's, so it carries the image itself.
+  // `summary`, because the image is the square logo.
   openGraph: {
     type: "website",
     url: "/business-mastery",
     title,
     description,
+    images: [
+      {
+        url: "/logos/leu-logo.png",
+        width: 512,
+        height: 512,
+        alt: "Lee Enterprises Unlimited Logo",
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title,
     description,
   },
@@ -56,7 +76,7 @@ export const metadata: Metadata = {
  */
 export default function BusinessMasteryPage() {
   return (
-    <main className="w-full bg-neutral-950">
+    <main className={`w-full bg-neutral-950 ${cormorant.variable}`}>
       <MainHeader />
 
       <BmHeroSection />

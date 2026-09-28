@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import {
   Inbox,
   Send,
@@ -15,6 +12,8 @@ import {
  * What gets automated, grouped by the part of the business it serves. Each
  * card leads with the outcome and keeps the step-by-step list behind a toggle,
  * so the grid scans in one pass and the detail is there for whoever wants it.
+ * The toggle is a native <details>, so the section needs no client JS; the
+ * shared `name` keeps one card open at a time.
  */
 const areas = [
   {
@@ -102,12 +101,10 @@ const areas = [
 ];
 
 export function AutomationServicesSection() {
-  const [openId, setOpenId] = useState<string | null>(null);
-
   return (
     <section
       id="automation-services"
-      className="relative isolate scroll-mt-24 py-20 md:py-28"
+      className="relative isolate py-20 md:py-28"
     >
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
@@ -125,41 +122,29 @@ export function AutomationServicesSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {areas.map(({ id, Icon, title, description, capabilities }) => {
-            const isOpen = openId === id;
-            return (
-              <div
-                key={id}
-                className="flex flex-col rounded-xl border border-white/10 bg-white/[0.04] p-6 transition-colors duration-300 hover:border-brass-400/40 md:p-8"
-              >
-                <Icon className="mb-5 h-7 w-7 text-brass-300" aria-hidden="true" />
+          {areas.map(({ id, Icon, title, description, capabilities }) => (
+            <div
+              key={id}
+              className="flex flex-col rounded-xl border border-white/10 bg-white/[0.04] p-6 transition-colors duration-300 hover:border-brass-400/40 md:p-8"
+            >
+              <Icon className="mb-5 h-7 w-7 text-brass-300" aria-hidden="true" />
 
-                <h3 className="mb-3 text-lg font-bold text-white">{title}</h3>
-                <p className="mb-5 text-sm leading-relaxed text-neutral-400">
-                  {description}
-                </p>
+              <h3 className="mb-3 text-lg font-bold text-white">{title}</h3>
+              <p className="mb-5 text-sm leading-relaxed text-neutral-400">
+                {description}
+              </p>
 
-                <button
-                  type="button"
-                  onClick={() => setOpenId(isOpen ? null : id)}
-                  aria-expanded={isOpen}
-                  aria-controls={`${id}-capabilities`}
-                  className="mt-auto inline-flex items-center gap-1.5 self-start rounded text-sm font-semibold text-brass-300 transition-colors hover:text-brass-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass-300"
-                >
-                  {isOpen ? "Hide examples" : "See examples"}
+              <details name="automation-areas" className="group mt-auto">
+                <summary className="flex w-fit cursor-pointer list-none items-center gap-1.5 rounded text-sm font-semibold text-brass-300 transition-colors hover:text-brass-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass-300 [&::-webkit-details-marker]:hidden">
+                  <span className="group-open:hidden">See examples</span>
+                  <span className="hidden group-open:inline">Hide examples</span>
                   <ChevronDown
-                    className={`h-4 w-4 transition-transform duration-200 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
+                    className="h-4 w-4 transition-transform duration-200 group-open:rotate-180"
                     aria-hidden="true"
                   />
-                </button>
+                </summary>
 
-                <ul
-                  id={`${id}-capabilities`}
-                  hidden={!isOpen}
-                  className="mt-4 space-y-2 border-t border-white/10 pt-4"
-                >
+                <ul className="mt-4 space-y-2 border-t border-white/10 pt-4">
                   {capabilities.map((capability) => (
                     <li
                       key={capability}
@@ -173,9 +158,9 @@ export function AutomationServicesSection() {
                     </li>
                   ))}
                 </ul>
-              </div>
-            );
-          })}
+              </details>
+            </div>
+          ))}
         </div>
       </div>
     </section>

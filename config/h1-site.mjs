@@ -20,7 +20,7 @@
  * which is only right if that project name and alias were free. Set the
  * variable rather than relying on it: the H1 site's origin, no trailing slash.
  */
-export const FALLBACK_H1_SITE_URL = "https://h1-performance.vercel.app";
+const FALLBACK_H1_SITE_URL = "https://h1-performance.vercel.app";
 
 /**
  * @param {string | undefined} configured `process.env.NEXT_PUBLIC_H1_SITE_URL`, read by the caller.
