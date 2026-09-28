@@ -57,7 +57,7 @@ export const bmFoundingCounter = {
 // owner's site fix plan. The description is the owner's line, kept.
 export const bmHero = {
   manifesto: "Learn to start a business and actually use AI.",
-  subtitle: "Courses, coaching and a community of people building alongside you.",
+  subtitle: "Live demos, coaching and a community of people building alongside you.",
   description:
     "Skip years of unnecessary trial and error by learning from people already building, failing, adapting, and winning.",
 } as const;
