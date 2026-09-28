@@ -3,6 +3,7 @@ import {
   bmAudienceHeading,
   bmAudienceSubheading,
   bmAudiences,
+  businessMasteryAction,
 } from "@/data/business-mastery";
 
 // Keyed by audience id so the icon travels with the content if the order
@@ -24,6 +25,19 @@ const stageIcons: Record<string, React.ReactNode> = {
  *
  * Badges and card text are centred, and the "Stage 01" labels and large
  * watermark numerals came off at the owner's request (2026-09-27).
+ *
+ * The section ends on the page's second "Apply to join" (2026-09-28, the
+ * owner's request): the reorder put what members get and who it is for ahead
+ * of everything else, so this is the first point where a visitor has the
+ * whole offer and nothing to scroll to but the proof and the philosophy. It
+ * is the hero's button, same action and same target (`businessMasteryAction`,
+ * the form's anchor), a plain anchor for the same reason the hero's is. The
+ * look is copied rather than shared: `.bmh-cta` caps its type at 2.2vh and
+ * takes its margin from `--bmh-u`, both tuned for a hero that owns the
+ * viewport. Below the fold that shrinks the label on a short window, and
+ * outside `.bmh` the margin is invalid. So the classes here are the same
+ * filled gold, radius, weight, padding and bloom at fixed sizes. Full-width
+ * on a phone, like the hero's.
  *
  * Hover treatment is plain Tailwind. It was never the H1 page's `.h1-live`
  * vocabulary: that class drew its ring from a `--h1c-gold` property only the
@@ -92,6 +106,15 @@ export function BmAudienceSection() {
             );
           })}
         </ol>
+
+        <div className="mt-12 flex justify-center md:mt-14">
+          <a
+            href={businessMasteryAction.href}
+            className="inline-flex min-h-12 items-center justify-center rounded-lg bg-amber-400 px-8 py-4 text-base font-semibold text-neutral-950 shadow-[0_0_26px_-8px_rgba(212,168,87,0.5)] transition-[color,background-color,box-shadow] duration-[260ms] hover:bg-amber-300 hover:shadow-[0_0_38px_-6px_rgba(212,168,87,0.75)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-amber-400/85 focus-visible:shadow-[0_0_38px_-6px_rgba(212,168,87,0.75)] max-sm:w-full sm:px-12 lg:text-lg"
+          >
+            {businessMasteryAction.label}
+          </a>
+        </div>
       </div>
     </section>
   );

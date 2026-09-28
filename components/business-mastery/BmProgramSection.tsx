@@ -20,7 +20,17 @@ const pillarIcons: Record<string, React.ReactNode> = {
 };
 
 /**
- * Section 5 — what membership actually is. Six pillar cards.
+ * Section 2 — what membership actually is. Six pillar cards.
+ *
+ * It was section 5 until 2026-09-28, when the owner had the page reordered so
+ * a visitor reads what members get before the philosophy: it now sits
+ * directly under the hero, where the manifesto used to. It took the
+ * manifesto's glow with it. Every section here shares the body's
+ * neutral-950, so what alternates down the page is a glow layer on 2, 4 and
+ * 6 and none on 3 and 5. At slot 5 this section had no glow, and slot 3
+ * below has none, so it needed one here. The radial idiom is the offer's and
+ * the old manifesto's: `inset-0`, so it has no geometry to widen a phone's
+ * page with.
  *
  * The Tools & Resources pillar (the one carrying a bullet list) used to sit
  * under the grid as plain text and came off at the owner's request
@@ -37,7 +47,17 @@ const pillarIcons: Record<string, React.ReactNode> = {
 export function BmProgramSection() {
   return (
     <section className="relative isolate py-20 md:py-28">
-      <div className="section-container">
+      <div className="absolute inset-0 z-0 overflow-hidden section-fade" aria-hidden="true">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(75% 55% at 50% 45%, rgba(251, 191, 36, 0.07) 0%, transparent 70%)",
+          }}
+        />
+      </div>
+
+      <div className="section-container relative z-[1]">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold text-amber-400">
             What Business Mastery actually is
