@@ -4,7 +4,6 @@ import { MainFooter } from "@/components/layout/MainFooter";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { VenturesSection } from "@/components/sections/VenturesSection";
 import { ContactSection } from "@/components/sections/ContactSection";
-import { LegalSection } from "@/components/sections/LegalSection";
 
 const title = "Lee Enterprises Unlimited";
 
@@ -46,7 +45,6 @@ export default function Home() {
       <VenturesSection />
 
       <ContactSection />
-      <LegalSection />
 
       <MainFooter />
     </main>

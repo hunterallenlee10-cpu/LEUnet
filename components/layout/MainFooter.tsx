@@ -11,9 +11,9 @@ import { ventures } from "@/data/ventures";
  */
 const footerLogo = "/logos/leu-logo-96.webp";
 
-// A server component. The Home, Contact and Legal rows point at homepage
-// sections through HomeSectionLink, the one client piece: on / they scroll in
-// place, anywhere else they navigate to `/#id` client-side.
+// A server component. The Home and Contact rows point at homepage sections
+// through HomeSectionLink, the one client piece: on / they scroll in place,
+// anywhere else they navigate to `/#id` client-side.
 export function MainFooter() {
   return (
     <footer className="bg-neutral-950 border-t border-neutral-800">
@@ -113,14 +113,16 @@ export function MainFooter() {
           <div>
             <h4 className="font-semibold text-white mb-4">Legal</h4>
             <ul className="space-y-2">
+              {/* The legal text lives on its own /legal page rather than the
+                  homepage, so these are plain links, not section scrolls. */}
               {footerContent.links.map((link) => (
                 <li key={link.label}>
-                  <HomeSectionLink
-                    sectionId={link.href.replace("#", "")}
+                  <Link
+                    href={link.href}
                     className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
                   >
                     {link.label}
-                  </HomeSectionLink>
+                  </Link>
                 </li>
               ))}
             </ul>

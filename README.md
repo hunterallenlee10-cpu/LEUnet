@@ -2,8 +2,8 @@
 
 The Lee Enterprises Unlimited website: the homepage (`/`), LEU Business
 Mastery (`/business-mastery`), Lee Systems Co. (`/lee-systems`,
-`/lee-systems/automation`, `/lee-systems/websites`), `/partners` and
-`/support`. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript,
+`/lee-systems/automation`, `/lee-systems/websites`), `/partners`, `/support`
+and `/legal`. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript,
 hosted on Vercel.
 
 The repo was bootstrapped with [v0](https://v0.app) and is linked to a

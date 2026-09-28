@@ -39,19 +39,23 @@ export const bmFoundingCounter = {
 // --- 1. Hero ---------------------------------------------------------------
 
 export const bmHero = {
-  manifesto: "No great accomplishment in history was achieved alone.",
+  manifesto: "Learn how to build, scale, and dominate.",
   subtitle: "Speedrun Your Way to Success.",
   description:
     "Skip years of unnecessary trial and error by learning from people already building, failing, adapting, and winning.",
+  /** Homepage teaser only; the /business-mastery hero keeps `subtitle` and `description`. */
+  homeDescription:
+    "We exist to speedrun your success. Learn how to leverage world-class strategies and state-of-the-art tools to build and scale your business faster than ever.",
   /**
    * The scarcity line on the homepage teaser. This slot used to render the
    * live "5 / 20 FOUNDING MEMBERS" figures from `bmFoundingCounter`; it is a
    * flat statement now, at the owner's request. Unlike the counter it
    * replaced, nothing in the repo can check it - it is a claim about the
    * owner's own enrollment, so it stays true only as long as that is true.
-   * Change or remove it when enrollment is no longer closing.
+   * Change or remove it when enrollment is no longer closing, and update the
+   * spot count by hand whenever it changes.
    */
-  scarcityLine: "Enrollment Closing Soon",
+  scarcityLine: "Enrollment Closing Soon · 4 Spots Remain",
   cta: "Achieve Your Dreams",
 } as const;
 
@@ -109,11 +113,10 @@ export const bmProofStatement =
  * is set. Each `value` is the number exactly as the sentence states it, and
  * each `label` is the sentence's own words for what that number counts.
  *
- * The file header's rule therefore governs both, and the three copies of this
+ * The file header's rule therefore governs both, and the two copies of this
  * claim cannot be allowed to drift: if the owner changes a figure, change it
- * in `bmProofStatement`, here, and in `leeSystemsHomeTeaser.manifesto` (data/lee-systems.ts,
- * which recasts the same sentence as the homepage headline) in the same edit,
- * or the site states two different track records at once.
+ * in `bmProofStatement` and here in the same edit, or the site states two
+ * different track records at once.
  */
 export const bmProofPoints = [
   { value: "50+", label: "Businesses built" },
@@ -237,9 +240,9 @@ export const bmProgram = {
 export const bmPillars: BmPillar[] = [
   {
     id: "classes",
-    title: "Subject-Specific Classes",
+    title: "Subject-Specific Demos",
     description:
-      "Step-by-step education covering different areas of starting, operating, and growing businesses.",
+      "Watch real business tasks done start to finish, with demos broken down by subject across starting, operating, and growing a business.",
   },
   {
     id: "webinars",
@@ -263,7 +266,7 @@ export const bmPillars: BmPillar[] = [
     id: "hands-on",
     title: "Hands-On Help",
     description:
-      "We don't just tell you what to do. We help you work through it.",
+      "We don't just tell you what to do. We help you work through it. We provide step-by-step, bulletproof instruction for success.",
   },
   {
     id: "community",
