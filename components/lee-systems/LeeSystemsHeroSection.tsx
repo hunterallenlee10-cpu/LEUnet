@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SignalRoutes } from "@/components/lee-systems/SignalRoutes";
-import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
 import {
   automationAudit,
   leeSystems,
@@ -25,14 +24,11 @@ export function LeeSystemsHeroSection() {
       </div>
 
       <div className="section-container relative text-center">
-        <div className="mb-8 flex items-center justify-center gap-3">
-          <LeeSystemsMark size="md" />
-          <div className="text-left">
-            <p className="text-lg font-bold tracking-[0.2em] text-white">
-              LEE SYSTEMS CO.
-            </p>
-            <p className="text-xs text-neutral-400">{leeSystems.tagline}</p>
-          </div>
+        <div className="mb-8">
+          <p className="text-lg font-bold tracking-[0.2em] text-white">
+            LEE SYSTEMS CO.
+          </p>
+          <p className="text-xs text-neutral-400">{leeSystems.tagline}</p>
         </div>
 
         <h1 className="heading-xl mx-auto mb-6 max-w-4xl text-white">
