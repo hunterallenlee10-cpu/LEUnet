@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { sectionIds } from "@/data/navigation";
+import { businessMasteryPage, sectionIds } from "@/data/navigation";
 import { leeSystemsRoutes } from "@/data/lee-systems";
 import { businessMasteryAction } from "@/data/business-mastery";
 import { site } from "@/data/site";
@@ -102,6 +102,9 @@ export function HeroSection() {
                 className="btn-secondary inline-flex min-h-11 items-center justify-center"
               >
                 {businessMasteryAction.label}
+              </Link>
+              <Link href={businessMasteryPage} className="hero-split-link">
+                See what you&apos;ll learn
               </Link>
             </div>
           </div>
