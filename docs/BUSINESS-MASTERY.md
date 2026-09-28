@@ -36,9 +36,11 @@ Mastery program page, plus its homepage presence.
 >   application (no payment taken), Hunter reviews it and follows up
 >   personally, then members are added to the member resources and groups
 >   (`afterJoining`; a named `platform` replaces that line once set).
-> - **Tenets:** "For Free" is now **"Start Lean"** (id `start-lean`): beside
->   a paid membership, "For Free" read as a claim about its price. Speed and
->   Money In are unchanged.
+> - **Tenets:** "For Free" became "Start Lean" in the fix plan (beside a
+>   paid membership, "For Free" can read as a claim about its price), and the
+>   owner asked for **"For Free"** back the same day (id `for-free`). Its
+>   description stays about starting a business, never the membership's
+>   price. Speed and Money In are unchanged.
 > - **Guarantee:** unchanged, at the owner's request.
 
 **Status:** Phase A built. The page, application form + API route, homepage

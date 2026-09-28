@@ -165,19 +165,20 @@ export const bmAudiences: BmAudience[] = [
 // --- 4. Our Core Tenets ----------------------------------------------------
 
 // The three tenet titles are the owner's, in the owner's order: Speed, Money
-// In, Start Lean. They replaced the eight-step "How to Build Your Own Empire"
+// In, For Free. They replaced the eight-step "How to Build Your Own Empire"
 // ladder at the owner's request. Do not rename, expand, or re-order them
 // without the owner, and do not grow the list back into a framework - three
 // is the point. The titles stay capitalized as names; the heading is sentence
 // case like every other heading on the site. The one-line descriptions expand
-// each title in the same register; "Money In" and "Start Lean" are the
+// each title in the same register; "Money In" and "For Free" are the
 // build's copy, not the owner's, and are the safest place to edit. The
 // "Speed" description is the owner's own, supplied 2026-09-15 — the file
 // header's rule applies to it: verbatim, not to be softened or improved.
 //
-// "Start Lean" was "For Free" until 2026-09-28 (the owner's site fix plan),
-// because "For Free" beside a paid membership read as a claim about its
-// price. It is about what it takes to START A BUSINESS - free tools and the
+// "For Free" was "Start Lean" for part of 2026-09-28 (the owner's site fix
+// plan), because "For Free" beside a paid membership can read as a claim
+// about its price; the owner asked for "For Free" back the same day. It is
+// about what it takes to START A BUSINESS - free tools and the
 // member's own effort - and must never be written so it can be read as a
 // claim about the price of membership, which is paid monthly and carries the
 // guarantee in `bmOffer`. For the same reason nothing here lists the network,
@@ -206,9 +207,9 @@ export const bmTenets: BmTenet[] = [
       "Revenue is the first real proof an idea works, so getting paid comes early, not last.",
   },
   {
-    id: "start-lean",
+    id: "for-free",
     number: 3,
-    title: "Start Lean",
+    title: "For Free",
     description:
       "A business can start with free tools and your own effort, long before it needs money.",
   },
