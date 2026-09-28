@@ -247,6 +247,6 @@ export const leeSystemsHomeTeaser = {
   subtitle: "That's what's behind every system we build:",
   description:
     "business automation that answers, follows up and files for you, and websites built before you pay.",
-  assuranceLine: "Free Automation Audit",
+  assuranceLine: "Free Consultation",
   cta: "See What We Build",
 } as const;
