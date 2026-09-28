@@ -84,7 +84,7 @@ export function BusinessMasterySection() {
           so the names may differ in wording and in nothing else. See the
           block in app/globals.css. */}
       <p className="venture-copy venture-masthead mb-5">
-        <span id="venture-bm-name">LEU Business Mastery</span>
+        <span id="venture-bm-name">Business Mastery</span>
       </p>
       <h3 className="venture-copy venture-heading mb-6">
         {bmHero.manifesto}
