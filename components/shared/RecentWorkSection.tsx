@@ -7,7 +7,7 @@ import { ComingSoonSlot } from "@/components/shared/ComingSoonSlot";
 const MIN_PROJECTS = 2;
 
 /**
- * "Recent work", on the homepage, /lee-systems and /lee-systems/websites: one
+ * "Our projects", on the homepage, /lee-systems and /lee-systems/websites: one
  * card per project in `site.projects`, each linking to the live site or its
  * walkthrough.
  *
@@ -33,7 +33,7 @@ export function RecentWorkSection({ id }: { id?: string }) {
       <div className="section-container">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <h2 id="recent-work-title" className="heading-lg text-white">
-            Recent work
+            Our projects
           </h2>
           <p className="mt-4 text-lg text-neutral-300">
             Real projects, walked through start to finish.

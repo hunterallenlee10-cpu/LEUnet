@@ -77,7 +77,7 @@ ceo@leeenterprisesunlimited.com. The contact form goes to `CONTACT_TO_EMAIL`.
 | What | Key | Until then |
 | --- | --- | --- |
 | Booking link | `bookingUrl` | "Book a free call" goes to the contact form |
-| Finished projects (name, one line, link or walkthrough) | `projects` | "Recent work" shows two "Project walkthrough coming soon" frames |
+| Finished projects (name, one line, link or walkthrough) | `projects` | "Our projects" shows two "Project walkthrough coming soon" frames |
 | Founder photo | `founder.photo` | The About section shows a "Photo coming soon" frame |
 | Call-answering demo number | `callAnswering.demoPhone` | No demo line |
 
