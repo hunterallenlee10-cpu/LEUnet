@@ -40,19 +40,23 @@ export const bmFoundingCounter = {
 
 export const bmHero = {
   title: "LEU Business Mastery",
-  manifesto: "No great accomplishment in history was achieved alone.",
+  manifesto: "Learn how to build, scale, and dominate.",
   subtitle: "Speedrun Your Way to Success.",
   description:
     "Skip years of unnecessary trial and error by learning from people already building, failing, adapting, and winning.",
+  /** Homepage teaser only; the /business-mastery hero keeps `subtitle` and `description`. */
+  homeDescription:
+    "We exist to speedrun your success. Learn how to leverage world-class strategies and state-of-the-art tools to build and scale your business faster than ever.",
   /**
    * The scarcity line on the homepage teaser. This slot used to render the
    * live "5 / 20 FOUNDING MEMBERS" figures from `bmFoundingCounter`; it is a
    * flat statement now, at the owner's request. Unlike the counter it
    * replaced, nothing in the repo can check it - it is a claim about the
    * owner's own enrollment, so it stays true only as long as that is true.
-   * Change or remove it when enrollment is no longer closing.
+   * Change or remove it when enrollment is no longer closing, and update the
+   * spot count by hand whenever it changes.
    */
-  scarcityLine: "Enrollment Closing Soon",
+  scarcityLine: "Enrollment Closing Soon · 4 Spots Remain",
   cta: "Achieve Your Dreams",
 } as const;
 
