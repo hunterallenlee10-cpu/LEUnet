@@ -1,43 +1,39 @@
-"use client";
-
-import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { sectionIds } from "@/data/navigation";
-import { privacyPolicyContent, termsOfServiceContent } from "@/data/company";
+import {
+  companyInfo,
+  privacyPolicyContent,
+  termsOfServiceContent,
+} from "@/data/company";
 import { GlassCard } from "@/components/cards/GlassCard";
 
-function AccordionItem({
-  title,
-  content,
-  isOpen,
-  onToggle,
-}: {
-  title: string;
-  content: string;
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
+/**
+ * One question, as a native <details>. Every item in BOTH columns shares
+ * `name="legal"`, which makes them one exclusive group: opening any question
+ * closes whichever was open before, including one in the other column. The
+ * browser also supplies the expanded state to assistive tech and opens a
+ * closed item when find-in-page matches inside it. Browsers without `name`
+ * support simply allow several open at once.
+ *
+ * The h3 stays inside the summary, which permits headings. `list-none` and the
+ * WebKit marker rule remove the disclosure triangle; the chevron is the only
+ * indicator.
+ */
+function AccordionItem({ title, content }: { title: string; content: string }) {
   return (
-    <div className="mb-4">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:border-amber-400/30 transition-all group"
-      >
+    <details name="legal" className="group/acc mb-4">
+      <summary className="w-full flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:border-amber-400/30 transition-all group cursor-default list-none [&::-webkit-details-marker]:hidden">
         <h3 className="font-semibold text-white text-left group-hover:text-amber-400 transition-colors">
           {title}
         </h3>
         <ChevronDown
-          className={`w-5 h-5 shrink-0 text-amber-400 transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
+          className="w-5 h-5 shrink-0 text-amber-400 transition-transform group-open/acc:rotate-180"
         />
-      </button>
-      {isOpen && (
-        <div className="p-4 bg-white/5 border border-t-0 border-white/10 rounded-b-lg text-neutral-300 text-sm leading-relaxed space-y-3">
-          {content}
-        </div>
-      )}
-    </div>
+      </summary>
+      <div className="p-4 bg-white/5 border border-t-0 border-white/10 rounded-b-lg text-neutral-300 text-sm leading-relaxed space-y-3">
+        {content}
+      </div>
+    </details>
   );
 }
 
@@ -54,20 +50,13 @@ function AccordionItem({
  * elements onto the two columns, because the footer's Legal links scroll to
  * them by id. Side by side they now resolve to the same scroll position, which
  * is the point rather than a regression - either link brings up the whole legal
- * block, and on desktop both are on screen at once.
+ * block, and on desktop both are on screen at once. Both carry `tabIndex={-1}`
+ * so that scroll can also move focus onto them.
  *
  * Below `lg` the columns stack, which is the old layout minus one section's
  * padding. Nothing about this is worth breaking a phone over.
  */
 export function LegalSection() {
-  // One open item across BOTH lists, keyed "privacy-2" / "terms-0": opening
-  // any question closes whichever one was open before, including one in the
-  // other column. Two separate states let a Privacy and a Terms item sit open
-  // side by side.
-  const [openKey, setOpenKey] = useState<string | null>(null);
-  const toggle = (key: string) =>
-    setOpenKey((current) => (current === key ? null : key));
-
   return (
     <section className="relative isolate overflow-hidden py-20 md:py-28">
       {/* Both sections' orbs, kept and merged - amber high right from Privacy,
@@ -84,7 +73,7 @@ export function LegalSection() {
 
       <div className="section-container relative">
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-12">
-          <div id={sectionIds.privacy} className="scroll-mt-24">
+          <div id={sectionIds.privacy} tabIndex={-1} className="outline-none">
             <h2 className="heading-lg mb-8 text-center text-white">
               {privacyPolicyContent.title}
             </h2>
@@ -95,8 +84,6 @@ export function LegalSection() {
                   key={index}
                   title={section.heading}
                   content={section.content}
-                  isOpen={openKey === `privacy-${index}`}
-                  onToggle={() => toggle(`privacy-${index}`)}
                 />
               ))}
             </div>
@@ -105,7 +92,7 @@ export function LegalSection() {
               <p className="text-neutral-400 text-sm">
                 If you have any questions about this Privacy Policy, please contact us at{" "}
                 <span className="text-amber-400 font-semibold">
-                  ceo@leeenterprisesunlimited.com
+                  {companyInfo.contactEmail}
                 </span>
                 .
               </p>
@@ -118,7 +105,8 @@ export function LegalSection() {
               line down one edge. */}
           <div
             id={sectionIds.terms}
-            className="scroll-mt-24 lg:border-l lg:border-neutral-800 lg:pl-12"
+            tabIndex={-1}
+            className="outline-none lg:border-l lg:border-neutral-800 lg:pl-12"
           >
             <h2 className="heading-lg mb-8 text-center text-white">
               {termsOfServiceContent.title}
@@ -130,8 +118,6 @@ export function LegalSection() {
                   key={index}
                   title={section.heading}
                   content={section.content}
-                  isOpen={openKey === `terms-${index}`}
-                  onToggle={() => toggle(`terms-${index}`)}
                 />
               ))}
             </div>

@@ -7,8 +7,8 @@
  * customer type their own amount — exists only on the Prices API. Checkout's
  * inline `price_data` does not support it.
  *
- * Safe to re-run: it looks for an existing Product and Price with matching
- * bounds before creating anything.
+ * Safe to re-run: it reuses the active Price with lookup key
+ * leu_support_custom_amount if one exists (it does not re-check the bounds).
  *
  * Usage:
  *   STRIPE_SECRET_KEY=sk_test_... node scripts/stripe-setup.mjs
@@ -16,6 +16,7 @@
 
 import Stripe from "stripe";
 
+// Mirrors lib/support-config.ts and lib/stripe.ts; change them together.
 const MIN_CENTS = 500;
 const MAX_CENTS = 250_000;
 const PRESET_CENTS = 5_000;
@@ -42,8 +43,8 @@ if (apiKey.includes("_live_")) {
 const stripe = new Stripe(apiKey, { apiVersion: "2026-06-24.dahlia" });
 
 async function main() {
-  // Reuse an existing Price when one already matches, so re-runs don't litter
-  // the account with duplicates.
+  // Reuse the active Price with this lookup key, so re-runs don't litter the
+  // account with duplicates.
   const existing = await stripe.prices.list({
     lookup_keys: [LOOKUP_KEY],
     active: true,

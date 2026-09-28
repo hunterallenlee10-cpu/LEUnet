@@ -1,10 +1,13 @@
 import Stripe from "stripe";
 
+import { SITE_URL } from "@/data/company";
+
 /**
  * Pinned to the API version bundled with stripe@22.x. Upgrade this string and
- * the SDK together — never let it drift silently.
+ * the SDK together — never let it drift silently. scripts/stripe-setup.mjs has
+ * its own copy.
  */
-export const STRIPE_API_VERSION = "2026-06-24.dahlia" as const;
+const STRIPE_API_VERSION = "2026-06-24.dahlia" as const;
 
 /**
  * Stable label applied to every Checkout Session we create so the Dashboard can
@@ -33,7 +36,7 @@ export function getStripe(): Stripe {
       apiVersion: STRIPE_API_VERSION,
       appInfo: {
         name: "Lee Enterprises Unlimited",
-        url: "https://leeenterprisesunlimited.com",
+        url: SITE_URL,
       },
       typescript: true,
       maxNetworkRetries: 2,
@@ -41,11 +44,6 @@ export function getStripe(): Stripe {
   }
 
   return client;
-}
-
-/** True when the configured key is a live-mode key. */
-export function isLiveMode(): boolean {
-  return (process.env.STRIPE_SECRET_KEY ?? "").includes("_live_");
 }
 
 /**
@@ -57,7 +55,7 @@ export function getSiteUrl(): string {
   if (configured) return configured.replace(/\/$/, "");
 
   if (process.env.VERCEL_ENV === "production") {
-    return "https://leeenterprisesunlimited.com";
+    return SITE_URL;
   }
 
   const vercelUrl = process.env.VERCEL_URL;

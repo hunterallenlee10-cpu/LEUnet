@@ -14,6 +14,8 @@
  * cannot read an array back out of a "use client" module.
  */
 
+import { companyInfo } from "@/data/company";
+
 export const leeSystemsRoutes = {
   home: "/lee-systems",
   automation: "/lee-systems/automation",
@@ -30,14 +32,14 @@ export const leeSystems = {
   name: "Lee Systems Co.",
   tagline: "A Lee Enterprises Unlimited company",
   parentName: "Lee Enterprises Unlimited",
-  parentUrl: "https://www.leeenterprisesunlimited.com",
   headline: "Systems that run your business while you run the work.",
   owner: "Hunter Lee",
   city: "Frederick",
   region: "Maryland",
   regionCode: "MD",
   serviceArea: "Frederick, Maryland, and remote nationwide",
-  contactEmail: "ceo@leeenterprisesunlimited.com",
+  /** The parent company's inbox until Lee Systems Co. has its own. */
+  contactEmail: companyInfo.contactEmail,
   /** PLACEHOLDER: no phone number is published yet. Leave null to hide it. */
   phone: null as string | null,
 } as const;

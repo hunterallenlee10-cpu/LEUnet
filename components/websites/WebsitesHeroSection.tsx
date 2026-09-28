@@ -1,8 +1,5 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { BrowserFrameVisual } from "@/components/websites/BrowserFrameVisual";
 import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
 import { LeeSystemsSiblingLinks } from "@/components/lee-systems/LeeSystemsSiblingLinks";
@@ -45,26 +42,22 @@ export function WebsitesHeroSection() {
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
-              <button
-                type="button"
-                onClick={() =>
-                  smoothScrollToElement(leeSystemsAnchors.websiteForm, { focus: true })
-                }
-                className="btn-ls-primary group inline-flex items-center justify-center gap-2"
+              <a
+                href={`#${leeSystemsAnchors.websiteForm}`}
+                className="btn-ls-primary group inline-flex items-center justify-center gap-2 text-center"
               >
                 Get a Free Website Quote
                 <ArrowRight
                   className="h-5 w-5 transition-transform group-hover:translate-x-1"
                   aria-hidden="true"
                 />
-              </button>
-              <button
-                type="button"
-                onClick={() => smoothScrollToElement("website-includes")}
-                className="btn-ls-secondary inline-flex items-center justify-center gap-2"
+              </a>
+              <a
+                href="#website-includes"
+                className="btn-ls-secondary inline-flex items-center justify-center gap-2 text-center"
               >
                 What Every Site Includes
-              </button>
+              </a>
             </div>
 
             <p className="mt-6 text-sm text-neutral-400">

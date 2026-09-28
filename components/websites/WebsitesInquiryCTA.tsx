@@ -3,13 +3,15 @@ import { leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
  * The website quote form, and the last section on the page. Every "Get a Free
- * Website Quote" button scrolls here by the anchor id.
+ * Website Quote" link points here by the anchor id. tabIndex={-1} lets the
+ * hash jump move focus here too, so the next Tab lands in the form.
  */
 export function WebsitesInquiryCTA() {
   return (
     <section
       id={leeSystemsAnchors.websiteForm}
-      className="relative isolate scroll-mt-24 py-20 md:py-28"
+      tabIndex={-1}
+      className="relative isolate py-20 outline-none md:py-28"
     >
       <div className="section-container">
         <div className="mx-auto mb-12 max-w-3xl text-center">

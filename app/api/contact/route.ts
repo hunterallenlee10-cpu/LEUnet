@@ -1,33 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
 import { contactFormFields, optionLabel } from "@/data/contact";
+import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
+import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
+import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
 
-// Constructed per request rather than at module scope: the Resend constructor
-// throws when the key is missing, which fails `next build` on any environment
-// that doesn't expose RESEND_API_KEY at build time.
-function getResend(): Resend {
-  return new Resend(process.env.RESEND_API_KEY);
-}
-
+/** What the form posts. Typed `unknown` because a request can come from anywhere. */
 interface ContactFormRequest {
-  fullName: string;
-  email: string;
-  phone?: string;
-  ventureOfInterest: string;
-  preferredContactMethod: "email" | "phone";
-  projectDescription: string;
-  budgetRange?: string;
-  desiredTimeline?: string;
-  howHeardAboutUs?: string;
-  honeypot?: string;
+  fullName?: unknown;
+  email?: unknown;
+  phone?: unknown;
+  preferredContactMethod?: unknown;
+  projectDescription?: unknown;
+  budgetRange?: unknown;
+  desiredTimeline?: unknown;
+  howHeardAboutUs?: unknown;
+  honeypot?: unknown;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body: ContactFormRequest = await request.json();
+    const parsed = await readJsonBody(request);
+    if (parsed instanceof NextResponse) return parsed;
+    const body: ContactFormRequest = parsed;
 
     // Honeypot field check - silently return 200 if filled
-    if (body.honeypot && body.honeypot.trim() !== "") {
+    if (stringField(body.honeypot).trim() !== "") {
       return NextResponse.json(
         { message: "Thank you for your submission" },
         { status: 200 }
@@ -38,64 +35,75 @@ export async function POST(request: NextRequest) {
     const errors: Record<string, string> = {};
 
     // Full Name validation
-    const fullNameTrimmed = body.fullName?.trim() || "";
+    const fullNameTrimmed = stringField(body.fullName).trim();
     if (!fullNameTrimmed) {
       errors.fullName = "Full name is required";
     } else if (fullNameTrimmed.length < 2) {
       errors.fullName = "Name must be at least 2 characters";
+    } else if (fullNameTrimmed.length > FIELD_LIMITS.short) {
+      errors.fullName = tooLongMessage(FIELD_LIMITS.short);
     }
 
     // Email validation
-    const emailTrimmed = body.email?.trim() || "";
+    const emailTrimmed = stringField(body.email).trim();
     if (!emailTrimmed) {
       errors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed)) {
+    } else if (
+      emailTrimmed.length > FIELD_LIMITS.email ||
+      !isValidEmail(emailTrimmed)
+    ) {
       errors.email = "Please enter a valid email address";
     }
 
     // Phone validation - only required if phone is preferred contact method
-    const phoneTrimmed = body.phone?.trim() || "";
-    if (body.preferredContactMethod === "phone" && !phoneTrimmed) {
+    const preferredContactMethod = stringField(body.preferredContactMethod);
+    const phoneTrimmed = stringField(body.phone).trim();
+    if (preferredContactMethod === "phone" && !phoneTrimmed) {
       errors.phone = "Phone number is required";
     } else if (
       phoneTrimmed &&
-      (!/^[\d\s\-().+]+$/.test(phoneTrimmed) || phoneTrimmed.length < 10)
+      (phoneTrimmed.length > FIELD_LIMITS.phone || !isValidPhone(phoneTrimmed))
     ) {
       errors.phone = "Please enter a valid phone number";
     }
 
     // Contact method validation
-    if (!body.preferredContactMethod) {
+    if (!preferredContactMethod) {
       errors.preferredContactMethod = "Please select a contact method";
     }
 
     // Project description validation
-    const projectDescriptionTrimmed = body.projectDescription?.trim() || "";
+    const projectDescriptionTrimmed = stringField(body.projectDescription).trim();
     if (!projectDescriptionTrimmed) {
       errors.projectDescription = "Please describe your project or request";
     } else if (projectDescriptionTrimmed.length < 10) {
       errors.projectDescription = "Description must be at least 10 characters";
+    } else if (projectDescriptionTrimmed.length > FIELD_LIMITS.long) {
+      errors.projectDescription = tooLongMessage(FIELD_LIMITS.long);
     }
 
-    // Budget range validation
-    if (!body.budgetRange) {
+    // Budget range and timeline. A value that is not one of the options is
+    // still accepted and emailed as sent (see optionLabel), so it is capped
+    // like any other one-line field.
+    const budgetRange = stringField(body.budgetRange);
+    if (!budgetRange || budgetRange.length > FIELD_LIMITS.short) {
       errors.budgetRange = "Please select a budget range";
     }
 
-    // Timeline validation
-    if (!body.desiredTimeline) {
+    const desiredTimeline = stringField(body.desiredTimeline);
+    if (!desiredTimeline || desiredTimeline.length > FIELD_LIMITS.short) {
       errors.desiredTimeline = "Please select a timeline";
     }
 
     // How heard about us validation. This is free text rather than a select
     // now, so it is trimmed and capped here as well as in the browser - the
     // maxLength attribute on the input is a convenience, not a guarantee.
-    const howHeardTrimmed = body.howHeardAboutUs?.trim() || "";
+    const howHeardTrimmed = stringField(body.howHeardAboutUs).trim();
     const howHeardMax = contactFormFields.howHeardAboutUs.validation.maxLength;
     if (!howHeardTrimmed) {
       errors.howHeardAboutUs = "Please let us know how you heard about us";
     } else if (howHeardTrimmed.length > howHeardMax) {
-      errors.howHeardAboutUs = `Please keep this under ${howHeardMax} characters`;
+      errors.howHeardAboutUs = tooLongMessage(howHeardMax);
     }
 
     // Return errors if validation fails
@@ -113,41 +121,25 @@ export async function POST(request: NextRequest) {
 Full Name: ${fullNameTrimmed}
 Email Address: ${emailTrimmed}
 Phone Number: ${phoneTrimmed || "Not provided"}
-Preferred Contact Method: ${body.preferredContactMethod === "email" ? "Email" : "Phone"}
-Budget Range: ${optionLabel(contactFormFields.budgetRange.options, body.budgetRange)}
-Desired Timeline: ${optionLabel(contactFormFields.desiredTimeline.options, body.desiredTimeline)}
+Preferred Contact Method: ${preferredContactMethod === "email" ? "Email" : "Phone"}
+Budget Range: ${optionLabel(contactFormFields.budgetRange.options, budgetRange)}
+Desired Timeline: ${optionLabel(contactFormFields.desiredTimeline.options, desiredTimeline)}
 How They Heard About Us: ${howHeardTrimmed || "Not provided"}
 
 Project or Request Description:
 ${projectDescriptionTrimmed}
     `.trim();
 
-    // Build subject line
-    const subject = `New Website Inquiry from ${fullNameTrimmed}`;
-
-    // Send email via Resend
-    const response = await getResend().emails.send({
-      from: process.env.CONTACT_FROM_EMAIL || "noreply@leeenterprisesunlimited.com",
-      to: process.env.CONTACT_TO_EMAIL || "ceo@leeenterprisesunlimited.com",
+    return await sendLeadEmail({
+      tag: "contact",
+      form: "contact form",
+      to: DEFAULT_TO_EMAIL,
       replyTo: emailTrimmed,
-      subject: subject,
+      subject: `New Website Inquiry from ${fullNameTrimmed}`,
       text: emailBody,
     });
-
-    if (response.error) {
-      console.error("[v0] Resend error:", response.error);
-      return NextResponse.json(
-        { error: "Failed to send email" },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json(
-      { message: "Email sent successfully", id: response.data?.id },
-      { status: 200 }
-    );
   } catch (error) {
-    console.error("[v0] Contact form error:", error);
+    console.error("[contact] Contact form error:", error);
     return NextResponse.json(
       { error: "An error occurred while processing your request" },
       { status: 500 }

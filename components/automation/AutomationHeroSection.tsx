@@ -1,8 +1,5 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { AutomationFlowVisual } from "@/components/automation/AutomationFlowVisual";
 import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
 import { LeeSystemsSiblingLinks } from "@/components/lee-systems/LeeSystemsSiblingLinks";
@@ -48,26 +45,22 @@ export function AutomationHeroSection() {
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
-              <button
-                type="button"
-                onClick={() =>
-                  smoothScrollToElement(leeSystemsAnchors.auditForm, { focus: true })
-                }
-                className="btn-ls-primary group inline-flex items-center justify-center gap-2"
+              <a
+                href={`#${leeSystemsAnchors.auditForm}`}
+                className="btn-ls-primary group inline-flex items-center justify-center gap-2 text-center"
               >
                 Book a {automationAudit.price} {automationAudit.name}
                 <ArrowRight
                   className="h-5 w-5 transition-transform group-hover:translate-x-1"
                   aria-hidden="true"
                 />
-              </button>
-              <button
-                type="button"
-                onClick={() => smoothScrollToElement("automation-services")}
-                className="btn-ls-secondary inline-flex items-center justify-center gap-2"
+              </a>
+              <a
+                href="#automation-services"
+                className="btn-ls-secondary inline-flex items-center justify-center gap-2 text-center"
               >
                 See What We Automate
-              </button>
+              </a>
             </div>
 
             <p className="mt-6 text-sm text-neutral-400">

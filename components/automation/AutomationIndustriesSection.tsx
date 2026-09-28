@@ -13,7 +13,7 @@ const industryIcons = {
  */
 export function AutomationIndustriesSection() {
   return (
-    <section id="industries" className="relative isolate scroll-mt-24 py-20 md:py-28">
+    <section id="industries" className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
@@ -31,7 +31,7 @@ export function AutomationIndustriesSection() {
               <div
                 key={id}
                 id={id}
-                className="scroll-mt-24 rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-8"
+                className="rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-8"
               >
                 <div className="mb-4 flex items-center gap-3">
                   <Icon className="h-7 w-7 text-brass-300" aria-hidden="true" />

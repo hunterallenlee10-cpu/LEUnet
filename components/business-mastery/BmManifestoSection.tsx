@@ -61,12 +61,12 @@ import {
  * indented pull-quote on a gold hairline — the one element set off the centre
  * axis, which is what made that axis break mean something. Taking it out
  * therefore costs more than a paragraph: the section is a single centred column
- * again, and the only remaining contrast between the movements is the gold seam
- * rule and the interval around it. That is deliberate and it is enough at this
- * length, but if the section ever reads flat again, this is the thing that was
- * removed, and reinstating it is the block that used to sit between the
- * clarifier and the gold seam rule — both also off the page now, so its slot
- * is under the proof row. `bmCoreBelief.philosophyTitle` and
+ * again, and the only remaining contrast between the movements is the proof
+ * row's hairlines and the interval around them. That is deliberate and it is
+ * enough at this length, but if the section ever reads flat again, this is the
+ * thing that was removed, and reinstating it is the block that used to sit
+ * between the clarifier and the gold seam rule — both also off the page now,
+ * so its slot is under the proof row. `bmCoreBelief.philosophyTitle` and
  * `bmCoreBelief.philosophy` are untouched in the data file and now render
  * nowhere — see the note on them there.
  *
@@ -94,16 +94,16 @@ import {
  *    is invalid at computed-value time, so the margins drop and the gradient
  *    resolves to nothing — a transparent line with an amber shadow floating in
  *    space. Putting `.bmh` on an ancestor instead drags its black `::before`
- *    veil across a section with no constellation to protect against. So the
- *    seam rule below is that gradient reproduced inline. If `.bmh-rule` is ever
- *    retuned, the seam is a copy and not a reference, so it does not follow.
+ *    veil across a section with no constellation to protect against. So a
+ *    restored seam has to reproduce that gradient inline, and as a copy rather
+ *    than a reference it will not follow if `.bmh-rule` is ever retuned.
  *  - `.bmh-eyebrow`. Portable, and prettier than the house eyebrow, but its
  *    size caps at `2vh` — tuned for a hero that owns the viewport, wrong for a
  *    section that scrolls. This slot sits between the hero and BmAudienceSection
  *    and the eyebrow is what ties it to the section below, so it uses the house
  *    idiom the other five sections use.
- *  - `.text-glow-amber`. "Network." is tracked at 0.3em and the house glow
- *    (20px / 0.5 alpha) stacks across gaps that wide into a visible amber bar
+ *  - A plain amber text glow. "Network." is tracked at 0.3em, and a 20px /
+ *    0.5 alpha glow stacks across gaps that wide into a visible amber bar
  *    behind the word. The hero solved this once at 26px / 0.42; those numbers.
  *
  * Two things that look like fussiness and are not. Every tracked line carries

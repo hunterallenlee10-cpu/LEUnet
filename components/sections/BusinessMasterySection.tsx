@@ -7,11 +7,11 @@ import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground
 
 /**
  * Homepage doorway to /business-mastery — deliberately not a summary. The
- * page carries the pillars, phases, and audiences; this carries the
+ * page carries the pillars, tenets, and audiences; this carries the
  * manifesto, a scarcity line, and one CTA. The scarcity line used to be the
  * real founding counter, sharing the page's owner-maintained figures; it is
- * `bmHero.scarcityLine` now, so the teaser no longer states a number and the
- * page's counter stands alone. docs/BUSINESS-MASTERY.md §8.
+ * `bmHero.scarcityLine` now, so no figure is stated on the teaser or the
+ * page. docs/BUSINESS-MASTERY.md §8.
  *
  * It is the left half of `VenturesSection`, not a section of its own: the
  * heading over the pair, the grid, the seam and the hover spotlight live

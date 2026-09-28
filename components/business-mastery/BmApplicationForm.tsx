@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
 
 const emptyForm = {
   fullName: "",
@@ -18,8 +19,8 @@ const fieldClass =
   "w-full rounded-lg border bg-neutral-900 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/60";
 
 /**
- * The founding-member application. Same skeleton as the H1 consultation
- * form: honeypot, client validation mirrored server side, recipient set only
+ * The founding-member application. Same skeleton as the other site forms:
+ * honeypot, client validation mirrored server side, recipient set only
  * in app/api/business-mastery-application/route.ts. No payment is taken here
  * — the owner follows up personally with each applicant.
  */
@@ -29,6 +30,16 @@ export function BmApplicationForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const successRef = useRef<HTMLDivElement>(null);
+
+  // The success panel replaces the form, taking the focused submit button with
+  // it, so focus would fall back to <body>. Moving it to the panel keeps a
+  // keyboard or screen reader user on the confirmation.
+  useEffect(() => {
+    if (submitted) {
+      successRef.current?.focus();
+    }
+  }, [submitted]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -42,10 +53,9 @@ export function BmApplicationForm() {
     const next: FieldErrors = {};
     if (formData.fullName.trim().length < 2)
       next.fullName = "Please enter your full name";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
+    if (!isValidEmail(formData.email.trim()))
       next.email = "Please enter a valid email address";
-    const phone = formData.phone.trim();
-    if (!phone || !/^[\d\s\-().+]+$/.test(phone) || phone.length < 10)
+    if (!isValidPhone(formData.phone.trim()))
       next.phone = "Please enter a valid phone number";
     if (formData.story.trim().length < 20)
       next.story = "Please tell us a little more about where you are and what you want to build";
@@ -101,7 +111,12 @@ export function BmApplicationForm() {
 
   if (submitted) {
     return (
-      <div className="mx-auto max-w-2xl rounded-xl border border-amber-400/30 bg-amber-400/5 p-10 text-center md:p-12">
+      <div
+        ref={successRef}
+        tabIndex={-1}
+        role="status"
+        className="mx-auto max-w-2xl rounded-xl border border-amber-400/30 bg-amber-400/5 p-10 text-center focus:outline-none md:p-12"
+      >
         <CheckCircle2
           className="mx-auto mb-5 h-12 w-12 text-amber-400"
           aria-hidden="true"
@@ -172,6 +187,7 @@ export function BmApplicationForm() {
           onChange={handleChange}
           placeholder="Your name"
           autoComplete="name"
+          maxLength={FIELD_LIMITS.short}
         />
         <Field
           id="email"
@@ -183,6 +199,7 @@ export function BmApplicationForm() {
           onChange={handleChange}
           placeholder="you@example.com"
           autoComplete="email"
+          maxLength={FIELD_LIMITS.email}
         />
         <Field
           id="phone"
@@ -194,6 +211,7 @@ export function BmApplicationForm() {
           onChange={handleChange}
           placeholder="(240) 000-0000"
           autoComplete="tel"
+          maxLength={FIELD_LIMITS.phone}
         />
       </div>
 
@@ -220,6 +238,7 @@ export function BmApplicationForm() {
           rows={7}
           value={formData.story}
           onChange={handleChange}
+          maxLength={FIELD_LIMITS.long}
           required
           aria-required="true"
           aria-invalid={errors.story ? "true" : undefined}
@@ -265,6 +284,7 @@ interface FieldProps {
   error?: string;
   placeholder?: string;
   autoComplete?: string;
+  maxLength?: number;
 }
 
 function Field({
@@ -277,6 +297,7 @@ function Field({
   error,
   placeholder,
   autoComplete,
+  maxLength,
 }: FieldProps) {
   return (
     <div>
@@ -303,6 +324,7 @@ function Field({
         aria-describedby={error ? `${id}-error` : undefined}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        maxLength={maxLength}
         className={`${fieldClass} ${error ? "border-red-500/60" : "border-neutral-700"}`}
       />
       {error && (

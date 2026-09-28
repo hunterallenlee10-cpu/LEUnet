@@ -1,37 +1,18 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { smoothScrollToElement } from "@/lib/scrollUtils";
 import { companyInfo } from "@/data/company";
 import { businessMasteryPage, sectionIds, venturePages } from "@/data/navigation";
 import { GlassCardPadded } from "@/components/cards/GlassCard";
+import { HeroParallax } from "@/components/sections/HeroParallax";
 
 export function HeroSection() {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleCTA = (sectionId: string) => {
-    smoothScrollToElement(sectionId, { focus: true });
-
-    if (typeof window !== "undefined") {
-      window.history.replaceState(null, "", `#${sectionId}`);
-    }
-  };
-
   return (
     <section
       id={sectionIds.hero}
+      // Out of the tab order but focusable, so the header's and footer's
+      // scroll to #hero (lib/scrollUtils.ts) can move focus here.
+      tabIndex={-1}
       // A floor at every width, never a lock. The header is `fixed`, so it
       // takes no layout space and this section starts at y=0 underneath it -
       // subtracting its 80px from the height did not move the content clear of
@@ -40,7 +21,7 @@ export function HeroSection() {
       // shorter. The band is reserved as top padding on the wrapper below
       // instead, and the height is a minimum so a column too tall for the
       // space grows the page rather than being clipped by `overflow-hidden`.
-      className="relative isolate overflow-hidden min-h-[calc(100vh-80px)] lg:min-h-screen"
+      className="relative isolate overflow-hidden outline-none min-h-[calc(100vh-80px)] lg:min-h-screen"
     >
       {/* Animated background — "Aurora Veil". Two counter-rotating masked
           gradients over a warm pool, then grain and a scrim that keeps the
@@ -136,13 +117,16 @@ export function HeroSection() {
 
               {/* CTA */}
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <button
-                  onClick={() => handleCTA(sectionIds.contact)}
+                {/* A plain fragment link: html's smooth scrolling and 80px
+                    `scroll-padding-top` land it where the header's scripted
+                    scroll does, and it is instant under reduced motion. */}
+                <a
+                  href={`#${sectionIds.contact}`}
                   className="btn-primary flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   Talk to Us
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </a>
                 <Link
                   href={businessMasteryPage}
                   className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
@@ -160,13 +144,12 @@ export function HeroSection() {
 
             {/* Right Column - 48% - Logo */}
             <div className="w-full flex items-center justify-center hidden lg:flex">
-              <div
+              <HeroParallax
                 className="relative"
                 style={{
                   width: "clamp(360px, 38vw, 600px)",
                   maxWidth: "100%",
                   aspectRatio: "1",
-                  transform: `translateY(${scrollY * 0.1}px)`,
                 }}
               >
                 {/* Logo Glow Layers */}
@@ -174,14 +157,15 @@ export function HeroSection() {
                   {/* Pulsing logo glow. Centred on the artwork rather than on
                       the box: the mark's drawn area sits at 55%/49% of the
                       square PNG, so a glow centred at 50%/50% reads as offset
-                      from its own logo. */}
+                      from its own logo. `will-change` keeps the blur on its own
+                      compositor layer even when reduced motion stops the pulse;
+                      without it the glow rasterises slightly differently. */}
                   <div
-                    className="absolute rounded-full blur-3xl"
+                    className="hero-logo-glow absolute rounded-full blur-3xl"
                     style={{
                       width: "100%",
                       height: "100%",
                       background: 'radial-gradient(ellipse at 55% 49%, rgba(251, 191, 36, 0.25) 0%, rgba(212, 175, 55, 0.08) 50%, transparent 80%)',
-                      animation: 'hero-logo-pulse 6s ease-in-out infinite',
                       willChange: 'transform',
                     }}
                   />
@@ -195,7 +179,7 @@ export function HeroSection() {
                   className="object-contain"
                   priority
                 />
-              </div>
+              </HeroParallax>
             </div>
           </div>
         </div>

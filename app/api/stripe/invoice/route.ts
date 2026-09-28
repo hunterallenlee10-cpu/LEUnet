@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 import { isAuthorizedAdmin } from "@/lib/admin-auth";
+import { readJsonBody, stringField } from "@/lib/api";
 import { getStripe } from "@/lib/stripe";
+import { isValidEmail } from "@/lib/validation";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -39,8 +41,8 @@ const MAX_LINES = 50;
 const MAX_LINE_AMOUNT_CENTS = 5_000_000; // $50,000 per line
 
 function validate(body: Partial<InvoiceRequest>): string | null {
-  const email = body.customer?.email?.trim();
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  const email = stringField(body.customer?.email).trim();
+  if (!email || !isValidEmail(email)) {
     return "A valid customer.email is required";
   }
 
@@ -93,12 +95,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: Partial<InvoiceRequest>;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-  }
+  const parsed = await readJsonBody(request);
+  if (parsed instanceof NextResponse) return parsed;
+  const body = parsed as Partial<InvoiceRequest>;
 
   const validationError = validate(body);
   if (validationError) {
@@ -118,8 +117,8 @@ export async function POST(request: NextRequest) {
       existing.data[0] ??
       (await stripe.customers.create({
         email,
-        name: input.customer.name?.trim() || undefined,
-        phone: input.customer.phone?.trim() || undefined,
+        name: stringField(input.customer.name).trim() || undefined,
+        phone: stringField(input.customer.phone).trim() || undefined,
         metadata: { ventureId: input.ventureId },
       }));
 
@@ -130,8 +129,8 @@ export async function POST(request: NextRequest) {
       customer: customer.id,
       collection_method: "send_invoice",
       days_until_due: input.daysUntilDue ?? 14,
-      description: input.description?.trim() || undefined,
-      footer: input.footer?.trim() || undefined,
+      description: stringField(input.description).trim() || undefined,
+      footer: stringField(input.footer).trim() || undefined,
       pending_invoice_items_behavior: "exclude",
       // Stripe Tax is intentionally left off. Enabling `automatic_tax` without an
       // active tax registration silently collects nothing. See docs/STRIPE.md.
@@ -156,13 +155,20 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const finalized = await stripe.invoices.finalizeInvoice(invoice.id);
-
     const shouldSend = input.send !== false;
-    const result =
-      shouldSend && finalized.id
+    let result: Stripe.Invoice;
+    if (shouldSend) {
+      const finalized = await stripe.invoices.finalizeInvoice(invoice.id);
+      result = finalized.id
         ? await stripe.invoices.sendInvoice(finalized.id)
         : finalized;
+    } else {
+      // Left as a draft, since finalizing numbers the invoice and locks its
+      // lines. Re-read because `invoice` predates the line items, so its
+      // totals are still zero. A draft has no hosted page or PDF yet, so
+      // those two fields come back null.
+      result = await stripe.invoices.retrieve(invoice.id);
+    }
 
     return NextResponse.json({
       id: result.id,

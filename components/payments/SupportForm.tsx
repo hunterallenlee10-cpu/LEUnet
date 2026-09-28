@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
 import { Check, Loader2, Lock, ShieldCheck } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { formatAmountCompact } from "@/lib/money";
 import {
   SUPPORT_MAX_CENTS,
@@ -15,12 +14,6 @@ import {
 
 type Selection = number | "custom";
 
-interface SupportFormProps {
-  className?: string;
-  /** Optional heading override. */
-  title?: string;
-}
-
 /**
  * Pay-what-you-choose contribution form.
  *
@@ -29,10 +22,21 @@ interface SupportFormProps {
  * bounded by the Price's minimum and maximum. Either way the browser cannot
  * set an amount the server hasn't agreed to.
  */
-export function SupportForm({ className, title = "Support our work" }: SupportFormProps) {
+export function SupportForm() {
   const [selection, setSelection] = useState<Selection>(SUPPORT_PRESETS_CENTS[1]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // A successful start leaves isLoading set while the browser heads to
+  // Stripe. Pressing Back can restore this page from the back/forward cache
+  // with that state intact, so re-enable the button when it does.
+  useEffect(() => {
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setIsLoading(false);
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
 
   async function startCheckout() {
     setIsLoading(true);
@@ -63,10 +67,10 @@ export function SupportForm({ className, title = "Support our work" }: SupportFo
   }
 
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className="flex flex-col">
       <div>
         <h2 className="text-xl font-semibold tracking-tight text-white">
-          {title}
+          Support our work
         </h2>
         <p className="mt-1.5 text-sm text-neutral-400">
           One-time contribution. Choose an amount below.
@@ -102,21 +106,17 @@ export function SupportForm({ className, title = "Support our work" }: SupportFo
         </p>
       )}
 
-      <Button
+      {/* The 1px transparent border (bg-clip-padding keeps the gradient
+          inside it) and focus-visible:border-ring, which reads --ring in
+          globals.css, are part of the look. The press stays
+          active:not-aria-[haspopup] because that extra specificity is what
+          lets it beat the hover lift. */}
+      <button
+        type="button"
         onClick={startCheckout}
         disabled={isLoading}
         aria-busy={isLoading}
-        className={cn(
-          "mt-7 h-12 w-full gap-2 rounded-xl px-6 text-base font-semibold",
-          "bg-gradient-to-b from-amber-300 to-amber-400 text-neutral-950",
-          "shadow-[0_8px_30px_-8px_rgba(212,175,55,0.55)]",
-          "transition-[transform,box-shadow,filter] duration-200",
-          "hover:from-amber-200 hover:to-amber-300",
-          "hover:shadow-[0_10px_36px_-8px_rgba(212,175,55,0.7)]",
-          "motion-safe:hover:-translate-y-0.5",
-          "focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900",
-          "disabled:opacity-70 disabled:shadow-none"
-        )}
+        className="inline-flex shrink-0 items-center justify-center border border-transparent bg-clip-padding whitespace-nowrap outline-none select-none focus-visible:border-ring focus-visible:ring-3 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 mt-7 h-12 w-full gap-2 rounded-xl px-6 text-base font-semibold bg-gradient-to-b from-amber-300 to-amber-400 text-neutral-950 shadow-[0_8px_30px_-8px_rgba(212,175,55,0.55)] transition-[transform,box-shadow,filter] duration-200 hover:from-amber-200 hover:to-amber-300 hover:shadow-[0_10px_36px_-8px_rgba(212,175,55,0.7)] motion-safe:hover:-translate-y-0.5 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 disabled:opacity-70 disabled:shadow-none"
       >
         {isLoading ? (
           <>
@@ -129,7 +129,7 @@ export function SupportForm({ className, title = "Support our work" }: SupportFo
         ) : (
           "Continue to secure checkout"
         )}
-      </Button>
+      </button>
 
       {error && (
         <p
@@ -171,7 +171,7 @@ interface AmountOptionProps {
 /**
  * One choice in the amount selector. Kept as a plain button with `aria-pressed`
  * rather than a radio group so every option stays reachable with Tab — there
- * are only four of them.
+ * are four of them at most.
  */
 function AmountOption({ selected, onSelect, label, note }: AmountOptionProps) {
   return (
@@ -179,7 +179,7 @@ function AmountOption({ selected, onSelect, label, note }: AmountOptionProps) {
       type="button"
       aria-pressed={selected}
       onClick={onSelect}
-      className={cn(
+      className={clsx(
         "relative flex h-20 flex-col items-center justify-center rounded-xl border",
         "outline-none transition-all duration-200",
         "focus-visible:ring-3 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900",
@@ -199,7 +199,7 @@ function AmountOption({ selected, onSelect, label, note }: AmountOptionProps) {
       )}
 
       <span
-        className={cn(
+        className={clsx(
           "text-xl font-semibold tracking-tight transition-colors",
           selected ? "text-amber-200" : "text-white"
         )}
@@ -211,7 +211,7 @@ function AmountOption({ selected, onSelect, label, note }: AmountOptionProps) {
           whether or not this option carries a note. */}
       {note && (
         <span
-          className={cn(
+          className={clsx(
             "absolute inset-x-0 bottom-2.5 text-[11px] font-medium tracking-wide uppercase transition-colors",
             selected ? "text-amber-300/80" : "text-neutral-500"
           )}

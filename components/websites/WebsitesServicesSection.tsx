@@ -47,7 +47,7 @@ const includes = [
 
 export function WebsitesServicesSection() {
   return (
-    <section id="website-includes" className="relative isolate scroll-mt-24 py-20 md:py-28">
+    <section id="website-includes" className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">

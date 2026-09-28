@@ -3,13 +3,15 @@ import { automationAudit, leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
  * The audit form section. Its id is what every "Book an Automation Audit"
- * button on the Lee Systems pages scrolls or links to.
+ * link on the Lee Systems pages points at. tabIndex={-1} lets the hash jump
+ * move focus here too, so the next Tab lands in the form.
  */
 export function AutomationAuditCTA() {
   return (
     <section
       id={leeSystemsAnchors.auditForm}
-      className="relative isolate scroll-mt-24 py-20 md:py-28"
+      tabIndex={-1}
+      className="relative isolate py-20 outline-none md:py-28"
     >
       <div className="section-container">
         <div className="mx-auto mb-12 max-w-3xl text-center">

@@ -1,28 +1,39 @@
 # leu
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+The Lee Enterprises Unlimited website: the homepage (`/`), LEU Business
+Mastery (`/business-mastery`), Lee Systems Co. (`/lee-systems`,
+`/lee-systems/automation`, `/lee-systems/websites`), `/partners` and
+`/support`. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript,
+hosted on Vercel.
 
-## Built with v0
+The repo was bootstrapped with [v0](https://v0.app) and is linked to a
+[v0 project](https://v0.app/chat/projects/prj_p4e4z6MPaVlpOBMeE2pJ7PACajYn),
+which can push commits to it.
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+## Setup
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_p4e4z6MPaVlpOBMeE2pJ7PACajYn)
-
-## Getting Started
-
-First, run the development server:
+The repo uses pnpm only (`pnpm-lock.yaml`); don't install with npm or yarn.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+pnpm install
+cp .env.example .env.local   # then fill in the values you need
+git config core.hooksPath .githooks
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The last line enables the pre-commit hook, once per clone. It runs
+`scripts/check-secrets.sh`, which blocks commits containing Stripe keys or
+webhook secrets. `.env.example` documents the environment variables the site
+reads.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
+
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Development server at <http://localhost:3000> |
+| `pnpm build` | Production build (fails on type errors) |
+| `pnpm start` | Serves the production build |
+| `pnpm lint` | ESLint over the repo |
+| `pnpm typecheck` | Generates Next's route types, then runs `tsc --noEmit` |
 
 ## Payments
 
@@ -83,10 +94,16 @@ it is set, the redirect targets a fallback alias and stays a temporary 307.
 See [docs/H1.md](docs/H1.md) for what each stage of the split left behind here,
 what stayed, and why.
 
-## Learn More
+## Docs
 
-To learn more, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+- [docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md) - build spec and
+  settled decisions for `/business-mastery` and its homepage presence.
+- [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) - the Lee Systems Co. pages, where
+  their copy lives, and the placeholders still to fill in.
+- [docs/WEBSITES.md](docs/WEBSITES.md) - historical build spec for the websites
+  page before the Lee Systems rename; its claims standard still applies.
+- [docs/STRIPE.md](docs/STRIPE.md) - support checkout and invoicing: setup,
+  environment variables, security and the go-live checklist.
+- [docs/H1.md](docs/H1.md) - what H1 Performance's move to its own site left
+  here, and why.
+- [docs/THREAD.md](docs/THREAD.md) - the same for Thread T-Shirts.

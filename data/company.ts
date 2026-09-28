@@ -37,7 +37,6 @@ export const companyInfo = {
    */
   mark: "/logos/leu-mark.webp",
   contactEmail: "ceo@leeenterprisesunlimited.com",
-  website: "leeenterprisesunlimited.com",
 };
 
 /**

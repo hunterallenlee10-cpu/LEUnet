@@ -30,14 +30,6 @@ const stops = [
 ];
 
 /**
- * Each stop is offset by one share of the shared cycle, which is what puts the
- * three of them in sequence: a row's dot finishes its travel exactly as the
- * next row's dot starts, so they hand off at the same point on the line and
- * read as one dot. The number itself lives in
- * `components/lee-systems/scanCycle.ts`, next to the CSS it has to match.
- */
-
-/**
  * Half the badge height plus its top margin, so the line and the dot run
  * between badge *centers* rather than between row edges. Because every row
  * carries the same badge, the same offset is correct at both ends of a
@@ -97,7 +89,7 @@ export function BrowserFrameVisual() {
 
               Each row owns its own segment of the line and its own dot, so no
               element needs to know where the others sit - see the sequencing
-              note above `@keyframes lsScanDot` in app/globals.css. */}
+              note above `@keyframes lsScanTrack` in app/globals.css. */}
           <div className="grid grid-cols-[18px_1fr] gap-x-2.5">
             {stops.map(({ label, Block }, i) => (
               <Stop
@@ -138,9 +130,15 @@ interface StopProps {
  * one. The badge is opaque and above the line so the route appears to pass
  * behind it rather than through it.
  *
- * The segment doubles as the dot's track - the dashed border and the dot share
- * one positioned element, so the dot cannot drift off the line no matter how
- * the row's content resizes.
+ * The segment doubles as the dot's track - the dashed border and the
+ * `.ls-scan-track` box the dot rides in share one positioned element, so the
+ * dot cannot drift off the line no matter how the row's content resizes.
+ *
+ * Every animated piece is offset by a third of LS_SCAN_CYCLE_SECONDS (which
+ * must match the durations in app/globals.css), and that is what puts the
+ * three stops in sequence: a row's dot finishes its travel exactly as the next
+ * row's dot starts, so they hand off at the same point on the line and read as
+ * one dot.
  */
 function Stop({ index, label, isLast, children }: StopProps) {
   const delay = { animationDelay: `${index * (LS_SCAN_CYCLE_SECONDS / 3)}s` };
@@ -169,10 +167,12 @@ function Stop({ index, label, isLast, children }: StopProps) {
           }}
           className="absolute left-1/2 w-0 -translate-x-1/2 border-l border-dashed border-brass-400/30"
         >
-          <span
-            style={delay}
-            className="ls-scan-dot absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brass-400 shadow-[0_0_7px_rgba(212,168,87,0.95)]"
-          />
+          <span style={delay} className="ls-scan-track absolute inset-0">
+            <span
+              style={delay}
+              className="ls-scan-dot absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brass-400 shadow-[0_0_7px_rgba(212,168,87,0.95)]"
+            />
+          </span>
         </span>
       </div>
 

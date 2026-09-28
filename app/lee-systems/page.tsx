@@ -9,6 +9,7 @@ import { LeeSystemsProofSection } from "@/components/lee-systems/LeeSystemsProof
 import { LeeSystemsHowItWorksSection } from "@/components/lee-systems/LeeSystemsHowItWorksSection";
 import { LeeSystemsAboutSection } from "@/components/lee-systems/LeeSystemsAboutSection";
 import { LeeSystemsFinalCTA } from "@/components/lee-systems/LeeSystemsFinalCTA";
+import { SITE_URL } from "@/data/company";
 import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
 
 /**
@@ -50,8 +51,6 @@ export const metadata: Metadata = {
     description,
   },
 };
-
-const SITE_URL = "https://leeenterprisesunlimited.com";
 
 /**
  * This page is the SOLE definer of the `#business` node. Both offering pages

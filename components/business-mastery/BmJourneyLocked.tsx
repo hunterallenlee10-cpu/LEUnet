@@ -13,10 +13,10 @@ import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
  * The eyebrow, title treatment, glow, and ground are copied from the
  * timeline's intro slide (BmJourneyTimeline.tsx) on purpose: unlocking should
  * read as the same section opening, not one section replacing another. The
- * neutral-950 ground is load-bearing there and stays load-bearing here — it
- * is the separator between the black offer section and the black closing CTA
- * (see the join note in page.tsx), which is why locking the section never
- * touches BmFinalCTASection.
+ * neutral-950 ground is load-bearing there and stays load-bearing here: if
+ * BmFinalCTASection comes back, the journey slot is what separates the black
+ * offer section from the black closing CTA (see the join note in page.tsx),
+ * whichever state the slot is in.
  *
  * The tease line is the owner's sentence (`bmJourney.lockedTease`, 2026-09-15).
  * It replaced a line derived from `bmChapters` (count, first title, last

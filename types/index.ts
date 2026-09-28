@@ -1,60 +1,12 @@
 export interface Venture {
   id: string;
   name: string;
-  tagline: string;
-  logo: string;
-  logoAlt: string;
-  description: string;
-  ctaPrimary: string;
-  /**
-   * Destination for the primary CTA. When set, the button becomes a link to
-   * this route; when omitted it falls back to scrolling to the homepage
-   * contact section.
-   */
-  ctaPrimaryHref?: string;
-  ctaSecondary: string;
-  colors: VentureColors;
-  heroSubtitle: string;
-  heroDescription: string;
-}
-
-export interface VentureColors {
-  primary: string;
-  accent: string;
-  dark: string;
-  light: string;
-  text: string;
-  textMuted: string;
-  border: string;
-  glassBg: string;
-  glassOpacity: string;
-}
-
-export interface Service {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}
-
-export interface VentureService extends Service {
-  ventureId: string;
-}
-
-export interface TeamMember {
-  id: string;
-  name: string;
-  title: string;
-  image: string;
-  imageAlt: string;
-  bio: string;
 }
 
 export interface ContactFormData {
   fullName: string;
   email: string;
   phone: string;
-  ventureOfInterest: string;
   preferredContactMethod: "email" | "phone";
   projectDescription: string;
   budgetRange: string;
@@ -74,13 +26,6 @@ export interface NavItem {
   subItems?: NavItem[];
 }
 
-export interface SharedValue {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}
-
 // ---------------------------------------------------------------------------
 // LEU Business Mastery (/business-mastery)
 //
@@ -89,7 +34,7 @@ export interface SharedValue {
 // it, especially the figures.
 // ---------------------------------------------------------------------------
 
-/** One of the four kinds of people the program is built for. */
+/** One of the three stages of entrepreneur the program is built for. */
 export interface BmAudience {
   id: string;
   title: string;
@@ -97,7 +42,7 @@ export interface BmAudience {
 }
 
 /** One of the three core tenets. `number` is the display number, zero-padded
- * by the component ("01" from 1), the same as `BmChapter` below. */
+ * by the component ("01" from 1). */
 export interface BmTenet {
   id: string;
   number: number;
@@ -117,16 +62,7 @@ export interface BmPillar {
 /** One chapter of the founder journey timeline. Bodies arrive with the story. */
 export interface BmChapter {
   id: string;
-  /** Display number, zero-padded by the component ("01" from 1). */
+  /** Orders the chapters and names them for assistive tech; not displayed. */
   number: number;
   title: string;
-}
-
-export interface BmApplicationFormData {
-  fullName: string;
-  email: string;
-  phone: string;
-  stage: string;
-  building: string;
-  why: string;
 }

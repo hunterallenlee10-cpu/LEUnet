@@ -59,14 +59,15 @@
  * — a dashed overlay on a route you can hardly see is paint spent on nothing.
  *
  * HOW THE FIELD YIELDS TO COPY. Both consumers run words over this layer, and
- * before the mask a near route ran straight through the homepage H2. The
- * `focus` prop says where that section's copy sits and `.lsr-svg` masks
+ * before the mask a near route ran straight through the homepage H2. Both
+ * centre that copy in the frame they hand this layer, and `.lsr-svg` masks
  * itself down to roughly a fifth of its opacity there (app/globals.css), so
- * the routes pass *behind* the words instead of through them. A mask rather
- * than a scrim painted in the ground colour, because the two consumers have
- * different grounds — black on the homepage, a neutral-950 gradient on the hub
- * — and a scrim tuned to one would sit on the other as a visible blotch. The
- * same declaration fades the top and bottom edges out, which is what stops the
+ * the routes pass *behind* the words instead of through them. A consumer whose
+ * copy sits anywhere else needs a mask of its own. A mask rather than a scrim
+ * painted in the ground colour, because the two consumers have different
+ * grounds — black on the homepage, a neutral-950 gradient on the hub — and a
+ * scrim tuned to one would sit on the other as a visible blotch. The same
+ * declaration fades the top and bottom edges out, which is what stops the
  * routes being guillotined along a dead-straight line at the section boundary.
  *
  * The orbs stay with the sections. Both consumers light themselves with the
@@ -244,26 +245,10 @@ const WAYPOINTS = [
   { x: 313, y: 502 },
 ] as const;
 
-type SignalRoutesProps = {
-  /**
-   * Where the consuming section puts its copy, which is the one thing this
-   * layer cannot work out for itself. Both current consumers (the Lee Systems
-   * main page hero and the homepage panel) put their copy in the middle of the
-   * frame they hand this layer; `left` is for a two-column hero with the words
-   * on the left. It selects the
-   * mask in app/globals.css that dims the field under the words.
-   *
-   * Required rather than defaulted. A new consumer that forgets to say gets a
-   * type error instead of a headline with a route through it.
-   */
-  focus: "left" | "center";
-};
-
-export function SignalRoutes({ focus }: SignalRoutesProps) {
+export function SignalRoutes() {
   return (
     <svg
       className="lsr-svg"
-      data-focus={focus}
       viewBox="0 0 1000 700"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"

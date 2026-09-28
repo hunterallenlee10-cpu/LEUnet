@@ -188,7 +188,7 @@ both pages that set it have since moved to their own repos - see this repo's
 
 | File | Contents |
 | --- | --- |
-| `data/business-mastery.ts` | All page copy, the three audience stages, the 3 core tenets, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered), palette constants |
+| `data/business-mastery.ts` | All page copy, the three audience stages, the 3 core tenets, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered) |
 | `types/index.ts` | Business Mastery interfaces appended |
 | `components/business-mastery/BmHeroSection.tsx` | 1 — manifesto hero |
 | `components/business-mastery/BmManifestoSection.tsx` | 2 — the merged manifesto (replaced `BmCoreBeliefSection.tsx` and `BmTransitionSection.tsx`) |
@@ -202,7 +202,7 @@ both pages that set it have since moved to their own repos - see this repo's
 | `components/business-mastery/BmJourneyLocked.tsx` | 8 — the Coming Soon placeholder rendered while `BM_JOURNEY_LOCKED` is true (§3) |
 | `components/business-mastery/BmFinalCTASection.tsx` | 10 (built, not currently rendered — §3) |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
-| `app/business-mastery/page.tsx` | Page assembly + metadata + structured data |
+| `app/business-mastery/page.tsx` | Page assembly + metadata (no structured data yet; the comment there says why) + the Cormorant font for the hero's manifesto line |
 | `app/api/business-mastery-application/route.ts` | Application form handler, same Resend pattern as the other venture forms (Thread's `app/api/thread-order/route.ts` now lives in the Thread repo) |
 | `components/sections/BusinessMasterySection.tsx` | Homepage teaser (§8), rendered as the left panel of `components/sections/VenturesSection.tsx` |
 
@@ -247,16 +247,17 @@ at the owner's request:
 | Honeypot | hidden |
 
 Env override pattern mirrors the other routes:
-`BM_TO_EMAIL || CONTACT_TO_EMAIL || "ceo@leeenterprisesunlimited.com"`.
+`BM_TO_EMAIL || CONTACT_TO_EMAIL || "ceo@leeenterprisesunlimited.com"`, the
+last two through `DEFAULT_TO_EMAIL` in `lib/email.ts`.
 
 ---
 
 ## 6. Honesty constraints (repo standard, applies here)
 
-This repo has an explicit, documented standard — see the long comment in
-`data/ventures.ts` — of publishing only what can be substantiated: name the
-work, not the promised result. Three items in the owner's copy were checked
-against that standard before rendering:
+This repo has an explicit, documented standard — see `docs/WEBSITES.md` §3 —
+of publishing only what can be substantiated: name the work, not the promised
+result. Three items in the owner's copy were checked against that standard
+before rendering:
 
 1. **"We have built 50+ businesses, worked with 1,000+ businesses, and helped
    generate $150,000+ for our clients."** Published verbatim in

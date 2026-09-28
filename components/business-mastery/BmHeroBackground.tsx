@@ -40,9 +40,9 @@ import { useEffect, useRef } from "react";
  * Why canvas rather than the CSS this site prefers. The links cannot be
  * authored: which pairs are joined changes every frame, and the flare has to
  * cross from a craft to a node to that node's lines. That is a per-frame
- * computation over ~1000 pairs, which is trivial for canvas and impossible for
+ * computation over ~1,400 pairs, which is trivial for canvas and impossible for
  * a stylesheet. Everything else about the hero stays server-rendered — this
- * component is the only client boundary on the page.
+ * component is the hero's only client boundary.
  *
  * The costs that were actually measured and are deliberate:
  *   - `devicePixelRatio` is capped at 2. Beyond that the fill rate triples for
@@ -139,6 +139,20 @@ const CRAFT = {
   flareDecay: 1.2,
 } as const;
 
+/** Squared, so the flare test rejects most nodes without taking a root. */
+const FLARE_RADIUS_SQ = CRAFT.flareRadius * CRAFT.flareRadius;
+
+/** Each side of a craft's centreline: wings, engines, wingtips and contrails
+ *  are drawn once per side. */
+const SIDES = [1, -1] as const;
+
+/** A contrail's two strokes, as [peak alpha, width in units of `size`]: a wide
+ *  dim pass under a narrow bright one. */
+const CONTRAIL_PASSES = [
+  [0.2, 0.17],
+  [0.55, 0.06],
+] as const;
+
 type Node = {
   x: number;
   y: number;
@@ -188,6 +202,15 @@ function launch(craft: Craft) {
   craft.rest = 0;
 }
 
+/**
+ * Launches a craft held off-frame by its place in the pair, so the two never
+ * enter together; one crossing at a time is an event, two is traffic.
+ */
+function launchStaggered(craft: Craft, index: number) {
+  launch(craft);
+  craft.rest = index * randomBetween(2, 4);
+}
+
 export function BmHeroBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -232,10 +255,7 @@ export function BmHeroBackground() {
       pulses = [];
       craft = Array.from({ length: CRAFT.count }, (_, i) => {
         const unit: Craft = { x: 0, y: 0, a: 0, turn: 0, trail: [], rest: 0 };
-        launch(unit);
-        // Stagger the pair so they never enter together; one crossing at a
-        // time is an event, two is traffic.
-        unit.rest = i * randomBetween(2, 4);
+        launchStaggered(unit, i);
         return unit;
       });
     };
@@ -267,8 +287,9 @@ export function BmHeroBackground() {
       for (const node of nodes) {
         const dx = node.x * width - cx;
         const dy = node.y * height - cy;
-        const distance = Math.hypot(dx, dy);
-        if (distance < CRAFT.flareRadius) {
+        const distanceSq = dx * dx + dy * dy;
+        if (distanceSq < FLARE_RADIUS_SQ) {
+          const distance = Math.sqrt(distanceSq);
           node.flare = Math.max(node.flare, 1 - distance / CRAFT.flareRadius);
         }
       }
@@ -314,31 +335,31 @@ export function BmHeroBackground() {
       // wide dim pass under a narrow bright one is what makes the exhaust
       // look like it disperses behind the craft.
       if (unit.trail.length > 1) {
-        const head = unit.trail[0];
-        const tail = unit.trail[unit.trail.length - 1];
         ctx.save();
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
-        for (const side of [1, -1]) {
-          const offset = (point: TrailPoint) => {
-            const heading = screenHeading(point.a);
-            return [
-              point.x * width - Math.sin(heading) * spread * side,
-              point.y * height + Math.cos(heading) * spread * side,
-            ] as const;
-          };
-          const [hx, hy] = offset(head);
-          const [tx, ty] = offset(tail);
+        for (const side of SIDES) {
+          const push = spread * side;
+          // The head (first point) and tail (last) anchor the gradient.
+          let hx = 0;
+          let hy = 0;
+          let tx = 0;
+          let ty = 0;
           ctx.beginPath();
-          ctx.moveTo(hx, hy);
-          for (let i = 1; i < unit.trail.length; i++) {
-            const [px, py] = offset(unit.trail[i]);
-            ctx.lineTo(px, py);
+          for (let i = 0; i < unit.trail.length; i++) {
+            const point = unit.trail[i];
+            const heading = screenHeading(point.a);
+            tx = point.x * width - Math.sin(heading) * push;
+            ty = point.y * height + Math.cos(heading) * push;
+            if (i === 0) {
+              hx = tx;
+              hy = ty;
+              ctx.moveTo(tx, ty);
+            } else {
+              ctx.lineTo(tx, ty);
+            }
           }
-          for (const [alpha, weight] of [
-            [0.2, 0.17],
-            [0.55, 0.06],
-          ]) {
+          for (const [alpha, weight] of CONTRAIL_PASSES) {
             const fade = ctx.createLinearGradient(hx, hy, tx, ty);
             fade.addColorStop(0, `rgba(${GOLD_LIT},${alpha})`);
             fade.addColorStop(1, `rgba(${GOLD_LIT},0)`);
@@ -359,7 +380,7 @@ export function BmHeroBackground() {
       // at this size a wing lit like the hull doubles the craft's apparent
       // width and it stops reading as something pointed.
       ctx.beginPath();
-      for (const side of [1, -1]) {
+      for (const side of SIDES) {
         ctx.moveTo(size * 0.3, size * 0.07 * side);
         ctx.lineTo(size * -0.22, size * 0.7 * side);
         ctx.lineTo(size * -0.58, size * 0.62 * side);
@@ -408,7 +429,7 @@ export function BmHeroBackground() {
       ctx.shadowColor = `rgba(${GOLD},0.95)`;
       ctx.shadowBlur = size * 0.55;
       ctx.fillStyle = `rgba(${GOLD_HOT},0.95)`;
-      for (const side of [1, -1]) {
+      for (const side of SIDES) {
         ctx.beginPath();
         ctx.arc(size * -0.5, spread * side, size * 0.09, 0, Math.PI * 2);
         ctx.fill();
@@ -419,7 +440,7 @@ export function BmHeroBackground() {
       // into the field behind them and the craft loses half its width.
       ctx.shadowBlur = size * 0.3;
       ctx.fillStyle = `rgba(${GOLD_LIT},0.9)`;
-      for (const side of [1, -1]) {
+      for (const side of SIDES) {
         ctx.beginPath();
         ctx.arc(size * -0.4, size * 0.66 * side, size * 0.055, 0, Math.PI * 2);
         ctx.fill();
@@ -450,17 +471,32 @@ export function BmHeroBackground() {
         Math.max(FIELD.linkMin, spacing * FIELD.linkSpacing),
       );
 
-      // Links, and the list of them a signal can be sent down.
-      const linked: Array<[number, number]> = [];
+      const linkSq = link * link;
+
+      // A signal is due every second or so, and the link it travels is picked
+      // while the links are drawn rather than from a list of them built every
+      // frame. Reservoir sampling: the nth link replaces the pick with
+      // probability 1/n, so every link is equally likely.
+      nextPulse -= dt;
+      const pulseDue = nextPulse <= 0;
+      let pickA = -1;
+      let pickB = -1;
+      let linkCount = 0;
+
+      // Links.
       ctx.lineWidth = 1;
       for (let a = 0; a < nodes.length; a++) {
         for (let b = a + 1; b < nodes.length; b++) {
           const dx = (nodes[a].x - nodes[b].x) * width;
           const dy = (nodes[a].y - nodes[b].y) * height;
-          const distance = Math.hypot(dx, dy);
-          if (distance >= link) continue;
-          linked.push([a, b]);
+          const distanceSq = dx * dx + dy * dy;
+          if (distanceSq >= linkSq) continue;
+          if (pulseDue && Math.random() * ++linkCount < 1) {
+            pickA = a;
+            pickB = b;
+          }
 
+          const distance = Math.sqrt(distanceSq);
           let alpha = (1 - distance / link) * 0.4;
           if (nodes[a].hub || nodes[b].hub) alpha *= 1.6;
           // The wake. A flared node brightens every line it owns, which is
@@ -477,10 +513,8 @@ export function BmHeroBackground() {
       }
 
       // Signals.
-      nextPulse -= dt;
-      if (nextPulse <= 0 && linked.length) {
-        const [a, b] = linked[Math.floor(Math.random() * linked.length)];
-        pulses.push({ a, b, t: 0 });
+      if (pickA >= 0) {
+        pulses.push({ a: pickA, b: pickB, t: 0 });
         nextPulse = randomBetween(PULSE.gapMin, PULSE.gapMax);
       }
       for (let i = pulses.length - 1; i >= 0; i--) {
@@ -506,11 +540,13 @@ export function BmHeroBackground() {
         ctx.restore();
       }
 
-      // Nodes.
+      // Nodes. Only a lit node touches shadow state, so only a lit node pays
+      // for a save/restore; an unlit one sets nothing but fillStyle, which
+      // every draw here sets for itself.
       for (const node of nodes) {
         const lit = node.hub || node.flare > 0.02;
-        ctx.save();
         if (lit) {
+          ctx.save();
           ctx.shadowColor = `rgba(${GOLD},${0.85 * Math.max(node.flare, node.hub ? 1 : 0)})`;
           ctx.shadowBlur = node.hub ? 10 : 8 * node.flare;
         }
@@ -525,18 +561,20 @@ export function BmHeroBackground() {
           Math.PI * 2,
         );
         ctx.fill();
-        ctx.restore();
+        if (lit) ctx.restore();
       }
 
       for (const unit of craft) drawCraft(unit);
     };
 
     const loop = (time: number) => {
-      // Clamped so a backgrounded tab cannot resume with one enormous step and
-      // teleport every craft across the frame.
+      // Clamped so a stalled main thread cannot hand back one enormous step
+      // and teleport every craft across the frame. A hidden tab or an
+      // offscreen hero never gets here as a gap: the loop is stopped then,
+      // and start() drops the old timestamp.
       const dt = last ? Math.min((time - last) / 1000, 0.05) : 0;
       last = time;
-      if (visible && document.visibilityState === "visible") step(dt);
+      step(dt);
       frame = window.requestAnimationFrame(loop);
     };
 
@@ -556,6 +594,20 @@ export function BmHeroBackground() {
       frame = 0;
     };
 
+    /** Runs the loop only while it can be seen: the canvas near the viewport,
+     *  the tab in front, and motion allowed. */
+    const sync = () => {
+      if (
+        visible &&
+        document.visibilityState === "visible" &&
+        !motionQuery.matches
+      ) {
+        start();
+      } else {
+        stop();
+      }
+    };
+
     /**
      * Under reduced motion the field is composed once and left there. A single
      * `step(0)` advances nothing and draws everything, so the visitor gets the
@@ -569,8 +621,10 @@ export function BmHeroBackground() {
         for (const unit of craft) unit.rest = Number.POSITIVE_INFINITY;
         step(0);
       } else {
-        for (const unit of craft) if (!Number.isFinite(unit.rest)) launch(unit);
-        start();
+        craft.forEach((unit, i) => {
+          if (!Number.isFinite(unit.rest)) launchStaggered(unit, i);
+        });
+        sync();
       }
     };
 
@@ -581,28 +635,25 @@ export function BmHeroBackground() {
     resizeObserver.observe(canvas);
 
     const intersectionObserver = new IntersectionObserver(
-      ([entry]) => {
-        visible = entry.isIntersecting;
+      (entries) => {
+        // The last entry is the current one if several queued together.
+        visible = entries[entries.length - 1].isIntersecting;
+        sync();
       },
       { rootMargin: "120px" },
     );
     intersectionObserver.observe(canvas);
 
-    const onVisibilityChange = () => {
-      // Drop the accumulated timestamp so the first frame back is not a jump.
-      if (document.visibilityState === "visible") last = 0;
-    };
-
     applyMotionPreference();
     motionQuery.addEventListener("change", applyMotionPreference);
-    document.addEventListener("visibilitychange", onVisibilityChange);
+    document.addEventListener("visibilitychange", sync);
 
     return () => {
       stop();
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       motionQuery.removeEventListener("change", applyMotionPreference);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
+      document.removeEventListener("visibilitychange", sync);
     };
   }, []);
 

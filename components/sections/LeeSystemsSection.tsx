@@ -48,11 +48,11 @@ export function LeeSystemsSection() {
             so it stays under the copy, which carries `.venture-copy` and so
             paints above.
 
-            `center`: the copy is centred in the panel. `.ventures` in
-            app/globals.css widens that mask to the panel's proportions, which
-            are taller and narrower than the full-width band it was tuned
-            for. */}
-        <SignalRoutes focus="center" />
+            Its mask assumes copy centred in the frame, as it is here.
+            `.ventures` in app/globals.css widens that mask to the panel's
+            proportions, which are taller and narrower than the full-width band
+            it was tuned for. */}
+        <SignalRoutes />
       </div>
 
       {/* The whole panel is the way through; see the same link on the
