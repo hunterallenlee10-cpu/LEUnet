@@ -1,230 +1,500 @@
 @import 'tailwindcss';
 
 /* ---------------------------------------------------------------------------
-   Hero background — "Aurora Veil"
+   Hero — "Split Ventures"
    Used only by components/sections/HeroSection.tsx.
 
-   This replaced seven blurred blobs in blue, cyan and purple. Two things were
-   wrong with those. Every accent in the hero foreground is gold — the eyebrow,
-   the subheading, the three statistics, the primary button, the mark itself —
-   so a cool background left the whole palette unsupported. And the motion did
-   not read: at `blur-3xl` and 0.1–0.4 alpha, translating a 700px blob 40px
-   changes almost no pixels, so what the eye caught was the opacity keyframes
-   on three of the layers, which looks like a slow flicker rather than drift.
+   This replaced "Aurora Veil", a full-frame animated background behind a
+   single column of copy. The hero now spends its screen on the choice the
+   site actually asks a visitor to make: a centred brand block, then the fork
+   the ventures pair below details — Business Mastery's half against Lee
+   Systems Co.'s, a lit seam between them — compressed to one screen. The
+   light is the halves' own pools and the seam; no free-floating background
+   layer is left to animate, which also makes this far cheaper per frame than
+   the veils were.
 
-   So the rule here is that the light has to actually travel. Rotation is what
-   buys that — a colour boundary swung through the frame is unmistakable where
-   a nudged blob is invisible — and it is why nothing in this background
-   animates opacity.
+   The fork is the ventures pair's older sibling and borrows its grammar
+   deliberately: amber against brass, the "or" badge riding the seam, mono
+   eyebrows. If `.ventures` (further down) changes its accents or its badge,
+   this block should follow.
 
-   The other rule is no full-frame blur. A conic gradient viewed far from its
-   hub renders as near-parallel bands, which read as a hard-edged sheet rather
-   than as light, and the obvious fix is to blur it. Blur across the whole
-   viewport is also the single most expensive thing a background can do. The
-   mask below solves it geometrically instead: transparent at the hub, fading
-   to nothing at the rim, so no colour boundary ever reaches full strength
-   anywhere the eye can catch it. Measured against the same two layers with an
-   18px blur, this is roughly 3.5x cheaper per frame.
-
-   One element is blurred — `.leu-horizon`, the warm pool behind the copy —
-   and it is deliberately less than two thirds of the frame.
+   From 1024px up the halves sit side by side and hovering (or focusing) one
+   grows it against the other; below that they stack and the seam flattens
+   into the divider between them. All motion stops under
+   prefers-reduced-motion at the end of the block.
    --------------------------------------------------------------------------- */
 
-.leu-hero-bg {
+.hero-split {
+  background: radial-gradient(120% 90% at 50% 0%, #0b0a07 0%, #060606 60%, #000 100%);
+}
+
+/* The brand block. Its top padding reserves the fixed 80px header's band
+   plus a breath under it; the section's min-height is a floor, not a lock,
+   so a viewport too short for the column grows the page rather than being
+   clipped by the section's `overflow-hidden`. */
+.hero-split-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 1.5rem 0;
+}
+
+.hero-split-mark {
+  position: relative;
+  width: clamp(104px, 11vw, 150px);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 36px rgba(251, 191, 36, 0.35));
+}
+
+.hero-split-title {
+  margin-top: 1.375rem;
+  color: #fff;
+  font-size: clamp(2.25rem, 4.4vw, 4.125rem);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.hero-split-sub {
+  margin-top: 0.875rem;
+  color: rgb(251 191 36);
+  font-size: clamp(1.125rem, 1.8vw, 1.6875rem);
+  font-weight: 600;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+/* Same treatment as `.ventures-eyebrow`, for the same reason: the line names
+   neither venture, so it is neutral, mono and tracked, and the indent puts
+   the tracked text on true centre. */
+.hero-split-lede {
+  margin-top: 1rem;
+  font-family: var(--font-mono-geist);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  text-transform: uppercase;
+  color: rgb(163 163 163);
+}
+
+/* ---- the fork ---- */
+
+.hero-split-fork {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-split-fork {
+    flex-direction: row;
+    align-items: stretch;
+    margin-top: 1.875rem;
+    min-height: 46vh;
+  }
+}
+
+/* Each half is one link to its venture's page — the whole surface is the
+   target. `flex` is what the hover grows, so the transition lives here and
+   the grown values in the interaction block at the end. */
+.hero-split-half {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.5rem 1.75rem 3rem;
+  color: inherit;
+  text-decoration: none;
+  transition: flex 0.55s cubic-bezier(0.32, 0.72, 0.28, 1);
+}
+
+@media (min-width: 1024px) {
+  .hero-split-half {
+    justify-content: flex-end;
+    padding: 2.75rem clamp(1.5rem, 5vw, 5.25rem) 4rem;
+  }
+}
+
+/* Inset rather than offset out, so the ring is not clipped by the section's
+   `overflow-hidden` on the outer edges. */
+.hero-split-half:focus-visible {
+  outline: 2px solid rgb(251 191 36);
+  outline-offset: -6px;
+}
+
+.hero-split-half--ls:focus-visible {
+  outline-color: rgb(224 190 120);
+}
+
+/* Each half's pool, rising from its own bottom corner in its own accent —
+   Business Mastery's amber, Lee Systems' brass — and brightened when the
+   half is the one under the pointer. */
+.hero-split-half::before {
+  content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-  /* Also the blend group: `screen` on the veils must resolve against this
-     layer's own ground, not against whatever is painted behind the section. */
-  isolation: isolate;
-  background: radial-gradient(125% 100% at 68% 18%, #0a0f1a 0%, #05070c 58%, #000 100%);
+  opacity: 0.75;
+  transition: opacity 0.55s ease;
 }
 
-.leu-veil {
-  position: absolute;
-  width: var(--leu-veil-size);
-  height: var(--leu-veil-size);
-  /* Each veil is a square rotating about its own centre, and `left`/`top`
-     place that centre; the negative margins are what convert a corner
-     position into a centre one without spending the transform, which the
-     rotation needs. */
-  margin-left: calc(var(--leu-veil-size) / -2);
-  margin-top: calc(var(--leu-veil-size) / -2);
-  mix-blend-mode: screen;
-  will-change: transform;
-  /* Sized off the larger of the two axes so the veil still covers the frame
-     on a phone, where the hero is roughly twice as tall as it is wide. */
-  -webkit-mask-image: var(--leu-veil-mask);
-  mask-image: var(--leu-veil-mask);
-  --leu-veil-mask: radial-gradient(
-    closest-side,
-    rgba(0, 0, 0, 0) 9%,
-    rgba(0, 0, 0, 0.55) 26%,
-    rgba(0, 0, 0, 1) 46%,
-    rgba(0, 0, 0, 0.9) 66%,
-    rgba(0, 0, 0, 0) 99%
-  );
-}
-
-/* Gold-led, swinging through the copy side. */
-.leu-veil--a {
-  --leu-veil-size: max(122vw, 116vh);
-  left: 24%;
-  top: 50%;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    rgba(251, 191, 36, 0.46) 48deg,
-    rgba(214, 150, 26, 0.2) 104deg,
-    transparent 152deg,
-    rgba(56, 110, 214, 0.3) 214deg,
-    transparent 276deg,
-    rgba(212, 175, 55, 0.26) 326deg,
-    transparent 360deg
-  );
-  animation: leu-veil-spin 52s linear infinite;
-}
-
-/* Cooler and smaller, counter-rotating high and right. The two periods are
-   deliberately not multiples of each other, so the pair never resynchronises
-   into a visible pulse. */
-.leu-veil--b {
-  --leu-veil-size: max(104vw, 96vh);
-  left: 86%;
-  top: 39%;
-  background: conic-gradient(
-    from 150deg,
-    transparent 0deg,
-    rgba(59, 130, 246, 0.26) 64deg,
-    transparent 148deg,
-    rgba(253, 214, 120, 0.32) 238deg,
-    rgba(180, 124, 20, 0.12) 290deg,
-    transparent 340deg
-  );
-  animation: leu-veil-spin 79s linear infinite reverse;
-}
-
-/* The warm pool the copy sits in. */
-.leu-horizon {
-  position: absolute;
-  left: -12%;
-  right: -12%;
-  bottom: -24%;
-  height: 60%;
-  filter: blur(48px);
+.hero-split-half--bm::before {
   background: radial-gradient(
-    56% 100% at 26% 100%,
-    rgba(251, 191, 36, 0.34) 0%,
-    rgba(180, 120, 20, 0.1) 44%,
-    transparent 74%
+    90% 90% at 30% 100%,
+    rgba(251, 191, 36, 0.2) 0%,
+    rgba(180, 120, 20, 0.05) 46%,
+    transparent 72%
   );
-  animation: leu-horizon-breathe 26s ease-in-out infinite;
+}
+
+.hero-split-half--ls::before {
+  background: radial-gradient(
+    90% 90% at 70% 100%,
+    rgba(212, 168, 87, 0.18) 0%,
+    rgba(140, 105, 40, 0.05) 46%,
+    transparent 72%
+  );
+}
+
+/* Fine diagonal hatching, mirrored between the halves, so the two grounds
+   read as two materials rather than one wash split by a line. */
+.hero-split-half::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.hero-split-half--bm::after {
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(251, 191, 36, 0.28) 0 1px,
+    transparent 1px 15px
+  );
+}
+
+.hero-split-half--ls::after {
+  background: repeating-linear-gradient(
+    65deg,
+    rgba(212, 168, 87, 0.28) 0 1px,
+    transparent 1px 15px
+  );
+}
+
+.hero-split-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 26rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-split-half--ls .hero-split-inner {
+    margin-left: auto;
+    text-align: right;
+  }
+}
+
+.hero-split-who {
+  font-family: var(--font-mono-geist);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.hero-split-half--bm .hero-split-who {
+  color: rgb(251 191 36);
+}
+
+.hero-split-half--ls .hero-split-who {
+  color: rgb(224 190 120);
+}
+
+.hero-split-half-title {
+  margin-top: 0.75rem;
+  color: #fff;
+  font-size: clamp(1.625rem, 2.6vw, 2.625rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+
+.hero-split-blurb {
+  margin-top: 0.75rem;
+  color: rgb(212 212 212);
+  font-size: 0.96875rem;
+  line-height: 1.6;
+}
+
+/* The CTA is a styled span, not a nested control: the whole half is the
+   link. Shapes match `.btn-primary` and `.btn-ls-secondary`, so the pair
+   reads as the site's usual amber-filled / brass-outlined opposition. */
+.hero-split-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.375rem;
+  padding: 0.6875rem 1.375rem;
+  border-radius: var(--radius);
+  font-size: 0.90625rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.hero-split-half--bm .hero-split-go {
+  background: rgb(251 191 36);
+  color: rgb(10 10 10);
+}
+
+.hero-split-half--ls .hero-split-go {
+  border: 2px solid #d4a857;
+  color: #e0be78;
+}
+
+.hero-split-go svg {
+  transition: transform 0.25s ease;
+}
+
+/* ---- the seam ---- */
+
+/* Below 1024px the halves stack and this is the divider between them: the
+   same hairline-and-badge as `.ventures-or`, with the left hairline in
+   Business Mastery's amber and the right in Lee Systems' brass, since here
+   each side does name a venture. */
+.hero-split-or {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-block: -1.5rem;
+  padding-inline: 1rem;
+  pointer-events: none;
+}
+
+.hero-split-or::before,
+.hero-split-or::after {
+  content: "";
+  flex: 1 1 0;
+  height: 1px;
+}
+
+.hero-split-or::before {
+  background: linear-gradient(
+    to right,
+    rgba(251, 191, 36, 0) 0%,
+    rgba(251, 191, 36, 0.45) 100%
+  );
+}
+
+.hero-split-or::after {
+  background: linear-gradient(
+    to left,
+    rgba(212, 168, 87, 0) 0%,
+    rgba(212, 168, 87, 0.45) 100%
+  );
+}
+
+/* The ring in the ground colour cuts the blade short of the badge, so the
+   badge sits on the seam rather than being threaded on it — the ventures
+   badge's trick. */
+.hero-split-or span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(251, 191, 36, 0.55);
+  border-radius: 9999px;
+  background: rgb(10 10 10);
+  box-shadow:
+    0 0 0 6px rgb(10 10 10),
+    0 0 30px rgba(251, 191, 36, 0.25);
+  color: rgb(251 191 36);
+  font-family: var(--font-mono-geist);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-indent: 0.12em;
+  text-transform: uppercase;
+}
+
+/* From 1024px up the seam is a lit blade leaning between the halves. The
+   lean is a skew rather than a rotation, so the blade spans the fork's full
+   height at any aspect ratio. */
+@media (min-width: 1024px) {
+  .hero-split-or {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    margin: 0 0 0 -1px;
+    padding: 0;
+    transform: skewX(-6deg);
+    background: linear-gradient(
+      to bottom,
+      rgba(251, 191, 36, 0) 0%,
+      rgba(251, 191, 36, 0.65) 30%,
+      rgba(253, 224, 140, 0.9) 55%,
+      rgba(251, 191, 36, 0.5) 80%,
+      rgba(251, 191, 36, 0) 100%
+    );
+    box-shadow: 0 0 24px 2px rgba(251, 191, 36, 0.3);
+    animation: heroSeamGlow 5s ease-in-out infinite;
+  }
+
+  .hero-split-or::before,
+  .hero-split-or::after {
+    display: none;
+  }
+
+  .hero-split-or span {
+    position: absolute;
+    top: 34%;
+    left: 50%;
+    transform: translate(-50%, -50%) skewX(6deg);
+  }
+}
+
+@keyframes heroSeamGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 24px 2px rgba(251, 191, 36, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 38px 5px rgba(251, 191, 36, 0.5);
+  }
+}
+
+/* ---- the statistics ribbon ---- */
+
+/* The hero's bottom edge and its whole half of the seam with the section
+   below: the hairline is a deliberate boundary, so no fade layer is needed
+   the way the old full-bleed background needed one. */
+.hero-split-ribbon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: clamp(1.25rem, 5vw, 4.375rem);
+  row-gap: 0.25rem;
+  padding: 0.875rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 8, 8, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.hero-split-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.hero-split-stat b {
+  color: rgb(251 191 36);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.hero-split-stat span {
+  color: rgb(163 163 163);
+  font-size: 0.78125rem;
+}
+
+/* ---- interaction ---- */
+
+/* The grow is pointer-and-desktop only: stacked halves growing on tap would
+   jump the page under the finger, and a touch "hover" sticks. Keyboard focus
+   gets the same grow below, unguarded by pointer. */
+@media (hover: hover) and (min-width: 1024px) {
+  .hero-split-fork:hover .hero-split-half {
+    flex: 0.8 1 0%;
+  }
+
+  .hero-split-fork .hero-split-half:hover {
+    flex: 1.45 1 0%;
+  }
+
+  .hero-split-half:hover::before {
+    opacity: 1;
+  }
+
+  .hero-split-half--bm:hover .hero-split-go {
+    background: rgb(252 211 77);
+  }
+
+  .hero-split-half--ls:hover .hero-split-go {
+    background: rgba(212, 168, 87, 0.12);
+  }
+
+  .hero-split-half:hover .hero-split-go svg {
+    transform: translateX(4px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-split-fork:has(.hero-split-half:focus-visible) .hero-split-half {
+    flex: 0.8 1 0%;
+  }
+
+  .hero-split-fork .hero-split-half:focus-visible {
+    flex: 1.45 1 0%;
+  }
+
+  .hero-split-half:focus-visible::before {
+    opacity: 1;
+  }
+}
+
+/* The reset in `@layer base` already stops every animation and transition on
+   the site under this preference, and being in a layer its `!important`
+   outranks anything here. This is the explicit, readable version for the one
+   section where the motion is the point — it must keep working if that reset
+   is ever narrowed. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-split-or {
+    animation: none;
+  }
+
+  .hero-split-half,
+  .hero-split-half::before,
+  .hero-split-go,
+  .hero-split-go svg {
+    transition: none;
+  }
 }
 
 /* Static noise, not an animated layer. Large flat gradients on a dark ground
-   band on 8-bit displays; this is enough to break that up. */
+   band on 8-bit displays; this is enough to break that up. It used to sit
+   inside a dedicated background wrapper that carried these rules for it, so
+   now it stacks and ignores the pointer itself: painted over the whole hero
+   (the section isolates, so `overlay` resolves against the hero alone). */
 .leu-grain {
   position: absolute;
   inset: 0;
+  z-index: 5;
+  pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 180px;
   opacity: 0.055;
   mix-blend-mode: overlay;
-}
-
-/* Keeps the logo column darker than its surroundings. The mark is a hard-edged
-   PNG with no glow of its own — every halo pixel in the artwork is fully
-   transparent — so the only thing separating it from the background is the
-   value gap underneath it. Light enough to protect the mark without flattening
-   the frame. */
-.leu-scrim {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(38% 52% at 76% 50%, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.22) 52%, transparent 76%),
-    linear-gradient(97deg, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0.12) 26%, transparent 46%);
-}
-
-/* Bottom fade — the hero's half of the seam. Every layer above runs to the
-   section's edge and stopped there against the flat neutral-950 of the section
-   below, and `.leu-horizon` put its brightest warm pixels exactly on that cut,
-   so the boundary read as a drawn line. This resolves the whole background to
-   that same neutral-950 before the edge is reached: both sides then share a
-   colour where they meet and there is nothing left to see.
-
-   The stops are eased rather than a straight two-stop ramp — a linear fade
-   over this distance banded visibly on the near-black ground, which is the
-   same reason `.leu-grain` exists. It is painted last, over the grain and the
-   scrim, because it has to take the whole composite down, not one layer. */
-.leu-hero-fade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 34%;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 10, 10, 0) 0%,
-    rgba(10, 10, 10, 0.14) 24%,
-    rgba(10, 10, 10, 0.4) 46%,
-    rgba(10, 10, 10, 0.7) 66%,
-    rgba(10, 10, 10, 0.9) 83%,
-    rgb(10, 10, 10) 100%
-  );
-}
-
-@keyframes leu-veil-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes leu-horizon-breathe {
-  0%,
-  100% {
-    transform: translateY(0) scaleX(1);
-  }
-  50% {
-    transform: translateY(-3%) scaleX(1.08);
-  }
-}
-
-/* The reset in `@layer base` already stops every animation on the site under
-   this preference, and being in a layer its `!important` outranks anything
-   here. This is the explicit, readable version for the one section where the
-   motion is the point — it must keep working if that reset is ever narrowed. */
-@media (prefers-reduced-motion: reduce) {
-  .leu-veil,
-  .leu-horizon {
-    animation: none;
-  }
-}
-
-@keyframes hero-logo-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.4;
-  }
-  50% {
-    transform: scale(1.08);
-    opacity: 0.6;
-  }
-}
-
-/* The pulsing glow behind the hero logo in components/sections/HeroSection.tsx.
-   A class rather than an inline style so reduced motion can switch it off by
-   name: the reset in `@layer base` covers it too, but this keeps working if
-   that reset is ever narrowed. */
-.hero-logo-glow {
-  animation: hero-logo-pulse 6s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-logo-glow {
-    animation: none;
-  }
 }
 
 @theme inline {
@@ -355,33 +625,6 @@
   /* Gradient text */
   .gradient-text {
     @apply bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 bg-clip-text text-transparent;
-  }
-}
-
-/* The scroll cue in components/sections/HeroSection.tsx references this name
-   from an inline style. Tailwind only emits its own `bounce` keyframes when
-   the `animate-bounce` utility appears in a class list, which it doesn't
-   anywhere in this codebase — so without this definition the cue's animation
-   silently never ran. Same shape as Tailwind's default bounce. */
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(-25%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-  }
-  50% {
-    transform: none;
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  }
-}
-
-/* The same gap as `bounce` above, for the dot inside the scroll cue: it names
-   `pulse` from an inline style, and `animate-pulse` appears in no class list,
-   so Tailwind emits no `pulse` keyframes of its own and without this the dot
-   would never pulse. Same shape as Tailwind's default pulse. */
-@keyframes pulse {
-  50% {
-    opacity: 0.5;
   }
 }
 
@@ -848,8 +1091,8 @@
    The rule this block follows is that nothing here may compete with the type.
    The hero is a centred column with no logo, no cards and one action, so the
    background has no quiet corner to be busy in; the protection has to come
-   from value, not from geometry. Hence `.bmc-scrim`, which is the same idea as
-   `.leu-scrim` on the homepage aimed at a centred column instead of a logo.
+   from value, not from geometry. Hence `.bmc-scrim`, a value gap laid under
+   the column the way the old homepage hero laid one under its logo.
 
    The warm pool from the previous hero is kept, at the same position and very
    nearly the same alpha, as the first layer of `.bmc-field`. It is the reason
