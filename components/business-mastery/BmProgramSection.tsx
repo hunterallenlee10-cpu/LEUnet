@@ -59,7 +59,7 @@ export function BmProgramSection() {
 
       <div className="section-container relative z-[1]">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold text-amber-400">
+          <p className="bm-eyebrow">
             What Business Mastery actually is
           </p>
           <h2 className="heading-lg mb-4 text-white">{bmProgram.heading}</h2>

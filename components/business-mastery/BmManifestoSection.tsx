@@ -86,7 +86,7 @@ export function BmManifestoSection() {
       <div className="section-container">
         {/* --- Movement one: the belief ----------------------------------- */}
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold text-amber-400">
+          <p className="bm-eyebrow">
             What we believe
           </p>
 

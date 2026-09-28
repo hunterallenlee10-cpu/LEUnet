@@ -50,7 +50,7 @@ export function BmAudienceSection() {
     <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold text-amber-400">
+          <p className="bm-eyebrow">
             Who this is for
           </p>
           <h2 className="heading-lg mb-4 text-white">{bmAudienceHeading}</h2>
