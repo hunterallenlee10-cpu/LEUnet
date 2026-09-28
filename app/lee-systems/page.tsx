@@ -5,7 +5,7 @@ import { LeeSystemsHeroSection } from "@/components/lee-systems/LeeSystemsHeroSe
 import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
 import { LeeSystemsAutomatesSection } from "@/components/lee-systems/LeeSystemsAutomatesSection";
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
-import { LeeSystemsProofSection } from "@/components/lee-systems/LeeSystemsProofSection";
+import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { LeeSystemsHowItWorksSection } from "@/components/lee-systems/LeeSystemsHowItWorksSection";
 import { LeeSystemsAboutSection } from "@/components/lee-systems/LeeSystemsAboutSection";
 import { LeeSystemsFinalCTA } from "@/components/lee-systems/LeeSystemsFinalCTA";
@@ -17,24 +17,16 @@ import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
  * /lee-marketing-mastery, which now redirects here (next.config.mjs).
  *
  * The order sells automation first: offerings with automation as the large
- * card, then what gets automated, who it is for, proof, how it works. Websites
- * appear once, as the smaller card, and have their own page.
+ * card, then what gets automated, who it is for, recent work, how it works.
+ * Websites appear once, as the smaller card, and have their own page.
  */
-const title = "Lee Systems Co. | Business Automation & Websites in Frederick, MD";
+const title = "Lee Systems Co. | AI Automation & Websites for Business Owners";
 const description =
-  "Lee Systems Co. builds custom automation that answers leads, handles intake, sends follow-ups and removes admin busywork, plus websites fully built before you pay. Frederick, Maryland. A Lee Enterprises Unlimited company.";
+  "Lee Systems Co. builds custom automation that answers leads, handles intake, sends follow-ups and removes admin busywork, plus websites fully built before you pay.";
 
 export const metadata: Metadata = {
-  title,
+  title: { absolute: title },
   description,
-  keywords: [
-    "business automation",
-    "small business automation Maryland",
-    "Frederick MD web design",
-    "lead follow-up automation",
-    "law firm automation",
-    "home services automation",
-  ],
   alternates: {
     canonical: leeSystemsRoutes.home,
   },
@@ -57,16 +49,16 @@ export const metadata: Metadata = {
  * emit a `Service` whose `provider` points here by @id; a second definition
  * elsewhere would give one @id two descriptions.
  *
- * ProfessionalService is a LocalBusiness subtype, which is what local search
- * reads. The address is city-level only (no street address is published), and
- * areaServed states what the page states: Maryland, and remote nationwide. No
- * rating or review: none exist to cite.
+ * An Organization rather than a LocalBusiness type: the site publishes no
+ * address or service area (the owner's call, 2026-09-28), and local-business
+ * data without an address is flagged as incomplete. No rating or review: none
+ * exist to cite.
  */
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "ProfessionalService",
+      "@type": "Organization",
       "@id": `${SITE_URL}${leeSystemsRoutes.home}#business`,
       name: leeSystems.name,
       description,
@@ -74,17 +66,6 @@ const structuredData = {
       email: leeSystems.contactEmail,
       ...(leeSystems.phone ? { telephone: leeSystems.phone } : {}),
       founder: { "@type": "Person", name: leeSystems.owner },
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: leeSystems.city,
-        addressRegion: leeSystems.regionCode,
-        addressCountry: "US",
-      },
-      areaServed: [
-        { "@type": "City", name: `${leeSystems.city}, ${leeSystems.regionCode}` },
-        { "@type": "State", name: leeSystems.region },
-        { "@type": "Country", name: "United States" },
-      ],
       parentOrganization: {
         "@type": "Organization",
         name: leeSystems.parentName,
@@ -120,7 +101,7 @@ export default function LeeSystemsPage() {
         <LeeSystemsOfferingsSection />
         <LeeSystemsAutomatesSection />
         <LeeSystemsIndustriesSection />
-        <LeeSystemsProofSection />
+        <RecentWorkSection />
         <LeeSystemsHowItWorksSection />
         <LeeSystemsAboutSection />
         <LeeSystemsFinalCTA />

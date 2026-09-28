@@ -9,10 +9,11 @@ const geistSans = Geist({ subsets: ['latin'] })
 /**
  * Exposed as a CSS variable rather than applied as a class, and wired to the
  * `font-mono-geist` token in app/globals.css. It renders only in the Business
- * Mastery hero today: the homepage ventures panel's rules that read
- * `var(--font-mono-geist)` resolve it at :root, above the <body> this variable
- * is set on, so they fall back to Geist Sans. (Cormorant, the hero's serif, is
- * declared on the Business Mastery page itself, so no other page preloads it.)
+ * Mastery hero's eyebrow today: the homepage seam's "or" reads
+ * `var(--font-mono-geist)` from a plain rule, which resolves it at :root,
+ * above the <body> this variable is set on, so it falls back to Geist Sans.
+ * (Cormorant, the hero's serif, is declared on the Business Mastery page
+ * itself, so no other page preloads it.)
  *
  * Every `font-mono` on the site renders in the system stack, deliberately:
  * pointing it at Geist Mono would restyle the Lee Systems pages.
@@ -20,40 +21,33 @@ const geistSans = Geist({ subsets: ['latin'] })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 
 /**
- * The descriptions name what the home page leads to: the flagship program and
- * the one venture. They counted "two distinct ventures" until Thread T-Shirts
- * came off this site on 2026-09-25 (docs/THREAD.md), and the `apparel` keyword
- * went with it, as `athletic training` went with H1 Performance.
+ * The defaults every page starts from. Pages set their own title,
+ * description, canonical and openGraph, and each carries an
+ * `opengraph-image` file for its share image (a page's own `openGraph`
+ * replaces this one, image and all). `metadataBase` is the www host, so every
+ * canonical and og:url resolves to it.
  */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Lee Enterprises Unlimited | Premium Business Portfolio',
-  description: 'Lee Enterprises Unlimited is the holding company behind LEU Business Mastery and Lee Systems Co., each dedicated to delivering premium value and measurable results.',
-  keywords: ['Lee Enterprises', 'business automation', 'website design', 'business portfolio'],
+  title: 'Lee Enterprises Unlimited | AI Automation & Business Training',
+  description:
+    'Hire Lee Systems Co. for AI automation and websites, or learn to start a business and use AI with Business Mastery.',
   authors: [{ name: 'Lee Enterprises Unlimited' }],
   creator: 'Lee Enterprises Unlimited',
   publisher: 'Lee Enterprises Unlimited',
   robots: 'index, follow',
-  // The share card for any page that sets none of its own. No `url`: it would
-  // tell every such page's shares they are the homepage. A page that sets
-  // `openGraph` replaces this whole object, so it has to repeat the image.
+  // No `url`: it would tell every page that inherits this its shares are the
+  // homepage. A page that sets `openGraph` replaces this whole object.
   openGraph: {
     type: 'website',
+    siteName: 'Lee Enterprises Unlimited',
     title: 'Lee Enterprises Unlimited',
-    description: 'A premium business portfolio dedicated to excellence: LEU Business Mastery and Lee Systems Co.',
-    images: [
-      {
-        url: '/logos/leu-logo.png',
-        width: 512,
-        height: 512,
-        alt: 'Lee Enterprises Unlimited Logo',
-      },
-    ],
+    description:
+      'Hire Lee Systems Co. for AI automation and websites, or learn to start a business and use AI with Business Mastery.',
   },
-  // `summary`, because the image is the square logo. Next fills the title,
-  // description and image in from the page's openGraph.
+  // Every share image is 1200x630, so every page gets the large card.
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
   },
   // A 192px copy for the tab icon: the full logo used to be a 1.4 MB PNG and
   // every page fetched it just to draw a 16px favicon.

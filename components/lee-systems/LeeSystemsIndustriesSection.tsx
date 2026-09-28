@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Home, Scale } from "lucide-react";
+import { Home, Scale } from "lucide-react";
 import {
   leeSystemsIndustries,
   leeSystemsRoutes,
@@ -20,8 +20,8 @@ export function LeeSystemsIndustriesSection() {
     <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            Who It&apos;s For
+          <p className="mb-3 text-sm font-semibold text-brass-300">
+            Who it&apos;s for
           </p>
           <h2 className="heading-lg text-white">Industries we know best</h2>
         </div>
@@ -38,12 +38,8 @@ export function LeeSystemsIndustriesSection() {
                   <Icon className="mb-4 h-7 w-7 text-brass-300" aria-hidden="true" />
                   <h3 className="mb-2 text-xl font-bold text-white">{name}</h3>
                   <p className="mb-5 text-neutral-400">{summary}</p>
-                  <span className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-brass-300">
+                  <span className="mt-auto text-sm font-semibold text-brass-300 group-hover:underline group-hover:underline-offset-4">
                     See what we automate for {name.toLowerCase()}
-                    <ArrowRight
-                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                      aria-hidden="true"
-                    />
                   </span>
                 </Link>
               </li>

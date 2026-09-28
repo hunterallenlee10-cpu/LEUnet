@@ -1,18 +1,13 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { AutomationFlowVisual } from "@/components/automation/AutomationFlowVisual";
-import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
 import { LeeSystemsSiblingLinks } from "@/components/lee-systems/LeeSystemsSiblingLinks";
-import {
-  automationAudit,
-  leeSystemsAnchors,
-  leeSystemsRoutes,
-} from "@/data/lee-systems";
+import { BookCallLink } from "@/components/ui/BookCallLink";
+import { leeSystemsRoutes } from "@/data/lee-systems";
 
 /**
- * The eyebrow names the offering and the footnote names the company - the
- * same rule the websites hero follows, so each page says what it is before it
- * says whose it is.
+ * The label names the offering and the footnote names the company - the same
+ * rule the websites hero follows, so each page says what it is before it says
+ * whose it is.
  */
 export function AutomationHeroSection() {
   return (
@@ -25,12 +20,9 @@ export function AutomationHeroSection() {
       <div className="section-container">
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
           <div>
-            <div className="mb-6 flex flex-wrap items-center gap-4">
-              <LeeSystemsMark size="md" />
-              <p className="text-sm font-semibold uppercase tracking-widest text-brass-300">
-                Business Automation
-              </p>
-            </div>
+            <p className="mb-6 text-sm font-semibold text-brass-300">
+              Business automation
+            </p>
 
             <h1 className="heading-xl mb-6 text-white">
               Every lead answered. Every follow-up sent.{" "}
@@ -45,21 +37,12 @@ export function AutomationHeroSection() {
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
-              <a
-                href={`#${leeSystemsAnchors.auditForm}`}
-                className="btn-ls-primary group inline-flex items-center justify-center gap-2 text-center"
-              >
-                Book a {automationAudit.price} {automationAudit.name}
-                <ArrowRight
-                  className="h-5 w-5 transition-transform group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
-              </a>
+              <BookCallLink />
               <a
                 href="#automation-services"
-                className="btn-ls-secondary inline-flex items-center justify-center gap-2 text-center"
+                className="btn-ls-secondary inline-flex min-h-11 items-center justify-center text-center"
               >
-                See What We Automate
+                See what we automate
               </a>
             </div>
 
@@ -80,7 +63,7 @@ export function AutomationHeroSection() {
 
             <div>
               <div className="mb-5 flex items-center justify-between">
-                <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                <p className="text-xs font-semibold text-neutral-400">
                   Example: a new lead
                 </p>
                 <span className="flex items-center gap-1.5 text-[11px] text-neutral-400">

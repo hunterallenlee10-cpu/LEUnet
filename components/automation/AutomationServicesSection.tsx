@@ -21,9 +21,9 @@ const areas = [
     Icon: Inbox,
     title: "Leads",
     description:
-      "Every enquiry from your website, phone, ads and directories is answered right away and lands in one place.",
+      "Every inquiry from your website, phone, ads and directories is answered right away and lands in one place.",
     capabilities: [
-      "Instant text and email reply to new enquiries",
+      "Instant text and email reply to new inquiries",
       "Missed-call text back",
       "Leads from every source collected into one list",
       "A text to you with the lead's details",
@@ -33,7 +33,7 @@ const areas = [
   {
     id: "sales-follow-up",
     Icon: Send,
-    title: "Sales Follow-Up",
+    title: "Sales follow-up",
     description:
       "Quotes, estimates and consultations get followed up on a schedule until the customer gives an answer.",
     capabilities: [
@@ -47,7 +47,7 @@ const areas = [
   {
     id: "client-communication",
     Icon: MessageSquare,
-    title: "Client Communication",
+    title: "Client communication",
     description:
       "Clients know what is happening without having to call and ask, and your team is not the one typing it.",
     capabilities: [
@@ -61,7 +61,7 @@ const areas = [
   {
     id: "reviews-referrals",
     Icon: Star,
-    title: "Reviews & Referrals",
+    title: "Reviews and referrals",
     description:
       "Happy customers are asked for a review and a referral at the moment they are most likely to give one.",
     capabilities: [
@@ -87,13 +87,13 @@ const areas = [
   {
     id: "internal-ops",
     Icon: LayoutDashboard,
-    title: "Internal Operations",
+    title: "Internal operations",
     description:
       "The copying, filing and checking your team does every day, handled in the background.",
     capabilities: [
       "Daily summary of leads, bookings and open items",
       "Data copied between your tools so nobody retypes it",
-      "Files and notes organised into the right folders",
+      "Files and notes organized into the right folders",
       "Team notifications when something needs a person",
       "Recurring admin tasks run on a schedule",
     ],
@@ -108,8 +108,8 @@ export function AutomationServicesSection() {
     >
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            What We Automate
+          <p className="mb-3 text-sm font-semibold text-brass-300">
+            What we automate
           </p>
           <h2 className="heading-lg mb-6 text-white">
             Six areas where the busywork lives

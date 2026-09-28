@@ -5,14 +5,10 @@
  * page back on production speed and invites a price comparison against tools the
  * owner could run himself.
  *
- * Timeline lives here and only here, in the closing note below the grid, stated
- * as a consequence for the owner - a half-finished build is visitors deciding
- * without him - rather than as a boast about how the work gets done. Do not
- * promote it into a step title, the section heading, or anywhere earlier on the
- * page, and do not attach a duration to it: see the note on that paragraph.
+ * No typical build time is stated anywhere: every quote carries its own
+ * timeline. The "Typical build time" placeholder that sat under the grid came
+ * off on 2026-09-28; add a range only once real builds back it up.
  */
-import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
-import { PlaceholderBox } from "@/components/lee-systems/PlaceholderBox";
 
 const steps = [
   {
@@ -21,22 +17,22 @@ const steps = [
       "A short conversation about what you sell, who buys it, and what you want a visitor to do. You get a free quote and a timeline.",
   },
   {
-    title: "Structure and Copy",
+    title: "Structure and copy",
     detail:
       "We map a page for each service you want to sell and draft the copy for your review. If you have photos, branding or copy worth keeping, we keep them.",
   },
   {
-    title: "Full Build",
+    title: "Full build",
     detail:
       "We build the complete, working site. Not a mockup: the real thing, on a private link you can open on your own phone.",
   },
   {
-    title: "Review and Revisions",
+    title: "Review and revisions",
     detail:
       "You use it the way a customer would and tell us what to change. We revise until it is right.",
   },
   {
-    title: "Approve and Pay",
+    title: "Approve and pay",
     detail:
       "Only once you have seen the finished site and approved it do you pay. If you decide not to go ahead, you owe nothing.",
   },
@@ -55,10 +51,7 @@ export function WebsitesProcessSection() {
           {/* Matches the eyebrow treatment on the automation page's process
               section - the two pages are one brand and their equivalent
               sections should be recognisable as such. */}
-          <p className="mb-3 flex items-center justify-center gap-2.5 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            <LeeSystemsMark />
-            The Process
-          </p>
+          <p className="mb-3 text-sm font-semibold text-brass-300">The process</p>
           <h2 className="heading-lg mb-6 text-white">
             You see the finished site before you pay
           </h2>
@@ -87,9 +80,6 @@ export function WebsitesProcessSection() {
           ))}
         </ol>
 
-        <PlaceholderBox label="Typical build time" className="mx-auto mt-10 max-w-2xl">
-          Add a typical range once a few client builds are finished, e.g. &ldquo;Most sites take 2 to 4 weeks.&rdquo; Until then, every quote includes its own timeline.
-        </PlaceholderBox>
       </div>
     </section>
   );

@@ -1,0 +1,130 @@
+/**
+ * Business facts for leeenterprisesunlimited.com. Every component reads them
+ * from here, so each fact changes in one place.
+ *
+ * An empty string or empty list means the fact isn't confirmed yet. Whatever
+ * needs it then either hides, or - for the three slots the owner asked to keep
+ * visible on 2026-09-28 (the founder photo, the founder bio and the projects) -
+ * shows a "coming soon" frame while `showPlaceholders` is true.
+ *
+ * Never put placeholder text in these values: an empty value is what keeps a
+ * stand-in off the page.
+ */
+
+export interface Stat {
+  value: string;
+  label: string;
+  /** One sentence on what the figure counts. Rendered under it when set. */
+  definition: string;
+}
+
+export interface Project {
+  name: string;
+  /** One line on what was built. */
+  summary: string;
+  /** The live site or the walkthrough video. */
+  href: string;
+  /** Optional screenshot, e.g. "/images/projects/acme.webp". */
+  image?: string;
+}
+
+export const site = {
+  name: "Lee Enterprises Unlimited",
+  shortName: "LEU",
+  /** The canonical origin. The bare domain redirects here. */
+  url: "https://www.leeenterprisesunlimited.com",
+  email: "ceo@leeenterprisesunlimited.com",
+  /** Shown as a tap-to-call link wherever it appears. "" hides it. */
+  phone: "(240) 925-2609",
+  /**
+   * The Lee Systems Co. call scheduler, such as a Google Calendar booking
+   * page. While it is empty, every "Book a free call" goes to the contact
+   * form with Lee Systems Co. picked (see `bookHref` below).
+   */
+  bookingUrl: "",
+  /** The reply promise on general inquiries. "" drops the promise. */
+  replyTime: "within 12 hours",
+  instagramUrl: "https://www.instagram.com/leeenterprisesunlimited",
+  /** Footer only. The owner dropped it on 2026-09-28; "" keeps it off. */
+  slogan: "",
+  /**
+   * true: the empty photo, bio and project slots show "coming soon" frames,
+   * at the owner's request (2026-09-28). false: every empty slot hides
+   * instead, which is what the site fix plan asked for originally.
+   */
+  showPlaceholders: true,
+  founder: {
+    name: "Hunter Lee",
+    /** e.g. "/images/hunter-lee.jpg". */
+    photo: "",
+    /** The owner's own words only. */
+    bio: "",
+  },
+  /**
+   * The owner's figures, kept exactly as published (confirmed 2026-09-28).
+   * The Business Mastery page states the same three in its own copy
+   * (`bmProofStatement` and `bmProofPoints` in data/business-mastery.ts), so
+   * change them there too if these ever change.
+   */
+  stats: [
+    { value: "50+", label: "Businesses built", definition: "" },
+    { value: "1,000+", label: "Businesses worked with", definition: "" },
+    { value: "$150,000+", label: "Generated for our clients", definition: "" },
+  ] as Stat[],
+  /** Finished work the owner has permission to show. */
+  projects: [] as Project[],
+  businessMastery: {
+    /** e.g. "$49 a month". */
+    price: "",
+    /** How it is paid for, confirmed 2026-09-28. The amount isn't set yet. */
+    format: "A paid monthly membership",
+    /** e.g. "Skool". */
+    platform: "",
+    /** "apply" keeps the application form; "join" sends people to `joinUrl`. */
+    joinMode: "apply" as "apply" | "join",
+    joinUrl: "",
+    /** Scarcity wording, shown once in the offer section. Removed 2026-09-28. */
+    scarcity: "",
+    /** Full guarantee terms, once written. */
+    guaranteeTerms: "",
+    /** What happens once someone joins, in the owner's words (2026-09-28). */
+    afterJoining: "Once you join, you're added to our member resources and groups.",
+  },
+  callAnswering: {
+    /** The owner's description of the service (2026-09-28). */
+    summary:
+      "AI-powered phone systems that act like a 24/7 virtual receptionist and sales assistant.",
+    /** Only what the owner has confirmed the system does. */
+    capabilities: [
+      "Answers calls 24/7",
+      "Handles frequently asked questions",
+      "Books and reschedules appointments",
+      "Qualifies leads",
+      "Takes messages",
+      "Transfers calls",
+      "Texts missed callers",
+      "Follows up with leads and past customers",
+      "Sends reminders",
+      "Updates the CRM automatically",
+      "Makes outbound calls for lead follow-up, appointment confirmations, customer reactivation and review requests",
+    ],
+    /** A number people can call to hear it answer. "" hides the line. */
+    demoPhone: "",
+  },
+};
+
+/** The one name for the first step with Lee Systems Co., everywhere. */
+export const bookLabel = "Book a free call";
+
+/** Where every "Book a free call" goes. */
+export const bookHref = site.bookingUrl || "/contact?interest=lee-systems";
+
+/** Whether a link leaves the site. */
+export function isExternalHref(href: string): boolean {
+  return /^https?:\/\//.test(href);
+}
+
+/** A US number as a tel: link, e.g. "(240) 925-2609" -> "tel:+12409252609". */
+export function telHref(phone: string): string {
+  return `tel:+1${phone.replace(/\D/g, "")}`;
+}

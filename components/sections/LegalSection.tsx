@@ -76,6 +76,12 @@ export function LegalSection() {
       </div>
 
       <div className="section-container relative">
+        {/* The page's one H1; the two documents below are its H2s. The legal
+            text itself is unchanged. */}
+        <h1 className="heading-xl mb-14 text-center text-white">
+          Privacy policy and terms of service
+        </h1>
+
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-12">
           <div id={sectionIds.privacy} tabIndex={-1} className="outline-none">
             <h2 className="heading-lg mb-8 text-center text-white">

@@ -23,8 +23,8 @@ export function LeeSystemsAutomatesSection() {
     <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            What Gets Automated
+          <p className="mb-3 text-sm font-semibold text-brass-300">
+            What gets automated
           </p>
           <h2 className="heading-lg mb-6 text-white">
             The work that happens every day, whether anyone remembers or not

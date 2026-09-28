@@ -2,6 +2,7 @@ import { ChevronDown, ShieldCheck } from "lucide-react";
 import { BM_OFFER_ID, bmOffer } from "@/data/business-mastery";
 import { BmApplicationForm } from "@/components/business-mastery/BmApplicationForm";
 import { companyInfo } from "@/data/company";
+import { site } from "@/data/site";
 
 /**
  * Section 6 — the conversion section every CTA on the page points at. The
@@ -31,35 +32,22 @@ export function BmFoundingOfferSection() {
 
       <div className="section-container relative">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
+          <p className="mb-3 text-sm font-semibold text-amber-400">
             {bmOffer.eyebrow}
           </p>
           <h2 className="heading-lg text-white">{bmOffer.heading}</h2>
         </div>
 
-        {/* Limited-spots box. This carried the "5 / 20 FOUNDING MEMBERS"
-            counter and its progress bar until the owner asked for the words
-            alone — the same call already made on the homepage teaser (see
-            docs/BUSINESS-MASTERY.md §9). No figure renders anywhere now, so
-            §6.2's true-count rule no longer has a number to hold to; this box
-            states scarcity without quantifying it, and stays true only while
-            spots really are limited.
-
-            Sized to its content rather than the old `max-w-md`: one short line
-            in a 448px box reads as something that failed to load. */}
-        <div className="mt-10 flex justify-center">
-          <div className="inline-flex items-center gap-2.5 rounded-xl border border-amber-400/30 bg-neutral-950/80 px-7 py-4">
-            <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-60" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400" />
-            </span>
-            {/* The negative margin pulls back the trailing letter-space that
-                tracking adds after the final S, so the box pads evenly. */}
-            <span className="-mr-[0.25em] text-sm font-semibold uppercase tracking-[0.25em] text-white">
-              Limited Spots
-            </span>
-          </div>
-        </div>
+        {/* Scarcity, only when the owner states it in data/site.ts. The
+            "Limited Spots" box that sat here came off on 2026-09-28 at the
+            owner's request, with the homepage's "4 Spots Remain" line. Any
+            wording set there must be literally true, and shows exactly once,
+            here. */}
+        {site.businessMastery.scarcity && (
+          <p className="mt-8 text-center text-base font-semibold text-white">
+            {site.businessMastery.scarcity}
+          </p>
+        )}
 
         {/* 90-day guarantee. Native <details> keeps it dependency-free; the
             full legal terms are a Phase C gate — see docs/BUSINESS-MASTERY.md

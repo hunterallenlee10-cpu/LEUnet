@@ -9,13 +9,13 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * Events we act on. Everything else is acknowledged with a 200 so Stripe stops
- * retrying, but is otherwise ignored.
+ * Events we act on: the invoices Lee Systems Co. sends through
+ * /api/stripe/invoice. Everything else is acknowledged with a 200 so Stripe
+ * stops retrying, but is otherwise ignored. The checkout events went with the
+ * Support Us page on 2026-09-28; if the Dashboard endpoint still sends them,
+ * they land in the ignored bucket.
  */
 const HANDLED_EVENTS = new Set<Stripe.Event["type"]>([
-  "checkout.session.completed",
-  "checkout.session.async_payment_succeeded",
-  "checkout.session.async_payment_failed",
   "payment_intent.payment_failed",
   "invoice.paid",
   "invoice.payment_failed",
@@ -72,46 +72,9 @@ async function notify(subject: string, lines: string[]): Promise<void> {
 
 async function handleEvent(event: Stripe.Event): Promise<void> {
   switch (event.type) {
-    // A delayed method (a bank debit) sends `completed` while still unpaid,
-    // then `async_payment_succeeded` with the same Session once it clears.
-    case "checkout.session.async_payment_succeeded":
-    case "checkout.session.completed": {
-      const session = event.data.object as Stripe.Checkout.Session;
-
-      // Only treat a session as paid when Stripe says it is.
-      if (session.payment_status !== "paid") {
-        console.log(
-          `[stripe] checkout ${session.id} completed but unpaid (${session.payment_status})`
-        );
-        return;
-      }
-
-      const amount = formatAmount(
-        session.amount_total ?? 0,
-        session.currency ?? "usd"
-      );
-
-      const customField = (key: string): string =>
-        session.custom_fields?.find((field) => field.key === key)?.text?.value ||
-        "—";
-
-      await notify(`Support received — ${amount}`, [
-        `Amount: ${amount}`,
-        `Chosen via: ${session.metadata?.amountMode ?? "unknown"}`,
-        `Supporter name: ${customField("supportername")}`,
-        `Message: ${customField("supportermessage")}`,
-        `Billing contact: ${session.customer_details?.name ?? "—"} <${session.customer_details?.email ?? "—"}>`,
-        `Session: ${session.id}`,
-      ]);
-      return;
-    }
-
-    case "checkout.session.async_payment_failed":
     case "payment_intent.payment_failed": {
-      const object = event.data.object as
-        | Stripe.Checkout.Session
-        | Stripe.PaymentIntent;
-      console.warn(`[stripe] payment failed on ${object.id} (${event.type})`);
+      const intent = event.data.object as Stripe.PaymentIntent;
+      console.warn(`[stripe] payment failed on ${intent.id} (${event.type})`);
       return;
     }
 

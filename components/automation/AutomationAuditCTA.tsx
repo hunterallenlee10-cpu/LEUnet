@@ -1,33 +1,42 @@
 import { AutomationAuditForm } from "@/components/automation/AutomationAuditForm";
-import { automationAudit, leeSystemsAnchors } from "@/data/lee-systems";
+import { BookCallLink } from "@/components/ui/BookCallLink";
+import { leeSystemsAnchors } from "@/data/lee-systems";
+import { site } from "@/data/site";
 
 /**
- * The audit form section. Its id is what every "Book an Automation Audit"
- * link on the Lee Systems pages points at. tabIndex={-1} lets the hash jump
- * move focus here too, so the next Tab lands in the form.
+ * The automation form section, where "fill in the short form below" leads.
+ * It asked for the free Automation Audit until 2026-09-28; it now sets up the
+ * free consultation call, and keeps the id "audit" so older links still land
+ * here. tabIndex={-1} lets the hash jump move focus here too, so the next Tab
+ * lands in the form.
  */
 export function AutomationAuditCTA() {
   return (
     <section
-      id={leeSystemsAnchors.auditForm}
+      id={leeSystemsAnchors.automationForm}
       tabIndex={-1}
       className="relative isolate py-20 outline-none md:py-28"
     >
       <div className="section-container">
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            {automationAudit.price} {automationAudit.name}
+          <p className="mb-3 text-sm font-semibold text-brass-300">
+            Free consultation
           </p>
           <h2 className="heading-lg mb-6 text-white">
             Find out what your business could stop doing by hand
           </h2>
           <p className="text-lg leading-relaxed text-neutral-300">
-            Tell us where the time goes. We will reply within{" "}
-            {automationAudit.responseTime}, walk through your process on a
-            short call, and send a written plan within{" "}
-            {automationAudit.turnaround}: what to automate first, how long it
-            takes, and what it costs.
+            Tell us where the time goes.{" "}
+            {site.replyTime
+              ? `We'll reply ${site.replyTime} to set up your free consultation call.`
+              : "We'll get back to you to set up your free consultation call."}
           </p>
+          {site.bookingUrl && (
+            <div className="mt-8">
+              <p className="mb-4 text-neutral-300">Rather pick a time yourself?</p>
+              <BookCallLink variant="secondary" />
+            </div>
+          )}
         </div>
 
         <AutomationAuditForm />

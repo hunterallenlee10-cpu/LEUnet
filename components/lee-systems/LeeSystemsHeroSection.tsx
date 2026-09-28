@@ -1,18 +1,11 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { SignalRoutes } from "@/components/lee-systems/SignalRoutes";
-import {
-  automationAudit,
-  leeSystems,
-  leeSystemsAnchors,
-  leeSystemsRoutes,
-} from "@/data/lee-systems";
+import { BookCallLink } from "@/components/ui/BookCallLink";
+import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
 
 /**
- * The Lee Systems Co. main page hero. Lit by the same warm-right/cool-left orb
- * pair as the homepage teaser (components/sections/LeeSystemsSection.tsx), so
- * a visitor clicking through lands on the light they just left; if one pair
- * changes, change the other with it.
+ * The Lee Systems Co. main page hero, lit by a warm-right/cool-left orb pair
+ * with Signal Routes drawn over it.
  */
 export function LeeSystemsHeroSection() {
   return (
@@ -42,27 +35,14 @@ export function LeeSystemsHeroSection() {
         </p>
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link
-            href={`${leeSystemsRoutes.automation}#${leeSystemsAnchors.auditForm}`}
-            className="btn-ls-primary group inline-flex items-center justify-center gap-2"
-          >
-            Book a {automationAudit.price} {automationAudit.name}
-            <ArrowRight
-              className="h-5 w-5 transition-transform group-hover:translate-x-1"
-              aria-hidden="true"
-            />
-          </Link>
+          <BookCallLink />
           <Link
             href={leeSystemsRoutes.automation}
-            className="btn-ls-secondary inline-flex items-center justify-center gap-2"
+            className="btn-ls-secondary inline-flex min-h-11 items-center justify-center"
           >
-            See What We Automate
+            See what we automate
           </Link>
         </div>
-
-        <p className="mt-6 text-sm text-neutral-400">
-          Serving {leeSystems.serviceArea}.
-        </p>
       </div>
     </section>
   );

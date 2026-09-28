@@ -16,8 +16,8 @@ export function AutomationIndustriesSection() {
     <section id="industries" className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            Industries We Know Best
+          <p className="mb-3 text-sm font-semibold text-brass-300">
+            Industries we know best
           </p>
           <h2 className="heading-lg text-white">
             Built in the language of your business

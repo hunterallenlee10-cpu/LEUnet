@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { HomeSectionLink } from "@/components/layout/HomeSectionLink";
 import { companyInfo, footerContent } from "@/data/company";
-import { businessMasteryPage, sectionIds, venturePages } from "@/data/navigation";
-import { ventures } from "@/data/ventures";
+import { footerPages } from "@/data/navigation";
+import { site, telHref } from "@/data/site";
 
 /**
  * A 96px copy of `companyInfo.logo` (512px) for the 48px mark below, so a
@@ -11,116 +10,99 @@ import { ventures } from "@/data/ventures";
  */
 const footerLogo = "/logos/leu-logo-96.webp";
 
-// A server component. The Home and Contact rows point at homepage sections
-// through HomeSectionLink, the one client piece: on / they scroll in place,
-// anywhere else they navigate to `/#id` client-side.
+/** 44px tall, so every row is a comfortable tap target on a phone. */
+const footerLinkClass =
+  "inline-flex min-h-11 items-center text-sm text-neutral-400 transition-colors hover:text-amber-400";
+
+/** Headings are h2s so the outline stays in order under any page's sections. */
+const footerHeadingClass = "mb-1 text-sm font-semibold text-white";
+
 export function MainFooter() {
   return (
-    <footer className="bg-neutral-950 border-t border-neutral-800">
-      <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
-        {/* Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+    <footer className="border-t border-neutral-800 bg-neutral-950">
+      <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
+        <div className="mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4 md:gap-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="relative w-12 h-12">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="relative h-12 w-12">
                 <Image
                   src={footerLogo}
                   alt={companyInfo.logoAlt}
                   fill
+                  sizes="48px"
                   className="object-contain"
                 />
               </div>
-              <div>
-                <p className="text-xs text-amber-400">Lee Enterprises Unlimited</p>
-              </div>
+              <p className="text-sm font-semibold text-amber-400">{site.name}</p>
             </div>
-            {/* The owner's verse, in place of the tagline that was here. Kept
-                as one plain line in the footer's own type so it reads as the
-                company's own words rather than a decorated pull quote. */}
-            <p className="text-neutral-400 text-sm">
+            {site.slogan && (
+              <p className="mb-3 text-sm text-neutral-300">{site.slogan}</p>
+            )}
+            {/* The owner's verse. Kept as one plain line in the footer's own
+                type so it reads as the company's own words rather than a
+                decorated pull quote. */}
+            <p className="text-sm text-neutral-400">
               Philippians 4:13, &ldquo;I can do all things through Christ who
               strengthens me.&rdquo;
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-semibold text-white mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              <li>
-                <HomeSectionLink
-                  sectionId={sectionIds.hero}
-                  className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
-                >
-                  Home
-                </HomeSectionLink>
-              </li>
-              <li>
-                <HomeSectionLink
-                  sectionId={sectionIds.contact}
-                  className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
-                >
-                  Contact
-                </HomeSectionLink>
-              </li>
-            </ul>
-          </div>
-
-          {/* Ventures */}
-          <div>
-            <h4 className="font-semibold text-white mb-4">Our Ventures</h4>
-            <ul className="space-y-2">
-              {ventures.map((venture) => (
-                <li key={venture.id}>
-                  <Link
-                    href={venturePages[venture.id]}
-                    className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
-                  >
-                    {venture.name}
+          <nav aria-labelledby="footer-pages">
+            <h2 id="footer-pages" className={footerHeadingClass}>
+              Pages
+            </h2>
+            <ul>
+              {footerPages.map((page) => (
+                <li key={page.href}>
+                  <Link href={page.href} className={footerLinkClass}>
+                    {page.label}
                   </Link>
                 </li>
               ))}
+            </ul>
+          </nav>
 
-              {/* Business Mastery is the flagship program rather than a
-                  venture, which is why it is a hardcoded row here instead of
-                  an entry in `ventures` - that array is the ventures (one since
-                  Thread T-Shirts came off this site, docs/THREAD.md), and the
-                  header keeps the same separation by giving the program a nav
-                  entry of its own. (It kept it when the header's Ventures menu
-                  was flattened: the venture is now a top-level entry beside
-                  the program rather than a row inside a menu.) Here it sits
-                  last, after the venture, at the owner's request - the header
-                  leads with it instead.
-
-                  "Lee", not "LEU", is also the owner's call: the page it
-                  links to is titled "LEU Business Mastery" and the nav says
-                  "Business Mastery", so this row is deliberately the odd one
-                  out rather than a typo to correct. It reads as a sibling of
-                  "Lee Systems Co." above it. */}
+          <div>
+            <h2 className={footerHeadingClass}>Get in touch</h2>
+            <ul>
+              {site.phone && (
+                <li>
+                  <a href={telHref(site.phone)} className={footerLinkClass}>
+                    {site.phone}
+                  </a>
+                </li>
+              )}
               <li>
-                <Link
-                  href={businessMasteryPage}
-                  className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
+                <a
+                  href={`mailto:${site.email}`}
+                  className={`${footerLinkClass} break-all`}
                 >
-                  Lee Business Mastery
-                </Link>
+                  {site.email}
+                </a>
               </li>
+              {site.instagramUrl && (
+                <li>
+                  <a
+                    href={site.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={footerLinkClass}
+                  >
+                    Instagram
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Legal</h4>
-            <ul className="space-y-2">
-              {/* The legal text lives on its own /legal page rather than the
-                  homepage, so these are plain links, not section scrolls. */}
+            <h2 className={footerHeadingClass}>Legal</h2>
+            <ul>
               {footerContent.links.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="inline-block text-neutral-400 hover:text-amber-400 transition-colors text-sm"
-                  >
+                  <Link href={link.href} className={footerLinkClass}>
                     {link.label}
                   </Link>
                 </li>
@@ -129,20 +111,10 @@ export function MainFooter() {
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-neutral-800 pt-8 mt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-            <p className="text-neutral-500 text-sm">{footerContent.copyright}</p>
-            <p className="text-neutral-500 text-sm mt-2 md:mt-0">
-              <span className="text-amber-400">Email:</span>{" "}
-              <a
-                href={`mailto:${companyInfo.contactEmail}`}
-                className="text-neutral-400 hover:text-amber-400 transition-colors"
-              >
-                {companyInfo.contactEmail}
-              </a>
-            </p>
-          </div>
+        <div className="border-t border-neutral-800 pt-8">
+          <p className="text-center text-sm text-neutral-400 md:text-left">
+            {footerContent.copyright}
+          </p>
         </div>
       </div>
     </footer>

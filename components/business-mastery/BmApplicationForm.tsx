@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
 
 const emptyForm = {
@@ -97,7 +97,7 @@ export function BmApplicationForm() {
         setErrors({
           form: `We couldn't send your application. Please try again. Reference: ${
             data?.code || "unknown"
-          } · http_${response.status}`,
+          }, http_${response.status}`,
         });
       }
     } catch {
@@ -122,7 +122,7 @@ export function BmApplicationForm() {
           aria-hidden="true"
         />
         <h3 className="mb-3 text-2xl font-bold text-white">
-          Application Received
+          Application received
         </h3>
         <p className="mb-6 text-neutral-300">
           Thank you for applying to become a member. We&apos;ll review
@@ -132,7 +132,7 @@ export function BmApplicationForm() {
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="text-sm font-semibold text-amber-400 underline-offset-4 hover:underline"
+          className="inline-flex min-h-11 items-center text-sm font-semibold text-amber-400 underline-offset-4 hover:underline"
         >
           Submit another application
         </button>
@@ -148,7 +148,7 @@ export function BmApplicationForm() {
       className="mx-auto max-w-3xl rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-10"
     >
       <div className="mb-8 text-center">
-        <h3 className="mb-2 text-2xl font-bold text-white">Apply to Join</h3>
+        <h3 className="mb-2 text-2xl font-bold text-white">Apply to join</h3>
         <p id="bm-form-description" className="text-sm text-neutral-400">
           Fields marked with an asterisk are required. No payment is taken here.
           We review every application and follow up personally.
@@ -180,7 +180,7 @@ export function BmApplicationForm() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
         <Field
           id="fullName"
-          label="Full Name"
+          label="Full name"
           required
           error={errors.fullName}
           value={formData.fullName}
@@ -191,7 +191,7 @@ export function BmApplicationForm() {
         />
         <Field
           id="email"
-          label="Email Address"
+          label="Email address"
           type="email"
           required
           error={errors.email}
@@ -203,7 +203,7 @@ export function BmApplicationForm() {
         />
         <Field
           id="phone"
-          label="Phone Number"
+          label="Phone number"
           type="tel"
           required
           error={errors.phone}
@@ -221,7 +221,7 @@ export function BmApplicationForm() {
           gets them. */}
       <div className="mt-5">
         <label htmlFor="story" className={labelClass}>
-          Tell Us Your Story{" "}
+          Tell us your story{" "}
           <span className="text-amber-400" aria-hidden="true">
             *
           </span>
@@ -260,15 +260,9 @@ export function BmApplicationForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-primary group mt-8 inline-flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-60"
+        className="btn-primary mt-8 inline-flex min-h-11 w-full items-center justify-center disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
       >
-        {isSubmitting ? "Sending..." : "Send My Application"}
-        {!isSubmitting && (
-          <ArrowRight
-            className="h-5 w-5 transition-transform group-hover:translate-x-1"
-            aria-hidden="true"
-          />
-        )}
+        {isSubmitting ? "Sending..." : "Send my application"}
       </button>
     </form>
   );

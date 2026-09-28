@@ -15,13 +15,13 @@ import {
  * actually needed.
  */
 const nodes = [
-  { id: "lead", label: "New Lead", Icon: Inbox },
-  { id: "reply", label: "Instant Reply", Icon: MessageSquare },
-  { id: "intake", label: "Intake Form", Icon: ClipboardList },
+  { id: "lead", label: "New lead", Icon: Inbox },
+  { id: "reply", label: "Instant reply", Icon: MessageSquare },
+  { id: "intake", label: "Intake form", Icon: ClipboardList },
   { id: "crm", label: "Your CRM", Icon: Database, emphasis: true },
-  { id: "followup", label: "Follow-Up Sequence", Icon: Send },
-  { id: "booked", label: "Booked Appointment", Icon: CalendarCheck, emphasis: true },
-  { id: "report", label: "Daily Report", Icon: BarChart3 },
+  { id: "followup", label: "Follow-up sequence", Icon: Send },
+  { id: "booked", label: "Booked appointment", Icon: CalendarCheck, emphasis: true },
+  { id: "report", label: "Daily report", Icon: BarChart3 },
 ];
 
 /**

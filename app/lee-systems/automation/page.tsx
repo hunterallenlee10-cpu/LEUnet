@@ -13,20 +13,11 @@ import { automationFaqs, leeSystems, leeSystemsRoutes } from "@/data/lee-systems
 
 const title = "Business Automation for Service Businesses | Lee Systems Co.";
 const description =
-  "Lee Systems Co. builds custom automation that answers new leads, handles intake, sends follow-ups, requests reviews and clears out admin work. Start with a free Automation Audit. Based in Frederick, Maryland.";
+  "Lee Systems Co. builds custom automation that answers new leads, handles intake, sends follow-ups, requests reviews and clears out admin work. Start with a free call.";
 
 export const metadata: Metadata = {
-  title,
+  title: { absolute: title },
   description,
-  keywords: [
-    "business automation",
-    "small business automation",
-    "law firm intake automation",
-    "home services automation",
-    "lead follow-up automation",
-    "n8n automation",
-    "Frederick Maryland automation",
-  ],
   alternates: {
     canonical: leeSystemsRoutes.automation,
   },
@@ -59,12 +50,8 @@ const structuredData = {
       description,
       serviceType: "Business process automation",
       url: `${SITE_URL}${leeSystemsRoutes.automation}`,
-      areaServed: [
-        { "@type": "State", name: leeSystems.region },
-        { "@type": "Country", name: "United States" },
-      ],
       provider: {
-        "@type": "ProfessionalService",
+        "@type": "Organization",
         "@id": `${SITE_URL}${leeSystemsRoutes.home}#business`,
         name: leeSystems.name,
       },

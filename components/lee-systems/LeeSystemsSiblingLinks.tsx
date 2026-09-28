@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Globe, Workflow } from "lucide-react";
+import { Globe, Workflow } from "lucide-react";
 import { leeSystemsRoutes } from "@/data/lee-systems";
 
 /**
@@ -9,12 +9,12 @@ import { leeSystemsRoutes } from "@/data/lee-systems";
 const offerings = [
   {
     href: leeSystemsRoutes.automation,
-    label: "Business Automation",
+    label: "Business automation",
     Icon: Workflow,
   },
   {
     href: leeSystemsRoutes.websites,
-    label: "Website Builds",
+    label: "Website builds",
     Icon: Globe,
   },
 ] as const;
@@ -43,14 +43,10 @@ export function LeeSystemsSiblingLinks({ current }: LeeSystemsSiblingLinksProps)
           <Link
             key={href}
             href={href}
-            className="group inline-flex items-center gap-2 rounded-full border border-brass-400/60 bg-brass-400/[0.12] px-4 py-2 text-sm font-semibold text-brass-200 transition-colors hover:bg-brass-400 hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-brass-400/60 bg-brass-400/[0.12] px-4 py-2 text-sm font-semibold text-brass-200 transition-colors hover:bg-brass-400 hover:text-neutral-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300"
           >
             <Icon className="h-4 w-4" aria-hidden="true" />
             {label}
-            <ArrowRight
-              className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
           </Link>
         ))}
     </div>

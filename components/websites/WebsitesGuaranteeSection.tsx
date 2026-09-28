@@ -30,8 +30,8 @@ export function WebsitesGuaranteeSection() {
         <div className="mx-auto max-w-4xl rounded-xl border border-brass-400/30 bg-gradient-to-b from-brass-400/[0.08] to-transparent p-8 md:p-12">
           <div className="mb-10 text-center">
             <ShieldCheck className="block mb-5 mx-auto h-7 w-7 text-brass-300" aria-hidden="true" />
-            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-              Our Guarantee
+            <p className="mb-3 text-sm font-semibold text-brass-300">
+              Our guarantee
             </p>
             <h2 className="heading-lg mb-4 text-white">
               Your site is fully built before you pay anything.

@@ -1,31 +1,33 @@
-import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
-import { automationAudit } from "@/data/lee-systems";
+import { site } from "@/data/site";
 
 /**
- * How the audit works, from the form to a finished system. The first three
- * steps are the audit itself and cost nothing; the fourth is only if the owner
- * decides to go ahead.
+ * How working with Lee Systems Co. starts, from the first contact to a
+ * finished system. The first three steps cost nothing; the fourth happens only
+ * if the owner decides to go ahead. It replaced the free Automation Audit's
+ * steps (and its written plan) on 2026-09-28, at the owner's request.
  */
 const steps = [
   {
     number: "01",
     title: "Tell us what eats your time",
-    body: `Fill in the short form below. We reply within ${automationAudit.responseTime} to set up a call.`,
+    body: site.replyTime
+      ? `Book a free call, or fill in the short form below and we'll reply ${site.replyTime} to set one up.`
+      : "Book a free call, or fill in the short form below and we'll get back to you to set one up.",
   },
   {
     number: "02",
     title: "We walk through your process",
-    body: "A short call: how leads come in, what happens next, and where things get dropped or retyped.",
+    body: "A free consultation call: how calls and leads come in, what happens next, and where things get dropped or retyped.",
   },
   {
     number: "03",
-    title: "You get a written plan",
-    body: `Within ${automationAudit.turnaround}: what is worth automating, in what order, how long each piece takes, and what it costs.`,
+    title: "You get a flat quote up front",
+    body: "One price for what's worth automating. No hidden fees, no revenue share and no required ad spend.",
   },
   {
     number: "04",
     title: "We build it, if you want us to",
-    body: "No obligation. If you go ahead, we build, test and launch each system, then show your team how it works.",
+    body: "No obligation. If you go ahead, you choose the contract terms, and we build, test and launch each system, then show your team how it works.",
   },
 ];
 
@@ -34,16 +36,12 @@ export function AutomationProcessSection() {
     <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <p className="mb-3 flex items-center justify-center gap-2.5 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            <LeeSystemsMark />
-            How the {automationAudit.name} Works
-          </p>
+          <p className="mb-3 text-sm font-semibold text-brass-300">How it works</p>
           <h2 className="heading-lg mb-6 text-white">
-            {automationAudit.price}, written, and yours to keep
+            A free call, then a flat quote
           </h2>
           <p className="text-lg leading-relaxed text-neutral-300">
-            The audit is a real plan, not a sales call. Use it with us, with
-            someone else, or on your own.
+            There&apos;s no obligation to hire us after the call.
           </p>
         </div>
 

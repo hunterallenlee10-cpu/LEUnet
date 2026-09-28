@@ -2,8 +2,8 @@ import { WebsitesInquiryForm } from "@/components/websites/WebsitesInquiryForm";
 import { leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
- * The website quote form, and the last section on the page. Every "Get a Free
- * Website Quote" link points here by the anchor id. tabIndex={-1} lets the
+ * The website quote form, and the last section on the page. Every "Get a free
+ * quote" link points here by the anchor id. tabIndex={-1} lets the
  * hash jump move focus here too, so the next Tab lands in the form.
  */
 export function WebsitesInquiryCTA() {
@@ -15,8 +15,8 @@ export function WebsitesInquiryCTA() {
     >
       <div className="section-container">
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brass-300">
-            Free Website Quote
+          <p className="mb-3 text-sm font-semibold text-brass-300">
+            Free website quote
           </p>
           <h2 className="heading-lg mb-6 text-white">
             Tell us about your business

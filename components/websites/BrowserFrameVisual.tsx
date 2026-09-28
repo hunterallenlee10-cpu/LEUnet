@@ -44,9 +44,7 @@ export function BrowserFrameVisual() {
       className="rounded-xl border border-white/10 bg-white/[0.04] p-5 md:p-7"
     >
       <div className="mb-5 flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
-          Your Site
-        </p>
+        <p className="text-xs font-semibold text-neutral-400">Your site</p>
         <span className="flex items-center gap-1.5 text-[11px] text-neutral-500">
           <span className="ls-status h-1.5 w-1.5 rounded-full bg-brass-400" />
           Live

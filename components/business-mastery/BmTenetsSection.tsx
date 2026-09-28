@@ -22,8 +22,8 @@ export function BmTenetsSection() {
 
       <div className="section-container relative">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            The Way We Operate
+          <p className="mb-3 text-sm font-semibold text-amber-400">
+            The way we operate
           </p>
           <h2 className="heading-lg mb-4 text-white">
             {bmTenetsIntro.heading}

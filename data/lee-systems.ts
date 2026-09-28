@@ -1,20 +1,25 @@
 /**
  * Lee Systems Co. - shared brand details and page content.
  *
- * Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It sells two
- * things: business automation (the lead offer) and website builds. The old
- * /lee-marketing-mastery URLs redirect here (next.config.mjs), and the
- * Traditional & Digital Marketing offering was retired with the rename.
+ * Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It sells AI
+ * automation (the lead offer, AI call answering included) and website builds.
+ * The old /lee-marketing-mastery URLs redirect here (next.config.mjs).
  *
- * Anything the owner still has to supply is marked PLACEHOLDER here or in the
- * component that renders it, and every one is listed in docs/LEE-SYSTEMS.md.
+ * Business facts - phone, email, the booking link and the reply time - live
+ * in data/site.ts. At the owner's request (2026-09-28) the pages say nothing
+ * about where the business is based or which area it serves.
+ *
+ * The first step is a free consultation call, booked with "Book a free call"
+ * (`bookLabel` and `bookHref` in data/site.ts). It replaced the free
+ * Automation Audit and its written plan on 2026-09-28, also at the owner's
+ * request.
  *
  * FAQ lists live here rather than in their accordion components because the
  * pages also emit them as FAQPage structured data, and a server component
  * cannot read an array back out of a "use client" module.
  */
 
-import { companyInfo } from "@/data/company";
+import { site } from "@/data/site";
 
 export const leeSystemsRoutes = {
   home: "/lee-systems",
@@ -22,9 +27,13 @@ export const leeSystemsRoutes = {
   websites: "/lee-systems/websites",
 } as const;
 
-/** Section ids the CTAs scroll to. Kept here so a link and its target agree. */
+/**
+ * Section ids the CTAs scroll to. Kept here so a link and its target agree.
+ * The automation form keeps the id "audit" from when it requested the free
+ * Automation Audit, so links made then still land on it.
+ */
 export const leeSystemsAnchors = {
-  auditForm: "audit",
+  automationForm: "audit",
   websiteForm: "website-quote",
 } as const;
 
@@ -34,25 +43,12 @@ export const leeSystems = {
   parentName: "Lee Enterprises Unlimited",
   headline: "Systems that run your business while you run the work.",
   owner: "Hunter Lee",
-  city: "Frederick",
-  region: "Maryland",
-  regionCode: "MD",
-  serviceArea: "Frederick, Maryland, and remote nationwide",
   /** The parent company's inbox until Lee Systems Co. has its own. */
-  contactEmail: companyInfo.contactEmail,
-  /** PLACEHOLDER: no phone number is published yet. Leave null to hide it. */
-  phone: null as string | null,
+  contactEmail: site.email,
+  phone: site.phone,
 } as const;
 
-/** The free Automation Audit, as the automation page and the form describe it. */
-export const automationAudit = {
-  name: "Automation Audit",
-  price: "Free",
-  turnaround: "5 business days",
-  responseTime: "12 hours",
-} as const;
-
-/** What the audit form offers in its two dropdowns. */
+/** What the automation form offers in its two dropdowns. */
 export const auditIndustryOptions = [
   "Law firm",
   "Home services / roofing",
@@ -91,7 +87,7 @@ export const automatedTasks = [
   {
     id: "lead-response",
     title: "Instant lead response",
-    body: "Every new enquiry gets a reply within a minute, day or night, and you get a text with the details.",
+    body: "Every new inquiry gets a reply within a minute, day or night, and you get a text with the details.",
   },
   {
     id: "intake",
@@ -128,7 +124,7 @@ export const automatedTasks = [
 export const leeSystemsIndustries = [
   {
     id: "law-firms",
-    name: "Law Firms",
+    name: "Law firms",
     summary:
       "Intake, consultations and client updates without the phone tag.",
     examples: [
@@ -142,7 +138,7 @@ export const leeSystemsIndustries = [
   },
   {
     id: "home-services",
-    name: "Home Services & Roofing",
+    name: "Home services & roofing",
     summary:
       "Every lead answered, every estimate followed up, every job reviewed.",
     examples: [
@@ -161,24 +157,24 @@ export const otherIndustriesLine =
 
 export const automationFaqs = [
   {
-    question: "What is the Automation Audit?",
+    question: "What happens on the free call?",
     answer:
-      "A free review of how leads, intake, follow-ups and admin work in your business today. We look at where time goes and where enquiries slip through, then send you a written list of what is worth automating, in what order, and what each piece would cost. You get it within 5 business days.",
+      "It's a free consultation. We talk through how calls, leads, intake, follow-ups and admin work in your business today, and where time goes or inquiries slip through. If something is worth automating, you get a flat quote up front: no hidden fees, no revenue share and no required ad spend.",
   },
   {
-    question: "Is the audit really free?",
+    question: "Is the call really free?",
     answer:
-      "Yes. There is no charge and no obligation to hire us afterwards. The list is yours to use however you like.",
+      "Yes. There is no charge and no obligation to hire us afterwards.",
   },
   {
     question: "What do you build the systems with?",
     answer:
-      "Mostly n8n, an automation platform that connects the tools you already use, with AI where it earns its place: drafting replies, sorting enquiries, and summarizing information. You do not need to learn either one to use what we build.",
+      "Mostly n8n, an automation platform that connects the tools you already use, with AI where it earns its place: drafting replies, sorting inquiries, and summarizing information. You do not need to learn either one to use what we build.",
   },
   {
     question: "Do I need to replace my current software?",
     answer:
-      "Usually not. Most systems connect the email, calendar, phone, CRM and billing tools you already have. If something you use cannot be connected, the audit will say so.",
+      "Usually not. Most systems connect the email, calendar, phone, CRM and billing tools you already have. If something you use cannot be connected, we'll tell you on the call.",
   },
   {
     question: "Will AI talk to my customers without me knowing?",
@@ -188,7 +184,7 @@ export const automationFaqs = [
   {
     question: "How long does a build take?",
     answer:
-      "It depends on how many steps and tools are involved. The audit includes a timeline for each piece, so you know before you commit.",
+      "It depends on how many steps and tools are involved. You get a timeline before you commit.",
   },
   {
     question: "What kinds of businesses do you work with?",
@@ -241,20 +237,37 @@ export const websiteFaqs = [
 ];
 
 /**
- * The homepage teaser for Lee Systems Co., in the slot beside the Business
- * Mastery teaser, and the same shape as `bmHero` in data/business-mastery.ts.
- *
- * The manifesto is the section's headline, set by the owner.
- *
- * `assuranceLine` sits where the Business Mastery teaser puts its scarcity
- * line. It is a fact about how the work is sold, not an urgency claim.
+ * How Lee Systems Co. prices its work: the owner's offer terms, stated on the
+ * homepage ("No surprises on price.") and on the industry pages.
  */
-export const leeSystemsHomeTeaser = {
-  eyebrow: "Lee Systems Co.",
-  manifesto:
-    "Elevate your business with AI.",
-  description:
-    "Automate how your business talks, sells, and grows with AI solutions built to scale your brand.",
-  assuranceLine: "Free Consultation",
-  cta: "See What We Build",
-} as const;
+export const pricingPromise = [
+  "Flat upfront quote",
+  "No hidden fees",
+  "No revenue share",
+  "No required ad spend",
+  "You choose the contract terms",
+] as const;
+
+/** The four things the homepage says Lee Systems Co. sets up. */
+export const homeSetupItems = [
+  {
+    id: "calls",
+    title: "AI call answering",
+    body: "An AI assistant that answers your business calls 24/7.",
+  },
+  {
+    id: "follow-up",
+    title: "Instant follow-up",
+    body: "Every new inquiry gets a reply in under a minute.",
+  },
+  {
+    id: "crm",
+    title: "CRM and intake",
+    body: "Lead and client details land in one place, with no retyping.",
+  },
+  {
+    id: "websites",
+    title: "Websites",
+    body: "Built to bring in leads, and fully built before you pay.",
+  },
+] as const;

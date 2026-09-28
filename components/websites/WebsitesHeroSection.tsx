@@ -1,15 +1,14 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { BrowserFrameVisual } from "@/components/websites/BrowserFrameVisual";
-import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
 import { LeeSystemsSiblingLinks } from "@/components/lee-systems/LeeSystemsSiblingLinks";
+import { BookCallLink } from "@/components/ui/BookCallLink";
 import { leeSystemsAnchors, leeSystemsRoutes } from "@/data/lee-systems";
 
 /**
  * Leads with the guarantee, because it is the one thing about these builds a
  * buyer cannot get from most web designers: the site is finished before any
- * money changes hands. The eyebrow names the offering and the footnote names
- * the company, the same rule the automation hero follows.
+ * money changes hands. The label names the offering and the footnote names the
+ * company, the same rule the automation hero follows.
  */
 export function WebsitesHeroSection() {
   return (
@@ -22,12 +21,9 @@ export function WebsitesHeroSection() {
       <div className="section-container">
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
           <div>
-            <div className="mb-6 flex flex-wrap items-center gap-4">
-              <LeeSystemsMark size="md" />
-              <p className="text-sm font-semibold uppercase tracking-widest text-brass-300">
-                Website Builds
-              </p>
-            </div>
+            <p className="mb-6 text-sm font-semibold text-brass-300">
+              Website builds
+            </p>
 
             <h1 className="heading-xl mb-6 text-white">
               A website that brings in customers.{" "}
@@ -42,21 +38,12 @@ export function WebsitesHeroSection() {
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">
+              <BookCallLink />
               <a
                 href={`#${leeSystemsAnchors.websiteForm}`}
-                className="btn-ls-primary group inline-flex items-center justify-center gap-2 text-center"
+                className="btn-ls-secondary inline-flex min-h-11 items-center justify-center text-center"
               >
-                Get a Free Website Quote
-                <ArrowRight
-                  className="h-5 w-5 transition-transform group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
-              </a>
-              <a
-                href="#website-includes"
-                className="btn-ls-secondary inline-flex items-center justify-center gap-2 text-center"
-              >
-                What Every Site Includes
+                Get a free quote
               </a>
             </div>
 

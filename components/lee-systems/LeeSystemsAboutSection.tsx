@@ -1,23 +1,28 @@
 import Link from "next/link";
-import { LeeSystemsMark } from "@/components/lee-systems/LeeSystemsMark";
+import { FounderPhoto } from "@/components/shared/FounderPhoto";
 import { leeSystems } from "@/data/lee-systems";
 
-/** A short, factual About: who, where, and whose company it is. */
+/**
+ * A short, factual About: who runs it and whose company it is. No location or
+ * service area, at the owner's request (2026-09-28).
+ */
 export function LeeSystemsAboutSection() {
   return (
     <section id="about" className="relative isolate py-16 md:py-20">
       <div className="section-container">
-        <div className="mx-auto flex max-w-3xl flex-col items-start gap-6 sm:flex-row">
-          <LeeSystemsMark size="md" />
-          <div>
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-8 sm:flex-row sm:items-start">
+          <FounderPhoto
+            className="aspect-square w-32 shrink-0 sm:w-36"
+            sizes="144px"
+          />
+          <div className="text-center sm:text-left">
             <h2 className="mb-3 text-2xl font-bold text-white">
               About {leeSystems.name}
             </h2>
             <p className="leading-relaxed text-neutral-300">
-              {leeSystems.name} is run by {leeSystems.owner} in {leeSystems.city},{" "}
-              {leeSystems.region}. We build automation and websites for service
-              businesses across {leeSystems.region} and, remotely, anywhere in
-              the country. {leeSystems.name} is a{" "}
+              {leeSystems.name} is run by {leeSystems.owner}. We build AI
+              automation and websites for business owners. {leeSystems.name} is
+              a{" "}
               <Link
                 href="/"
                 className="font-semibold text-white underline underline-offset-4 hover:text-brass-300"

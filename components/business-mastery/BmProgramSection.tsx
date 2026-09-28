@@ -39,8 +39,8 @@ export function BmProgramSection() {
     <section className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-amber-400">
-            What Business Mastery Actually Is
+          <p className="mb-3 text-sm font-semibold text-amber-400">
+            What Business Mastery actually is
           </p>
           <h2 className="heading-lg mb-4 text-white">{bmProgram.heading}</h2>
           <p className="text-lg text-neutral-400">{bmProgram.description}</p>

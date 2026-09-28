@@ -1,4 +1,5 @@
-import { bmHero, BM_OFFER_ID } from "@/data/business-mastery";
+import { bmHero, businessMasteryAction } from "@/data/business-mastery";
+import { site } from "@/data/site";
 import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground";
 
 /**
@@ -9,10 +10,9 @@ import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground
  * The register is restraint rather than scale. Nothing here shouts: the display
  * sizes are small, the weights are hairline, the tracking is wide, and the
  * confidence is meant to come from the intervals between things rather than
- * from the size of any one of them. That is why the action is a hairline frame
- * and not the house's solid amber pill — at this scale a filled button is the
- * loudest object in the frame and undoes everything above it. It fills in on
- * hover, so the house treatment arrives as the reward.
+ * from the size of any one of them. The action is the house's filled gold
+ * button (it was a hairline frame until 2026-09-28): it is the page's primary
+ * action, and the site's rule is one filled gold button per section for that.
  *
  * The manifesto is the only serif on the site. It is the one sentence here
  * written by a person to be felt rather than to inform, and it gets a voice to
@@ -27,9 +27,12 @@ import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground
  * sibling of the copy rather than a wrapper around it, so none of the words
  * cross it.
  *
- * Every string below the title is `bmHero`, verbatim; the eyebrow and the two
- * title tiers are the company's and the program's names, set here. The
- * uppercase on all three is `text-transform`, not retyped copy.
+ * Every string below the title is `bmHero`, verbatim, plus the price from
+ * data/site.ts once one is set; the eyebrow and the two title tiers are the
+ * company's and the program's names, set here. The uppercase on those three
+ * is `text-transform`, not retyped copy, and the space between the title's
+ * two words is real text, so it reads "Business Mastery" rather than
+ * "BusinessMastery" to search engines and screen readers.
  */
 export function BmHeroSection() {
   return (
@@ -68,7 +71,7 @@ export function BmHeroSection() {
           </p>
 
           <h1 className="bmh-rise mt-[calc(var(--bmh-u)*2.4)] font-light uppercase leading-[1.1] [animation-delay:150ms]">
-            <span className="bmh-title-a text-white/85">Business</span>
+            <span className="bmh-title-a text-white/85">Business</span>{" "}
             <span className="bmh-title-b">Mastery</span>
           </h1>
 
@@ -81,19 +84,25 @@ export function BmHeroSection() {
             aria-hidden="true"
           />
 
-          <p className="bmh-promise bmh-rise font-mono-geist uppercase text-amber-300 [animation-delay:460ms]">
+          <p className="bmh-promise bmh-rise max-w-[34em] text-amber-300 text-balance [animation-delay:460ms]">
             {bmHero.subtitle}
           </p>
+
+          {site.businessMastery.price && (
+            <p className="bmh-rise mt-3 text-base font-semibold text-white [animation-delay:500ms]">
+              {site.businessMastery.price}
+            </p>
+          )}
 
           <p className="bmh-mechanism bmh-rise max-w-[34em] font-light text-neutral-200 text-pretty [animation-delay:540ms]">
             {bmHero.description}
           </p>
 
           <a
-            href={`#${BM_OFFER_ID}`}
-            className="bmh-cta bmh-rise inline-flex items-center justify-center border border-amber-400/70 font-mono-geist font-medium uppercase text-amber-400 transition-colors duration-[260ms] hover:border-amber-400 hover:bg-amber-400 hover:text-neutral-950 focus-visible:border-amber-400 focus-visible:bg-amber-400 focus-visible:text-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-amber-400/85 max-sm:w-full [animation-delay:640ms]"
+            href={businessMasteryAction.href}
+            className="bmh-cta bmh-rise inline-flex items-center justify-center rounded-lg bg-amber-400 font-semibold text-neutral-950 transition-colors duration-[260ms] hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-amber-400/85 max-sm:w-full [animation-delay:640ms]"
           >
-            {bmHero.cta}
+            {businessMasteryAction.label}
           </a>
         </div>
       </div>

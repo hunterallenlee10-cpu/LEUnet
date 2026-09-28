@@ -1,7 +1,33 @@
-# LEU Business Mastery — Build Spec
+# Business Mastery — Build Spec
 
-Execution plan and settled decisions for `/business-mastery`, the LEU Business
+Execution plan and settled decisions for `/business-mastery`, the Business
 Mastery program page, plus its homepage presence.
+
+> **2026-09-28 site fix — read this first.** The owner's site fix plan and
+> answers changed several things below. Where this document disagrees with
+> this note, this note wins.
+>
+> - **Name:** "Business Mastery" everywhere. Never "LEU Business Mastery" or
+>   "Lee Business Mastery".
+> - **Hero:** "Learn to start a business and actually use AI." and "Courses,
+>   coaching and a community of people building alongside you." replaced
+>   "Learn how to build, scale, and dominate." and "Speedrun Your Way to
+>   Success." The button is `businessMasteryAction` ("Apply to join", or
+>   "Join Business Mastery" once `joinMode` is "join"), a filled gold button.
+> - **Homepage:** the teaser panel is gone. The homepage hero's second path
+>   ("Learn with us: Business Mastery") is the one hook now.
+> - **Scarcity:** the "Enrollment Closing Soon · 4 Spots Remain" line and the
+>   "Limited Spots" box are removed. Scarcity wording shows only if
+>   `site.businessMastery.scarcity` (data/site.ts) is set, once, in the offer
+>   section.
+> - **Stats:** kept exactly as published, at the owner's request, on this page
+>   and on the homepage ribbon (`site.stats`).
+> - **The Journey:** stays on the page exactly as it is, Coming Soon marker
+>   included (owner's call).
+> - **Membership:** a paid monthly membership; the amount isn't set, so no
+>   price shows. Price, platform and join link live in
+>   `site.businessMastery`.
+> - **Guarantee:** unchanged, at the owner's request.
 
 **Status:** Phase A built. The page, application form + API route, homepage
 teaser, and nav wiring are live on the branch and pass a production build.

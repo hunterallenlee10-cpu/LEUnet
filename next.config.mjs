@@ -33,12 +33,15 @@ const THREAD_REDIRECT_PERMANENT = Boolean(
  * Content Security Policy. Everything the site loads is same-origin, Vercel
  * Analytics included (/_vercel/insights).
  *
- * Stripe needs no allowances: support checkout is a hosted Checkout Session
- * that the browser reaches by a top-level redirect, which CSP does not govern,
+ * Stripe needs no allowances: invoices are paid on Stripe's own hosted page,
  * and nothing here loads Stripe.js or embeds Stripe UI. If Stripe.js or
  * embedded Checkout is ever adopted, add https://*.stripe.com to script-src,
  * img-src, connect-src and frame-src (replacing its 'none'), and
  * https://*.link.com (Link) to connect-src and frame-src.
+ *
+ * The same goes for the booking link in data/site.ts: "Book a free call" is a
+ * plain link to the scheduler's own page. Embedding a scheduler here instead
+ * would need its origin in frame-src and script-src.
  *
  * `'unsafe-inline'` in script-src is required by Next's inline hydration
  * bootstrap. To remove it, generate a per-request nonce in proxy.ts (Next 16's
@@ -90,14 +93,30 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // The sponsors page was renamed to /partners on 2026-09-18, wording and
-      // all. Same-origin rename with no plan to bring /sponsors back, so a
-      // permanent 308 is safe here in a way the H1 redirects below explain it
-      // is not for a host that might still change.
+      // The Support Us contribution page and the Partners page came off the
+      // site on 2026-09-28 (it covers LEU, Lee Systems Co. and Business
+      // Mastery only). Both go to the homepage, as does /sponsors, the name
+      // /partners had before 2026-09-18. 301s, like the Lee Marketing Mastery
+      // rename below, because the owner asked for 301s on permanent moves.
+      {
+        source: "/support",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/support/:path*",
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/partners",
+        destination: "/",
+        statusCode: 301,
+      },
       {
         source: "/sponsors",
-        destination: "/partners",
-        permanent: true,
+        destination: "/",
+        statusCode: 301,
       },
       // Lee Marketing Mastery became Lee Systems Co. on 2026-09-25 and moved
       // from /lee-marketing-mastery to /lee-systems. Same-origin rename with

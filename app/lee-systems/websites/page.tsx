@@ -4,7 +4,7 @@ import { MainFooter } from "@/components/layout/MainFooter";
 import { WebsitesHeroSection } from "@/components/websites/WebsitesHeroSection";
 import { WebsitesGuaranteeSection } from "@/components/websites/WebsitesGuaranteeSection";
 import { WebsitesServicesSection } from "@/components/websites/WebsitesServicesSection";
-import { WebsitesWorkSection } from "@/components/websites/WebsitesWorkSection";
+import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { WebsitesProcessSection } from "@/components/websites/WebsitesProcessSection";
 import { WebsitesFAQSection } from "@/components/websites/WebsitesFAQSection";
 import { WebsitesBridgeSection } from "@/components/websites/WebsitesBridgeSection";
@@ -14,19 +14,11 @@ import { leeSystems, leeSystemsRoutes, websiteFaqs } from "@/data/lee-systems";
 
 const title = "Small Business Websites, Built Before You Pay | Lee Systems Co.";
 const description =
-  "Conversion-focused websites for small businesses, fully built before you pay anything. Mobile-first, fast, lead forms, basic SEO, and you own it. Free quotes from Lee Systems Co. in Frederick, Maryland.";
+  "Conversion-focused websites for small businesses, fully built before you pay anything. Mobile-first, fast, lead forms, basic SEO, and you own it. Free quotes from Lee Systems Co.";
 
 export const metadata: Metadata = {
-  title,
+  title: { absolute: title },
   description,
-  keywords: [
-    "small business website",
-    "website design Frederick MD",
-    "Maryland web design",
-    "conversion focused website",
-    "website redesign",
-    "pay after website is built",
-  ],
   alternates: {
     canonical: leeSystemsRoutes.websites,
   },
@@ -59,12 +51,8 @@ const structuredData = {
       description,
       serviceType: "Website design and development",
       url: `${SITE_URL}${leeSystemsRoutes.websites}`,
-      areaServed: [
-        { "@type": "State", name: leeSystems.region },
-        { "@type": "Country", name: "United States" },
-      ],
       provider: {
-        "@type": "ProfessionalService",
+        "@type": "Organization",
         "@id": `${SITE_URL}${leeSystemsRoutes.home}#business`,
         name: leeSystems.name,
       },
@@ -106,7 +94,7 @@ export default function LeeSystemsWebsitesPage() {
         <WebsitesHeroSection />
         <WebsitesGuaranteeSection />
         <WebsitesServicesSection />
-        <WebsitesWorkSection />
+        <RecentWorkSection id="website-work" />
         <WebsitesProcessSection />
         <WebsitesFAQSection />
         <WebsitesBridgeSection />
