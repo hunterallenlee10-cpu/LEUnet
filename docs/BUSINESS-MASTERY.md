@@ -22,8 +22,11 @@ Mastery program page, plus its homepage presence.
 >   section.
 > - **Stats:** kept exactly as published, at the owner's request, on this page
 >   and on the homepage ribbon (`site.stats`).
-> - **The Journey:** stays on the page exactly as it is, Coming Soon marker
->   included (owner's call).
+> - **The Journey:** kept exactly as it is, Coming Soon marker included
+>   (owner's call), but **moved to the homepage** later the same day at the
+>   owner's request, right above "Recent work" (`app/page.tsx`). It is no
+>   longer on this page, which now ends on the founding offer (slot 6).
+>   `BM_JOURNEY_LOCKED` moved with it and is still the whole unlock.
 > - **Membership:** a paid monthly membership; the amount isn't set, so no
 >   price shows. Price, platform and join link live in
 >   `site.businessMastery`. The offer section says so under its heading ("A
@@ -94,7 +97,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + six pillars (classes, webinars, daily calls, coaching, hands-on help, community); Tools & Resources removed 2026-09-27, data kept | Ready |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
-| 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | Built, **visibly locked** until the owner launches it — the slot renders a Coming Soon placeholder; `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
+| 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | **Moved to the homepage on 2026-09-28**, right above "Recent work", at the owner's request — not on this page any more. Still built and **visibly locked** until the owner launches it: the slot renders a Coming Soon placeholder; `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
 | ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — merged up into slot 2 on 2026-09-07, then **off the page entirely** on 2026-09-13, see the note below | Not on the page in any slot; the copy is unchanged and still `bmTransition` |
 | 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | **Not on the page right now** — pulled at the owner's request on 2026-09-27; `BmFinalCTASection` and `bmFinalCta` are intact |
 
@@ -189,7 +192,9 @@ owner asked it held back until launch on 2026-09-13, the same day chose a
 visible placeholder over having it off the page entirely, and then chose
 "Coming Soon" over a lock badge for its marker. Because launching is the
 stated intent, the lock is a flag rather than a deleted line:
-`BM_JOURNEY_LOCKED` in `data/business-mastery.ts`, read only by `page.tsx`.
+`BM_JOURNEY_LOCKED` in `data/business-mastery.ts`, read only by the page
+that renders the slot — `app/page.tsx`, the homepage, since the section moved
+there on 2026-09-28.
 While `true`, the slot renders `BmJourneyLocked` — the section's eyebrow and
 title as the intro slide sets them, a chapter tease derived from `bmChapters`
 (count, first title, last title, so it cannot drift from the data), and the

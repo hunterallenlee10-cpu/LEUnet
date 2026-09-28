@@ -2,12 +2,13 @@ import { bmJourney } from "@/data/business-mastery";
 import { BmComingSoon } from "@/components/business-mastery/BmComingSoon";
 
 /**
- * Section 8 while BM_JOURNEY_LOCKED is true: the section's presence without
+ * The journey while BM_JOURNEY_LOCKED is true (on the homepage since
+ * 2026-09-28, right above Recent work): the section's presence without
  * its interaction. The owner wants the timeline visible as a thing that
  * exists rather than absent, so this renders the intro slide's identity (the
  * "A Life in Full" eyebrow, the two-line title, the description) plus a
  * chapter-count tease, with a Coming Soon marker where the timeline's "Start
- * Timeline" affordance would be. page.tsx swaps this for BmJourneyTimeline
+ * Timeline" affordance would be. app/page.tsx swaps this for BmJourneyTimeline
  * the moment the flag flips.
  *
  * The eyebrow, title treatment, glow, and ground are copied from the
