@@ -345,13 +345,13 @@ export const bmFounder = {
  * its marker.
  *
  * TO UNLOCK: change `true` to `false` on this one line. That is the whole
- * launch — nothing else needs touching. `app/business-mastery/page.tsx` is
- * the only reader of the flag, and it swaps BmJourneyLocked for
- * BmJourneyTimeline on the flip. Everything the open section is made of
- * (`bmJourney`, `bmChapters`, BmJourneyTimeline.tsx) stays whole and
- * unchanged while locked, so it arrives exactly as it last rendered. Both
- * states sit on the same neutral-950 ground, so the page's light/dark
- * alternation never notices the flip.
+ * launch — nothing else needs touching. `app/page.tsx` (the homepage, where
+ * the section has lived since 2026-09-28) is the only reader of the flag, and
+ * it swaps BmJourneyLocked for BmJourneyTimeline on the flip. Everything the
+ * open section is made of (`bmJourney`, `bmChapters`, BmJourneyTimeline.tsx)
+ * stays whole and unchanged while locked, so it arrives exactly as it last
+ * rendered. Both states sit on the same neutral-950 ground, so the page never
+ * notices the flip.
  */
 export const BM_JOURNEY_LOCKED: boolean = true;
 

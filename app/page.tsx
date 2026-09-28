@@ -5,9 +5,12 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { ToolsMarqueeSection } from "@/components/sections/ToolsMarqueeSection";
 import { LeeSystemsSetupSection } from "@/components/sections/LeeSystemsSetupSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
+import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
+import { BmJourneyLocked } from "@/components/business-mastery/BmJourneyLocked";
 import { WhoYoullWorkWithSection } from "@/components/sections/WhoYoullWorkWithSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { site } from "@/data/site";
+import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
 
 const title = "Lee Enterprises Unlimited | AI Automation & Business Training";
 const description =
@@ -38,9 +41,11 @@ export const metadata: Metadata = {
 
 /**
  * The homepage: the hero and the two paths, the moving strip of tools, what
- * Lee Systems Co. sets up, recent work, who you'll work with, and the contact
- * form. The order is the site fix plan's, except that the owner swapped the
- * pricing promise for the tool strip on 2026-09-28. Nothing else goes here.
+ * Lee Systems Co. sets up, the journey, recent work, who you'll work with,
+ * and the contact form. The order is the site fix plan's, except that the
+ * owner swapped the pricing promise for the tool strip on 2026-09-28 and, the
+ * same day, moved the journey here from /business-mastery, right above recent
+ * work. Nothing else goes here.
  */
 export default function Home() {
   return (
@@ -51,6 +56,10 @@ export default function Home() {
         <HeroSection />
         <ToolsMarqueeSection />
         <LeeSystemsSetupSection />
+        {/* The journey, locked or open: BM_JOURNEY_LOCKED
+            (data/business-mastery.ts) is the switch, and flipping it is the
+            whole unlock. */}
+        {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
         <RecentWorkSection />
         <WhoYoullWorkWithSection />
         <ContactSection />
