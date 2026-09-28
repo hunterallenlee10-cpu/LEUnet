@@ -108,6 +108,8 @@ what stayed, and why.
 
 ## Docs
 
+- [docs/TODO.md](docs/TODO.md) - Hunter's to-do list: what only he can do for
+  the site (links, photos, decisions, account set-up).
 - [docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md) - build spec and
   settled decisions for `/business-mastery` and its homepage presence.
 - [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) - the Lee Systems Co. pages, where
