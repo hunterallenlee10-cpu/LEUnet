@@ -1,11 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { companyInfo } from "@/data/company";
+import { companyInfo, heroFork } from "@/data/company";
 import { businessMasteryPage, sectionIds, venturePages } from "@/data/navigation";
-import { GlassCardPadded } from "@/components/cards/GlassCard";
-import { HeroParallax } from "@/components/sections/HeroParallax";
 
+/**
+ * The homepage hero - "Split Ventures". A centred brand block (mark, name,
+ * strapline), then the fork the ventures pair below details compressed to one
+ * screen: Business Mastery's half on the left, Lee Systems Co.'s on the
+ * right, an "or" riding the seam between them, and the three statistics as a
+ * ribbon along the bottom edge. Each half is one link to its venture's page.
+ *
+ * The styling lives in app/globals.css as `.hero-split-*` (plus the shared
+ * `.leu-grain`); this file owns the markup and the copy sources. The halves'
+ * hover grow, the seam's glow and every other movement stop under
+ * prefers-reduced-motion in that block.
+ */
 export function HeroSection() {
   return (
     <section
@@ -13,202 +23,89 @@ export function HeroSection() {
       // Out of the tab order but focusable, so the header's and footer's
       // scroll to #hero (lib/scrollUtils.ts) can move focus here.
       tabIndex={-1}
-      // A floor at every width, never a lock. The header is `fixed`, so it
-      // takes no layout space and this section starts at y=0 underneath it -
-      // subtracting its 80px from the height did not move the content clear of
-      // it, it just ended the section 80px above the fold and left the
-      // centred column to drift up under the header as the viewport got
-      // shorter. The band is reserved as top padding on the wrapper below
-      // instead, and the height is a minimum so a column too tall for the
-      // space grows the page rather than being clipped by `overflow-hidden`.
-      className="relative isolate overflow-hidden outline-none min-h-[calc(100vh-80px)] lg:min-h-screen"
+      // The height is a floor at every width, never a lock: the header is
+      // `fixed`, so this section starts at y=0 underneath it and reserves the
+      // header's 80px band as `.hero-split-top`'s padding, and a column too
+      // tall for the space grows the page rather than being clipped by
+      // `overflow-hidden`. `isolate` keeps the grain's `overlay` blend
+      // resolving against the hero alone.
+      className="hero-split relative isolate flex flex-col overflow-hidden outline-none min-h-[calc(100vh-80px)] lg:min-h-screen"
     >
-      {/* Animated background — "Aurora Veil". Two counter-rotating masked
-          gradients over a warm pool, then grain and a scrim that keeps the
-          logo column dark. Geometry, palette and the reasoning behind each
-          layer live with the styles in app/globals.css. */}
-      <div className="leu-hero-bg" aria-hidden="true">
-        <div className="leu-veil leu-veil--a" />
-        <div className="leu-veil leu-veil--b" />
-        <div className="leu-horizon" />
-        <div className="leu-grain" />
-        <div className="leu-scrim" />
-        <div className="leu-hero-fade" />
-      </div>
-
-      {/* Content Container. It carries the viewport-height minimum itself so
-          the copy still centres when it is shorter than the screen, and the
-          padding reserves the two bands that overlay it: the fixed header at
-          the top, and the absolutely positioned scroll cue at the bottom.
-          `justify-center` then centres the column in what is actually left
-          between them rather than in the full box. Both reserves are the
-          same at every width: the two overlays are the same size on a phone
-          as on a monitor. */}
-      <div
-        className="relative flex flex-col justify-center min-h-[calc(100vh-80px)] pt-20 pb-28 lg:min-h-screen"
-        style={{ zIndex: 1 }}
-      >
-        <div
-          className="mx-auto w-full flex items-center justify-center px-6 sm:px-8 lg:px-0 lg:max-w-[min(1440px,calc(100%-64px))]"
-        >
-          {/* Two Column Layout */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            
-            {/* Left Column - 52% */}
-            <div className="w-full space-y-6 md:space-y-8">
-              {/* Headline */}
-              <div className="space-y-3">
-                <h1
-                  // The clamp only applies from lg up; its 48px floor was the
-                  // mobile size too, which is outsized on a phone column.
-                  className="text-white font-bold leading-tight tracking-tight text-[40px] sm:text-[44px] lg:text-[clamp(48px,4.5vw,76px)]"
-                >
-                  {companyInfo.heroTitle}
-                </h1>
-
-                {/* Gold Subheading */}
-                <p 
-                  className="font-semibold text-amber-400 leading-tight"
-                  style={{
-                    fontSize: "clamp(22px, 2vw, 32px)",
-                  }}
-                >
-                  {companyInfo.heroSubtitle}
-                </p>
-              </div>
-
-              {/* Description */}
-              <p 
-                className="text-neutral-300 leading-relaxed max-w-xl"
-                style={{
-                  fontSize: "clamp(17px, 1.1vw, 20px)",
-                }}
-              >
-                {companyInfo.heroDescription}
-              </p>
-
-              {/* Statistic Cards - Horizontal Row */}
-              <div className="grid grid-cols-3 gap-4 pt-2" style={{ maxWidth: "620px" }}>
-                <GlassCardPadded size="sm">
-                  <div className="text-center">
-                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">50+</p>
-                    <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
-                      Businesses built
-                    </p>
-                  </div>
-                </GlassCardPadded>
-                <GlassCardPadded size="sm">
-                  <div className="text-center">
-                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">1,000+</p>
-                    <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
-                      Businesses worked with
-                    </p>
-                  </div>
-                </GlassCardPadded>
-                <GlassCardPadded size="sm">
-                  <div className="text-center">
-                    <p className="text-2xl sm:text-3xl font-bold text-amber-400">$150,000+</p>
-                    <p className="text-xs sm:text-sm text-neutral-300 mt-2 leading-snug">
-                      Generated for our clients
-                    </p>
-                  </div>
-                </GlassCardPadded>
-              </div>
-
-              {/* CTA */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                {/* A plain fragment link: html's smooth scrolling and 80px
-                    `scroll-padding-top` land it where the header's scripted
-                    scroll does, and it is instant under reduced motion. */}
-                <a
-                  href={`#${sectionIds.contact}`}
-                  className="btn-primary flex items-center justify-center gap-2 text-sm sm:text-base"
-                >
-                  Talk to Us
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-                <Link
-                  href={businessMasteryPage}
-                  className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
-                >
-                  Business Mastery
-                </Link>
-                <Link
-                  href={venturePages.lmm}
-                  className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base"
-                >
-                  Lee Systems Co.
-                </Link>
-              </div>
-            </div>
-
-            {/* Right Column - 48% - Logo */}
-            <div className="w-full flex items-center justify-center hidden lg:flex">
-              <HeroParallax
-                className="relative"
-                style={{
-                  width: "clamp(360px, 38vw, 600px)",
-                  maxWidth: "100%",
-                  aspectRatio: "1",
-                }}
-              >
-                {/* Logo Glow Layers */}
-                <div className="absolute inset-0 -z-10 flex items-center justify-center">
-                  {/* Pulsing logo glow. Centred on the artwork rather than on
-                      the box: the mark's drawn area sits at 55%/49% of the
-                      square PNG, so a glow centred at 50%/50% reads as offset
-                      from its own logo. `will-change` keeps the blur on its own
-                      compositor layer even when reduced motion stops the pulse;
-                      without it the glow rasterises slightly differently. */}
-                  <div
-                    className="hero-logo-glow absolute rounded-full blur-3xl"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      background: 'radial-gradient(ellipse at 55% 49%, rgba(251, 191, 36, 0.25) 0%, rgba(212, 175, 55, 0.08) 50%, transparent 80%)',
-                      willChange: 'transform',
-                    }}
-                  />
-                </div>
-
-                {/* Main Logo */}
-                <Image
-                  src={companyInfo.logo}
-                  alt={companyInfo.logoAlt}
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </HeroParallax>
-            </div>
-          </div>
+      <div className="hero-split-top">
+        <div className="hero-split-mark">
+          <Image
+            src={companyInfo.logo}
+            alt={companyInfo.logoAlt}
+            fill
+            sizes="150px"
+            className="object-contain"
+            priority
+          />
         </div>
+        <h1 className="hero-split-title">{companyInfo.heroTitle}</h1>
+        <p className="hero-split-sub">{companyInfo.heroSubtitle}</p>
+        <p className="hero-split-lede">{heroFork.lede}</p>
       </div>
 
-      {/* Scroll Indicator - Bottom. The bounce lives on the inner div: the
-          keyframes animate `transform`, which on the outer div would override
-          the -translate-x-1/2 that centres the cue. */}
-      <div
-        className="absolute left-1/2 transform -translate-x-1/2 z-20 pointer-events-none"
-        style={{
-          bottom: "24px",
-        }}
-      >
-        <div
-          className="flex flex-col items-center gap-2"
-          style={{ animation: 'bounce 2s infinite' }}
+      <div className="hero-split-fork">
+        <Link
+          href={businessMasteryPage}
+          className="hero-split-half hero-split-half--bm"
         >
-          <p className="text-xs sm:text-sm text-neutral-400 font-medium">Scroll to explore</p>
-          <div className="w-6 h-10 border-2 border-amber-400/60 rounded-full flex justify-center">
-            <div 
-              className="w-1 h-2 bg-amber-400 rounded-full mt-2"
-              style={{
-                animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              }}
-            />
+          <div className="hero-split-inner">
+            <p className="hero-split-who">{heroFork.businessMastery.label}</p>
+            <h2 className="hero-split-half-title">
+              {heroFork.businessMastery.title}
+            </h2>
+            <p className="hero-split-blurb">{heroFork.businessMastery.blurb}</p>
+            <span className="hero-split-go">
+              {heroFork.businessMastery.cta}
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </span>
           </div>
+        </Link>
+
+        {/* Decorative: the lede already says "two ways" in words. Between the
+            two halves in the markup so that, stacked, it falls between them
+            as a divider; side by side it is the lit seam. */}
+        <div className="hero-split-or" aria-hidden="true">
+          <span>or</span>
         </div>
+
+        <Link
+          href={venturePages.lmm}
+          className="hero-split-half hero-split-half--ls"
+        >
+          <div className="hero-split-inner">
+            <p className="hero-split-who">{heroFork.leeSystems.label}</p>
+            <h2 className="hero-split-half-title">
+              {heroFork.leeSystems.title}
+            </h2>
+            <p className="hero-split-blurb">{heroFork.leeSystems.blurb}</p>
+            <span className="hero-split-go">
+              {heroFork.leeSystems.cta}
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </span>
+          </div>
+        </Link>
       </div>
+
+      <div className="hero-split-ribbon">
+        <p className="hero-split-stat">
+          <b>50+</b>
+          <span>Businesses built</span>
+        </p>
+        <p className="hero-split-stat">
+          <b>1,000+</b>
+          <span>Businesses worked with</span>
+        </p>
+        <p className="hero-split-stat">
+          <b>$150,000+</b>
+          <span>Generated for our clients</span>
+        </p>
+      </div>
+
+      <div className="leu-grain" aria-hidden="true" />
     </section>
   );
 }

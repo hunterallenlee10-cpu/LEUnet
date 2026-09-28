@@ -22,13 +22,6 @@ export const companyInfo = {
    * /support pages both use it as the strapline under their H1.
    */
   heroSubtitle: "Mastery that makes you better. Systems that make you money.",
-  /**
-   * Homepage hero only - unlike `heroSubtitle` above, /partners and /support
-   * take that line without this one, so this can address a visitor who has
-   * not yet said what they need.
-   */
-  heroDescription:
-    "Business Mastery gives you the roadmap, mentorship, and network to scale—while Lee Systems builds the automated foundation that turns that growth into steady, predictable income.",
   logo: "/logos/leu-logo.webp",
   logoAlt: "Lee Enterprises Unlimited logo",
   /**
@@ -38,6 +31,34 @@ export const companyInfo = {
   mark: "/logos/leu-mark.webp",
   contactEmail: "ceo@leeenterprisesunlimited.com",
 };
+
+/**
+ * The homepage hero's fork (components/sections/HeroSection.tsx): the line
+ * under the brand block, then one entry per doorway. It previews the same
+ * choice `venturesHome` below details, so each title restates one phrase of
+ * that heading as a standalone line and each label matches that panel's -
+ * change either pair together. The blurbs split the one-sentence description
+ * the old single-column hero carried (it named both ventures in one breath)
+ * into a half per venture; nothing else renders that sentence, which is why
+ * it is gone rather than kept beside these.
+ */
+export const heroFork = {
+  lede: "Two ways to work with LEU — pick your path",
+  businessMastery: {
+    label: "Learn it yourself",
+    title: "Learn to build it",
+    blurb:
+      "Business Mastery gives you the roadmap, mentorship, and network to scale your own venture.",
+    cta: "Business Mastery",
+  },
+  leeSystems: {
+    label: "Done for you",
+    title: "Have it built for you",
+    blurb:
+      "Lee Systems builds the automated foundation that turns growth into steady, predictable income.",
+    cta: "Lee Systems Co.",
+  },
+} as const;
 
 /**
  * The homepage section that puts the two ventures side by side
