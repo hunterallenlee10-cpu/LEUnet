@@ -40,7 +40,7 @@ export const bmFoundingCounter = {
 
 export const bmHero = {
   title: "LEU Business Mastery",
-  manifesto: "No great accomplishment in history was achieved alone.",
+  manifesto: "Learn how to build, scale, and dominate.",
   subtitle: "Speedrun Your Way to Success.",
   description:
     "Skip years of unnecessary trial and error by learning from people already building, failing, adapting, and winning.",
