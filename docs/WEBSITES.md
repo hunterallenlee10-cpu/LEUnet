@@ -2,7 +2,8 @@
 
 > **Historical.** This spec predates the 2026-09-25 rename of Lee Marketing
 > Mastery to Lee Systems Co. The page now lives at `/lee-systems/websites`,
-> leads with the "built before you pay" guarantee, and its copy, sections and
+> leads with the flat quote (the pay-after-the-build guarantee it led with
+> came off on 2026-09-28, when the owner stopped offering it), and its copy, sections and
 > FAQ were rewritten (see `docs/LEE-SYSTEMS.md`). Paths and section names
 > below describe the old page. The claims standard in §3 still applies.
 >

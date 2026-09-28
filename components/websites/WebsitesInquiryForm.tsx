@@ -150,8 +150,7 @@ export function WebsitesInquiryForm() {
         </h3>
         <p className="mb-6 text-neutral-300">
           Thank you. We will review what you described and follow up with a
-          free quote and a timeline. Remember: you do not pay until the site is
-          built and you have approved it.
+          free quote and a timeline.
         </p>
         {site.bookingUrl && (
           <div className="mb-6">
@@ -370,7 +369,7 @@ export function WebsitesInquiryForm() {
       </button>
 
       <p className="mt-4 text-center text-sm text-neutral-400">
-        Free quote, no obligation. Your site is fully built before you pay anything.
+        Free quote, no obligation.
       </p>
     </form>
   );

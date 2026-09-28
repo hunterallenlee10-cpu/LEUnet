@@ -32,9 +32,9 @@ const steps = [
       "You use it the way a customer would and tell us what to change. We revise until it is right.",
   },
   {
-    title: "Approve and pay",
+    title: "Review and approve",
     detail:
-      "Only once you have seen the finished site and approved it do you pay. If you decide not to go ahead, you owe nothing.",
+      "When the site is right, you approve it. Nothing goes live until you do.",
   },
   {
     title: "Launch",
@@ -53,10 +53,10 @@ export function WebsitesProcessSection() {
               sections should be recognisable as such. */}
           <p className="mb-3 text-sm font-semibold text-brass-300">The process</p>
           <h2 className="heading-lg mb-6 text-white">
-            You see the finished site before you pay
+            From first call to launch
           </h2>
           <p className="text-lg leading-relaxed text-neutral-300">
-            Six steps from the first conversation to a launched site. Payment comes at step five, after the site is built and you have approved it.
+            Six steps from the first conversation to a launched site.
           </p>
         </div>
 

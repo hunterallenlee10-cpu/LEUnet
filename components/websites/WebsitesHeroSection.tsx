@@ -5,9 +5,9 @@ import { BookCallLink } from "@/components/ui/BookCallLink";
 import { leeSystemsAnchors, leeSystemsRoutes } from "@/data/lee-systems";
 
 /**
- * Leads with the guarantee, because it is the one thing about these builds a
- * buyer cannot get from most web designers: the site is finished before any
- * money changes hands. The label names the offering and the footnote names the
+ * Leads with what the site is for, then the flat quote. It led with the
+ * pay-after-the-build guarantee until the owner stopped offering it on
+ * 2026-09-28. The label names the offering and the footnote names the
  * company, the same rule the automation hero follows.
  */
 export function WebsitesHeroSection() {
@@ -27,14 +27,13 @@ export function WebsitesHeroSection() {
 
             <h1 className="heading-xl mb-6 text-white">
               A website that brings in customers.{" "}
-              <span className="text-brass-300">Built before you pay.</span>
+              <span className="text-brass-300">Flat quote up front.</span>
             </h1>
 
             <p className="mb-8 max-w-2xl text-lg leading-relaxed text-neutral-300">
               We build conversion-focused websites for small businesses: clear
               about what you do, fast on a phone, and built around one next
-              step for the visitor. Your site is fully built and in your hands
-              to review before you pay anything.
+              step for the visitor.
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">

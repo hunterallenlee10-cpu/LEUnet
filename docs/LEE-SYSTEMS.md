@@ -2,8 +2,9 @@
 
 Lee Systems Co. ("A Lee Enterprises Unlimited company") replaced Lee Marketing
 Mastery on 2026-09-25. It sells **AI automation** (the lead offer, AI call
-answering included) and **website builds** (fully built before the client
-pays). The first step is always a free consultation call, booked with **"Book a
+answering included) and **website builds**. Websites were sold with a pay-after-the-build guarantee until
+2026-09-28, when the owner stopped offering it; the site no longer makes that
+claim anywhere. The first step is always a free consultation call, booked with **"Book a
 free call"**.
 
 ## Pages
@@ -12,7 +13,7 @@ free call"**.
 | --- | --- | --- |
 | `/lee-systems` | Main page: hero, offerings (large Automation card, smaller Websites card), what gets automated, industries, recent work, Audit → Build → Run, About, final CTA | `app/lee-systems/page.tsx`, `components/lee-systems/` |
 | `/lee-systems/automation` | Hero, problem, the automation areas, industries (law firms, home services), how it works, FAQ, the consultation form | `app/lee-systems/automation/page.tsx`, `components/automation/` |
-| `/lee-systems/websites` | Hero, "built before you pay" guarantee, what every site includes, recent work, process, FAQ, bridge to automation, quote form | `app/lee-systems/websites/page.tsx`, `components/websites/` |
+| `/lee-systems/websites` | Hero, how pricing works (flat quote, no hidden fees, you own the site), what every site includes, recent work, process, FAQ, bridge to automation, quote form | `app/lee-systems/websites/page.tsx`, `components/websites/` |
 | `/lee-systems/law-firms` | A page for law firms, to send prospects in that industry: the industry's summary as the headline, what we automate for them, the pricing promise, Audit → Build → Run, final CTA | `app/lee-systems/law-firms/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
 | `/lee-systems/home-services` | The same page for home services and roofing | `app/lee-systems/home-services/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
 
