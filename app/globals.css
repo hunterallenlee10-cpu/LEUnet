@@ -790,6 +790,19 @@
     @apply text-3xl md:text-4xl font-bold tracking-tight;
   }
 
+  /* The gold label above each section heading on /business-mastery ("What
+     we believe", "Member offer"...). It was `text-sm font-semibold` in
+     sentence case until the owner asked for these more prominent
+     (2026-09-28): bold, uppercase and widely tracked now, the register the
+     hero's eyebrow and the proof labels already use. The indent equals the
+     tracking because letter-spacing hangs off the last glyph and would sit a
+     centred line half a space left of true centre. `text-balance` because
+     the longest label wraps to two lines on a phone, and two even lines read
+     as one label rather than a label and an orphan. */
+  .bm-eyebrow {
+    @apply mb-4 text-base md:text-lg font-bold uppercase tracking-[0.2em] indent-[0.2em] text-amber-400 text-balance;
+  }
+
   /* Gradient text */
   .gradient-text {
     @apply bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 bg-clip-text text-transparent;

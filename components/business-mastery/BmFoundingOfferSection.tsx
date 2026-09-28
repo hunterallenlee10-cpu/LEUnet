@@ -40,7 +40,7 @@ export function BmFoundingOfferSection() {
 
       <div className="section-container relative">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold text-amber-400">
+          <p className="bm-eyebrow">
             {bmOffer.eyebrow}
           </p>
           <h2 className="heading-lg text-white">{bmOffer.heading}</h2>
