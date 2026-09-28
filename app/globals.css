@@ -149,16 +149,51 @@
   outline-offset: 3px;
 }
 
-/* The line that introduces the two paths. */
+/* The line that introduces the two paths: a small brass eyebrow between
+   two gold hairlines, then the invitation a size up beneath it. */
 .hero-split-intro {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
   padding: 0 1.25rem;
-  color: rgb(229 229 229);
-  font-size: clamp(1.125rem, 1.7vw, 1.5rem);
-  font-weight: 600;
-  line-height: 1.4;
   text-align: center;
+}
+
+.hero-split-intro-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  color: var(--color-brass-300);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.hero-split-intro-kicker::before,
+.hero-split-intro-kicker::after {
+  content: "";
+  width: clamp(1.5rem, 6vw, 4rem);
+  height: 1px;
+}
+
+.hero-split-intro-kicker::before {
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 87, 0.7));
+}
+
+.hero-split-intro-kicker::after {
+  background: linear-gradient(90deg, rgba(212, 168, 87, 0.7), transparent);
+}
+
+.hero-split-intro-line {
+  color: #fff;
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
