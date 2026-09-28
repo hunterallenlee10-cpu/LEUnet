@@ -29,7 +29,7 @@ const geistMono = Geist_Mono({
 
 const title = "Business Mastery | Learn to Start a Business and Use AI | LEU";
 const description =
-  "Courses, coaching and a community for people starting a business and learning to use AI. A paid monthly membership, part of Lee Enterprises Unlimited.";
+  "Courses, coaching, and a community for people starting a business and learning to use AI. A paid monthly membership, part of Lee Enterprises Unlimited.";
 
 // The share image is app/business-mastery/opengraph-image.tsx.
 export const metadata: Metadata = {

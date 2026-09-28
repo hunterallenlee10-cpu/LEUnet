@@ -90,7 +90,7 @@ export function HeroSection() {
               Learn to start a business and actually use AI.
             </h2>
             <p className="hero-split-blurb">
-              Courses, coaching and a community of people building alongside
+              Courses, coaching, and a community of people building alongside
               you.
             </p>
             {site.businessMastery.price && (
