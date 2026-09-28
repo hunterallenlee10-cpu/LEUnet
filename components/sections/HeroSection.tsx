@@ -58,11 +58,11 @@ export function HeroSection() {
           <div className="hero-split-inner">
             <p className="hero-split-who">Hire us: Lee Systems Co.</p>
             <h2 id="path-ls-title" className="hero-split-half-title">
-              Every call answered. Every lead followed up.
+              Never miss a customer again.
             </h2>
             <p className="hero-split-blurb">
-              AI automation and websites for business owners, with a flat
-              upfront quote.
+              Get custom AI workflows and a high-performance website that run
+              your work on autopilot with guaranteed results.
             </p>
             <div className="hero-split-actions">
               <BookCallLink />

@@ -3,7 +3,6 @@ import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ToolsMarqueeSection } from "@/components/sections/ToolsMarqueeSection";
-import { LeeSystemsSetupSection } from "@/components/sections/LeeSystemsSetupSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
 import { BmJourneyLocked } from "@/components/business-mastery/BmJourneyLocked";
@@ -39,12 +38,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * The homepage: the hero and the two paths, the moving strip of tools, what
- * Lee Systems Co. sets up, the journey, recent work, and the contact form.
- * The order is the site fix plan's, except that on 2026-09-28 the owner
- * swapped the pricing promise for the tool strip, moved the journey here from
- * /business-mastery (right above recent work), and paused "Who you'll work
- * with". Nothing else goes here.
+ * The homepage: the hero and the two paths, the moving strip of tools, the
+ * journey, recent work, and the contact form. The order is the site fix
+ * plan's, except that on 2026-09-28 the owner swapped the pricing promise for
+ * the tool strip, moved the journey here from /business-mastery (right above
+ * recent work), and paused "Who you'll work with" and "What Lee Systems Co.
+ * sets up". Nothing else goes here.
  */
 export default function Home() {
   return (
@@ -54,7 +53,9 @@ export default function Home() {
       <main>
         <HeroSection />
         <ToolsMarqueeSection />
-        <LeeSystemsSetupSection />
+        {/* "What Lee Systems Co. sets up" is out at the owner's request
+            (2026-09-28). LeeSystemsSetupSection is intact; putting it back
+            is this line plus its import. */}
         {/* The journey, locked or open: BM_JOURNEY_LOCKED
             (data/business-mastery.ts) is the switch, and flipping it is the
             whole unlock. */}

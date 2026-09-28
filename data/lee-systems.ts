@@ -275,7 +275,9 @@ export const pricingPromise = [
   "You choose the contract terms",
 ] as const;
 
-/** The four things the homepage says Lee Systems Co. sets up. */
+/** The four things the homepage says Lee Systems Co. sets up. NOTHING RENDERS
+ * THIS RIGHT NOW: LeeSystemsSetupSection came off the homepage at the owner's
+ * request (2026-09-28) and is kept so it can go back with no content work. */
 export const homeSetupItems = [
   {
     id: "calls",
