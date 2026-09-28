@@ -28,6 +28,12 @@ export interface Project {
   image?: string;
 }
 
+export interface Tool {
+  name: string;
+  /** Symbol id in public/tools/sprite.svg. */
+  icon: string;
+}
+
 export const site = {
   name: "Lee Enterprises Unlimited",
   shortName: "LEU",
@@ -111,10 +117,49 @@ export const site = {
     /** A number people can call to hear it answer. "" hides the line. */
     demoPhone: "",
   },
+  /**
+   * The moving strip of tool logos under the homepage hero, in two rows.
+   * Everyday business tools the n8n automations can connect to, picked on
+   * 2026-09-28 for the owner to confirm or trim: the strip reads as "tools we
+   * work with", so list only what that's true of. Each `icon` is a symbol id
+   * in public/tools/sprite.svg (from Simple Icons, simpleicons.org); a new
+   * tool needs its icon added there too. An empty list hides the strip.
+   */
+  tools: [
+    [
+      { name: "n8n", icon: "n8n" },
+      { name: "Anthropic", icon: "anthropic" },
+      { name: "Gemini", icon: "googlegemini" },
+      { name: "Gmail", icon: "gmail" },
+      { name: "Google Calendar", icon: "googlecalendar" },
+      { name: "Calendly", icon: "calendly" },
+      { name: "WhatsApp", icon: "whatsapp" },
+      { name: "Zoom", icon: "zoom" },
+      { name: "Telegram", icon: "telegram" },
+    ],
+    [
+      { name: "HubSpot", icon: "hubspot" },
+      { name: "Airtable", icon: "airtable" },
+      { name: "Notion", icon: "notion" },
+      { name: "Google Sheets", icon: "googlesheets" },
+      { name: "QuickBooks", icon: "quickbooks" },
+      { name: "Stripe", icon: "stripe" },
+      { name: "Square", icon: "square" },
+      { name: "Mailchimp", icon: "mailchimp" },
+      { name: "Meta", icon: "meta" },
+    ],
+  ] as Tool[][],
 };
 
 /** The one name for the first step with Lee Systems Co., everywhere. */
 export const bookLabel = "Book a free call";
+
+/**
+ * The homepage hero's wording of the same step, from the owner's hero design
+ * (2026-09-28). Too long for the header button on a narrow phone, which is
+ * why the rest of the site keeps `bookLabel`.
+ */
+export const bookLabelHero = "Book a Free Consultation";
 
 /** Where every "Book a free call" goes. */
 export const bookHref = site.bookingUrl || "/contact?interest=lee-systems";

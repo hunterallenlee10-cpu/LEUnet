@@ -3,8 +3,8 @@ import { pricingPromise } from "@/data/lee-systems";
 
 /**
  * "No surprises on price." One slim band with the owner's five offer terms:
- * a row on desktop, a stack on a phone. On the homepage and the industry
- * pages.
+ * a row on desktop, a stack on a phone. On the industry pages (the homepage's
+ * copy gave way to the tool strip on 2026-09-28, at the owner's request).
  */
 export function PricingPromiseSection() {
   return (

@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-import { companyInfo } from "@/data/company";
 import { sectionIds } from "@/data/navigation";
 import { leeSystemsRoutes } from "@/data/lee-systems";
 import { businessMasteryAction } from "@/data/business-mastery";
@@ -8,10 +6,13 @@ import { site } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 
 /**
- * The homepage hero - "Split Ventures". The LEU logo and the headline, then
- * the two ways to work with LEU as two halves: hire Lee Systems Co. (first,
- * and the brighter of the two) or learn with Business Mastery. Each half has
- * its own buttons. The statistics ribbon runs along the bottom edge.
+ * The homepage hero. First a full-screen headline, line and button over a
+ * field of gold dots (the owner's design, 2026-09-28, which replaced the LEU
+ * logo and the "Hire us to automate your business, or learn to build your
+ * own." headline). Then "Split Ventures": the two ways to work with LEU as two
+ * halves, hire Lee Systems Co. (first, and the brighter of the two) or learn
+ * with Business Mastery, each with its own buttons, and the statistics ribbon
+ * along the bottom edge.
  *
  * The styling lives in app/globals.css as `.hero-split-*` (plus the shared
  * `.leu-grain`); this file owns the markup and the copy. Every movement in it
@@ -22,35 +23,32 @@ export function HeroSection() {
     <section
       id={sectionIds.hero}
       aria-labelledby="hero-title"
-      // The height is a floor at every width, never a lock: the header is
-      // `fixed`, so this section starts at y=0 underneath it and reserves the
-      // header's band as `.hero-split-top`'s padding, and a column too tall
-      // for the space grows the page rather than being clipped by
-      // `overflow-hidden`. `isolate` keeps the grain's `overlay` blend
-      // resolving against the hero alone.
-      className="hero-split relative isolate flex flex-col overflow-hidden lg:min-h-screen"
+      // The header is `fixed`, so this section starts at y=0 underneath it;
+      // `.hero-split-top` reserves the header's band in its padding. Heights
+      // are floors, never locks, so content too tall for the space grows the
+      // page rather than being clipped by `overflow-hidden`. `isolate` keeps
+      // the grain's `overlay` blend resolving against the hero alone.
+      className="hero-split relative isolate flex flex-col overflow-hidden"
     >
       <div className="hero-split-top">
-        <div className="hero-split-mark">
-          {/* Eager but not preloaded or high priority: the headline, not the
-              logo, is this page's largest paint, and the logo shouldn't
-              compete with it for bandwidth. */}
-          <Image
-            src={companyInfo.logo}
-            alt={companyInfo.logoAlt}
-            fill
-            sizes="132px"
-            className="object-contain"
-            loading="eager"
-          />
-        </div>
+        {/* The owner's headline, capitalized as they wrote it. The space
+            before the accent is real text, so it reads "with AI". */}
         <h1 id="hero-title" className="hero-split-title">
-          Hire us to automate your business, or learn to build your own.
+          Elevate Your Business with{" "}
+          <span className="hero-split-accent">AI</span>
         </h1>
         <p className="hero-split-lede">
-          Two ways to work with LEU. Pick the one that fits.
+          Automate how your business talks, sells, and grows with AI solutions
+          built to scale your brand.
         </p>
+        <div className="hero-split-cta">
+          <BookCallLink variant="hero" />
+        </div>
       </div>
+
+      <p className="hero-split-intro">
+        Two ways to work with LEU. Pick the one that fits.
+      </p>
 
       <div className="hero-split-fork">
         <article
