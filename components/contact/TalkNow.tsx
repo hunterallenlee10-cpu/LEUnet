@@ -3,7 +3,7 @@ import { site, telHref } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 
 /**
- * "Rather talk now?" beside the contact form, on the homepage and /contact.
+ * "Rather talk now? Connect with us." beside the contact form, on the homepage and /contact.
  *
  * The "Book a free call" button only appears here once a booking link is set
  * in data/site.ts. Until then that button leads to this same contact form, so
@@ -24,7 +24,7 @@ export function TalkNow({
 
   return (
     <div className={clsx("rounded-xl border border-white/10 p-6", className)}>
-      <Heading className="text-lg font-semibold text-white">Rather talk now?</Heading>
+      <Heading className="text-lg font-semibold text-white">Rather talk now? Connect with us.</Heading>
 
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         {site.bookingUrl && <BookCallLink variant="secondary" />}
