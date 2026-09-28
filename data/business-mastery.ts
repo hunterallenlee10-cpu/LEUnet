@@ -107,7 +107,7 @@ export const bmProofStatement =
 
 /**
  * The same track record, re-set as its three figures for the row in
- * BmManifestoSection.
+ * BmProofSection (the foot of BmManifestoSection until 2026-09-28).
  *
  * NOT A REWRITE AND NOT A SECOND CLAIM. Every figure below is lifted from
  * `bmProofStatement` above, and that sentence is still what the page
@@ -185,10 +185,14 @@ export const bmAudiences: BmAudience[] = [
 // the tools library, or anything else membership includes among the things
 // that cost nothing.
 
+// Cut to its first sentence on 2026-09-28, when the tenets merged into the
+// manifesto (BmManifestoSection) at the owner's request. The dropped sentence
+// was "Every part of Business Mastery runs on them.", which restated the
+// first once the two sections were one.
 export const bmTenetsIntro = {
   heading: "Our core tenets",
   description:
-    "Three principles sit behind everything we build and everything we help members build. Every part of Business Mastery runs on them.",
+    "Three principles sit behind everything we build and everything we help members build.",
 } as const;
 
 export const bmTenets: BmTenet[] = [

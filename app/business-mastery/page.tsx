@@ -3,10 +3,10 @@ import { Cormorant_Garamond, Geist_Mono } from "next/font/google";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
-import { BmManifestoSection } from "@/components/business-mastery/BmManifestoSection";
-import { BmAudienceSection } from "@/components/business-mastery/BmAudienceSection";
-import { BmTenetsSection } from "@/components/business-mastery/BmTenetsSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
+import { BmAudienceSection } from "@/components/business-mastery/BmAudienceSection";
+import { BmProofSection } from "@/components/business-mastery/BmProofSection";
+import { BmManifestoSection } from "@/components/business-mastery/BmManifestoSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
 
 /** The Business Mastery manifesto line, and nothing else on the site, which
@@ -61,7 +61,10 @@ export const metadata: Metadata = {
  * (docs/BUSINESS-MASTERY.md §9).
  *
  * Section order is the settled page flow from docs/BUSINESS-MASTERY.md §3 —
- * change it there first.
+ * change it there first. It was last reordered on 2026-09-28, to put what
+ * members get before the philosophy. Every section shares the body's
+ * neutral-950, so what alternates is a glow layer: 2, 4 and 6 carry one, 3
+ * and 5 don't. Keep that alternation if the order changes again.
  */
 export default function BusinessMasteryPage() {
   return (
@@ -72,10 +75,10 @@ export default function BusinessMasteryPage() {
 
       <main>
         <BmHeroSection />
-        <BmManifestoSection />
-        <BmAudienceSection />
-        <BmTenetsSection />
         <BmProgramSection />
+        <BmAudienceSection />
+        <BmProofSection />
+        <BmManifestoSection />
         <BmFoundingOfferSection />
         {/* Section 7, Why I Built LEU, is out at the owner's request — "for
             now", so this is a pause rather than a deletion. BmFounderSection

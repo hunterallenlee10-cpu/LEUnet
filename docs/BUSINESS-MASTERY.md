@@ -42,6 +42,12 @@ Mastery program page, plus its homepage presence.
 >   description stays about starting a business, never the membership's
 >   price. Speed and Money In are unchanged.
 > - **Guarantee:** unchanged, at the owner's request.
+> - **Section order:** reordered later the same day at the owner's request,
+>   so a visitor reads what members get before the philosophy: Hero →
+>   What Business Mastery actually is → Who this is for (now ending on a
+>   second "Apply to join") → the proof figures as their own short section →
+>   What we believe (the manifesto and the core tenets merged into one
+>   section) → the member offer and form. §3 has the table and the record.
 
 **Status:** Phase A built. The page, application form + API route, homepage
 teaser, and nav wiring are live on the branch and pass a production build.
@@ -93,15 +99,41 @@ The owner's flow, with the added section slotted where it does the most work:
 | # | Section | Content source | State |
 | --- | --- | --- | --- |
 | 1 | Hero — manifesto | Owner doc §1: title, "No great accomplishment…", "Speedrun Your Way to Success", CTA `ACHIEVE YOUR DREAMS →` scrolls to the offer | Ready |
-| 2 | **The Manifesto** | Owner doc §2 ("Nobody Builds Something Great Alone", network as the driving force, hard work + investment are both required). Owner doc §8 was merged in here on 2026-09-07 and taken back off on 2026-09-13 | Ready (see §6 on the proof claims) |
-| 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing), cut to three stages on 2026-09-27 at the owner's request (Starting From Zero / Just Getting Started / Ready to Grow) — Aspiring and Young merged | Ready |
-| 4 | **Our Core Tenets** | The owner's three tenets, supplied 2026-09-07: Speed, Money In, For Free. Replaced the 8-step "How to Build Your Own Empire" framework (Starting from zero → Creating freedom) in this slot | Ready. Titles and heading are the owner's; the Speed description is the owner's own copy (supplied 2026-09-15), the other two one-line descriptions are build copy — see the note on `bmTenets` before editing "For Free" |
-| 5 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." + six pillars (classes, webinars, daily calls, coaching, hands-on help, community); Tools & Resources removed 2026-09-27, data kept | Ready |
+| 2 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." (now "A network of dedicated entrepreneurs.") + six pillars (classes, webinars, daily calls, coaching, hands-on help, community); Tools & Resources removed 2026-09-27, data kept. Was slot 5 until the 2026-09-28 reorder | Ready |
+| 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing), cut to three stages on 2026-09-27 at the owner's request (Starting From Zero / Just Getting Started / Ready to Grow) — Aspiring and Young merged. Ends on the page's second "Apply to join" since 2026-09-28 | Ready |
+| 4 | The proof figures | `bmProofPoints` (50+ / 1,000+ / $150,000+), with `bmProofStatement` as its screen-reader text. The foot of the manifesto until the 2026-09-28 reorder made it its own short section, with no heading | Ready (see §6 on the proof claims) |
+| 5 | **What We Believe** — the manifesto + Our Core Tenets | Owner doc §2 ("Nobody Builds Something Great Alone", network as the driving force), then the owner's three tenets, supplied 2026-09-07: Speed, Money In, For Free (they replaced the 8-step "How to Build Your Own Empire" framework). The manifesto was slot 2 and the tenets slot 4 until they merged here on 2026-09-28 | Ready. Tenet titles are the owner's; the Speed description is the owner's own copy (supplied 2026-09-15), the other two one-line descriptions are build copy — see the note on `bmTenets` before editing "For Free" |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
 | 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | **Moved to the homepage on 2026-09-28**, right above "Recent work", at the owner's request — not on this page any more. Still built and **visibly locked** until the owner launches it: the slot renders a Coming Soon placeholder; `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
 | ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — merged up into slot 2 on 2026-09-07, then **off the page entirely** on 2026-09-13, see the note below | Not on the page in any slot; the copy is unchanged and still `bmTransition` |
 | 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | **Not on the page right now** — pulled at the owner's request on 2026-09-27; `BmFinalCTASection` and `bmFinalCta` are intact |
+
+**The page was reordered on 2026-09-28, at the owner's request**, to put
+what members get before the philosophy so a visitor understands the offer
+quickly. Slots 1 and 6 did not move; 2–5 were re-slotted as the table shows,
+and three things changed with them:
+
+- **The manifesto and the tenets are one section**, `BmManifestoSection`, at
+  slot 5. One eyebrow ("What we believe"; the tenets' "The way we operate"
+  came off), then "Our core tenets" as a sub-heading over the three cards.
+  `BmTenetsSection.tsx` is deleted. `bmTenetsIntro.description` was cut to its
+  first sentence; the dropped one ("Every part of Business Mastery runs on
+  them.") is recorded on it in the data file.
+- **The proof figures are their own section**, `BmProofSection`, at slot 4,
+  still read before the offer and the form (the reason recorded below for
+  placing the claim early). `bmProofStatement` moved with the row and is still
+  its screen-reader text; it was never drawn on screen.
+- **"Who this is for" ends on "Apply to join"**, the hero's action and target
+  (`businessMasteryAction`), in the hero's filled gold style.
+
+All sections share the body's neutral-950, so what alternates down the page
+is a glow layer. It is on 2, 4 and 6 and off 3 and 5: the manifesto's radial
+glow moved up to slot 2 with the slot, `BmProofSection` carries a fainter
+one, and the merged slot 5 has none.
+
+The notes below this one are the page's history. Where they say "slot 2" for
+the manifesto or "section 5" for the program, they mean the order at the time.
 
 **Sections 2 and 9 became one section on 2026-09-07, at the owner's
 request.** They were always the same claim made twice — a centred column of
@@ -212,12 +244,12 @@ as slot 7's hole.
 
 ### Why the added section sits where it does
 
-- **Core Tenets (4)** lands between "who this is for" and "what the program
-  is": the visitor sees themselves, then sees how we operate, then sees the
-  program that operates that way. The slot was chosen for the 8-step Empire
-  framework on a roadmap argument — "then sees the path". Three principles
-  are not a path, so the placement now rests on stance rather than sequence;
-  it survived the swap because the order still reads.
+- **Core Tenets** landed between "who this is for" and "what the program is"
+  (slot 4) when they replaced the 8-step Empire framework: the visitor sees
+  themselves, then sees how we operate, then sees the program that operates
+  that way. Since the 2026-09-28 reorder they close the philosophy instead, as
+  the second half of slot 5: the offer and the audience come first, and the
+  belief and the principles behind it follow, directly before the member offer.
 
 ---
 
@@ -233,10 +265,10 @@ both pages that set it have since moved to their own repos - see this repo's
 | `data/business-mastery.ts` | All page copy, the three audience stages, the 3 core tenets, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered) |
 | `types/index.ts` | Business Mastery interfaces appended |
 | `components/business-mastery/BmHeroSection.tsx` | 1 — manifesto hero |
-| `components/business-mastery/BmManifestoSection.tsx` | 2 — the merged manifesto (replaced `BmCoreBeliefSection.tsx` and `BmTransitionSection.tsx`) |
-| `components/business-mastery/BmAudienceSection.tsx` | 3 — three audience stage cards |
-| `components/business-mastery/BmTenetsSection.tsx` | 4 — the three core tenets |
-| `components/business-mastery/BmProgramSection.tsx` | 5 — "NOT a Course. A Coach." + pillars |
+| `components/business-mastery/BmProgramSection.tsx` | 2 — "A network of dedicated entrepreneurs." + pillars |
+| `components/business-mastery/BmAudienceSection.tsx` | 3 — three audience stage cards + the second "Apply to join" |
+| `components/business-mastery/BmProofSection.tsx` | 4 — the three proof figures |
+| `components/business-mastery/BmManifestoSection.tsx` | 5 — What we believe: the manifesto + the three core tenets (replaced `BmCoreBeliefSection.tsx`, `BmTransitionSection.tsx` and, on 2026-09-28, `BmTenetsSection.tsx`) |
 | `components/business-mastery/BmFoundingOfferSection.tsx` | 6 — offer, limited-spots box, guarantee expandable |
 | `components/business-mastery/BmApplicationForm.tsx` | 6 — the form (fields in §5) |
 | `components/business-mastery/BmFounderSection.tsx` | 7 — Why I Built LEU (built, not currently rendered — §3) |
