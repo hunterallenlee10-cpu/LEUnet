@@ -53,9 +53,10 @@ export const bmHero = {
    * flat statement now, at the owner's request. Unlike the counter it
    * replaced, nothing in the repo can check it - it is a claim about the
    * owner's own enrollment, so it stays true only as long as that is true.
-   * Change or remove it when enrollment is no longer closing.
+   * Change or remove it when enrollment is no longer closing, and update the
+   * spot count by hand whenever it changes.
    */
-  scarcityLine: "Enrollment Closing Soon",
+  scarcityLine: "Enrollment Closing Soon · 4 Spots Remain",
   cta: "Achieve Your Dreams",
 } as const;
 
