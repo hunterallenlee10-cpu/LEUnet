@@ -18,9 +18,6 @@ export function LeeSystemsSetupSection() {
           <h2 id="setup-title" className="heading-lg text-white">
             What Lee Systems Co. sets up
           </h2>
-          <p className="mt-4 text-lg text-neutral-300">
-            Most businesses start with one or two.
-          </p>
         </div>
 
         <ul className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
