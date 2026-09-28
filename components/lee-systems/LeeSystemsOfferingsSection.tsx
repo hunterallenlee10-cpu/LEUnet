@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, ShieldCheck, Workflow } from "lucide-react";
+import { Check, Globe, Workflow } from "lucide-react";
 import { leeSystemsRoutes } from "@/data/lee-systems";
 
 const automationPoints = [
@@ -72,8 +72,8 @@ export function LeeSystemsOfferingsSection() {
               phone, and built to turn visitors into inquiries.
             </p>
             <p className="mb-8 flex items-start gap-2 text-sm font-semibold text-neutral-200">
-              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brass-300" aria-hidden="true" />
-              Fully built before you pay anything.
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-brass-300" aria-hidden="true" />
+              Mobile-first, fast, with lead forms, and you own it.
             </p>
             <Link
               href={leeSystemsRoutes.websites}

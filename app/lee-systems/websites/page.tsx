@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { WebsitesHeroSection } from "@/components/websites/WebsitesHeroSection";
-import { WebsitesGuaranteeSection } from "@/components/websites/WebsitesGuaranteeSection";
+import { WebsitesPricingSection } from "@/components/websites/WebsitesPricingSection";
 import { WebsitesServicesSection } from "@/components/websites/WebsitesServicesSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { WebsitesProcessSection } from "@/components/websites/WebsitesProcessSection";
@@ -12,9 +12,9 @@ import { WebsitesInquiryCTA } from "@/components/websites/WebsitesInquiryCTA";
 import { SITE_URL } from "@/data/company";
 import { leeSystems, leeSystemsRoutes, websiteFaqs } from "@/data/lee-systems";
 
-const title = "Small Business Websites, Built Before You Pay | Lee Systems Co.";
+const title = "Small Business Websites That Bring In Customers | Lee Systems Co.";
 const description =
-  "Conversion-focused websites for small businesses, fully built before you pay anything. Mobile-first, fast, lead forms, basic SEO, and you own it. Free quotes from Lee Systems Co.";
+  "Conversion-focused websites for small businesses. Mobile-first, fast, lead forms, basic SEO, and you own it. Free quotes from Lee Systems Co.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -92,7 +92,7 @@ export default function LeeSystemsWebsitesPage() {
 
       <main className="pt-20">
         <WebsitesHeroSection />
-        <WebsitesGuaranteeSection />
+        <WebsitesPricingSection />
         <WebsitesServicesSection />
         <RecentWorkSection id="website-work" />
         <WebsitesProcessSection />

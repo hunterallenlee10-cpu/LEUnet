@@ -227,11 +227,6 @@ export const automationFaqs = [
 
 export const websiteFaqs = [
   {
-    question: "What does “built before you pay” mean?",
-    answer:
-      "We build your site in full and show it to you working. You pay only once you have seen the finished site. If you decide not to go ahead, you do not pay.",
-  },
-  {
     question: "How much does a website cost?",
     answer:
       "Each project is quoted on its own. The price depends on how many pages you need, whether copy and photos already exist, and what the site has to do, such as booking appointments or connecting to other tools. The quote is free.",
@@ -300,6 +295,6 @@ export const homeSetupItems = [
   {
     id: "websites",
     title: "Websites",
-    body: "Built to bring in leads, and fully built before you pay.",
+    body: "Built to bring in leads, and you own it.",
   },
 ] as const;

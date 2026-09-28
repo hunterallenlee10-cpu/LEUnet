@@ -5,5 +5,5 @@ export const size = ogSize;
 export const contentType = ogContentType;
 
 export default function Image() {
-  return renderLeeSystemsOg("Websites built before you pay a thing.");
+  return renderLeeSystemsOg("Websites that bring in customers.");
 }

@@ -22,7 +22,7 @@ import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
  */
 const title = "Lee Systems Co. | AI Automation & Websites for Business Owners";
 const description =
-  "Lee Systems Co. builds AI systems that answer your calls and new leads, handle intake and send follow-ups, plus websites fully built before you pay.";
+  "Lee Systems Co. builds AI systems that answer your calls and new leads, handle intake and send follow-ups, plus websites built to bring in leads.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
