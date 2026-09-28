@@ -3,10 +3,12 @@ import { Globe, ShieldCheck, Workflow } from "lucide-react";
 import { leeSystemsRoutes } from "@/data/lee-systems";
 
 const automationPoints = [
+  "Answers your business calls 24/7 with an AI assistant",
   "Answers every new lead in under a minute",
   "Handles intake, booking and reminders",
   "Follows up until the customer gives an answer",
   "Requests reviews and chases invoices for you",
+  "Updates your CRM automatically",
 ];
 
 /**

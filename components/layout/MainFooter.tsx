@@ -5,8 +5,8 @@ import { footerPages } from "@/data/navigation";
 import { site, telHref } from "@/data/site";
 
 /**
- * A 96px copy of `companyInfo.logo` (512px) for the 48px mark below, so a
- * subpage does not download the full logo just for the footer.
+ * A 96px copy of the full logo for the 48px mark below, so a page does not
+ * download a bigger copy just for the footer.
  */
 const footerLogo = "/logos/leu-logo-96.webp";
 

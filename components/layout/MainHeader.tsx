@@ -214,7 +214,7 @@ export function MainHeader() {
               width={204}
               height={160}
               sizes="51px"
-              priority
+              preload
               className="h-10 w-auto"
             />
             <span className="hidden whitespace-nowrap text-xs font-semibold uppercase tracking-widest text-amber-400 sm:inline lg:hidden xl:inline xl:text-sm">

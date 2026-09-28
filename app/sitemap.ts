@@ -14,6 +14,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     leeSystemsRoutes.home,
     leeSystemsRoutes.automation,
     leeSystemsRoutes.websites,
+    leeSystemsRoutes.lawFirms,
+    leeSystemsRoutes.homeServices,
     businessMasteryPage,
     contactPage,
     "/legal",

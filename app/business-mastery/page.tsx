@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond } from "next/font/google";
+import { Cormorant_Garamond, Geist_Mono } from "next/font/google";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
@@ -19,6 +19,15 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400"],
   variable: "--font-cormorant",
+});
+
+/** The hero's eyebrow, and likewise nothing else on the site. It was declared
+ *  in the root layout until 2026-09-28, which had every page preload a font
+ *  only this one draws. It feeds the `font-mono-geist` token in
+ *  app/globals.css. */
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
 });
 
 const title = "Business Mastery | Learn to Start a Business and Use AI | LEU";
@@ -59,7 +68,9 @@ export const metadata: Metadata = {
  */
 export default function BusinessMasteryPage() {
   return (
-    <div className={`min-h-screen w-full bg-neutral-950 ${cormorant.variable}`}>
+    <div
+      className={`min-h-screen w-full bg-neutral-950 ${cormorant.variable} ${geistMono.variable}`}
+    >
       <MainHeader />
 
       <main>

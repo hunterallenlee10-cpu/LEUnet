@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import clsx from "clsx";
@@ -119,7 +120,9 @@ export function ContactForm({
     return next;
   };
 
-  /** Puts focus on the first field that needs fixing. */
+  /** Puts focus on the first field that needs fixing. Callers apply the
+   *  errors with flushSync first, so the field is already marked invalid and
+   *  described by its message when focus lands on it. */
   const focusFirstError = (found: FieldErrors) => {
     const first = fieldOrder.find((field) => found[field]);
     if (!first) return;
@@ -135,7 +138,7 @@ export function ContactForm({
 
     const found = validate();
     if (Object.keys(found).length > 0) {
-      setErrors(found);
+      flushSync(() => setErrors(found));
       focusFirstError(found);
       return;
     }
@@ -159,7 +162,7 @@ export function ContactForm({
 
       const data = await response.json().catch(() => null);
       if (data?.errors) {
-        setErrors(data.errors as FieldErrors);
+        flushSync(() => setErrors(data.errors as FieldErrors));
         focusFirstError(data.errors as FieldErrors);
       } else {
         setErrors({

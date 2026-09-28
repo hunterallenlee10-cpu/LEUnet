@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { Home, Scale } from "lucide-react";
-import {
-  leeSystemsIndustries,
-  leeSystemsRoutes,
-  otherIndustriesLine,
-} from "@/data/lee-systems";
+import { leeSystemsIndustries, otherIndustriesLine } from "@/data/lee-systems";
 
 const industryIcons = {
   "law-firms": Scale,
@@ -12,8 +8,8 @@ const industryIcons = {
 } as const;
 
 /**
- * Who it is for. Each card links to that industry's block on the automation
- * page, whose id matches the industry id in data/lee-systems.ts.
+ * Who it is for. Each card links to that industry's own page
+ * (/lee-systems/law-firms, /lee-systems/home-services).
  */
 export function LeeSystemsIndustriesSection() {
   return (
@@ -27,12 +23,12 @@ export function LeeSystemsIndustriesSection() {
         </div>
 
         <ul className="mx-auto grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
-          {leeSystemsIndustries.map(({ id, name, summary }) => {
+          {leeSystemsIndustries.map(({ id, name, summary, page }) => {
             const Icon = industryIcons[id];
             return (
               <li key={id}>
                 <Link
-                  href={`${leeSystemsRoutes.automation}#${id}`}
+                  href={page.href}
                   className="group flex h-full flex-col rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-8 transition-colors hover:border-brass-400/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300"
                 >
                   <Icon className="mb-4 h-7 w-7 text-brass-300" aria-hidden="true" />

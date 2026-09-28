@@ -30,10 +30,10 @@ export function AutomationHeroSection() {
             </h1>
 
             <p className="mb-8 max-w-2xl text-lg leading-relaxed text-neutral-300">
-              We build custom systems that answer new leads in seconds, handle
-              intake, send follow-ups, request reviews and clear out the admin
-              that eats your week. You keep running the work. The system keeps
-              everything else moving.
+              We build custom AI systems that answer your calls and new leads in
+              seconds, handle intake, send follow-ups, request reviews and clear
+              out the admin that eats your week. You keep running the work. The
+              system keeps everything else moving.
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row">

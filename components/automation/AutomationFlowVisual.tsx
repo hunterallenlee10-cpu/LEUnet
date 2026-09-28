@@ -30,7 +30,9 @@ const nodes = [
  * the connectors in viewBox units (340 x 430) - so the lines land under the
  * cards at any panel width. Connectors run centre to centre and the cards
  * paint over them, which is what lets the card heights vary (a label may
- * wrap on a narrow phone) without any endpoint drifting into view.
+ * wrap on a narrow phone) without any endpoint drifting into view. That only
+ * works if the cards are opaque, so these ones are: a translucent card let
+ * the line behind it run through its label.
  */
 const mobileAnchors = [
   { n: nodes[0], x: 28, y: 7 },
@@ -129,8 +131,8 @@ export function AutomationFlowVisual() {
                     : "right-0 w-[56%]"
               } ${
                 n.emphasis
-                  ? "border-brass-400/45 bg-brass-400/10"
-                  : "border-white/10 bg-neutral-900/80"
+                  ? "border-brass-400/45 bg-neutral-950 bg-gradient-to-b from-brass-400/10 to-brass-400/10"
+                  : "border-white/10 bg-neutral-900"
               }`}
             >
               <n.Icon

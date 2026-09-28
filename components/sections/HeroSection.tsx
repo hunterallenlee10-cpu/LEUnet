@@ -32,13 +32,16 @@ export function HeroSection() {
     >
       <div className="hero-split-top">
         <div className="hero-split-mark">
+          {/* Eager but not preloaded or high priority: the headline, not the
+              logo, is this page's largest paint, and the logo shouldn't
+              compete with it for bandwidth. */}
           <Image
             src={companyInfo.logo}
             alt={companyInfo.logoAlt}
             fill
             sizes="132px"
             className="object-contain"
-            priority
+            loading="eager"
           />
         </div>
         <h1 id="hero-title" className="hero-split-title">

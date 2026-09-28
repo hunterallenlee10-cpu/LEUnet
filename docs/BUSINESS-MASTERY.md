@@ -26,7 +26,16 @@ Mastery program page, plus its homepage presence.
 >   included (owner's call).
 > - **Membership:** a paid monthly membership; the amount isn't set, so no
 >   price shows. Price, platform and join link live in
->   `site.businessMastery`.
+>   `site.businessMastery`. The offer section says so under its heading ("A
+>   paid monthly membership.", plus the price once it is set).
+> - **After applying:** while joining is by application (`joinMode`
+>   "apply"), the offer section shows three steps above the form: send the
+>   application (no payment taken), Hunter reviews it and follows up
+>   personally, then members are added to the member resources and groups
+>   (`afterJoining`; a named `platform` replaces that line once set).
+> - **Tenets:** "For Free" is now **"Start Lean"** (id `start-lean`): beside
+>   a paid membership, "For Free" read as a claim about its price. Speed and
+>   Money In are unchanged.
 > - **Guarantee:** unchanged, at the owner's request.
 
 **Status:** Phase A built. The page, application form + API route, homepage

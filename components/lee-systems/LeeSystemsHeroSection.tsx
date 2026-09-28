@@ -29,9 +29,9 @@ export function LeeSystemsHeroSection() {
         </h1>
 
         <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-neutral-300">
-          We build custom systems that answer new leads, handle intake, send
-          follow-ups, request reviews and clear out the admin busywork, so
-          nothing slips through on the busy weeks.
+          We build custom AI systems that answer your calls and new leads,
+          handle intake, send follow-ups, request reviews and clear out the
+          admin busywork, so nothing slips through on the busy weeks.
         </p>
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">

@@ -13,7 +13,7 @@ import { automationFaqs, leeSystems, leeSystemsRoutes } from "@/data/lee-systems
 
 const title = "Business Automation for Service Businesses | Lee Systems Co.";
 const description =
-  "Lee Systems Co. builds custom automation that answers new leads, handles intake, sends follow-ups, requests reviews and clears out admin work. Start with a free call.";
+  "AI call answering, instant lead replies, intake, follow-ups and review requests, built around the tools you already use. Start with a free call.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -59,6 +59,7 @@ const structuredData = {
         "@type": "OfferCatalog",
         name: "Automation Systems",
         itemListElement: [
+          "AI Call Answering",
           "Lead Response Automation",
           "Sales Follow-Up Automation",
           "Client Intake and Communication",

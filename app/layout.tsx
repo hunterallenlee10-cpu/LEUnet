@@ -1,24 +1,10 @@
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { SITE_URL } from '@/data/company'
 import './globals.css'
 
 const geistSans = Geist({ subsets: ['latin'] })
-
-/**
- * Exposed as a CSS variable rather than applied as a class, and wired to the
- * `font-mono-geist` token in app/globals.css. It renders only in the Business
- * Mastery hero's eyebrow today: the homepage seam's "or" reads
- * `var(--font-mono-geist)` from a plain rule, which resolves it at :root,
- * above the <body> this variable is set on, so it falls back to Geist Sans.
- * (Cormorant, the hero's serif, is declared on the Business Mastery page
- * itself, so no other page preloads it.)
- *
- * Every `font-mono` on the site renders in the system stack, deliberately:
- * pointing it at Geist Mono would restyle the Lee Systems pages.
- */
-const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 
 /**
  * The defaults every page starts from. Pages set their own title,
@@ -76,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-neutral-950" data-scroll-behavior="smooth">
       <body
-        className={`${geistSans.className} ${geistMono.variable} antialiased bg-neutral-950 text-white`}
+        className={`${geistSans.className} antialiased bg-neutral-950 text-white`}
       >
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

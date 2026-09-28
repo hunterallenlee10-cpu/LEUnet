@@ -38,9 +38,30 @@
 
 .hero-split-mark {
   position: relative;
+  isolation: isolate;
   width: clamp(96px, 10vw, 132px);
   aspect-ratio: 1;
-  filter: drop-shadow(0 0 36px rgba(251, 191, 36, 0.35));
+}
+
+/* The logo's amber glow, painted as a gradient behind it. It replaces a
+   `drop-shadow(0 0 36px rgba(251, 191, 36, 0.35))` filter on the logo and
+   measures within a few brightness levels of it. The filter widened the
+   image's painted area, which made the logo the page's largest paint instead
+   of the headline, and the page waited on the image before counting as
+   loaded. */
+.hero-split-mark::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(251, 191, 36, 0.14),
+    rgba(251, 191, 36, 0.06) 55%,
+    rgba(251, 191, 36, 0.025) 78%,
+    transparent
+  );
 }
 
 .hero-split-title {
@@ -477,8 +498,8 @@
 }
 
 @theme inline {
-  /* Fonts declared with next/font: Geist Mono in app/layout.tsx, on <body>, and
-     Cormorant in app/business-mastery/page.tsx, on that page's <main>.
+  /* Fonts declared with next/font: Geist Mono and Cormorant, both in
+     app/business-mastery/page.tsx, on that page's outermost element.
      `font-serif` is the Business Mastery hero's Cormorant manifesto line. The
      Geist Mono token is deliberately NOT named `--font-mono`, because that
      would switch every existing `font-mono` on the Lee Systems, Automation and
@@ -489,8 +510,8 @@
      `font-mono-geist` (both only in the Business Mastery hero) render their
      fonts. The one plain rule that reads `var(--font-mono-geist)`
      (`.hero-split-or span`, the homepage seam's "or") resolves it at :root,
-     above the <body> that sets `--font-geist-mono`, so it currently falls
-     back to the inherited Geist Sans. */
+     and the homepage never sets `--font-geist-mono`, so it falls back to the
+     inherited Geist Sans. */
   --font-serif: var(--font-cormorant), ui-serif, Georgia, 'Times New Roman', serif;
   --font-mono-geist: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
     monospace;

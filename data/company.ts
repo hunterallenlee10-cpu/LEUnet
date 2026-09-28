@@ -10,8 +10,13 @@ export const SITE_URL = site.url;
 
 export const companyInfo = {
   name: site.name,
-  /** The full logo, with the name lettered under the mark. 512x512. */
-  logo: "/logos/leu-logo.webp",
+  /**
+   * The full logo, with the name lettered under the mark: a 288px copy for
+   * the homepage hero, which draws it at up to 132px (the site serves images
+   * as they are). The 512px original is public/logos/leu-logo.png, which the
+   * link-preview images use.
+   */
+  logo: "/logos/leu-logo-288.webp",
   logoAlt: "Lee Enterprises Unlimited logo",
   /**
    * The LEU monogram without the name lettered under it, for the header,

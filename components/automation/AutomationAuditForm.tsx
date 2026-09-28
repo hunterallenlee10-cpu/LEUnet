@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { CheckCircle2 } from "lucide-react";
 import {
   auditIndustryOptions,
@@ -41,6 +42,7 @@ export function AutomationAuditForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const successRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   // The success panel replaces the form, taking the focused submit button with
   // it, so focus would fall back to <body>. Moving it to the panel keeps a
@@ -78,12 +80,27 @@ export function AutomationAuditForm() {
     return next;
   };
 
+  /** Shows the errors, then puts focus on the first field that needs fixing,
+   *  in the order the form lists them, which on a phone also scrolls it into
+   *  view. The errors are applied first so the field is already marked
+   *  invalid and described by its message when focus lands on it. */
+  const showErrors = (found: FieldErrors) => {
+    flushSync(() => setErrors(found));
+    const names = Object.keys(found).filter((name) => name !== "form");
+    if (names.length === 0) return;
+    formRef.current
+      ?.querySelector<HTMLElement>(
+        names.map((name) => `[name="${CSS.escape(name)}"]`).join(", ")
+      )
+      ?.focus();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const found = validate();
     if (Object.keys(found).length > 0) {
-      setErrors(found);
+      showErrors(found);
       return;
     }
 
@@ -105,7 +122,7 @@ export function AutomationAuditForm() {
 
       const data = await response.json().catch(() => null);
       if (data?.errors) {
-        setErrors(data.errors as FieldErrors);
+        showErrors(data.errors as FieldErrors);
       } else {
         setErrors({
           form: `We couldn't send your request. Please try again, or email ${leeSystems.contactEmail}. Reference: ${
@@ -162,6 +179,7 @@ export function AutomationAuditForm() {
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit}
       noValidate
       aria-describedby="audit-form-description"

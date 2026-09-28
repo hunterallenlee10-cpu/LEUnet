@@ -13,6 +13,17 @@ free call"**.
 | `/lee-systems` | Main page: hero, offerings (large Automation card, smaller Websites card), what gets automated, industries, recent work, Audit → Build → Run, About, final CTA | `app/lee-systems/page.tsx`, `components/lee-systems/` |
 | `/lee-systems/automation` | Hero, problem, the automation areas, industries (law firms, home services), how it works, FAQ, the consultation form | `app/lee-systems/automation/page.tsx`, `components/automation/` |
 | `/lee-systems/websites` | Hero, "built before you pay" guarantee, what every site includes, recent work, process, FAQ, bridge to automation, quote form | `app/lee-systems/websites/page.tsx`, `components/websites/` |
+| `/lee-systems/law-firms` | A page for law firms, to send prospects in that industry: the industry's summary as the headline, what we automate for them, the pricing promise, Audit → Build → Run, final CTA | `app/lee-systems/law-firms/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
+| `/lee-systems/home-services` | The same page for home services and roofing | `app/lee-systems/home-services/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
+
+The two industry pages use only copy already on the site (the industry's
+entry in `leeSystemsIndustries`, which also holds each page's title and
+description). The industry cards on `/lee-systems` and
+`/lee-systems/automation` link to them, and both are in the sitemap.
+
+AI call answering leads both the main page's "what gets automated" grid and
+the automation page's areas, drawn full width. Its capabilities list is the
+owner's own, word for word, in `site.callAnswering` (`data/site.ts`).
 
 Shared copy (brand details, FAQs, industries, the pricing promise, form
 dropdowns) is in `data/lee-systems.ts`. Business facts (phone, email, the

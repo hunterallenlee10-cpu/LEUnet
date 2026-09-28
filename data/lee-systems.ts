@@ -25,6 +25,8 @@ export const leeSystemsRoutes = {
   home: "/lee-systems",
   automation: "/lee-systems/automation",
   websites: "/lee-systems/websites",
+  lawFirms: "/lee-systems/law-firms",
+  homeServices: "/lee-systems/home-services",
 } as const;
 
 /**
@@ -80,10 +82,16 @@ export const websiteProjectTypes = [
 ] as const;
 
 /**
- * The six things the main page says get automated. Short on purpose: the
- * automation page carries the full list, grouped by area.
+ * What the main page says gets automated: AI call answering first (it is the
+ * one the page draws wide), then six more. Short on purpose: the automation
+ * page carries the full list, grouped by area.
  */
 export const automatedTasks = [
+  {
+    id: "calls",
+    title: "AI call answering",
+    body: "An AI assistant that answers your business calls 24/7.",
+  },
   {
     id: "lead-response",
     title: "Instant lead response",
@@ -117,9 +125,16 @@ export const automatedTasks = [
 ] as const;
 
 /**
- * The industries named on the main page and the automation page. Law firms and
- * home services are the two the owner knows best; the closing line covers
- * everyone else rather than listing industries with nothing specific to say.
+ * The industries named on the main page and the automation page, each with a
+ * page of its own (`page`) that the owner can send prospects in that industry.
+ * Law firms and home services are the two the owner knows best; the closing
+ * line covers everyone else rather than listing industries with nothing
+ * specific to say.
+ *
+ * The industry pages are built only from copy already on the site: the
+ * industry's summary and examples here, the Audit, Build, Run steps, the
+ * pricing promise and the closing call to action. Nothing on them is new
+ * claim-wise.
  */
 export const leeSystemsIndustries = [
   {
@@ -127,6 +142,12 @@ export const leeSystemsIndustries = [
     name: "Law firms",
     summary:
       "Intake, consultations and client updates without the phone tag.",
+    page: {
+      href: leeSystemsRoutes.lawFirms,
+      title: "Law Firm Intake Automation | Lee Systems Co.",
+      description:
+        "Intake forms, consultation booking, follow-up for prospective clients and case status updates for law firms, automated by Lee Systems Co.",
+    },
     examples: [
       "Intake forms that collect case details before the first call",
       "Consultation booking with automatic reminders",
@@ -141,6 +162,12 @@ export const leeSystemsIndustries = [
     name: "Home services & roofing",
     summary:
       "Every lead answered, every estimate followed up, every job reviewed.",
+    page: {
+      href: leeSystemsRoutes.homeServices,
+      title: "Home Services & Roofing Automation | Lee Systems Co.",
+      description:
+        "Instant replies to every lead, inspection scheduling, estimate follow-up and review requests for home services and roofing, automated by Lee Systems Co.",
+    },
     examples: [
       "Instant replies to web, phone and ad leads",
       "Inspection scheduling with reminders the day before",
@@ -170,6 +197,11 @@ export const automationFaqs = [
     question: "What do you build the systems with?",
     answer:
       "Mostly n8n, an automation platform that connects the tools you already use, with AI where it earns its place: drafting replies, sorting inquiries, and summarizing information. You do not need to learn either one to use what we build.",
+  },
+  {
+    question: "What can the AI phone assistant do?",
+    answer:
+      "It works like a 24/7 virtual receptionist and sales assistant. It answers calls, handles frequently asked questions, books and reschedules appointments, qualifies leads, takes messages, transfers calls, texts missed callers, follows up with leads and past customers, sends reminders and updates your CRM automatically. It can also make outbound calls for lead follow-up, appointment confirmations, customer reactivation and review requests.",
   },
   {
     question: "Do I need to replace my current software?",
