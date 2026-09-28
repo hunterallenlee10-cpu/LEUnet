@@ -25,7 +25,7 @@ import { bmProofPoints, bmProofStatement } from "@/data/business-mastery";
  */
 export function BmProofSection() {
   return (
-    <section className="relative isolate py-12 md:py-16">
+    <section className="relative isolate pb-12 pt-8 md:pb-16 md:pt-10">
       <div className="absolute inset-0 z-0 overflow-hidden section-fade" aria-hidden="true">
         <div
           className="absolute inset-0"
@@ -47,8 +47,9 @@ export function BmProofSection() {
             The figures are numbers at the owner's request (2026-09-13): "50+",
             "1,000+" and "$150,000+" replaced "dozens", "hundreds" and
             "thousands upon thousands", the owner's own figures both times (see
-            data/business-mastery.ts). They sit at `heading-lg`'s scale and no
-            larger.
+            data/business-mastery.ts). Since 2026-09-28, at the owner's request,
+            the row is `max-w-5xl` and the figures reach `text-6xl`, so the
+            band fills its space rather than floating in it.
 
             THE SENTENCE STILL SHIPS, VERBATIM. `bmProofStatement` is rendered
             `sr-only` and the row is `aria-hidden`, so a screen reader gets the
@@ -61,7 +62,7 @@ export function BmProofSection() {
             a hairline, because three stacked centred blocks there are taller
             than they need to be. Three columns from `sm`, where the width
             exists. */}
-        <div className="mx-auto max-w-3xl border-y border-neutral-800 py-5 md:py-7">
+        <div className="mx-auto max-w-5xl border-y border-neutral-800 py-5 md:py-10">
           <p className="sr-only">{bmProofStatement}</p>
           <dl
             aria-hidden="true"
@@ -70,7 +71,7 @@ export function BmProofSection() {
             {bmProofPoints.map((point) => (
               <div
                 key={point.label}
-                className="flex items-baseline justify-between gap-5 py-2.5 sm:flex-col sm:items-center sm:justify-start sm:gap-1.5 sm:px-4 sm:py-0 sm:text-center"
+                className="flex items-baseline justify-between gap-5 py-2.5 sm:flex-col sm:items-center sm:justify-start sm:gap-2 sm:px-4 sm:py-0 sm:text-center"
               >
                 {/* `sm:order-*` puts the number above its label on desktop
                     and to the right of it on a phone, off one DOM order - and
@@ -88,10 +89,10 @@ export function BmProofSection() {
                     "Generated for our clients" plus "$150,000+" ran 42px past
                     the viewport and scrolled the page sideways. The label
                     wraps now and the figure holds its line. */}
-                <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400/80 sm:order-2 sm:text-xs">
+                <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400/80 sm:order-2 sm:text-xs md:text-sm">
                   {point.label}
                 </dt>
-                <dd className="shrink-0 text-right text-xl font-bold tracking-tight text-white sm:order-1 sm:text-center sm:text-3xl md:text-4xl">
+                <dd className="shrink-0 text-right text-2xl font-bold tracking-tight text-white sm:order-1 sm:text-center sm:text-4xl md:text-5xl lg:text-6xl">
                   {point.value}
                 </dd>
               </div>
