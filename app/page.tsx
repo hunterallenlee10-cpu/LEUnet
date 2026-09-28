@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { PricingPromiseSection } from "@/components/shared/PricingPromiseSection";
+import { ToolsMarqueeSection } from "@/components/sections/ToolsMarqueeSection";
 import { LeeSystemsSetupSection } from "@/components/sections/LeeSystemsSetupSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { WhoYoullWorkWithSection } from "@/components/sections/WhoYoullWorkWithSection";
@@ -37,9 +37,10 @@ export const metadata: Metadata = {
 };
 
 /**
- * The homepage, in the order the site fix plan settled: the two paths, the
- * pricing promise, what Lee Systems Co. sets up, recent work, who you'll work
- * with, and the contact form. Nothing else goes here.
+ * The homepage: the hero and the two paths, the moving strip of tools, what
+ * Lee Systems Co. sets up, recent work, who you'll work with, and the contact
+ * form. The order is the site fix plan's, except that the owner swapped the
+ * pricing promise for the tool strip on 2026-09-28. Nothing else goes here.
  */
 export default function Home() {
   return (
@@ -48,7 +49,7 @@ export default function Home() {
 
       <main>
         <HeroSection />
-        <PricingPromiseSection />
+        <ToolsMarqueeSection />
         <LeeSystemsSetupSection />
         <RecentWorkSection />
         <WhoYoullWorkWithSection />

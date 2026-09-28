@@ -4,7 +4,8 @@
    Homepage hero — "Split Ventures"
    Used only by components/sections/HeroSection.tsx.
 
-   The brand block, then the site's one choice as two halves with a lit seam
+   A full-screen headline block over a field of gold dots (the owner's design,
+   2026-09-28), then the site's one choice as two halves with a lit seam
    between them: Lee Systems Co. first (on the left from 1024px, on top below
    that) and Business Mastery second, and the statistics as a ribbon along the
    bottom edge. Each half lights its own ground in its own accent, Lee
@@ -22,64 +23,142 @@
   background: radial-gradient(120% 90% at 50% 0%, #0b0a07 0%, #060606 60%, #000 100%);
 }
 
-/* The brand block. Its top padding reserves the fixed header's band plus a
-   breath under it; the section's min-height is a floor, not a lock, so a
-   viewport too short for the column grows the page rather than being clipped
-   by the section's `overflow-hidden`. */
+/* The headline block: a screen tall from 640px up (short of that on very
+   tall screens), and a little less on a phone, so the two paths show under
+   it. Content sits a little below the middle because the fixed header covers
+   its top 80px. `isolation` keeps the dots and the glow behind the words
+   without leaving this block. */
 .hero-split-top {
   position: relative;
   z-index: 1;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 88svh;
+  padding: 7rem 1.25rem 5rem;
   text-align: center;
-  padding: 6.25rem 1.25rem 0;
 }
 
-.hero-split-mark {
-  position: relative;
-  isolation: isolate;
-  width: clamp(96px, 10vw, 132px);
-  aspect-ratio: 1;
+@media (min-width: 640px) {
+  .hero-split-top {
+    min-height: min(100svh, 62rem);
+  }
 }
 
-/* The logo's amber glow, painted as a gradient behind it. It replaces a
-   `drop-shadow(0 0 36px rgba(251, 191, 36, 0.35))` filter on the logo and
-   measures within a few brightness levels of it. The filter widened the
-   image's painted area, which made the logo the page's largest paint instead
-   of the headline, and the page waited on the image before counting as
-   loaded. */
-.hero-split-mark::before {
+/* The field of gold dots, and a warm light from the top edge where the header
+   meets the hero. The dots are three small tiles of an SVG repeated at sizes
+   that don't line up (347, 523 and 431px), so the pattern never visibly
+   repeats: no elements, no script, about 2KB. They were inline SVG shapes
+   until a Lighthouse run showed those tripling the homepage's main-thread
+   work. The tiles are too sparse to count as the page's largest paint, so
+   the headline stays that. Both layers thin out towards the bottom, so the
+   block hands over to the two paths without an edge.
+
+   `::before` holds still. `::after` is a handful of brighter dots that fade
+   in and out, which reads as a slow twinkle; only its opacity animates, so
+   the browser does it without repainting. */
+.hero-split-top::before,
+.hero-split-top::after {
   content: "";
   position: absolute;
-  inset: -40px;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(
-    closest-side,
-    rgba(251, 191, 36, 0.14),
-    rgba(251, 191, 36, 0.06) 55%,
-    rgba(251, 191, 36, 0.025) 78%,
-    transparent
-  );
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+.hero-split-top::before {
+  background:
+    radial-gradient(
+      70% 45% at 50% 0%,
+      rgba(212, 168, 87, 0.09) 0%,
+      rgba(212, 168, 87, 0.03) 45%,
+      transparent 75%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='347' height='347' fill='%23d9b25f'%3E%3Ccircle cx='327' cy='76' r='1.1' fill-opacity='0.42'/%3E%3Ccircle cx='108' cy='120' r='1.5' fill-opacity='0.52'/%3E%3Ccircle cx='236' cy='40' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='211' cy='336' r='0.7' fill-opacity='0.67'/%3E%3Ccircle cx='166' cy='16' r='0.8' fill-opacity='0.42'/%3E%3Ccircle cx='305' cy='340' r='1.3' fill-opacity='0.50'/%3E%3Ccircle cx='163' cy='198' r='1.5' fill-opacity='0.42'/%3E%3Ccircle cx='288' cy='137' r='0.8' fill-opacity='0.57'/%3E%3Ccircle cx='233' cy='104' r='0.7' fill-opacity='0.36'/%3E%3Ccircle cx='144' cy='81' r='0.8' fill-opacity='0.48'/%3E%3Ccircle cx='80' cy='164' r='1.2' fill-opacity='0.36'/%3E%3C/svg%3E") 0 0 / 347px 347px,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='523' height='523' fill='%23d9b25f'%3E%3Ccircle cx='241' cy='297' r='0.9' fill-opacity='0.56'/%3E%3Ccircle cx='210' cy='456' r='1.0' fill-opacity='0.75'/%3E%3Ccircle cx='324' cy='467' r='0.8' fill-opacity='0.64'/%3E%3Ccircle cx='443' cy='349' r='1.8' fill-opacity='0.68'/%3E%3Ccircle cx='385' cy='411' r='1.7' fill-opacity='0.54'/%3E%3Ccircle cx='517' cy='309' r='1.8' fill-opacity='0.30'/%3E%3Ccircle cx='233' cy='3' r='0.8' fill-opacity='0.59'/%3E%3Ccircle cx='278' cy='149' r='1.5' fill-opacity='0.64'/%3E%3Ccircle cx='475' cy='216' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='365' cy='464' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='5' cy='74' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='320' cy='352' r='0.9' fill-opacity='0.67'/%3E%3Ccircle cx='60' cy='268' r='0.8' fill-opacity='0.68'/%3E%3C/svg%3E") 120px 60px / 523px 523px;
+}
+
+.hero-split-top::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='431' height='431' fill='%23d9b25f'%3E%3Ccircle cx='263' cy='427' r='1.5' fill-opacity='0.81'/%3E%3Ccircle cx='126' cy='269' r='1.2' fill-opacity='0.87'/%3E%3Ccircle cx='251' cy='224' r='1.0' fill-opacity='0.59'/%3E%3Ccircle cx='317' cy='237' r='1.4' fill-opacity='0.81'/%3E%3Ccircle cx='408' cy='109' r='2.2' fill-opacity='0.61'/%3E%3Ccircle cx='33' cy='421' r='1.2' fill-opacity='0.89'/%3E%3C/svg%3E") 60px 200px / 431px 431px;
+  animation: heroTwinkle 6s ease-in-out infinite;
+  will-change: opacity;
+}
+
+@keyframes heroTwinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
 }
 
 .hero-split-title {
-  margin-top: 1rem;
-  max-width: 30ch;
+  max-width: 15ch;
   color: #fff;
-  font-size: clamp(1.875rem, 3.4vw, 3.25rem);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  font-size: clamp(2.75rem, 7.4vw, 7rem);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
+.hero-split-accent {
+  color: var(--color-brass-400);
+}
+
 .hero-split-lede {
-  margin-top: 0.875rem;
+  margin-top: clamp(1.5rem, 4vw, 3.25rem);
+  max-width: 46rem;
   color: rgb(212 212 212);
-  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-size: clamp(1.0625rem, 1.55vw, 1.5rem);
   line-height: 1.5;
+  text-wrap: balance;
+}
+
+.hero-split-cta {
+  margin-top: clamp(2rem, 5vw, 4.25rem);
+}
+
+/* The hero's button: brass, lit from above. `BookCallLink variant="hero"`. */
+.btn-hero {
+  min-height: 3.5rem;
+  padding: 1rem 2.75rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, #e8c983 0%, #d4a857 55%, #bf954b 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 12px 32px -12px rgba(212, 168, 87, 0.5);
+  color: #0a0a0a;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  font-weight: 600;
+  transition: filter 0.2s ease;
+}
+
+.btn-hero:hover {
+  filter: brightness(1.08);
+}
+
+.btn-hero:focus-visible {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 3px;
+}
+
+/* The line that introduces the two paths. */
+.hero-split-intro {
+  position: relative;
+  z-index: 1;
+  padding: 0 1.25rem;
+  color: rgb(229 229 229);
+  font-size: clamp(1.125rem, 1.7vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
   text-wrap: balance;
 }
 
@@ -471,13 +550,98 @@
    section where the motion is the point — it must keep working if that reset
    is ever narrowed. */
 @media (prefers-reduced-motion: reduce) {
-  .hero-split-or {
+  .hero-split-or,
+  .hero-split-top::after {
     animation: none;
   }
 
   .hero-split-half,
   .hero-split-half::before {
     transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Homepage tool strip - components/sections/ToolsMarqueeSection.tsx
+   Two rows of logo pills sliding in opposite directions, faded at both edges.
+   Each track holds its list twice and slides by exactly one copy (-50%), so
+   the loop has no seam; the list's trailing padding matches its gap for the
+   same reason. Hovering a row pauses it. Under prefers-reduced-motion the
+   rows stop, the duplicate copy goes, and the pills wrap onto more lines.
+   --------------------------------------------------------------------------- */
+
+.tools-row {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+.tools-track {
+  display: flex;
+  width: max-content;
+  animation: toolsMarquee 48s linear infinite;
+}
+
+.tools-track--reverse {
+  animation-direction: reverse;
+  animation-duration: 56s;
+}
+
+.tools-row:hover .tools-track {
+  animation-play-state: paused;
+}
+
+.tools-list {
+  display: flex;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.tools-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.375rem;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 1rem;
+  background: rgb(255 255 255 / 0.03);
+  color: rgb(163 163 163);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  fill: currentColor;
+}
+
+@keyframes toolsMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tools-row {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .tools-track {
+    width: auto;
+    justify-content: center;
+    padding: 0 1rem;
+    animation: none;
+  }
+
+  .tools-list {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .tools-list[aria-hidden] {
+    display: none;
   }
 }
 
