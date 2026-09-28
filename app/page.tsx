@@ -7,7 +7,6 @@ import { LeeSystemsSetupSection } from "@/components/sections/LeeSystemsSetupSec
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
 import { BmJourneyLocked } from "@/components/business-mastery/BmJourneyLocked";
-import { WhoYoullWorkWithSection } from "@/components/sections/WhoYoullWorkWithSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { site } from "@/data/site";
 import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
@@ -41,11 +40,11 @@ export const metadata: Metadata = {
 
 /**
  * The homepage: the hero and the two paths, the moving strip of tools, what
- * Lee Systems Co. sets up, the journey, recent work, who you'll work with,
- * and the contact form. The order is the site fix plan's, except that the
- * owner swapped the pricing promise for the tool strip on 2026-09-28 and, the
- * same day, moved the journey here from /business-mastery, right above recent
- * work. Nothing else goes here.
+ * Lee Systems Co. sets up, the journey, recent work, and the contact form.
+ * The order is the site fix plan's, except that on 2026-09-28 the owner
+ * swapped the pricing promise for the tool strip, moved the journey here from
+ * /business-mastery (right above recent work), and paused "Who you'll work
+ * with". Nothing else goes here.
  */
 export default function Home() {
   return (
@@ -61,7 +60,9 @@ export default function Home() {
             whole unlock. */}
         {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
         <RecentWorkSection />
-        <WhoYoullWorkWithSection />
+        {/* Who you'll work with is out "for now" at the owner's request
+            (2026-09-28). WhoYoullWorkWithSection is intact; putting it back
+            is this line plus its import. */}
         <ContactSection />
       </main>
 
