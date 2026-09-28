@@ -231,9 +231,6 @@ export const websiteFaqs = [
  *
  * The manifesto is the section's headline, set by the owner.
  *
- * `subtitle` and `description` are one sentence split at its colon; the
- * component joins them with a single space.
- *
  * `assuranceLine` sits where the Business Mastery teaser puts its scarcity
  * line. It is a fact about how the work is sold, not an urgency claim.
  */
@@ -241,9 +238,8 @@ export const leeSystemsHomeTeaser = {
   eyebrow: "Lee Systems Co.",
   manifesto:
     "Elevate your business with AI.",
-  subtitle: "That's what's behind every system we build:",
   description:
-    "business automation that answers, follows up and files for you, and websites built before you pay.",
+    "Automate how your business talks, sells, and grows with AI solutions built to scale your brand.",
   assuranceLine: "Free Consultation",
   cta: "See What We Build",
 } as const;
