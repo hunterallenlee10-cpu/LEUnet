@@ -26,13 +26,15 @@ shorter cards), its FAQ and its form; the websites page's "Included in every
 site", its FAQ and its form; and each page's hero animation (below). Their
 heroes, the automation page's "The problem", the websites page's "How
 pricing works", both process sections (the onboarding process covers them)
-and the "See automation" bridge did not come over.
+and the "See automation" bridge did not come over. The seven areas and
+"Included in every site" came off again the same day (see What was retired),
+and the industry cards became picture cards (see Who we help).
 
 The two industry pages use only copy already on the site (the industry's
 entry in `leeSystemsIndustries`, which also holds each page's title and
-description). Their cards in "Who we help" link to them, their "See
-everything we automate" button goes to `/lee-systems#automation`, and both
-are in the sitemap.
+description). Their cards in "Who we help" link to them, their "See what we
+automate" button goes to `/lee-systems#automation`, and both are in the
+sitemap.
 
 ## The two animations
 
@@ -52,6 +54,35 @@ the Tailwind theme's brass colours. When they were extracted, 72 screenshots
 of them (phone, tablet and desktop, eleven frozen moments each, plus reduced
 motion) matched the originals byte for byte.
 
+## Who we help
+
+"Who we help" (`LeeSystemsIndustriesSection`, `#industries`) is a grid of
+picture cards after The Real World's campus cards, which the owner sent as
+the reference on 2026-09-29. Each card is a picture with the industry's name
+set over it (Cormorant Garamond italic in brass, where The Real World letters
+its campus names by hand), the industry's one-line summary, and small
+uppercase links: "See examples" opens the industry's list on the card, and
+law firms and home services also have "See the page". Only one card's list is
+open at a time, and opening one leaves the others their size.
+
+The six pictures go in `public/lee-systems/industries/`, one per industry id
+(`law-firms.webp`, `home-services.webp`, `real-estate.webp`, `fitness.webp`,
+`dealerships.webp`, `restaurants.webp`), each 800 x 450 WebP, and a card
+shows its picture once its id is in `pictured` at the top of the component.
+They were generated with Everygen (Nano Banana 2) on 2026-09-29, at the
+owner's choice over code-drawn art or waiting for photos, all to one brief:
+a low-key, black-and-gold editorial photograph of an empty room or building
+(a law office, a roofline, a house at dusk, a gym, a car showroom, a
+restaurant), with no people, text, signage or logos, so nothing in them
+stands for a client or a result. They are decorative (empty alt text), since
+each name is set over its picture as text.
+
+They are not in yet: this workspace's network policy blocks the host Everygen
+keeps them on (see "Who we help" pictures in `docs/TODO.md`). Until they are,
+each card's cover is a brass glow drawn in CSS, the same glow every picture
+loads over. To use a photo instead, save it under the industry's file name at
+800 x 450 and add the id to `pictured`.
+
 ## Two paths, and the choice
 
 Two sections of the main page follow The Real World's landing page
@@ -68,18 +99,23 @@ Two sections of the main page follow The Real World's landing page
 - **The choice is yours** (`LeeSystemsChoiceSection`) is the page's closing
   pitch, in place of `LeeSystemsFinalCTA`, which the industry pages still
   use: a dim "Do nothing" card beside a lit "Take action" card, the same six
-  jobs done by hand and by the systems, "$0 / consultation call", the pricing
-  promise as fine print, then "Rather call or email?". "Do it your way" is a
-  real button: it says "Your competitors are hoping you pick this one." and
-  nudges the other card. The form follows it.
+  jobs done by hand and by the systems, "$0 / consultation call" opposite a
+  red "−$$$ / every missed lead", the pricing promise as fine print, then
+  "Rather call or email?". "Do it your way" is a real button: it says "Your
+  competitors are hoping you pick this one." and nudges the other card. The
+  form follows it.
 
 Both "$0" figures are the free consultation call, the only price the site
-states. The gold buttons are `BookCallLink variant="glow"`, and like every
-other "Book a free call" in the page's body they scroll to the form.
+states. The red "−$$$" (added at the owner's request, 2026-09-29) is a sign
+for money lost, not an amount; the site claims no figure for what a missed
+lead costs. The gold buttons are `BookCallLink variant="glow"`, and like
+every other "Book a free call" in the page's body they scroll to the form.
 
-AI call answering leads the page's "What we automate" areas, drawn full
-width. Its capabilities list is the owner's own, word for word, in
-`site.callAnswering` (`data/site.ts`).
+What AI call answering does is the owner's own list, word for word, in
+`site.callAnswering` (`data/site.ts`); the FAQ's "What can the AI phone
+assistant do?" says the same. It led the page's "What we automate" cards,
+full width, until those came off (2026-09-29, below). Its demo line, once
+`callAnswering.demoPhone` is set, sits under that section's heading.
 
 Shared copy (brand details, the FAQ, industries, the pricing promise, the
 form's choices) is in `data/lee-systems.ts`. Business facts (phone, email,
@@ -149,7 +185,7 @@ still land on it.
 | --- | --- | --- |
 | Booking link | `bookingUrl` | "Book a free call" goes to the contact form (on `/lee-systems`, the page's own form) |
 | Finished projects (name, one line, link or walkthrough) | `projects` | "Our projects" shows two "Project walkthrough coming soon" frames |
-| Call-answering demo number | `callAnswering.demoPhone` | No demo line |
+| Call-answering demo number | `callAnswering.demoPhone` | No demo line under the heading of What we automate |
 
 Set `showPlaceholders` to `false` to hide every "coming soon" frame at once;
 empty slots then disappear instead.
@@ -184,3 +220,12 @@ empty slots then disappear instead.
   (`LeeSystemsSiblingLinks`), the parked "What gets automated" grid
   (`LeeSystemsAutomatesSection`) and the two form routes,
   `/api/automation-audit` and `/api/website-inquiry`.
+- The seven "What we automate" cards (AI call answering, leads, sales
+  follow-up, client communication, reviews and referrals, billing, internal
+  operations) and the six "Included in every site" cards with the add-ons
+  note under them (2026-09-29, at the owner's request). Both sections keep
+  their headings and their animations. The automation heading is now the old
+  automation page's headline, "Every lead answered. Every follow-up sent.
+  Nothing missed.", and the websites label reads "Website builds". The
+  offerings in "What we do" and the FAQ still cover what the cards said, and
+  the "See everything we automate" links became "See what we automate".

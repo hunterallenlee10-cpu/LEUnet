@@ -27,11 +27,11 @@ import {
  * Mastery hub at /lee-marketing-mastery, which redirects here too.
  *
  * The order: the hero, the two paths (an example lead with and without the
- * systems), the two offerings side by side at equal weight, then each one in
- * full - what we automate and what every website includes - who it is for,
- * recent work, the onboarding process, the FAQ, the choice between doing
- * nothing and a free call, and the form. Every "Book a free call" in the body
- * scrolls to the form; the header's goes where `bookHref` says. The two
+ * systems), the two offerings side by side at equal weight, then a section for
+ * each - what we automate and website builds, each beside its animation - who
+ * it is for, recent work, the onboarding process, the FAQ, the choice between
+ * doing nothing and a free call, and the form. Every "Book a free call" in the
+ * body scrolls to the form; the header's goes where `bookHref` says. The two
  * paths and the choice follow The Real World's page (the owner's reference,
  * 2026-09-29).
  */

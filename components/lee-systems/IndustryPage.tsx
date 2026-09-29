@@ -18,8 +18,8 @@ type IndustryId = (typeof leeSystemsIndustries)[number]["id"];
  * pages don't: the industry's summary (as the H1) and examples from
  * data/lee-systems.ts, the opening line of the automation page that folded
  * into /lee-systems, the pricing promise, the Audit, Build, Run steps and the
- * closing call to action. "See everything we automate" goes to that page's
- * old contents, the #automation section of /lee-systems.
+ * closing call to action. "See what we automate" goes to the #automation
+ * section of /lee-systems.
  */
 export function IndustryPage({ industryId }: { industryId: IndustryId }) {
   const industry = leeSystemsIndustries.find(({ id }) => id === industryId);
@@ -54,7 +54,7 @@ export function IndustryPage({ industryId }: { industryId: IndustryId }) {
                   href={leeSystemsLinks.automation}
                   className="btn-ls-secondary inline-flex min-h-11 items-center justify-center"
                 >
-                  See everything we automate
+                  See what we automate
                 </Link>
               </div>
             </div>

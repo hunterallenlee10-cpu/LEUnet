@@ -64,9 +64,10 @@ interface Step {
 
 /**
  * One example lead, played two ways. Every line is something the owner has
- * confirmed the systems do (`site.callAnswering` and What we automate); the
- * time and the day only make it an example, which is why the frame is
- * labelled "Example". No result or client is implied.
+ * confirmed the systems do (`site.callAnswering`, and the automation offering
+ * and FAQ on /lee-systems); the time and the day only make it an example,
+ * which is why the frame is labelled "Example". No result or client is
+ * implied.
  */
 const stories: Record<Mode, { steps: Step[]; ending: string }> = {
   ai: {

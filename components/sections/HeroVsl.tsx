@@ -282,7 +282,7 @@ export function HeroVsl() {
                       href={leeSystemsLinks.automation}
                       className="holo-link"
                     >
-                      See everything we automate
+                      See what we automate
                     </Link>
                     <Link href={leeSystemsLinks.websites} className="holo-link">
                       Websites built to bring in leads
