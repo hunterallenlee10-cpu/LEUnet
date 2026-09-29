@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BrowserFrameVisual } from "@/components/websites/BrowserFrameVisual";
+import { WebsiteBuildDemo } from "@/components/lee-systems/WebsiteBuildDemo";
 import { LeeSystemsSiblingLinks } from "@/components/lee-systems/LeeSystemsSiblingLinks";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { leeSystemsAnchors, leeSystemsRoutes } from "@/data/lee-systems";
@@ -59,7 +59,7 @@ export function WebsitesHeroSection() {
 
           <div>
             <LeeSystemsSiblingLinks current={leeSystemsRoutes.websites} />
-            <BrowserFrameVisual />
+            <WebsiteBuildDemo />
           </div>
         </div>
       </div>

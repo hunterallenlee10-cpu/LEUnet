@@ -13,8 +13,8 @@
  * routes and sends signals down them.
  *
  * The vocabulary is the venture's own, promoted from the foreground diagrams
- * where it already exists: the drifting dashes of `.ls-dash`, the packet of
- * `.ls-packet`, and the ring the junction throws.
+ * where it already exists: the drifting dashes of `.ls-dash`, the packet that
+ * runs AutomationFlowDemo's connectors, and the ring the junction throws.
  *
  * WHY SVG AND CSS, WHERE THE SIBLING NEEDS A CANVAS. Constellation cannot be
  * authored: which pairs of nodes are linked changes every frame, which is a

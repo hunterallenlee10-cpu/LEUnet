@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AutomationFlowVisual } from "@/components/automation/AutomationFlowVisual";
+import { AutomationFlowDemo } from "@/components/lee-systems/AutomationFlowDemo";
 import { LeeSystemsSiblingLinks } from "@/components/lee-systems/LeeSystemsSiblingLinks";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { leeSystemsRoutes } from "@/data/lee-systems";
@@ -57,18 +57,7 @@ export function AutomationHeroSection() {
           <div>
             <LeeSystemsSiblingLinks current={leeSystemsRoutes.automation} />
 
-            <div>
-              <div className="mb-5 flex items-center justify-between">
-                <p className="text-xs font-semibold text-neutral-400">
-                  Example: a new lead
-                </p>
-                <span className="flex items-center gap-1.5 text-[11px] text-neutral-400">
-                  <span className="ls-status h-1.5 w-1.5 rounded-full bg-brass-400" />
-                  Running
-                </span>
-              </div>
-              <AutomationFlowVisual />
-            </div>
+            <AutomationFlowDemo />
           </div>
         </div>
       </div>
