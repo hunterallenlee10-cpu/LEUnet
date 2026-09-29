@@ -1,7 +1,6 @@
 import { leeSystemsAnchors } from "@/data/lee-systems";
 
 type Offering = {
-  number: string;
   role: string;
   title: string;
   body: string;
@@ -12,14 +11,14 @@ type Offering = {
 
 /**
  * Both halves carry the same weight on purpose (the owner's call,
- * 2026-09-29): same numeral, six points each, and the same button, which
- * scrolls to that offering's section further down the page. The website
+ * 2026-09-29): six points each and the same button, which scrolls to that
+ * offering's section further down the page. The outlined "01" and "02" over
+ * them came off at the owner's request the same day. The website
  * points are the ones the websites section and the FAQ already promise, so
  * nothing here says more than they do.
  */
 const offerings: [Offering, Offering] = [
   {
-    number: "01",
     role: "The system",
     title: "Business automation",
     body: "Custom systems built to streamline revenue into your business.",
@@ -35,10 +34,9 @@ const offerings: [Offering, Offering] = [
     cta: "Explore automation",
   },
   {
-    number: "02",
     role: "The storefront",
     title: "Website builds",
-    body: "Conversion-focused websites for businesses: clear, fast on a phone, and built to turn visitors into customers.",
+    body: "Conversion-focused websites for businesses, built to turn visitors into customers.",
     points: [
       "Mobile-first and fast on any phone",
       "Lead forms that turn visitors into customers",
@@ -91,7 +89,8 @@ export function LeeSystemsOfferingsSection() {
                 <span className="absolute bottom-0 left-1/2 h-16 w-[3px] -translate-x-1/2 rounded-full bg-gradient-to-b from-transparent to-brass-200 shadow-[0_0_12px_rgba(226,170,72,0.8)]" />
               </span>
             </div>
-            <div className="absolute top-2 left-1/2 hidden -translate-x-1/2 lg:block">
+            {/* Level with the halves' first line, the uppercase role. */}
+            <div className="absolute top-0 left-1/2 hidden -translate-x-1/2 lg:block">
               <SpineNode />
             </div>
           </div>
@@ -122,12 +121,6 @@ function OfferingHalf({
           : "flex flex-col lg:items-start lg:text-left"
       }
     >
-      <p
-        aria-hidden="true"
-        className="mb-2 font-bold leading-none tracking-tight text-transparent [-webkit-text-stroke:1px_rgba(212,168,87,0.55)] text-7xl md:text-8xl"
-      >
-        {offering.number}
-      </p>
       <p className="mb-3 text-xs font-semibold tracking-[0.2em] text-brass-300 uppercase">
         {offering.role}
       </p>

@@ -3709,6 +3709,9 @@
   filter: drop-shadow(0 0 7px rgb(212 168 87));
 }
 
+/* The face-off between the two paths. Its ring is split like the fork above
+   it, grey on the by-hand side and brass on the side of the call, and the
+   letters are set like the frame's labels: heavy, italic, uppercase. */
 .ls-paths-vs {
   position: absolute;
   top: 58%;
@@ -3718,22 +3721,25 @@
   width: 2rem;
   height: 2rem;
   transform: translate(-50%, -50%);
-  border: 1px solid rgb(255 255 255 / 0.1);
+  border: 1px solid transparent;
   border-radius: 9999px;
   background:
-    radial-gradient(circle, rgb(255 255 255 / 0.05), transparent 70%),
-    #0a0a0a;
-  color: rgb(115 115 115);
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+    radial-gradient(circle, rgb(255 255 255 / 0.06), transparent 70%) padding-box,
+    linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+    linear-gradient(90deg, rgb(255 255 255 / 0.22) 30%, rgb(212 168 87 / 0.8) 70%) border-box;
+  box-shadow: 0 0 24px -8px rgb(212 168 87 / 0.55);
+  color: rgb(229 229 229);
+  font-size: 0.6875rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.04em;
 }
 
 @media (min-width: 640px) {
   .ls-paths-vs {
-    width: 3rem;
-    height: 3rem;
-    font-size: 0.75rem;
+    width: 3.25rem;
+    height: 3.25rem;
+    font-size: 0.9375rem;
   }
 }
 
@@ -3745,7 +3751,8 @@
   color: transparent;
 }
 
-/* Its opposite: the red of money lost, "−$1,000s" on the "Do nothing" card. The
+/* Its opposite: the red of money lost, "Lose money" on the by-hand path of "Two
+   paths" and "−$1,000s" on the "Do nothing" card. The
    same three-stop fall as the gold, with a faint glow that a text-shadow
    can't give clipped text. */
 .ls-loss {
@@ -3754,6 +3761,12 @@
   background-clip: text;
   color: transparent;
   filter: drop-shadow(0 0 18px rgb(239 68 68 / 0.35));
+}
+
+/* On a whole headline rather than a figure, the full glow reads as neon and
+   outshines the lit path's button beside it, so "Lose money" gets less. */
+.ls-paths-path .ls-loss {
+  filter: drop-shadow(0 0 10px rgb(239 68 68 / 0.18));
 }
 
 @media (prefers-reduced-motion: reduce) {
