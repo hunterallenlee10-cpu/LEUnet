@@ -312,10 +312,10 @@ export function TwoPathsDemo() {
             <span className="ls-paths-node ls-paths-node--left" aria-hidden="true" />
             <h3 className="mt-4 sm:mt-5">
               <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-neutral-500 sm:text-xs">
-                Miss the call
+                Lose customers
               </span>
               <span className="mt-1.5 block text-xl font-bold leading-9 text-white sm:text-3xl sm:leading-[3rem]">
-                Fall behind
+                Lose money
               </span>
             </h3>
             <p className="mb-6 mt-2 max-w-xs text-balance text-[13px] leading-relaxed text-neutral-400 sm:text-sm">

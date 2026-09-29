@@ -83,8 +83,9 @@ Two sections of the main page follow The Real World's landing page
 - **Two paths** (`LeeSystemsTwoPathsSection`, `TwoPathsDemo`), straight after
   the hero: a "24/7" badge, "Two paths. Only one gets the customer.", and a
   video-style frame of three panels (calls, follow-up, intake + CRM) with a
-  play button. Under it the line splits into "Fall behind" and "$0" for the
-  first call, with a VS between them. The play button runs one example lead
+  play button. Under it the line splits into "Lose customers / Lose money"
+  (the owner's wording, 2026-09-29; it was "Miss the call / Fall behind")
+  and "$0" for the first call, with a VS between them. The play button runs one example lead
   (a customer calling at 11:48 PM) with the systems in place; "Do it by hand"
   runs the same lead without them. Every line of the example is something the
   site already says the systems do, and the frame is labelled "Example".
