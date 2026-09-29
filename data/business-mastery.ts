@@ -124,6 +124,15 @@ export const bmShift = {
 
 // --- 2. The Core Belief ----------------------------------------------------
 
+/**
+ * NOTHING IN HERE RENDERS RIGHT NOW. The owner asked the manifesto ("What we
+ * believe", "Nobody builds something great alone.", the message, the lead-in
+ * and "Network.") off the page on 2026-09-29; the tenets that shared its
+ * section stayed. Kept on the same terms as the fields below that were
+ * already off: the owner's own copy, and taking a block off a page is not the
+ * same decision as deleting the words. BmManifestoSection records how it
+ * goes back. The file header's rule applies the moment any of it renders.
+ */
 export const bmCoreBelief = {
   heading: "Nobody builds something great alone.",
   message:
