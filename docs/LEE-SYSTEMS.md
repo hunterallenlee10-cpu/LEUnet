@@ -90,17 +90,20 @@ Two sections of the main page follow The Real World's landing page
   site already says the systems do, and the frame is labelled "Example".
 - **The choice is yours** (`LeeSystemsChoiceSection`) is the page's closing
   pitch: a dim "Do nothing" card beside a lit "Take action" card, the same six
-  jobs done by hand and by the systems, "$0 / consultation call" opposite a
-  red "−$$$ / every missed lead", the pricing promise as fine print, then
+  jobs done by hand and by the systems, a red "−$1,000s lost to missed leads"
+  opposite a gold "+$10,000s you could win from the same leads", the pricing
+  promise as fine print, then
   "Rather call or email?". "Do it your way" is a real button: it says "Your
   competitors are hoping you pick this one." and nudges the other card. The
   form follows it.
 
-Both "$0" figures are the free consultation call, the only price the site
-states. The red "−$$$" (added at the owner's request, 2026-09-29) is a sign
-for money lost, not an amount; the site claims no figure for what a missed
-lead costs. The gold buttons are `BookCallLink variant="glow"`, and like
-every other "Book a free call" in the page's body they scroll to the form.
+The "$0" in Two paths is the free consultation call, the only price the site
+states. The two figures on the choice cards are the owner's (2026-09-29):
+doing nothing costs thousands, taking action can make tens of thousands.
+They replaced a "−$$$" sign and "$0 / consultation call". They are ranges,
+not results: the gain says "could", and neither names a client or a job. The
+gold buttons are `BookCallLink variant="glow"`, and like every other "Book a
+free call" in the page's body they scroll to the form.
 
 What AI call answering does is the owner's own list, word for word, in
 `site.callAnswering` (`data/site.ts`); the FAQ's "What can the AI phone
