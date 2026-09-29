@@ -3,7 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { CheckCircle2 } from "lucide-react";
-import { websiteProjectTypes } from "@/data/lee-systems";
+import {
+  inquiryIndustryOptions,
+  inquiryNeeds,
+  leeSystems,
+} from "@/data/lee-systems";
 import { site } from "@/data/site";
 import {
   FIELD_LIMITS,
@@ -20,20 +24,30 @@ const emptyForm = {
   businessName: "",
   email: "",
   phone: "",
+  need: "",
+  industry: "",
   currentWebsite: "",
-  projectType: "",
-  businessDescription: "",
-  goals: "",
+  message: "",
 };
 
 type FormState = typeof emptyForm;
 type FieldErrors = Partial<Record<keyof FormState | "form", string>>;
 
+const needOptions = inquiryNeeds.map(({ label }) => label);
+
 const labelClass = "block text-sm font-semibold text-neutral-200 mb-2";
 const fieldClass =
   "w-full rounded-lg border bg-neutral-900 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brass-400/60";
 
-export function WebsitesInquiryForm() {
+/**
+ * The one form on /lee-systems. It replaced the automation page's
+ * consultation form and the websites page's quote form (2026-09-29): what the
+ * visitor needs is now one of its questions. Posts to /api/lee-systems-inquiry,
+ * which checks the same rules server side and emails the request to where the
+ * old form for that kind of request sent it; the recipient is set there and
+ * never sent from the browser.
+ */
+export function LeeSystemsInquiryForm() {
   const [formData, setFormData] = useState<FormState>(emptyForm);
   const [honeypot, setHoneypot] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -77,11 +91,8 @@ export function WebsitesInquiryForm() {
       next.email = "Please enter a valid email address";
     if (!isValidPhone(formData.phone.trim()))
       next.phone = "Please enter a valid phone number";
-    if (!formData.projectType)
-      next.projectType = "Please select what you are looking for";
-    if (formData.businessDescription.trim().length < 10)
-      next.businessDescription =
-        "Please tell us a little more about what your business does";
+    if (!formData.need) next.need = "Please select what you are looking for";
+    if (!formData.industry) next.industry = "Please choose your industry";
     return next;
   };
 
@@ -113,9 +124,7 @@ export function WebsitesInquiryForm() {
     setErrors({});
 
     try {
-      // The recipient is set server side in app/api/website-inquiry/route.ts,
-      // never posted from the browser.
-      const response = await fetch("/api/website-inquiry", {
+      const response = await fetch("/api/lee-systems-inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, honeypot }),
@@ -132,7 +141,7 @@ export function WebsitesInquiryForm() {
         showErrors(data.errors as FieldErrors);
       } else {
         setErrors({
-          form: `We couldn't send your request. Please try again, or email ${site.email}. Reference: ${
+          form: `We couldn't send your request. Please try again, or email ${leeSystems.contactEmail}. Reference: ${
             data?.code || "unknown"
           }, http_${response.status}`,
         });
@@ -159,15 +168,17 @@ export function WebsitesInquiryForm() {
           aria-hidden="true"
         />
         <h3 className="mb-3 text-2xl font-bold text-white">
-          Website request received
+          Details received
         </h3>
         <p className="mb-6 text-neutral-300">
-          Thank you. We will review what you described and follow up with a
-          free quote and a timeline.
+          Thank you.{" "}
+          {site.replyTime
+            ? `We'll reply ${site.replyTime} to set up your free consultation call.`
+            : "We'll get back to you to set up your free consultation call."}
         </p>
         {site.bookingUrl && (
           <div className="mb-6">
-            <p className="mb-4 text-neutral-300">Want to talk it through now?</p>
+            <p className="mb-4 text-neutral-300">Rather pick a time now?</p>
             <BookCallLink />
           </div>
         )}
@@ -187,24 +198,24 @@ export function WebsitesInquiryForm() {
       ref={formRef}
       onSubmit={handleSubmit}
       noValidate
-      aria-describedby="website-form-description"
+      aria-describedby="inquiry-form-description"
       className="mx-auto max-w-3xl rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-10"
     >
       <div className="mb-2">
         <h3 className="text-2xl font-bold text-white">
-          Request a website quote
+          Request your free consultation
         </h3>
       </div>
-      <p id="website-form-description" className="mb-8 text-sm text-neutral-400">
-        Fields marked with an asterisk are required. Tell us what your business
-        does and we will follow up with a quote and a timeline.
+      <p id="inquiry-form-description" className="mb-8 text-sm text-neutral-400">
+        Fields marked with an asterisk are required.
+        {site.replyTime && ` We reply ${site.replyTime}.`}
       </p>
 
       {/* Honeypot - visually hidden, ignored by real visitors */}
       <div className="absolute left-[-9999px]" aria-hidden="true">
-        <label htmlFor="website-company-fax">Leave this field empty</label>
+        <label htmlFor="ls-inquiry-company-website">Leave this field empty</label>
         <input
-          id="website-company-fax"
+          id="ls-inquiry-company-website"
           type="text"
           tabIndex={-1}
           autoComplete="off"
@@ -225,7 +236,7 @@ export function WebsitesInquiryForm() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <Field
           id="fullName"
-          label="Full name"
+          label="Name"
           required
           error={errors.fullName}
           value={formData.fullName}
@@ -241,13 +252,13 @@ export function WebsitesInquiryForm() {
           error={errors.businessName}
           value={formData.businessName}
           onChange={handleChange}
-          placeholder="Your company"
+          placeholder="Your business name"
           autoComplete="organization"
           maxLength={FIELD_LIMITS.short}
         />
         <Field
           id="email"
-          label="Email address"
+          label="Email"
           type="email"
           required
           error={errors.email}
@@ -259,7 +270,7 @@ export function WebsitesInquiryForm() {
         />
         <Field
           id="phone"
-          label="Phone number"
+          label="Phone"
           type="tel"
           required
           error={errors.phone}
@@ -268,6 +279,22 @@ export function WebsitesInquiryForm() {
           placeholder="(240) 000-0000"
           autoComplete="tel"
           maxLength={FIELD_LIMITS.phone}
+        />
+        <SelectField
+          id="need"
+          label="What do you need?"
+          error={errors.need}
+          value={formData.need}
+          onChange={handleChange}
+          options={needOptions}
+        />
+        <SelectField
+          id="industry"
+          label="Industry"
+          error={errors.industry}
+          value={formData.industry}
+          onChange={handleChange}
+          options={inquiryIndustryOptions}
         />
       </div>
 
@@ -286,91 +313,27 @@ export function WebsitesInquiryForm() {
       </div>
 
       <div className="mt-5">
-        <label htmlFor="projectType" className={labelClass}>
-          What are you looking for?{" "}
-          <span className="text-brass-300" aria-hidden="true">
-            *
-          </span>
-        </label>
-        <select
-          id="projectType"
-          name="projectType"
-          value={formData.projectType}
-          onChange={handleChange}
-          required
-          aria-required="true"
-          aria-invalid={errors.projectType ? "true" : undefined}
-          aria-describedby={errors.projectType ? "projectType-error" : undefined}
-          className={`${fieldClass} ${
-            errors.projectType ? "border-red-500/60" : "border-neutral-700"
-          }`}
-        >
-          <option value="">Select an option...</option>
-          {websiteProjectTypes.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-        {errors.projectType && (
-          <p id="projectType-error" role="alert" className="mt-2 text-sm text-red-400">
-            {errors.projectType}
-          </p>
-        )}
-      </div>
-
-      <div className="mt-5">
-        <label htmlFor="businessDescription" className={labelClass}>
-          What does your business do?{" "}
-          <span className="text-brass-300" aria-hidden="true">
-            *
-          </span>
+        <label htmlFor="message" className={labelClass}>
+          Message
         </label>
         <textarea
-          id="businessDescription"
-          name="businessDescription"
+          id="message"
+          name="message"
           rows={4}
-          value={formData.businessDescription}
+          value={formData.message}
           onChange={handleChange}
           maxLength={FIELD_LIMITS.long}
-          required
-          aria-required="true"
-          aria-invalid={errors.businessDescription ? "true" : undefined}
-          aria-describedby={
-            errors.businessDescription ? "businessDescription-error" : undefined
-          }
-          placeholder="What you sell or provide, and who your customers are"
+          aria-invalid={errors.message ? "true" : undefined}
+          aria-describedby={errors.message ? "message-error" : undefined}
           className={`${fieldClass} resize-none ${
-            errors.businessDescription
-              ? "border-red-500/60"
-              : "border-neutral-700"
+            errors.message ? "border-red-500/60" : "border-neutral-700"
           }`}
         />
-        {errors.businessDescription && (
-          <p
-            id="businessDescription-error"
-            role="alert"
-            className="mt-2 text-sm text-red-400"
-          >
-            {errors.businessDescription}
+        {errors.message && (
+          <p id="message-error" role="alert" className="mt-2 text-sm text-red-400">
+            {errors.message}
           </p>
         )}
-      </div>
-
-      <div className="mt-5">
-        <label htmlFor="goals" className={labelClass}>
-          What should the website accomplish?
-        </label>
-        <textarea
-          id="goals"
-          name="goals"
-          rows={3}
-          value={formData.goals}
-          onChange={handleChange}
-          maxLength={FIELD_LIMITS.long}
-          placeholder="More quote requests, online bookings, looking credible to new customers, or anything else"
-          className={`${fieldClass} resize-none border-neutral-700`}
-        />
       </div>
 
       <button
@@ -378,13 +341,24 @@ export function WebsitesInquiryForm() {
         disabled={isSubmitting}
         className="btn-ls-primary mt-8 inline-flex min-h-11 w-full items-center justify-center disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? "Sending..." : "Request my free quote"}
+        {isSubmitting ? "Sending..." : "Send my details"}
       </button>
 
       <p className="mt-4 text-center text-sm text-neutral-400">
-        Free quote, no obligation.
+        Free, with no obligation.
       </p>
     </form>
+  );
+}
+
+function RequiredMark() {
+  return (
+    <>
+      {" "}
+      <span className="text-brass-400" aria-hidden="true">
+        *
+      </span>
+    </>
   );
 }
 
@@ -417,14 +391,7 @@ function Field({
     <div>
       <label htmlFor={id} className={labelClass}>
         {label}
-        {required && (
-          <>
-            {" "}
-            <span className="text-brass-300" aria-hidden="true">
-              *
-            </span>
-          </>
-        )}
+        {required && <RequiredMark />}
       </label>
       <input
         id={id}
@@ -441,6 +408,50 @@ function Field({
         maxLength={maxLength}
         className={`${fieldClass} ${error ? "border-red-500/60" : "border-neutral-700"}`}
       />
+      {error && (
+        <p id={`${id}-error`} role="alert" className="mt-2 text-sm text-red-400">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+interface SelectFieldProps {
+  id: keyof FormState;
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: readonly string[];
+  error?: string;
+}
+
+/** A required dropdown. */
+function SelectField({ id, label, value, onChange, options, error }: SelectFieldProps) {
+  return (
+    <div>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+        <RequiredMark />
+      </label>
+      <select
+        id={id}
+        name={id}
+        value={value}
+        onChange={onChange}
+        required
+        aria-required="true"
+        aria-invalid={error ? "true" : undefined}
+        aria-describedby={error ? `${id}-error` : undefined}
+        className={`${fieldClass} ${error ? "border-red-500/60" : "border-neutral-700"}`}
+      >
+        <option value="">Select...</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
       {error && (
         <p id={`${id}-error`} role="alert" className="mt-2 text-sm text-red-400">
           {error}

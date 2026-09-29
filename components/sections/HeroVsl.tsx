@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
 import { BookCallLink } from "@/components/ui/BookCallLink";
-import { leeSystemsRoutes } from "@/data/lee-systems";
+import { leeSystemsLinks } from "@/data/lee-systems";
 import { heroVslNiches, heroVslStats } from "@/data/hero-vsl";
 
 /** The flashes that burst as each gap seals and as the pipe lands in the bank,
@@ -279,12 +279,12 @@ export function HeroVsl() {
                   <BookCallLink />
                   <div className="holo-links">
                     <Link
-                      href={leeSystemsRoutes.automation}
+                      href={leeSystemsLinks.automation}
                       className="holo-link"
                     >
                       See everything we automate
                     </Link>
-                    <Link href={leeSystemsRoutes.websites} className="holo-link">
+                    <Link href={leeSystemsLinks.websites} className="holo-link">
                       Websites built to bring in leads
                     </Link>
                   </div>

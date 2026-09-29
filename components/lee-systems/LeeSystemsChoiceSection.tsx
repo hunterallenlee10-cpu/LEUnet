@@ -2,7 +2,7 @@ import { Check, Clock, ShieldCheck, X, Zap } from "lucide-react";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { CallOrEmailLine } from "@/components/lee-systems/CallOrEmailLine";
 import { DoItYourWayButton } from "@/components/lee-systems/DoItYourWayButton";
-import { pricingPromise } from "@/data/lee-systems";
+import { leeSystemsAnchors, pricingPromise } from "@/data/lee-systems";
 
 /**
  * The same six jobs done by hand and done by the systems: row n of one card
@@ -32,8 +32,9 @@ const TAKE_ACTION_ID = "ls-take-action";
 /**
  * "The choice is yours", after The Real World's section of that name (the
  * owner's reference, 2026-09-29): a dim "Do nothing" card beside a lit
- * "Take action" card. It closes the Lee Systems page in place of
- * LeeSystemsFinalCTA, which the industry pages still use. The price slot
+ * "Take action" card. It is the Lee Systems page's closing pitch, in place of
+ * LeeSystemsFinalCTA (which the industry pages still use), and its button
+ * scrolls to the form that follows it. The price slot
  * holds the free consultation call, the only price the site states, and the
  * fine print is the owner's pricing promise (`pricingPromise`).
  *
@@ -147,7 +148,11 @@ export function LeeSystemsChoiceSection() {
               </p>
             </div>
             <div className="mt-8">
-              <BookCallLink variant="glow" className="w-full" />
+              <BookCallLink
+                variant="glow"
+                href={`#${leeSystemsAnchors.form}`}
+                className="w-full"
+              />
             </div>
           </div>
         </div>

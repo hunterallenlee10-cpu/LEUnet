@@ -2494,8 +2494,8 @@
      app/business-mastery/page.tsx, on that page's outermost element.
      `font-serif` is the Business Mastery hero's Cormorant manifesto line. The
      Geist Mono token is deliberately NOT named `--font-mono`, because that
-     would switch every existing `font-mono` on the Lee Systems, Automation and
-     Websites pages from the system stack to Geist Mono in passing.
+     would switch every existing `font-mono` on the Lee Systems pages from the
+     system stack to Geist Mono in passing.
 
      `inline` writes these values onto the element that uses the utility, inside
      the element that sets the font variable, so `font-serif` and
@@ -2675,25 +2675,15 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. - automation flow visual
-   Motion is decorative only: every animation below is disabled under
-   prefers-reduced-motion, leaving the diagram fully legible and static.
+   Lee Systems Co. - the shared motion vocabulary
+   `.ls-dash` (a dotted line drifting along its path), `.ls-status` (a
+   breathing status dot) and `.ls-spine-track`, for the /lee-systems sections
+   that draw them: LeeSystemsOfferingsSection, LeeSystemsOnboardingSection and
+   OnboardingDevices. AutomationFlowDemo and WebsiteBuildDemo keep their own
+   keyframes inside the components, so they can go anywhere and use nothing
+   here. Motion is decorative only: every animation below is disabled under
+   prefers-reduced-motion.
 --------------------------------------------------------------------------- */
-
-@keyframes lsFlowDot {
-  0% {
-    offset-distance: 0%;
-    opacity: 0;
-  }
-  10%,
-  90% {
-    opacity: 1;
-  }
-  100% {
-    offset-distance: 100%;
-    opacity: 0;
-  }
-}
 
 @keyframes lsDash {
   to {
@@ -2713,147 +2703,13 @@
   }
 }
 
-/* The scan path in `BrowserFrameVisual`: a dot stops at each of the three
-   stops, the stop lights up while it waits there, then it runs down the line to
-   the next one. The motion is the point of the diagram rather than decoration
-   on top of it - it is the route a visitor takes through a page.
-
-   How the sequencing works, because it is not obvious. There is one dot PER
-   ROW, not one dot for the whole path, and each row's dot travels only its own
-   row before handing off to the next. That is deliberate: the wireframe rows
-   are content-height, so where stop 2 sits relative to the whole diagram is not
-   knowable in CSS, and a single dot would need hardcoded percentages that drift
-   the first time the wireframe changes. A per-row dot only ever has to know
-   "top of my row" and "bottom of my row", which a track stretched over the
-   row's segment gives for free: a translate percentage is of the track's own
-   height, so `translateY(0)` is the top of the row and `translateY(100%)` the
-   bottom.
-
-   All four keyframes below run on one shared cycle length, and each stop is
-   offset by a third of it via an inline `animation-delay`. So a row's dot
-   reaching 33% - the bottom of its row - lands exactly when the next row's dot
-   begins its own cycle at the top of its row. They crossfade at the same point
-   and read as one dot moving continuously.
-
-   Percentages within a cycle, for all four:
-     0-23%      dot parked at this stop, stop lit
-     23-33.33%  dot travels down to the next stop, stop dimming behind it
-     33.33-100% this row is idle while the other two take their turns
-
-   The parked share is deliberately more than twice the travelling share. The
-   stops are the content - three claims about what the page has to do - and the
-   dot is only the thing joining them, so the reading time belongs to the stop
-   rather than to the journey. 33.33% is exact rather than rounded because it is
-   also the offset between stops, and the handoff only lands cleanly if a row's
-   dot reaches the bottom on the same frame the next row's cycle begins. */
-
-/* Parked, then travelling. The travel is on `.ls-scan-track`, a box stretched
-   over the row's segment, so `translateY(100%)` is exactly one segment
-   however tall the content makes it: no pixel value to go stale, and a
-   transform rather than an animated `top`, so no layout per frame. The dot
-   rides inside the track and only fades; the two share their stops and easing,
-   so the fade lands on the same frames as the travel. */
-@keyframes lsScanTrack {
-  0%,
-  3%,
-  23% {
-    transform: translateY(0);
-  }
-  33.33%,
-  36%,
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes lsScanDot {
-  0% {
-    opacity: 0;
-  }
-  3%,
-  23%,
-  33.33% {
-    opacity: 1;
-  }
-  36%,
-  100% {
-    opacity: 0;
-  }
-}
-
-/* The numbered badge fills solid while the dot is standing on it. */
-@keyframes lsScanBadge {
-  0%,
-  100% {
-    border-color: rgba(212, 168, 87, 0.5);
-    background-color: #0a0a0a;
-    color: #d4a857;
-    box-shadow: none;
-  }
-  3%,
-  23% {
-    border-color: #e0be78;
-    background-color: #d4a857;
-    color: #0a0a0a;
-    box-shadow: 0 0 10px rgba(212, 168, 87, 0.55);
-  }
-  30% {
-    border-color: rgba(212, 168, 87, 0.5);
-    background-color: #0a0a0a;
-    color: #d4a857;
-    box-shadow: none;
-  }
-}
-
-/* The label brightens and picks up a glow on the same beat as its badge. */
-@keyframes lsScanLabel {
-  0%,
-  100% {
-    color: rgba(235, 211, 160, 0.55);
-    text-shadow: none;
-  }
-  3%,
-  23% {
-    color: #ebd3a0;
-    text-shadow: 0 0 12px rgba(212, 168, 87, 0.5);
-  }
-  30% {
-    color: rgba(235, 211, 160, 0.55);
-    text-shadow: none;
-  }
-}
-
 .ls-dash {
   stroke-dasharray: 4 8;
   animation: lsDash 1.6s linear infinite;
 }
 
-.ls-packet {
-  animation: lsFlowDot 4s cubic-bezier(0.55, 0, 0.45, 1) infinite;
-}
-
 .ls-status {
   animation: lsPulse 2.6s ease-in-out infinite;
-}
-
-/* One shared cycle length for all four. Each stop sets its own
-   `animation-delay` inline at a third of this, so changing the duration here
-   changes the whole sequence - see LS_SCAN_CYCLE_SECONDS in
-   `components/lee-systems/scanCycle.ts`, which must be kept in step. */
-.ls-scan-track {
-  animation: lsScanTrack 10.5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
-}
-
-.ls-scan-dot {
-  animation: lsScanDot 10.5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
-}
-
-.ls-scan-badge {
-  animation: lsScanBadge 10.5s ease-in-out infinite;
-}
-
-.ls-scan-label {
-  animation: lsScanLabel 10.5s ease-in-out infinite;
 }
 
 /* The spine of the main page's "What we do" spread
@@ -3036,31 +2892,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ls-dash,
-  .ls-packet,
   .ls-status,
-  .ls-scan-track,
-  .ls-scan-dot,
-  .ls-scan-badge,
-  .ls-scan-label,
   .ls-spine-track {
     animation: none;
   }
 
   /* Still, the packet would sit at the foot of the spine as a stray mark. */
   .ls-spine-track {
-    display: none;
-  }
-
-  .ls-packet {
-    opacity: 1;
-  }
-
-  /* The badges and labels fall back to their Tailwind classes, which are
-     legible on their own. The dots go entirely, with the tracks that carry
-     them: with nothing moving they would be three identical markers sitting on
-     three numbered badges, which is duplication rather than information. The
-     numbers already carry the order. */
-  .ls-scan-track {
     display: none;
   }
 }
@@ -3194,7 +3032,7 @@
 
 /* What travels. A 4%-long dash with 96% of gap behind it, slid the length of
    the path: one bright run per route per cycle, and nothing on the path
-   between runs. The easing is the venture's own `lsFlowDot` curve, so a
+   between runs. The easing is the venture's own packet curve (AutomationFlowDemo's), so a
    signal accelerates away and settles into its junction rather than moving at
    a constant rate. */
 .lsr-signal {

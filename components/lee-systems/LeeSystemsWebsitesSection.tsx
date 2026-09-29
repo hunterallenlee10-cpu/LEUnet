@@ -6,6 +6,8 @@ import {
   MapPin,
   KeyRound,
 } from "lucide-react";
+import { WebsiteBuildDemo } from "@/components/lee-systems/WebsiteBuildDemo";
+import { leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
  * What every build includes, whatever its size. Kept to the six things the
@@ -45,21 +47,35 @@ const includes = [
   },
 ];
 
-export function WebsitesServicesSection() {
+/**
+ * Websites on /lee-systems (#websites), where every "See website builds" and
+ * "Website builds" link lands. It was "Included in every site" on
+ * /lee-systems/websites until that page folded into this one (2026-09-29),
+ * and that page's hero visual, WebsiteBuildDemo, now sits beside its heading:
+ * on the left from `lg`, after the heading below that.
+ */
+export function LeeSystemsWebsitesSection() {
   return (
-    <section id="website-includes" className="relative isolate py-20 md:py-28">
+    <section
+      id={leeSystemsAnchors.websites}
+      className="relative isolate py-20 md:py-28"
+    >
       <div className="section-container">
-        <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold text-brass-300">
-            Included in every site
-          </p>
-          <h2 className="heading-lg mb-6 text-white">
-            The basics, done properly, every time
-          </h2>
-          <p className="text-lg leading-relaxed text-neutral-300">
-            New build or redesign, one page or twenty, every site comes with
-            these.
-          </p>
+        <div className="mb-14 grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
+          <div className="max-w-2xl lg:order-2">
+            <p className="mb-3 text-sm font-semibold text-brass-300">
+              Included in every site
+            </p>
+            <h2 className="heading-lg mb-6 text-white">
+              The basics, done properly, every time
+            </h2>
+            <p className="text-lg leading-relaxed text-neutral-300">
+              New build or redesign, one page or twenty, every site comes with
+              these.
+            </p>
+          </div>
+
+          <WebsiteBuildDemo className="lg:order-1" />
         </div>
 
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

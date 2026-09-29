@@ -7,9 +7,8 @@ import { ComingSoonSlot } from "@/components/shared/ComingSoonSlot";
 const MIN_PROJECTS = 2;
 
 /**
- * "Our projects", on the homepage, /lee-systems and /lee-systems/websites: one
- * card per project in `site.projects`, each linking to the live site or its
- * walkthrough.
+ * "Our projects", on the homepage and /lee-systems: one card per project in
+ * `site.projects`, each linking to the live site or its walkthrough.
  *
  * With fewer than two projects, the open places are "coming soon" frames
  * while `site.showPlaceholders` is true (the owner's call, 2026-09-28), and

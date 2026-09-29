@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 
 /**
  * Largest request body the API routes read. Above the most a real form can
- * post: website-inquiry's two 10,000-character boxes come to about 60 KB even
- * in a three-byte script. Capping the bytes read stops a bot making a route
- * buffer megabytes before any field check runs.
+ * post: no form has more than one 10,000-character box, which comes to about
+ * 30 KB even in a three-byte script. Capping the bytes read stops a bot
+ * making a route buffer megabytes before any field check runs.
  */
 const MAX_BODY_BYTES = 100_000;
 

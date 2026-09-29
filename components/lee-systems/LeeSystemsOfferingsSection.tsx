@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { leeSystemsRoutes } from "@/data/lee-systems";
+import { leeSystemsAnchors } from "@/data/lee-systems";
 
 type Offering = {
   number: string;
@@ -14,8 +13,9 @@ type Offering = {
 /**
  * Both halves carry the same weight on purpose (the owner's call,
  * 2026-09-29): same numeral, same length of copy, six points each, and the
- * same button. The website points are the ones the websites page and its FAQs
- * already promise, so nothing here says more than that page does.
+ * same button, which scrolls to that offering's section further down the
+ * page. The website points are the ones the websites section and the FAQ
+ * already promise, so nothing here says more than they do.
  */
 const offerings: [Offering, Offering] = [
   {
@@ -31,7 +31,7 @@ const offerings: [Offering, Offering] = [
       "Requests reviews and chases invoices for you",
       "Updates your CRM automatically",
     ],
-    href: leeSystemsRoutes.automation,
+    href: `#${leeSystemsAnchors.automation}`,
     cta: "Explore automation",
   },
   {
@@ -47,7 +47,7 @@ const offerings: [Offering, Offering] = [
       "You own your domain and your content",
       "Optional care plan for hosting and updates",
     ],
-    href: leeSystemsRoutes.websites,
+    href: `#${leeSystemsAnchors.websites}`,
     cta: "See website builds",
   },
 ];
@@ -150,12 +150,12 @@ function OfferingHalf({
         ))}
       </ul>
 
-      <Link
+      <a
         href={offering.href}
         className="btn-ls-secondary inline-flex h-12 w-full max-w-xs items-center justify-center px-4 text-center sm:w-56"
       >
         {offering.cta}
-      </Link>
+      </a>
     </div>
   );
 }

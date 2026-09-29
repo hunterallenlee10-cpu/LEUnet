@@ -9,7 +9,7 @@ import "lenis/dist/lenis.css";
  * Wheel and trackpad scrolling eases instead of stepping; touch stays native,
  * which is Lenis's default and what phones already do well.
  *
- * - `anchors`: in-page links ("#automation-services", or "/#contact" while on
+ * - `anchors`: in-page links ("#contact-form", or "/#contact" while on
  *   the homepage) glide with the same easing. Lenis reads html's
  *   `scroll-padding-top` from globals.css, so targets still land below the
  *   fixed header.

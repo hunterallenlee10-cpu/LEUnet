@@ -1,19 +1,23 @@
-import { AutomationAuditForm } from "@/components/automation/AutomationAuditForm";
+import { LeeSystemsInquiryForm } from "@/components/lee-systems/LeeSystemsInquiryForm";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { leeSystemsAnchors } from "@/data/lee-systems";
 import { site } from "@/data/site";
 
 /**
- * The automation form section, where "fill in the short form below" leads.
- * It asked for the free Automation Audit until 2026-09-28; it now sets up the
- * free consultation call, and keeps the id "audit" so older links still land
- * here. tabIndex={-1} lets the hash jump move focus here too, so the next Tab
- * lands in the form.
+ * The one form on /lee-systems (#contact-form), and the page's last section:
+ * every "Book a free call" button above it scrolls here. It replaced the
+ * automation page's consultation form and the websites page's quote form when
+ * both pages folded into /lee-systems (2026-09-29). Their ids, "audit" and
+ * "website-quote", stay on wrappers around the form so links made for either
+ * still land on it.
+ *
+ * tabIndex={-1} lets a hash jump to any of the three ids move focus there
+ * too, so the next Tab lands in the form.
  */
-export function AutomationAuditCTA() {
+export function LeeSystemsContactSection() {
   return (
     <section
-      id={leeSystemsAnchors.automationForm}
+      id={leeSystemsAnchors.form}
       tabIndex={-1}
       className="relative isolate py-20 outline-none md:py-28"
     >
@@ -23,10 +27,9 @@ export function AutomationAuditCTA() {
             Free consultation
           </p>
           <h2 className="heading-lg mb-6 text-white">
-            Find out what your business could stop doing by hand
+            Tell us about your business
           </h2>
           <p className="text-lg leading-relaxed text-neutral-300">
-            Tell us where the time goes.{" "}
             {site.replyTime
               ? `We'll reply ${site.replyTime} to set up your free consultation call.`
               : "We'll get back to you to set up your free consultation call."}
@@ -39,7 +42,15 @@ export function AutomationAuditCTA() {
           )}
         </div>
 
-        <AutomationAuditForm />
+        <div id={leeSystemsAnchors.auditForm} tabIndex={-1} className="outline-none">
+          <div
+            id={leeSystemsAnchors.websiteQuoteForm}
+            tabIndex={-1}
+            className="outline-none"
+          >
+            <LeeSystemsInquiryForm />
+          </div>
+        </div>
       </div>
     </section>
   );

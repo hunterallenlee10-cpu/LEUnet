@@ -36,8 +36,8 @@ interface LeadEmail {
 
 /**
  * Emails a lead form's submission to the owner and returns the response for
- * the browser. The audit, website and Business Mastery forms show `code` as
- * the reference on a failure, which is what tells a missing key apart from a
+ * the browser. The Lee Systems and Business Mastery forms show `code` as the
+ * reference on a failure, which is what tells a missing key apart from a
  * rejected send.
  */
 export async function sendLeadEmail({
