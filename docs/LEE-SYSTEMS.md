@@ -11,7 +11,7 @@ free call"**.
 
 | URL | What it is | Built from |
 | --- | --- | --- |
-| `/lee-systems` | Main page: hero, offerings (large Automation card, smaller Websites card), what gets automated, industries, recent work, Audit → Build → Run, About, final CTA | `app/lee-systems/page.tsx`, `components/lee-systems/` |
+| `/lee-systems` | Main page: hero, offerings (large Automation card, smaller Websites card), what gets automated, industries, recent work, Audit → Build → Run, final CTA (the About section came out on 2026-09-29) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
 | `/lee-systems/automation` | Hero, problem, the automation areas, industries (law firms, home services), how it works, FAQ, the consultation form | `app/lee-systems/automation/page.tsx`, `components/automation/` |
 | `/lee-systems/websites` | Hero, how pricing works (flat quote, no hidden fees, you own the site), what every site includes, recent work, process, FAQ, bridge to automation, quote form | `app/lee-systems/websites/page.tsx`, `components/websites/` |
 | `/lee-systems/law-firms` | A page for law firms, to send prospects in that industry: the industry's summary as the headline, what we automate for them, the pricing promise, Audit → Build → Run, final CTA | `app/lee-systems/law-firms/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
@@ -78,7 +78,6 @@ ceo@leeenterprisesunlimited.com. The contact form goes to `CONTACT_TO_EMAIL`.
 | --- | --- | --- |
 | Booking link | `bookingUrl` | "Book a free call" goes to the contact form |
 | Finished projects (name, one line, link or walkthrough) | `projects` | "Our projects" shows two "Project walkthrough coming soon" frames |
-| Founder photo | `founder.photo` | The About section shows a "Photo coming soon" frame |
 | Call-answering demo number | `callAnswering.demoPhone` | No demo line |
 
 Set `showPlaceholders` to `false` to hide every "coming soon" frame at once;

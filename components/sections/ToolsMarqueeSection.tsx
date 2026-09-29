@@ -27,9 +27,10 @@ export function ToolsMarqueeSection() {
     >
       <h2
         id="tools-title"
-        className="section-container mb-10 text-center text-sm font-semibold text-neutral-400 md:text-base"
+        className="section-container tools-title mb-10 text-center"
       >
-        Built cutting-edge, connected to the tools you already use.
+        Built cutting-edge, connected to{" "}
+        <span className="tools-title-accent">the tools you already use.</span>
       </h2>
 
       <div className="space-y-4">
@@ -53,7 +54,7 @@ function ToolList({ tools, hidden = false }: { tools: Tool[]; hidden?: boolean }
     <ul className="tools-list" aria-hidden={hidden || undefined}>
       {tools.map(({ name, icon }) => (
         <li key={name} className="tools-pill">
-          <svg aria-hidden="true" focusable="false" className="h-5 w-5 shrink-0">
+          <svg aria-hidden="true" focusable="false" className="h-[1.375rem] w-[1.375rem] shrink-0">
             <use href={`/tools/sprite.svg#${icon}`} />
           </svg>
           {name}

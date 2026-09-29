@@ -3,7 +3,13 @@ import { auditIndustryOptions, auditTeamSizeOptions } from "@/data/lee-systems";
 import { site } from "@/data/site";
 import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
 import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
-import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
+import {
+  FIELD_LIMITS,
+  INVALID_NAME_MESSAGE,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from "@/lib/validation";
 
 // Delivers to the site-wide contact address, matching the contact form and the
 // payment notifications. LEE_SYSTEMS_TO_EMAIL splits Lee Systems leads out if
@@ -49,6 +55,8 @@ export async function POST(request: NextRequest) {
       errors.fullName = "Name must be at least 2 characters";
     } else if (fullName.length > FIELD_LIMITS.short) {
       errors.fullName = tooLongMessage(FIELD_LIMITS.short);
+    } else if (!isValidName(fullName)) {
+      errors.fullName = INVALID_NAME_MESSAGE;
     }
 
     const businessName = stringField(body.businessName).trim();

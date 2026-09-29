@@ -1,9 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { flushSync } from "react-dom";
-import { CheckCircle2 } from "lucide-react";
-import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
+import { ArrowLeft, ArrowRight, CheckCircle2, CornerDownLeft } from "lucide-react";
+import {
+  FIELD_LIMITS,
+  INVALID_NAME_MESSAGE,
+  filterInput,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from "@/lib/validation";
 
 const emptyForm = {
   fullName: "",
@@ -13,78 +19,105 @@ const emptyForm = {
 };
 
 type FormState = typeof emptyForm;
-type FieldErrors = Partial<Record<keyof FormState | "form", string>>;
+type StepId = keyof FormState;
+type FieldErrors = Partial<Record<StepId | "form", string>>;
 
-const labelClass = "block text-sm font-semibold text-neutral-200 mb-2";
-const fieldClass =
-  "w-full rounded-lg border bg-neutral-900 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/60";
+/** The questions, one per screen, in the order they are asked. */
+const steps: StepId[] = ["fullName", "email", "phone", "story"];
+
+function firstName(fullName: string): string {
+  return fullName.trim().split(/\s+/)[0] ?? "";
+}
+
+/** The same rules the route applies, one field at a time. */
+function checkField(id: StepId, form: FormState): string | undefined {
+  const value = form[id].trim();
+  switch (id) {
+    case "fullName":
+      if (value.length < 2) return "Please enter your full name";
+      if (!isValidName(value)) return INVALID_NAME_MESSAGE;
+      return undefined;
+    case "email":
+      return isValidEmail(value) ? undefined : "Please enter a valid email address";
+    case "phone":
+      return isValidPhone(value)
+        ? undefined
+        : "Please enter a valid phone number, including the area code";
+    case "story":
+      return value.length >= 20
+        ? undefined
+        : "Please tell us a little more about where you are and what you want to build";
+  }
+}
+
+const inputClass =
+  "w-full border-0 border-b-2 bg-transparent px-0 py-3 text-xl text-white placeholder-neutral-600 transition-colors focus:outline-none md:text-2xl";
 
 /**
- * The founding-member application. Same skeleton as the other site forms:
- * honeypot, client validation mirrored server side, recipient set only
- * in app/api/business-mastery-application/route.ts. No payment is taken here
- * — the owner follows up personally with each applicant.
+ * The founding-member application, asked one question at a time: name, email,
+ * phone, then their story. Enter (or Continue) checks the answer and moves on
+ * to the next question, Back returns to the last one, and the answers carry
+ * across. It replaced the all-at-once form on 2026-09-29 at the owner's
+ * request.
+ *
+ * Same skeleton as the other site forms underneath: honeypot, the shared rules
+ * in lib/validation.ts checked here and again in
+ * app/api/business-mastery-application/route.ts, which also sets the
+ * recipient. No payment is taken here; the owner follows up personally.
  */
 export function BmApplicationForm() {
   const [formData, setFormData] = useState<FormState>(emptyForm);
   const [honeypot, setHoneypot] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [step, setStep] = useState(0);
+  const [direction, setDirection] = useState<"forward" | "back">("forward");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const successRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
+  const fieldRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  // Focus follows the question only after the visitor has moved, so the page
+  // does not jump to the form (or open a phone keyboard) on load.
+  const hasMoved = useRef(false);
 
-  // The success panel replaces the form, taking the focused submit button with
-  // it, so focus would fall back to <body>. Moving it to the panel keeps a
+  const current = steps[step];
+  const isLast = step === steps.length - 1;
+  const name = firstName(formData.fullName);
+
+  useEffect(() => {
+    if (hasMoved.current) fieldRef.current?.focus();
+  }, [step]);
+
+  // The success panel replaces the form, taking the focused button with it,
+  // so focus would fall back to <body>. Moving it to the panel keeps a
   // keyboard or screen reader user on the confirmation.
   useEffect(() => {
-    if (submitted) {
-      successRef.current?.focus();
-    }
+    if (submitted) successRef.current?.focus();
   }, [submitted]);
+
+  const goTo = (next: number) => {
+    hasMoved.current = true;
+    setDirection(next > step ? "forward" : "back");
+    setStep(next);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: undefined, form: undefined }));
+    const { value, dropped } = filterInput(
+      current === "fullName" ? "name" : current === "phone" ? "phone" : null,
+      e.target.value
+    );
+    setFormData((prev) => ({ ...prev, [current]: value }));
+    setErrors((prev) => ({ ...prev, [current]: dropped, form: undefined }));
   };
 
-  const validate = (): FieldErrors => {
-    const next: FieldErrors = {};
-    if (formData.fullName.trim().length < 2)
-      next.fullName = "Please enter your full name";
-    if (!isValidEmail(formData.email.trim()))
-      next.email = "Please enter a valid email address";
-    if (!isValidPhone(formData.phone.trim()))
-      next.phone = "Please enter a valid phone number";
-    if (formData.story.trim().length < 20)
-      next.story = "Please tell us a little more about where you are and what you want to build";
-    return next;
-  };
-
-  /** Shows the errors, then puts focus on the first field that needs fixing,
-   *  in the order the form lists them, which on a phone also scrolls it into
-   *  view. The errors are applied first so the field is already marked
-   *  invalid and described by its message when focus lands on it. */
-  const showErrors = (found: FieldErrors) => {
-    flushSync(() => setErrors(found));
-    const names = Object.keys(found).filter((name) => name !== "form");
-    if (names.length === 0) return;
-    formRef.current
-      ?.querySelector<HTMLElement>(
-        names.map((name) => `[name="${CSS.escape(name)}"]`).join(", ")
-      )
-      ?.focus();
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const found = validate();
-    if (Object.keys(found).length > 0) {
-      showErrors(found);
+  const submit = async () => {
+    // Every answer again, in case one was changed on the way back through.
+    const firstBad = steps.findIndex((id) => checkField(id, formData));
+    if (firstBad !== -1) {
+      setErrors({ [steps[firstBad]]: checkField(steps[firstBad], formData) });
+      if (firstBad !== step) goTo(firstBad);
+      else fieldRef.current?.focus();
       return;
     }
 
@@ -104,12 +137,20 @@ export function BmApplicationForm() {
       if (response.ok) {
         setSubmitted(true);
         setFormData(emptyForm);
+        setStep(0);
+        hasMoved.current = false;
         return;
       }
 
       const data = await response.json().catch(() => null);
-      if (data?.errors) {
-        showErrors(data.errors as FieldErrors);
+      const serverErrors = (data?.errors ?? null) as FieldErrors | null;
+      const badStep = serverErrors
+        ? steps.findIndex((id) => serverErrors[id])
+        : -1;
+      if (serverErrors && badStep !== -1) {
+        setErrors(serverErrors);
+        if (badStep !== step) goTo(badStep);
+        else fieldRef.current?.focus();
       } else {
         setErrors({
           form: `We couldn't send your application. Please try again. Reference: ${
@@ -124,6 +165,24 @@ export function BmApplicationForm() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+
+    if (isLast) {
+      void submit();
+      return;
+    }
+
+    const problem = checkField(current, formData);
+    if (problem) {
+      setErrors((prev) => ({ ...prev, [current]: problem }));
+      fieldRef.current?.focus();
+      return;
+    }
+    goTo(step + 1);
   };
 
   if (submitted) {
@@ -157,19 +216,61 @@ export function BmApplicationForm() {
     );
   }
 
+  const question = {
+    fullName: "Let's start with your name.",
+    email: name
+      ? `Nice to meet you, ${name}. What's the best email for you?`
+      : "What's the best email for you?",
+    phone: "And a phone number we can reach you on?",
+    story: "Last one. Tell us your story.",
+  }[current];
+
+  const error = errors[current];
+  const fieldId = `bm-${current}`;
+  const describedBy =
+    [current === "story" ? "bm-story-hint" : null, error ? `${fieldId}-error` : null]
+      .filter(Boolean)
+      .join(" ") || undefined;
+  const sharedFieldProps = {
+    id: fieldId,
+    name: current,
+    value: formData[current],
+    onChange: handleChange,
+    required: true,
+    "aria-required": "true" as const,
+    "aria-invalid": error ? ("true" as const) : undefined,
+    "aria-describedby": describedBy,
+    className: `${inputClass} ${
+      error ? "border-red-500/70" : "border-neutral-700 focus:border-amber-400"
+    }`,
+  };
+
   return (
     <form
-      ref={formRef}
       onSubmit={handleSubmit}
       noValidate
+      aria-labelledby="bm-form-title"
       aria-describedby="bm-form-description"
-      className="mx-auto max-w-3xl rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-10"
+      className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-white/10 bg-white/[0.04]"
     >
-      <div className="mb-8 text-center">
-        <h3 className="mb-2 text-2xl font-bold text-white">Apply to join</h3>
-        <p id="bm-form-description" className="text-sm text-neutral-400">
-          Fields marked with an asterisk are required. No payment is taken here.
-          We review every application and follow up personally.
+      {/* Progress: a segment per question, lit as each one is answered. */}
+      <div className="flex gap-1.5 px-6 pt-6 md:px-10 md:pt-8" aria-hidden="true">
+        {steps.map((id, i) => (
+          <span
+            key={id}
+            className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
+              i <= step ? "bg-amber-400" : "bg-white/10"
+            }`}
+          />
+        ))}
+      </div>
+
+      <div className="flex items-baseline justify-between gap-4 px-6 pt-4 md:px-10">
+        <h3 id="bm-form-title" className="text-sm font-semibold text-amber-400">
+          Apply to join
+        </h3>
+        <p className="text-sm tabular-nums text-neutral-500" aria-live="polite">
+          Question {step + 1} of {steps.length}
         </p>
       </div>
 
@@ -186,164 +287,137 @@ export function BmApplicationForm() {
         />
       </div>
 
+      <div
+        key={current}
+        className={`bm-apply-step bm-apply-step--${direction} px-6 pb-2 pt-8 md:px-10 md:pt-10`}
+      >
+        <label
+          htmlFor={fieldId}
+          className="block text-2xl font-bold leading-snug text-white md:text-3xl"
+        >
+          {question}
+        </label>
+
+        {current === "story" && (
+          <p id="bm-story-hint" className="mt-3 text-sm leading-relaxed text-neutral-400">
+            Where you are right now, what you&apos;re building or want to build,
+            what&apos;s holding you back, and what you&apos;re hoping to get
+            out of membership. An idea, a business you already run, or &ldquo;I
+            don&apos;t know yet&rdquo; are all real answers.
+          </p>
+        )}
+
+        <div className="mt-6">
+          {current === "fullName" && (
+            <input
+              {...sharedFieldProps}
+              ref={fieldRef as React.RefObject<HTMLInputElement>}
+              type="text"
+              autoComplete="name"
+              autoCapitalize="words"
+              placeholder="First and last name"
+              maxLength={FIELD_LIMITS.short}
+            />
+          )}
+          {current === "email" && (
+            <input
+              {...sharedFieldProps}
+              ref={fieldRef as React.RefObject<HTMLInputElement>}
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+              maxLength={FIELD_LIMITS.email}
+            />
+          )}
+          {current === "phone" && (
+            <input
+              {...sharedFieldProps}
+              ref={fieldRef as React.RefObject<HTMLInputElement>}
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              placeholder="(240) 000-0000"
+              maxLength={FIELD_LIMITS.phone}
+            />
+          )}
+          {current === "story" && (
+            <textarea
+              {...sharedFieldProps}
+              ref={fieldRef as React.RefObject<HTMLTextAreaElement>}
+              rows={5}
+              maxLength={FIELD_LIMITS.long}
+              placeholder="The more we know, the better we can help."
+              onKeyDown={(e) => {
+                // Enter is a new line in the story; Ctrl/Cmd + Enter sends it.
+                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                  e.preventDefault();
+                  e.currentTarget.form?.requestSubmit();
+                }
+              }}
+              className={`${sharedFieldProps.className} resize-y text-lg leading-relaxed md:text-xl`}
+            />
+          )}
+        </div>
+
+        {error && (
+          <p id={`${fieldId}-error`} role="alert" className="mt-3 text-sm text-red-400">
+            {error}
+          </p>
+        )}
+      </div>
+
       {errors.form && (
         <p
           role="alert"
-          className="mb-6 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400"
+          className="mx-6 mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400 md:mx-10"
         >
           {errors.form}
         </p>
       )}
 
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-        <Field
-          id="fullName"
-          label="Full name"
-          required
-          error={errors.fullName}
-          value={formData.fullName}
-          onChange={handleChange}
-          placeholder="Your name"
-          autoComplete="name"
-          maxLength={FIELD_LIMITS.short}
-        />
-        <Field
-          id="email"
-          label="Email address"
-          type="email"
-          required
-          error={errors.email}
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="you@example.com"
-          autoComplete="email"
-          maxLength={FIELD_LIMITS.email}
-        />
-        <Field
-          id="phone"
-          label="Phone number"
-          type="tel"
-          required
-          error={errors.phone}
-          value={formData.phone}
-          onChange={handleChange}
-          placeholder="(240) 000-0000"
-          autoComplete="tel"
-          maxLength={FIELD_LIMITS.phone}
-        />
-      </div>
+      <div className="flex flex-wrap items-center justify-between gap-4 px-6 pb-6 pt-8 md:px-10 md:pb-8">
+        {step > 0 ? (
+          <button
+            type="button"
+            onClick={() => goTo(step - 1)}
+            className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-neutral-400 transition-colors hover:text-white"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            Back
+          </button>
+        ) : (
+          <span />
+        )}
 
-      {/* One open question in place of the old stage dropdown and the two
-          separate textareas (owner's request, 2026-09-27). The hint names
-          the four things the follow-up call needs, so a single box still
-          gets them. */}
-      <div className="mt-5">
-        <label htmlFor="story" className={labelClass}>
-          Tell us your story{" "}
-          <span className="text-amber-400" aria-hidden="true">
-            *
+        <div className="flex items-center gap-4">
+          <span className="hidden items-center gap-1.5 text-xs text-neutral-500 md:inline-flex">
+            {isLast ? (
+              "Ctrl or ⌘ + Enter to send"
+            ) : (
+              <>
+                Press Enter
+                <CornerDownLeft className="h-3.5 w-3.5" aria-hidden="true" />
+              </>
+            )}
           </span>
-        </label>
-        <p id="story-hint" className="mb-3 text-sm text-neutral-400">
-          Where you are right now, what you&apos;re building or want to build,
-          what&apos;s holding you back, and what you&apos;re hoping to get out
-          of membership. An idea, a business you already run, or &ldquo;I
-          don&apos;t know yet&rdquo; are all real answers.
-        </p>
-        <textarea
-          id="story"
-          name="story"
-          rows={7}
-          value={formData.story}
-          onChange={handleChange}
-          maxLength={FIELD_LIMITS.long}
-          required
-          aria-required="true"
-          aria-invalid={errors.story ? "true" : undefined}
-          aria-describedby={
-            errors.story ? "story-hint story-error" : "story-hint"
-          }
-          placeholder="The more we know, the better we can help."
-          className={`${fieldClass} resize-y ${
-            errors.story ? "border-red-500/60" : "border-neutral-700"
-          }`}
-        />
-        {errors.story && (
-          <p id="story-error" role="alert" className="mt-2 text-sm text-red-400">
-            {errors.story}
-          </p>
-        )}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="btn-primary inline-flex min-h-11 items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
+          >
+            {isLast ? (isSubmitting ? "Sending..." : "Send my application") : "Continue"}
+            {!isLast && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
+          </button>
+        </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="btn-primary mt-8 inline-flex min-h-11 w-full items-center justify-center disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
+      <p
+        id="bm-form-description"
+        className="border-t border-white/10 px-6 py-4 text-center text-xs text-neutral-500 md:px-10"
       >
-        {isSubmitting ? "Sending..." : "Send my application"}
-      </button>
+        Four quick questions. No payment is taken here. We review every
+        application and follow up personally.
+      </p>
     </form>
-  );
-}
-
-interface FieldProps {
-  id: keyof FormState;
-  label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  type?: string;
-  required?: boolean;
-  error?: string;
-  placeholder?: string;
-  autoComplete?: string;
-  maxLength?: number;
-}
-
-function Field({
-  id,
-  label,
-  value,
-  onChange,
-  type = "text",
-  required,
-  error,
-  placeholder,
-  autoComplete,
-  maxLength,
-}: FieldProps) {
-  return (
-    <div>
-      <label htmlFor={id} className={labelClass}>
-        {label}
-        {required && (
-          <>
-            {" "}
-            <span className="text-amber-400" aria-hidden="true">
-              *
-            </span>
-          </>
-        )}
-      </label>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        value={value}
-        onChange={onChange}
-        required={required}
-        aria-required={required ? "true" : undefined}
-        aria-invalid={error ? "true" : undefined}
-        aria-describedby={error ? `${id}-error` : undefined}
-        placeholder={placeholder}
-        autoComplete={autoComplete}
-        maxLength={maxLength}
-        className={`${fieldClass} ${error ? "border-red-500/60" : "border-neutral-700"}`}
-      />
-      {error && (
-        <p id={`${id}-error`} role="alert" className="mt-2 text-sm text-red-400">
-          {error}
-        </p>
-      )}
-    </div>
   );
 }

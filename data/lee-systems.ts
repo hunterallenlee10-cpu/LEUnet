@@ -43,7 +43,13 @@ export const leeSystems = {
   name: "Lee Systems Co.",
   tagline: "A Lee Enterprises Unlimited company",
   parentName: "Lee Enterprises Unlimited",
-  headline: "Systems that run your business while you run the work.",
+  /**
+   * The main page's headline, in two parts so the hero can light the second
+   * in brass (the owner's "get ahead of your competition" framing,
+   * 2026-09-29). The link preview reads both.
+   */
+  headline: "The world is changing.",
+  headlineAccent: "Beat your competition to every lead.",
   owner: "Hunter Lee",
   /** The parent company's inbox until Lee Systems Co. has its own. */
   contactEmail: site.email,
@@ -179,6 +185,76 @@ export const leeSystemsIndustries = [
   },
 ] as const;
 
+/**
+ * More example industries, added on the owner's request (2026-09-29). Shown
+ * as cards next to the two above on the automation and Lee Systems pages, but
+ * without pages of their own, so they are kept apart from
+ * `leeSystemsIndustries` (which the industry pages read). The examples say
+ * what the automations do, not work already done: no client claims.
+ */
+export const moreIndustries = [
+  {
+    id: "real-estate",
+    name: "Real estate",
+    summary:
+      "Every inquiry answered fast, every showing booked, every past client remembered.",
+    examples: [
+      "Instant replies to listing and portal inquiries",
+      "Showing scheduling with reminders",
+      "Follow-up for buyers and sellers who are not ready yet",
+      "Updates to clients at each step of the deal",
+      "Review and referral requests after closing",
+    ],
+  },
+  {
+    id: "fitness",
+    name: "Fitness & PT",
+    summary:
+      "Trial sign-ups followed up, sessions booked and members kept coming back.",
+    examples: [
+      "Instant replies to trial and class inquiries",
+      "Session booking with reminders",
+      "Follow-up after a missed session or no-show",
+      "Check-ins for members who have gone quiet",
+      "Review requests after a milestone",
+    ],
+  },
+  {
+    id: "dealerships",
+    name: "Dealerships",
+    summary:
+      "Every lead answered in minutes, test drives booked and service customers brought back.",
+    examples: [
+      "Instant replies to website and third-party leads",
+      "Test drive and appointment booking with reminders",
+      "Follow-up for shoppers who have not bought yet",
+      "Service reminders when a car is due",
+      "Review requests after a sale or service visit",
+    ],
+  },
+  {
+    id: "restaurants",
+    name: "Restaurants",
+    summary:
+      "Calls answered, reservations and catering handled, regulars brought back.",
+    examples: [
+      "AI call answering for hours, menu and reservation questions",
+      "Reservation booking with reminders",
+      "Catering and large-order inquiry follow-up",
+      "Messages to regulars about specials and events",
+      "Review requests after a visit",
+    ],
+  },
+] as const;
+
+/**
+ * An industry name mid-sentence ("See what we automate for real estate"):
+ * only the first letter drops to lower case, so "Fitness & PT" keeps its PT.
+ */
+export function industryInSentence(name: string): string {
+  return name.charAt(0).toLowerCase() + name.slice(1);
+}
+
 export const otherIndustriesLine =
   "Don't see your industry? If your business depends on following up with people, we can automate it.";
 
@@ -196,7 +272,7 @@ export const automationFaqs = [
   {
     question: "What do you build the systems with?",
     answer:
-      "Mostly n8n, an automation platform that connects the tools you already use, with AI where it earns its place: drafting replies, sorting inquiries, and summarizing information. You do not need to learn either one to use what we build.",
+      "AI and the tools you already use every day. If anything new needs setting up, we handle that for you too.",
   },
   {
     question: "What can the AI phone assistant do?",
@@ -221,7 +297,7 @@ export const automationFaqs = [
   {
     question: "What kinds of businesses do you work with?",
     answer:
-      "Any service business that depends on responding to and following up with people. Law firms and home services companies are the two we know best.",
+      "Any service business that depends on responding to and following up with people.",
   },
 ];
 

@@ -46,8 +46,14 @@ export function HeroSection() {
         </div>
       </div>
 
+      {/* Kept as one paragraph so it reads as a sentence pair; the spans
+          only split it into a brass eyebrow and a larger line below. The
+          eyebrow's full stop is for screen readers only. */}
       <p className="hero-split-intro">
-        Two ways to work with LEU. Pick the one that fits.
+        <span className="hero-split-intro-kicker">
+          Two ways to work with LEU<span className="sr-only">.</span>
+        </span>{" "}
+        <span className="hero-split-intro-line">Pick the one that fits.</span>
       </p>
 
       <div className="hero-split-fork">

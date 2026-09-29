@@ -62,6 +62,66 @@ export const bmHero = {
     "Skip years of unnecessary trial and error by learning from people already building, failing, adapting, and winning.",
 } as const;
 
+// --- Why now: The World Is About To Change (page slot 2) ------------------
+
+/**
+ * Section 2, "why now": three alternating rows modelled on a layout the owner
+ * sent on 2026-09-29 (The Real World's "The World Is About To Change"), each
+ * with a pill label, a two-line heading (the first line dim, the second
+ * bright) and a paragraph whose `strong` phrases are set bright.
+ *
+ * BUILD COPY, written for that request and safe to edit, EXCEPT the two lines
+ * carried over from the "Who this is for" section this replaced:
+ * `bmAudienceHeading` and `bmAudienceSubheading` are still the owner's
+ * sentences, verbatim, and the third row's path still draws `bmAudiences`.
+ * Nothing here is a result or a figure: no income, no "10x", no client
+ * claims, the same standard as §6 of docs/BUSINESS-MASTERY.md.
+ *
+ * Each paragraph is a list of runs; a run with `strong` renders bright.
+ */
+export const bmShift = {
+  eyebrow: "Why now",
+  heading: "The world is about to change.",
+  rows: [
+    {
+      id: "time",
+      label: "Time's ticking",
+      dim: "You're running",
+      bright: "out of time.",
+      body: [
+        { text: "AI is changing how businesses are started, run and grown, and it is happening " },
+        { text: "now, not someday.", strong: true },
+        { text: " Every month you wait, the people already learning it get further ahead. " },
+        { text: "What are you doing to prepare?", strong: true },
+      ],
+    },
+    {
+      id: "ai",
+      label: "The AI shift",
+      dim: "AI is here.",
+      bright: "Use it or fall behind.",
+      body: [
+        { text: "Imagine replying to every lead in seconds, writing a week of content in an afternoon, and " },
+        { text: "letting your admin run itself", strong: true },
+        { text: " while you do the work that pays. The tools already exist, and most are cheap or free. " },
+        { text: "Most people just haven't learned how to use them.", strong: true },
+      ],
+    },
+    {
+      id: "way-out",
+      label: "The way out",
+      dim: "Learn the skill.",
+      bright: "Build the business.",
+      body: [
+        { text: "Business Mastery teaches you to start a business and actually use AI, with live demos, coaching, and a network of people building alongside you. Wherever you are, " },
+        { text: "you learn by doing.", strong: true },
+        { text: " Don't wait for success to find you. " },
+        { text: "Take control.", strong: true },
+      ],
+    },
+  ],
+} as const;
+
 // --- 2. The Core Belief ----------------------------------------------------
 
 export const bmCoreBelief = {

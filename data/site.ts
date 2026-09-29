@@ -122,31 +122,58 @@ export const site = {
    * Everyday business tools the n8n automations can connect to, picked on
    * 2026-09-28 for the owner to confirm or trim: the strip reads as "tools we
    * work with", so list only what that's true of. Each `icon` is a symbol id
-   * in public/tools/sprite.svg (from Simple Icons, simpleicons.org); a new
-   * tool needs its icon added there too. An empty list hides the strip.
+   * in public/tools/sprite.svg (from Simple Icons, simpleicons.org, or Lobe
+   * Icons for Grok, xAI and OpenAI; Zapier's asterisk is drawn by hand); a
+   * new tool needs its icon added there too. The first row is AI models and
+   * messaging, the second business apps; both were lengthened on 2026-09-29
+   * at the owner's request. An empty list hides the strip.
    */
   tools: [
     [
       { name: "n8n", icon: "n8n" },
       { name: "Anthropic", icon: "anthropic" },
+      { name: "Claude", icon: "claude" },
+      { name: "OpenAI", icon: "openai" },
+      { name: "Grok", icon: "grok" },
+      { name: "xAI", icon: "xai" },
       { name: "Gemini", icon: "googlegemini" },
+      { name: "Perplexity", icon: "perplexity" },
+      { name: "Mistral AI", icon: "mistralai" },
+      { name: "DeepSeek", icon: "deepseek" },
+      { name: "ElevenLabs", icon: "elevenlabs" },
       { name: "Gmail", icon: "gmail" },
       { name: "Google Calendar", icon: "googlecalendar" },
       { name: "Calendly", icon: "calendly" },
-      { name: "WhatsApp", icon: "whatsapp" },
+      { name: "Google Meet", icon: "googlemeet" },
       { name: "Zoom", icon: "zoom" },
+      { name: "WhatsApp", icon: "whatsapp" },
       { name: "Telegram", icon: "telegram" },
+      { name: "Messenger", icon: "messenger" },
+      { name: "Discord", icon: "discord" },
     ],
     [
       { name: "HubSpot", icon: "hubspot" },
       { name: "Airtable", icon: "airtable" },
       { name: "Notion", icon: "notion" },
       { name: "Google Sheets", icon: "googlesheets" },
+      { name: "Google Drive", icon: "googledrive" },
+      { name: "Google Docs", icon: "googledocs" },
+      { name: "Zapier", icon: "zapier" },
+      { name: "Make", icon: "make" },
       { name: "QuickBooks", icon: "quickbooks" },
       { name: "Stripe", icon: "stripe" },
       { name: "Square", icon: "square" },
+      { name: "Shopify", icon: "shopify" },
       { name: "Mailchimp", icon: "mailchimp" },
       { name: "Meta", icon: "meta" },
+      { name: "Instagram", icon: "instagram" },
+      { name: "Facebook", icon: "facebook" },
+      { name: "TikTok", icon: "tiktok" },
+      { name: "Trello", icon: "trello" },
+      { name: "Asana", icon: "asana" },
+      { name: "ClickUp", icon: "clickup" },
+      { name: "Zendesk", icon: "zendesk" },
+      { name: "Intercom", icon: "intercom" },
     ],
   ] as Tool[][],
 };

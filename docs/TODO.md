@@ -18,12 +18,13 @@ file. Tell Claude when something is done and it checks it off here.
       page will offer it as a live demo (`callAnswering.demoPhone`).
 - [ ] **Photo and bio.** A real photo and a few lines about you. They replace
       the "Photo coming soon" and "More about me coming soon" slots on the
-      homepage and /lee-systems (`founder.photo`, `founder.bio`).
-- [ ] **Tool logos.** The moving strip under the homepage hero shows 18 tools
-      (n8n, Anthropic, Gemini, Gmail, Google Calendar, Calendly, WhatsApp,
-      Zoom, Telegram, HubSpot, Airtable, Notion, Google Sheets, QuickBooks,
-      Stripe, Square, Mailchimp, Meta). It reads as "tools we work with", so
-      tell Claude which to keep, drop or add (`tools` in `data/site.ts`).
+      homepage (`founder.photo`, `founder.bio`).
+- [ ] **Tool logos.** The moving strip under the homepage hero shows 42 tools
+      since 2026-09-29: AI models and messaging on one row (Claude, OpenAI,
+      Grok, xAI, Gemini, Perplexity and more), business apps on the other
+      (HubSpot, Zapier, Make, Shopify, Instagram and more). It reads as "tools
+      we work with", so tell Claude which to keep, drop or add (`tools` in
+      `data/site.ts`).
 - [ ] **Business Mastery details.** Price, platform (Skool, for example), join
       link and the written guarantee terms. Already settled: a paid monthly
       membership, joining by application, and the 90-day guarantee as it

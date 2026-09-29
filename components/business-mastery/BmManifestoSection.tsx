@@ -21,8 +21,9 @@ import { bmCoreBelief, bmTenets, bmTenetsIntro } from "@/data/business-mastery";
  *
  * Two movements, and the reader should feel where the second starts without
  * being told: the belief, then the tenets. What separates them is the
- * interval and the change from one centred column to a grid of cards. This
- * page has no dividers between or inside sections.
+ * interval and the change from one centred column to three numbered rows.
+ * The tenets were cards until 2026-09-29, when the owner asked for fewer
+ * cards on the page; their hairlines are the only dividers here.
  *
  * Every sentence is the owner's, verbatim from data/business-mastery.ts, only
  * re-grouped. The eyebrow is the only string the build wrote, the same
@@ -56,7 +57,8 @@ import { bmCoreBelief, bmTenets, bmTenetsIntro } from "@/data/business-mastery";
  *    dilutes the first, and it survives a dark ground only at hero sizes
  *    (argued in app/globals.css).
  *  - `.bmh-rise`. A load-time entrance, and this section is far below the
- *    fold. Motion nobody can see is dead code. Nothing here moves.
+ *    fold. Motion nobody can see is dead code. The tenet rows use
+ *    `.bm-reveal` instead, which runs as they scroll into view.
  *  - `.bmh-eyebrow`. Its size caps at `2vh`, tuned for a hero that owns the
  *    viewport, so this uses the house eyebrow the other sections use.
  *  - A plain amber text glow on "Network.". At 0.3em tracking a 20px / 0.5
@@ -78,7 +80,7 @@ import { bmCoreBelief, bmTenets, bmTenetsIntro } from "@/data/business-mastery";
  * section has no `overflow-hidden`: the one wide object, "Network.", is sized
  * to fit a 320px viewport rather than clipped to it.
  *
- * Server component, no client boundary, nothing interactive.
+ * Server component, no client boundary. The only motion is CSS.
  */
 export function BmManifestoSection() {
   return (
@@ -132,31 +134,30 @@ export function BmManifestoSection() {
             </p>
           </div>
 
-          {/* Three columns, not two. A two-column step strands a lone
-              half-width card under a centred header at three, which reads as
-              a missing fourth tenet, so the md:2 step the rest of the site
-              uses (BmProgramSection) is deliberately skipped. */}
-          <ol className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {/* Rows, not cards (the owner's request, 2026-09-29): a large
+              outlined numeral beside each tenet, hairlines between, each row
+              rising in as it scrolls into view and its numeral brightening
+              under the pointer. */}
+          <ol className="mx-auto max-w-4xl">
             {bmTenets.map((tenet) => (
               <li
                 key={tenet.id}
-                className="rounded-xl border border-white/10 bg-white/[0.04] p-6 transition-colors duration-300 hover:border-amber-400/30 md:p-8"
+                className="bm-reveal group grid grid-cols-[4.5rem_1fr] items-center gap-x-6 border-t border-white/10 py-8 last:border-b sm:grid-cols-[7rem_1fr] md:grid-cols-[9rem_1fr] md:gap-x-10 md:py-10"
               >
-                {/* Stacked rather than beside the title: at three columns a
-                    horizontal row leaves roughly 220px for the copy, which
-                    wraps every description to five or six lines. */}
                 <span
-                  className="mb-4 block text-3xl font-bold tabular-nums text-amber-400/80"
+                  className="bm-tenet-num text-5xl font-bold tabular-nums leading-none sm:text-7xl md:text-8xl"
                   aria-hidden="true"
                 >
                   {String(tenet.number).padStart(2, "0")}
                 </span>
-                <h4 className="mb-1.5 text-lg font-bold text-white">
-                  {tenet.title}
-                </h4>
-                <p className="leading-relaxed text-neutral-400">
-                  {tenet.description}
-                </p>
+                <div>
+                  <h4 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
+                    {tenet.title}
+                  </h4>
+                  <p className="mt-2 text-lg leading-relaxed text-neutral-400 text-pretty">
+                    {tenet.description}
+                  </p>
+                </div>
               </li>
             ))}
           </ol>

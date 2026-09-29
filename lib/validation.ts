@@ -9,8 +9,24 @@
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[\d\s\-().+]+$/;
 
-/** Shortest phone number accepted, counting spaces and punctuation. */
-const PHONE_MIN_LENGTH = 10;
+/**
+ * A person's name: letters in any script (so "José" and "Nguyễn" pass), plus
+ * the spaces, hyphens, apostrophes and periods real names use. No digits or
+ * symbols, and it has to start with a letter.
+ */
+const NAME_PATTERN = /^[\p{L}\p{M}][\p{L}\p{M}'’. -]*$/u;
+/** Everything a name may not contain, for stripping it as the visitor types. */
+const NAME_DISALLOWED = /[^\p{L}\p{M}'’. -]/gu;
+/** Everything a phone number may not contain: letters and stray symbols. */
+const PHONE_DISALLOWED = /[^\d\s\-().+]/g;
+
+/**
+ * Digits a phone number needs, not counting spaces and punctuation: a US
+ * number with its area code at least, and E.164's ceiling of 15 at most.
+ * Counting digits rather than characters is what stops "((((((((((" passing.
+ */
+const PHONE_MIN_DIGITS = 10;
+const PHONE_MAX_DIGITS = 15;
 
 /**
  * Longest value any field accepts. Generous on purpose - they exist to stop a
@@ -33,5 +49,49 @@ export function isValidEmail(value: string): boolean {
 }
 
 export function isValidPhone(value: string): boolean {
-  return PHONE_PATTERN.test(value) && value.length >= PHONE_MIN_LENGTH;
+  if (!PHONE_PATTERN.test(value)) return false;
+  const digits = value.replace(/\D/g, "").length;
+  return digits >= PHONE_MIN_DIGITS && digits <= PHONE_MAX_DIGITS;
 }
+
+/** At least two letters, and nothing a name would not contain. */
+export function isValidName(value: string): boolean {
+  return (
+    NAME_PATTERN.test(value) && value.replace(/[^\p{L}]/gu, "").length >= 2
+  );
+}
+
+/** The fields `filterInput` knows how to clean. */
+export type FilteredField = "name" | "phone";
+
+const INPUT_FILTERS: Record<FilteredField, { drop: RegExp; message: string }> = {
+  name: {
+    drop: NAME_DISALLOWED,
+    message: "Names can only use letters, spaces, hyphens and apostrophes",
+  },
+  phone: {
+    drop: PHONE_DISALLOWED,
+    message: "Phone numbers can only use digits, spaces and ( ) - + .",
+  },
+};
+
+/**
+ * The input filter. Each form runs a name or phone field's value through this
+ * on every change, so a digit typed (or pasted) into a name, or a letter into
+ * a phone number, never lands. `dropped` is what to tell the visitor when
+ * something was taken out, so the key press does not just seem to do nothing.
+ * The routes still check with the validators above.
+ */
+export function filterInput(
+  field: FilteredField | null,
+  value: string
+): { value: string; dropped?: string } {
+  if (!field) return { value };
+  const { drop, message } = INPUT_FILTERS[field];
+  const cleaned = value.replace(drop, "");
+  return cleaned === value ? { value } : { value: cleaned, dropped: message };
+}
+
+/** What the forms and routes say when a name fails `isValidName`. */
+export const INVALID_NAME_MESSAGE =
+  "Please enter your name using letters only";
