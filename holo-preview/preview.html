@@ -1000,6 +1000,16 @@ body {
 .holo-book-phone { display: flex; justify-content: center; margin-top: 1rem; }
 .holo-book-phone .holo-btn { width: 100%; max-width: 20rem; }
 @container holo (min-width: 860px) { .holo-book-phone { display: none; } }
+
+/* The smallest phones: the end card's stats, promise, button and two
+   links only fit with a little less space around and between them. The
+   narrower side padding also keeps the promise to two lines. Anything
+   narrower still is scaled to fit as a whole (fitEndCard). */
+@container holo (max-width: 319px) {
+  .holo-end { gap: 0.625rem; padding: 0.75rem; }
+  .holo-stats { row-gap: 0.5rem; }
+  .holo-close { gap: 0.5rem; }
+}
 </style>
 </head>
 <body>
@@ -1875,6 +1885,8 @@ window.HOLO_EDIT = {
     var wordmarkWrap = q(".holo-wordmark-wrap");
     var popEls = [q(".holo-pop--call"), q(".holo-pop--text"), q(".holo-pop--list")];
     var capsBand = q(".holo-caps");
+    var endCard = q(".holo-end");
+    var endParts = [q(".holo-results"), q(".holo-close")];
     // the headline lines that may be set smaller on a phone: captions 1
     // and 2, and the first part of caption 3
     var capFit = [qa(".holo-cap")[0], qa(".holo-cap")[1], q(".holo-cap-a")];
@@ -2297,6 +2309,17 @@ window.HOLO_EDIT = {
         }
       });
     }
+    // Phones: if the end card is still taller than the card on a very
+    // narrow screen, it is shown a little smaller as a whole, centred,
+    // rather than cut off at the top and bottom.
+    function fitEndCard() {
+      endCard.style.transform = "";
+      if (!isPhone) return;
+      var cs = getComputedStyle(endCard);
+      var room = endCard.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      var need = endParts[0].offsetHeight + endParts[1].offsetHeight + parseFloat(cs.rowGap || "0");
+      if (room > 0 && need > room) endCard.style.transform = "scale(" + (room / need).toFixed(4) + ")";
+    }
     function measure() {
       var w = box.clientWidth, h = box.clientHeight;
       if (!w) return;
@@ -2304,6 +2327,7 @@ window.HOLO_EDIT = {
       box.style.setProperty("--holo-k", k.toFixed(4));
       isPhone = root.clientWidth < 860;
       fitCaptions();
+      fitEndCard();
       coinUnits = isPhone ? 20 : 17;
       coinsWrap.style.setProperty("--coin", (coinUnits * k).toFixed(2) + "px");
       if (dust) dust.resize(w, h);
