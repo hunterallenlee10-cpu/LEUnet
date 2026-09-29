@@ -102,7 +102,7 @@ const services = [
     "@id": `${pageUrl}#service-websites`,
     name: "Website Builds",
     description:
-      "Conversion-focused websites for small businesses. Mobile-first, fast, lead forms, basic SEO, and you own it. Free quotes from Lee Systems Co.",
+      "Conversion-focused websites for businesses. Mobile-first, fast, lead forms, basic SEO, and you own it. Free quotes from Lee Systems Co.",
     serviceType: "Website design and development",
     url: `${SITE_URL}${leeSystemsLinks.websites}`,
     catalog: "Website Services",

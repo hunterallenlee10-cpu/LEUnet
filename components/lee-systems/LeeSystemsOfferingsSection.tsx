@@ -12,17 +12,17 @@ type Offering = {
 
 /**
  * Both halves carry the same weight on purpose (the owner's call,
- * 2026-09-29): same numeral, same length of copy, six points each, and the
- * same button, which scrolls to that offering's section further down the
- * page. The website points are the ones the websites section and the FAQ
- * already promise, so nothing here says more than they do.
+ * 2026-09-29): same numeral, six points each, and the same button, which
+ * scrolls to that offering's section further down the page. The website
+ * points are the ones the websites section and the FAQ already promise, so
+ * nothing here says more than they do.
  */
 const offerings: [Offering, Offering] = [
   {
     number: "01",
     role: "The system",
     title: "Business automation",
-    body: "Custom systems, built mostly with n8n and AI, that run the repetitive parts of your business the same way every time.",
+    body: "Custom systems built to streamline revenue into your business.",
     points: [
       "Answers your business calls 24/7 with an AI assistant",
       "Answers every new lead in under a minute",
@@ -38,7 +38,7 @@ const offerings: [Offering, Offering] = [
     number: "02",
     role: "The storefront",
     title: "Website builds",
-    body: "Conversion-focused websites for small businesses: clear, fast on a phone, and built to turn visitors into customers.",
+    body: "Conversion-focused websites for businesses: clear, fast on a phone, and built to turn visitors into customers.",
     points: [
       "Mobile-first and fast on any phone",
       "Lead forms that turn visitors into customers",
