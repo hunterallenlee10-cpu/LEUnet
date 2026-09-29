@@ -25,13 +25,16 @@ export function LeeSystemsHeroSection() {
         </div>
 
         <h1 className="heading-xl mx-auto mb-6 max-w-4xl text-white">
-          {leeSystems.headline}
+          {leeSystems.headline}{" "}
+          <span className="text-brass-300">{leeSystems.headlineAccent}</span>
         </h1>
 
         <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-neutral-300">
-          We build custom AI systems that answer your calls and new leads,
-          handle intake, send follow-ups, request reviews and clear out the
-          admin busywork, so nothing slips through on the busy weeks.
+          Customers expect an answer right away, and the first business to
+          reply usually wins the job. We build custom AI systems that answer
+          your calls and new leads in seconds, follow up automatically, handle
+          intake and clear out the admin, so you never lose another lead to a
+          competitor.
         </p>
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">

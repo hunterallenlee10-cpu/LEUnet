@@ -43,7 +43,13 @@ export const leeSystems = {
   name: "Lee Systems Co.",
   tagline: "A Lee Enterprises Unlimited company",
   parentName: "Lee Enterprises Unlimited",
-  headline: "Systems that run your business while you run the work.",
+  /**
+   * The main page's headline, in two parts so the hero can light the second
+   * in brass (the owner's "get ahead of your competition" framing,
+   * 2026-09-29). The link preview reads both.
+   */
+  headline: "The world is changing.",
+  headlineAccent: "Beat your competition to every lead.",
   owner: "Hunter Lee",
   /** The parent company's inbox until Lee Systems Co. has its own. */
   contactEmail: site.email,
