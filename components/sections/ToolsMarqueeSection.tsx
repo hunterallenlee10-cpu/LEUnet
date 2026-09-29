@@ -27,9 +27,10 @@ export function ToolsMarqueeSection() {
     >
       <h2
         id="tools-title"
-        className="section-container mb-10 text-center text-sm font-semibold text-neutral-400 md:text-base"
+        className="section-container tools-title mb-10 text-center"
       >
-        Built cutting-edge, connected to the tools you already use.
+        Built cutting-edge, connected to{" "}
+        <span className="tools-title-accent">the tools you already use.</span>
       </h2>
 
       <div className="space-y-4">

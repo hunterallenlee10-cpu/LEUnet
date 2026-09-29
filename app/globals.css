@@ -617,6 +617,31 @@
    rows stop, the duplicate copy goes, and the pills wrap onto more lines.
    --------------------------------------------------------------------------- */
 
+/* The marquee's heading: silver fading to grey, with the second half picked
+   out in the Lee Systems brass. */
+.tools-title {
+  font-size: clamp(1.25rem, 2.2vw, 1.875rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  background: linear-gradient(180deg, #fff 0%, rgb(163 163 163) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tools-title-accent {
+  background: linear-gradient(
+    100deg,
+    var(--color-brass-200) 0%,
+    var(--color-brass-400) 55%,
+    #bf954b 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
 .tools-row {
   overflow: hidden;
   -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
