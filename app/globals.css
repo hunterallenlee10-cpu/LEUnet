@@ -3134,7 +3134,9 @@
 
    Since 2026-09-29 it is one narrated video: the lead by hand, then with AI,
    every line read aloud and captioned, with pause, sound and captions
-   buttons in the top corner and a progress bar in two chapters.
+   buttons in the top corner and a progress bar in two chapters. The website
+   video under it (WebsiteVideo) plays in the same frame and uses this block
+   too; both render through components/lee-systems/NarratedVideo.tsx.
 
    Everything inside the frame is sized in container units (cqw, a percent of
    the frame's width), so the composition scales like a video still from a
@@ -3208,6 +3210,16 @@
 
 .ls-paths-panel[data-panel="crm"] {
   --tint: 96 165 250;
+}
+
+/* The website video's panels take the same three tints in a new order:
+   blue for speed, brass for design, green for the leads it brings in. */
+.ls-paths-panel[data-panel="speed"] {
+  --tint: 96 165 250;
+}
+
+.ls-paths-panel[data-panel="leads"] {
+  --tint: 74 222 128;
 }
 
 .ls-paths-panel + .ls-paths-panel {
@@ -3461,7 +3473,7 @@
   color: rgb(212 212 212);
 }
 
-.ls-paths-tag[data-mode="ai"] .ls-paths-tag-run {
+.ls-paths-tag[data-mode="after"] .ls-paths-tag-run {
   color: #f1d68f;
 }
 
@@ -3510,11 +3522,11 @@
   text-transform: uppercase;
 }
 
-.ls-paths-frame[data-mode="ai"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
+.ls-paths-frame[data-mode="after"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
   color: #f1d68f;
 }
 
-.ls-paths-frame[data-mode="manual"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
+.ls-paths-frame[data-mode="before"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
   color: rgb(212 212 212);
 }
 
@@ -3555,7 +3567,7 @@
   background: rgb(163 163 163);
 }
 
-.ls-paths-progress-run[data-run="ai"] .ls-paths-progress-fill {
+.ls-paths-progress-run[data-run="after"] .ls-paths-progress-fill {
   background: linear-gradient(90deg, #b98a3e, #f1d68f);
 }
 
@@ -3718,6 +3730,24 @@
   background: linear-gradient(to bottom, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.2));
 }
 
+/* Under the website video there is one way on, so its stem is the lit
+   brass of the right-hand path, running straight into the button. */
+.ls-paths-stem--lit {
+  background: linear-gradient(to bottom, rgb(212 168 87 / 0.35), #d4a857);
+  filter: drop-shadow(0 0 4px rgb(212 168 87 / 0.8));
+}
+
+/* The website video's page loading: its icon turns rather than shakes. */
+.ls-paths-panel[data-panel="speed"][data-status="ringing"] .ls-paths-icon {
+  animation: lsPathsSpin 1.1s linear infinite;
+}
+
+@keyframes lsPathsSpin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 /* A path's padding is the same on both sides, so its node sits under the
    end of its branch; the VS in the middle fits inside the two paddings. */
 .ls-paths-path {
@@ -3799,17 +3829,17 @@
 }
 
 /* The path being played lights up. */
-.ls-paths-fork[data-mode="manual"] .ls-paths-branch--left {
+.ls-paths-fork[data-mode="before"] .ls-paths-branch--left {
   border-color: rgb(255 255 255 / 0.6);
 }
 
-.ls-paths-fork[data-mode="manual"] .ls-paths-node--left {
+.ls-paths-fork[data-mode="before"] .ls-paths-node--left {
   border-color: rgb(255 255 255 / 0.75);
   color: #fff;
   box-shadow: 0 0 12px rgb(255 255 255 / 0.3);
 }
 
-.ls-paths-fork[data-mode="ai"] .ls-paths-branch--right {
+.ls-paths-fork[data-mode="after"] .ls-paths-branch--right {
   filter: drop-shadow(0 0 7px rgb(212 168 87));
 }
 
@@ -3880,6 +3910,7 @@
   }
 
   .ls-paths-panel[data-status="ringing"] .ls-paths-icon,
+  .ls-paths-panel[data-panel="speed"][data-status="ringing"] .ls-paths-icon,
   .ls-paths-caption-text {
     animation: none;
   }

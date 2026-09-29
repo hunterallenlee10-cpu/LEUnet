@@ -7,7 +7,7 @@
  *
  * The narration and its sound effects are one file,
  * public/lee-systems/two-paths/two-paths.mp3, built from these lines by
- * scripts/build-two-paths-audio.mjs, which also writes where each line starts
+ * scripts/build-video-audio.mjs, which also writes where each line starts
  * (data/two-paths-video.timing.json). Change a line here and the audio has to
  * be rebuilt, or the voice will say the old line: docs/LEE-SYSTEMS.md has the
  * steps.
@@ -17,36 +17,11 @@
  * /lee-systems); the time and the day only make it an example, which is why
  * the frame is labelled "Example". No result or client is implied.
  *
- * Plain types only (no enums): the build script imports this file with
- * Node's type stripping.
+ * The "before" run is by hand and the "after" run is with AI; the shape of
+ * a line is in data/narrated-video.ts.
  */
 
-/** The by-hand run, then the AI run, with a line either side. */
-export type VideoChapter = "intro" | "manual" | "ai" | "outro";
-
-export type PanelStatus = "idle" | "ringing" | "good" | "bad";
-
-export interface VideoLine {
-  /** Names the line in the timing file and the sound design. */
-  id: string;
-  chapter: VideoChapter;
-  /**
-   * How the caption is set: "prompt" and "title" lines are the big italic
-   * lines that open the video and each run, "step" lines narrate, and
-   * "ending" lines close a run.
-   */
-  kind: "prompt" | "title" | "step" | "ending";
-  /** The caption, exactly as shown. */
-  caption: string;
-  /** What the voice reads, where it differs from the caption. */
-  spoken?: string;
-  /** Each panel's state while the line shows: calls, follow-up, intake + CRM. */
-  status: [PanelStatus, PanelStatus, PanelStatus];
-  /** The panel the line is about, lit while it shows. */
-  focus?: number;
-  /** Seconds of quiet after the line is read, before the next one. */
-  hold: number;
-}
+import type { VideoLine } from "./narrated-video";
 
 const idle: VideoLine["status"] = ["idle", "idle", "idle"];
 
@@ -61,7 +36,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "manual-title",
-    chapter: "manual",
+    chapter: "before",
     kind: "title",
     caption: "First, by hand.",
     status: idle,
@@ -69,7 +44,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "manual-call",
-    chapter: "manual",
+    chapter: "before",
     kind: "step",
     caption: "11:48 PM. A new customer calls.",
     spoken: "Eleven forty-eight PM. A new customer calls.",
@@ -79,7 +54,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "manual-voicemail",
-    chapter: "manual",
+    chapter: "before",
     kind: "step",
     caption: "Nobody picks up. It goes to voicemail.",
     status: ["bad", "idle", "idle"],
@@ -88,7 +63,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "manual-callback",
-    chapter: "manual",
+    chapter: "before",
     kind: "step",
     caption: "You call back the next morning. No answer.",
     status: ["bad", "bad", "idle"],
@@ -97,7 +72,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "manual-crm",
-    chapter: "manual",
+    chapter: "before",
     kind: "step",
     caption: "And the lead never makes it into your CRM.",
     status: ["bad", "bad", "bad"],
@@ -106,7 +81,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "manual-ending",
-    chapter: "manual",
+    chapter: "before",
     kind: "ending",
     caption: "They'd already booked with someone who answered.",
     status: ["bad", "bad", "bad"],
@@ -114,7 +89,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "ai-title",
-    chapter: "ai",
+    chapter: "after",
     kind: "title",
     caption: "Now the same call, with AI.",
     status: idle,
@@ -122,7 +97,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "ai-call",
-    chapter: "ai",
+    chapter: "after",
     kind: "step",
     caption: "11:48 PM. A new customer calls.",
     spoken: "Eleven forty-eight PM. A new customer calls.",
@@ -132,7 +107,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "ai-answer",
-    chapter: "ai",
+    chapter: "after",
     kind: "step",
     caption: "AI picks up, answers their questions and books them for Tuesday.",
     status: ["good", "idle", "idle"],
@@ -141,7 +116,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "ai-text",
-    chapter: "ai",
+    chapter: "after",
     kind: "step",
     caption: "A text confirms the booking, and a reminder is set for the day before.",
     status: ["good", "good", "idle"],
@@ -150,7 +125,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "ai-crm",
-    chapter: "ai",
+    chapter: "after",
     kind: "step",
     caption: "The lead lands in your CRM, and you get a text with the details.",
     status: ["good", "good", "good"],
@@ -159,7 +134,7 @@ export const twoPathsLines: VideoLine[] = [
   },
   {
     id: "ai-ending",
-    chapter: "ai",
+    chapter: "after",
     kind: "ending",
     caption: "Booked before you woke up.",
     status: ["good", "good", "good"],
