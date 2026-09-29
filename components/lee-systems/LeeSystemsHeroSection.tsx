@@ -36,7 +36,7 @@ export function LeeSystemsHeroSection() {
           reply usually wins the job. We build custom AI systems that answer
           your calls and new leads in seconds, follow up automatically, handle
           intake and clear out the admin. Pair it with a fast, modern website
-          built to turn visitors into inquiries, with every form feeding
+          built to turn visitors into customers, with every form feeding
           straight into the same system, so you never lose another lead to a
           competitor.
         </p>

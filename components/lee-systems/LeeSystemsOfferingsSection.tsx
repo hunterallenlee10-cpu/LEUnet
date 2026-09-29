@@ -38,10 +38,10 @@ const offerings: [Offering, Offering] = [
     number: "02",
     role: "The storefront",
     title: "Website builds",
-    body: "Conversion-focused websites for small businesses: clear, fast on a phone, and built to turn visitors into inquiries.",
+    body: "Conversion-focused websites for small businesses: clear, fast on a phone, and built to turn visitors into customers.",
     points: [
       "Mobile-first and fast on any phone",
-      "Lead forms that turn visitors into inquiries",
+      "Lead forms that turn visitors into customers",
       "Basic SEO so local customers can find you",
       "We draft the copy, you approve it",
       "You own your domain and your content",
