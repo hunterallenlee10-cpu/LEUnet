@@ -3132,6 +3132,10 @@
    example plays, a panel turns gold when the systems handle its step, or
    drains to grey when the lead slips through by hand.
 
+   Since 2026-09-29 it is one narrated video: the lead by hand, then with AI,
+   every line read aloud and captioned, with pause, sound and captions
+   buttons in the top corner and a progress bar in two chapters.
+
    Everything inside the frame is sized in container units (cqw, a percent of
    the frame's width), so the composition scales like a video still from a
    phone to a desktop; clamps keep the smallest text readable.
@@ -3259,12 +3263,16 @@
   background: linear-gradient(90deg, transparent, rgb(163 163 163), transparent);
 }
 
-/* While the example plays, the panels it hasn't reached yet sit back. */
-.ls-paths-frame[data-state="playing"] .ls-paths-panel[data-status="idle"] > * {
+/* While the video plays (or sits paused), the panels it hasn't reached yet
+   sit back. */
+.ls-paths-frame:is([data-state="playing"], [data-state="paused"])
+  .ls-paths-panel[data-status="idle"]
+  > * {
   opacity: 0.4;
 }
 
-.ls-paths-frame[data-state="playing"] .ls-paths-panel[data-status="idle"]::before {
+.ls-paths-frame:is([data-state="playing"], [data-state="paused"])
+  .ls-paths-panel[data-status="idle"]::before {
   opacity: 0.35;
 }
 
@@ -3442,6 +3450,21 @@
   text-transform: uppercase;
 }
 
+/* The run that's playing, after "Example": grey by hand, brass with AI. */
+.ls-paths-tag-run::before {
+  content: "·";
+  margin-inline: 0.5em;
+  color: rgb(115 115 115);
+}
+
+.ls-paths-tag-run {
+  color: rgb(212 212 212);
+}
+
+.ls-paths-tag[data-mode="ai"] .ls-paths-tag-run {
+  color: #f1d68f;
+}
+
 /* The caption: the reference's "Which campus will you choose?" line, which
    here also narrates the example, with Replay under it once the AI version
    ends. Above the play overlay, but clicks pass through it. */
@@ -3479,6 +3502,7 @@
 }
 
 .ls-paths-caption-text[data-kind="prompt"],
+.ls-paths-caption-text[data-kind="title"],
 .ls-paths-caption-text[data-kind="ending"] {
   font-style: italic;
   font-weight: 900;
@@ -3486,11 +3510,11 @@
   text-transform: uppercase;
 }
 
-.ls-paths-frame[data-mode="ai"] .ls-paths-caption-text[data-kind="ending"] {
+.ls-paths-frame[data-mode="ai"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
   color: #f1d68f;
 }
 
-.ls-paths-frame[data-mode="manual"] .ls-paths-caption-text[data-kind="ending"] {
+.ls-paths-frame[data-mode="manual"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
   color: rgb(212 212 212);
 }
 
@@ -3505,28 +3529,108 @@
   }
 }
 
-/* A video's progress bar, run once per play over the example's length. */
+/* The progress bar, in two chapters as long as the two runs: grey by hand,
+   brass with AI. The component sets each fill's scaleX from the video's
+   clock every frame, so it can't drift from the voice. */
 .ls-paths-progress {
   position: absolute;
   z-index: 3;
   inset: auto 0 0;
-  height: 2px;
-  background: linear-gradient(90deg, #b98a3e, #f1d68f);
-  transform-origin: left;
-  animation: lsPathsProgress var(--ls-run-ms, 11s) linear both;
+  display: flex;
+  gap: 3px;
+  height: 3px;
 }
 
-.ls-paths-frame[data-mode="manual"] .ls-paths-progress {
+.ls-paths-progress-run {
+  flex-basis: 0;
+  overflow: hidden;
+  background: rgb(255 255 255 / 0.1);
+}
+
+.ls-paths-progress-fill {
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
   background: rgb(163 163 163);
 }
 
-@keyframes lsPathsProgress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
+.ls-paths-progress-run[data-run="ai"] .ls-paths-progress-fill {
+  background: linear-gradient(90deg, #b98a3e, #f1d68f);
+}
+
+/* Paused: the picture dims under a white play disc, like a paused video. */
+.ls-paths-frame[data-state="paused"] .ls-paths-panels {
+  filter: brightness(0.55);
+}
+
+.ls-paths-paused {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(3rem, 11cqw, 6rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -62%);
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow:
+    0 0 0 clamp(6px, 1.4cqw, 13px) rgb(255 255 255 / 0.14),
+    0 16px 40px -10px rgb(0 0 0 / 0.8);
+  color: #0a0a0a;
+  pointer-events: none;
+}
+
+.ls-paths-paused svg {
+  width: 36%;
+  height: 36%;
+  margin-left: 8%;
+}
+
+/* Pause, sound and captions, in the corner opposite the tag. Above the
+   frame's click-to-pause layer, so they take their own clicks. */
+.ls-paths-controls {
+  position: absolute;
+  z-index: 4;
+  top: clamp(0.5rem, 1.8cqw, 1rem);
+  right: clamp(0.5rem, 1.8cqw, 1rem);
+  display: flex;
+  gap: clamp(0.25rem, 0.8cqw, 0.5rem);
+}
+
+.ls-paths-control {
+  display: grid;
+  place-items: center;
+  width: clamp(1.75rem, 4.4cqw, 2.5rem);
+  aspect-ratio: 1;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.55);
+  color: rgb(229 229 229);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.ls-paths-control:hover {
+  border-color: rgb(212 168 87 / 0.6);
+  color: #fff;
+}
+
+.ls-paths-control:focus-visible {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 2px;
+}
+
+.ls-paths-control[aria-pressed="false"] {
+  color: rgb(163 163 163);
+}
+
+.ls-paths-control svg {
+  width: 50%;
+  height: 50%;
 }
 
 /* The play button covers the whole frame, like a video's poster, so a click
@@ -3771,8 +3875,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ls-paths-panel[data-status="ringing"] .ls-paths-orb::before,
-  .ls-paths-panel[data-status="ringing"] .ls-paths-orb::after,
-  .ls-paths-progress {
+  .ls-paths-panel[data-status="ringing"] .ls-paths-orb::after {
     display: none;
   }
 

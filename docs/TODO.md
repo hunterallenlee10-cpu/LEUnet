@@ -1,8 +1,8 @@
 # Hunter's to-do list
 
 The things only Hunter can do for the site: links, photos, decisions and
-account set-up. Last updated 2026-09-29, when "Who we help" on /lee-systems
-became picture cards.
+account set-up. Last updated 2026-09-29, when the "Two paths" frame on
+/lee-systems became a narrated video.
 
 Ask Claude for "my to-do list" in any session on this repo and it reads this
 file. Tell Claude when something is done and it checks it off here.
@@ -41,10 +41,11 @@ file. Tell Claude when something is done and it checks it off here.
       reads now.
 - [ ] **A video (VSL), if you want one.** Suggested 2026-09-29: the pages
       would be even better with pictures and a video sales letter. The "Two
-      paths" frame on /lee-systems is built like a video player and plays an
-      animated example for now; record a short video (you on camera, or a
+      paths" frame on /lee-systems is now a narrated animated example (the
+      Pham voice, with captions); record a short video (you on camera, or a
       walkthrough of a system) and send Claude the link, and it can play
-      that instead. Photos of you or real work go in the same way.
+      that instead or beside it. Photos of you or real work go in the same
+      way.
 - [ ] **Google Business Profile.** Create one, as a service-area business if
       there's no public office.
 - [ ] **Search Console (after it's live).** Verify the domain and submit

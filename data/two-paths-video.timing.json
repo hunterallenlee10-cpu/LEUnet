@@ -1,0 +1,20 @@
+{
+  "src": "/lee-systems/two-paths/two-paths.mp3?v=60fc2da9",
+  "durationMs": 40651,
+  "lines": {
+    "prompt": 170,
+    "manual-title": 2180,
+    "manual-call": 3420,
+    "manual-voicemail": 7070,
+    "manual-callback": 9770,
+    "manual-crm": 12690,
+    "manual-ending": 15600,
+    "ai-title": 18990,
+    "ai-call": 20647,
+    "ai-answer": 23897,
+    "ai-text": 27427,
+    "ai-crm": 31417,
+    "ai-ending": 35277,
+    "outro": 37577
+  }
+}
