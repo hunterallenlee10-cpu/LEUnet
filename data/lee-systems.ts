@@ -195,14 +195,15 @@ export const inquiryIndustryOptions: readonly string[] = [
 /**
  * The /lee-systems FAQ: the automation page's questions, then the websites
  * page's, merged when those pages folded into /lee-systems (2026-09-29).
- * Both asked "How long does a build take?"; it is asked once here, and its
- * answer joins the two existing answers without adding to them.
+ * Both asked "How long does a build take?"; it is asked once here. The
+ * answers to the free call, build time, kinds of business and website cost
+ * questions are the owner's own wording (2026-09-29).
  */
 export const leeSystemsFaqs = [
   {
     question: "What happens on the free call?",
     answer:
-      "It's a free consultation. We talk through how calls, leads, intake, follow-ups and admin work in your business today, and where time goes or inquiries slip through. If something is worth automating, you get a flat quote up front: no hidden fees, no revenue share and no required ad spend.",
+      "We audit your current operations to uncover hidden profit leaks. If we're a mutual fit, you'll receive a straightforward, flat-rate quote upfront—zero hidden fees, zero revenue sharing, and zero mandatory ad spend.",
   },
   {
     question: "Is the call really free?",
@@ -232,17 +233,17 @@ export const leeSystemsFaqs = [
   {
     question: "How long does a build take?",
     answer:
-      "It depends on how many steps and tools are involved, or for a website, on the size of the site and how quickly feedback comes back. You get a timeline with your quote, before you commit, and nothing goes live until you approve it.",
+      "Get industry-leading turnaround times tailored precisely to your project's scope and complexity. No generic estimates: you get a strict, job-specific timeline upfront, and zero deployment happens without your explicit approval.",
   },
   {
     question: "What kinds of businesses do you work with?",
     answer:
-      "Any service business that depends on responding to and following up with people.",
+      "Every business thrives on new customers—and we know how to engineer predictable growth for yours, no matter the industry.",
   },
   {
     question: "How much does a website cost?",
     answer:
-      "Each project is quoted on its own. The price depends on how many pages you need, whether copy and photos already exist, and what the site has to do, such as booking appointments or connecting to other tools. The quote is free.",
+      "Each project is quoted on its own. The price depends on how many pages you need, whether copy and photos already exist, and what the site has to do, such as booking appointments or connecting to other tools. Free project quotes are provided on the initial call.",
   },
   {
     question: "Do I need my content and photos ready first?",
