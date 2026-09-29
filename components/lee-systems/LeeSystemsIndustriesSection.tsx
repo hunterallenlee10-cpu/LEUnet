@@ -1,11 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Cormorant_Garamond } from "next/font/google";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
   industryInSentence,
   leeSystemsIndustries,
-  moreIndustries,
   otherIndustriesLine,
 } from "@/data/lee-systems";
 
@@ -22,10 +20,7 @@ const coverTitle = Cormorant_Garamond({
   preload: false,
 });
 
-/** Law firms and home services first (they have pages), then the rest. */
-const industries = [...leeSystemsIndustries, ...moreIndustries];
-
-type IndustryId = (typeof industries)[number]["id"];
+type IndustryId = (typeof leeSystemsIndustries)[number]["id"];
 
 /**
  * The industries whose picture is in public/lee-systems/industries/, as
@@ -36,25 +31,22 @@ type IndustryId = (typeof industries)[number]["id"];
  */
 const pictured: ReadonlySet<IndustryId> = new Set<IndustryId>([]);
 
-/** The small uppercase links under each card, after The Real World's "Explore campus". */
-const cardAction =
-  "inline-flex min-h-11 items-center gap-1.5 text-xs font-semibold tracking-[0.18em] text-brass-300 uppercase transition-colors hover:text-brass-200";
-
 /**
  * "Who we help" on /lee-systems: example industries as picture-led cards,
  * after The Real World's campus cards (the owner's reference, 2026-09-29):
  * a picture with the industry's name set over it, its one-line summary, and
- * small uppercase links. The heading frames them as examples, not the only
- * businesses served (the owner's request, 2026-09-29); other industries get
- * one line rather than cards with nothing specific to say.
+ * a small uppercase "See examples", after The Real World's "Explore campus".
+ * The heading frames them as examples, not the only businesses served (the
+ * owner's request, 2026-09-29); other industries get one line rather than
+ * cards with nothing specific to say.
  *
  * Each industry's examples stay on its card behind "See examples", a native
  * <details> (so no client JS), and the shared `name` keeps one open at a
  * time. Cards align to the top of their row, so opening one doesn't stretch
  * the others; from two columns up every summary is held to three lines'
  * height (none is longer), so closed cards match.
- * The two industries with a page of their own link to it. Each card keeps its
- * industry's id, so /lee-systems#real-estate still lands on it.
+ * Each card keeps its industry's id, so /lee-systems#real-estate lands on it,
+ * and the retired law firm and home services pages redirect to theirs.
  *
  * The pictures (public/lee-systems/industries/, 800 x 450 WebP) were
  * generated for this section: empty rooms and buildings, no people, no
@@ -77,9 +69,7 @@ export function LeeSystemsIndustriesSection() {
         </div>
 
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {industries.map((industry, i) => {
-            const { id, name, summary, examples } = industry;
-            const page = "page" in industry ? industry.page : null;
+          {leeSystemsIndustries.map(({ id, name, summary, examples }, i) => {
             const audience = industryInSentence(name);
             return (
               <div
@@ -118,56 +108,34 @@ export function LeeSystemsIndustriesSection() {
                     {summary}
                   </p>
 
-                  <div className="@container relative mt-2">
-                    <details name="industry-examples" className="group/examples">
-                      <summary
-                        className={`${cardAction} w-fit cursor-pointer list-none rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass-300 [&::-webkit-details-marker]:hidden`}
-                      >
-                        <span className="group-open/examples:hidden">See examples</span>
-                        <span className="hidden group-open/examples:inline">
-                          Hide examples
-                        </span>
-                        <span className="sr-only"> for {audience}</span>
-                        <ChevronDown
-                          className="h-3.5 w-3.5 transition-transform duration-200 group-open/examples:rotate-180"
-                          aria-hidden="true"
-                        />
-                      </summary>
+                  <details name="industry-examples" className="group/examples mt-2">
+                    <summary className="inline-flex min-h-11 w-fit cursor-pointer list-none items-center gap-1.5 rounded text-xs font-semibold tracking-[0.18em] text-brass-300 uppercase transition-colors hover:text-brass-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass-300 [&::-webkit-details-marker]:hidden">
+                      <span className="group-open/examples:hidden">See examples</span>
+                      <span className="hidden group-open/examples:inline">
+                        Hide examples
+                      </span>
+                      <span className="sr-only"> for {audience}</span>
+                      <ChevronDown
+                        className="h-3.5 w-3.5 transition-transform duration-200 group-open/examples:rotate-180"
+                        aria-hidden="true"
+                      />
+                    </summary>
 
-                      <ul className="mt-1 mb-3 space-y-2.5 border-t border-white/10 pt-4">
-                        {examples.map((example) => (
-                          <li
-                            key={example}
-                            className="flex items-start gap-2.5 text-sm text-neutral-400"
-                          >
-                            <span
-                              aria-hidden="true"
-                              className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brass-400"
-                            />
-                            {example}
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
-
-                    {/* Level with the toggle, whether or not its list is open,
-                        once the card is wide enough for both (18.5rem: the
-                        widest label, "Hide examples", plus this link and a
-                        gap). Narrower, it takes the line below the toggle. */}
-                    {page && (
-                      <Link
-                        href={page.href}
-                        className={`${cardAction} group/link @min-[18.5rem]:absolute @min-[18.5rem]:top-0 @min-[18.5rem]:right-0`}
-                      >
-                        See the page
-                        <span className="sr-only"> for {audience}</span>
-                        <ArrowRight
-                          className="h-3.5 w-3.5 transition-transform duration-200 motion-safe:group-hover/link:translate-x-0.5"
-                          aria-hidden="true"
-                        />
-                      </Link>
-                    )}
-                  </div>
+                    <ul className="mt-1 mb-3 space-y-2.5 border-t border-white/10 pt-4">
+                      {examples.map((example) => (
+                        <li
+                          key={example}
+                          className="flex items-start gap-2.5 text-sm text-neutral-400"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brass-400"
+                          />
+                          {example}
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
                 </div>
               </div>
             );

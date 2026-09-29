@@ -1,5 +1,6 @@
 import Link from "next/link";
 import clsx from "clsx";
+import { ArrowRight } from "lucide-react";
 import { bookHref, bookLabel, bookLabelHero, isExternalHref } from "@/data/site";
 
 /**
@@ -17,20 +18,34 @@ import { bookHref, bookLabel, bookLabelHero, isExternalHref } from "@/data/site"
  * outlined version for a section whose primary action is something else,
  * `variant="hero"` is the homepage hero's large gold button, which also
  * carries the hero's longer wording (`bookLabelHero`), and `variant="glow"`
- * is the lit gold button of the Lee Systems page's "Two paths" and "The
- * choice is yours" sections.
+ * is the lit gold button of the Lee Systems page's hero, "Two paths" and
+ * "The choice is yours" sections. `arrow` adds a trailing arrow that steps
+ * forward on hover, for a button that stands alone.
  */
 export function BookCallLink({
   className,
   variant = "primary",
   href = bookHref,
+  arrow = false,
 }: {
   className?: string;
   variant?: "primary" | "secondary" | "hero" | "glow";
   /** An in-page anchor such as `#contact-form`. Omit it to use `bookHref`. */
   href?: string;
+  arrow?: boolean;
 }) {
-  const label = variant === "hero" ? bookLabelHero : bookLabel;
+  const text = variant === "hero" ? bookLabelHero : bookLabel;
+  const label = arrow ? (
+    <>
+      {text}
+      <ArrowRight
+        className="h-5 w-5 shrink-0 transition-transform duration-200 motion-safe:group-hover:translate-x-1"
+        aria-hidden="true"
+      />
+    </>
+  ) : (
+    text
+  );
   const classes = clsx(
     {
       primary: "btn-ls-primary",
@@ -39,6 +54,7 @@ export function BookCallLink({
       glow: "btn-ls-glow",
     }[variant],
     "inline-flex min-h-11 items-center justify-center text-center",
+    arrow && "group gap-2.5",
     className
   );
 

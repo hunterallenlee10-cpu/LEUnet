@@ -32,17 +32,15 @@ const TAKE_ACTION_ID = "ls-take-action";
 /**
  * "The choice is yours", after The Real World's section of that name (the
  * owner's reference, 2026-09-29): a dim "Do nothing" card beside a lit
- * "Take action" card. It is the Lee Systems page's closing pitch, in place of
- * LeeSystemsFinalCTA (which the industry pages still use), and its button
- * scrolls to the form that follows it. The price slot
- * holds the free consultation call, the only price the site states, and the
- * fine print is the owner's pricing promise (`pricingPromise`).
+ * "Take action" card. It is the Lee Systems page's closing pitch, and its
+ * button scrolls to the form that follows it. The fine print is
+ * the owner's pricing promise (`pricingPromise`).
  *
- * Opposite the price, the "Do nothing" card shows money lost in red,
- * "−$$$ / every missed lead" (the owner's request, 2026-09-29). It is a sign,
- * not an amount: the site claims no figure for what a missed lead costs. Its
- * "Lose leads to whoever answers first" sits in the row the other card uses
- * for its terms.
+ * Under each heading is the owner's figure for that path (2026-09-29): doing
+ * nothing costs thousands, in red, and taking action can make tens of
+ * thousands, in gold. They are ranges, not results: the gain says "could",
+ * and neither names a client. The "Do nothing" card's "Lose leads to whoever
+ * answers first" sits in the row the other card uses for its terms.
  *
  * From 640px the cards share one set of rows (subgrid), so their dividers,
  * lists and buttons line up across the pair.
@@ -88,11 +86,11 @@ export function LeeSystemsChoiceSection() {
                   aria-hidden="true"
                   className="ls-loss text-4xl font-bold sm:text-5xl"
                 >
-                  −$$$
+                  −$1,000s
                 </span>
-                <span className="sr-only">Money lost</span>{" "}
-                <span className="whitespace-nowrap text-sm text-neutral-400">
-                  / every missed lead
+                <span className="sr-only">Thousands of dollars</span>
+                <span className="mt-2 block text-sm text-neutral-400">
+                  lost to missed leads
                 </span>
               </p>
             </div>
@@ -135,10 +133,16 @@ export function LeeSystemsChoiceSection() {
             </div>
             <div className="mt-6 border-t border-brass-400/20 pt-6">
               <p>
-                <span className="ls-price text-4xl font-bold sm:text-5xl">
-                  $0
-                </span>{" "}
-                <span className="text-sm text-neutral-400">/ consultation call</span>
+                <span
+                  aria-hidden="true"
+                  className="ls-price text-4xl font-bold sm:text-5xl"
+                >
+                  +$10,000s
+                </span>
+                <span className="sr-only">Tens of thousands of dollars</span>
+                <span className="mt-2 block text-sm text-neutral-400">
+                  you could win from the same leads
+                </span>
               </p>
             </div>
             <ul className="mx-auto mt-6 space-y-3 text-left text-sm text-neutral-200">

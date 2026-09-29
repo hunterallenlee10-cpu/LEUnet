@@ -3737,7 +3737,7 @@
   }
 }
 
-/* The gold of a price: "$0" here and on the "Take action" card. */
+/* The gold of a price: "$0" here, and "+$10,000s" on the "Take action" card. */
 .ls-price {
   background: linear-gradient(180deg, #f6e3ae 0%, #e0be78 45%, #c4913f 100%);
   -webkit-background-clip: text;
@@ -3745,7 +3745,7 @@
   color: transparent;
 }
 
-/* Its opposite: the red of money lost, "−$$$" on the "Do nothing" card. The
+/* Its opposite: the red of money lost, "−$1,000s" on the "Do nothing" card. The
    same three-stop fall as the gold, with a faint glow that a text-shadow
    can't give clipped text. */
 .ls-loss {

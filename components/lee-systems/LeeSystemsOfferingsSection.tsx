@@ -12,24 +12,24 @@ type Offering = {
 
 /**
  * Both halves carry the same weight on purpose (the owner's call,
- * 2026-09-29): same numeral, same length of copy, six points each, and the
- * same button, which scrolls to that offering's section further down the
- * page. The website points are the ones the websites section and the FAQ
- * already promise, so nothing here says more than they do.
+ * 2026-09-29): same numeral, six points each, and the same button, which
+ * scrolls to that offering's section further down the page. The website
+ * points are the ones the websites section and the FAQ already promise, so
+ * nothing here says more than they do.
  */
 const offerings: [Offering, Offering] = [
   {
     number: "01",
     role: "The system",
     title: "Business automation",
-    body: "Custom systems, built mostly with n8n and AI, that run the repetitive parts of your business the same way every time.",
+    body: "Custom systems built to streamline revenue into your business.",
     points: [
       "Answers your business calls 24/7 with an AI assistant",
       "Answers every new lead in under a minute",
       "Handles intake, booking and reminders",
       "Follows up until the customer gives an answer",
       "Requests reviews and chases invoices for you",
-      "Updates your CRM automatically",
+      "Updates you & your systems automatically",
     ],
     href: `#${leeSystemsAnchors.automation}`,
     cta: "Explore automation",
@@ -38,10 +38,10 @@ const offerings: [Offering, Offering] = [
     number: "02",
     role: "The storefront",
     title: "Website builds",
-    body: "Conversion-focused websites for small businesses: clear, fast on a phone, and built to turn visitors into inquiries.",
+    body: "Conversion-focused websites for businesses: clear, fast on a phone, and built to turn visitors into customers.",
     points: [
       "Mobile-first and fast on any phone",
-      "Lead forms that turn visitors into inquiries",
+      "Lead forms that turn visitors into customers",
       "Basic SEO so local customers can find you",
       "We draft the copy, you approve it",
       "You own your domain and your content",
@@ -174,13 +174,15 @@ function SpineNode() {
  * and curve into one node under the spine. The SVG is 22rem wide so its ends
  * sit under the two buttons: each is 14rem wide against the 4rem gap either
  * side of the spine, putting its centre 11rem out. `non-scaling-stroke`
- * keeps the lines a hairline across the stretched viewBox.
+ * keeps the lines a hairline across the stretched viewBox. The "Better
+ * together" line under the node came off at the owner's request (2026-09-29),
+ * and with it the phone layout, where only the node was left.
  */
 function Join() {
   return (
-    <div className="mt-14 flex flex-col items-center text-center lg:mt-4">
+    <div className="mt-4 hidden flex-col items-center lg:flex">
       <svg
-        className="hidden h-24 w-[22rem] lg:block"
+        className="h-24 w-[22rem]"
         viewBox="0 0 100 96"
         preserveAspectRatio="none"
         fill="none"
@@ -195,16 +197,6 @@ function Join() {
       </svg>
 
       <SpineNode />
-      <p className="mt-5 mb-3 text-xs font-semibold tracking-[0.2em] text-brass-300 uppercase">
-        Better together
-      </p>
-      <p className="mx-auto max-w-2xl text-xl leading-relaxed text-white md:text-2xl">
-        Every inquiry your website captures gets an instant reply, reaches your
-        phone and is followed up on schedule.
-      </p>
-      <p className="mt-4 text-sm text-neutral-400">
-        Every project starts with a free consultation call.
-      </p>
     </div>
   );
 }

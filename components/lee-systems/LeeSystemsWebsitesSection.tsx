@@ -30,7 +30,7 @@ export function LeeSystemsWebsitesSection() {
             </h2>
             <p className="text-lg leading-relaxed text-neutral-300">
               New build or redesign, one page or twenty, every site is built to
-              turn visitors into inquiries.
+              turn visitors into customers.
             </p>
           </div>
 
