@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BookOpen } from "lucide-react";
+import { BookOpen, MousePointerClick } from "lucide-react";
 import { pillarIcons } from "@/components/business-mastery/bmPillarIcons";
 
 interface Pillar {
@@ -12,7 +12,8 @@ interface Pillar {
 
 /**
  * What membership includes, from lg up: the pillars as a numbered list of
- * tabs beside one large panel. It steps through them on its own, a gold bar
+ * tabs beside one large panel, under a one-line hint that the list can be
+ * clicked through. It steps through them on its own, a gold bar
  * filling under the current one, pausing while the pointer or focus is on it
  * and stopping for good once the visitor picks one. It starts only once on
  * screen, and under reduced motion it never advances by itself.
@@ -87,52 +88,72 @@ export function BmProgramShowcase({ pillars }: { pillars: readonly Pillar[] }) {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHovering(false);
       }}
     >
-      <div role="tablist" aria-orientation="vertical" aria-label="What membership includes">
-        {pillars.map((pillar, i) => {
-          const selected = i === active;
-          return (
-            <button
-              key={pillar.id}
-              ref={(el) => {
-                tabRefs.current[i] = el;
-              }}
-              id={`bm-pillar-tab-${pillar.id}`}
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              aria-controls="bm-pillar-panel"
-              tabIndex={selected ? 0 : -1}
-              onClick={() => choose(i)}
-              onKeyDown={(e) => onKeyDown(e, i)}
-              className="group relative flex w-full items-baseline gap-5 border-t border-white/10 py-5 text-left transition-colors last:border-b focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
-            >
-              <span
-                className={`font-mono text-sm tabular-nums transition-colors ${
-                  selected ? "text-amber-400" : "text-neutral-600 group-hover:text-neutral-400"
-                }`}
+      <div>
+        {/* The directory's hint (the owner's request, 2026-09-29): says the
+            list is clickable, since it also steps through on its own. The icon
+            pulses until the visitor picks one. */}
+        <p
+          id="bm-pillar-hint"
+          className="mb-4 flex items-center gap-2.5 text-sm font-semibold text-neutral-300"
+        >
+          <MousePointerClick
+            className={`h-4 w-4 text-amber-400 ${picked ? "" : "motion-safe:animate-pulse"}`}
+            aria-hidden="true"
+          />
+          Click through each one to see what&apos;s included
+        </p>
+        <div
+          role="tablist"
+          aria-orientation="vertical"
+          aria-label="What membership includes"
+          aria-describedby="bm-pillar-hint"
+        >
+          {pillars.map((pillar, i) => {
+            const selected = i === active;
+            return (
+              <button
+                key={pillar.id}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
+                id={`bm-pillar-tab-${pillar.id}`}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                aria-controls="bm-pillar-panel"
+                tabIndex={selected ? 0 : -1}
+                onClick={() => choose(i)}
+                onKeyDown={(e) => onKeyDown(e, i)}
+                className="group relative flex w-full items-baseline gap-5 border-t border-white/10 py-5 text-left transition-colors last:border-b focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
               >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span
-                className={`text-xl font-bold tracking-tight transition-colors xl:text-2xl ${
-                  selected ? "text-white" : "text-neutral-500 group-hover:text-neutral-300"
-                }`}
-              >
-                {pillar.title}
-              </span>
-              {/* The timer: fills over the dwell time, then hands on. */}
-              {selected && (
                 <span
-                  key={`${active}-${cycling}`}
-                  aria-hidden="true"
-                  className={`bm-tab-progress ${cycling ? "" : "bm-tab-progress--full"}`}
-                  style={{ animationPlayState: running ? "running" : "paused" }}
-                  onAnimationEnd={() => setActive((a) => (a + 1) % pillars.length)}
-                />
-              )}
-            </button>
-          );
-        })}
+                  className={`font-mono text-sm tabular-nums transition-colors ${
+                    selected ? "text-amber-400" : "text-neutral-600 group-hover:text-neutral-400"
+                  }`}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span
+                  className={`text-xl font-bold tracking-tight transition-colors xl:text-2xl ${
+                    selected ? "text-white" : "text-neutral-500 group-hover:text-neutral-300"
+                  }`}
+                >
+                  {pillar.title}
+                </span>
+                {/* The timer: fills over the dwell time, then hands on. */}
+                {selected && (
+                  <span
+                    key={`${active}-${cycling}`}
+                    aria-hidden="true"
+                    className={`bm-tab-progress ${cycling ? "" : "bm-tab-progress--full"}`}
+                    style={{ animationPlayState: running ? "running" : "paused" }}
+                    onAnimationEnd={() => setActive((a) => (a + 1) % pillars.length)}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div
