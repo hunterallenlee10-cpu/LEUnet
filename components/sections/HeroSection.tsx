@@ -4,19 +4,26 @@ import { leeSystemsRoutes } from "@/data/lee-systems";
 import { businessMasteryAction } from "@/data/business-mastery";
 import { site } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
+import { HeroStage } from "@/components/sections/HeroStage";
+import { HeroVsl } from "@/components/sections/HeroVsl";
 
 /**
  * The homepage hero. First a full-screen headline, line and button over a
  * field of gold dots (the owner's design, 2026-09-28, which replaced the LEU
  * logo and the "Hire us to automate your business, or learn to build your
- * own." headline). Then "Split Ventures": the two ways to work with LEU as two
- * halves, hire Lee Systems Co. (first, and the brighter of the two) or learn
- * with Business Mastery, each with its own buttons, and the statistics ribbon
- * along the bottom edge.
+ * own." headline). A few seconds in, the animation of what Lee Systems Co.
+ * sets up plays in the headline's place, then hands back to it with a
+ * "Replay animation" button (the owner's plan, 2026-09-29: HeroVsl.tsx, and
+ * heroVslPlayer.ts for when it plays). Then "Split Ventures": the two ways to
+ * work with LEU as two halves, hire Lee Systems Co. (first, and the brighter
+ * of the two) or learn with Business Mastery, each with its own buttons, and
+ * the statistics ribbon along the bottom edge.
  *
- * The styling lives in app/globals.css as `.hero-split-*` (plus the shared
- * `.leu-grain`); this file owns the markup and the copy. Every movement in it
- * stops under prefers-reduced-motion in that block.
+ * The styling lives in app/globals.css as `.hero-split-*` and, for the
+ * animation, `.hero-vsl` (plus the shared `.leu-grain`); this file owns the
+ * markup and the copy. Every movement in it stops under
+ * prefers-reduced-motion (the end of that block), and the animation waits
+ * for its "Play animation" button instead of starting by itself.
  */
 export function HeroSection() {
   return (
@@ -24,27 +31,63 @@ export function HeroSection() {
       id={sectionIds.hero}
       aria-labelledby="hero-title"
       // The header is `fixed`, so this section starts at y=0 underneath it;
-      // `.hero-split-top` reserves the header's band in its padding. Heights
-      // are floors, never locks, so content too tall for the space grows the
-      // page rather than being clipped by `overflow-hidden`. `isolate` keeps
-      // the grain's `overlay` blend resolving against the hero alone.
+      // `.hero-split-copy` and `.hero-vsl` reserve the header's band in their
+      // padding. Heights are floors, never locks, so content too tall for
+      // the space grows the page rather than being clipped by
+      // `overflow-hidden`. `isolate` keeps the grain's `overlay` blend
+      // resolving against the hero alone.
       className="hero-split relative isolate flex flex-col overflow-hidden"
     >
-      <div className="hero-split-top">
-        {/* The owner's headline, capitalized as they wrote it. The space
-            before the accent is real text, so it reads "with AI". */}
-        <h1 id="hero-title" className="hero-split-title">
-          Elevate Your Business with{" "}
-          <span className="hero-split-accent">AI</span>
-        </h1>
-        <p className="hero-split-lede">
-          Automate how your business talks, sells, and grows with AI solutions
-          built to scale your brand.
-        </p>
-        <div className="hero-split-cta">
-          <BookCallLink variant="hero" />
+      <HeroStage>
+        <div className="hero-split-copy" data-hero-copy>
+          {/* The owner's headline, capitalized as they wrote it. The space
+              before the accent is real text, so it reads "with AI". */}
+          <h1 id="hero-title" className="hero-split-title">
+            Elevate Your Business with{" "}
+            <span className="hero-split-accent">AI</span>
+          </h1>
+          <p className="hero-split-lede">
+            Automate how your business talks, sells, and grows with AI
+            solutions built to scale your brand.
+          </p>
+          <div className="hero-split-cta">
+            <BookCallLink variant="hero" />
+            {/* Shown by the player: "Replay animation" once the animation
+                has played, or "Play animation" from the start for people
+                whose device asks for less motion. Without script it stays
+                hidden, since it could do nothing. */}
+            <button
+              type="button"
+              className="hero-replay"
+              data-hero-replay
+              data-kind="replay"
+              hidden
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  className="hero-replay-play"
+                  d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"
+                />
+                <g className="hero-replay-again">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </g>
+              </svg>
+              <span data-hero-replay-label>Replay animation</span>
+            </button>
+          </div>
         </div>
-      </div>
+        <HeroVsl />
+      </HeroStage>
 
       {/* Kept as one paragraph so it reads as a sentence pair; the spans
           only split it into a brass eyebrow and a larger line below. The
