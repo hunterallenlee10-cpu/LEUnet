@@ -3745,6 +3745,17 @@
   color: transparent;
 }
 
+/* Its opposite: the red of money lost, "−$$$" on the "Do nothing" card. The
+   same three-stop fall as the gold, with a faint glow that a text-shadow
+   can't give clipped text. */
+.ls-loss {
+  background: linear-gradient(180deg, #fecaca 0%, #f87171 45%, #dc2626 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgb(239 68 68 / 0.35));
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ls-paths-panel[data-status="ringing"] .ls-paths-orb::before,
   .ls-paths-panel[data-status="ringing"] .ls-paths-orb::after,

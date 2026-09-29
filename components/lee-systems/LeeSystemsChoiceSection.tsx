@@ -38,6 +38,12 @@ const TAKE_ACTION_ID = "ls-take-action";
  * holds the free consultation call, the only price the site states, and the
  * fine print is the owner's pricing promise (`pricingPromise`).
  *
+ * Opposite the price, the "Do nothing" card shows money lost in red,
+ * "−$$$ / every missed lead" (the owner's request, 2026-09-29). It is a sign,
+ * not an amount: the site claims no figure for what a missed lead costs. Its
+ * "Lose leads to whoever answers first" sits in the row the other card uses
+ * for its terms.
+ *
  * From 640px the cards share one set of rows (subgrid), so their dividers,
  * lists and buttons line up across the pair.
  */
@@ -77,8 +83,17 @@ export function LeeSystemsChoiceSection() {
               <p className="mt-1 text-sm text-neutral-500">Keep doing it by hand</p>
             </div>
             <div className="mt-6 border-t border-white/10 pt-6">
-              <p className="text-balance text-lg font-semibold text-neutral-500 sm:text-xl">
-                Lose leads to whoever answers first
+              <p>
+                <span
+                  aria-hidden="true"
+                  className="ls-loss text-4xl font-bold sm:text-5xl"
+                >
+                  −$$$
+                </span>
+                <span className="sr-only">Money lost</span>{" "}
+                <span className="whitespace-nowrap text-sm text-neutral-400">
+                  / every missed lead
+                </span>
               </p>
             </div>
             <ul className="mx-auto mt-6 space-y-3 text-left text-sm text-neutral-400">
@@ -93,7 +108,11 @@ export function LeeSystemsChoiceSection() {
               ))}
             </ul>
             {/* The row the other card uses for its terms. */}
-            <div aria-hidden="true" />
+            <div className="mt-6 border-t border-white/10 pt-5">
+              <p className="text-balance font-semibold text-neutral-400">
+                Lose leads to whoever answers first
+              </p>
+            </div>
             <div className="mt-8">
               <DoItYourWayButton nudgeId={TAKE_ACTION_ID} />
             </div>
