@@ -1617,6 +1617,29 @@
   animation: lsScanLabel 10.5s ease-in-out infinite;
 }
 
+/* The spine of the main page's "What we do" spread
+   (LeeSystemsOfferingsSection): a track the height of the spine, with the
+   packet on its bottom edge, slid from one track-height above to rest, so the
+   packet runs top to bottom whatever height the two halves make the spine. */
+@keyframes lsSpineTrack {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+.ls-spine-track {
+  animation: lsSpineTrack 5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ls-dash,
   .ls-packet,
@@ -1624,8 +1647,14 @@
   .ls-scan-track,
   .ls-scan-dot,
   .ls-scan-badge,
-  .ls-scan-label {
+  .ls-scan-label,
+  .ls-spine-track {
     animation: none;
+  }
+
+  /* Still, the packet would sit at the foot of the spine as a stray mark. */
+  .ls-spine-track {
+    display: none;
   }
 
   .ls-packet {

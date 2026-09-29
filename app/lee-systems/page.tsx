@@ -4,7 +4,6 @@ import { MainFooter } from "@/components/layout/MainFooter";
 import { LeeSystemsHeroSection } from "@/components/lee-systems/LeeSystemsHeroSection";
 import { LeeSystemsTwoPathsSection } from "@/components/lee-systems/LeeSystemsTwoPathsSection";
 import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
-import { LeeSystemsAutomatesSection } from "@/components/lee-systems/LeeSystemsAutomatesSection";
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { LeeSystemsHowItWorksSection } from "@/components/lee-systems/LeeSystemsHowItWorksSection";
@@ -16,11 +15,12 @@ import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
  * The Lee Systems Co. main page. It replaced the Lee Marketing Mastery hub at
  * /lee-marketing-mastery, which now redirects here (next.config.mjs).
  *
- * The order sells automation first: the two paths (an example lead with and
- * without the systems), offerings with automation as the large card, then
- * what gets automated, who it is for, recent work, how it works, and the
- * choice between doing nothing and a free call. Websites appear once, as the
- * smaller card, and have their own page. The two paths and the choice follow
+ * The order: the two paths (an example lead with and without the systems),
+ * the two offerings side by side at equal weight, who it is for, recent work,
+ * how it works, and the choice between doing nothing and a free call.
+ * Automation and websites each have their own page. "What gets automated"
+ * (LeeSystemsAutomatesSection) is off the page for now at the owner's request
+ * (2026-09-29); the component is kept so it can go back in. The two paths and the choice follow
  * The Real World's page (the owner's reference, 2026-09-29).
  */
 const title = "Lee Systems Co. | AI Automation & Websites for Business Owners";
@@ -103,7 +103,6 @@ export default function LeeSystemsPage() {
         <LeeSystemsHeroSection />
         <LeeSystemsTwoPathsSection />
         <LeeSystemsOfferingsSection />
-        <LeeSystemsAutomatesSection />
         <LeeSystemsIndustriesSection />
         <RecentWorkSection />
         <LeeSystemsHowItWorksSection />
