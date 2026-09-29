@@ -25,19 +25,19 @@
 
 /* The headline block: a screen tall from 640px up (short of that on very
    tall screens), and a little less on a phone, so the two paths show under
-   it. Content sits a little below the middle because the fixed header covers
-   its top 80px. `isolation` keeps the dots and the glow behind the words
-   without leaving this block. */
+   it. It holds two layers in one grid cell: the headline, and the animation
+   that plays in its place (`.hero-vsl`, in the next block). Both are laid
+   out from the start, so the block is as tall as the taller of the two and
+   never changes height as they swap. `isolation` keeps the dots and the glow
+   behind the words without leaving this block. */
 .hero-split-top {
   position: relative;
   z-index: 1;
   isolation: isolate;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
   min-height: 88svh;
-  padding: 7rem 1.25rem 5rem;
   text-align: center;
 }
 
@@ -45,6 +45,19 @@
   .hero-split-top {
     min-height: min(100svh, 62rem);
   }
+}
+
+/* The headline, its line and its buttons. Content sits a little below the
+   middle because the fixed header covers the block's top 80px. */
+.hero-split-copy {
+  grid-area: 1 / 1;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 7rem 1.25rem 5rem;
 }
 
 /* The field of gold dots, and a warm light from the top edge where the header
@@ -122,6 +135,12 @@
 }
 
 .hero-split-cta {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem 1rem;
   margin-top: clamp(2rem, 5vw, 4.25rem);
 }
 
@@ -147,6 +166,67 @@
 .btn-hero:focus-visible {
   outline: 2px solid var(--color-brass-300);
   outline-offset: 3px;
+}
+
+/* "Replay animation", once the animation has played ("Play animation" from
+   the start under reduced motion): beside the booking button, and quieter
+   than it. On a phone the two don't fit side by side, so it hangs under the
+   booking button in the room the block keeps below its words, and showing
+   it moves nothing on the page. */
+.hero-replay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: fit-content;
+  min-height: 3.5rem;
+  margin: 0.875rem auto 0;
+  /* the booking button's height, less this one's border */
+  padding: calc(1rem - 1px) 1.75rem;
+  border: 1px solid rgb(212 168 87 / 0.55);
+  border-radius: 0.75rem;
+  background: rgb(12 10 6 / 0.55);
+  color: var(--color-brass-200);
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+@media (min-width: 640px) {
+  .hero-replay {
+    position: static;
+    margin: 0;
+  }
+}
+
+.hero-replay:hover {
+  border-color: var(--color-brass-300);
+  background: rgb(212 168 87 / 0.12);
+}
+
+.hero-replay:focus-visible {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 3px;
+}
+
+.hero-replay svg {
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+}
+
+.hero-replay[data-kind="play"] .hero-replay-again,
+.hero-replay:not([data-kind="play"]) .hero-replay-play {
+  display: none;
 }
 
 /* The line that introduces the two paths: a small brass eyebrow between
@@ -606,6 +686,1165 @@
   .hero-split-half::before {
     transition: none;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Homepage hero — the animation (the owner's "VSL", 2026-09-29)
+   Used only by components/sections/HeroVsl.tsx, which draws it, and
+   heroVslEngine.ts and heroVslPlayer.ts beside it, which run it.
+
+   A hologram of what Lee Systems Co. sets up, about 30 seconds long: coins
+   leak out of three gaps in a pipe, the automations seal them, a website
+   adds a stream, and it all folds into the bank for the end card. It plays in
+   the hero's first screen, in the same grid cell as the headline (see
+   `.hero-split-top`), on the hero's own ground and dots rather than in a
+   frame of its own.
+
+   Everything is sized from the width it is given. The stage is 4:5 on phones
+   and 16:9 from 860px of width (the `holo` container). The hologram is drawn
+   in its own 480 x 540 units and scaled by `--holo-k`, which the engine sets
+   from its width, so its lines stay one screen pixel wide at any size. The
+   engine sets every moving value itself, frame by frame; nothing here
+   animates on its own.
+   --------------------------------------------------------------------------- */
+
+/* The layer: under the fixed header, and hidden until its turn (the player
+   fades it in and out). */
+.hero-vsl {
+  grid-area: 1 / 1;
+  align-self: stretch;
+  justify-self: stretch;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5.25rem 1rem 1rem;
+  text-align: left;
+  visibility: hidden;
+  opacity: 0;
+}
+
+@media (min-width: 640px) {
+  .hero-vsl {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-vsl {
+    padding-inline: 2rem;
+  }
+}
+
+/* The site's colours, under the names the animation uses, plus a muted red
+   for the money-lost count. */
+.holo {
+  --ink: #fff;
+  --ink-2: #d4d4d4;
+  --ink-3: #a1a1a1;
+  --line: rgb(255 255 255 / 0.1);
+  --brass-200: var(--color-brass-200);
+  --brass-300: var(--color-brass-300);
+  --brass-400: var(--color-brass-400);
+  --loss: #d98a7e;
+  container: holo / inline-size;
+  position: relative;
+  width: 100%;
+  max-width: 80rem;
+}
+
+/* The stage and the pause button under it fit the first screen: its height
+   (as `.hero-split-top` sets it), less the header's band above, the button
+   and a little room below, 10rem in all. */
+.holo-anim {
+  position: relative;
+  max-width: max(17.5rem, min(35rem, calc((88svh - 10rem) * 0.8)));
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .holo-anim {
+    max-width: max(
+      17.5rem,
+      min(35rem, calc((min(100svh, 62rem) - 10rem) * 0.8))
+    );
+  }
+}
+
+/* No frame and no ground of its own: the hologram plays on the hero's.
+   (A floor glow here would end in a straight line along the stage's bottom
+   edge.) */
+.holo-stage {
+  container: holostage / inline-size;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+
+.holo-visual {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  height: 77%;
+}
+
+/* The smallest phones: a touch less hologram, so a fix's bubble fits between
+   the headline and the icons at the top of the pipe. */
+@container holo (max-width: 319px) {
+  .holo-visual {
+    height: 75%;
+  }
+}
+
+.holo-box {
+  container: holobox / inline-size;
+  position: relative;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 8 / 9;
+  margin-inline: auto;
+}
+
+.holo-art {
+  position: absolute;
+  inset: 0;
+}
+
+/* The headlines: the band above the hologram on phones. */
+.holo-caps {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 6;
+  display: grid;
+  align-items: center;
+  height: 23%;
+  padding: 0.75rem 1.25rem 0;
+  text-align: center;
+  pointer-events: none;
+}
+
+.holo-cap {
+  grid-area: 1 / 1;
+  color: var(--ink);
+  font-size: clamp(1.25rem, 6.3cqw, 1.75rem);
+  line-height: 1.18;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.holo-cap > span {
+  display: block;
+}
+
+.holo-cap em {
+  font-style: normal;
+  color: var(--brass-400);
+}
+
+.holo-cap .holo-cap-b {
+  margin-top: 0.4em;
+  color: var(--ink-2);
+  font-size: 0.74em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* The end card: the figures, the promise and the links. */
+.holo-end {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1rem 1rem 2rem;
+  pointer-events: none;
+}
+
+.holo-results {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+}
+
+.holo-stats {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  gap: 0.875rem 1.25rem;
+  width: 100%;
+  max-width: 24rem;
+  text-align: center;
+}
+
+.holo-stats::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: -1;
+  width: 80%;
+  height: 75%;
+  transform: translate(-50%, -14%);
+  background: radial-gradient(closest-side, rgb(212 168 87 / 0.22), transparent);
+  opacity: var(--holo-glow, 1);
+  pointer-events: none;
+}
+
+.holo-stat--lead {
+  grid-column: 1 / -1;
+}
+
+.holo-stat b {
+  display: block;
+  color: var(--brass-400);
+  font-size: clamp(1.375rem, 6.6cqw, 1.75rem);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.holo-stat--lead b {
+  font-size: clamp(2.25rem, 10.6cqw, 2.875rem);
+  text-shadow: 0 0 28px rgb(212 168 87 / 0.35);
+}
+
+.holo-num {
+  display: inline-block;
+  text-align: right;
+}
+
+.holo-stat-label {
+  display: block;
+  margin-top: 0.5em;
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.holo-close {
+  display: grid;
+  justify-items: center;
+  gap: 0.875rem;
+  text-align: center;
+}
+
+.holo-trust {
+  color: var(--ink);
+  font-size: 1.125rem;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.holo-nb {
+  white-space: nowrap;
+}
+
+/* The booking button (BookCallLink) over the two text links. */
+.holo-ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+  pointer-events: auto;
+}
+
+.holo-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+  pointer-events: inherit;
+}
+
+.holo-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  border-radius: 0.25rem;
+  color: var(--brass-300);
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+
+.holo-link:hover {
+  text-decoration: underline;
+}
+
+.holo-link:focus-visible {
+  outline: 2px solid var(--brass-300);
+  outline-offset: 3px;
+}
+
+/* Until the last beat the end card's links are see-through and can't be
+   clicked. A keyboard user who tabs to one skips straight to the end. */
+.holo.is-ready .holo-stage:not([data-cta="on"]) .holo-ctas {
+  pointer-events: none;
+}
+
+/* Wide: the words on the left, the hologram on the right. */
+@container holo (min-width: 860px) {
+  .holo-anim {
+    max-width: max(860px, calc((min(100svh, 62rem) - 10rem) * 16 / 9));
+  }
+
+  .holo-stage {
+    display: grid;
+    grid-template-columns: 42fr 58fr;
+    aspect-ratio: 16 / 9;
+  }
+
+  .holo-visual {
+    position: relative;
+    inset: auto;
+    grid-area: 1 / 2;
+    display: grid;
+    place-items: center;
+    height: auto;
+  }
+
+  .holo-box {
+    height: 94%;
+  }
+
+  .holo-caps {
+    position: relative;
+    inset: auto;
+    grid-area: 1 / 1;
+    height: auto;
+    padding: 0 1rem 0 clamp(2rem, 5.2cqw, 4.5rem);
+    text-align: left;
+  }
+
+  .holo-cap {
+    font-size: clamp(1.75rem, 3.45cqw, 2.75rem);
+    line-height: 1.12;
+  }
+
+  .holo-cap .holo-cap-b {
+    font-size: 0.6em;
+    margin-top: 0.55em;
+  }
+
+  .holo-end {
+    display: contents;
+  }
+
+  /* Centred in the space between the name at the top and the bank's roof as
+     the end card holds (after the slow push-in): that middle is about a
+     third of the way down the stage. The bottom margin lifts the centred
+     block's middle to it, however tall the block is. */
+  .holo-results {
+    grid-area: 1 / 2;
+    align-self: center;
+    justify-self: center;
+    z-index: 7;
+    width: auto;
+    margin-bottom: 18.3cqw;
+  }
+
+  .holo-stats {
+    max-width: none;
+    width: auto;
+    column-gap: 3.2cqw;
+    row-gap: 1.9cqw;
+  }
+
+  .holo-stat b {
+    font-size: 3.1cqw;
+  }
+
+  .holo-stat--lead b {
+    font-size: 5.8cqw;
+  }
+
+  .holo-stat-label {
+    font-size: max(0.875rem, 1.2cqw);
+  }
+
+  .holo-close {
+    grid-area: 1 / 1;
+    align-self: center;
+    z-index: 7;
+    justify-items: start;
+    gap: 1.5rem;
+    padding: 0 1rem 0 clamp(2rem, 5.2cqw, 4.5rem);
+    text-align: left;
+  }
+
+  .holo-trust {
+    max-width: 15em;
+    font-size: clamp(1.375rem, 2.35cqw, 1.875rem);
+    line-height: 1.2;
+  }
+
+  .holo-ctas {
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .holo-links {
+    align-items: flex-start;
+  }
+}
+
+/* The smallest phones: the end card's figures, promise, button and two links
+   only fit with a little less space around and between them. The narrower
+   side padding also keeps the promise to two lines. Anything narrower still
+   is scaled to fit as a whole (fitEndCard in the engine). */
+@container holo (max-width: 319px) {
+  .holo-end {
+    gap: 0.625rem;
+    padding: 0.75rem;
+  }
+
+  .holo-stats {
+    row-gap: 0.5rem;
+  }
+
+  .holo-close {
+    gap: 0.5rem;
+  }
+}
+
+/* ---- the hologram (all of it decorative) ---- */
+
+.holo-cone,
+.holo-cone-boost {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(3.75% 0, 96.25% 0, 66.25% 93.33%, 33.75% 93.33%);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 28%,
+    #000 72%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 28%,
+    #000 72%,
+    transparent 100%
+  );
+  transform-origin: 50% 93.33%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.holo-cone {
+  background: linear-gradient(
+    to top,
+    rgb(212 168 87 / 0.2),
+    rgb(212 168 87 / 0.07) 45%,
+    rgb(212 168 87 / 0) 92%
+  );
+}
+
+.holo-cone-boost {
+  opacity: 0;
+  background: linear-gradient(
+    to top,
+    rgb(235 211 160 / 0.2),
+    rgb(212 168 87 / 0.06) 55%,
+    rgb(212 168 87 / 0) 95%
+  );
+}
+
+.holo-scan {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 200%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(235 211 160 / 0.075) 0 1px,
+    transparent 1px 4px
+  );
+  will-change: transform;
+}
+
+.holo-base-glow {
+  position: absolute;
+  left: 50%;
+  top: 93.7%;
+  width: 64%;
+  height: 13%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    closest-side,
+    rgb(255 244 214 / 0.55),
+    rgb(235 211 160 / 0.28) 38%,
+    rgb(212 168 87 / 0.1) 62%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.holo-dust {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.holo-lines {
+  position: absolute;
+  inset: 0;
+}
+
+/* The line art. Strokes are one screen pixel at any size. The glow is a
+   second, wider and fainter copy of the same drawing (the <use>), so no
+   filter is needed. */
+.hv {
+  --hv-sw: calc(1px / var(--holo-k, 1));
+  --hv-so: 0.88;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: var(--brass-400);
+}
+
+.hv-glow {
+  --hv-sw: calc(5px / var(--holo-k, 1));
+  --hv-so: 0.12;
+}
+
+.hv-core {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--hv-sw);
+  stroke-opacity: var(--hv-so);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hv-draw {
+  stroke-dasharray: 1;
+  stroke-linecap: butt;
+}
+
+.hv-dim {
+  stroke-opacity: calc(var(--hv-so) * 0.45);
+}
+
+.hv-glass {
+  stroke: none;
+}
+
+.hv-fill {
+  fill: var(--brass-300);
+  stroke: none;
+}
+
+.hv-fill-hi {
+  fill: var(--brass-200);
+  stroke: none;
+}
+
+.hv-fill-dim {
+  fill: var(--brass-400);
+  fill-opacity: 0.45;
+  stroke: none;
+}
+
+.hv-break {
+  stroke: var(--brass-200);
+}
+
+.hv-seal {
+  stroke: var(--brass-200);
+  stroke-width: calc(var(--hv-sw) * 2);
+  stroke-opacity: 1;
+  opacity: 0;
+}
+
+.hv-wave,
+.hv-watch,
+.hv-bit,
+.hv-web-part {
+  opacity: 0;
+}
+
+.hv-word {
+  fill: var(--brass-300);
+  stroke: none;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-anchor: middle;
+}
+
+.hv-medal {
+  fill: var(--brass-200);
+  stroke: none;
+  font-size: 9.5px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+/* The bank's gold and the soft lights, drawn in the hologram's own 480 x 540
+   units and scaled to fit. */
+.holo-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 480px;
+  height: 540px;
+  transform-origin: 0 0;
+  transform: scale(var(--holo-k, 1));
+  pointer-events: none;
+}
+
+.holo-meterbox {
+  position: absolute;
+  inset: 0;
+}
+
+.holo-bank-glow {
+  position: absolute;
+  left: 110px;
+  top: 310px;
+  width: 260px;
+  height: 190px;
+  background: radial-gradient(closest-side, rgb(212 168 87 / 0.3), transparent);
+  opacity: 0;
+}
+
+.holo-vault {
+  position: absolute;
+  left: 158px;
+  top: 390px;
+  width: 164px;
+  height: 52px;
+  overflow: hidden;
+}
+
+.holo-vault-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(243 220 165 / 0.85),
+    rgb(212 168 87 / 0.6) 40%,
+    rgb(140 105 40 / 0.5)
+  );
+  opacity: 0;
+  transform: translateY(52px);
+  will-change: transform, opacity;
+}
+
+.holo-vault-line {
+  position: absolute;
+  left: 158px;
+  top: 388.5px;
+  width: 164px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #fff3d6 12%,
+    #fff3d6 88%,
+    transparent
+  );
+  box-shadow: 0 0 10px 2px rgb(235 211 160 / 0.55);
+  opacity: 0;
+  transform: translateY(52px);
+  will-change: transform, opacity;
+}
+
+.holo-medal-glow {
+  position: absolute;
+  left: 216px;
+  top: 333px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgb(255 246 222 / 0.95),
+    rgb(235 211 160 / 0.45) 45%,
+    transparent
+  );
+  opacity: 0;
+}
+
+.holo-bank-flash {
+  position: absolute;
+  left: 110px;
+  top: 320px;
+  width: 260px;
+  height: 160px;
+  background: radial-gradient(
+    closest-side,
+    rgb(255 246 222 / 0.55),
+    rgb(235 211 160 / 0.2) 50%,
+    transparent
+  );
+  opacity: 0;
+}
+
+.holo-pulse {
+  position: absolute;
+  left: 221px;
+  top: 0;
+  width: 38px;
+  height: 96px;
+  border-radius: 19px;
+  background: radial-gradient(
+    closest-side,
+    #fff6de,
+    rgb(255 240 205 / 0.85) 30%,
+    rgb(235 211 160 / 0.35) 62%,
+    transparent
+  );
+  box-shadow: 0 0 26px 6px rgb(212 168 87 / 0.4);
+  opacity: 0;
+}
+
+.holo-pipe-glow {
+  position: absolute;
+  left: 221px;
+  top: 120px;
+  width: 38px;
+  height: 210px;
+  background: linear-gradient(
+    to right,
+    rgb(212 168 87 / 0.28),
+    rgb(235 211 160 / 0.07) 50%,
+    rgb(212 168 87 / 0.28)
+  );
+  opacity: 0;
+}
+
+.holo-flash,
+.holo-ring {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.holo-flash {
+  background: radial-gradient(
+    closest-side,
+    rgb(255 246 222 / 0.9),
+    rgb(235 211 160 / 0.35) 50%,
+    transparent
+  );
+}
+
+.holo-ring {
+  border: 1px solid rgb(235 211 160 / 0.8);
+}
+
+.holo-lift {
+  position: absolute;
+  left: 160px;
+  top: 8px;
+  width: 160px;
+  height: 330px;
+  background: linear-gradient(
+    to top,
+    rgb(243 220 165 / 0.6),
+    rgb(212 168 87 / 0.16) 50%,
+    transparent 88%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 32%,
+    #000 68%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 32%,
+    #000 68%,
+    transparent
+  );
+  opacity: 0;
+  transform-origin: 50% 100%;
+}
+
+/* The coins: discs of light with a faint $ etched in. */
+.holo-coins {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.holo-coin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--coin, 18px);
+  height: var(--coin, 18px);
+  margin: calc(var(--coin, 18px) / -2) 0 0 calc(var(--coin, 18px) / -2);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 36% 30%,
+    #fff5dc 0 9%,
+    #ebd3a0 26%,
+    #d4a857 56%,
+    #a47a34 86%,
+    #8c6928
+  );
+  box-shadow:
+    0 0 calc(var(--coin, 18px) * 0.6) rgb(212 168 87 / 0.5),
+    inset 0 0 0 calc(var(--coin, 18px) * 0.08) rgb(140 105 40 / 0.45),
+    inset 0 0 0 calc(var(--coin, 18px) * 0.13) rgb(255 240 205 / 0.25);
+  color: rgb(110 80 28 / 0.6);
+  font-size: calc(var(--coin, 18px) * 0.58);
+  line-height: 1;
+  font-weight: 700;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.holo-coin::before {
+  content: "$";
+}
+
+/* The words inside the hologram. */
+.holo-wordmark-wrap {
+  position: absolute;
+  inset: 6.3% 0 auto;
+  z-index: 5;
+  text-align: center;
+  transform: translateY(-50%);
+}
+
+.holo-wordmark {
+  display: inline-block;
+  color: var(--brass-200);
+  font-size: max(0.72rem, 3.1cqw);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
+  line-height: 1;
+  white-space: nowrap;
+  text-shadow: 0 0 14px rgb(212 168 87 / 0.6);
+}
+
+/* Each gap's label sits just above it and grows upward if it wraps. */
+.holo-tag {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  align-items: end;
+  width: max-content;
+  max-width: max(40%, 6.5rem);
+  font-size: max(0.78rem, 2.75cqw);
+  line-height: 1.2;
+  font-weight: 500;
+  text-wrap: balance;
+  text-shadow:
+    0 0 10px #000,
+    0 0 3px #000;
+}
+
+.holo-tag > span {
+  grid-area: 1 / 1;
+}
+
+.holo-tag--l,
+.holo-tag--r {
+  bottom: calc(100% - var(--yb));
+}
+
+.holo-tag--l {
+  right: 58.33%;
+  justify-items: end;
+  text-align: right;
+}
+
+/* The smallest phones: a two-line name for the first gap would reach the
+   phone icon above it, so it sits a little further out. */
+@container holo (max-width: 319px) {
+  .holo-tag--top {
+    right: 63%;
+  }
+}
+
+.holo-tag--r {
+  left: 58.33%;
+}
+
+.holo-tag .is-problem {
+  color: var(--ink-3);
+}
+
+.holo-tag .is-fix {
+  color: var(--brass-300);
+  opacity: 0;
+}
+
+.holo-tag--web {
+  left: 81.25%;
+  top: calc(26.67% + 2px);
+  max-width: none;
+  white-space: nowrap;
+  color: var(--brass-300);
+  transform: translateX(-50%);
+}
+
+.holo-tag--bank {
+  display: block;
+  left: 71.67%;
+  top: 71.5%;
+  max-width: none;
+  white-space: nowrap;
+  color: var(--brass-200);
+  line-height: 1.25;
+}
+
+.holo-tag .holo-tag-in {
+  display: block;
+}
+
+/* The count under the bank: money lost in muted red while the gaps leak,
+   then money recovered in gold. It steps with the coins, up to the two
+   amounts in data/hero-vsl.ts. */
+.holo-counter-pos {
+  position: absolute;
+  left: 50%;
+  top: calc(85.56% + 3px);
+  z-index: 6;
+  transform: translateX(-50%);
+}
+
+.holo-counter {
+  --c-ink: var(--loss);
+  --c-line: rgb(217 138 126 / 0.45);
+  --c-glow: rgb(217 138 126 / 0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.3em 0.8em 0.3em 0.65em;
+  border: 1px solid var(--c-line);
+  border-radius: 9999px;
+  background: rgb(8 8 8 / 0.84);
+  color: var(--c-ink);
+  font-size: max(12px, 2.6cqw);
+  line-height: 1.2;
+  font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 18px var(--c-glow);
+}
+
+.holo-counter[data-mode="gain"] {
+  --c-ink: var(--brass-200);
+  --c-line: rgb(212 168 87 / 0.6);
+  --c-glow: rgb(212 168 87 / 0.2);
+}
+
+.holo-counter-dot {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--c-ink);
+  box-shadow: 0 0 8px var(--c-ink);
+}
+
+.holo-counter-n {
+  display: inline-block;
+}
+
+/* What each fix does, shown for a moment after it seals: small,
+   gold-outlined, and gone again. The words change with the niche. */
+.holo-pop {
+  position: absolute;
+  z-index: 8;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45em;
+  max-width: 42%;
+  padding: 0.45em 0.7em;
+  border: 1px solid rgb(212 168 87 / 0.6);
+  border-radius: 0.8em;
+  background: rgb(12 10 6 / 0.9);
+  color: var(--ink);
+  font-size: max(12px, 3.3cqw);
+  line-height: 1.3;
+  box-shadow: 0 0 22px rgb(212 168 87 / 0.16);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@container holo (min-width: 860px) {
+  .holo-pop {
+    font-size: max(12px, 1.1cqw);
+  }
+}
+
+@container holo (max-width: 319px) {
+  .holo-pop {
+    padding: 0.3em 0.6em;
+    line-height: 1.22;
+  }
+
+  .holo-pop--list {
+    padding: 0.3em;
+  }
+}
+
+.holo-pop svg {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  margin-top: 0.1em;
+  color: var(--brass-300);
+}
+
+.holo-pop--call {
+  border-bottom-right-radius: 0.2em;
+}
+
+.holo-pop--text {
+  border-bottom-left-radius: 0.2em;
+}
+
+.holo-pop--list {
+  display: block;
+  padding: 0.45em;
+}
+
+.holo-list {
+  display: grid;
+  gap: 0.35em;
+}
+
+.holo-list-card {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.3em 0.55em;
+  border: 1px solid rgb(212 168 87 / 0.8);
+  border-radius: 0.5em;
+  background: rgb(212 168 87 / 0.12);
+  color: var(--brass-200);
+  font-weight: 600;
+}
+
+.holo-list-dot {
+  flex: none;
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: 50%;
+  background: var(--brass-300);
+  box-shadow: 0 0 6px var(--brass-300);
+}
+
+.holo-list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0 0.55em;
+  opacity: 0.5;
+}
+
+.holo-list-row i {
+  display: block;
+  height: 0.32em;
+  border-radius: 9999px;
+  background: rgb(212 168 87 / 0.6);
+}
+
+.holo-list-row i:first-child {
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: 50%;
+}
+
+.holo-list-row i:nth-child(2) {
+  width: 4.4em;
+}
+
+.holo-list-row i:nth-child(3) {
+  width: 2.2em;
+  opacity: 0.7;
+}
+
+/* The one control while it plays: pause and play, a round button centred
+   under the stage. Its word is for screen readers. It goes once the end card
+   is up, where there is nothing left to pause. */
+.holo-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.holo-toggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgb(212 168 87 / 0.45);
+  border-radius: 50%;
+  background: rgb(12 10 6 / 0.6);
+  color: var(--brass-200);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    opacity 0.35s ease,
+    visibility 0.35s;
+}
+
+.holo-toggle:hover {
+  border-color: var(--brass-300);
+  background: rgb(212 168 87 / 0.14);
+}
+
+.holo-toggle:focus-visible {
+  outline: 2px solid var(--brass-300);
+  outline-offset: 3px;
+}
+
+.holo-toggle svg {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.holo-toggle .i-pause,
+.holo[data-state="playing"] .holo-toggle .i-play,
+.holo[data-state="waiting"] .holo-toggle .i-play {
+  display: none;
+}
+
+.holo[data-state="playing"] .holo-toggle .i-pause,
+.holo[data-state="waiting"] .holo-toggle .i-pause {
+  display: block;
+}
+
+.holo[data-state="done"] .holo-toggle {
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* The Business Mastery application's questions (BmApplicationForm): each one
