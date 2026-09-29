@@ -1,0 +1,159 @@
+import { Check, Clock, ShieldCheck, X, Zap } from "lucide-react";
+import { BookCallLink } from "@/components/ui/BookCallLink";
+import { CallOrEmailLine } from "@/components/lee-systems/CallOrEmailLine";
+import { DoItYourWayButton } from "@/components/lee-systems/DoItYourWayButton";
+import { pricingPromise } from "@/data/lee-systems";
+
+/**
+ * The same six jobs done by hand and done by the systems: row n of one card
+ * is row n of the other. The right-hand list only states what the site
+ * already says the systems do.
+ */
+const byHand = [
+  "Calls go to voicemail after hours",
+  "New leads wait until someone is free",
+  "Booking takes rounds of phone tag",
+  "Follow-up depends on memory",
+  "Details get retyped by hand",
+  "Reviews and unpaid invoices get chased by hand",
+];
+
+const withSystems = [
+  "AI answers your calls 24/7",
+  "Every new lead gets a reply in under a minute",
+  "Appointments booked, with reminders sent",
+  "Follow-up until the customer gives an answer",
+  "Leads land in your CRM, with no retyping",
+  "Reviews requested and invoices chased for you",
+];
+
+const TAKE_ACTION_ID = "ls-take-action";
+
+/**
+ * "The choice is yours", after The Real World's section of that name (the
+ * owner's reference, 2026-09-29): a dim "Do nothing" card beside a lit
+ * "Take action" card. It closes the Lee Systems page in place of
+ * LeeSystemsFinalCTA, which the industry pages still use. The price slot
+ * holds the free consultation call, the only price the site states, and the
+ * fine print is the owner's pricing promise (`pricingPromise`).
+ *
+ * From 640px the cards share one set of rows (subgrid), so their dividers,
+ * lists and buttons line up across the pair.
+ */
+export function LeeSystemsChoiceSection() {
+  const [leadTerm, ...otherTerms] = pricingPromise;
+
+  return (
+    <section
+      aria-labelledby="ls-choice-title"
+      className="relative isolate overflow-hidden py-20 md:py-28"
+    >
+      <div className="absolute inset-0 -z-10 section-fade" aria-hidden="true">
+        <div className="absolute right-1/4 top-1/2 h-[32rem] w-[32rem] max-w-[85vw] -translate-y-1/2 translate-x-1/2 rounded-full bg-brass-400/[0.10] blur-3xl" />
+      </div>
+
+      <div className="section-container">
+        <div className="mx-auto mb-12 flex max-w-3xl flex-col items-center text-center md:mb-14">
+          <p className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-xs font-semibold text-neutral-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:text-sm">
+            Your move
+          </p>
+          <h2 id="ls-choice-title" className="heading-lg mt-5 text-white">
+            The choice is yours.
+          </h2>
+        </div>
+
+        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-0">
+          <div className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:gap-y-0 sm:p-8">
+            <div>
+              <Clock
+                className="mx-auto h-9 w-9 text-neutral-500"
+                strokeWidth={1.25}
+                aria-hidden="true"
+              />
+              <h3 className="mt-4 text-2xl font-semibold text-neutral-200">
+                Do nothing
+              </h3>
+              <p className="mt-1 text-sm text-neutral-500">Keep doing it by hand</p>
+            </div>
+            <div className="mt-6 border-t border-white/10 pt-6">
+              <p className="text-balance text-lg font-semibold text-neutral-500 sm:text-xl">
+                Lose leads to whoever answers first
+              </p>
+            </div>
+            <ul className="mx-auto mt-6 space-y-3 text-left text-sm text-neutral-400">
+              {byHand.map((item) => (
+                <li key={item} className="flex items-start gap-2.5">
+                  <X
+                    className="mt-0.5 h-4 w-4 shrink-0 text-neutral-600"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            {/* The row the other card uses for its terms. */}
+            <div aria-hidden="true" />
+            <div className="mt-8">
+              <DoItYourWayButton nudgeId={TAKE_ACTION_ID} />
+            </div>
+          </div>
+
+          <div
+            id={TAKE_ACTION_ID}
+            className="flex flex-col rounded-2xl border border-brass-400/40 bg-[radial-gradient(120%_70%_at_50%_0%,rgba(212,168,87,0.14),transparent_65%)] p-6 text-center shadow-[0_0_80px_-30px_rgba(212,168,87,0.5)] sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:gap-y-0 sm:p-8"
+          >
+            <div>
+              <Zap
+                className="mx-auto h-9 w-9 text-brass-300"
+                strokeWidth={1.25}
+                aria-hidden="true"
+              />
+              <h3 className="mt-4 text-3xl font-bold text-white sm:text-4xl">
+                Take action
+              </h3>
+              <p className="mt-1 text-sm text-brass-200/80">Let AI handle it</p>
+            </div>
+            <div className="mt-6 border-t border-brass-400/20 pt-6">
+              <p>
+                <span className="ls-price text-4xl font-bold sm:text-5xl">
+                  $0
+                </span>{" "}
+                <span className="text-sm text-neutral-400">/ consultation call</span>
+              </p>
+            </div>
+            <ul className="mx-auto mt-6 space-y-3 text-left text-sm text-neutral-200">
+              {withSystems.map((item) => (
+                <li key={item} className="flex items-start gap-2.5">
+                  <Check
+                    className="mt-0.5 h-4 w-4 shrink-0 text-brass-300"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6 border-t border-brass-400/20 pt-5">
+              <p className="flex items-center justify-center gap-2 font-semibold text-brass-200">
+                <ShieldCheck className="h-4 w-4 shrink-0" aria-hidden="true" />
+                {leadTerm}
+              </p>
+              <p className="mt-2 text-balance text-xs leading-relaxed text-neutral-400">
+                {otherTerms.map((term, i) => (
+                  <span key={term}>
+                    {i > 0 && " · "}
+                    <span className="whitespace-nowrap">{term}</span>
+                  </span>
+                ))}
+              </p>
+            </div>
+            <div className="mt-8">
+              <BookCallLink variant="glow" className="w-full" />
+            </div>
+          </div>
+        </div>
+
+        <CallOrEmailLine className="mt-10 text-center" />
+      </div>
+    </section>
+  );
+}

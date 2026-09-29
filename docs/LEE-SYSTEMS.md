@@ -11,7 +11,7 @@ free call"**.
 
 | URL | What it is | Built from |
 | --- | --- | --- |
-| `/lee-systems` | Main page: hero, offerings (large Automation card, smaller Websites card), what gets automated, industries, recent work, Audit → Build → Run, final CTA (the About section came out on 2026-09-29) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
+| `/lee-systems` | Main page: hero, two paths, offerings (large Automation card, smaller Websites card), what gets automated, industries, recent work, Audit → Build → Run, the choice is yours (the About section came out on 2026-09-29) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
 | `/lee-systems/automation` | Hero, problem, the automation areas, industries (law firms, home services), how it works, FAQ, the consultation form | `app/lee-systems/automation/page.tsx`, `components/automation/` |
 | `/lee-systems/websites` | Hero, how pricing works (flat quote, no hidden fees, you own the site), what every site includes, recent work, process, FAQ, bridge to automation, quote form | `app/lee-systems/websites/page.tsx`, `components/websites/` |
 | `/lee-systems/law-firms` | A page for law firms, to send prospects in that industry: the industry's summary as the headline, what we automate for them, the pricing promise, Audit → Build → Run, final CTA | `app/lee-systems/law-firms/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
@@ -21,6 +21,31 @@ The two industry pages use only copy already on the site (the industry's
 entry in `leeSystemsIndustries`, which also holds each page's title and
 description). The industry cards on `/lee-systems` and
 `/lee-systems/automation` link to them, and both are in the sitemap.
+
+## Two paths, and the choice
+
+Two sections of the main page follow The Real World's landing page
+(jointherealworld.com), which the owner sent as the reference on 2026-09-29.
+
+- **Two paths** (`LeeSystemsTwoPathsSection`, `TwoPathsDemo`), straight after
+  the hero: a "24/7" badge, "Two paths. Only one gets the customer.", and a
+  video-style frame of three panels (calls, follow-up, intake + CRM) with a
+  play button. Under it the line splits into "Fall behind" and "$0" for the
+  first call, with a VS between them. The play button runs one example lead
+  (a customer calling at 11:48 PM) with the systems in place; "Do it by hand"
+  runs the same lead without them. Every line of the example is something the
+  site already says the systems do, and the frame is labelled "Example".
+- **The choice is yours** (`LeeSystemsChoiceSection`) closes the page in place
+  of `LeeSystemsFinalCTA`, which the industry pages still use: a dim "Do
+  nothing" card beside a lit "Take action" card, the same six jobs done by
+  hand and by the systems, "$0 / consultation call", the pricing promise as
+  fine print, then "Rather call or email?". "Do it your way" is a real
+  button: it says "Your competitors are hoping you pick this one." and nudges
+  the other card.
+
+Both "$0" figures are the free consultation call, the only price the site
+states. The gold buttons are `BookCallLink variant="glow"`, so they follow
+`bookingUrl` like every other "Book a free call".
 
 AI call answering leads both the main page's "what gets automated" grid and
 the automation page's areas, drawn full width. Its capabilities list is the

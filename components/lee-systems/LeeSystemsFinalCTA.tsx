@@ -1,5 +1,5 @@
 import { BookCallLink } from "@/components/ui/BookCallLink";
-import { site, telHref } from "@/data/site";
+import { CallOrEmailLine } from "@/components/lee-systems/CallOrEmailLine";
 
 export function LeeSystemsFinalCTA() {
   return (
@@ -20,26 +20,7 @@ export function LeeSystemsFinalCTA() {
 
         <BookCallLink />
 
-        <p className="mt-8 text-sm text-neutral-400">
-          Rather call or email?{" "}
-          {site.phone && (
-            <>
-              <a
-                href={telHref(site.phone)}
-                className="font-semibold text-neutral-200 underline underline-offset-4 hover:text-brass-300"
-              >
-                {site.phone}
-              </a>{" "}
-              or{" "}
-            </>
-          )}
-          <a
-            href={`mailto:${site.email}`}
-            className="break-all font-semibold text-neutral-200 underline underline-offset-4 hover:text-brass-300"
-          >
-            {site.email}
-          </a>
-        </p>
+        <CallOrEmailLine className="mt-8" />
       </div>
     </section>
   );

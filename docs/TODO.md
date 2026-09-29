@@ -29,6 +29,12 @@ file. Tell Claude when something is done and it checks it off here.
       link and the written guarantee terms. Already settled: a paid monthly
       membership, joining by application, and the 90-day guarantee as it
       reads now.
+- [ ] **A video (VSL), if you want one.** Suggested 2026-09-29: the pages
+      would be even better with pictures and a video sales letter. The "Two
+      paths" frame on /lee-systems is built like a video player and plays an
+      animated example for now; record a short video (you on camera, or a
+      walkthrough of a system) and send Claude the link, and it can play
+      that instead. Photos of you or real work go in the same way.
 - [ ] **Google Business Profile.** Create one, as a service-area business if
       there's no public office.
 - [ ] **Search Console (after it's live).** Verify the domain and submit
