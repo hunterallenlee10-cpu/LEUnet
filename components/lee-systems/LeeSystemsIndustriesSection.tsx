@@ -8,7 +8,9 @@ const industryIcons = {
 } as const;
 
 /**
- * Who it is for. Each card links to that industry's own page
+ * Who it is for, framed as examples rather than the only businesses served
+ * (the owner's request, 2026-09-29; the automation page's industries heading
+ * says the same). Each card links to that industry's own page
  * (/lee-systems/law-firms, /lee-systems/home-services).
  */
 export function LeeSystemsIndustriesSection() {
@@ -17,9 +19,11 @@ export function LeeSystemsIndustriesSection() {
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold text-brass-300">
-            Who it&apos;s for
+            Who we help
           </p>
-          <h2 className="heading-lg text-white">Industries we know best</h2>
+          <h2 className="heading-lg text-white">
+            For example, we help businesses like these
+          </h2>
         </div>
 
         <ul className="mx-auto grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
