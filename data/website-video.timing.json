@@ -1,0 +1,20 @@
+{
+  "src": "/lee-systems/website-video/website-video.mp3?v=b2908760",
+  "durationMs": 39226,
+  "lines": {
+    "prompt": 170,
+    "before-title": 2900,
+    "before-tap": 4460,
+    "before-slow": 6790,
+    "before-look": 9640,
+    "before-leave": 13030,
+    "before-ending": 17040,
+    "after-title": 20430,
+    "after-tap": 22550,
+    "after-fast": 24680,
+    "after-look": 26730,
+    "after-form": 29610,
+    "after-ending": 32666,
+    "outro": 35476
+  }
+}

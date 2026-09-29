@@ -1,8 +1,8 @@
 # Hunter's to-do list
 
 The things only Hunter can do for the site: links, photos, decisions and
-account set-up. Last updated 2026-09-29, when the "Two paths" frame on
-/lee-systems became a narrated video.
+account set-up. Last updated 2026-09-29, when a narrated website video
+joined the "Two paths" video on /lee-systems.
 
 Ask Claude for "my to-do list" in any session on this repo and it reads this
 file. Tell Claude when something is done and it checks it off here.

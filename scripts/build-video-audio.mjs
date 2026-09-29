@@ -1,29 +1,29 @@
 #!/usr/bin/env node
 /**
- * Builds the soundtrack of the "Two paths" video on /lee-systems from an
+ * Builds the soundtrack of one of the narrated videos on /lee-systems from an
  * Everygen voiceover of each of its lines, and writes when each line starts.
  *
- *   node scripts/build-two-paths-audio.mjs <folder>
+ *   node scripts/build-video-audio.mjs <video> <folder>
  *
- * <folder> holds one voiceover per line in data/two-paths-video.ts, named by
- * the line's id (prompt.wav, manual-title.wav and so on), each reading the
- * line's `spoken` text where it has one and its caption otherwise. One clip
- * per line rather than one read of them all: a brisk voice runs its lines
- * together with no pause to cut at. FFMPEG names the ffmpeg binary if it
- * isn't on the PATH.
+ * <video> is "two-paths" (data/two-paths-video.ts) or "website"
+ * (data/website-video.ts). <folder> holds one voiceover per line of it,
+ * named by the line's id (prompt.wav and so on), each reading the line's
+ * `spoken` text where it has one and its caption otherwise. One clip per line
+ * rather than one read of them all: a brisk voice runs its lines together
+ * with no pause to cut at. FFMPEG names the ffmpeg binary if it isn't on the
+ * PATH.
  *
  * What it does: trims each clip to its speech, evens out their loudness,
- * lays them out with each line's `hold` of quiet after it, adds the sound
- * effects below, levels the whole thing to -16 LUFS and writes
- * public/lee-systems/two-paths/two-paths.mp3 and
- * data/two-paths-video.timing.json, which the video reads.
+ * lays them out with each line's `hold` of quiet after it, adds the video's
+ * sound effects (the `videos` table below), levels the whole thing to -16
+ * LUFS and writes the video's MP3 and timing file, which its player reads.
  *
  * The sound effects are drawn here from sine waves and noise rather than
- * taken from a library, so there is nothing to license, and they stay quiet
- * under the voice.
+ * taken from a library, so there is nothing to license, and they sit 10 to
+ * 14 dB under the voice.
  *
  * Needs a Node that runs TypeScript files (22.18 or later), since it reads the
- * lines straight from data/two-paths-video.ts.
+ * lines straight from the video's data file.
  */
 
 import { spawnSync } from "node:child_process";
@@ -31,22 +31,14 @@ import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { twoPathsLines } from "../data/two-paths-video.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const outAudio = join(root, "public/lee-systems/two-paths/two-paths.mp3");
-const outTiming = join(root, "data/two-paths-video.timing.json");
-const publicSrc = "/lee-systems/two-paths/two-paths.mp3";
 const ffmpeg = process.env.FFMPEG || "ffmpeg";
 
 const SR = 48000;
 const TAU = Math.PI * 2;
 
-const [clipsDir] = process.argv.slice(2);
-if (!clipsDir) {
-  console.error("Usage: node scripts/build-two-paths-audio.mjs <folder of <line-id>.wav clips>");
-  process.exit(1);
-}
+const [videoName, clipsDir] = process.argv.slice(2);
 
 // ---------------------------------------------------------------------------
 // The clips, as mono float samples at SR, each trimmed to its speech.
@@ -259,18 +251,93 @@ function booked() {
   return out;
 }
 
+/** A tap on a phone's screen: a short click with a bright edge. */
+function tap() {
+  const out = buf(0.12);
+  for (let i = 0; i < out.length; i++) {
+    const t = i / SR;
+    out[i] = Math.sin(TAU * 1800 * t) * Math.exp(-70 * t) + 0.5 * Math.sin(TAU * 3600 * t) * Math.exp(-120 * t);
+  }
+  return fade(out, 0.001, 0.01);
+}
+
+/** A page still loading: a soft note, repeating, for `seconds`. */
+function loading(seconds) {
+  const out = buf(seconds);
+  for (let at = 0; at < seconds - 0.2; at += 0.45) mixInto(out, bell(659.25, 0.3, { decay: 14 }), at);
+  return fade(out, 0.005, 0.1);
+}
+
+// ---------------------------------------------------------------------------
+// The videos: where each one's lines and files are, and its sound design,
+// placed by line: s(id) is when a line starts, e(id) when its speech ends.
+
+const videos = {
+  "two-paths": {
+    lines: "../data/two-paths-video.ts",
+    exportName: "twoPathsLines",
+    audio: "public/lee-systems/two-paths/two-paths.mp3",
+    timing: "data/two-paths-video.timing.json",
+    effects(mix, s, e) {
+      mixInto(mix, ring(s("manual-voicemail") - s("manual-call") + 0.1), s("manual-call") - 0.15, 0.12);
+      mixInto(mix, ticking(s("manual-ending") - s("manual-call")), s("manual-call"), 0.05);
+      mixInto(mix, voicemailBeep(), e("manual-voicemail") + 0.12, 0.05);
+      mixInto(mix, ringback(), s("manual-callback"), 0.07);
+      mixInto(mix, lost(), e("manual-crm") + 0.05, 0.22);
+      mixInto(mix, whoosh(), s("ai-title") - 0.3, 0.1);
+      mixInto(mix, ring(s("ai-answer") - s("ai-call") + 0.1), s("ai-call") - 0.15, 0.12);
+      mixInto(mix, pickup(), s("ai-answer") - 0.08, 0.16);
+      mixInto(mix, ding(), s("ai-text") + 0.1, 0.16);
+      mixInto(mix, saved(), s("ai-crm") + 0.1, 0.14);
+      mixInto(mix, booked(), s("ai-ending") - 0.1, 0.1);
+    },
+  },
+  website: {
+    lines: "../data/website-video.ts",
+    exportName: "websiteVideoLines",
+    audio: "public/lee-systems/website-video/website-video.mp3",
+    timing: "data/website-video.timing.json",
+    effects(mix, s, e) {
+      // The outdated site: a tap, a page that keeps loading, the clock
+      // ticking as they wait, and the low note as they leave.
+      mixInto(mix, tap(), s("before-tap") + 0.05, 0.14);
+      mixInto(mix, loading(s("before-look") - s("before-slow")), s("before-slow") - 0.1, 0.12);
+      mixInto(mix, ticking(s("before-ending") - s("before-tap")), s("before-tap"), 0.05);
+      mixInto(mix, lost(), e("before-leave") + 0.05, 0.22);
+      // The site built right: the whoosh in, the same tap, a snap as it
+      // opens, a shimmer on the look, a message sent and the warm chord.
+      mixInto(mix, whoosh(), s("after-title") - 0.3, 0.1);
+      mixInto(mix, tap(), s("after-tap") + 0.05, 0.14);
+      mixInto(mix, pickup(), s("after-fast") - 0.08, 0.16);
+      mixInto(mix, saved(), s("after-look") + 0.1, 0.14);
+      mixInto(mix, ding(), e("after-form") + 0.05, 0.16);
+      mixInto(mix, booked(), s("after-ending") - 0.1, 0.1);
+    },
+  },
+};
+
+const video = videos[videoName];
+if (!video || !clipsDir) {
+  console.error(`Usage: node scripts/build-video-audio.mjs <${Object.keys(videos).join("|")}> <folder of <line id>.wav clips>`);
+  process.exit(1);
+}
+const lines = (await import(video.lines))[video.exportName];
+const outAudio = join(root, video.audio);
+const outTiming = join(root, video.timing);
+const publicSrc = `/${video.audio.replace(/^public\//, "")}`;
+
 // ---------------------------------------------------------------------------
 // The layout: each line's piece, then its hold.
 
-const pieces = twoPathsLines.map((line) => speechOf(decode(join(clipsDir, `${line.id}.wav`)), line.id));
+const pieces = lines.map((line) => speechOf(decode(join(clipsDir, `${line.id}.wav`)), line.id));
 
 const lead = 0.25;
 const placed = [];
 let t = lead;
-for (let i = 0; i < twoPathsLines.length; i++) {
+for (let i = 0; i < lines.length; i++) {
   const seconds = pieces[i].length / SR;
-  placed.push({ id: twoPathsLines[i].id, at: t, speechEnd: t + seconds });
-  t += seconds + twoPathsLines[i].hold;
+  placed.push({ id: lines[i].id, at: t, speechEnd: t + seconds });
+  t += seconds + lines[i].hold;
 }
 const total = t + 0.2;
 const at = Object.fromEntries(placed.map((p) => [p.id, p]));
@@ -284,19 +351,11 @@ const voiceGain = 0.89 / (peak || 1);
 pieces.forEach((piece, i) => mixInto(mix, piece, placed[i].at, voiceGain));
 
 // The effects, each at a level that sits under the voice.
-const s = (id) => at[id].at;
-const e = (id) => at[id].speechEnd;
-mixInto(mix, ring(s("manual-voicemail") - s("manual-call") + 0.1), s("manual-call") - 0.15, 0.12);
-mixInto(mix, ticking(s("manual-ending") - s("manual-call")), s("manual-call"), 0.05);
-mixInto(mix, voicemailBeep(), e("manual-voicemail") + 0.12, 0.05);
-mixInto(mix, ringback(), s("manual-callback"), 0.07);
-mixInto(mix, lost(), e("manual-crm") + 0.05, 0.22);
-mixInto(mix, whoosh(), s("ai-title") - 0.3, 0.1);
-mixInto(mix, ring(s("ai-answer") - s("ai-call") + 0.1), s("ai-call") - 0.15, 0.12);
-mixInto(mix, pickup(), s("ai-answer") - 0.08, 0.16);
-mixInto(mix, ding(), s("ai-text") + 0.1, 0.16);
-mixInto(mix, saved(), s("ai-crm") + 0.1, 0.14);
-mixInto(mix, booked(), s("ai-ending") - 0.1, 0.1);
+video.effects(
+  mix,
+  (id) => at[id].at,
+  (id) => at[id].speechEnd
+);
 
 // ---------------------------------------------------------------------------
 // Level to -16 LUFS in two passes (measure, then apply linearly) and encode.

@@ -3,6 +3,7 @@ import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { LeeSystemsHeroSection } from "@/components/lee-systems/LeeSystemsHeroSection";
 import { LeeSystemsTwoPathsSection } from "@/components/lee-systems/LeeSystemsTwoPathsSection";
+import { LeeSystemsWebsiteVideoSection } from "@/components/lee-systems/LeeSystemsWebsiteVideoSection";
 import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
 import { LeeSystemsAutomationSection } from "@/components/lee-systems/LeeSystemsAutomationSection";
 import { LeeSystemsWebsitesSection } from "@/components/lee-systems/LeeSystemsWebsitesSection";
@@ -27,7 +28,8 @@ import {
  * Mastery hub at /lee-marketing-mastery, which redirects here too.
  *
  * The order: the hero, the two paths (an example lead with and without the
- * systems), the two offerings side by side at equal weight, then a section for
+ * systems), the website video (a visit to an outdated site, then to one
+ * built right), the two offerings side by side at equal weight, then a section for
  * each - what we automate and website builds, each beside its animation - who
  * it is for, recent work, the onboarding process, the FAQ, the choice between
  * doing nothing and a free call, and the form. Every "Book a free call" in the
@@ -171,6 +173,7 @@ export default function LeeSystemsPage() {
       <main className="pt-20">
         <LeeSystemsHeroSection />
         <LeeSystemsTwoPathsSection />
+        <LeeSystemsWebsiteVideoSection />
         <LeeSystemsOfferingsSection />
         <LeeSystemsAutomationSection />
         <LeeSystemsWebsitesSection />

@@ -16,7 +16,7 @@ day and 301 to their cards in "Who we help" (see Redirects below).
 
 | URL | What it is | Built from |
 | --- | --- | --- |
-| `/lee-systems` | The page, in order: hero, two paths, what we do (the two offerings side by side), what we automate (`#automation`), websites (`#websites`), who we help (`#industries`), our projects, onboarding process (Audit, Build, Take off), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
+| `/lee-systems` | The page, in order: hero, two paths, the website video, what we do (the two offerings side by side), what we automate (`#automation`), websites (`#websites`), who we help (`#industries`), our projects, onboarding process (Audit, Build, Take off), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
 
 What came over from the folded pages: the automation page's seven areas
 (AI call answering first, full width; it was titled "Calls" there), its
@@ -149,26 +149,72 @@ naturally aloud.
 - **Controls**: nothing plays until the play button is pressed. Clicking the
   picture pauses and resumes it, and the corner buttons pause, turn the
   sound off and turn the captions off. It pauses by itself once scrolled
-  out of view. The progress bar has two chapters, grey by hand and gold
+  out of view, and when the website video under it starts (and the other
+  way round), so two voices never overlap. The progress bar has two chapters, grey by hand and gold
   with AI, and the "Example" tag names the run that's playing. The fork
   under the frame lights the path the video is on.
 - **Screen readers** hear the voice while the sound is on. With the sound
   off, each caption is read from a polite live region instead, so no line
   is heard twice.
 
-To change a line or the voice: edit `data/two-paths-video.ts`, generate an
-Everygen voiceover of each line on its own (the `spoken` text where a line
-has one), save each as `<line id>.wav` in one folder (the two "11:48 PM"
-lines can share one clip), then run
+### The website video
+
+Straight under Two paths, a second narrated video in the same frame, style
+and voice (the owner's ask, 2026-09-29): the same visit to an outdated
+site, then to a site built right (`LeeSystemsWebsiteVideoSection`,
+`WebsiteVideo`, lines in `data/website-video.ts`). The owner's brief was to
+promote no particular AI features, just that the site is built properly,
+catches attention, looks beautiful and brings in business. So its claims
+are the ones the site already makes of a build: fast on a phone, clear
+about why to choose you, a form that's easy to find, built to turn
+visitors into customers. The outdated site is a general example, not a
+real one.
+
+- **Order**: "Someone finds your business online. Do they stay?", the
+  outdated site ("First, an outdated site." through "So they book with the
+  next business on the list."), the site built right ("Now the same visit,
+  on a site built right." through "A visitor, turned into a customer.") and
+  "Beautiful gets them to stay. Built right gets them to book.", which is
+  also the section's heading, as "Two paths. Only one gets the customer."
+  is for the video above it.
+- **Panels**: Speed, Design and Leads, tinted blue, brass and green. The
+  outdated run drains them to Still loading, Looks dated and Tab closed;
+  the built-right run lights them Loaded fast, Looks the part and Request
+  sent. The "Example" tag reads "Outdated site", then "Built right".
+- **Sound**: the same Pham voice and settings, one clip per line, with a
+  tap, a page that keeps loading, the clock ticking while they wait and a
+  low note as they leave, then the whoosh, a snap as the page opens, a
+  shimmer on the look, a message sent and the warm chord. About 39
+  seconds, `public/lee-systems/website-video/website-video.mp3`.
+- **Under it**: no fork, since Two paths just made the choice. A lit brass
+  line runs down to "Book a free call" (it scrolls to the form, like every
+  button in the page's body), with "Quoted per project · You own your
+  domain and content" under it, both from the FAQ.
+
+### The player, and rebuilding the audio
+
+Both videos play in one player, `components/lee-systems/NarratedVideo.tsx`
+(`useNarratedVideo`, which returns the frame, the run it's on and a way to
+play one run from outside it), with the shape of a line in
+`data/narrated-video.ts`. Each video is two runs of one example: "before"
+(the worse way) and "after" (Lee Systems Co.'s), with a line either side.
+
+To change a line or the voice: edit the video's lines, generate an Everygen
+voiceover of each line on its own (the `spoken` text where a line has
+one), save each as `<line id>.wav` in one folder (lines that repeat, like
+"11:48 PM" and "They tap your site from their phone.", can share one clip),
+then run
 
 ```bash
-node scripts/build-two-paths-audio.mjs path/to/folder
+node scripts/build-video-audio.mjs two-paths path/to/folder
+node scripts/build-video-audio.mjs website path/to/folder
 ```
 
-with ffmpeg on the PATH (or `FFMPEG=/path/to/ffmpeg`). It rewrites the
-soundtrack and the timing file. One clip per line rather than one read of
-all of them: Pham reads briskly and runs one line into the next with no
-pause to cut at.
+with ffmpeg on the PATH (or `FFMPEG=/path/to/ffmpeg`). It rewrites that
+video's soundtrack and timing file; each video's sound effects are in the
+script's `videos` table. One clip per line rather than one read of all of
+them: Pham reads briskly and runs one line into the next with no pause to
+cut at.
 
 What AI call answering does is the owner's own list, word for word, in
 `site.callAnswering` (`data/site.ts`); the FAQ's "What can the AI phone
