@@ -1285,6 +1285,23 @@
     @apply px-6 py-3 border-2 border-brass-400 text-brass-300 font-semibold rounded-lg hover:bg-brass-400/10 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
   }
 
+  /* The pair in the Lee Systems page's "Two paths" and "The choice is yours"
+     sections, after The Real World's (the owner's reference, 2026-09-29): a
+     dim grey button on the path of doing nothing, and a lit gold one for the
+     call (BookCallLink's "glow"). */
+  .btn-ls-muted {
+    @apply inline-flex min-h-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-b from-neutral-700/50 to-neutral-800/50 px-5 py-3 text-center font-semibold text-neutral-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors duration-200 hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-300;
+  }
+
+  .btn-ls-glow {
+    @apply rounded-xl px-5 py-3 font-bold text-neutral-950 transition-[filter] duration-200 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
+    background: linear-gradient(180deg, #f3d995 0%, #ddb466 50%, #c4913f 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.5),
+      0 0 0 1px rgb(212 168 87 / 0.6),
+      0 12px 36px -10px rgb(226 170 72 / 0.75);
+  }
+
   /* Section utilities */
   .section-container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
@@ -1758,6 +1775,645 @@
   .lsr-signal,
   .lsr-ring {
     display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Lee Systems Co. — "Two paths"
+   One consumer: components/lee-systems/TwoPathsDemo.tsx, in the section
+   straight after the Lee Systems hero.
+
+   After The Real World's "Two Paths Lie Before You" (the owner's reference,
+   2026-09-29): a video-style frame of three panels behind a white play
+   button, a caption along its bottom, and under it a line that splits into
+   two paths with a VS between them. Here the panels are the three systems
+   one example lead passes through: calls, follow-up, intake + CRM. As the
+   example plays, a panel turns gold when the systems handle its step, or
+   drains to grey when the lead slips through by hand.
+
+   Everything inside the frame is sized in container units (cqw, a percent of
+   the frame's width), so the composition scales like a video still from a
+   phone to a desktop; clamps keep the smallest text readable.
+   --------------------------------------------------------------------------- */
+
+.ls-paths-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  container-type: inline-size;
+  aspect-ratio: 3 / 2;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 1rem;
+  background: #0a0a0a;
+  box-shadow:
+    0 40px 90px -40px rgb(0 0 0 / 0.9),
+    0 0 70px -30px rgb(212 168 87 / 0.35);
+}
+
+@media (min-width: 640px) {
+  .ls-paths-frame {
+    aspect-ratio: 16 / 9;
+    border-radius: 1.25rem;
+  }
+}
+
+/* The lit top edge, brightest over the right-hand path it leads to. */
+.ls-paths-frame::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  right: 0;
+  left: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(212 168 87 / 0.35) 40%,
+    #ecd08a 78%,
+    rgb(212 168 87 / 0.25)
+  );
+  pointer-events: none;
+}
+
+.ls-paths-panels {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* The reference's panels are red, green and blue; here each colour is held
+   back to a glow on black so the frame stays in the brand's register: brass
+   for calls, green for follow-up, blue for the CRM. The top padding leaves
+   the "Example" tag its own row; the bottom padding is the caption's. */
+.ls-paths-panel {
+  --tint: 212 168 87;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(2.25rem, 6.5cqw, 3.75rem) 0.25rem calc(3rem + 5.5cqw);
+}
+
+.ls-paths-panel[data-panel="follow-up"] {
+  --tint: 74 222 128;
+}
+
+.ls-paths-panel[data-panel="crm"] {
+  --tint: 96 165 250;
+}
+
+.ls-paths-panel + .ls-paths-panel {
+  border-left: 1px solid rgb(255 255 255 / 0.07);
+}
+
+.ls-paths-panel > * {
+  transition: opacity 0.5s ease;
+}
+
+/* The panel's ground, on its own layer so it can dim or drain without taking
+   the label and the orb with it; a fine dot grid gives it texture. */
+.ls-paths-panel::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(75% 50% at 50% 50%, rgb(var(--tint) / 0.24), transparent 72%),
+    linear-gradient(
+      180deg,
+      rgb(var(--tint) / 0.18) 0%,
+      rgb(var(--tint) / 0.05) 50%,
+      transparent 100%
+    ),
+    radial-gradient(rgb(255 255 255 / 0.08) 0.8px, transparent 1.2px) 0 0 /
+      max(12px, 2.4cqw) max(12px, 2.4cqw);
+  transition:
+    opacity 0.7s ease,
+    filter 0.7s ease;
+}
+
+/* The line along the top of the panel the caption is talking about. */
+.ls-paths-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgb(var(--tint)), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.ls-paths-panel[data-focus]::after {
+  opacity: 1;
+}
+
+.ls-paths-panel[data-status="good"]::after {
+  background: linear-gradient(90deg, transparent, #f1d68f, transparent);
+}
+
+.ls-paths-panel[data-status="bad"]::after {
+  background: linear-gradient(90deg, transparent, rgb(163 163 163), transparent);
+}
+
+/* While the example plays, the panels it hasn't reached yet sit back. */
+.ls-paths-frame[data-state="playing"] .ls-paths-panel[data-status="idle"] > * {
+  opacity: 0.4;
+}
+
+.ls-paths-frame[data-state="playing"] .ls-paths-panel[data-status="idle"]::before {
+  opacity: 0.35;
+}
+
+.ls-paths-panel[data-status="bad"]::before {
+  filter: grayscale(1);
+  opacity: 0.35;
+}
+
+.ls-paths-label {
+  max-width: 100%;
+  color: #fff;
+  font-size: clamp(0.6875rem, 3.4cqw, 2.125rem);
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1;
+  word-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow:
+    0 2px 0 rgb(0 0 0 / 0.6),
+    0 0 28px rgb(var(--tint) / 0.45);
+}
+
+.ls-paths-stage {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.625rem, 2.4cqw, 1.5rem);
+  width: 100%;
+}
+
+.ls-paths-orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(3rem, 13cqw, 7.5rem);
+  aspect-ratio: 1;
+  border: 1px solid rgb(var(--tint) / 0.5);
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 50% 30%, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.02) 70%),
+    #0b0b0b;
+  box-shadow:
+    0 0 0 clamp(5px, 1.5cqw, 14px) rgb(var(--tint) / 0.07),
+    0 0 0 clamp(10px, 3cqw, 28px) rgb(var(--tint) / 0.035);
+  color: rgb(var(--tint));
+  transition:
+    background 0.5s ease,
+    border-color 0.5s ease,
+    box-shadow 0.5s ease,
+    color 0.5s ease;
+}
+
+.ls-paths-icon {
+  width: 42%;
+  height: 42%;
+}
+
+/* Ringing: rings leave the orb and the handset shakes. */
+.ls-paths-panel[data-status="ringing"] .ls-paths-orb::before,
+.ls-paths-panel[data-status="ringing"] .ls-paths-orb::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid rgb(var(--tint) / 0.8);
+  border-radius: inherit;
+  animation: lsPathsRing 1.5s ease-out infinite;
+}
+
+.ls-paths-panel[data-status="ringing"] .ls-paths-orb::after {
+  animation-delay: 0.75s;
+}
+
+.ls-paths-panel[data-status="ringing"] .ls-paths-icon {
+  animation: lsPathsWiggle 1.5s ease-in-out infinite;
+}
+
+@keyframes lsPathsRing {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes lsPathsWiggle {
+  0%,
+  40%,
+  100% {
+    transform: rotate(0);
+  }
+  5%,
+  15%,
+  25% {
+    transform: rotate(-14deg);
+  }
+  10%,
+  20%,
+  30% {
+    transform: rotate(14deg);
+  }
+}
+
+.ls-paths-panel[data-status="good"] .ls-paths-orb {
+  border-color: #f1d68f;
+  background: linear-gradient(180deg, #f1d68f 0%, #d4a857 55%, #b98a3e 100%);
+  box-shadow:
+    0 0 0 clamp(5px, 1.5cqw, 14px) rgb(212 168 87 / 0.14),
+    0 0 clamp(24px, 7cqw, 72px) rgb(212 168 87 / 0.5);
+  color: #0a0a0a;
+}
+
+.ls-paths-panel[data-status="bad"] .ls-paths-orb {
+  border-color: rgb(115 115 115 / 0.7);
+  border-style: dashed;
+  background: #111;
+  box-shadow: none;
+  color: rgb(163 163 163);
+}
+
+.ls-paths-chip {
+  max-width: 94%;
+  padding: 0.3em 0.8em;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.5);
+  color: rgb(229 229 229);
+  font-size: clamp(0.625rem, 1.45cqw, 0.875rem);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  text-wrap: balance;
+  transition: opacity 0.4s ease;
+}
+
+.ls-paths-chip[data-hidden] {
+  opacity: 0;
+}
+
+.ls-paths-panel[data-status="ringing"] .ls-paths-chip {
+  border-color: rgb(var(--tint) / 0.5);
+  color: #fff;
+}
+
+.ls-paths-panel[data-status="good"] .ls-paths-chip {
+  border-color: rgb(212 168 87 / 0.55);
+  background: rgb(212 168 87 / 0.14);
+  color: #f1d68f;
+}
+
+.ls-paths-panel[data-status="bad"] .ls-paths-chip {
+  border-color: rgb(251 113 133 / 0.35);
+  background: rgb(251 113 133 / 0.08);
+  color: rgb(253 164 175);
+}
+
+.ls-paths-tag {
+  position: absolute;
+  z-index: 3;
+  top: clamp(0.5rem, 1.8cqw, 1rem);
+  left: clamp(0.5rem, 1.8cqw, 1rem);
+  padding: 0.3em 0.75em;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.55);
+  color: rgb(212 212 212);
+  font-size: clamp(0.5625rem, 1.1cqw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* The caption: the reference's "Which campus will you choose?" line, which
+   here also narrates the example, with Replay under it once the AI version
+   ends. Above the play overlay, but clicks pass through it. */
+.ls-paths-caption {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.5rem, 1.4cqw, 0.875rem);
+  min-height: 38%;
+  padding: 0 7cqw clamp(1rem, 3.4cqw, 2.25rem);
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 0.88) 0%,
+    rgb(0 0 0 / 0.6) 40%,
+    transparent 100%
+  );
+  text-align: center;
+  pointer-events: none;
+}
+
+.ls-paths-caption-text {
+  display: block;
+  max-width: 40ch;
+  color: #fff;
+  font-size: clamp(0.8125rem, 2.15cqw, 1.375rem);
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: balance;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.9);
+  animation: lsPathsCaptionIn 0.45s ease both;
+}
+
+.ls-paths-caption-text[data-kind="prompt"],
+.ls-paths-caption-text[data-kind="ending"] {
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.ls-paths-frame[data-mode="ai"] .ls-paths-caption-text[data-kind="ending"] {
+  color: #f1d68f;
+}
+
+.ls-paths-frame[data-mode="manual"] .ls-paths-caption-text[data-kind="ending"] {
+  color: rgb(212 212 212);
+}
+
+@keyframes lsPathsCaptionIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A video's progress bar, run once per play over the example's length. */
+.ls-paths-progress {
+  position: absolute;
+  z-index: 3;
+  inset: auto 0 0;
+  height: 2px;
+  background: linear-gradient(90deg, #b98a3e, #f1d68f);
+  transform-origin: left;
+  animation: lsPathsProgress var(--ls-run-ms, 11s) linear both;
+}
+
+.ls-paths-frame[data-mode="manual"] .ls-paths-progress {
+  background: rgb(163 163 163);
+}
+
+@keyframes lsPathsProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* The play button covers the whole frame, like a video's poster, so a click
+   anywhere on it plays. It draws nothing itself: its face is the middle orb,
+   which turns into the reference's white disc while the button is there. */
+.ls-paths-play {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  cursor: pointer;
+}
+
+.ls-paths-play:focus-visible {
+  outline: none;
+}
+
+.ls-paths-panel .ls-paths-orb[data-play] {
+  border: 1px solid #fff;
+  background: #fff;
+  box-shadow:
+    0 0 0 clamp(6px, 1.4cqw, 13px) rgb(255 255 255 / 0.14),
+    0 16px 40px -10px rgb(0 0 0 / 0.8);
+  color: #0a0a0a;
+  transition: transform 0.2s ease;
+}
+
+.ls-paths-orb[data-play] .ls-paths-icon {
+  width: 36%;
+  height: 36%;
+  margin-left: 8%;
+}
+
+.ls-paths-frame:has(.ls-paths-play:hover) .ls-paths-orb[data-play] {
+  transform: scale(1.06);
+}
+
+.ls-paths-frame:has(.ls-paths-play:focus-visible) .ls-paths-orb[data-play] {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 4px;
+}
+
+/* After the by-hand version, the chip under the disc says what it plays. */
+.ls-paths-panel .ls-paths-chip[data-play] {
+  border-color: rgb(212 168 87 / 0.6);
+  background: rgb(0 0 0 / 0.6);
+  color: #f1d68f;
+  font-weight: 700;
+}
+
+.ls-paths-replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 2rem;
+  padding: 0.35em 0.9em;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.6);
+  color: rgb(229 229 229);
+  font-size: clamp(0.75rem, 1.3cqw, 0.875rem);
+  font-weight: 600;
+  pointer-events: auto;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.ls-paths-replay:hover {
+  border-color: rgb(212 168 87 / 0.6);
+  color: #fff;
+}
+
+.ls-paths-replay svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* ---- the fork ---- */
+
+.ls-paths-stem {
+  display: block;
+  width: 1px;
+  height: clamp(2rem, 5vw, 3.5rem);
+  margin-inline: auto;
+  background: linear-gradient(to bottom, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.2));
+}
+
+/* A path's padding is the same on both sides, so its node sits under the
+   end of its branch; the VS in the middle fits inside the two paddings. */
+.ls-paths-path {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(1.5rem, 3vw, 2.25rem) 1rem 0;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .ls-paths-path {
+    padding-inline: 2rem;
+  }
+}
+
+/* Each path's half of the split: from the middle of the fork out over its
+   column, then down to its node. The left half is grey; the right is the
+   reference's lit line, in brass. */
+.ls-paths-branch {
+  position: absolute;
+  top: 0;
+  height: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid;
+  transition:
+    border-color 0.4s ease,
+    filter 0.4s ease;
+}
+
+.ls-paths-branch--left {
+  right: 0;
+  left: 50%;
+  border-left: 1px solid;
+  border-color: rgb(255 255 255 / 0.2);
+  border-top-left-radius: 1rem;
+}
+
+.ls-paths-branch--right {
+  right: 50%;
+  left: 0;
+  border-right: 1px solid;
+  border-color: #d4a857;
+  border-top-right-radius: 1rem;
+  filter: drop-shadow(0 0 4px rgb(212 168 87 / 0.8));
+}
+
+.ls-paths-node {
+  display: grid;
+  place-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 1px solid;
+  border-radius: 9999px;
+  background: #0a0a0a;
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    color 0.4s ease;
+}
+
+.ls-paths-node::after {
+  content: "";
+  width: 0.45rem;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.ls-paths-node--left {
+  border-color: rgb(255 255 255 / 0.3);
+  color: rgb(163 163 163);
+}
+
+.ls-paths-node--right {
+  border-color: #d4a857;
+  color: #f1d68f;
+  box-shadow: 0 0 12px rgb(212 168 87 / 0.6);
+}
+
+/* The path being played lights up. */
+.ls-paths-fork[data-mode="manual"] .ls-paths-branch--left {
+  border-color: rgb(255 255 255 / 0.6);
+}
+
+.ls-paths-fork[data-mode="manual"] .ls-paths-node--left {
+  border-color: rgb(255 255 255 / 0.75);
+  color: #fff;
+  box-shadow: 0 0 12px rgb(255 255 255 / 0.3);
+}
+
+.ls-paths-fork[data-mode="ai"] .ls-paths-branch--right {
+  filter: drop-shadow(0 0 7px rgb(212 168 87));
+}
+
+.ls-paths-vs {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.05), transparent 70%),
+    #0a0a0a;
+  color: rgb(115 115 115);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+@media (min-width: 640px) {
+  .ls-paths-vs {
+    width: 3rem;
+    height: 3rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* The gold of a price: "$0" here and on the "Take action" card. */
+.ls-price {
+  background: linear-gradient(180deg, #f6e3ae 0%, #e0be78 45%, #c4913f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ls-paths-panel[data-status="ringing"] .ls-paths-orb::before,
+  .ls-paths-panel[data-status="ringing"] .ls-paths-orb::after,
+  .ls-paths-progress {
+    display: none;
+  }
+
+  .ls-paths-panel[data-status="ringing"] .ls-paths-icon,
+  .ls-paths-caption-text {
+    animation: none;
   }
 }
 

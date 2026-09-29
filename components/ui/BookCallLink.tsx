@@ -10,16 +10,18 @@ import { bookHref, bookLabel, bookLabelHero, isExternalHref } from "@/data/site"
  *
  * Styled as the brass Lee Systems button by default, since booking a call is
  * Lee Systems Co.'s action wherever it appears; `variant="secondary"` is the
- * outlined version for a section whose primary action is something else, and
+ * outlined version for a section whose primary action is something else,
  * `variant="hero"` is the homepage hero's large gold button, which also
- * carries the hero's longer wording (`bookLabelHero`).
+ * carries the hero's longer wording (`bookLabelHero`), and `variant="glow"`
+ * is the lit gold button of the Lee Systems page's "Two paths" and "The
+ * choice is yours" sections.
  */
 export function BookCallLink({
   className,
   variant = "primary",
 }: {
   className?: string;
-  variant?: "primary" | "secondary" | "hero";
+  variant?: "primary" | "secondary" | "hero" | "glow";
 }) {
   const label = variant === "hero" ? bookLabelHero : bookLabel;
   const classes = clsx(
@@ -27,6 +29,7 @@ export function BookCallLink({
       primary: "btn-ls-primary",
       secondary: "btn-ls-secondary",
       hero: "btn-hero",
+      glow: "btn-ls-glow",
     }[variant],
     "inline-flex min-h-11 items-center justify-center text-center",
     className
