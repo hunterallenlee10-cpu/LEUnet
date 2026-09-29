@@ -33,17 +33,28 @@ export function LeeSystemsHeroSection() {
           Customers expect an answer right away, and the first business to
           reply usually wins the job. We build custom AI systems that answer
           your calls and new leads in seconds, follow up automatically, handle
-          intake and clear out the admin, so you never lose another lead to a
+          intake and clear out the admin. Pair it with a fast, modern website
+          built to turn visitors into inquiries, with every form feeding
+          straight into the same system, so you never lose another lead to a
           competitor.
         </p>
 
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <BookCallLink />
+        {/* Three buttons of one size: a fixed height so the borderless brass
+            button matches the outlined ones, and a shared width that fits the
+            longest label. Stacked at full width on a phone. */}
+        <div className="mx-auto flex max-w-xs flex-col items-stretch justify-center gap-4 md:max-w-none md:flex-row md:items-center">
+          <BookCallLink className="h-12 px-4 md:w-56" />
           <Link
             href={leeSystemsRoutes.automation}
-            className="btn-ls-secondary inline-flex min-h-11 items-center justify-center"
+            className="btn-ls-secondary inline-flex h-12 items-center justify-center px-4 text-center md:w-56"
           >
             See what we automate
+          </Link>
+          <Link
+            href={leeSystemsRoutes.websites}
+            className="btn-ls-secondary inline-flex h-12 items-center justify-center px-4 text-center md:w-56"
+          >
+            See website builds
           </Link>
         </div>
       </div>

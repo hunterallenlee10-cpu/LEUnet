@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
-import { LeeSystemsHowItWorksSection } from "@/components/lee-systems/LeeSystemsHowItWorksSection";
+import { LeeSystemsOnboardingSection } from "@/components/lee-systems/LeeSystemsOnboardingSection";
 import { LeeSystemsFinalCTA } from "@/components/lee-systems/LeeSystemsFinalCTA";
 import { PricingPromiseSection } from "@/components/shared/PricingPromiseSection";
 import { BookCallLink } from "@/components/ui/BookCallLink";
@@ -84,7 +84,7 @@ export function IndustryPage({ industryId }: { industryId: IndustryId }) {
         </section>
 
         <PricingPromiseSection />
-        <LeeSystemsHowItWorksSection />
+        <LeeSystemsOnboardingSection />
         <LeeSystemsFinalCTA />
       </main>
 

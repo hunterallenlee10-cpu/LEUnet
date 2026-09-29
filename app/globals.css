@@ -2856,6 +2856,184 @@
   animation: lsScanLabel 10.5s ease-in-out infinite;
 }
 
+/* The spine of the main page's "What we do" spread
+   (LeeSystemsOfferingsSection): a track the height of the spine, with the
+   packet on its bottom edge, slid from one track-height above to rest, so the
+   packet runs top to bottom whatever height the two halves make the spine. */
+@keyframes lsSpineTrack {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+.ls-spine-track {
+  animation: lsSpineTrack 5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+}
+
+/* ---------------------------------------------------------------------------
+   Lee Systems Co. - onboarding devices
+   One consumer: components/lee-systems/OnboardingDevices.tsx. Every piece
+   rests in its finished state; the animations below apply only inside the
+   scene marked data-active="true", so a scene replays each time it becomes
+   current and fades out whole. `both` fill holds each piece at its first frame
+   through its stagger delay. All of it stops under prefers-reduced-motion.
+--------------------------------------------------------------------------- */
+
+@keyframes obRise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes obPop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes obDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.96);
+  }
+}
+
+@keyframes obGrow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes obWire {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes obDraw {
+  from {
+    stroke-dashoffset: 260;
+  }
+}
+
+@keyframes obFade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* The audit's scan line: the box is the height of the screen, the line sits
+   on its top edge, so translating the box by its own height runs the line
+   from the top of the screen to the bottom. */
+@keyframes obScan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes obFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.ob-grow {
+  transform-origin: left;
+}
+
+.ob-wire {
+  transform-origin: top;
+}
+
+/* In the viewBox's own units: the curve is a little over 200 long, so 260
+   covers it. Not pathLength="100" with non-scaling-stroke, which Chromium
+   dashes in screen pixels and so stops the line partway across. */
+.ob-draw {
+  stroke-dasharray: 260;
+}
+
+.ob-scan {
+  opacity: 0;
+}
+
+.ob-float {
+  animation: obFloat 6s ease-in-out infinite;
+}
+
+.ob-scene[data-active="true"] .ob-rise {
+  animation: obRise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.ob-scene[data-active="true"] .ob-pop {
+  animation: obPop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.ob-scene[data-active="true"] .ob-drop {
+  animation: obDrop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.ob-scene[data-active="true"] .ob-grow {
+  animation: obGrow 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.ob-scene[data-active="true"] .ob-wire {
+  animation: obWire 0.35s ease-out both;
+}
+
+.ob-scene[data-active="true"] .ob-draw {
+  animation: obDraw 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.ob-scene[data-active="true"] .ob-area {
+  animation: obFade 1s ease-out 1.1s both;
+}
+
+.ob-scene[data-active="true"] .ob-scan {
+  animation: obScan 2.6s ease-in-out 0.2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-float,
+  .ob-scene[data-active="true"] .ob-rise,
+  .ob-scene[data-active="true"] .ob-pop,
+  .ob-scene[data-active="true"] .ob-drop,
+  .ob-scene[data-active="true"] .ob-grow,
+  .ob-scene[data-active="true"] .ob-wire,
+  .ob-scene[data-active="true"] .ob-draw,
+  .ob-scene[data-active="true"] .ob-area,
+  .ob-scene[data-active="true"] .ob-scan {
+    animation: none;
+  }
+
+  .ob-scene {
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ls-dash,
   .ls-packet,
@@ -2863,8 +3041,14 @@
   .ls-scan-track,
   .ls-scan-dot,
   .ls-scan-badge,
-  .ls-scan-label {
+  .ls-scan-label,
+  .ls-spine-track {
     animation: none;
+  }
+
+  /* Still, the packet would sit at the foot of the spine as a stray mark. */
+  .ls-spine-track {
+    display: none;
   }
 
   .ls-packet {
