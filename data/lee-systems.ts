@@ -221,7 +221,7 @@ export const automationFaqs = [
   {
     question: "What kinds of businesses do you work with?",
     answer:
-      "Any service business that depends on responding to and following up with people. Law firms and home services companies are the two we know best.",
+      "Any service business that depends on responding to and following up with people.",
   },
 ];
 
