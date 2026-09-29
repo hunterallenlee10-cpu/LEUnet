@@ -11,7 +11,8 @@ import { HeroVsl } from "@/components/sections/HeroVsl";
  * The homepage hero. First a full-screen headline, line and button over a
  * field of gold dots (the owner's design, 2026-09-28, which replaced the LEU
  * logo and the "Hire us to automate your business, or learn to build your
- * own." headline). A few seconds in, the animation of what Lee Systems Co.
+ * own." headline; the owner's headline "Never Miss Another Customer",
+ * 2026-09-29, replaced "Elevate Your Business with AI"). A few seconds in, the animation of what Lee Systems Co.
  * sets up plays in the headline's place, then hands back to it with a
  * "Replay animation" button (the owner's plan, 2026-09-29: HeroVsl.tsx, and
  * heroVslPlayer.ts for when it plays). Then "Split Ventures": the two ways to
@@ -41,14 +42,20 @@ export function HeroSection() {
       <HeroStage>
         <div className="hero-split-copy" data-hero-copy>
           {/* The owner's headline, capitalized as they wrote it. The space
-              before the accent is real text, so it reads "with AI". */}
+              before the accent is real text, so it reads "Another
+              Customer". */}
           <h1 id="hero-title" className="hero-split-title">
-            Elevate Your Business with{" "}
-            <span className="hero-split-accent">AI</span>
+            Never Miss Another{" "}
+            <span className="hero-split-accent">Customer</span>
           </h1>
+          {/* The owner's line, 2026-09-29, which replaced "Automate how
+              your business talks, sells, and grows with AI solutions built
+              to scale your brand." Each sentence is kept whole, so a narrow
+              screen wraps between them and never inside "More Money". */}
           <p className="hero-split-lede">
-            Automate how your business talks, sells, and grows with AI
-            solutions built to scale your brand.
+            <span className="whitespace-nowrap">More Customers.</span>{" "}
+            <span className="whitespace-nowrap">More Money.</span>{" "}
+            <span className="whitespace-nowrap">Less Work.</span>
           </p>
           <div className="hero-split-cta">
             <BookCallLink variant="hero" />
