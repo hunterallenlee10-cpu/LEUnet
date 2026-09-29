@@ -4,7 +4,7 @@ import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
-import { BmAudienceSection } from "@/components/business-mastery/BmAudienceSection";
+import { BmShiftSection } from "@/components/business-mastery/BmShiftSection";
 import { BmProofSection } from "@/components/business-mastery/BmProofSection";
 import { BmManifestoSection } from "@/components/business-mastery/BmManifestoSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
@@ -61,10 +61,11 @@ export const metadata: Metadata = {
  * (docs/BUSINESS-MASTERY.md §9).
  *
  * Section order is the settled page flow from docs/BUSINESS-MASTERY.md §3 —
- * change it there first. It was last reordered on 2026-09-28, to put what
- * members get before the philosophy. Every section shares the body's
- * neutral-950, so what alternates is a glow layer: 2, 4 and 6 carry one, 3
- * and 5 don't. Keep that alternation if the order changes again.
+ * change it there first. It was last reordered on 2026-09-29, when "The
+ * world is about to change" took slot 2 and absorbed "Who this is for".
+ * Every section shares the body's neutral-950, so what alternates is a glow
+ * layer: 2, 4 and 6 carry one, 3 and 5 don't. Keep that alternation if the
+ * order changes again.
  */
 export default function BusinessMasteryPage() {
   return (
@@ -75,8 +76,8 @@ export default function BusinessMasteryPage() {
 
       <main>
         <BmHeroSection />
+        <BmShiftSection />
         <BmProgramSection />
-        <BmAudienceSection />
         <BmProofSection />
         <BmManifestoSection />
         <BmFoundingOfferSection />

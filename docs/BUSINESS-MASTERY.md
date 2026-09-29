@@ -99,8 +99,8 @@ The owner's flow, with the added section slotted where it does the most work:
 | # | Section | Content source | State |
 | --- | --- | --- | --- |
 | 1 | Hero — manifesto | Owner doc §1: title, "No great accomplishment…", "Speedrun Your Way to Success", CTA `ACHIEVE YOUR DREAMS →` scrolls to the offer | Ready |
-| 2 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." (now "A network of dedicated entrepreneurs.") + six pillars (classes, webinars, daily calls, coaching, hands-on help, community); Tools & Resources removed 2026-09-27, data kept. Was slot 5 until the 2026-09-28 reorder | Ready |
-| 3 | Who This Is For | Owner doc §3: four audiences (Aspiring / Young / Early-Stage / Growing), cut to three stages on 2026-09-27 at the owner's request (Starting From Zero / Just Getting Started / Ready to Grow) — Aspiring and Young merged. Ends on the page's second "Apply to join" since 2026-09-28 | Ready |
+| 2 | **The World Is About To Change** (why now) | Added 2026-09-29 from a layout the owner sent (The Real World's section of that name): three alternating rows, Time's ticking / The AI shift / The way out, each with a live panel (a year clock, an AI assistant window, the stages path). Build copy in `bmShift`. It absorbed **Who This Is For**: the third row's panel is its three stages (Owner doc §3, cut from four to three on 2026-09-27), headed by `bmAudienceHeading` and closed by `bmAudienceSubheading`, both verbatim | Ready. Build copy, no figures or results (§6) |
+| 3 | What Business Mastery Actually Is | Owner doc §4: "NOT a Course. A Coach." (now "A network of dedicated entrepreneurs.") + six pillars (classes, webinars, daily calls, coaching, hands-on help, community); Tools & Resources removed 2026-09-27, data kept. Six cards until 2026-09-29, now an auto-stepping showcase from lg up and a plain list below it. Ends on the page's second "Apply" (moved here from Who This Is For). Was slot 5 until the 2026-09-28 reorder, slot 2 until 2026-09-29 | Ready |
 | 4 | The proof figures | `bmProofPoints` (50+ / 1,000+ / $150,000+), with `bmProofStatement` as its screen-reader text. The foot of the manifesto until the 2026-09-28 reorder made it its own short section, with no heading | Ready (see §6 on the proof claims) |
 | 5 | **What We Believe** — the manifesto + Our Core Tenets | Owner doc §2 ("Nobody Builds Something Great Alone", network as the driving force), then the owner's three tenets, supplied 2026-09-07: Speed, Money In, For Free (they replaced the 8-step "How to Build Your Own Empire" framework). The manifesto was slot 2 and the tenets slot 4 until they merged here on 2026-09-28 | Ready. Tenet titles are the owner's; the Speed description is the owner's own copy (supplied 2026-09-15), the other two one-line descriptions are build copy — see the note on `bmTenets` before editing "For Free" |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
@@ -108,6 +108,17 @@ The owner's flow, with the added section slotted where it does the most work:
 | 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | **Moved to the homepage on 2026-09-28**, right above "Our projects", at the owner's request — not on this page any more. Still built and **visibly locked** until the owner launches it: the slot renders a Coming Soon placeholder; `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
 | ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — merged up into slot 2 on 2026-09-07, then **off the page entirely** on 2026-09-13, see the note below | Not on the page in any slot; the copy is unchanged and still `bmTransition` |
 | 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | **Not on the page right now** — pulled at the owner's request on 2026-09-27; `BmFinalCTASection` and `bmFinalCta` are intact |
+
+**The page was redesigned on 2026-09-29, at the owner's request**, to be
+less "cards, cards, and more cards" and to open with why now. "The world is
+about to change" (`BmShiftSection`) took slot 2 and absorbed "Who this is
+for" (`BmAudienceSection.tsx` is deleted; its stages, heading and subheading
+render in the new section's third row, and its "Apply now" button moved to
+the end of "What Business Mastery actually is", now slot 3). The six pillar
+cards became `BmProgramShowcase`; the tenets became numbered rows with
+hairlines between; "What happens after you apply" became a line of numbered
+stops that draws itself. The glow alternation holds: the new slot 2 carries
+one, slot 3 no longer does.
 
 **The page was reordered on 2026-09-28, at the owner's request**, to put
 what members get before the philosophy so a visitor understands the offer
@@ -265,8 +276,10 @@ both pages that set it have since moved to their own repos - see this repo's
 | `data/business-mastery.ts` | All page copy, the three audience stages, the 3 core tenets, the seven pillars, the 14 timeline chapters, the founding counter (`claimed`, `total`, unrendered) |
 | `types/index.ts` | Business Mastery interfaces appended |
 | `components/business-mastery/BmHeroSection.tsx` | 1 — manifesto hero |
-| `components/business-mastery/BmProgramSection.tsx` | 2 — "A network of dedicated entrepreneurs." + pillars |
-| `components/business-mastery/BmAudienceSection.tsx` | 3 — three audience stage cards + the second "Apply to join" |
+| `components/business-mastery/BmProgramSection.tsx` | 3 — "A network of dedicated entrepreneurs." + pillars + the second "Apply now" |
+| `components/business-mastery/BmShiftSection.tsx` | 2 — "The world is about to change": three alternating rows, the third drawing the audience stages as a path (replaced `BmAudienceSection.tsx` on 2026-09-29) |
+| `components/business-mastery/BmYearClock.tsx`, `BmAiWindow.tsx` | 2 — the first two rows' live panels (client, decorative) |
+| `components/business-mastery/BmProgramShowcase.tsx`, `bmPillarIcons.ts` | 3 — the pillars' auto-stepping showcase (lg up) and their icons |
 | `components/business-mastery/BmProofSection.tsx` | 4 — the three proof figures |
 | `components/business-mastery/BmManifestoSection.tsx` | 5 — What we believe: the manifesto + the three core tenets (replaced `BmCoreBeliefSection.tsx`, `BmTransitionSection.tsx` and, on 2026-09-28, `BmTenetsSection.tsx`) |
 | `components/business-mastery/BmFoundingOfferSection.tsx` | 6 — offer, limited-spots box, guarantee expandable |

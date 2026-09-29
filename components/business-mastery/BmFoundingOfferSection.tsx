@@ -110,25 +110,35 @@ export function BmFoundingOfferSection() {
             `platform` is set. */}
         {site.businessMastery.joinMode === "apply" && (
           <div className="mx-auto mt-14 max-w-3xl">
-            <h3 className="mb-6 text-center text-xl font-bold text-white">
+            <h3 className="mb-10 text-center text-xl font-bold text-white">
               What happens after you apply
             </h3>
-            <ol className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {afterApplySteps.map((step, i) => (
-                <li
-                  key={step}
-                  className="rounded-xl border border-white/10 bg-white/[0.04] p-5"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="mb-2 block text-sm font-bold tabular-nums text-amber-400"
+            {/* A drawn line, not boxes (the owner's request, 2026-09-29):
+                numbered stops on a gold line that draws itself as the steps
+                scroll into view, across from md up and down the left below
+                it. */}
+            <div className="relative">
+              <span className="bm-steps-line bm-steps-line--x" aria-hidden="true" />
+              <span className="bm-steps-line bm-steps-line--y" aria-hidden="true" />
+              <ol className="relative grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6">
+                {afterApplySteps.map((step, i) => (
+                  <li
+                    key={step}
+                    className="grid grid-cols-[2.5rem_1fr] items-start gap-4 md:flex md:flex-col md:items-center md:text-center"
                   >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="leading-relaxed text-neutral-200">{step}</p>
-                </li>
-              ))}
-            </ol>
+                    <span
+                      aria-hidden="true"
+                      className="relative flex h-10 w-10 items-center justify-center rounded-full border border-amber-400/60 bg-neutral-950 font-mono text-sm font-bold tabular-nums text-amber-400 shadow-[0_0_0_6px_rgb(10_10_10)]"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p className="pt-2 leading-relaxed text-neutral-200 md:max-w-[15rem] md:pt-0">
+                      {step}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         )}
 

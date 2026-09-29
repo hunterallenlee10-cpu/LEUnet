@@ -642,6 +642,410 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Business Mastery: "The world is about to change" (BmShiftSection), the
+   program showcase (BmProgramShowcase), the tenet rows and the after-apply
+   line. The owner's 2026-09-29 redesign away from grids of cards. Every
+   animation here is transform, opacity or a colour, and all of it stops
+   under reduced motion (the block at the end).
+   --------------------------------------------------------------------------- */
+
+/* Pill labels: an icon (or a gold badge) and a word, in a hairline capsule. */
+.bm-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: fit-content;
+  padding: 0.3125rem 0.75rem 0.3125rem 0.3125rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.03);
+  color: rgb(212 212 212);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.bm-pill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  border: 1px solid rgb(251 191 36 / 0.35);
+  border-radius: 9999px;
+  background: rgb(251 191 36 / 0.08);
+  color: #fcd34d;
+}
+
+.bm-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3125rem 0.75rem;
+  border-radius: 9999px;
+  background: #fbbf24;
+  color: #0a0a0a;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+/* The framed "screens" the rows show: a hairline, a lit top edge and a faint
+   gold wash from one corner, so they read as lit glass rather than cards. */
+.bm-shift-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgb(251 191 36 / 0.09), transparent 55%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.015));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    0 30px 80px -40px rgb(0 0 0 / 0.9),
+    0 0 60px -30px rgb(251 191 36 / 0.25);
+}
+
+.bm-live-dot {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 9999px;
+  background: #fbbf24;
+  box-shadow: 0 0 0 0 rgb(251 191 36 / 0.6);
+  animation: bmLivePulse 1.8s ease-out infinite;
+}
+
+@keyframes bmLivePulse {
+  70% {
+    box-shadow: 0 0 0 7px rgb(251 191 36 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(251 191 36 / 0);
+  }
+}
+
+/* The AI window's typing caret, thinking dots and ticked-off results. */
+.bm-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: #fbbf24;
+  animation: bmCaret 0.9s steps(1) infinite;
+}
+
+@keyframes bmCaret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.bm-thinking {
+  display: inline-flex;
+  gap: 0.3125rem;
+}
+
+.bm-thinking span {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 9999px;
+  background: rgb(251 191 36 / 0.8);
+  animation: bmThinking 1s ease-in-out infinite;
+}
+
+.bm-thinking span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.bm-thinking span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bmThinking {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.bm-result {
+  animation: bmResult 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bmResult {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* The stages path: each stop glows as a light runs down the link from the
+   stop above. Link i and stop i share a delay of i x 1.2s in a 4.8s cycle. */
+.bm-path-node {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgb(251 191 36 / 0.35);
+  border-radius: 9999px;
+  background: #0f0f0f;
+  color: #fcd34d;
+  animation: bmNodeGlow 4.8s ease-out infinite;
+}
+
+@keyframes bmNodeGlow {
+  0%,
+  45%,
+  100% {
+    border-color: rgb(251 191 36 / 0.35);
+    box-shadow: 0 0 0 0 rgb(251 191 36 / 0);
+  }
+  8% {
+    border-color: rgb(251 191 36 / 0.95);
+    box-shadow: 0 0 22px 2px rgb(251 191 36 / 0.45);
+  }
+}
+
+.bm-path-link {
+  position: absolute;
+  top: 2.75rem;
+  bottom: -1.75rem;
+  left: calc(1.375rem - 0.5px);
+  width: 1px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgb(251 191 36 / 0.45), rgb(251 191 36 / 0.15));
+}
+
+.bm-path-light {
+  position: absolute;
+  left: -1px;
+  width: 3px;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, transparent, #fde68a);
+  opacity: 0;
+  animation: bmPathLight 4.8s linear infinite;
+}
+
+@keyframes bmPathLight {
+  0% {
+    top: -2.5rem;
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  25% {
+    top: 100%;
+    opacity: 1;
+  }
+  26%,
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Rise in on scroll. A scroll-driven animation, so a browser without them
+   (or with reduced motion) simply shows the content: nothing waits on JS. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bm-reveal {
+      animation: bmReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 30%;
+    }
+
+    .bm-steps-line--x {
+      animation: bmDrawX linear both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 50%;
+    }
+
+    .bm-steps-line--y {
+      animation: bmDrawY linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 60%;
+    }
+  }
+}
+
+@keyframes bmReveal {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bmDrawX {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bmDrawY {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* The program showcase: the bar under the current tab is its timer, and its
+   animationend hands on to the next tab (BmProgramShowcase). */
+.bm-tab-progress {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform-origin: left;
+  background: linear-gradient(90deg, #f59e0b, #fde68a);
+  animation: bmTabProgress 6s linear both;
+}
+
+.bm-tab-progress--full {
+  animation: none;
+}
+
+@keyframes bmTabProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.bm-panel-in {
+  animation: bmPanelIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bmPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+/* The pillar icon in a slowly turning dashed orbit. */
+.bm-orbit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgb(251 191 36 / 0.16), rgb(251 191 36 / 0.03) 70%);
+  box-shadow: 0 0 40px -8px rgb(251 191 36 / 0.45);
+}
+
+.bm-orbit-ring {
+  position: absolute;
+  inset: -0.625rem;
+  border: 1px dashed rgb(251 191 36 / 0.45);
+  border-radius: 9999px;
+  animation: bmOrbit 18s linear infinite;
+}
+
+@keyframes bmOrbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* The tenets' numerals: solid gold fading down to nothing, brightening
+   under the pointer. (An outline was tried first; the site font's glyphs
+   overlap internally, so a text stroke drew seams inside the "1".) */
+.bm-tenet-num {
+  background: linear-gradient(180deg, rgb(251 191 36 / 0.85) 0%, rgb(251 191 36 / 0.08) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+
+.group:hover .bm-tenet-num {
+  opacity: 1;
+}
+
+/* The after-apply line: across the three stops from md up (first centre to
+   last centre), down the left of them below md. */
+.bm-steps-line {
+  position: absolute;
+  display: block;
+  background: linear-gradient(90deg, rgb(251 191 36 / 0.7), rgb(251 191 36 / 0.25));
+}
+
+.bm-steps-line--x {
+  display: none;
+  top: 1.25rem;
+  left: calc(100% / 6);
+  right: calc(100% / 6);
+  height: 1px;
+  transform-origin: left;
+}
+
+.bm-steps-line--y {
+  top: 1.25rem;
+  bottom: 1.25rem;
+  left: calc(1.25rem - 0.5px);
+  width: 1px;
+  transform-origin: top;
+  background: linear-gradient(180deg, rgb(251 191 36 / 0.7), rgb(251 191 36 / 0.25));
+}
+
+@media (min-width: 768px) {
+  .bm-steps-line--x {
+    display: block;
+  }
+
+  .bm-steps-line--y {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-live-dot,
+  .bm-caret,
+  .bm-thinking span,
+  .bm-result,
+  .bm-path-node,
+  .bm-path-light,
+  .bm-tab-progress,
+  .bm-panel-in,
+  .bm-orbit-ring {
+    animation: none;
+  }
+
+  .bm-path-light {
+    display: none;
+  }
+
+  .bm-tab-progress {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Homepage tool strip - components/sections/ToolsMarqueeSection.tsx
    Two rows of logo pills sliding in opposite directions, faded at both edges.
    Each track holds its list twice and slides by exactly one copy (-50%), so
