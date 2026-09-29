@@ -8,9 +8,10 @@ const industryIcons = {
 } as const;
 
 /**
- * The two industries the owner knows best, each with the automations built
- * for them and a link to its own page. Other industries get one line rather
- * than cards with nothing specific to say.
+ * Two example industries, each with the automations built for them and a
+ * link to its own page. The heading frames them as examples, not the only
+ * businesses served (the owner's request, 2026-09-29); other industries get
+ * one line rather than cards with nothing specific to say.
  */
 export function AutomationIndustriesSection() {
   return (
@@ -18,10 +19,10 @@ export function AutomationIndustriesSection() {
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold text-brass-300">
-            Industries we know best
+            Who we help
           </p>
           <h2 className="heading-lg text-white">
-            Built in the language of your business
+            For example, we help businesses like these
           </h2>
         </div>
 
