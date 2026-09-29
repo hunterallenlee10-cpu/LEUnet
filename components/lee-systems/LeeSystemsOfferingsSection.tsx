@@ -29,7 +29,7 @@ const offerings: [Offering, Offering] = [
       "Handles intake, booking and reminders",
       "Follows up until the customer gives an answer",
       "Requests reviews and chases invoices for you",
-      "Updates your CRM automatically",
+      "Updates you & your systems automatically",
     ],
     href: `#${leeSystemsAnchors.automation}`,
     cta: "Explore automation",
