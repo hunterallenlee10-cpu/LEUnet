@@ -981,6 +981,25 @@ body {
   .holo-static-services li { padding: 2rem; }
   .holo-static-foot .holo-trust { font-size: 1.375rem; }
 }
+
+/* The two text links under the button: a stacked pair. */
+.holo-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+}
+.holo-stage .holo-links { pointer-events: inherit; }
+@container holo (min-width: 860px) {
+  .holo-stage .holo-ctas { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .holo-stage .holo-links { align-items: flex-start; }
+}
+.holo-static-foot .holo-ctas { flex-direction: column !important; gap: 0.5rem !important; }
+
+/* Phones: a booking button under the player, up from the start. */
+.holo-book-phone { display: flex; justify-content: center; margin-top: 1rem; }
+.holo-book-phone .holo-btn { width: 100%; max-width: 20rem; }
+@container holo (min-width: 860px) { .holo-book-phone { display: none; } }
 </style>
 </head>
 <body>
@@ -1203,7 +1222,7 @@ body {
               <div class="holo-caps">
                 <p class="holo-cap">Missed leads are missed <em>money</em>.</p>
                 <p class="holo-cap">Automations close every gap <em>leads slip through</em>.</p>
-                <p class="holo-cap"><span class="holo-cap-a"><span class="holo-nb">AI-powered</span> websites send <em>even more leads</em> your way.</span> <span class="holo-cap-b">See it built first.</span></p>
+                <p class="holo-cap"><span class="holo-cap-a"><span class="holo-nb">AI-powered</span> websites send <em>even more leads</em> your way.</span> <span class="holo-cap-b">Built for you with speed.</span></p>
               </div>
 
               <div aria-hidden="true" class="holo-pop holo-pop--call">
@@ -1242,7 +1261,10 @@ body {
                   <p class="holo-trust"><span class="holo-nb">One flat price.</span> <span class="holo-nb">No revenue share.</span> <span class="holo-nb">Just results.</span></p>
                   <div class="holo-ctas">
                     <a class="holo-btn" href="/contact?interest=lee-systems">Book a free call</a>
-                    <a class="holo-link" href="/lee-systems/automation">See everything we automate</a>
+                    <div class="holo-links">
+                      <a class="holo-link" href="/lee-systems/automation">See everything we automate</a>
+                      <a class="holo-link" href="/lee-systems/websites">Websites built to bring in leads</a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1267,6 +1289,7 @@ body {
                 <span class="holo-sound-label">Sound off</span>
               </button>
             </div>
+            <div class="holo-book-phone"><a class="holo-btn" href="/contact?interest=lee-systems">Book a free call</a></div>
           </div>
 
           <!-- Static version, for reduced motion -->
@@ -1303,7 +1326,10 @@ body {
                 <p class="holo-trust"><span class="holo-nb">One flat price.</span> <span class="holo-nb">No revenue share.</span> <span class="holo-nb">Just results.</span></p>
                 <div class="holo-ctas">
                   <a class="holo-btn" href="/contact?interest=lee-systems">Book a free call</a>
-                  <a class="holo-link" href="/lee-systems/automation">See everything we automate</a>
+                  <div class="holo-links">
+                      <a class="holo-link" href="/lee-systems/automation">See everything we automate</a>
+                      <a class="holo-link" href="/lee-systems/websites">Websites built to bring in leads</a>
+                    </div>
                 </div>
               </div>
             </div>
@@ -2211,7 +2237,7 @@ window.HOLO_EDIT = {
         .fromTo(box, { scale: 1, transformOrigin: "50% 76%" },
           { scale: 1.06, duration: T.pushIn[1] - T.pushIn[0], ease: "sine.inOut" }, T.pushIn[0])
         .fromTo(q(".holo-stage .holo-trust"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" }, T.trust)
-        .fromTo(qa(".holo-stage .holo-ctas > a"), { opacity: 0, y: 12 },
+        .fromTo(qa(".holo-stage .holo-ctas > a, .holo-stage .holo-links > a"), { opacity: 0, y: 12 },
           { opacity: 1, y: 0, duration: 0.65, ease: "power3.out", stagger: 0.15 }, T.ctas)
         .call(playSfx, ["rise", T.countLead + 0.3], T.stats)
         .to({}, { duration: 0.01 }, T.total - 0.01);
