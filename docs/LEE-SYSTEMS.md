@@ -83,9 +83,17 @@ Two sections of the main page follow The Real World's landing page
 - **Two paths** (`LeeSystemsTwoPathsSection`, `TwoPathsDemo`), straight after
   the hero: a "24/7" badge, "Two paths. Only one gets the customer.", and a
   video-style frame of three panels (calls, follow-up, intake + CRM) with a
-  play button. Under it the line splits into "Lose customers / Lose money"
-  (the owner's wording, 2026-09-29; it was "Miss the call / Fall behind")
-  and "$0" for the first call, with a VS between them. The play button runs one example lead
+  play button. Under it the line splits into two paths with a VS between
+  them, each labelled with what it does to your customers and titled with
+  what it does to your money: "Lose customers / Lose money" (the owner's
+  wording, 2026-09-29), in the red of money lost, against "Win customers /
+  $0 to start" in gold. Each path's line is the same two jobs, answering
+  and following up, done by hand ("Answer when you can. Follow up when you
+  remember. Miss a call, and someone else gets paid for the job.") and by AI
+  ("AI answers every call, day or night, and follows up until they reply.
+  They book with you, not whoever answers next."). Under the gold button,
+  "No obligation · Flat upfront quote", from the FAQ and the pricing
+  promise. The play button runs one example lead
   (a customer calling at 11:48 PM) with the systems in place; "Do it by hand"
   runs the same lead without them. Every line of the example is something the
   site already says the systems do, and the frame is labelled "Example".
@@ -99,7 +107,8 @@ Two sections of the main page follow The Real World's landing page
   form follows it.
 
 The "$0" in Two paths is the free consultation call, the only price the site
-states. The two figures on the choice cards are the owner's (2026-09-29):
+states; "to start" sits beside it so it can't be read as the price of the
+AI. The two figures on the choice cards are the owner's (2026-09-29):
 doing nothing costs thousands, taking action can make tens of thousands.
 They replaced a "−$$$" sign and "$0 / consultation call". They are ranges,
 not results: the gain says "could", and neither names a client or a job. The
