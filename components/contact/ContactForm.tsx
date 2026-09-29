@@ -8,7 +8,14 @@ import clsx from "clsx";
 import { contactInterests, type ContactInterest } from "@/data/contact";
 import { businessMasteryAction } from "@/data/business-mastery";
 import { site } from "@/data/site";
-import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
+import {
+  FIELD_LIMITS,
+  INVALID_NAME_MESSAGE,
+  filterInput,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from "@/lib/validation";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 
 type Field = "name" | "email" | "phone" | "interest" | "message";
@@ -89,9 +96,13 @@ export function ContactForm({
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value: typed } = e.target;
+    const { value, dropped } = filterInput(
+      name === "name" ? "name" : name === "phone" ? "phone" : null,
+      typed
+    );
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: undefined, form: undefined }));
+    setErrors((prev) => ({ ...prev, [name]: dropped, form: undefined }));
   };
 
   const chooseInterest = (value: ContactInterest) => {
@@ -107,6 +118,7 @@ export function ContactForm({
 
     if (!name) next.name = "Please enter your name.";
     else if (name.length < 2) next.name = "Please enter at least 2 characters.";
+    else if (!isValidName(name)) next.name = INVALID_NAME_MESSAGE;
 
     if (!email) next.email = "Please enter your email address.";
     else if (!isValidEmail(email))

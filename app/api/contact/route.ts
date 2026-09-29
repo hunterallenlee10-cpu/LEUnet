@@ -2,7 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { contactInterests, isContactInterest } from "@/data/contact";
 import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
 import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
-import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
+import {
+  FIELD_LIMITS,
+  INVALID_NAME_MESSAGE,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from "@/lib/validation";
 
 /** What the form posts. Typed `unknown` because a request can come from anywhere. */
 interface ContactFormRequest {
@@ -44,6 +50,8 @@ export async function POST(request: NextRequest) {
       errors.name = "Please enter at least 2 characters.";
     } else if (name.length > FIELD_LIMITS.short) {
       errors.name = tooLongMessage(FIELD_LIMITS.short);
+    } else if (!isValidName(name)) {
+      errors.name = INVALID_NAME_MESSAGE;
     }
 
     const email = stringField(body.email).trim();

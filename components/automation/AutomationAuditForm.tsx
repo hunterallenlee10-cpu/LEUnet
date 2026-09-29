@@ -9,7 +9,14 @@ import {
   leeSystems,
 } from "@/data/lee-systems";
 import { site } from "@/data/site";
-import { FIELD_LIMITS, isValidEmail, isValidPhone } from "@/lib/validation";
+import {
+  FIELD_LIMITS,
+  INVALID_NAME_MESSAGE,
+  filterInput,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from "@/lib/validation";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 
 const emptyForm = {
@@ -58,15 +65,21 @@ export function AutomationAuditForm() {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = e.target;
+    const { name, value: typed } = e.target;
+    const { value, dropped } = filterInput(
+      name === "fullName" ? "name" : name === "phone" ? "phone" : null,
+      typed
+    );
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: undefined, form: undefined }));
+    setErrors((prev) => ({ ...prev, [name]: dropped, form: undefined }));
   };
 
   const validate = (): FieldErrors => {
     const next: FieldErrors = {};
     if (formData.fullName.trim().length < 2)
       next.fullName = "Please enter your full name";
+    else if (!isValidName(formData.fullName.trim()))
+      next.fullName = INVALID_NAME_MESSAGE;
     if (!formData.businessName.trim())
       next.businessName = "Please enter your business name";
     if (!formData.industry) next.industry = "Please choose your industry";
