@@ -6,7 +6,7 @@ import { LeeSystemsTwoPathsSection } from "@/components/lee-systems/LeeSystemsTw
 import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
-import { LeeSystemsHowItWorksSection } from "@/components/lee-systems/LeeSystemsHowItWorksSection";
+import { LeeSystemsOnboardingSection } from "@/components/lee-systems/LeeSystemsOnboardingSection";
 import { LeeSystemsChoiceSection } from "@/components/lee-systems/LeeSystemsChoiceSection";
 import { SITE_URL } from "@/data/company";
 import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
@@ -17,7 +17,7 @@ import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
  *
  * The order: the two paths (an example lead with and without the systems),
  * the two offerings side by side at equal weight, who it is for, recent work,
- * how it works, and the choice between doing nothing and a free call.
+ * the onboarding process, and the choice between doing nothing and a free call.
  * Automation and websites each have their own page. "What gets automated"
  * (LeeSystemsAutomatesSection) is off the page for now at the owner's request
  * (2026-09-29); the component is kept so it can go back in. The two paths and the choice follow
@@ -105,7 +105,7 @@ export default function LeeSystemsPage() {
         <LeeSystemsOfferingsSection />
         <LeeSystemsIndustriesSection />
         <RecentWorkSection />
-        <LeeSystemsHowItWorksSection />
+        <LeeSystemsOnboardingSection />
         <LeeSystemsChoiceSection />
       </main>
 
