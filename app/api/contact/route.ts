@@ -22,7 +22,7 @@ interface ContactFormRequest {
 
 /**
  * The shared contact form (components/contact/ContactForm.tsx): name, email,
- * an optional phone, what the visitor is interested in, and an optional
+ * phone, what the visitor is interested in, and an optional
  * message. Delivered through Resend to the same inbox as before, with the
  * interest at the front of the subject, e.g. "[Lee Systems Co.] New inquiry
  * from Jane Smith".
@@ -61,10 +61,12 @@ export async function POST(request: NextRequest) {
       errors.email = "Please enter a valid email address, like name@example.com.";
     }
 
-    // Optional, but checked when given.
+    // Required since 2026-09-29, at the owner's request.
     const phone = stringField(body.phone).trim();
-    if (phone && (phone.length > FIELD_LIMITS.phone || !isValidPhone(phone))) {
-      errors.phone = "Please enter a valid phone number, or leave this blank.";
+    if (!phone) {
+      errors.phone = "Please enter your phone number.";
+    } else if (phone.length > FIELD_LIMITS.phone || !isValidPhone(phone)) {
+      errors.phone = "Please enter a valid phone number, including the area code.";
     }
 
     // Checked against the form's own list so the email never carries a value
@@ -88,7 +90,7 @@ export async function POST(request: NextRequest) {
     const emailBody = `
 Name: ${name}
 Email: ${email}
-Phone: ${phone || "Not provided"}
+Phone: ${phone}
 Interested in: ${choice?.label ?? interest}
 
 Message:
