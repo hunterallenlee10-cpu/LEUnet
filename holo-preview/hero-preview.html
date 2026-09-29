@@ -1709,40 +1709,35 @@ img { max-width: 100%; height: auto; }
   .hero-vsl .holo-anim { max-width: max(860px, calc((min(100svh, 62rem) - 10rem) * 16 / 9)); }
 }
 
-/* Skip, beside pause and sound. On a phone those two are icons only (their
-   words stay for screen readers), so the row keeps room for the progress. */
-.hero-vsl .holo-skip {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: 0.45rem;
-  min-height: 2.75rem;
-  padding: 0 0.9rem 0 1rem;
-  border: 1px solid var(--line);
-  border-radius: 9999px;
-  background: rgb(255 255 255 / 0.04);
-  color: var(--ink-2);
-  font: 600 0.875rem / 1 var(--font);
-  cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease;
+/* While the VSL plays, one control: pause / play, a round button centred
+   under it. Its word stays for screen readers. It goes once the VSL
+   reaches its end card, where there is nothing left to pause. */
+.hero-vsl .holo-controls { justify-content: center; }
+.hero-vsl .holo-toggle {
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-color: rgb(212 168 87 / 0.45);
+  border-radius: 50%;
+  background: rgb(12 10 6 / 0.6);
+  color: var(--brass-200);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: border-color 0.2s ease, background-color 0.2s ease, opacity 0.35s ease, visibility 0.35s;
 }
-.hero-vsl .holo-skip:hover { border-color: rgb(212 168 87 / 0.5); color: var(--brass-200); }
-.hero-vsl .holo-skip:focus-visible { outline: 2px solid var(--brass-300); outline-offset: 3px; }
-.hero-vsl .holo-skip svg { flex: none; width: 1rem; height: 1rem; }
-@container holo (max-width: 559px) {
-  .hero-vsl .holo-toggle,
-  .hero-vsl .holo-sound { justify-content: center; width: 2.75rem; padding: 0; }
-  .hero-vsl .holo-toggle-label,
-  .hero-vsl .holo-sound-label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-  }
+.hero-vsl .holo-toggle:hover { border-color: var(--brass-300); background: rgb(212 168 87 / 0.14); color: var(--brass-200); }
+.hero-vsl .holo-toggle svg { width: 1.125rem; height: 1.125rem; }
+.hero-vsl .holo-toggle-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
+.hero-vsl .holo[data-state="done"] .holo-toggle { opacity: 0; visibility: hidden; }
 
 /* =====================================================================
    PREVIEW ONLY (not part of the site)
@@ -2089,19 +2084,6 @@ img { max-width: 100%; height: auto; }
                   <g class="i-replay"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></g>
                 </svg>
                 <span class="holo-toggle-label">Play</span>
-              </button>
-              <div class="holo-progress" aria-hidden="true"></div>
-              <button type="button" class="holo-sound" aria-pressed="false">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                  <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/>
-                  <g class="i-off"><path d="M22 9l-6 6M16 9l6 6"/></g>
-                  <g class="i-on"><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></g>
-                </svg>
-                <span class="holo-sound-label">Sound off</span>
-              </button>
-              <button type="button" class="holo-skip" data-hero-skip>
-                <span>Skip</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 4v16"/><path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"/></svg>
               </button>
             </div>
           </div>
@@ -2847,7 +2829,7 @@ window.HOLO_EDIT = {
       seg.style.flexGrow = String(end - sc[1]);
       var fill = el("span");
       seg.appendChild(fill);
-      progressWrap.appendChild(seg);
+      if (progressWrap) progressWrap.appendChild(seg);
       return { fill: fill, start: sc[1], dur: end - sc[1], last: "" };
     });
     function renderProgress(t) {
@@ -3244,7 +3226,7 @@ window.HOLO_EDIT = {
       sync();
     });
 
-    soundBtn.addEventListener("click", function () {
+    if (soundBtn) soundBtn.addEventListener("click", function () {
       var nowOn = sound.setOn(!sound.isOn());
       soundBtn.setAttribute("aria-pressed", String(nowOn));
       soundLabel.textContent = nowOn ? "Sound on" : "Sound off";
@@ -3371,7 +3353,6 @@ window.HOLO_EDIT = {
   var cones = layer.querySelectorAll(".holo-cone, .holo-cone-boost");
   var holo = window.HoloVSL.create(layer.querySelector("[data-holo]"), { autoplay: false, onDone: vslDone });
   var stage = layer.querySelector(".holo-stage");
-  var skipBtn = layer.querySelector("[data-hero-skip]");
   var toggleBtn = layer.querySelector(".holo-toggle");
 
   var reducedQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -3444,16 +3425,20 @@ window.HOLO_EDIT = {
     setState("intro");
     showLayer(true);
     var arrive = HERO.wordsOut * 0.8;
-    move = gsap.timeline({ onComplete: function () { move = null; setState("vsl"); } });
+    move = gsap.timeline({
+      onComplete: function () {
+        move = null;
+        setState("vsl");
+        // Replay pressed from the keyboard: carry on at the VSL's button
+        if (fromButton) toggleBtn.focus({ preventScroll: true });
+      }
+    });
     move.set(copy, { pointerEvents: "none" }, 0)
       .to(words, { opacity: 0, y: -18, filter: "blur(6px)", duration: HERO.wordsOut, ease: "power2.in", stagger: 0.06 }, 0)
       .set(ctaRow, { visibility: "hidden" }, HERO.wordsOut + 0.15)
       .fromTo(layer, { autoAlpha: 0, filter: "blur(10px)" }, { autoAlpha: 1, filter: "blur(0px)", duration: HERO.vslIn, ease: "power2.out" }, arrive)
       .fromTo(cones, { scaleY: 0 }, { scaleY: 1, duration: HERO.vslIn + 0.25, ease: "power3.out" }, arrive)
-      .call(function () {
-        holo.start();
-        if (fromButton) toggleBtn.focus({ preventScroll: true });
-      }, null, arrive);
+      .call(function () { holo.start(); }, null, arrive);
   }
 
   /* ---- the VSL has reached its end card: hold it ---- */
@@ -3497,16 +3482,17 @@ window.HOLO_EDIT = {
   }
 
   replayBtn.addEventListener("click", toVsl);
-  skipBtn.addEventListener("click", toHero);
 
   // the VSL's own replay button, pressed on the end card, plays it again here
   holo.onStatus(function (s) {
     if (state === "hold" && s === "playing") setState("vsl");
   });
 
-  // someone pointing at the end card, or tabbing through it, gets more time
-  stage.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { pointerIn = true; schedule(); } });
-  stage.addEventListener("pointerleave", function () { pointerIn = false; schedule(); });
+  // Someone pointing at the end card's buttons and links, or tabbing
+  // through them, gets more time: they don't vanish on the way to a click.
+  var endLinks = stage.querySelector(".holo-ctas");
+  endLinks.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { pointerIn = true; schedule(); } });
+  endLinks.addEventListener("pointerleave", function () { pointerIn = false; schedule(); });
   layer.addEventListener("focusin", function (e) { keyboardIn = e.target.matches(":focus-visible"); schedule(); });
   layer.addEventListener("focusout", function (e) {
     if (!e.relatedTarget || !layer.contains(e.relatedTarget)) { keyboardIn = false; schedule(); }
