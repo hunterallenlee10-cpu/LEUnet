@@ -174,13 +174,15 @@ function SpineNode() {
  * and curve into one node under the spine. The SVG is 22rem wide so its ends
  * sit under the two buttons: each is 14rem wide against the 4rem gap either
  * side of the spine, putting its centre 11rem out. `non-scaling-stroke`
- * keeps the lines a hairline across the stretched viewBox.
+ * keeps the lines a hairline across the stretched viewBox. The "Better
+ * together" line under the node came off at the owner's request (2026-09-29),
+ * and with it the phone layout, where only the node was left.
  */
 function Join() {
   return (
-    <div className="mt-14 flex flex-col items-center text-center lg:mt-4">
+    <div className="mt-4 hidden flex-col items-center lg:flex">
       <svg
-        className="hidden h-24 w-[22rem] lg:block"
+        className="h-24 w-[22rem]"
         viewBox="0 0 100 96"
         preserveAspectRatio="none"
         fill="none"
@@ -195,16 +197,6 @@ function Join() {
       </svg>
 
       <SpineNode />
-      <p className="mt-5 mb-3 text-xs font-semibold tracking-[0.2em] text-brass-300 uppercase">
-        Better together
-      </p>
-      <p className="mx-auto max-w-2xl text-xl leading-relaxed text-white md:text-2xl">
-        Every inquiry your website captures gets an instant reply, reaches your
-        phone and is followed up on schedule.
-      </p>
-      <p className="mt-4 text-sm text-neutral-400">
-        Every project starts with a free consultation call.
-      </p>
     </div>
   );
 }
