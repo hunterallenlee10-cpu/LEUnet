@@ -39,13 +39,22 @@ export function LeeSystemsHeroSection() {
           competitor.
         </p>
 
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <BookCallLink />
+        {/* Three buttons of one size: a fixed height so the borderless brass
+            button matches the outlined ones, and a shared width that fits the
+            longest label. Stacked at full width on a phone. */}
+        <div className="mx-auto flex max-w-xs flex-col items-stretch justify-center gap-4 md:max-w-none md:flex-row md:items-center">
+          <BookCallLink className="h-12 px-4 md:w-56" />
           <Link
             href={leeSystemsRoutes.automation}
-            className="btn-ls-secondary inline-flex min-h-11 items-center justify-center"
+            className="btn-ls-secondary inline-flex h-12 items-center justify-center px-4 text-center md:w-56"
           >
             See what we automate
+          </Link>
+          <Link
+            href={leeSystemsRoutes.websites}
+            className="btn-ls-secondary inline-flex h-12 items-center justify-center px-4 text-center md:w-56"
+          >
+            See website builds
           </Link>
         </div>
       </div>
