@@ -651,12 +651,12 @@
 .tools-track {
   display: flex;
   width: max-content;
-  animation: toolsMarquee 48s linear infinite;
+  animation: toolsMarquee 110s linear infinite;
 }
 
 .tools-track--reverse {
   animation-direction: reverse;
-  animation-duration: 56s;
+  animation-duration: 130s;
 }
 
 .tools-row:hover .tools-track {
@@ -672,13 +672,13 @@
 .tools-pill {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.875rem 1.375rem;
+  gap: 0.7rem;
+  padding: 0.975rem 1.5rem;
   border: 1px solid rgb(255 255 255 / 0.08);
-  border-radius: 1rem;
+  border-radius: 1.1rem;
   background: rgb(255 255 255 / 0.03);
   color: rgb(163 163 163);
-  font-size: 0.9375rem;
+  font-size: 1.03rem;
   font-weight: 600;
   white-space: nowrap;
   fill: currentColor;

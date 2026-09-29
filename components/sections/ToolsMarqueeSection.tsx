@@ -54,7 +54,7 @@ function ToolList({ tools, hidden = false }: { tools: Tool[]; hidden?: boolean }
     <ul className="tools-list" aria-hidden={hidden || undefined}>
       {tools.map(({ name, icon }) => (
         <li key={name} className="tools-pill">
-          <svg aria-hidden="true" focusable="false" className="h-5 w-5 shrink-0">
+          <svg aria-hidden="true" focusable="false" className="h-[1.375rem] w-[1.375rem] shrink-0">
             <use href={`/tools/sprite.svg#${icon}`} />
           </svg>
           {name}
