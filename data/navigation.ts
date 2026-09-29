@@ -1,5 +1,5 @@
 import { NavItem } from "@/types";
-import { leeSystemsLinks, leeSystemsRoutes } from "@/data/lee-systems";
+import { leeSystemsRoutes } from "@/data/lee-systems";
 
 export const businessMasteryPage = "/business-mastery";
 export const contactPage = "/contact";
@@ -10,28 +10,15 @@ export const contactPage = "/contact";
  * free call" button after them is not an entry here; MainHeader draws it from
  * `bookLabel` and `bookHref` in data/site.ts.
  *
- * Lee Systems Co. keeps its dropdown of its two services (the owner's call,
- * 2026-09-28); the tab itself leads to the page. The services had pages of
- * their own until 2026-09-29, so the two entries now lead to their sections
- * on /lee-systems.
+ * Lee Systems Co. is a plain link to the top of /lee-systems. Its dropdown
+ * of the two services came off at the owner's request (2026-09-29), once
+ * both lived on that one page.
  */
 export const navigationItems: NavItem[] = [
   {
     label: "Lee Systems Co.",
     href: leeSystemsRoutes.home,
     id: "nav-lee-systems",
-    subItems: [
-      {
-        label: "Business automation",
-        href: leeSystemsLinks.automation,
-        id: "nav-lee-systems-automation",
-      },
-      {
-        label: "Website builds",
-        href: leeSystemsLinks.websites,
-        id: "nav-lee-systems-websites",
-      },
-    ],
   },
   {
     label: "Business Mastery",
