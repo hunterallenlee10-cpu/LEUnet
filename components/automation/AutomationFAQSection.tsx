@@ -13,8 +13,8 @@ export function AutomationFAQSection() {
         />
 
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold text-brass-300">Questions</p>
-          <h2 className="heading-lg text-white">Questions about automation</h2>
+          <p className="mb-3 text-sm font-semibold text-brass-300">FAQs</p>
+          <h2 className="heading-lg text-white">Frequently Asked Questions</h2>
         </div>
 
         <FaqAccordion
