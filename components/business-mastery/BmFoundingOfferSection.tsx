@@ -4,12 +4,19 @@ import { BmApplicationForm } from "@/components/business-mastery/BmApplicationFo
 import { companyInfo } from "@/data/company";
 import { site } from "@/data/site";
 
+/** The titles only name what each line already says. */
 const afterApplySteps = [
-  "Send your application. No payment is taken.",
-  "Hunter reviews it and follows up personally.",
-  site.businessMastery.platform
-    ? `You get access to the community on ${site.businessMastery.platform}.`
-    : site.businessMastery.afterJoining,
+  { title: "Apply", body: "Send your application. No payment is taken." },
+  {
+    title: "Personal follow-up",
+    body: "Hunter reviews it and follows up personally.",
+  },
+  {
+    title: "Get access",
+    body: site.businessMastery.platform
+      ? `You get access to the community on ${site.businessMastery.platform}.`
+      : site.businessMastery.afterJoining,
+  },
 ];
 
 /**
@@ -109,32 +116,43 @@ export function BmFoundingOfferSection() {
             own description of joining; a named platform replaces it once
             `platform` is set. */}
         {site.businessMastery.joinMode === "apply" && (
-          <div className="mx-auto mt-14 max-w-3xl">
-            <h3 className="mb-10 text-center text-xl font-bold text-white">
-              What happens after you apply
-            </h3>
-            {/* A drawn line, not boxes (the owner's request, 2026-09-29):
-                numbered stops on a gold line that draws itself as the steps
-                scroll into view, across from md up and down the left below
-                it. */}
-            <div className="relative">
+          <div className="bm-steps mx-auto mt-20 max-w-5xl md:mt-24">
+            <div className="text-center">
+              <p className="bm-kicker">Next steps</p>
+              <h3 className="mt-4 text-2xl font-bold tracking-tight text-white md:text-3xl">
+                What happens after you apply
+              </h3>
+            </div>
+            {/* Laid out after a process strip the owner sent (2026-09-29):
+                numbered squares on one line, each with a bold title and a
+                line under it. The line still draws itself as the steps
+                scroll into view (the owner's request, 2026-09-29): across
+                from md up, down the left between the squares below it. */}
+            <div className="relative mt-12 md:mt-16">
               <span className="bm-steps-line bm-steps-line--x" aria-hidden="true" />
-              <span className="bm-steps-line bm-steps-line--y" aria-hidden="true" />
-              <ol className="relative grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6">
-                {afterApplySteps.map((step, i) => (
+              <ol className="bm-steps-list">
+                {afterApplySteps.map(({ title, body }, i) => (
                   <li
-                    key={step}
-                    className="grid grid-cols-[2.5rem_1fr] items-start gap-4 md:flex md:flex-col md:items-center md:text-center"
+                    key={title}
+                    className="relative grid grid-cols-[var(--bm-badge)_1fr] items-start gap-x-5 md:flex md:flex-col md:items-center md:text-center"
                   >
-                    <span
-                      aria-hidden="true"
-                      className="relative flex h-10 w-10 items-center justify-center rounded-full border border-amber-400/60 bg-neutral-950 font-mono text-sm font-bold tabular-nums text-amber-400 shadow-[0_0_0_6px_rgb(10_10_10)]"
-                    >
+                    {i < afterApplySteps.length - 1 && (
+                      <span
+                        className="bm-steps-line bm-steps-line--y"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span aria-hidden="true" className="bm-step-badge">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <p className="pt-2 leading-relaxed text-neutral-200 md:max-w-[15rem] md:pt-0">
-                      {step}
-                    </p>
+                    <div className="pt-2 md:pt-0">
+                      <h4 className="text-lg font-bold text-white md:mt-6 md:text-xl">
+                        {title}
+                      </h4>
+                      <p className="mt-2 text-pretty leading-relaxed text-neutral-400 md:mx-auto md:max-w-[17rem]">
+                        {body}
+                      </p>
+                    </div>
                   </li>
                 ))}
               </ol>
@@ -142,7 +160,7 @@ export function BmFoundingOfferSection() {
           </div>
         )}
 
-        <div className="mt-14">
+        <div className="mt-16 md:mt-20">
           <BmApplicationForm />
         </div>
       </div>

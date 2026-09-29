@@ -987,30 +987,110 @@
   opacity: 1;
 }
 
-/* The after-apply line: across the three stops from md up (first centre to
-   last centre), down the left of them below md. */
+/* "What happens after you apply", after a process strip the owner sent
+   (2026-09-29): a small eyebrow between two hairlines, then numbered squares
+   in gold on one line, each over a bold title. The squares are
+   `--bm-badge` wide, and the lines are placed from it. */
+.bm-steps {
+  --bm-badge: 2.75rem;
+  --bm-steps-gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .bm-steps {
+    --bm-badge: 3rem;
+  }
+}
+
+.bm-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  color: var(--color-amber-400);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.bm-kicker::before,
+.bm-kicker::after {
+  content: "";
+  width: clamp(1.5rem, 6vw, 3.5rem);
+  height: 1px;
+}
+
+.bm-kicker::before {
+  background: linear-gradient(90deg, transparent, rgb(251 191 36 / 0.7));
+}
+
+.bm-kicker::after {
+  background: linear-gradient(90deg, rgb(251 191 36 / 0.7), transparent);
+}
+
+.bm-steps-list {
+  position: relative;
+  display: grid;
+  gap: var(--bm-steps-gap);
+}
+
+@media (min-width: 768px) {
+  .bm-steps-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 2rem;
+  }
+}
+
+.bm-step-badge {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--bm-badge);
+  height: var(--bm-badge);
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, #fcd34d 0%, #fbbf24 45%, #d97706 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.45),
+    0 10px 28px -8px rgb(251 191 36 / 0.55);
+  color: #0a0a0a;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The line: across the whole strip from md up, fading out past the first and
+   last squares; below md, one piece down the left from each square to the
+   next. */
 .bm-steps-line {
   position: absolute;
   display: block;
-  background: linear-gradient(90deg, rgb(251 191 36 / 0.7), rgb(251 191 36 / 0.25));
 }
 
 .bm-steps-line--x {
   display: none;
-  top: 1.25rem;
-  left: calc(100% / 6);
-  right: calc(100% / 6);
+  top: calc(var(--bm-badge) / 2);
+  left: 0;
+  right: 0;
   height: 1px;
   transform-origin: left;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(251 191 36 / 0.6) 12%,
+    rgb(251 191 36 / 0.6) 88%,
+    transparent
+  );
 }
 
 .bm-steps-line--y {
-  top: 1.25rem;
-  bottom: 1.25rem;
-  left: calc(1.25rem - 0.5px);
+  top: calc(var(--bm-badge) / 2);
+  bottom: calc(-1 * (var(--bm-steps-gap) + var(--bm-badge) / 2));
+  left: calc(var(--bm-badge) / 2 - 0.5px);
   width: 1px;
   transform-origin: top;
-  background: linear-gradient(180deg, rgb(251 191 36 / 0.7), rgb(251 191 36 / 0.25));
+  background: linear-gradient(180deg, rgb(251 191 36 / 0.7), rgb(251 191 36 / 0.3));
 }
 
 @media (min-width: 768px) {

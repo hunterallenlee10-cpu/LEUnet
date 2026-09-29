@@ -117,7 +117,10 @@ render in the new section's third row, and its "Apply now" button moved to
 the end of "What Business Mastery actually is", now slot 3). The six pillar
 cards became `BmProgramShowcase`; the tenets became numbered rows with
 hairlines between; "What happens after you apply" became a line of numbered
-stops that draws itself. The glow alternation holds: the new slot 2 carries
+stops that draws itself. Later the same day, from a process strip the owner
+sent, those stops became gold numbered squares under a "Next steps" eyebrow
+and a larger heading, each with a short title (Apply, Personal follow-up, Get
+access) over its line. The glow alternation holds: the new slot 2 carries
 one, slot 3 no longer does.
 
 **The page was reordered on 2026-09-28, at the owner's request**, to put
