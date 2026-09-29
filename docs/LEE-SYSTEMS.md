@@ -27,7 +27,8 @@ site", its FAQ and its form; and each page's hero animation (below). Their
 heroes, the automation page's "The problem", the websites page's "How
 pricing works", both process sections (the onboarding process covers them)
 and the "See automation" bridge did not come over. The seven areas and
-"Included in every site" came off again the same day (see What was retired).
+"Included in every site" came off again the same day (see What was retired),
+and the industry cards became picture cards (see Who we help).
 
 The two industry pages use only copy already on the site (the industry's
 entry in `leeSystemsIndustries`, which also holds each page's title and
@@ -52,6 +53,35 @@ React hoists into the page head once), needs no client-side JS, respects
 the Tailwind theme's brass colours. When they were extracted, 72 screenshots
 of them (phone, tablet and desktop, eleven frozen moments each, plus reduced
 motion) matched the originals byte for byte.
+
+## Who we help
+
+"Who we help" (`LeeSystemsIndustriesSection`, `#industries`) is a grid of
+picture cards after The Real World's campus cards, which the owner sent as
+the reference on 2026-09-29. Each card is a picture with the industry's name
+set over it (Cormorant Garamond italic in brass, where The Real World letters
+its campus names by hand), the industry's one-line summary, and small
+uppercase links: "See examples" opens the industry's list on the card, and
+law firms and home services also have "See the page". Only one card's list is
+open at a time, and opening one leaves the others their size.
+
+The six pictures go in `public/lee-systems/industries/`, one per industry id
+(`law-firms.webp`, `home-services.webp`, `real-estate.webp`, `fitness.webp`,
+`dealerships.webp`, `restaurants.webp`), each 800 x 450 WebP, and a card
+shows its picture once its id is in `pictured` at the top of the component.
+They were generated with Everygen (Nano Banana 2) on 2026-09-29, at the
+owner's choice over code-drawn art or waiting for photos, all to one brief:
+a low-key, black-and-gold editorial photograph of an empty room or building
+(a law office, a roofline, a house at dusk, a gym, a car showroom, a
+restaurant), with no people, text, signage or logos, so nothing in them
+stands for a client or a result. They are decorative (empty alt text), since
+each name is set over its picture as text.
+
+They are not in yet: this workspace's network policy blocks the host Everygen
+keeps them on (see "Who we help" pictures in `docs/TODO.md`). Until they are,
+each card's cover is a brass glow drawn in CSS, the same glow every picture
+loads over. To use a photo instead, save it under the industry's file name at
+800 x 450 and add the id to `pictured`.
 
 ## Two paths, and the choice
 

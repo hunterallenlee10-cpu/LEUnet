@@ -1,14 +1,21 @@
 # Hunter's to-do list
 
 The things only Hunter can do for the site: links, photos, decisions and
-account set-up. Last updated 2026-09-29, when the Lee Systems Co. pages
-became one.
+account set-up. Last updated 2026-09-29, when "Who we help" on /lee-systems
+became picture cards.
 
 Ask Claude for "my to-do list" in any session on this repo and it reads this
 file. Tell Claude when something is done and it checks it off here.
 
 ## Open
 
+- [ ] **"Who we help" pictures.** Six pictures for the industry cards on
+      /lee-systems were made in your Everygen account on 2026-09-29, but
+      the Claude environment's network settings block where Everygen keeps
+      them (media.viewmax.io). Add that host under Network access (the cloud
+      environment menu in the session's title bar, then Edit), or paste the
+      six pictures into a session, and Claude puts them in. Until then each
+      card shows a brass glow where its picture goes.
 - [ ] **Booking link.** Set up a Google Calendar booking page on
       ceo@leeenterprisesunlimited.com and send Claude the link. Every "Book a
       free call" button switches to it (`bookingUrl` in `data/site.ts`), except
