@@ -10,10 +10,10 @@ import { companyInfo } from "@/data/company";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 
 /**
- * The site header: the LEU lockup on the left, then Lee Systems Co. (with its
- * dropdown), Business Mastery and Contact, then the gold "Book a free call"
- * button. Below `lg` the links move into a drawer, and the button stays in the
- * bar beside the menu toggle.
+ * The site header: the LEU lockup on the left, then Lee Systems Co.,
+ * Business Mastery and Contact, then the gold "Book a free call" button.
+ * Below `lg` the links move into a drawer, and the button stays in the bar
+ * beside the menu toggle.
  */
 export function MainHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -177,12 +177,21 @@ export function MainHeader() {
     }, 200);
   };
 
-  // Every entry is a route, so the link navigates on its own; this only closes
-  // the menus. A modified click (new tab or window) is left to the browser.
+  // Every entry is a route, so the link navigates on its own; this closes the
+  // menus. A link to the page already open would leave the visitor wherever
+  // they had scrolled to (Next only drops a #fragment), so it goes back to the
+  // top instead - after the drawer, if open, has put the page back where it
+  // was. A modified click (new tab or window) is left to the browser.
   const handleNavClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     setMobileMenuOpen(false);
     closeDropdown();
+    if (new URL(event.currentTarget.href).pathname === pathname) {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.setTimeout(() =>
+        window.scrollTo({ top: 0, behavior: reduce ? "instant" : "smooth" })
+      );
+    }
   };
 
   const linkClass = (href: string) =>
