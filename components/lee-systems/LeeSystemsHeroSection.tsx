@@ -4,10 +4,10 @@ import { leeSystems, leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
  * The Lee Systems Co. main page hero, lit by a warm-right/cool-left orb pair
- * with Signal Routes drawn over it. All three buttons stay on the page: the
- * free call scrolls to the form, and the other two to the automation and
- * websites sections (they went to pages of their own until those folded into
- * this one, 2026-09-29).
+ * with Signal Routes drawn over it. One button, centred: the free call, which
+ * scrolls to the form. "See what we automate" and "See website builds" came
+ * off at the owner's request (2026-09-29); "What we do", straight below,
+ * links to both sections.
  */
 export function LeeSystemsHeroSection() {
   return (
@@ -41,26 +41,15 @@ export function LeeSystemsHeroSection() {
           competitor.
         </p>
 
-        {/* Three buttons of one size: a fixed height so the borderless brass
-            button matches the outlined ones, and a shared width that fits the
-            longest label. Stacked at full width on a phone. */}
-        <div className="mx-auto flex max-w-xs flex-col items-stretch justify-center gap-4 md:max-w-none md:flex-row md:items-center">
+        {/* The lit gold button the page's other closing asks use, a size up:
+            full width up to 20rem on a phone, its own width from 640px. */}
+        <div className="flex justify-center">
           <BookCallLink
+            variant="glow"
             href={`#${leeSystemsAnchors.form}`}
-            className="h-12 px-4 md:w-56"
+            arrow
+            className="h-14 w-full max-w-xs px-10 text-lg sm:w-auto sm:max-w-none"
           />
-          <a
-            href={`#${leeSystemsAnchors.automation}`}
-            className="btn-ls-secondary inline-flex h-12 items-center justify-center px-4 text-center md:w-56"
-          >
-            See what we automate
-          </a>
-          <a
-            href={`#${leeSystemsAnchors.websites}`}
-            className="btn-ls-secondary inline-flex h-12 items-center justify-center px-4 text-center md:w-56"
-          >
-            See website builds
-          </a>
         </div>
       </div>
     </section>
