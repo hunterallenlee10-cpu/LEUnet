@@ -48,9 +48,14 @@ export function HeroSection() {
             Never Miss Another{" "}
             <span className="hero-split-accent">Customer</span>
           </h1>
+          {/* The owner's line, 2026-09-29, which replaced "Automate how
+              your business talks, sells, and grows with AI solutions built
+              to scale your brand." Each sentence is kept whole, so a narrow
+              screen wraps between them and never inside "More Money". */}
           <p className="hero-split-lede">
-            Automate how your business talks, sells, and grows with AI
-            solutions built to scale your brand.
+            <span className="whitespace-nowrap">More Customers.</span>{" "}
+            <span className="whitespace-nowrap">More Money.</span>{" "}
+            <span className="whitespace-nowrap">Less Work.</span>
           </p>
           <div className="hero-split-cta">
             <BookCallLink variant="hero" />
