@@ -93,10 +93,11 @@ Two sections of the main page follow The Real World's landing page
   ("AI answers every call, day or night, and follows up until they reply.
   They book with you, not whoever answers next."). Under the gold button,
   "No obligation · Flat upfront quote", from the FAQ and the pricing
-  promise. The play button runs one example lead
-  (a customer calling at 11:48 PM) with the systems in place; "Do it by hand"
-  runs the same lead without them. Every line of the example is something the
-  site already says the systems do, and the frame is labelled "Example".
+  promise. The frame is one narrated video (see "The Two paths video"
+  below): one example lead (a customer calling at 11:48 PM) handled by hand,
+  then with AI. The play button starts it, and "Do it by hand" starts it at
+  the by-hand run. Every line of the example is something the site already
+  says the systems do, and the frame is labelled "Example".
 - **The choice is yours** (`LeeSystemsChoiceSection`) is the page's closing
   pitch: a dim "Do nothing" card beside a lit "Take action" card, the same six
   jobs done by hand and by the systems, a red "−$1,000s lost to missed leads"
@@ -114,6 +115,57 @@ They replaced a "−$$$" sign and "$0 / consultation call". They are ranges,
 not results: the gain says "could", and neither names a client or a job. The
 gold buttons are `BookCallLink variant="glow"`, and like every other "Book a
 free call" in the page's body they scroll to the form.
+
+### The Two paths video
+
+The owner asked on 2026-09-29 for the frame's two runs (with AI from the
+play button, by hand from "Do it by hand") to become one video with sound,
+its captions read aloud. It plays in this order: "What happens to your next
+lead?", the by-hand run ("First, by hand." through "They'd already booked
+with someone who answered."), the AI run ("Now the same call, with AI."
+through "Booked before you woke up.") and "Two paths. Only one gets the
+customer." The lines are the old captions, plus the two run titles and the
+closing line; "And" was added to the start of the CRM line so it reads
+naturally aloud.
+
+- **The lines** are in `data/two-paths-video.ts`: each line's caption, what
+  the voice says where it differs ("11:48 PM" is read "Eleven forty-eight
+  PM"), what the three panels show and how long a pause follows it. The
+  voice and the captions both come from there, so they can't disagree.
+- **The soundtrack** is one file, `public/lee-systems/two-paths/two-paths.mp3`:
+  an Everygen voiceover of the lines, with the lines spaced out and quiet
+  sound effects drawn in code under them (the phone ringing, a voicemail
+  beep, the callback ringing out, a clock ticking through the by-hand run,
+  a whoosh into the AI run, the pickup, a text arriving, a saved chime and
+  a warm chord on "Booked"). It loads only when someone reaches for the
+  video.
+- **The timing** (`data/two-paths-video.timing.json`) says when each
+  caption appears. The video's clock is the soundtrack itself, so the
+  captions can't drift from the voice. If the audio can't play, or the
+  lines were changed without rebuilding it, the video plays silently on
+  estimated times instead.
+- **Controls**: nothing plays until the play button is pressed. Clicking the
+  picture pauses and resumes it, and the corner buttons pause, turn the
+  sound off and turn the captions off. It pauses by itself once scrolled
+  out of view. The progress bar has two chapters, grey by hand and gold
+  with AI, and the "Example" tag names the run that's playing. The fork
+  under the frame lights the path the video is on.
+- **Screen readers** hear the voice while the sound is on. With the sound
+  off, each caption is read from a polite live region instead, so no line
+  is heard twice.
+
+To change a line or the voice: edit `data/two-paths-video.ts`, generate one
+Everygen voiceover of every line in order, each its own paragraph (the
+`spoken` text where a line has one), save the WAV and the `timing` object
+Everygen returns with it, then run
+
+```bash
+node scripts/build-two-paths-audio.mjs voiceover.wav timing.json
+```
+
+with ffmpeg on the PATH (or `FFMPEG=/path/to/ffmpeg`). It rewrites the
+soundtrack and the timing file. It stops with an error if the voiceover's
+sentences don't match the lines.
 
 What AI call answering does is the owner's own list, word for word, in
 `site.callAnswering` (`data/site.ts`); the FAQ's "What can the AI phone
