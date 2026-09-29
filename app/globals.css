@@ -608,6 +608,39 @@
   }
 }
 
+/* The Business Mastery application's questions (BmApplicationForm): each one
+   slides in from the side it is coming from, forward from below-right, back
+   from the left. Only opacity and transform move; nothing under reduced
+   motion. */
+.bm-apply-step--forward {
+  animation: bmApplyForward 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bm-apply-step--back {
+  animation: bmApplyBack 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bmApplyForward {
+  from {
+    opacity: 0;
+    transform: translateX(1.5rem);
+  }
+}
+
+@keyframes bmApplyBack {
+  from {
+    opacity: 0;
+    transform: translateX(-1.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-apply-step--forward,
+  .bm-apply-step--back {
+    animation: none;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Homepage tool strip - components/sections/ToolsMarqueeSection.tsx
    Two rows of logo pills sliding in opposite directions, faded at both edges.
