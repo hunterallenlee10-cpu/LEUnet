@@ -196,7 +196,7 @@ export const automationFaqs = [
   {
     question: "What do you build the systems with?",
     answer:
-      "Mostly n8n, an automation platform that connects the tools you already use, with AI where it earns its place: drafting replies, sorting inquiries, and summarizing information. You do not need to learn either one to use what we build.",
+      "AI and the tools you already use every day. If anything new needs setting up, we handle that for you too.",
   },
   {
     question: "What can the AI phone assistant do?",
