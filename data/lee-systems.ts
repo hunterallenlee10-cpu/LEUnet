@@ -25,8 +25,6 @@ import { site } from "@/data/site";
 
 export const leeSystemsRoutes = {
   home: "/lee-systems",
-  lawFirms: "/lee-systems/law-firms",
-  homeServices: "/lee-systems/home-services",
 } as const;
 
 /**
@@ -68,15 +66,15 @@ export const leeSystems = {
 } as const;
 
 /**
- * The industries on /lee-systems ("Who we help"), each with a page of its own
- * (`page`) that the owner can send prospects in that industry. Law firms and
- * home services are the two the owner knows best; the closing line covers
- * everyone else rather than listing industries with nothing specific to say.
+ * The example industries on /lee-systems ("Who we help"). Law firms and home
+ * services, the two the owner knows best, come first; the rest were added on
+ * the owner's request (2026-09-29). The closing line covers everyone else
+ * rather than listing industries with nothing specific to say. The examples
+ * say what the automations do, not work already done: no client claims.
  *
- * The industry pages are built only from copy already on the site: the
- * industry's summary and examples here, the Audit, Build, Run steps, the
- * pricing promise and the closing call to action. Nothing on them is new
- * claim-wise.
+ * Law firms and home services had pages of their own until 2026-09-29, when
+ * they came off at the owner's request; their URLs 301 to their cards here
+ * (next.config.mjs).
  */
 export const leeSystemsIndustries = [
   {
@@ -84,12 +82,6 @@ export const leeSystemsIndustries = [
     name: "Law firms",
     summary:
       "Intake, consultations and client updates without the phone tag.",
-    page: {
-      href: leeSystemsRoutes.lawFirms,
-      title: "Law Firm Intake Automation | Lee Systems Co.",
-      description:
-        "Intake forms, consultation booking, follow-up for prospective clients and case status updates for law firms, automated by Lee Systems Co.",
-    },
     examples: [
       "Intake forms that collect case details before the first call",
       "Consultation booking with automatic reminders",
@@ -104,12 +96,6 @@ export const leeSystemsIndustries = [
     name: "Home services & roofing",
     summary:
       "Every lead answered, every estimate followed up, every job reviewed.",
-    page: {
-      href: leeSystemsRoutes.homeServices,
-      title: "Home Services & Roofing Automation | Lee Systems Co.",
-      description:
-        "Instant replies to every lead, inspection scheduling, estimate follow-up and review requests for home services and roofing, automated by Lee Systems Co.",
-    },
     examples: [
       "Instant replies to web, phone and ad leads",
       "Inspection scheduling with reminders the day before",
@@ -119,16 +105,6 @@ export const leeSystemsIndustries = [
       "Invoice reminders until it is paid",
     ],
   },
-] as const;
-
-/**
- * More example industries, added on the owner's request (2026-09-29). Shown
- * as cards next to the two above on /lee-systems, but without pages of their
- * own, so they are kept apart from `leeSystemsIndustries` (which the industry
- * pages read). The examples say what the automations do, not work already
- * done: no client claims.
- */
-export const moreIndustries = [
   {
     id: "real-estate",
     name: "Real estate",
@@ -184,7 +160,7 @@ export const moreIndustries = [
 ] as const;
 
 /**
- * An industry name mid-sentence ("See the page for law firms"): only the
+ * An industry name mid-sentence ("See examples for law firms"): only the
  * first letter drops to lower case, so "Fitness & PT" keeps its PT.
  */
 export function industryInSentence(name: string): string {
@@ -213,7 +189,6 @@ export const inquiryNeeds = [
 /** The form's industry choices: the industries the page shows, then Other. */
 export const inquiryIndustryOptions: readonly string[] = [
   ...leeSystemsIndustries.map(({ name }) => name),
-  ...moreIndustries.map(({ name }) => name),
   "Other",
 ];
 
@@ -298,8 +273,7 @@ export const leeSystemsFaqs = [
 
 /**
  * How Lee Systems Co. prices its work: the owner's offer terms, stated in
- * "The choice is yours" on /lee-systems and in the industry pages' band
- * ("No surprises on price.").
+ * "The choice is yours" on /lee-systems.
  */
 export const pricingPromise = [
   "Flat upfront quote",

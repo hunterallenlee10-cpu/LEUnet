@@ -145,6 +145,30 @@ const nextConfig = {
         destination: "/lee-systems/opengraph-image",
         statusCode: 301,
       },
+      // The law firm and home services pages came off on 2026-09-29 at the
+      // owner's request, so a link already sent to a prospect lands on that
+      // industry's card in "Who we help" instead, and a cached share card
+      // gets the page's.
+      {
+        source: "/lee-systems/law-firms",
+        destination: "/lee-systems#law-firms",
+        statusCode: 301,
+      },
+      {
+        source: "/lee-systems/home-services",
+        destination: "/lee-systems#home-services",
+        statusCode: 301,
+      },
+      {
+        source: "/lee-systems/law-firms/opengraph-image",
+        destination: "/lee-systems/opengraph-image",
+        statusCode: 301,
+      },
+      {
+        source: "/lee-systems/home-services/opengraph-image",
+        destination: "/lee-systems/opengraph-image",
+        statusCode: 301,
+      },
       // Lee Marketing Mastery became Lee Systems Co. on 2026-09-25 and moved
       // from /lee-marketing-mastery to /lee-systems. Same-origin rename with
       // no plan to go back, so these are permanent. 301 rather than Next's

@@ -1,10 +1,10 @@
 # leu
 
 The Lee Enterprises Unlimited website: the homepage (`/`), Business Mastery
-(`/business-mastery`), Lee Systems Co. (`/lee-systems`, plus a page each for
-law firms and home services), `/contact` and `/legal`, plus `/book`, a short
-address that forwards to wherever "Book a free call" goes. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript, hosted
-on Vercel.
+(`/business-mastery`), Lee Systems Co. (`/lee-systems`), `/contact` and
+`/legal`, plus `/book`, a short address that forwards to wherever "Book a free
+call" goes. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript,
+hosted on Vercel.
 
 ## Business facts
 
@@ -59,11 +59,11 @@ leaves for Stripe and Vercel.
 ## Lee Systems Co.
 
 Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It lives on
-one page, `/lee-systems`, plus `/lee-systems/law-firms` and
-`/lee-systems/home-services`. The automation and websites pages folded into
-`/lee-systems` on 2026-09-29 and 301-redirect to its `#automation` and
-`#websites` sections, and every old `/lee-marketing-mastery/*` URL
-301-redirects to its new equivalent. Shared copy and brand details are in
+one page, `/lee-systems`. The automation and websites pages folded into it on
+2026-09-29 and 301-redirect to its `#automation` and `#websites` sections,
+the law firm and home services pages came off the same day and 301-redirect
+to their cards (`#law-firms`, `#home-services`), and every old
+`/lee-marketing-mastery/*` URL 301-redirects to its new equivalent. Shared copy and brand details are in
 `data/lee-systems.ts`.
 
 See [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) for the page structure and

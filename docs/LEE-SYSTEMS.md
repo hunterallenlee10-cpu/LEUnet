@@ -11,13 +11,12 @@ free call"**.
 
 Everything about Lee Systems Co. is on one page, `/lee-systems`. The
 automation and websites pages folded into it on 2026-09-29, and their URLs
-301 to its sections (see Redirects below).
+301 to its sections; the law firm and home services pages came off the same
+day and 301 to their cards in "Who we help" (see Redirects below).
 
 | URL | What it is | Built from |
 | --- | --- | --- |
 | `/lee-systems` | The page, in order: hero, two paths, what we do (the two offerings side by side), what we automate (`#automation`), websites (`#websites`), who we help (`#industries`), our projects, onboarding process (Audit, Build, Take off), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
-| `/lee-systems/law-firms` | A page for law firms, to send prospects in that industry: the industry's summary as the headline, what we automate for them, the pricing promise, Audit → Build → Run, final CTA | `app/lee-systems/law-firms/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
-| `/lee-systems/home-services` | The same page for home services and roofing | `app/lee-systems/home-services/page.tsx`, `components/lee-systems/IndustryPage.tsx` |
 
 What came over from the folded pages: the automation page's seven areas
 (AI call answering first, full width; it was titled "Calls" there), its
@@ -29,12 +28,6 @@ pricing works", both process sections (the onboarding process covers them)
 and the "See automation" bridge did not come over. The seven areas and
 "Included in every site" came off again the same day (see What was retired),
 and the industry cards became picture cards (see Who we help).
-
-The two industry pages use only copy already on the site (the industry's
-entry in `leeSystemsIndustries`, which also holds each page's title and
-description). Their cards in "Who we help" link to them, their "See what we
-automate" button goes to `/lee-systems#automation`, and both are in the
-sitemap.
 
 ## The two animations
 
@@ -60,10 +53,9 @@ motion) matched the originals byte for byte.
 picture cards after The Real World's campus cards, which the owner sent as
 the reference on 2026-09-29. Each card is a picture with the industry's name
 set over it (Cormorant Garamond italic in brass, where The Real World letters
-its campus names by hand), the industry's one-line summary, and small
-uppercase links: "See examples" opens the industry's list on the card, and
-law firms and home services also have "See the page". Only one card's list is
-open at a time, and opening one leaves the others their size.
+its campus names by hand), the industry's one-line summary, and a small
+uppercase "See examples" that opens the industry's list on the card. Only one
+card's list is open at a time, and opening one leaves the others their size.
 
 The six pictures go in `public/lee-systems/industries/`, one per industry id
 (`law-firms.webp`, `home-services.webp`, `real-estate.webp`, `fitness.webp`,
@@ -97,8 +89,7 @@ Two sections of the main page follow The Real World's landing page
   runs the same lead without them. Every line of the example is something the
   site already says the systems do, and the frame is labelled "Example".
 - **The choice is yours** (`LeeSystemsChoiceSection`) is the page's closing
-  pitch, in place of `LeeSystemsFinalCTA`, which the industry pages still
-  use: a dim "Do nothing" card beside a lit "Take action" card, the same six
+  pitch: a dim "Do nothing" card beside a lit "Take action" card, the same six
   jobs done by hand and by the systems, "$0 / consultation call" opposite a
   red "−$$$ / every missed lead", the pricing promise as fine print, then
   "Rather call or email?". "Do it your way" is a real button: it says "Your
@@ -172,6 +163,9 @@ still land on it.
 | `/lee-systems/automation` | `/lee-systems#automation` |
 | `/lee-systems/websites` | `/lee-systems#websites` |
 | `/lee-systems/automation/opengraph-image`, `/lee-systems/websites/opengraph-image` | `/lee-systems/opengraph-image` |
+| `/lee-systems/law-firms` | `/lee-systems#law-firms` |
+| `/lee-systems/home-services` | `/lee-systems#home-services` |
+| `/lee-systems/law-firms/opengraph-image`, `/lee-systems/home-services/opengraph-image` | `/lee-systems/opengraph-image` |
 | `/lee-marketing-mastery` | `/lee-systems` |
 | `/lee-marketing-mastery/automation` | `/lee-systems#automation` |
 | `/lee-marketing-mastery/websites` | `/lee-systems#websites` |
@@ -192,7 +186,7 @@ empty slots then disappear instead.
 
 ## Settled choices
 
-- One page for Lee Systems Co. (2026-09-29), plus the two industry pages.
+- One page for Lee Systems Co. (2026-09-29), with no industry pages.
 - No logo: the name is set as a wordmark (the owner's call, 2026-09-28). The
   "LS" stand-in square is gone from the pages and the link previews.
 - No location or service area anywhere, including the business info search
@@ -220,6 +214,12 @@ empty slots then disappear instead.
   (`LeeSystemsSiblingLinks`), the parked "What gets automated" grid
   (`LeeSystemsAutomatesSection`) and the two form routes,
   `/api/automation-audit` and `/api/website-inquiry`.
+- The `/lee-systems/law-firms` and `/lee-systems/home-services` pages
+  (2026-09-29, at the owner's request), with their share images, the
+  "See the page" links on their cards, `IndustryPage`, and the two sections
+  only they used: the "No surprises on price." band
+  (`PricingPromiseSection`) and `LeeSystemsFinalCTA`. The pricing promise
+  itself stays, as the fine print in "The choice is yours".
 - The seven "What we automate" cards (AI call answering, leads, sales
   follow-up, client communication, reviews and referrals, billing, internal
   operations) and the six "Included in every site" cards with the add-ons
