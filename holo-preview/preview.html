@@ -1201,9 +1201,9 @@ body {
               </div>
 
               <div class="holo-caps">
-                <p class="holo-cap">Missed calls are missed <em>money</em>.</p>
-                <p class="holo-cap">Automations catch <em>every lead</em>.</p>
-                <p class="holo-cap"><span class="holo-cap-a">A website that brings <em>more in</em>.</span> <span class="holo-cap-b">See it built first.</span></p>
+                <p class="holo-cap">Missed leads are missed <em>money</em>.</p>
+                <p class="holo-cap">Automations close every gap <em>leads slip through</em>.</p>
+                <p class="holo-cap"><span class="holo-cap-a"><span class="holo-nb">AI-powered</span> websites send <em>even more leads</em> your way.</span> <span class="holo-cap-b">See it built first.</span></p>
               </div>
 
               <div aria-hidden="true" class="holo-pop holo-pop--call">
@@ -1239,7 +1239,7 @@ body {
                   </ul>
                 </div>
                 <div class="holo-close">
-                  <p class="holo-trust"><span class="holo-nb">One flat price.</span> <span class="holo-nb">No revenue share.</span></p>
+                  <p class="holo-trust"><span class="holo-nb">One flat price.</span> <span class="holo-nb">No revenue share.</span> <span class="holo-nb">Just results.</span></p>
                   <div class="holo-ctas">
                     <a class="holo-btn" href="/contact?interest=lee-systems">Book a free call</a>
                     <a class="holo-link" href="/lee-systems/automation">See everything we automate</a>
@@ -1300,7 +1300,7 @@ body {
                   <li><b>1,000+</b><span>Businesses worked with</span></li>
                   <li><b>50+</b><span>Businesses built</span></li>
                 </ul>
-                <p class="holo-trust"><span class="holo-nb">One flat price.</span> <span class="holo-nb">No revenue share.</span></p>
+                <p class="holo-trust"><span class="holo-nb">One flat price.</span> <span class="holo-nb">No revenue share.</span> <span class="holo-nb">Just results.</span></p>
                 <div class="holo-ctas">
                   <a class="holo-btn" href="/contact?interest=lee-systems">Book a free call</a>
                   <a class="holo-link" href="/lee-systems/automation">See everything we automate</a>
@@ -1848,6 +1848,10 @@ window.HOLO_EDIT = {
     var glowCopy = q(".hv-glow");
     var wordmarkWrap = q(".holo-wordmark-wrap");
     var popEls = [q(".holo-pop--call"), q(".holo-pop--text"), q(".holo-pop--list")];
+    var capsBand = q(".holo-caps");
+    // the headline lines that may be set smaller on a phone: captions 1
+    // and 2, and the first part of caption 3
+    var capFit = [qa(".holo-cap")[0], qa(".holo-cap")[1], q(".holo-cap-a")];
     var counters = qa(".holo-stage .holo-num").map(function (node, i) {
       return {
         el: node,
@@ -2247,12 +2251,33 @@ window.HOLO_EDIT = {
         put(popEls[2], { right: sw - (bx + 190 * kk), top: by + 286 * kk, maxWidth: 0.42 * bw });
       }
     }
+    // Phones: each headline keeps to two lines and stays inside the band
+    // above the hologram. One that would not is set a little smaller,
+    // half a pixel at a time and never below 18px, instead of breaking
+    // its words.
+    function lineCount(node) {
+      return Math.round(node.offsetHeight / parseFloat(getComputedStyle(node).lineHeight));
+    }
+    function fitCaptions() {
+      capFit.forEach(function (node) { node.style.fontSize = ""; });
+      if (!isPhone) return;
+      var room = capsBand.clientHeight - parseFloat(getComputedStyle(capsBand).paddingTop);
+      capFit.forEach(function (node) {
+        var whole = node.closest(".holo-cap");
+        var size = parseFloat(getComputedStyle(node).fontSize);
+        while (size > 18 && (lineCount(node) > 2 || whole.offsetHeight > room)) {
+          size = Math.max(18, size - 0.5);
+          node.style.fontSize = size + "px";
+        }
+      });
+    }
     function measure() {
       var w = box.clientWidth, h = box.clientHeight;
       if (!w) return;
       k = w / 480;
       box.style.setProperty("--holo-k", k.toFixed(4));
       isPhone = root.clientWidth < 860;
+      fitCaptions();
       coinUnits = isPhone ? 20 : 17;
       coinsWrap.style.setProperty("--coin", (coinUnits * k).toFixed(2) + "px");
       if (dust) dust.resize(w, h);
@@ -2391,6 +2416,7 @@ window.HOLO_EDIT = {
     nearObserver.observe(root);
 
     new ResizeObserver(measure).observe(box);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
     reducedQuery.addEventListener("change", applyMotion);
     setNiche(nicheFromUrl() || "general");
     applyMotion();
