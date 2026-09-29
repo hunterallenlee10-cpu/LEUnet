@@ -132,9 +132,11 @@ naturally aloud.
   the voice says where it differs ("11:48 PM" is read "Eleven forty-eight
   PM"), what the three panels show and how long a pause follows it. The
   voice and the captions both come from there, so they can't disagree.
-- **The soundtrack** is one file, `public/lee-systems/two-paths/two-paths.mp3`:
-  an Everygen voiceover of the lines, with the lines spaced out and quiet
-  sound effects drawn in code under them (the phone ringing, a voicemail
+- **The soundtrack** is one file, `public/lee-systems/two-paths/two-paths.mp3`
+  (about 40 seconds): Everygen voiceovers of the lines in the Pham voice
+  (the owner's pick, at its default settings: speed 0.9, stability 60,
+  similarity 80, style 80, speaker boost on), one clip per line, spaced out,
+  with quiet sound effects drawn in code 10 to 14 dB under them (the phone ringing, a voicemail
   beep, the callback ringing out, a clock ticking through the by-hand run,
   a whoosh into the AI run, the pickup, a text arriving, a saved chime and
   a warm chord on "Booked"). It loads only when someone reaches for the
@@ -154,18 +156,19 @@ naturally aloud.
   off, each caption is read from a polite live region instead, so no line
   is heard twice.
 
-To change a line or the voice: edit `data/two-paths-video.ts`, generate one
-Everygen voiceover of every line in order, each its own paragraph (the
-`spoken` text where a line has one), save the WAV and the `timing` object
-Everygen returns with it, then run
+To change a line or the voice: edit `data/two-paths-video.ts`, generate an
+Everygen voiceover of each line on its own (the `spoken` text where a line
+has one), save each as `<line id>.wav` in one folder (the two "11:48 PM"
+lines can share one clip), then run
 
 ```bash
-node scripts/build-two-paths-audio.mjs voiceover.wav timing.json
+node scripts/build-two-paths-audio.mjs path/to/folder
 ```
 
 with ffmpeg on the PATH (or `FFMPEG=/path/to/ffmpeg`). It rewrites the
-soundtrack and the timing file. It stops with an error if the voiceover's
-sentences don't match the lines.
+soundtrack and the timing file. One clip per line rather than one read of
+all of them: Pham reads briskly and runs one line into the next with no
+pause to cut at.
 
 What AI call answering does is the owner's own list, word for word, in
 `site.callAnswering` (`data/site.ts`); the FAQ's "What can the AI phone

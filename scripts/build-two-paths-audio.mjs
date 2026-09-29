@@ -1,19 +1,20 @@
 #!/usr/bin/env node
 /**
- * Builds the soundtrack of the "Two paths" video on /lee-systems from one
- * Everygen voiceover of its lines, and writes when each line starts.
+ * Builds the soundtrack of the "Two paths" video on /lee-systems from an
+ * Everygen voiceover of each of its lines, and writes when each line starts.
  *
- *   node scripts/build-two-paths-audio.mjs <voiceover.wav> <timing.json>
+ *   node scripts/build-two-paths-audio.mjs <folder>
  *
- * <voiceover.wav> is one read of every line in data/two-paths-video.ts, in
- * order, each line its own paragraph (the `spoken` text where a line has
- * one). <timing.json> is the `timing` object Everygen returns with it; only
- * its `sentenceEnds` is used, to find where one line stops and the next
- * starts. FFMPEG names the ffmpeg binary if it isn't on the PATH.
+ * <folder> holds one voiceover per line in data/two-paths-video.ts, named by
+ * the line's id (prompt.wav, manual-title.wav and so on), each reading the
+ * line's `spoken` text where it has one and its caption otherwise. One clip
+ * per line rather than one read of them all: a brisk voice runs its lines
+ * together with no pause to cut at. FFMPEG names the ffmpeg binary if it
+ * isn't on the PATH.
  *
- * What it does: cuts the read into one piece per line, lays the pieces out
- * with each line's `hold` of quiet after it, adds the sound effects below,
- * levels the whole thing to -16 LUFS and writes
+ * What it does: trims each clip to its speech, evens out their loudness,
+ * lays them out with each line's `hold` of quiet after it, adds the sound
+ * effects below, levels the whole thing to -16 LUFS and writes
  * public/lee-systems/two-paths/two-paths.mp3 and
  * data/two-paths-video.timing.json, which the video reads.
  *
@@ -41,14 +42,14 @@ const ffmpeg = process.env.FFMPEG || "ffmpeg";
 const SR = 48000;
 const TAU = Math.PI * 2;
 
-const [voiceoverPath, timingPath] = process.argv.slice(2);
-if (!voiceoverPath || !timingPath) {
-  console.error("Usage: node scripts/build-two-paths-audio.mjs <voiceover.wav> <timing.json>");
+const [clipsDir] = process.argv.slice(2);
+if (!clipsDir) {
+  console.error("Usage: node scripts/build-two-paths-audio.mjs <folder of <line-id>.wav clips>");
   process.exit(1);
 }
 
 // ---------------------------------------------------------------------------
-// The voiceover, as mono float samples at SR.
+// The clips, as mono float samples at SR, each trimmed to its speech.
 
 function decode(path) {
   const run = spawnSync(
@@ -61,67 +62,38 @@ function decode(path) {
   return new Float32Array(bytes.buffer, bytes.byteOffset, bytes.byteLength / 4).slice();
 }
 
-const voice = decode(voiceoverPath);
-const timing = JSON.parse(readFileSync(timingPath, "utf8"));
-const sentenceEnds = timing.sentenceEnds ?? timing.timing?.sentenceEnds;
-if (!Array.isArray(sentenceEnds)) throw new Error("timing.json has no sentenceEnds");
-
-/** The number of sentences in a line, counted the way the voice reads them. */
-const sentencesIn = (text) =>
-  text.split(/[.!?]+(?:\s+|$)/).filter((s) => s.trim().length > 0).length;
-
-const counts = twoPathsLines.map((line) => sentencesIn(line.spoken ?? line.caption));
-const expected = counts.reduce((a, b) => a + b, 0);
-if (sentenceEnds.length !== expected) {
-  throw new Error(
-    `The read has ${sentenceEnds.length} sentences and the lines have ${expected}. ` +
-      "Regenerate the voiceover from the lines exactly as they are."
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Where the voice is speaking: 10 ms frames above a threshold set from the
-// loud end of the read, with gaps under 150 ms bridged so words stay whole.
-
-const FRAME = Math.round(SR * 0.01);
-const rms = [];
-for (let i = 0; i + FRAME <= voice.length; i += FRAME) {
-  let sum = 0;
-  for (let j = i; j < i + FRAME; j++) sum += voice[j] * voice[j];
-  rms.push(Math.sqrt(sum / FRAME));
-}
-const sorted = [...rms].sort((a, b) => a - b);
-const threshold = Math.max(sorted[Math.floor(sorted.length * 0.95)] * 0.05, 0.002);
-
-const regions = [];
-for (let f = 0; f < rms.length; f++) {
-  if (rms[f] < threshold) continue;
-  const last = regions[regions.length - 1];
-  if (last && f - last.end <= 15) last.end = f + 1;
-  else regions.push({ start: f, end: f + 1 });
-}
-const speech = regions
-  .filter((r) => r.end - r.start >= 4)
-  .map((r) => ({ start: r.start / 100, end: r.end / 100 }));
-if (speech.length === 0) throw new Error("No speech found in the voiceover");
-
-/** The line's piece of the read: from its first word to its last. */
-const pieces = [];
-let sentence = 0;
-let from = 0;
-for (let i = 0; i < twoPathsLines.length; i++) {
-  sentence += counts[i];
-  const endsAt = sentenceEnds[sentence - 1];
-  // The speech region that ends nearest to where the line's last sentence ends.
-  let best = null;
-  for (const r of speech) {
-    if (r.end <= from) continue;
-    if (!best || Math.abs(r.end - endsAt) < Math.abs(best.end - endsAt)) best = r;
+/** 10 ms frames' loudness. */
+function frames(samples) {
+  const size = Math.round(SR * 0.01);
+  const out = [];
+  for (let i = 0; i + size <= samples.length; i += size) {
+    let sum = 0;
+    for (let j = i; j < i + size; j++) sum += samples[j] * samples[j];
+    out.push(Math.sqrt(sum / size));
   }
-  const first = speech.find((r) => r.end > from);
-  if (!best || !first) throw new Error(`Could not find the line "${twoPathsLines[i].id}" in the read`);
-  pieces.push({ start: Math.max(0, first.start - 0.04), end: best.end + 0.07 });
-  from = best.end;
+  return out;
+}
+
+/**
+ * A clip from its first word to its last, with a breath of lead and the last
+ * word's decay kept, and scaled so its speech sits at the same loudness as
+ * every other line's.
+ */
+function speechOf(samples, id) {
+  const rms = frames(samples);
+  const loud = [...rms].sort((a, b) => a - b)[Math.floor(rms.length * 0.95)] ?? 0;
+  const threshold = Math.max(loud * 0.05, 0.002);
+  const first = rms.findIndex((v) => v >= threshold);
+  const last = rms.length - 1 - [...rms].reverse().findIndex((v) => v >= threshold);
+  if (first < 0) throw new Error(`No speech in ${id}.wav`);
+  const from = Math.max(0, first * 0.01 - 0.04);
+  const to = Math.min(samples.length / SR, (last + 1) * 0.01 + 0.09);
+  const voiced = rms.slice(first, last + 1).filter((v) => v >= threshold);
+  const level = Math.sqrt(voiced.reduce((sum, v) => sum + v * v, 0) / voiced.length);
+  const piece = samples.slice(Math.round(from * SR), Math.round(to * SR));
+  const gain = 0.1 / level;
+  for (let i = 0; i < piece.length; i++) piece[i] *= gain;
+  return fade(piece, 0.006);
 }
 
 // ---------------------------------------------------------------------------
@@ -178,10 +150,10 @@ function voicemailBeep() {
   return fade(out, 0.012);
 }
 
-/** An outgoing call ringing out, twice. */
+/** An outgoing call ringing out, twice, done before the next line starts. */
 function ringback() {
-  const out = buf(3.2);
-  for (const [a, b] of [[0, 1.2], [1.9, 3.1]]) {
+  const out = buf(2.5);
+  for (const [a, b] of [[0, 1], [1.5, 2.5]]) {
     const tone = buf(b - a);
     for (let i = 0; i < tone.length; i++) {
       const t = i / SR;
@@ -290,13 +262,15 @@ function booked() {
 // ---------------------------------------------------------------------------
 // The layout: each line's piece, then its hold.
 
+const pieces = twoPathsLines.map((line) => speechOf(decode(join(clipsDir, `${line.id}.wav`)), line.id));
+
 const lead = 0.25;
 const placed = [];
 let t = lead;
 for (let i = 0; i < twoPathsLines.length; i++) {
-  const { start, end } = pieces[i];
-  placed.push({ id: twoPathsLines[i].id, at: t, speechEnd: t + (end - start) });
-  t += end - start + twoPathsLines[i].hold;
+  const seconds = pieces[i].length / SR;
+  placed.push({ id: twoPathsLines[i].id, at: t, speechEnd: t + seconds });
+  t += seconds + twoPathsLines[i].hold;
 }
 const total = t + 0.2;
 const at = Object.fromEntries(placed.map((p) => [p.id, p]));
@@ -305,24 +279,19 @@ const mix = buf(total);
 
 // The voice, peaked to -1 dBFS before the effects go under it.
 let peak = 0;
-for (const { start, end } of pieces) {
-  for (let i = Math.round(start * SR); i < Math.round(end * SR); i++) peak = Math.max(peak, Math.abs(voice[i] ?? 0));
-}
+for (const piece of pieces) for (const v of piece) peak = Math.max(peak, Math.abs(v));
 const voiceGain = 0.89 / (peak || 1);
-pieces.forEach(({ start, end }, i) => {
-  const piece = fade(voice.slice(Math.round(start * SR), Math.round(end * SR)), 0.006);
-  mixInto(mix, piece, placed[i].at, voiceGain);
-});
+pieces.forEach((piece, i) => mixInto(mix, piece, placed[i].at, voiceGain));
 
 // The effects, each at a level that sits under the voice.
 const s = (id) => at[id].at;
 const e = (id) => at[id].speechEnd;
 mixInto(mix, ring(s("manual-voicemail") - s("manual-call") + 0.1), s("manual-call") - 0.15, 0.12);
 mixInto(mix, ticking(s("manual-ending") - s("manual-call")), s("manual-call"), 0.05);
-mixInto(mix, voicemailBeep(), e("manual-voicemail") + 0.12, 0.16);
+mixInto(mix, voicemailBeep(), e("manual-voicemail") + 0.12, 0.05);
 mixInto(mix, ringback(), s("manual-callback"), 0.07);
 mixInto(mix, lost(), e("manual-crm") + 0.05, 0.22);
-mixInto(mix, whoosh(), s("ai-title") - 0.3, 0.16);
+mixInto(mix, whoosh(), s("ai-title") - 0.3, 0.1);
 mixInto(mix, ring(s("ai-answer") - s("ai-call") + 0.1), s("ai-call") - 0.15, 0.12);
 mixInto(mix, pickup(), s("ai-answer") - 0.08, 0.16);
 mixInto(mix, ding(), s("ai-text") + 0.1, 0.16);
