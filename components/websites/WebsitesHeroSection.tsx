@@ -8,7 +8,7 @@ import { leeSystemsAnchors, leeSystemsRoutes } from "@/data/lee-systems";
  * Leads with what the site is for, then the flat quote. It led with the
  * pay-after-the-build guarantee until the owner stopped offering it on
  * 2026-09-28. The label names the offering and the footnote names the
- * company, the same rule the automation hero follows.
+ * company.
  */
 export function WebsitesHeroSection() {
   return (
