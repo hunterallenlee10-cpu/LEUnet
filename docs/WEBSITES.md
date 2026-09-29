@@ -5,14 +5,15 @@
 > the flat quote (the pay-after-the-build guarantee it led with came off on
 > 2026-09-28, when the owner stopped offering it), and had its copy, sections
 > and FAQ rewritten. On 2026-09-29 it folded into `/lee-systems`: its URL
-> 301-redirects to the `#websites` section there, which carries "Included in
-> every site", and its FAQ joined that page's (see `docs/LEE-SYSTEMS.md`).
-> Paths and section names below describe the old page. The claims standard in
-> §3 still applies.
+> 301-redirects to the `#websites` section there, which carried "Included in
+> every site" until the owner took those cards off the same day, and its FAQ
+> joined that page's (see `docs/LEE-SYSTEMS.md`). Paths and section names
+> below describe the old page. The claims standard in §3 still applies.
 >
 > Where the body no longer matches the code: `BrowserFrameVisual` is now
-> `components/lee-systems/WebsiteBuildDemo.tsx`, beside "Included in every
-> site", and `AutomationFlowVisual` is `AutomationFlowDemo` next to it; the
+> `components/lee-systems/WebsiteBuildDemo.tsx`, beside the websites
+> section's heading, and `AutomationFlowVisual` is `AutomationFlowDemo`,
+> beside the heading of the section before it; the
 > quote form is gone, and a website request made through the one form on
 > `/lee-systems` (`/api/lee-systems-inquiry`) still resolves
 > `WEBSITE_TO_EMAIL` → `LEE_SYSTEMS_TO_EMAIL` → `LMM_TO_EMAIL` →

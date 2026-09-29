@@ -26,13 +26,14 @@ shorter cards), its FAQ and its form; the websites page's "Included in every
 site", its FAQ and its form; and each page's hero animation (below). Their
 heroes, the automation page's "The problem", the websites page's "How
 pricing works", both process sections (the onboarding process covers them)
-and the "See automation" bridge did not come over.
+and the "See automation" bridge did not come over. The seven areas and
+"Included in every site" came off again the same day (see What was retired).
 
 The two industry pages use only copy already on the site (the industry's
 entry in `leeSystemsIndustries`, which also holds each page's title and
-description). Their cards in "Who we help" link to them, their "See
-everything we automate" button goes to `/lee-systems#automation`, and both
-are in the sitemap.
+description). Their cards in "Who we help" link to them, their "See what we
+automate" button goes to `/lee-systems#automation`, and both are in the
+sitemap.
 
 ## The two animations
 
@@ -77,9 +78,11 @@ Both "$0" figures are the free consultation call, the only price the site
 states. The gold buttons are `BookCallLink variant="glow"`, and like every
 other "Book a free call" in the page's body they scroll to the form.
 
-AI call answering leads the page's "What we automate" areas, drawn full
-width. Its capabilities list is the owner's own, word for word, in
-`site.callAnswering` (`data/site.ts`).
+What AI call answering does is the owner's own list, word for word, in
+`site.callAnswering` (`data/site.ts`); the FAQ's "What can the AI phone
+assistant do?" says the same. It led the page's "What we automate" cards,
+full width, until those came off (2026-09-29, below). Its demo line, once
+`callAnswering.demoPhone` is set, sits under that section's heading.
 
 Shared copy (brand details, the FAQ, industries, the pricing promise, the
 form's choices) is in `data/lee-systems.ts`. Business facts (phone, email,
@@ -149,7 +152,7 @@ still land on it.
 | --- | --- | --- |
 | Booking link | `bookingUrl` | "Book a free call" goes to the contact form (on `/lee-systems`, the page's own form) |
 | Finished projects (name, one line, link or walkthrough) | `projects` | "Our projects" shows two "Project walkthrough coming soon" frames |
-| Call-answering demo number | `callAnswering.demoPhone` | No demo line |
+| Call-answering demo number | `callAnswering.demoPhone` | No demo line under the heading of What we automate |
 
 Set `showPlaceholders` to `false` to hide every "coming soon" frame at once;
 empty slots then disappear instead.
@@ -184,3 +187,12 @@ empty slots then disappear instead.
   (`LeeSystemsSiblingLinks`), the parked "What gets automated" grid
   (`LeeSystemsAutomatesSection`) and the two form routes,
   `/api/automation-audit` and `/api/website-inquiry`.
+- The seven "What we automate" cards (AI call answering, leads, sales
+  follow-up, client communication, reviews and referrals, billing, internal
+  operations) and the six "Included in every site" cards with the add-ons
+  note under them (2026-09-29, at the owner's request). Both sections keep
+  their headings and their animations. The automation heading is now the old
+  automation page's headline, "Every lead answered. Every follow-up sent.
+  Nothing missed.", and the websites label reads "Website builds". The
+  offerings in "What we do" and the FAQ still cover what the cards said, and
+  the "See everything we automate" links became "See what we automate".

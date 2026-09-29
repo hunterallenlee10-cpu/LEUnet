@@ -38,7 +38,7 @@ export function LeeSystemsSetupSection() {
             href={leeSystemsLinks.automation}
             className="inline-flex min-h-11 items-center font-semibold text-brass-300 underline-offset-4 hover:underline"
           >
-            See everything we automate
+            See what we automate
           </Link>
         </p>
       </div>
