@@ -7,7 +7,6 @@ import { LeeSystemsAutomatesSection } from "@/components/lee-systems/LeeSystemsA
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { LeeSystemsHowItWorksSection } from "@/components/lee-systems/LeeSystemsHowItWorksSection";
-import { LeeSystemsAboutSection } from "@/components/lee-systems/LeeSystemsAboutSection";
 import { LeeSystemsFinalCTA } from "@/components/lee-systems/LeeSystemsFinalCTA";
 import { SITE_URL } from "@/data/company";
 import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
@@ -103,7 +102,6 @@ export default function LeeSystemsPage() {
         <LeeSystemsIndustriesSection />
         <RecentWorkSection />
         <LeeSystemsHowItWorksSection />
-        <LeeSystemsAboutSection />
         <LeeSystemsFinalCTA />
       </main>
 

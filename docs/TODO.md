@@ -18,7 +18,7 @@ file. Tell Claude when something is done and it checks it off here.
       page will offer it as a live demo (`callAnswering.demoPhone`).
 - [ ] **Photo and bio.** A real photo and a few lines about you. They replace
       the "Photo coming soon" and "More about me coming soon" slots on the
-      homepage and /lee-systems (`founder.photo`, `founder.bio`).
+      homepage (`founder.photo`, `founder.bio`).
 - [ ] **Tool logos.** The moving strip under the homepage hero shows 18 tools
       (n8n, Anthropic, Gemini, Gmail, Google Calendar, Calendly, WhatsApp,
       Zoom, Telegram, HubSpot, Airtable, Notion, Google Sheets, QuickBooks,
