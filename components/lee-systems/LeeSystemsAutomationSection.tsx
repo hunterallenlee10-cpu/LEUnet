@@ -8,6 +8,8 @@ import {
   LayoutDashboard,
   ChevronDown,
 } from "lucide-react";
+import { AutomationFlowDemo } from "@/components/lee-systems/AutomationFlowDemo";
+import { leeSystemsAnchors } from "@/data/lee-systems";
 import { site, telHref } from "@/data/site";
 
 /**
@@ -17,7 +19,7 @@ import { site, telHref } from "@/data/site";
  * The toggle is a native <details>, so the section needs no client JS; the
  * shared `name` keeps one card open at a time.
  *
- * Calls comes first and runs the full width: AI call answering is the lead
+ * AI call answering comes first and runs the full width: it is the lead
  * service, and its examples are exactly the capabilities the owner confirmed
  * (`site.callAnswering` in data/site.ts), nothing added.
  */
@@ -25,7 +27,7 @@ const areas = [
   {
     id: "calls",
     Icon: Phone,
-    title: "Calls",
+    title: "AI call answering",
     description:
       "An AI assistant that answers your business calls 24/7. It works like a virtual receptionist and sales assistant.",
     capabilities: site.callAnswering.capabilities,
@@ -115,25 +117,36 @@ const areas = [
   },
 ];
 
-export function AutomationServicesSection() {
+/**
+ * "What we automate" on /lee-systems (#automation), where every "See what we
+ * automate" and "Business automation" link lands. It was the core of
+ * /lee-systems/automation until that page folded into this one (2026-09-29),
+ * and that page's hero diagram, AutomationFlowDemo, now sits beside its
+ * heading. Its first card was titled "Calls" there.
+ */
+export function LeeSystemsAutomationSection() {
   return (
     <section
-      id="automation-services"
+      id={leeSystemsAnchors.automation}
       className="relative isolate py-20 md:py-28"
     >
       <div className="section-container">
-        <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold text-brass-300">
-            What we automate
-          </p>
-          <h2 className="heading-lg mb-6 text-white">
-            Seven areas where the busywork lives
-          </h2>
-          <p className="text-lg leading-relaxed text-neutral-300">
-            Most businesses start with one or two of these. Every system is
-            built around how your business already works, not forced into a
-            template.
-          </p>
+        <div className="mb-14 grid grid-cols-1 items-center gap-14 lg:grid-cols-2">
+          <div className="max-w-2xl">
+            <p className="mb-3 text-sm font-semibold text-brass-300">
+              What we automate
+            </p>
+            <h2 className="heading-lg mb-6 text-white">
+              Seven areas where the busywork lives
+            </h2>
+            <p className="text-lg leading-relaxed text-neutral-300">
+              Most businesses start with one or two of these. Every system is
+              built around how your business already works, not forced into a
+              template.
+            </p>
+          </div>
+
+          <AutomationFlowDemo />
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

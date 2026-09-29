@@ -12,11 +12,11 @@ interface FaqAccordionProps {
 }
 
 /**
- * The question list on the automation and websites FAQs: one answer open at a
- * time, the first open on load. Each question is an h3 wrapping a button, so it
- * stays in the heading outline while the button carries the expanded state.
- * It is the only client code in either FAQ section; the heading and copy
- * around it are rendered on the server.
+ * The question list in the /lee-systems FAQ: one answer open at a time, the
+ * first open on load. Each question is an h3 wrapping a button, so it stays in
+ * the heading outline while the button carries the expanded state. It is the
+ * only client code in the FAQ section; the heading and copy around it are
+ * rendered on the server.
  */
 export function FaqAccordion({ items, idPrefix, chevronClassName }: FaqAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);

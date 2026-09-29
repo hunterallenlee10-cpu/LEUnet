@@ -118,14 +118,42 @@ const nextConfig = {
         destination: "/",
         statusCode: 301,
       },
+      // The Lee Systems Co. automation and websites pages folded into
+      // /lee-systems on 2026-09-29, so each old URL lands on its section
+      // there. Permanent, and 301s for the same reason as the rename below.
+      // The browser follows the destination's #fragment, so any #anchor on
+      // the old URL gives way to the section's.
+      {
+        source: "/lee-systems/automation",
+        destination: "/lee-systems#automation",
+        statusCode: 301,
+      },
+      {
+        source: "/lee-systems/websites",
+        destination: "/lee-systems#websites",
+        statusCode: 301,
+      },
+      // Their share images went with them. Anything still linking to one (a
+      // cached share card, say) gets the page's card instead.
+      {
+        source: "/lee-systems/automation/opengraph-image",
+        destination: "/lee-systems/opengraph-image",
+        statusCode: 301,
+      },
+      {
+        source: "/lee-systems/websites/opengraph-image",
+        destination: "/lee-systems/opengraph-image",
+        statusCode: 301,
+      },
       // Lee Marketing Mastery became Lee Systems Co. on 2026-09-25 and moved
       // from /lee-marketing-mastery to /lee-systems. Same-origin rename with
       // no plan to go back, so these are permanent. 301 rather than Next's
       // default 308 for `permanent: true` because the owner asked for 301s;
       // for page GETs the two are equivalent to browsers and search engines.
-      // The two offerings map to their new pages; the retired Traditional &
-      // Digital Marketing page, and any other old path, goes to the main
-      // page. Specific rules first: Next uses the first match.
+      // The two offerings go straight to their sections on /lee-systems
+      // rather than through the folded pages' redirects above; the retired
+      // Traditional & Digital Marketing page, and any other old path, goes to
+      // the main page. Specific rules first: Next uses the first match.
       {
         source: "/lee-marketing-mastery",
         destination: "/lee-systems",
@@ -133,12 +161,12 @@ const nextConfig = {
       },
       {
         source: "/lee-marketing-mastery/automation",
-        destination: "/lee-systems/automation",
+        destination: "/lee-systems#automation",
         statusCode: 301,
       },
       {
         source: "/lee-marketing-mastery/websites",
-        destination: "/lee-systems/websites",
+        destination: "/lee-systems#websites",
         statusCode: 301,
       },
       {

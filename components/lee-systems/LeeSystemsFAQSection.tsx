@@ -1,12 +1,17 @@
 import { FaqAccordion } from "@/components/lee-systems/FaqAccordion";
-import { automationFaqs } from "@/data/lee-systems";
+import { leeSystemsFaqs } from "@/data/lee-systems";
 
-export function AutomationFAQSection() {
+/**
+ * The /lee-systems FAQ: the automation and websites pages' questions in one
+ * list (`leeSystemsFaqs`), since those pages folded into this one
+ * (2026-09-29). The page also emits the list as FAQPage structured data.
+ */
+export function LeeSystemsFAQSection() {
   return (
-    <section className="relative isolate py-20 md:py-28">
+    <section id="faq" className="relative isolate py-20 md:py-28">
       <div className="section-container">
-        {/* The FAQ opens after the process band; the hairline gives the page
-            somewhere to breathe before the questions and the form below. */}
+        {/* The FAQ opens after the onboarding steps; the hairline gives the
+            page somewhere to breathe before the questions. */}
         <div
           aria-hidden="true"
           className="mx-auto mb-14 h-px max-w-md bg-gradient-to-r from-transparent via-brass-400/30 to-transparent"
@@ -18,7 +23,7 @@ export function AutomationFAQSection() {
         </div>
 
         <FaqAccordion
-          items={automationFaqs}
+          items={leeSystemsFaqs}
           idPrefix="faq"
           chevronClassName="text-brass-400"
         />

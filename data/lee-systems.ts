@@ -2,8 +2,10 @@
  * Lee Systems Co. - shared brand details and page content.
  *
  * Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It sells AI
- * automation (the lead offer, AI call answering included) and website builds.
- * The old /lee-marketing-mastery URLs redirect here (next.config.mjs).
+ * automation (the lead offer, AI call answering included) and website builds,
+ * both on one page, /lee-systems. The automation and websites pages folded
+ * into it on 2026-09-29: their URLs, and the old /lee-marketing-mastery ones,
+ * redirect to its #automation and #websites sections (next.config.mjs).
  *
  * Business facts - phone, email, the booking link and the reply time - live
  * in data/site.ts. At the owner's request (2026-09-28) the pages say nothing
@@ -14,8 +16,8 @@
  * Automation Audit and its written plan on 2026-09-28, also at the owner's
  * request.
  *
- * FAQ lists live here rather than in their accordion components because the
- * pages also emit them as FAQPage structured data, and a server component
+ * The FAQ list lives here rather than in its accordion component because the
+ * page also emits it as FAQPage structured data, and a server component
  * cannot read an array back out of a "use client" module.
  */
 
@@ -23,20 +25,29 @@ import { site } from "@/data/site";
 
 export const leeSystemsRoutes = {
   home: "/lee-systems",
-  automation: "/lee-systems/automation",
-  websites: "/lee-systems/websites",
   lawFirms: "/lee-systems/law-firms",
   homeServices: "/lee-systems/home-services",
 } as const;
 
 /**
- * Section ids the CTAs scroll to. Kept here so a link and its target agree.
- * The automation form keeps the id "audit" from when it requested the free
- * Automation Audit, so links made then still land on it.
+ * Section ids on /lee-systems that links point at, kept here so a link and
+ * its target agree. The form also keeps the ids the two forms it replaced had
+ * on their own pages - "audit" (from when the automation form requested the
+ * free Automation Audit) and "website-quote" - on wrappers around it, so
+ * links made for either still land on it.
  */
 export const leeSystemsAnchors = {
-  automationForm: "audit",
-  websiteForm: "website-quote",
+  automation: "automation",
+  websites: "websites",
+  form: "contact-form",
+  auditForm: "audit",
+  websiteQuoteForm: "website-quote",
+} as const;
+
+/** The two offerings' sections, linked from anywhere on the site. */
+export const leeSystemsLinks = {
+  automation: `${leeSystemsRoutes.home}#${leeSystemsAnchors.automation}`,
+  websites: `${leeSystemsRoutes.home}#${leeSystemsAnchors.websites}`,
 } as const;
 
 export const leeSystems = {
@@ -56,86 +67,11 @@ export const leeSystems = {
   phone: site.phone,
 } as const;
 
-/** What the automation form offers in its two dropdowns. */
-export const auditIndustryOptions = [
-  "Law firm",
-  "Home services / roofing",
-  "Medical, dental or wellness",
-  "Real estate",
-  "Accounting or financial services",
-  "Other service business",
-] as const;
-
-export const auditTeamSizeOptions = [
-  "Just me",
-  "2-5 people",
-  "6-15 people",
-  "16-50 people",
-  "More than 50",
-] as const;
-
 /**
- * What the website quote form asks the visitor to pick. The route checks the
- * posted value against this list, the same way the audit route checks its two
- * dropdowns above, so a label can change here without touching either.
- */
-export const websiteProjectTypes = [
-  "New website",
-  "Redesign of my existing site",
-  "Website plus lead follow-up automation",
-  "Care plan for a site I already have",
-  "Not sure yet",
-] as const;
-
-/**
- * What the main page says gets automated: AI call answering first (it is the
- * one the page draws wide), then six more. Short on purpose: the automation
- * page carries the full list, grouped by area.
- */
-export const automatedTasks = [
-  {
-    id: "calls",
-    title: "AI call answering",
-    body: "An AI assistant that answers your business calls 24/7.",
-  },
-  {
-    id: "lead-response",
-    title: "Instant lead response",
-    body: "Every new inquiry gets a reply within a minute, day or night, and you get a text with the details.",
-  },
-  {
-    id: "intake",
-    title: "Client intake",
-    body: "Intake forms collect the right information up front and file it where your team already works.",
-  },
-  {
-    id: "follow-up",
-    title: "Follow-up sequences",
-    body: "Quotes, consultations and missed calls get followed up on a schedule, so nothing depends on memory.",
-  },
-  {
-    id: "reviews",
-    title: "Review requests",
-    body: "Finished jobs and closed matters trigger a polite review request at the right moment.",
-  },
-  {
-    id: "invoicing",
-    title: "Invoice reminders",
-    body: "Unpaid invoices get friendly reminders without anyone having to chase them by hand.",
-  },
-  {
-    id: "reporting",
-    title: "Daily reports",
-    body: "A short summary each morning: new leads, booked appointments, and anything waiting on you.",
-  },
-] as const;
-
-/**
- * The industries named on the main page and the automation page, each with a
- * page of its own (`page`) that the owner can send prospects in that industry.
- * Law firms and home services are the two the owner knows best; the closing
- * line covers everyone else rather than listing industries with nothing
- * specific to say.
+ * The industries on /lee-systems ("Who we help"), each with a page of its own
+ * (`page`) that the owner can send prospects in that industry. Law firms and
+ * home services are the two the owner knows best; the closing line covers
+ * everyone else rather than listing industries with nothing specific to say.
  *
  * The industry pages are built only from copy already on the site: the
  * industry's summary and examples here, the Audit, Build, Run steps, the
@@ -187,10 +123,10 @@ export const leeSystemsIndustries = [
 
 /**
  * More example industries, added on the owner's request (2026-09-29). Shown
- * as cards next to the two above on the automation and Lee Systems pages, but
- * without pages of their own, so they are kept apart from
- * `leeSystemsIndustries` (which the industry pages read). The examples say
- * what the automations do, not work already done: no client claims.
+ * as cards next to the two above on /lee-systems, but without pages of their
+ * own, so they are kept apart from `leeSystemsIndustries` (which the industry
+ * pages read). The examples say what the automations do, not work already
+ * done: no client claims.
  */
 export const moreIndustries = [
   {
@@ -248,8 +184,8 @@ export const moreIndustries = [
 ] as const;
 
 /**
- * An industry name mid-sentence ("See what we automate for real estate"):
- * only the first letter drops to lower case, so "Fitness & PT" keeps its PT.
+ * An industry name mid-sentence ("See the page for law firms"): only the
+ * first letter drops to lower case, so "Fitness & PT" keeps its PT.
  */
 export function industryInSentence(name: string): string {
   return name.charAt(0).toLowerCase() + name.slice(1);
@@ -258,7 +194,36 @@ export function industryInSentence(name: string): string {
 export const otherIndustriesLine =
   "Don't see your industry? If your business depends on following up with people, we can automate it.";
 
-export const automationFaqs = [
+/**
+ * "What do you need?" on the /lee-systems form, which replaced the automation
+ * consultation form and the website quote form. A `website` choice is
+ * delivered the way the website quote form's requests were (its recipient and
+ * its subject line); everything else the way the consultation form's were.
+ * The route checks the posted value against this list, so a label can change
+ * here without touching it.
+ */
+export const inquiryNeeds = [
+  { label: "AI call answering", website: false },
+  { label: "Automation", website: false },
+  { label: "Website", website: true },
+  { label: "Website + automation", website: true },
+  { label: "Not sure", website: false },
+] as const;
+
+/** The form's industry choices: the industries the page shows, then Other. */
+export const inquiryIndustryOptions: readonly string[] = [
+  ...leeSystemsIndustries.map(({ name }) => name),
+  ...moreIndustries.map(({ name }) => name),
+  "Other",
+];
+
+/**
+ * The /lee-systems FAQ: the automation page's questions, then the websites
+ * page's, merged when those pages folded into /lee-systems (2026-09-29).
+ * Both asked "How long does a build take?"; it is asked once here, and its
+ * answer joins the two existing answers without adding to them.
+ */
+export const leeSystemsFaqs = [
   {
     question: "What happens on the free call?",
     answer:
@@ -292,25 +257,17 @@ export const automationFaqs = [
   {
     question: "How long does a build take?",
     answer:
-      "It depends on how many steps and tools are involved. You get a timeline before you commit.",
+      "It depends on how many steps and tools are involved, or for a website, on the size of the site and how quickly feedback comes back. You get a timeline with your quote, before you commit, and nothing goes live until you approve it.",
   },
   {
     question: "What kinds of businesses do you work with?",
     answer:
       "Any service business that depends on responding to and following up with people.",
   },
-];
-
-export const websiteFaqs = [
   {
     question: "How much does a website cost?",
     answer:
       "Each project is quoted on its own. The price depends on how many pages you need, whether copy and photos already exist, and what the site has to do, such as booking appointments or connecting to other tools. The quote is free.",
-  },
-  {
-    question: "How long does a build take?",
-    answer:
-      "It depends on the size of the site and how quickly feedback comes back. You get a timeline with your quote, and nothing goes live until you approve it.",
   },
   {
     question: "Do I need my content and photos ready first?",
@@ -340,8 +297,9 @@ export const websiteFaqs = [
 ];
 
 /**
- * How Lee Systems Co. prices its work: the owner's offer terms, stated on the
- * homepage ("No surprises on price.") and on the industry pages.
+ * How Lee Systems Co. prices its work: the owner's offer terms, stated in
+ * "The choice is yours" on /lee-systems and in the industry pages' band
+ * ("No surprises on price.").
  */
 export const pricingPromise = [
   "Flat upfront quote",

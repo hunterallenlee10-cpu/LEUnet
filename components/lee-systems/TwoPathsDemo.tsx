@@ -17,6 +17,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { BookCallLink } from "@/components/ui/BookCallLink";
+import { leeSystemsAnchors } from "@/data/lee-systems";
 
 type Mode = "ai" | "manual";
 type Status = "idle" | "ringing" | "good" | "bad";
@@ -63,7 +64,7 @@ interface Step {
 
 /**
  * One example lead, played two ways. Every line is something the owner has
- * confirmed the systems do (`site.callAnswering` and `automatedTasks`); the
+ * confirmed the systems do (`site.callAnswering` and What we automate); the
  * time and the day only make it an example, which is why the frame is
  * labelled "Example". No result or client is implied.
  */
@@ -350,6 +351,7 @@ export function TwoPathsDemo() {
             </p>
             <BookCallLink
               variant="glow"
+              href={`#${leeSystemsAnchors.form}`}
               className="mt-auto w-full max-w-[16rem] px-3 text-[13px] sm:text-base"
             />
           </div>

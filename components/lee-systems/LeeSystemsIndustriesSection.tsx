@@ -3,7 +3,6 @@ import { CarFront, Dumbbell, Home, KeyRound, Scale, UtensilsCrossed } from "luci
 import {
   industryInSentence,
   leeSystemsIndustries,
-  leeSystemsRoutes,
   moreIndustries,
   otherIndustriesLine,
 } from "@/data/lee-systems";
@@ -17,35 +16,25 @@ const industryIcons = {
   restaurants: UtensilsCrossed,
 } as const;
 
-/**
- * Every card links somewhere: an industry with its own page goes there, the
- * rest go to their card on the automation page (each card carries its id).
- */
-const industries = [
-  ...leeSystemsIndustries.map(({ id, name, summary, page }) => ({
-    id,
-    name,
-    summary,
-    href: page.href as string,
-  })),
-  ...moreIndustries.map(({ id, name, summary }) => ({
-    id,
-    name,
-    summary,
-    href: `${leeSystemsRoutes.automation}#${id}`,
-  })),
-];
+/** Law firms and home services first (they have pages), then the rest. */
+const industries = [...leeSystemsIndustries, ...moreIndustries];
 
 /**
- * Who it is for, framed as examples rather than the only businesses served
- * (the owner's request, 2026-09-29; the automation page's industries heading
- * says the same). Law firms and home services link to their own pages
- * (/lee-systems/law-firms, /lee-systems/home-services); the rest link to
- * their card on the automation page.
+ * "Who we help" on /lee-systems: example industries, each with the
+ * automations built for them; the two with their own page link to it. The
+ * heading frames them as examples, not the only businesses served (the
+ * owner's request, 2026-09-29); other industries get one line rather than
+ * cards with nothing specific to say.
+ *
+ * This is the version the automation page had. It replaced the main page's
+ * shorter cards when the automation page folded in (2026-09-29), because four
+ * of those cards only linked to their card there, and here each card carries
+ * its own examples. Each card keeps its industry's id, so
+ * /lee-systems#real-estate still lands on it.
  */
 export function LeeSystemsIndustriesSection() {
   return (
-    <section className="relative isolate py-20 md:py-28">
+    <section id="industries" className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold text-brass-300">
@@ -56,26 +45,48 @@ export function LeeSystemsIndustriesSection() {
           </h2>
         </div>
 
-        <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {industries.map(({ id, name, summary, href }) => {
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {industries.map((industry) => {
+            const { id, name, summary, examples } = industry;
+            const page = "page" in industry ? industry.page : null;
             const Icon = industryIcons[id];
             return (
-              <li key={id}>
-                <Link
-                  href={href}
-                  className="group flex h-full flex-col rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-8 transition-colors hover:border-brass-400/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300"
-                >
-                  <Icon className="mb-4 h-7 w-7 text-brass-300" aria-hidden="true" />
-                  <h3 className="mb-2 text-xl font-bold text-white">{name}</h3>
-                  <p className="mb-5 text-neutral-400">{summary}</p>
-                  <span className="mt-auto text-sm font-semibold text-brass-300 group-hover:underline group-hover:underline-offset-4">
-                    See what we automate for {industryInSentence(name)}
-                  </span>
-                </Link>
-              </li>
+              <div
+                key={id}
+                id={id}
+                className="flex flex-col rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-8"
+              >
+                <div className="mb-4 flex items-center gap-3">
+                  <Icon className="h-7 w-7 text-brass-300" aria-hidden="true" />
+                  <h3 className="text-xl font-bold text-white">{name}</h3>
+                </div>
+                <p className="mb-5 text-neutral-300">{summary}</p>
+                <ul className="space-y-2.5 border-t border-white/10 pt-5">
+                  {examples.map((example) => (
+                    <li
+                      key={example}
+                      className="flex items-start gap-2.5 text-sm text-neutral-400"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-brass-400"
+                      />
+                      {example}
+                    </li>
+                  ))}
+                </ul>
+                {page && (
+                  <Link
+                    href={page.href}
+                    className="mt-auto inline-flex min-h-11 items-center self-start pt-4 text-sm font-semibold text-brass-300 underline-offset-4 hover:underline"
+                  >
+                    See the page for {industryInSentence(name)}
+                  </Link>
+                )}
+              </div>
             );
           })}
-        </ul>
+        </div>
 
         <p className="mx-auto mt-10 max-w-2xl text-center text-lg text-neutral-300">
           {otherIndustriesLine}

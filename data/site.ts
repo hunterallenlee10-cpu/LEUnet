@@ -188,7 +188,10 @@ export const bookLabel = "Book a free call";
  */
 export const bookLabelHero = "Book a Free Consultation";
 
-/** Where every "Book a free call" goes. */
+/**
+ * Where every "Book a free call" goes, except the ones in the body of
+ * /lee-systems, which scroll down to that page's own form.
+ */
 export const bookHref = site.bookingUrl || "/contact?interest=lee-systems";
 
 /** Whether a link leaves the site. */

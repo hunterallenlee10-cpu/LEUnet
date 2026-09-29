@@ -1,20 +1,25 @@
 # LMM Websites - Build Spec
 
 > **Historical.** This spec predates the 2026-09-25 rename of Lee Marketing
-> Mastery to Lee Systems Co. The page now lives at `/lee-systems/websites`,
-> leads with the flat quote (the pay-after-the-build guarantee it led with
-> came off on 2026-09-28, when the owner stopped offering it), and its copy, sections and
-> FAQ were rewritten (see `docs/LEE-SYSTEMS.md`). Paths and section names
-> below describe the old page. The claims standard in §3 still applies.
+> Mastery to Lee Systems Co. The page became `/lee-systems/websites`, led with
+> the flat quote (the pay-after-the-build guarantee it led with came off on
+> 2026-09-28, when the owner stopped offering it), and had its copy, sections
+> and FAQ rewritten. On 2026-09-29 it folded into `/lee-systems`: its URL
+> 301-redirects to the `#websites` section there, which carries "Included in
+> every site", and its FAQ joined that page's (see `docs/LEE-SYSTEMS.md`).
+> Paths and section names below describe the old page. The claims standard in
+> §3 still applies.
 >
-> Where the body no longer matches the code: website leads resolve
+> Where the body no longer matches the code: `BrowserFrameVisual` is now
+> `components/lee-systems/WebsiteBuildDemo.tsx`, beside "Included in every
+> site", and `AutomationFlowVisual` is `AutomationFlowDemo` next to it; the
+> quote form is gone, and a website request made through the one form on
+> `/lee-systems` (`/api/lee-systems-inquiry`) still resolves
 > `WEBSITE_TO_EMAIL` → `LEE_SYSTEMS_TO_EMAIL` → `LMM_TO_EMAIL` →
-> `CONTACT_TO_EMAIL` (§4); the shared pieces in §6 are `LeeSystemsSiblingLinks`
-> in `components/lee-systems/` and the `.ls-status` dot, in the brass Lee
-> Systems palette; the quote form's project types are `websiteProjectTypes` in
-> `data/lee-systems.ts` (§1, §4); no section carries `scroll-mt-24`, because
-> html's `scroll-padding-top` offsets every anchor (§2); and the page has its
-> own `app/lee-systems/websites/opengraph-image.tsx` (§7).
+> `CONTACT_TO_EMAIL` and keeps the "New Website Request" subject (§4); there
+> are no sibling links (§5) and no page of its own, so no share image of its
+> own (§7); and no section carries `scroll-mt-24`, because html's
+> `scroll-padding-top` offsets every anchor (§2).
 
 Execution plan and settled decisions for `/lee-marketing-mastery/websites`, the
 Lee Marketing Mastery page that sells professionally built business websites

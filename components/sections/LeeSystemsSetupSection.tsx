@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Database, Globe, Phone, Zap } from "lucide-react";
-import { homeSetupItems, leeSystemsRoutes } from "@/data/lee-systems";
+import { homeSetupItems, leeSystemsLinks } from "@/data/lee-systems";
 
 const icons = {
   calls: Phone,
@@ -35,7 +35,7 @@ export function LeeSystemsSetupSection() {
 
         <p className="mt-10 text-center">
           <Link
-            href={leeSystemsRoutes.automation}
+            href={leeSystemsLinks.automation}
             className="inline-flex min-h-11 items-center font-semibold text-brass-300 underline-offset-4 hover:underline"
           >
             See everything we automate

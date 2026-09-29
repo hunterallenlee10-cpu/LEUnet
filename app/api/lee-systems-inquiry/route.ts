@@ -1,0 +1,159 @@
+import { NextRequest, NextResponse } from "next/server";
+import { inquiryIndustryOptions, inquiryNeeds } from "@/data/lee-systems";
+import { site } from "@/data/site";
+import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
+import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
+import {
+  FIELD_LIMITS,
+  INVALID_NAME_MESSAGE,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from "@/lib/validation";
+
+/*
+ * The /lee-systems form (components/lee-systems/LeeSystemsInquiryForm.tsx),
+ * which replaced the automation consultation form (/api/automation-audit) and
+ * the website quote form (/api/website-inquiry) on 2026-09-29. Each request
+ * is delivered exactly where, and under exactly the subject, the old form for
+ * that kind of request used, so the inbox and any filters on it see no
+ * change: a website choice goes the way website quote requests did,
+ * everything else the way consultation requests did.
+ *
+ * Both default to the site-wide contact address, matching the contact form
+ * and the payment notifications. LEE_SYSTEMS_TO_EMAIL splits Lee Systems
+ * leads out if that is ever wanted, and WEBSITE_TO_EMAIL website requests on
+ * their own. LMM_TO_EMAIL is still read so an environment configured before
+ * the Lee Marketing Mastery rename keeps delivering where it did.
+ */
+const CONSULTATION_TO_EMAIL =
+  process.env.LEE_SYSTEMS_TO_EMAIL ||
+  process.env.LMM_TO_EMAIL ||
+  DEFAULT_TO_EMAIL;
+
+const WEBSITE_TO_EMAIL = process.env.WEBSITE_TO_EMAIL || CONSULTATION_TO_EMAIL;
+
+/** What the form posts. Typed `unknown` because a request can come from anywhere. */
+interface LeeSystemsInquiryRequest {
+  fullName?: unknown;
+  businessName?: unknown;
+  email?: unknown;
+  phone?: unknown;
+  need?: unknown;
+  industry?: unknown;
+  currentWebsite?: unknown;
+  message?: unknown;
+  honeypot?: unknown;
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const parsed = await readJsonBody(request);
+    if (parsed instanceof NextResponse) return parsed;
+    const body: LeeSystemsInquiryRequest = parsed;
+
+    // Honeypot field check - silently return 200 if filled
+    if (stringField(body.honeypot).trim() !== "") {
+      return NextResponse.json(
+        { message: "Thank you for your submission" },
+        { status: 200 }
+      );
+    }
+
+    const errors: Record<string, string> = {};
+
+    const fullName = stringField(body.fullName).trim();
+    if (!fullName) {
+      errors.fullName = "Name is required";
+    } else if (fullName.length < 2) {
+      errors.fullName = "Name must be at least 2 characters";
+    } else if (fullName.length > FIELD_LIMITS.short) {
+      errors.fullName = tooLongMessage(FIELD_LIMITS.short);
+    } else if (!isValidName(fullName)) {
+      errors.fullName = INVALID_NAME_MESSAGE;
+    }
+
+    const businessName = stringField(body.businessName).trim();
+    if (!businessName) {
+      errors.businessName = "Business name is required";
+    } else if (businessName.length > FIELD_LIMITS.short) {
+      errors.businessName = tooLongMessage(FIELD_LIMITS.short);
+    }
+
+    const email = stringField(body.email).trim();
+    if (!email) {
+      errors.email = "Email is required";
+    } else if (email.length > FIELD_LIMITS.email || !isValidEmail(email)) {
+      errors.email = "Please enter a valid email address";
+    }
+
+    const phone = stringField(body.phone).trim();
+    if (!phone) {
+      errors.phone = "Phone number is required";
+    } else if (phone.length > FIELD_LIMITS.phone || !isValidPhone(phone)) {
+      errors.phone = "Please enter a valid phone number";
+    }
+
+    // Checked against the form's own lists so the email never carries a value
+    // the form could not have sent.
+    const needLabel = stringField(body.need).trim();
+    const need = inquiryNeeds.find(({ label }) => label === needLabel);
+    if (!need) {
+      errors.need = "Please select what you are looking for";
+    }
+
+    const industry = stringField(body.industry).trim();
+    if (!inquiryIndustryOptions.includes(industry)) {
+      errors.industry = "Please choose your industry";
+    }
+
+    const currentWebsite = stringField(body.currentWebsite).trim();
+    if (currentWebsite.length > FIELD_LIMITS.short) {
+      errors.currentWebsite = tooLongMessage(FIELD_LIMITS.short);
+    }
+
+    const message = stringField(body.message).trim();
+    if (message.length > FIELD_LIMITS.long) {
+      errors.message = tooLongMessage(FIELD_LIMITS.long);
+    }
+
+    if (!need || Object.keys(errors).length > 0) {
+      return NextResponse.json({ errors }, { status: 400 });
+    }
+
+    const emailBody = `
+Name: ${fullName}
+Business: ${businessName}
+Email: ${email}
+Phone: ${phone}
+What they need: ${need.label}
+Industry: ${industry}
+Current Website: ${currentWebsite || "None / not provided"}
+
+Message:
+${message || "No message"}
+
+${site.replyTime ? `Reply promised ${site.replyTime}, to set up their free consultation call.` : "They asked for a free consultation call."}
+    `.trim();
+
+    // The subject line is what tells a website request from a consultation
+    // request in the inbox, so it names the brand and the kind of request, in
+    // the same words the two old forms used.
+    return await sendLeadEmail({
+      tag: "lee-systems-inquiry",
+      form: "Lee Systems inquiry form",
+      to: need.website ? WEBSITE_TO_EMAIL : CONSULTATION_TO_EMAIL,
+      replyTo: email,
+      subject: need.website
+        ? `Lee Systems Co.: New Website Request from ${fullName}, ${businessName}`
+        : `Lee Systems Co.: New Consultation Request from ${fullName}, ${businessName}`,
+      text: emailBody,
+    });
+  } catch (error) {
+    console.error("[lee-systems-inquiry] Lee Systems inquiry form error:", error);
+    return NextResponse.json(
+      { error: "An error occurred while processing your request" },
+      { status: 500 }
+    );
+  }
+}

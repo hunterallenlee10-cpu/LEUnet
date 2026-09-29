@@ -6,7 +6,7 @@ import { LeeSystemsOnboardingSection } from "@/components/lee-systems/LeeSystems
 import { LeeSystemsFinalCTA } from "@/components/lee-systems/LeeSystemsFinalCTA";
 import { PricingPromiseSection } from "@/components/shared/PricingPromiseSection";
 import { BookCallLink } from "@/components/ui/BookCallLink";
-import { leeSystemsIndustries, leeSystemsRoutes } from "@/data/lee-systems";
+import { leeSystemsIndustries, leeSystemsLinks } from "@/data/lee-systems";
 
 type IndustryId = (typeof leeSystemsIndustries)[number]["id"];
 
@@ -16,8 +16,10 @@ type IndustryId = (typeof leeSystemsIndustries)[number]["id"];
  *
  * Built only from copy already on the site, so it makes no claim the other
  * pages don't: the industry's summary (as the H1) and examples from
- * data/lee-systems.ts, the automation page's opening line, the pricing
- * promise, the Audit, Build, Run steps and the closing call to action.
+ * data/lee-systems.ts, the opening line of the automation page that folded
+ * into /lee-systems, the pricing promise, the Audit, Build, Run steps and the
+ * closing call to action. "See everything we automate" goes to that page's
+ * old contents, the #automation section of /lee-systems.
  */
 export function IndustryPage({ industryId }: { industryId: IndustryId }) {
   const industry = leeSystemsIndustries.find(({ id }) => id === industryId);
@@ -49,7 +51,7 @@ export function IndustryPage({ industryId }: { industryId: IndustryId }) {
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <BookCallLink />
                 <Link
-                  href={leeSystemsRoutes.automation}
+                  href={leeSystemsLinks.automation}
                   className="btn-ls-secondary inline-flex min-h-11 items-center justify-center"
                 >
                   See everything we automate

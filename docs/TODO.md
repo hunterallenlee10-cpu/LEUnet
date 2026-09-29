@@ -1,8 +1,8 @@
 # Hunter's to-do list
 
 The things only Hunter can do for the site: links, photos, decisions and
-account set-up. Last updated 2026-09-28, after Phases 1 and 2 of the site fix
-plan.
+account set-up. Last updated 2026-09-29, when the Lee Systems Co. pages
+became one.
 
 Ask Claude for "my to-do list" in any session on this repo and it reads this
 file. Tell Claude when something is done and it checks it off here.
@@ -11,11 +11,14 @@ file. Tell Claude when something is done and it checks it off here.
 
 - [ ] **Booking link.** Set up a Google Calendar booking page on
       ceo@leeenterprisesunlimited.com and send Claude the link. Every "Book a
-      free call" button switches to it (`bookingUrl` in `data/site.ts`). Until
-      then those buttons open the contact form with Lee Systems Co. picked.
+      free call" button switches to it (`bookingUrl` in `data/site.ts`), except
+      the ones in the body of /lee-systems, which scroll to that page's own
+      form. Until then the rest open the contact form with Lee Systems Co.
+      picked.
 - [ ] **Business phone line.** (240) 925-2609 is on the site now. If the AI
-      call assistant answers a line, send that number too and the automation
-      page will offer it as a live demo (`callAnswering.demoPhone`).
+      call assistant answers a line, send that number too and /lee-systems
+      will offer it as a live demo on its AI call answering card
+      (`callAnswering.demoPhone`).
 - [ ] **Photo and bio.** A real photo and a few lines about you. They replace
       the "Photo coming soon" and "More about me coming soon" slots on the
       homepage (`founder.photo`, `founder.bio`).
@@ -41,8 +44,12 @@ file. Tell Claude when something is done and it checks it off here.
       https://www.leeenterprisesunlimited.com/sitemap.xml.
 - [ ] **PageSpeed Insights (after it's live).** Run it on mobile for /,
       /lee-systems and /business-mastery, and send Claude the results.
-- [ ] **Test the contact form (after it's live).** OK one real submission, to
-      confirm the email arrives with the interest tag in its subject.
+- [ ] **Test the forms (after it's live).** One real submission through the
+      contact form, to confirm the email arrives with the interest tag in its
+      subject, and two through the form at the bottom of /lee-systems: one
+      picking "Website" (subject "Lee Systems Co.: New Website Request from
+      …") and one picking anything else ("…New Consultation Request from
+      …").
 - [ ] **Inbox filters.** The form emails' subjects changed, for example
       "[Lee Systems Co.] New inquiry from …". Update any filter that matches the
       old ones.

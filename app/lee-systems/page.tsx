@@ -4,38 +4,53 @@ import { MainFooter } from "@/components/layout/MainFooter";
 import { LeeSystemsHeroSection } from "@/components/lee-systems/LeeSystemsHeroSection";
 import { LeeSystemsTwoPathsSection } from "@/components/lee-systems/LeeSystemsTwoPathsSection";
 import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
+import { LeeSystemsAutomationSection } from "@/components/lee-systems/LeeSystemsAutomationSection";
+import { LeeSystemsWebsitesSection } from "@/components/lee-systems/LeeSystemsWebsitesSection";
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { LeeSystemsOnboardingSection } from "@/components/lee-systems/LeeSystemsOnboardingSection";
+import { LeeSystemsFAQSection } from "@/components/lee-systems/LeeSystemsFAQSection";
 import { LeeSystemsChoiceSection } from "@/components/lee-systems/LeeSystemsChoiceSection";
+import { LeeSystemsContactSection } from "@/components/lee-systems/LeeSystemsContactSection";
 import { SITE_URL } from "@/data/company";
-import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
+import {
+  leeSystems,
+  leeSystemsFaqs,
+  leeSystemsLinks,
+  leeSystemsRoutes,
+} from "@/data/lee-systems";
 
 /**
- * The Lee Systems Co. main page. It replaced the Lee Marketing Mastery hub at
- * /lee-marketing-mastery, which now redirects here (next.config.mjs).
+ * The Lee Systems Co. page, and since 2026-09-29 the only one: the automation
+ * and websites pages folded into it, and their URLs 301 to its #automation
+ * and #websites sections (next.config.mjs). It replaced the Lee Marketing
+ * Mastery hub at /lee-marketing-mastery, which redirects here too.
  *
- * The order: the two paths (an example lead with and without the systems),
- * the two offerings side by side at equal weight, who it is for, recent work,
- * the onboarding process, and the choice between doing nothing and a free call.
- * Automation and websites each have their own page. "What gets automated"
- * (LeeSystemsAutomatesSection) is off the page for now at the owner's request
- * (2026-09-29); the component is kept so it can go back in. The two paths and the choice follow
- * The Real World's page (the owner's reference, 2026-09-29).
+ * The order: the hero, the two paths (an example lead with and without the
+ * systems), the two offerings side by side at equal weight, then each one in
+ * full - what we automate and what every website includes - who it is for,
+ * recent work, the onboarding process, the FAQ, the choice between doing
+ * nothing and a free call, and the form. Every "Book a free call" in the body
+ * scrolls to the form; the header's goes where `bookHref` says. The two
+ * paths and the choice follow The Real World's page (the owner's reference,
+ * 2026-09-29).
  */
 const title = "Lee Systems Co. | AI Automation & Websites for Business Owners";
 const description =
   "Lee Systems Co. builds AI systems that answer your calls and new leads, handle intake and send follow-ups, plus websites built to bring in leads.";
 
+/** The page's one canonical URL, on the www host. */
+const pageUrl = `${SITE_URL}${leeSystemsRoutes.home}`;
+
 export const metadata: Metadata = {
   title: { absolute: title },
   description,
   alternates: {
-    canonical: leeSystemsRoutes.home,
+    canonical: pageUrl,
   },
   openGraph: {
     type: "website",
-    url: leeSystemsRoutes.home,
+    url: pageUrl,
     siteName: leeSystems.name,
     title,
     description,
@@ -48,24 +63,60 @@ export const metadata: Metadata = {
 };
 
 /**
- * This page is the SOLE definer of the `#business` node. Both offering pages
- * emit a `Service` whose `provider` points here by @id; a second definition
- * elsewhere would give one @id two descriptions.
+ * The business, the two services it sells and the FAQ, all at this one URL.
+ * The two `Service` nodes used to live on the automation and websites pages;
+ * they keep their names, descriptions and catalogues, and point at their
+ * sections here.
  *
  * An Organization rather than a LocalBusiness type: the site publishes no
  * address or service area (the owner's call, 2026-09-28), and local-business
  * data without an address is flagged as incomplete. No rating or review: none
  * exist to cite.
  */
+const businessNode = {
+  "@type": "Organization",
+  "@id": `${pageUrl}#business`,
+  name: leeSystems.name,
+};
+
+const services = [
+  {
+    "@id": `${pageUrl}#service-automation`,
+    name: "Business Automation",
+    description:
+      "AI call answering, instant lead replies, intake, follow-ups and review requests, built around the tools you already use. Start with a free call.",
+    serviceType: "Business process automation",
+    url: `${SITE_URL}${leeSystemsLinks.automation}`,
+    catalog: "Automation Systems",
+    offers: [
+      "AI Call Answering",
+      "Lead Response Automation",
+      "Sales Follow-Up Automation",
+      "Client Intake and Communication",
+      "Review and Referral Requests",
+      "Billing Reminders",
+      "Internal Operations Automation",
+    ],
+  },
+  {
+    "@id": `${pageUrl}#service-websites`,
+    name: "Website Builds",
+    description:
+      "Conversion-focused websites for small businesses. Mobile-first, fast, lead forms, basic SEO, and you own it. Free quotes from Lee Systems Co.",
+    serviceType: "Website design and development",
+    url: `${SITE_URL}${leeSystemsLinks.websites}`,
+    catalog: "Website Services",
+    offers: ["New Website Builds", "Website Redesigns", "Ongoing Care Plans"],
+  },
+];
+
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
-      "@id": `${SITE_URL}${leeSystemsRoutes.home}#business`,
-      name: leeSystems.name,
+      ...businessNode,
       description,
-      url: `${SITE_URL}${leeSystemsRoutes.home}`,
+      url: pageUrl,
       email: leeSystems.contactEmail,
       ...(leeSystems.phone ? { telephone: leeSystems.phone } : {}),
       founder: { "@type": "Person", name: leeSystems.owner },
@@ -77,14 +128,32 @@ const structuredData = {
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Lee Systems Co. Services",
-        itemListElement: [
-          `${SITE_URL}${leeSystemsRoutes.automation}#service`,
-          `${SITE_URL}${leeSystemsRoutes.websites}#service`,
-        ].map((id) => ({
+        itemListElement: services.map((service) => ({
           "@type": "Offer",
-          itemOffered: { "@type": "Service", "@id": id },
+          itemOffered: { "@type": "Service", "@id": service["@id"] },
         })),
       },
+    },
+    ...services.map(({ catalog, offers, ...service }) => ({
+      "@type": "Service",
+      ...service,
+      provider: businessNode,
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: catalog,
+        itemListElement: offers.map((name) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name },
+        })),
+      },
+    })),
+    {
+      "@type": "FAQPage",
+      mainEntity: leeSystemsFaqs.map(({ question, answer }) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer },
+      })),
     },
   ],
 };
@@ -103,10 +172,14 @@ export default function LeeSystemsPage() {
         <LeeSystemsHeroSection />
         <LeeSystemsTwoPathsSection />
         <LeeSystemsOfferingsSection />
+        <LeeSystemsAutomationSection />
+        <LeeSystemsWebsitesSection />
         <LeeSystemsIndustriesSection />
         <RecentWorkSection />
         <LeeSystemsOnboardingSection />
+        <LeeSystemsFAQSection />
         <LeeSystemsChoiceSection />
+        <LeeSystemsContactSection />
       </main>
 
       <MainFooter />

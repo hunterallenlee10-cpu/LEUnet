@@ -2494,8 +2494,8 @@
      app/business-mastery/page.tsx, on that page's outermost element.
      `font-serif` is the Business Mastery hero's Cormorant manifesto line. The
      Geist Mono token is deliberately NOT named `--font-mono`, because that
-     would switch every existing `font-mono` on the Lee Systems, Automation and
-     Websites pages from the system stack to Geist Mono in passing.
+     would switch every existing `font-mono` on the Lee Systems pages from the
+     system stack to Geist Mono in passing.
 
      `inline` writes these values onto the element that uses the utility, inside
      the element that sets the font variable, so `font-serif` and

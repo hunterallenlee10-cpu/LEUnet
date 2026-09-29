@@ -1,11 +1,13 @@
-import Link from "next/link";
 import { SignalRoutes } from "@/components/lee-systems/SignalRoutes";
 import { BookCallLink } from "@/components/ui/BookCallLink";
-import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
+import { leeSystems, leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
  * The Lee Systems Co. main page hero, lit by a warm-right/cool-left orb pair
- * with Signal Routes drawn over it.
+ * with Signal Routes drawn over it. All three buttons stay on the page: the
+ * free call scrolls to the form, and the other two to the automation and
+ * websites sections (they went to pages of their own until those folded into
+ * this one, 2026-09-29).
  */
 export function LeeSystemsHeroSection() {
   return (
@@ -43,19 +45,22 @@ export function LeeSystemsHeroSection() {
             button matches the outlined ones, and a shared width that fits the
             longest label. Stacked at full width on a phone. */}
         <div className="mx-auto flex max-w-xs flex-col items-stretch justify-center gap-4 md:max-w-none md:flex-row md:items-center">
-          <BookCallLink className="h-12 px-4 md:w-56" />
-          <Link
-            href={leeSystemsRoutes.automation}
+          <BookCallLink
+            href={`#${leeSystemsAnchors.form}`}
+            className="h-12 px-4 md:w-56"
+          />
+          <a
+            href={`#${leeSystemsAnchors.automation}`}
             className="btn-ls-secondary inline-flex h-12 items-center justify-center px-4 text-center md:w-56"
           >
             See what we automate
-          </Link>
-          <Link
-            href={leeSystemsRoutes.websites}
+          </a>
+          <a
+            href={`#${leeSystemsAnchors.websites}`}
             className="btn-ls-secondary inline-flex h-12 items-center justify-center px-4 text-center md:w-56"
           >
             See website builds
-          </Link>
+          </a>
         </div>
       </div>
     </section>

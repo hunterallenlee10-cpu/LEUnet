@@ -1,10 +1,9 @@
 # leu
 
 The Lee Enterprises Unlimited website: the homepage (`/`), Business Mastery
-(`/business-mastery`), Lee Systems Co. (`/lee-systems`,
-`/lee-systems/automation`, `/lee-systems/websites`), `/contact` and `/legal`,
-plus `/book`, a short address that forwards to wherever "Book a free call"
-goes. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript, hosted
+(`/business-mastery`), Lee Systems Co. (`/lee-systems`, plus a page each for
+law firms and home services), `/contact` and `/legal`, plus `/book`, a short
+address that forwards to wherever "Book a free call" goes. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript, hosted
 on Vercel.
 
 ## Business facts
@@ -59,9 +58,11 @@ leaves for Stripe and Vercel.
 
 ## Lee Systems Co.
 
-Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It lives at
-`/lee-systems` (main page), `/lee-systems/automation` and
-`/lee-systems/websites`, and every old `/lee-marketing-mastery/*` URL
+Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It lives on
+one page, `/lee-systems`, plus `/lee-systems/law-firms` and
+`/lee-systems/home-services`. The automation and websites pages folded into
+`/lee-systems` on 2026-09-29 and 301-redirect to its `#automation` and
+`#websites` sections, and every old `/lee-marketing-mastery/*` URL
 301-redirects to its new equivalent. Shared copy and brand details are in
 `data/lee-systems.ts`.
 
@@ -112,10 +113,11 @@ what stayed, and why.
   the site (links, photos, decisions, account set-up).
 - [docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md) - build spec and
   settled decisions for `/business-mastery` and its homepage presence.
-- [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) - the Lee Systems Co. pages, where
-  their copy lives, and the placeholders still to fill in.
+- [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) - the Lee Systems Co. page, its
+  two animations and how to move them, where its copy lives, and the
+  placeholders still to fill in.
 - [docs/WEBSITES.md](docs/WEBSITES.md) - historical build spec for the websites
-  page before the Lee Systems rename; its claims standard still applies.
+  page, which folded into `/lee-systems`; its claims standard still applies.
 - [docs/STRIPE.md](docs/STRIPE.md) - invoicing: setup, environment
   variables, security and the go-live checklist.
 - [docs/H1.md](docs/H1.md) - what H1 Performance's move to its own site left
