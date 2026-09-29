@@ -1,15 +1,27 @@
 import Link from "next/link";
-import { Scale, Home } from "lucide-react";
-import { leeSystemsIndustries, otherIndustriesLine } from "@/data/lee-systems";
+import { CarFront, Dumbbell, Home, KeyRound, Scale, UtensilsCrossed } from "lucide-react";
+import {
+  industryInSentence,
+  leeSystemsIndustries,
+  moreIndustries,
+  otherIndustriesLine,
+} from "@/data/lee-systems";
 
 const industryIcons = {
   "law-firms": Scale,
   "home-services": Home,
+  "real-estate": KeyRound,
+  fitness: Dumbbell,
+  dealerships: CarFront,
+  restaurants: UtensilsCrossed,
 } as const;
 
+/** Law firms and home services first (they have pages), then the rest. */
+const industries = [...leeSystemsIndustries, ...moreIndustries];
+
 /**
- * Two example industries, each with the automations built for them and a
- * link to its own page. The heading frames them as examples, not the only
+ * Example industries, each with the automations built for them; the two with
+ * their own page link to it. The heading frames them as examples, not the only
  * businesses served (the owner's request, 2026-09-29); other industries get
  * one line rather than cards with nothing specific to say.
  */
@@ -26,8 +38,10 @@ export function AutomationIndustriesSection() {
           </h2>
         </div>
 
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
-          {leeSystemsIndustries.map(({ id, name, summary, examples, page }) => {
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {industries.map((industry) => {
+            const { id, name, summary, examples } = industry;
+            const page = "page" in industry ? industry.page : null;
             const Icon = industryIcons[id];
             return (
               <div
@@ -54,12 +68,14 @@ export function AutomationIndustriesSection() {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href={page.href}
-                  className="mt-auto inline-flex min-h-11 items-center self-start pt-4 text-sm font-semibold text-brass-300 underline-offset-4 hover:underline"
-                >
-                  See the page for {name.toLowerCase()}
-                </Link>
+                {page && (
+                  <Link
+                    href={page.href}
+                    className="mt-auto inline-flex min-h-11 items-center self-start pt-4 text-sm font-semibold text-brass-300 underline-offset-4 hover:underline"
+                  >
+                    See the page for {industryInSentence(name)}
+                  </Link>
+                )}
               </div>
             );
           })}

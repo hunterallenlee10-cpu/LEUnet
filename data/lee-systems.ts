@@ -179,6 +179,76 @@ export const leeSystemsIndustries = [
   },
 ] as const;
 
+/**
+ * More example industries, added on the owner's request (2026-09-29). Shown
+ * as cards next to the two above on the automation and Lee Systems pages, but
+ * without pages of their own, so they are kept apart from
+ * `leeSystemsIndustries` (which the industry pages read). The examples say
+ * what the automations do, not work already done: no client claims.
+ */
+export const moreIndustries = [
+  {
+    id: "real-estate",
+    name: "Real estate",
+    summary:
+      "Every inquiry answered fast, every showing booked, every past client remembered.",
+    examples: [
+      "Instant replies to listing and portal inquiries",
+      "Showing scheduling with reminders",
+      "Follow-up for buyers and sellers who are not ready yet",
+      "Updates to clients at each step of the deal",
+      "Review and referral requests after closing",
+    ],
+  },
+  {
+    id: "fitness",
+    name: "Fitness & PT",
+    summary:
+      "Trial sign-ups followed up, sessions booked and members kept coming back.",
+    examples: [
+      "Instant replies to trial and class inquiries",
+      "Session booking with reminders",
+      "Follow-up after a missed session or no-show",
+      "Check-ins for members who have gone quiet",
+      "Review requests after a milestone",
+    ],
+  },
+  {
+    id: "dealerships",
+    name: "Dealerships",
+    summary:
+      "Every lead answered in minutes, test drives booked and service customers brought back.",
+    examples: [
+      "Instant replies to website and third-party leads",
+      "Test drive and appointment booking with reminders",
+      "Follow-up for shoppers who have not bought yet",
+      "Service reminders when a car is due",
+      "Review requests after a sale or service visit",
+    ],
+  },
+  {
+    id: "restaurants",
+    name: "Restaurants",
+    summary:
+      "Calls answered, reservations and catering handled, regulars brought back.",
+    examples: [
+      "AI call answering for hours, menu and reservation questions",
+      "Reservation booking with reminders",
+      "Catering and large-order inquiry follow-up",
+      "Messages to regulars about specials and events",
+      "Review requests after a visit",
+    ],
+  },
+] as const;
+
+/**
+ * An industry name mid-sentence ("See what we automate for real estate"):
+ * only the first letter drops to lower case, so "Fitness & PT" keeps its PT.
+ */
+export function industryInSentence(name: string): string {
+  return name.charAt(0).toLowerCase() + name.slice(1);
+}
+
 export const otherIndustriesLine =
   "Don't see your industry? If your business depends on following up with people, we can automate it.";
 
