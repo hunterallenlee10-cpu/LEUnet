@@ -2664,10 +2664,10 @@
    /lee-systems sections that draw them: LeeSystemsOfferingsSection,
    LeeSystemsOnboardingSection and OnboardingDevices. (`.ls-dash`, a dotted
    line drifting along its path, went with the dashed join under What we do,
-   2026-09-30.) AutomationFlowDemo and WebsiteBuildDemo keep their own
-   keyframes inside the components, so they can go anywhere and use nothing
-   here. Motion is decorative only: every animation below is disabled under
-   prefers-reduced-motion.
+   2026-09-30.) The live demo (LeeSystemsLiveDemoSection) keeps its own
+   timeline and styles inside the component, so it can go anywhere and uses
+   nothing here. Motion is decorative only: every animation below is
+   disabled under prefers-reduced-motion.
 --------------------------------------------------------------------------- */
 
 @keyframes lsPulse {
@@ -2878,11 +2878,10 @@
 
 /* ---------------------------------------------------------------------------
    Lee Systems Co. — the seam
-   For components/lee-systems/ExamplesSeam.tsx, around the two animated
-   examples (side by side in LeeSystemsExamplesSection) on /lee-systems,
-   straight after What we do (the owner's ask, 2026-09-30), and for the run
-   of spine that leads into it from What we do (`.ls-seam-lead`, in
-   LeeSystemsOfferingsSection).
+   For components/lee-systems/ExamplesSeam.tsx, around the live demo
+   (LeeSystemsLiveDemoSection) on /lee-systems, straight after What we do
+   (the owner's ask, 2026-09-30), and for the run of spine that leads into it
+   from What we do (`.ls-seam-lead`, in LeeSystemsOfferingsSection).
 
    The brass spine of "What we do" carries on down the page, and each section
    in the seam arrives closed on it: a lit line down its middle, the section
@@ -2898,10 +2897,14 @@
    with reduced motion, `--open` stays 1 and none of it is drawn.
    --------------------------------------------------------------------------- */
 
+/* Clipped sideways only: the right edge sits half its width past the
+   section's side, which was enough to give a phone a pixel of sideways
+   scroll. `clip` leaves the vertical overflow (the glows) alone. */
 .ls-seam-scene {
   --open: 1;
   position: relative;
   isolation: isolate;
+  overflow-x: clip;
 }
 
 .ls-seam-light,

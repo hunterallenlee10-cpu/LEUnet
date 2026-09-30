@@ -12,10 +12,11 @@ const OPEN_FROM = 0.9;
 const OPEN_BY = 0.35;
 
 /**
- * How far open a section has to be before the demos in it play: nearly all
+ * How far open a section has to be before the demo in it plays: nearly all
  * the way, so a run starts from its first frame as the section finishes
  * opening, not behind the edges. The seam says so on the section's wrapper
- * (`data-seam-open`), and usePlayWhenVisible holds a demo until it does.
+ * (`data-seam-open`), and the live demo (LeeSystemsLiveDemoSection) holds
+ * its clock until it does.
  */
 const STANDS_OPEN = 0.9;
 
@@ -32,9 +33,9 @@ const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 const smoothstep = (t: number) => t * t * (3 - 2 * t);
 
 /**
- * The seam, around the two animated examples on /lee-systems (the owner's
- * ask, 2026-09-30, in place of the "Explore automation" and "See website
- * builds" buttons and the dashed lines that joined them in a node).
+ * The seam, around the live demo on /lee-systems (the owner's ask,
+ * 2026-09-30, in place of the "Explore automation" and "See website builds"
+ * buttons and the dashed lines that joined them in a node).
  *
  * The brass spine of "What we do" carries on down the page, and each section
  * given to this component arrives closed on it: nothing but the lit line
@@ -48,16 +49,18 @@ const smoothstep = (t: number) => t * t * (3 - 2 * t);
  * It treats each section as a black box: it wraps it, clips it and draws the
  * edges over it, and never reaches inside. So a section can change, grow or
  * be swapped without touching this, and placing one in the seam is putting
- * it between the tags in app/lee-systems/page.tsx. Since 2026-09-30 it holds
- * one, LeeSystemsExamplesSection, with both demos side by side, so the spine
- * opens onto the two at once, from the gap between them. Whatever is inside
- * keeps its ids, so #automation and #websites land on their demos: the seam
- * changes nothing about layout, only what is drawn.
+ * it between the tags in app/lee-systems/page.tsx. It holds one,
+ * LeeSystemsLiveDemoSection (since 2026-09-30, when the website and
+ * automation animations became that one demo), whose line from the website
+ * down to the workflow runs down the middle, so the spine opens onto its
+ * own continuation. Whatever is inside keeps its ids, so #automation and
+ * #websites land on the demo's two halves: the seam changes nothing about
+ * layout, only what is drawn.
  *
- * The animated demo in each section waits on its first frame until the
- * section stands open (STANDS_OPEN), then plays: the seam says so on the
- * section's wrapper and the demos' shared usePlayWhenVisible hook listens,
- * so the doors open onto the demo and the run starts as they finish.
+ * The demo waits on its first frame until the section stands open
+ * (STANDS_OPEN), then plays: the seam says so on the section's wrapper and
+ * the demo listens, so the doors open onto it and the run starts as they
+ * finish.
  *
  * The motion is scrubbed by the scroll, both ways, one write per scene per
  * frame, and only while the seam is near the screen. Everything it drives is

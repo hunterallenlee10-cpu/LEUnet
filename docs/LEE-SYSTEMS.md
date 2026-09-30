@@ -16,7 +16,7 @@ day and 301 to their cards in "Who we help" (see Redirects below).
 
 | URL | What it is | Built from |
 | --- | --- | --- |
-| `/lee-systems` | The page, in order: hero, two paths, the website video, what we do (the two offerings side by side), the two animations side by side under it (automation `#automation` on the left, the website build `#websites` on the right), opening off What we do's spine as they scroll in (the seam, below), who we help (`#industries`), our projects, onboarding process (Audit, Build, Take off), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
+| `/lee-systems` | The page, in order: hero, two paths, the website video, what we do (the two offerings side by side), the live demo under it (the website `#websites` catching a lead, then the workflow `#automation` handling it), opening off What we do's spine as it scrolls in (the seam, below), who we help (`#industries`), our projects, onboarding process (Audit, Build, Take off), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
 
 What came over from the folded pages: the automation page's seven areas
 (AI call answering first, full width; it was titled "Calls" there), its
@@ -29,45 +29,63 @@ and the "See automation" bridge did not come over. The seven areas and
 "Included in every site" came off again the same day (see What was retired),
 and the industry cards became picture cards (see Who we help).
 
-## The two animations
+## The live demo
 
-Each folded page's hero animation is now a self-contained component on
-`/lee-systems`. Placing one is a single line, anywhere on any page, and
-`className` sizes or positions it. Since 2026-09-30 the two sit side by side
-straight under What we do, each under the half it shows, with no text of
-their own (`LeeSystemsExamplesSection`); swapping them or moving one out is
-moving its column there:
+Since 2026-09-30 one live demo shows the two offerings working as one, at
+the owner's ask: the website we build catches a lead, and the system we
+build handles it. It replaced the two animations that sat side by side
+under What we do, "Your site" (`WebsiteBuildDemo`) and "Example: a new
+lead" (`AutomationFlowDemo`), and the section that held them
+(`LeeSystemsExamplesSection`).
 
 | Component | What it shows | Where it is now |
 | --- | --- | --- |
-| `AutomationFlowDemo` (`components/lee-systems/AutomationFlowDemo.tsx`) | "Example: a new lead" in a "New lead workflow" window with an "Active" switch: one lead (Alex, from the website demo's form) runs top to bottom through a new lead, instant reply and intake form, your CRM, then follow-up, a booked appointment and the daily report. Each step spins, ticks and says what it did, the wires fill with gold as the lead passes, and the badge goes from "Running" to "Completed" before the run clears and starts again (made more realistic at the owner's ask, 2026-09-30, top to bottom at his choice) | Under What we do, on the left (first on a phone): `<AutomationFlowDemo />` in `components/lee-systems/LeeSystemsExamplesSection.tsx`, in the column with the `#automation` id |
-| `WebsiteBuildDemo` (`components/lee-systems/WebsiteBuildDemo.tsx`) | "Your site" with a "Live" badge and a desktop/phone toggle: a browser at yourbusiness.com whose generic page ("Your Business", "What you do, and where you do it.") builds itself from grey skeleton bars, then a dot walking the three stops a page needs while each acts on the page (the headline underlined, the proof cards lifting, the form filling in), a cursor clicking "Send request" as the dot lands, a "New enquiry" alert, and the window narrowing to the same page on a phone and back (made more realistic at the owner's ask, 2026-09-30) | Under What we do, on the right (second on a phone): `<WebsiteBuildDemo />` in `components/lee-systems/LeeSystemsExamplesSection.tsx`, in the column with the `#websites` id |
+| `LeeSystemsLiveDemoSection` (`components/lee-systems/LeeSystemsLiveDemoSection.tsx`) | One composition down the middle of the page, captioned "01 — Your website catches the lead" and "02 — Your system handles it", with no panel around it: a browser window at yourbusiness.com over a soft gold glow, and under it the workflow's cards and wires on the page itself. One loop of about 14 seconds: the page loads and its three sections build in, each lighting its step marker; a visitor types "Alex", "(240) 555-0142" and "Looking for a quote" a character at a time and the button reads "✓ Sent"; the three values gather into one lead chip ("Alex · website"), which leaves the button along a gold line with a light trail and settles into "New lead"; the run splits to the instant reply and the intake form, meets in your CRM and fans out to follow-up, the booked appointment ("Tue · 10:00 AM") and the daily report, each card lighting and ticking in turn; the booked appointment lights brightest and holds for about two seconds, and everything fades back to idle together | Straight under What we do, inside the seam: `<LeeSystemsLiveDemoSection />` in `app/lee-systems/page.tsx`. The website half carries the `#websites` id and the workflow half `#automation`, so the old URLs that redirect to them land on their half |
 
-Each keeps its keyframes, timing and geometry in its own file (a `<style>`
-React hoists into the page head once), respects `prefers-reduced-motion`
-(each rests on its finished state: the built page, the completed run), and
-takes nothing from `app/globals.css` beyond the Tailwind theme's brass
-colours. Both start from their first frame when they scroll into view and
-pause while off screen, through the shared `usePlayWhenVisible` hook
-(`components/lee-systems/usePlayWhenVisible.ts`); on `/lee-systems`, where
-they sit in the seam (below), each also waits until the section they share
-has opened.
-Without scripting they just play. `AutomationFlowDemo` also measures its wires from where its cards
-are laid out, so they land on the cards' ports at any width. When they were extracted, 72 screenshots of them (phone, tablet and
-desktop, eleven frozen moments each, plus reduced motion) matched the
-originals byte for byte.
+- **One line joins the halves.** The form's button and "New lead" are both
+  centred on the composition, so the gold line between them runs straight
+  down the middle, and the chip lands in a slot in the middle of "New
+  lead". The name in the chip is built from the name typed into the form,
+  so the two can't disagree.
+- **Self-contained.** Its copy, timing and styles are all in the one file (a
+  `<style>` React hoists into the page head once), and it takes only the
+  anchors and the optional call-answering line from `data/`. Moving it is
+  moving its one line.
+- **How it runs.** A small requestAnimationFrame clock, not an animation
+  library: `render(t)` draws the whole demo at any moment of the loop, and
+  it writes only transforms, opacities and the connectors'
+  `stroke-dashoffset`. The lines are measured from where the layout put the
+  button and the cards, and re-measured on resize.
+- **When it plays.** Only while it is on screen (an IntersectionObserver)
+  and the tab is showing; it holds its frame otherwise. Inside the seam
+  (below) it also waits for its section to stand open.
+- **Reduced motion.** It draws the finished run as a still: the form sent,
+  the lead in "New lead", every card ticked and the appointment booked.
+  Without scripting the markup is that same still, without the lines.
+- **Phones.** The website inside the window reflows rather than shrinking,
+  so no text anywhere in the demo is under 11px, and below 640px the last
+  three cards become a list fed by one trunk line. At 1440 by 900 the whole
+  composition fits on one screen under the header, so the form being sent
+  and the lead reaching "New lead" are always in view together.
+- **Accessibility.** The demo is one `role="img"` with a one-sentence
+  description of the flow; everything inside it is hidden from assistive
+  technology. The call-answering line under it
+  (`site.callAnswering.demoPhone`, shown only once it is set) stays outside,
+  as a real link.
+- **What it claims.** Only what the page already says the systems do. "Your
+  Business" stands for the visitor's own site, Alex is an example lead, and
+  the phone number is in the 555-0100 to 555-0199 range kept for fiction.
 
-## The seam: from What we do into the examples
+## The seam: from What we do into the live demo
 
 Under "What we do" the brass spine between the two halves carries on down
-the page, and the two animations, side by side, arrive closed on it: only
-the lit line down the middle. As they scroll up the screen, the line splits
-into two brass edges that glide out to the sides and the pair opens between
-them from the gap in the middle, with a warm light spilling out of the gap
-that fades as it finishes (the owner's ask, 2026-09-30, for a smooth, unique
-way into the two animated examples). It is fully open before the
-animations' tops reach the middle of the screen, and it runs backwards when
-scrolling up. It
+the page, and the live demo arrives closed on it: only the lit line down the
+middle. As it scrolls up the screen, the line splits into two brass edges
+that glide out to the sides and the demo opens between them from the
+middle, with a warm light spilling out of the gap that fades as it finishes
+(the owner's ask, 2026-09-30, for a smooth, unique way into the animated
+examples). It is fully open before the demo's top reaches the middle of the
+screen, and it runs backwards when scrolling up. It
 takes its shape from the page's own spread, two halves mirrored about a
 spine, and from the split, lit layouts of the owner's references (The Real
 World's "Two paths" and "Their way vs our way"). It replaced a button under
@@ -75,30 +93,33 @@ each half ("Explore automation", "See website builds") and the two dashed
 routes that curved from them into a node.
 
 - **Where**: `ExamplesSeam` (`components/lee-systems/ExamplesSeam.tsx`) in
-  `app/lee-systems/page.tsx`, wrapped around `<LeeSystemsExamplesSection />`,
-  which holds both animations. Any section put between its tags opens the
-  same way, and taking one out is deleting its line. (Until the text came off
-  on 2026-09-30 it wrapped What we automate and Website builds, one after the
-  other, each opening on its own.) The run of spine
+  `app/lee-systems/page.tsx`, wrapped around `<LeeSystemsLiveDemoSection />`.
+  Any section put between its tags opens the same way, and taking one out is
+  deleting its line. (Until the text came off on 2026-09-30 it wrapped What
+  we automate and Website builds, one after the other, each opening on its
+  own, and then the two animations side by side until they became the live
+  demo the same day.) The run of spine
   from What we do down to the first section is the `ls-seam-lead` line at the
   foot of `LeeSystemsOfferingsSection`.
 - **It never reaches inside a section.** It wraps each one and draws a clip,
   an opacity and the two edges over it, so the sections and their animations
   can change without touching it, and nothing about layout changes: each
   section keeps its size and its ids, so `#automation`, `#websites` and the
-  old URLs that redirect to them land on their animations. Side by side the
-  two land at the same spot; each column carries `scroll-mt-8` so the
-  animation sits a little below the header rather than touching it.
+  old URLs that redirect to them land on the demo's two halves; each carries
+  `scroll-mt-8` so it sits a little below the header rather than touching
+  it. The seam scene clips sideways only (`overflow-x: clip`), because its
+  right edge sits half its width past the side and gave phones a pixel of
+  sideways scroll.
 - **How it's drawn**: the script writes one number per section, `--open`
   (0 closed, 1 open), from where the section's top is on screen, once per
   frame and only while the seam is near the viewport. The CSS is the "the
   seam" block in `app/globals.css`.
-- **The demos wait for it.** Each section's animation holds its first frame
-  while the edges part and starts its run once the section is 90% open, so
-  the doors open onto it and the run begins as they finish. The seam marks a
-  section that far open with `data-seam-open="true"` on its wrapper, and the
-  demos' shared `usePlayWhenVisible` hook waits for it; a demo placed outside
-  the seam never sees the attribute and plays as soon as it is on screen.
+- **The demo waits for it.** The live demo holds its first frame while the
+  edges part and starts its run once the section is 90% open, so the doors
+  open onto it and the run begins as they finish. The seam marks a section
+  that far open with `data-seam-open="true"` on its wrapper, and the demo
+  waits for it; placed outside the seam it never sees the attribute and
+  plays as soon as it is on screen.
 - **Reduced motion, or no scripting**: every section simply sits open, the
   edges and the light aren't drawn, and the spine's run hides but keeps its
   space.
@@ -410,6 +431,13 @@ empty slots then disappear instead.
   Nothing missed.") and of Website builds ("The basics, done properly, every
   time"), with their labels and lines, and the two sections themselves,
   `LeeSystemsAutomationSection` and `LeeSystemsWebsitesSection` (2026-09-30,
-  at the owner's request). Their animations stayed and now sit side by side
+  at the owner's request). Their animations stayed and sat side by side
   under What we do (`LeeSystemsExamplesSection`), keeping the `#automation`
   and `#websites` ids.
+- The two animations themselves, "Your site" (`WebsiteBuildDemo`, with its
+  "Live" badge, desktop/phone toggle, phone view and "New enquiry" alert)
+  and "Example: a new lead" (`AutomationFlowDemo`, with its window, "Running"
+  and "Completed" badges), the section that held them
+  (`LeeSystemsExamplesSection`) and their shared `usePlayWhenVisible` hook
+  (2026-09-30, at the owner's request). They became one live demo,
+  `LeeSystemsLiveDemoSection` (see The live demo), which keeps both ids.
