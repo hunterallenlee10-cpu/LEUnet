@@ -215,8 +215,9 @@ export function MainHeader() {
           {/* The company name sits beside the mark wherever the bar has room
               for it: not on a phone, where the button and the menu toggle need
               the width, and not from `lg` to `xl`, where the links join the
-              bar. The mark carries the name as its alt text throughout. */}
-          <Link href="/" className="flex shrink-0 items-center gap-3 rounded">
+              bar. The mark carries the name as its alt text throughout.
+              On the homepage it goes back to the top, like the nav links. */}
+          <Link href="/" onClick={handleNavClick} className="flex shrink-0 items-center gap-3 rounded">
             <Image
               src={companyInfo.mark}
               alt={companyInfo.logoAlt}

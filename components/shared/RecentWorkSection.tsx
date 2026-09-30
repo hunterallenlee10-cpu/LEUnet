@@ -35,7 +35,7 @@ export function RecentWorkSection({ id }: { id?: string }) {
             Our projects
           </h2>
           <p className="mt-4 text-lg text-neutral-300">
-            Real projects, walked through start to finish.
+            Real projects we have handled start to finish.
           </p>
         </div>
 
