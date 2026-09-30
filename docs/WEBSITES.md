@@ -10,10 +10,11 @@
 > joined that page's (see `docs/LEE-SYSTEMS.md`). Paths and section names
 > below describe the old page. The claims standard in §3 still applies.
 >
-> Where the body no longer matches the code: `BrowserFrameVisual` is now
-> `components/lee-systems/WebsiteBuildDemo.tsx` and `AutomationFlowVisual`
-> is `AutomationFlowDemo`, side by side under What we do (the websites text
-> beside them came off on 2026-09-30, and `#websites` lands on the demo); the
+> Where the body no longer matches the code: `BrowserFrameVisual` and
+> `AutomationFlowVisual` became one live demo under What we do,
+> `components/lee-systems/LeeSystemsLiveDemoSection.tsx` (2026-09-30), whose
+> website half `#websites` lands on (the websites text came off the same
+> day); the
 > quote form is gone, and a website request made through the one form on
 > `/lee-systems` (`/api/lee-systems-inquiry`) still resolves
 > `WEBSITE_TO_EMAIL` → `LEE_SYSTEMS_TO_EMAIL` → `LMM_TO_EMAIL` →

@@ -114,8 +114,8 @@ what stayed, and why.
 - [docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md) - build spec and
   settled decisions for `/business-mastery` and its homepage presence.
 - [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) - the Lee Systems Co. page, its
-  two animations and how to move them, where its copy lives, and the
-  placeholders still to fill in.
+  live demo and how to move it, where its copy lives, and the placeholders
+  still to fill in.
 - [docs/WEBSITES.md](docs/WEBSITES.md) - historical build spec for the websites
   page, which folded into `/lee-systems`; its claims standard still applies.
 - [docs/STRIPE.md](docs/STRIPE.md) - invoicing: setup, environment

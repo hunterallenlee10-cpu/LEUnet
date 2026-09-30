@@ -6,7 +6,7 @@ import { LeeSystemsTwoPathsSection } from "@/components/lee-systems/LeeSystemsTw
 import { LeeSystemsWebsiteVideoSection } from "@/components/lee-systems/LeeSystemsWebsiteVideoSection";
 import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
 import { ExamplesSeam } from "@/components/lee-systems/ExamplesSeam";
-import { LeeSystemsExamplesSection } from "@/components/lee-systems/LeeSystemsExamplesSection";
+import { LeeSystemsLiveDemoSection } from "@/components/lee-systems/LeeSystemsLiveDemoSection";
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { LeeSystemsOnboardingSection } from "@/components/lee-systems/LeeSystemsOnboardingSection";
@@ -29,13 +29,14 @@ import {
  *
  * The order: the hero, the two paths (an example lead with and without the
  * systems), the website video (a visit to an outdated site, then to one
- * built right), the two offerings side by side at equal weight, then their two
- * animations side by side, opening off the offerings' spine as they scroll in
+ * built right), the two offerings side by side at equal weight, then the
+ * live demo of both working as one (a website catching a lead, and the
+ * system handling it), opening off the offerings' spine as it scrolls in
  * (ExamplesSeam), who it is for, recent work, the onboarding process, the
- * FAQ, the choice between doing nothing and a free call, and the form. Every "Book a free call" in the
- * body scrolls to the form; the header's goes where `bookHref` says. The two
- * paths and the choice follow The Real World's page (the owner's reference,
- * 2026-09-29).
+ * FAQ, the choice between doing nothing and a free call, and the form. Every
+ * "Book a free call" in the body scrolls to the form; the header's goes
+ * where `bookHref` says. The two paths and the choice follow The Real World's
+ * page (the owner's reference, 2026-09-29).
  */
 const title = "Lee Systems Co. | AI Automation & Websites for Business Owners";
 const description =
@@ -176,7 +177,7 @@ export default function LeeSystemsPage() {
         <LeeSystemsWebsiteVideoSection />
         <LeeSystemsOfferingsSection />
         <ExamplesSeam>
-          <LeeSystemsExamplesSection />
+          <LeeSystemsLiveDemoSection />
         </ExamplesSeam>
         <LeeSystemsIndustriesSection />
         <RecentWorkSection />

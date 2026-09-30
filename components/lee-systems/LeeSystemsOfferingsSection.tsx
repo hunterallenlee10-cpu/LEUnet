@@ -11,10 +11,11 @@ type Offering = {
  * at the owner's request the same day, and the button under each ("Explore
  * automation", "See website builds"), which scrolled to its section, came
  * off on 2026-09-30, also at the owner's request: the spine now carries on
- * down into the two animated examples under it and opens them (ExamplesSeam).
+ * down into the live demo under it and opens it (ExamplesSeam).
  * The website points are the ones the FAQ already promises, so nothing here
- * says more than it does. With the examples' own text gone (2026-09-30),
- * these halves are where the page says in words what each one shows.
+ * says more than it does. The demo under them has no text of its own
+ * beyond two captions, so these halves are where the page says in words
+ * what each half of it shows.
  */
 const offerings: [Offering, Offering] = [
   {
@@ -54,10 +55,11 @@ const offerings: [Offering, Offering] = [
  * left-aligned, with the node between them.
  *
  * Under the halves the spine carries on to the bottom of the section, where
- * the two animated examples take it over: side by side, automation under the
- * left half and the website under the right, they arrive closed on the line
- * and split open from it as they scroll up (ExamplesSeam around
- * LeeSystemsExamplesSection, which the page places straight after this). Until 2026-09-30 the line ran instead into two dashed
+ * the live demo takes it over: it arrives closed on the line and splits open
+ * from it as it scrolls up (ExamplesSeam around LeeSystemsLiveDemoSection,
+ * which the page places straight after this), and its own gold line, from
+ * the website's form down to the workflow, runs on down the same middle.
+ * Until 2026-09-30 the line ran instead into two dashed
  * routes that curved together into a node under the halves' buttons; the
  * owner asked for a different way into the examples, and the buttons and
  * that join came off.
