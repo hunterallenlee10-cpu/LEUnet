@@ -10,9 +10,8 @@ type Offering = {
  * 2026-09-29): six points each. The outlined "01" and "02" over them came off
  * at the owner's request the same day, and the button under each ("Explore
  * automation", "See website builds"), which scrolled to its section, came
- * off on 2026-09-30, also at the owner's request: the spine now carries on
- * down into the live demo under it and opens it (ExamplesSeam).
- * The website points are the ones the FAQ already promises, so nothing here
+ * off on 2026-09-30, also at the owner's request, with the live demo under
+ * these halves showing the two working together. The website points are the ones the FAQ already promises, so nothing here
  * says more than it does. The demo under them has no text of its own
  * beyond two captions, so these halves are where the page says in words
  * what each half of it shows.
@@ -54,21 +53,17 @@ const offerings: [Offering, Offering] = [
  * automation diagrams rather than a new trick. On a phone the halves stack,
  * left-aligned, with the node between them.
  *
- * Under the halves the spine carries on to the bottom of the section, where
- * the live demo takes it over: it arrives closed on the line and splits open
- * from it as it scrolls up (ExamplesSeam around LeeSystemsLiveDemoSection,
- * which the page places straight after this), and its own gold line, from
- * the website's form down to the workflow, runs on down the same middle.
- * Until 2026-09-30 the line ran instead into two dashed
- * routes that curved together into a node under the halves' buttons; the
- * owner asked for a different way into the examples, and the buttons and
- * that join came off.
+ * Until 2026-09-30 the spine ran on under the halves into two dashed routes
+ * that curved together into a node under the halves' buttons, and then, the
+ * same day, on down into the live demo below, which split open from it as
+ * it scrolled in (the seam). The owner asked for both to come off, so the
+ * spine now ends with the halves.
  */
 export function LeeSystemsOfferingsSection() {
   const [automation, websites] = offerings;
 
   return (
-    <section className="relative isolate overflow-hidden pt-20 md:pt-28">
+    <section className="relative isolate overflow-hidden pt-20 pb-20 md:pt-28 md:pb-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center md:mb-20">
           <p className="mb-3 text-sm font-semibold text-brass-300">What we do</p>
@@ -101,17 +96,6 @@ export function LeeSystemsOfferingsSection() {
 
           <OfferingHalf offering={websites} side="right" />
         </div>
-
-        {/* The spine, carried on to the section's foot, where the first
-            example picks it up closed. On desktop it leaves the spread's
-            spine without a break; on a phone it starts a little under the
-            last list. Its height is the gap the section used to leave as
-            bottom padding, and where the seam isn't drawn (reduced motion,
-            no scripting) it keeps that gap but hides (`ls-seam-lead`). */}
-        <span
-          aria-hidden="true"
-          className="ls-seam-lead mx-auto mt-10 block h-20 w-px bg-gradient-to-b from-brass-400/30 to-brass-400/70 md:h-28 lg:mt-0 lg:from-brass-400/70"
-        />
       </div>
     </section>
   );
