@@ -38,14 +38,17 @@ Each folded page's hero animation is now a self-contained component on
 | Component | What it shows | Where it is now |
 | --- | --- | --- |
 | `AutomationFlowDemo` (`components/lee-systems/AutomationFlowDemo.tsx`) | "Example: a new lead" with a "Running" badge: a new lead through instant reply and intake into the CRM, then follow-up, a booked appointment and the daily report | Beside the heading of What we automate: `<AutomationFlowDemo />` in `components/lee-systems/LeeSystemsAutomationSection.tsx` |
-| `WebsiteBuildDemo` (`components/lee-systems/WebsiteBuildDemo.tsx`) | "Your site" with a "Live" badge: a browser at yourbusiness.com and a dot walking the three stops a page needs | Beside the heading of the websites section: `<WebsiteBuildDemo className="lg:order-1" />` in `components/lee-systems/LeeSystemsWebsitesSection.tsx` (the class puts it on the left from `lg`) |
+| `WebsiteBuildDemo` (`components/lee-systems/WebsiteBuildDemo.tsx`) | "Your site" with a "Live" badge and a desktop/phone toggle: a browser at yourbusiness.com whose generic page ("Your Business", "What you do, and where you do it.") builds itself from grey skeleton bars, then a dot walking the three stops a page needs while each acts on the page (the headline underlined, the proof cards lifting, the form filling in), a cursor clicking "Send request" as the dot lands, a "New enquiry" alert, and the window narrowing to the same page on a phone and back (made more realistic at the owner's ask, 2026-09-30) | Beside the heading of the websites section: `<WebsiteBuildDemo className="lg:order-1" />` in `components/lee-systems/LeeSystemsWebsitesSection.tsx` (the class puts it on the left from `lg`) |
 
 Each keeps its keyframes, timing and geometry in its own file (a `<style>`
-React hoists into the page head once), needs no client-side JS, respects
-`prefers-reduced-motion`, and takes nothing from `app/globals.css` beyond
-the Tailwind theme's brass colours. When they were extracted, 72 screenshots
-of them (phone, tablet and desktop, eleven frozen moments each, plus reduced
-motion) matched the originals byte for byte.
+React hoists into the page head once), respects `prefers-reduced-motion`,
+and takes nothing from `app/globals.css` beyond the Tailwind theme's brass
+colours. `AutomationFlowDemo` needs no client-side JS; `WebsiteBuildDemo`
+has one small observer, so it starts from its first frame when it scrolls
+into view and pauses while it is off screen (without scripting it just
+plays). When they were extracted, 72 screenshots of them (phone, tablet and
+desktop, eleven frozen moments each, plus reduced motion) matched the
+originals byte for byte.
 
 ## Who we help
 
