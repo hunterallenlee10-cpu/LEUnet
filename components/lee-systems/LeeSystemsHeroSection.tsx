@@ -41,7 +41,7 @@ export function LeeSystemsHeroSection() {
           <p className="mb-2 text-xl font-semibold text-white md:text-2xl">
             {leeSystems.heroLine}
           </p>
-          <p className="mb-10 max-w-md text-lg leading-relaxed text-neutral-300">
+          <p className="mb-10 max-w-lg text-lg leading-relaxed text-neutral-300">
             {leeSystems.heroHow}
           </p>
 
