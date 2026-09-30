@@ -48,9 +48,11 @@ const smoothstep = (t: number) => t * t * (3 - 2 * t);
  * It treats each section as a black box: it wraps it, clips it and draws the
  * edges over it, and never reaches inside. So a section can change, grow or
  * be swapped without touching this, and placing one in the seam is putting
- * it between the tags in app/lee-systems/page.tsx. Each section keeps its own
- * id, so #automation and #websites land exactly where they always did: the
- * seam changes nothing about layout, only what is drawn.
+ * it between the tags in app/lee-systems/page.tsx. Since 2026-09-30 it holds
+ * one, LeeSystemsExamplesSection, with both demos side by side, so the spine
+ * opens onto the two at once, from the gap between them. Whatever is inside
+ * keeps its ids, so #automation and #websites land on their demos: the seam
+ * changes nothing about layout, only what is drawn.
  *
  * The animated demo in each section waits on its first frame until the
  * section stands open (STANDS_OPEN), then plays: the seam says so on the

@@ -24,7 +24,7 @@ file. Tell Claude when something is done and it checks it off here.
       picked.
 - [ ] **Business phone line.** (240) 925-2609 is on the site now. If the AI
       call assistant answers a line, send that number too and /lee-systems
-      will offer it as a live demo under its "What we automate" heading
+      will offer it as a live demo under its automation animation
       (`callAnswering.demoPhone`).
 - [ ] **Photo and bio.** A real photo and a few lines about you. They replace
       the "Photo coming soon" and "More about me coming soon" slots on the
