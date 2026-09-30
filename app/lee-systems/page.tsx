@@ -5,6 +5,7 @@ import { LeeSystemsHeroSection } from "@/components/lee-systems/LeeSystemsHeroSe
 import { LeeSystemsTwoPathsSection } from "@/components/lee-systems/LeeSystemsTwoPathsSection";
 import { LeeSystemsWebsiteVideoSection } from "@/components/lee-systems/LeeSystemsWebsiteVideoSection";
 import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
+import { ExamplesSeam } from "@/components/lee-systems/ExamplesSeam";
 import { LeeSystemsAutomationSection } from "@/components/lee-systems/LeeSystemsAutomationSection";
 import { LeeSystemsWebsitesSection } from "@/components/lee-systems/LeeSystemsWebsitesSection";
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
@@ -30,7 +31,8 @@ import {
  * The order: the hero, the two paths (an example lead with and without the
  * systems), the website video (a visit to an outdated site, then to one
  * built right), the two offerings side by side at equal weight, then a section for
- * each - what we automate and website builds, each beside its animation - who
+ * each - what we automate and website builds, each beside its animation, both
+ * opening off the offerings' spine as they scroll in (ExamplesSeam) - who
  * it is for, recent work, the onboarding process, the FAQ, the choice between
  * doing nothing and a free call, and the form. Every "Book a free call" in the
  * body scrolls to the form; the header's goes where `bookHref` says. The two
@@ -175,8 +177,10 @@ export default function LeeSystemsPage() {
         <LeeSystemsTwoPathsSection />
         <LeeSystemsWebsiteVideoSection />
         <LeeSystemsOfferingsSection />
-        <LeeSystemsAutomationSection />
-        <LeeSystemsWebsitesSection />
+        <ExamplesSeam>
+          <LeeSystemsAutomationSection />
+          <LeeSystemsWebsitesSection />
+        </ExamplesSeam>
         <LeeSystemsIndustriesSection />
         <RecentWorkSection />
         <LeeSystemsOnboardingSection />

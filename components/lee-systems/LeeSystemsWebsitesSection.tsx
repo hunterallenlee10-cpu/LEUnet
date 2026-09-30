@@ -2,8 +2,8 @@ import { WebsiteBuildDemo } from "@/components/lee-systems/WebsiteBuildDemo";
 import { leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
- * Websites on /lee-systems (#websites), where every "See website builds" and
- * "Website builds" link lands. It was "Included in every site" on
+ * Websites on /lee-systems (#websites), where every link to the websites
+ * section lands. It was "Included in every site" on
  * /lee-systems/websites until that page folded into this one (2026-09-29),
  * and that page's hero visual, WebsiteBuildDemo, now sits beside its heading:
  * on the left from `lg`, after the heading below that.

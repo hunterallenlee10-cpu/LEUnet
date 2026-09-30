@@ -1,21 +1,19 @@
-import { leeSystemsAnchors } from "@/data/lee-systems";
-
 type Offering = {
   role: string;
   title: string;
   body: string;
   points: string[];
-  href: string;
-  cta: string;
 };
 
 /**
  * Both halves carry the same weight on purpose (the owner's call,
- * 2026-09-29): six points each and the same button, which scrolls to that
- * offering's section further down the page. The outlined "01" and "02" over
- * them came off at the owner's request the same day. The website
- * points are the ones the websites section and the FAQ already promise, so
- * nothing here says more than they do.
+ * 2026-09-29): six points each. The outlined "01" and "02" over them came off
+ * at the owner's request the same day, and the button under each ("Explore
+ * automation", "See website builds"), which scrolled to its section, came
+ * off on 2026-09-30, also at the owner's request: the spine now carries on
+ * down into those sections and opens them (ExamplesSeam). The website points
+ * are the ones the websites section and the FAQ already promise, so nothing
+ * here says more than they do.
  */
 const offerings: [Offering, Offering] = [
   {
@@ -30,8 +28,6 @@ const offerings: [Offering, Offering] = [
       "Requests reviews and chases invoices for you",
       "Updates you & your systems automatically",
     ],
-    href: `#${leeSystemsAnchors.automation}`,
-    cta: "Explore automation",
   },
   {
     role: "The storefront",
@@ -45,26 +41,30 @@ const offerings: [Offering, Offering] = [
       "You own your domain and your content",
       "Optional care plan for hosting and updates",
     ],
-    href: `#${leeSystemsAnchors.websites}`,
-    cta: "See website builds",
   },
 ];
 
 /**
  * "What we do" as a two-page spread rather than two cards: the offerings sit
  * open on the section, mirrored about a brass spine (right-aligned on the left,
- * left-aligned on the right), and the spine runs down into the node where the
- * two join, since a site's leads are what the automation answers. The spine
- * and the merge use the page's diagram vocabulary, a drifting dash and a
- * travelling packet, so this reads as part of the same network as the
+ * left-aligned on the right), with a packet travelling down it, the page's
+ * diagram vocabulary, so this reads as part of the same network as the
  * automation diagrams rather than a new trick. On a phone the halves stack,
- * left-aligned, with the node between them and the join below.
+ * left-aligned, with the node between them.
+ *
+ * Under the halves the spine carries on to the bottom of the section, where
+ * the two animated examples take it over: each arrives closed on the line and
+ * splits open from it as it scrolls up (ExamplesSeam, which the page places
+ * straight after this). Until 2026-09-30 the line ran instead into two dashed
+ * routes that curved together into a node under the halves' buttons; the
+ * owner asked for a different way into the examples, and the buttons and
+ * that join came off.
  */
 export function LeeSystemsOfferingsSection() {
   const [automation, websites] = offerings;
 
   return (
-    <section className="relative isolate overflow-hidden py-20 md:py-28">
+    <section className="relative isolate overflow-hidden pt-20 md:pt-28">
       <div className="section-container">
         <div className="mx-auto mb-14 max-w-3xl text-center md:mb-20">
           <p className="mb-3 text-sm font-semibold text-brass-300">What we do</p>
@@ -98,7 +98,16 @@ export function LeeSystemsOfferingsSection() {
           <OfferingHalf offering={websites} side="right" />
         </div>
 
-        <Join />
+        {/* The spine, carried on to the section's foot, where the first
+            example picks it up closed. On desktop it leaves the spread's
+            spine without a break; on a phone it starts a little under the
+            last list. Its height is the gap the section used to leave as
+            bottom padding, and where the seam isn't drawn (reduced motion,
+            no scripting) it keeps that gap but hides (`ls-seam-lead`). */}
+        <span
+          aria-hidden="true"
+          className="ls-seam-lead mx-auto mt-10 block h-20 w-px bg-gradient-to-b from-brass-400/30 to-brass-400/70 md:h-28 lg:mt-0 lg:from-brass-400/70"
+        />
       </div>
     </section>
   );
@@ -127,7 +136,7 @@ function OfferingHalf({
       <h3 className="mb-4 text-3xl font-bold text-white md:text-4xl">{offering.title}</h3>
       <p className="mb-8 max-w-md text-lg leading-relaxed text-neutral-300">{offering.body}</p>
 
-      <ul className="mb-10 w-full max-w-md border-b border-white/10">
+      <ul className="w-full max-w-md border-b border-white/10">
         {offering.points.map((point) => (
           <li
             key={point}
@@ -142,13 +151,6 @@ function OfferingHalf({
           </li>
         ))}
       </ul>
-
-      <a
-        href={offering.href}
-        className="btn-ls-secondary inline-flex h-12 w-full max-w-xs items-center justify-center px-4 text-center sm:w-56"
-      >
-        {offering.cta}
-      </a>
     </div>
   );
 }
@@ -159,37 +161,5 @@ function SpineNode() {
       <span className="ls-status absolute inset-0 rounded-full border border-brass-300/60" />
       <span className="h-2 w-2 rounded-full bg-brass-300 shadow-[0_0_10px_rgba(226,170,72,0.9)]" />
     </span>
-  );
-}
-
-/**
- * Where the halves meet. On desktop two routes leave the bottom of each half
- * and curve into one node under the spine. The SVG is 22rem wide so its ends
- * sit under the two buttons: each is 14rem wide against the 4rem gap either
- * side of the spine, putting its centre 11rem out. `non-scaling-stroke`
- * keeps the lines a hairline across the stretched viewBox. The "Better
- * together" line under the node came off at the owner's request (2026-09-29),
- * and with it the phone layout, where only the node was left.
- */
-function Join() {
-  return (
-    <div className="mt-4 hidden flex-col items-center lg:flex">
-      <svg
-        className="h-24 w-[22rem]"
-        viewBox="0 0 100 96"
-        preserveAspectRatio="none"
-        fill="none"
-        aria-hidden="true"
-      >
-        {["M1 0 C1 60, 50 36, 50 96", "M99 0 C99 60, 50 36, 50 96"].map((d) => (
-          <g key={d}>
-            <path d={d} stroke="rgba(212,168,87,0.25)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-            <path d={d} className="ls-dash" stroke="rgba(235,211,160,0.7)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-          </g>
-        ))}
-      </svg>
-
-      <SpineNode />
-    </div>
   );
 }
