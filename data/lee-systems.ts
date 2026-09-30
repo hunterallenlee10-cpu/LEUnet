@@ -60,10 +60,13 @@ export const leeSystems = {
    */
   headline: ["More Customers.", "More Money."],
   headlineAccent: "Less Work for You.",
-  /** Under the headline: the owner's line, then how, in one sentence. */
+  /**
+   * Under the headline: the owner's line, then how, in the owner's words
+   * (2026-09-30), which name the website too.
+   */
   heroLine: "Let AI make you money.",
   heroHow:
-    "It answers your calls, follows up with every lead and books the job, 24/7.",
+    "It makes & runs your beautiful website, answers calls, follows up with every lead, and books the job. All 24/7.",
   owner: "Hunter Lee",
   /** The parent company's inbox until Lee Systems Co. has its own. */
   contactEmail: site.email,
