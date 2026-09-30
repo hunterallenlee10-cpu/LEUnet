@@ -532,7 +532,6 @@
     0 0 0 6px rgb(10 10 10),
     0 0 30px rgba(251, 191, 36, 0.25);
   color: rgb(251 191 36);
-  font-family: var(--font-mono-geist);
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -2490,24 +2489,6 @@
 }
 
 @theme inline {
-  /* Fonts declared with next/font: Geist Mono and Cormorant, both in
-     app/business-mastery/page.tsx, on that page's outermost element.
-     `font-serif` is the Business Mastery hero's Cormorant manifesto line. The
-     Geist Mono token is deliberately NOT named `--font-mono`, because that
-     would switch every existing `font-mono` on the Lee Systems pages from the
-     system stack to Geist Mono in passing.
-
-     `inline` writes these values onto the element that uses the utility, inside
-     the element that sets the font variable, so `font-serif` and
-     `font-mono-geist` (both only in the Business Mastery hero) render their
-     fonts. The one plain rule that reads `var(--font-mono-geist)`
-     (`.hero-split-or span`, the homepage seam's "or") resolves it at :root,
-     and the homepage never sets `--font-geist-mono`, so it falls back to the
-     inherited Geist Sans. */
-  --font-serif: var(--font-cormorant), ui-serif, Georgia, 'Times New Roman', serif;
-  --font-mono-geist: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
-    monospace;
-
   /* Lee Systems Co. accent. 400 is the brand colour (#D4A857); on the site's
      near-black it measures about 8.7:1, and near-black text on a brass-400
      button clears WCAG AA with room to spare. The Lee Systems pages use this
@@ -3922,7 +3903,7 @@
    declarative. This comment exists so that is not mistaken for an omission. */
 
 /* ---------------------------------------------------------------------------
-   Business Mastery hero copy — "Quiet Capital, Serif"
+   Business Mastery hero copy — "Quiet Capital"
    One consumer: components/business-mastery/BmHeroSection.tsx, which owns the
    layout in Tailwind and defers to this block for the things Tailwind says
    badly. That split follows `.bmc-field` above: structure in the component,
@@ -3967,15 +3948,13 @@
    the manifesto and the title from roughly 2.0 to 1.4. Move one of these and
    the others have to move with it.
 
-   The one rule with real reasoning behind it is the manifesto's weight. This
-   is the only page on the site that sets a serif, and Cormorant is a
-   high-contrast face whose thin strokes disappear against a dark ground at
-   small sizes. It survives here *because* it is set large — around 65px on a
-   1440x900 laptop, and 30px at the phone floor; at the phone size it steps to
-   weight 400 rather than leaving 30px hairlines to fend for themselves over a
-   moving constellation. The one place it goes below that floor is the short
-   phone step at the end of this block, which is why that step is paired with
-   the weight change and not taken any further.
+   The manifesto is set in the site's one typeface, Geist, bold and tightly
+   tracked: the headline register the rest of the site uses (the owner's
+   pick, 2026-09-30, when the Cormorant serif it used to be set in went, to
+   bring the site down to one font). Bold Geist is far wider than the light
+   serif was, so its sizes sit about 20% under the old ones, which keeps the
+   sentence on two lines: around 52px on a 1440x900 laptop, and 28px at the
+   phone floor.
    --------------------------------------------------------------------------- */
 
 .bmh {
@@ -3994,8 +3973,8 @@
    a hero whose copy filled the middle of the frame. This block's exposure is
    the opposite: the whitespace that makes the design work pushes the eyebrow
    to the top of the column and the action to the bottom, and both land where
-   that pool has already faded to nothing. A serif manifesto is the least able
-   of anything on this site to survive a 1px amber line crossing a stem.
+   that pool has already faded to nothing, and a 1px amber line crossing the
+   manifesto is the thing most likely to make it go soft.
 
    So the protection travels with the copy instead of being aimed at it from
    across the stylesheet: an ellipse shaped to this block, taller than it is
@@ -4029,8 +4008,9 @@
   );
 }
 
-/* Eyebrow: the house treatment (uppercase, amber, wide) moved to Geist Mono and
-   flanked by two short hairlines, so it reads as a plate rather than a caption. */
+/* Eyebrow: the house treatment (uppercase, amber, wide), flanked by two short
+   hairlines so it reads as a plate rather than a caption. It was Geist Mono
+   until 2026-09-30, when the site came down to Geist alone. */
 .bmh-eyebrow {
   display: flex;
   align-items: center;
@@ -4064,8 +4044,8 @@
 
 .bmh-eyebrow span {
   font-size: min(clamp(12px, 1.15vw, 17px), 2vh);
-  letter-spacing: 0.4em;
-  text-indent: 0.4em;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
   white-space: nowrap;
 }
 
@@ -4178,16 +4158,15 @@
 /* The manifesto pops by separation rather than by colour: it is the one white
    object in a gold frame, and making it brighter than white is not available.
    What it competes with is the constellation moving behind it -- a lit node
-   crossing a hairline stroke of a high-contrast serif is what makes the word
-   go soft. The halo is two dark shadows, a tight one that keeps a node from
+   crossing a stroke of the manifesto is what makes the word go soft. The halo is two dark shadows, a tight one that keeps a node from
    touching a stem and a wide one that sits the whole sentence on its own
    ground. Both are black at low alpha, so on the parts of the field that are
    already black they do nothing at all. */
 .bmh-manifesto {
   margin-top: calc(var(--bmh-u) * 3);
-  font-size: min(clamp(30px, 4.5vw, 68px), 7.2vh);
-  line-height: 1.24;
-  letter-spacing: 0.004em;
+  font-size: min(clamp(28px, 3.6vw, 54px), 5.8vh);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.62), 0 2px 30px rgba(0, 0, 0, 0.88);
 }
 
@@ -4286,7 +4265,7 @@
    comment above for why that cliff was worth removing. */
 @media (min-width: 641px) and (max-height: 820px) {
   .bmh-manifesto {
-    line-height: 1.2;
+    line-height: 1.08;
   }
 
   .bmh-rule {
@@ -4313,7 +4292,7 @@
   }
 
   .bmh-manifesto {
-    font-size: min(clamp(30px, 4.2vw, 80px), 7.2vh);
+    font-size: min(clamp(28px, 3.4vw, 64px), 5.8vh);
   }
 
   .bmh-title-a {
@@ -4343,7 +4322,7 @@
   }
 
   .bmh-manifesto {
-    font-size: 25px;
+    font-size: 24px;
   }
 
   .bmh-mechanism {
@@ -4352,8 +4331,7 @@
 }
 
 /* At 390px the tracked lines start breaking words into separate objects, so the
-   widest of them give some of it back. The manifesto's weight step is the
-   important one — see the note at the top of this block. */
+   widest of them give some of it back. */
 @media (max-width: 640px) {
   .bmh-eyebrow {
     gap: 10px;
@@ -4365,8 +4343,8 @@
   }
 
   .bmh-eyebrow span {
-    letter-spacing: 0.3em;
-    text-indent: 0.3em;
+    letter-spacing: 0.24em;
+    text-indent: 0.24em;
   }
 
   .bmh-title-a {
@@ -4374,9 +4352,6 @@
     text-indent: 0.28em;
   }
 
-  .bmh-manifesto {
-    font-weight: 400;
-  }
 }
 
 /* ---------------------------------------------------------------------------
