@@ -56,9 +56,7 @@ import { site, telHref } from "@/data/site";
  * connectors' stroke-dashoffset. Every constant it reads is below.
  *
  * It plays only while it is on screen (an IntersectionObserver), and not in a
- * hidden tab. Inside the seam on /lee-systems (ExamplesSeam) it also waits
- * for the section to stand open, which the seam says with `data-seam-open`
- * on the section's wrapper. With prefers-reduced-motion it draws the finished
+ * hidden tab. With prefers-reduced-motion it draws the finished
  * run as a still: the form sent, the lead in "New lead", every step checked
  * and the appointment booked. Without scripting the markup already is that
  * still, minus the connectors, which are measured.
@@ -165,23 +163,28 @@ const edges: { from: NodeId; to: NodeId }[] = [
 
 /* -------------------------------------------------------------- timing -- */
 
-/** How long a site section takes to come in, and the page's load bar. */
-const REVEAL = 0.5;
-const LOAD_FROM = 0.05;
-const LOAD_TO = 0.6;
-const NAV_IN = 0.3;
+/**
+ * The page loading: the load bar runs across, the nav comes in, and the
+ * three sections follow a second apart, each taking REVEAL to settle. Slowed
+ * at the owner's ask (2026-09-30), along with the rest of the loop, so each
+ * section is seen arriving rather than flashing in.
+ */
+const REVEAL = 0.9;
+const LOAD_FROM = 0.1;
+const LOAD_TO = 1.1;
+const NAV_IN = 0.7;
 /** When each of the three sections starts to come in. */
-const STEP_IN = [0.55, 1.0, 1.45];
+const STEP_IN = [1.3, 2.3, 3.3];
 
 /**
  * Typing. Each field is focused, typed into a character at a time, and left
  * FIELD_GAP before the next is focused. The name is typed slowest because it
  * is the one the chip carries.
  */
-const TYPE_FROM = 2.05;
-const FOCUS_TO_TYPE = 0.15;
-const FIELD_GAP = 0.2;
-const CHAR_SECONDS = [0.075, 0.042, 0.036];
+const TYPE_FROM = 4.6;
+const FOCUS_TO_TYPE = 0.3;
+const FIELD_GAP = 0.35;
+const CHAR_SECONDS = [0.12, 0.07, 0.06];
 
 const focusAt: number[] = [];
 const charAt: number[][] = [];
@@ -197,21 +200,21 @@ const charAt: number[][] = [];
 const TYPED = charAt[fields.length - 1].at(-1)!;
 
 /** The pointer glides to the button and clicks it; the button reads "Sent". */
-const CURSOR_IN = TYPED + 0.05;
-const CLICK = CURSOR_IN + 0.6;
-const SENT = CLICK + 0.08;
+const CURSOR_IN = TYPED + 0.15;
+const CLICK = CURSOR_IN + 0.9;
+const SENT = CLICK + 0.12;
 
 /**
  * The lead leaves the site: the three values gather on the button's port
  * (GHOST_SECONDS each, GHOST_STAGGER apart), the chip forms there, and it
  * rides the line down into "New lead", landing at LAND.
  */
-const GATHER = SENT + 0.2;
-const GHOST_SECONDS = 0.4;
-const GHOST_STAGGER = 0.06;
-const CHIP_IN = GATHER + 0.3;
-const DEPART = CHIP_IN + 0.3;
-const TRAVEL_SECONDS = 1.1;
+const GATHER = SENT + 0.35;
+const GHOST_SECONDS = 0.6;
+const GHOST_STAGGER = 0.09;
+const CHIP_IN = GATHER + 0.45;
+const DEPART = CHIP_IN + 0.5;
+const TRAVEL_SECONDS = 1.7;
 const LAND = DEPART + TRAVEL_SECONDS;
 
 /**
@@ -219,9 +222,9 @@ const LAND = DEPART + TRAVEL_SECONDS;
  * RUN_SECONDS; the lead takes EDGE_SECONDS along a wire, and a step's later
  * wires leave STAGGER_SECONDS apart so a fan-out reads in order.
  */
-const RUN_SECONDS = 0.45;
-const EDGE_SECONDS = 0.55;
-const STAGGER_SECONDS = 0.08;
+const RUN_SECONDS = 0.7;
+const EDGE_SECONDS = 0.85;
+const STAGGER_SECONDS = 0.12;
 
 /**
  * When the lead reaches each step and when it sets off along each wire,
@@ -249,12 +252,12 @@ for (const { id } of nodes) {
  * fades back to idle together over RESET_SECONDS, and after a short rest the
  * loop starts again with the page loading.
  */
-const PAYOFF = Math.max(...Object.values(arriveAt)) + 0.3;
-const PAYOFF_SECONDS = 0.5;
-const HOLD_SECONDS = 1.9;
+const PAYOFF = Math.max(...Object.values(arriveAt)) + 0.45;
+const PAYOFF_SECONDS = 0.7;
+const HOLD_SECONDS = 2.8;
 const RESET = PAYOFF + PAYOFF_SECONDS + HOLD_SECONDS;
-const RESET_SECONDS = 0.6;
-const LOOP_SECONDS = RESET + RESET_SECONDS + 0.3;
+const RESET_SECONDS = 0.9;
+const LOOP_SECONDS = RESET + RESET_SECONDS + 0.5;
 
 /** The moment drawn, still, for reduced motion: the finished run. */
 const STILL = PAYOFF + PAYOFF_SECONDS + 0.5;
@@ -896,7 +899,7 @@ type Point = { x: number; y: number };
 /**
  * An element's layout box in `root`'s pixels, from offsets rather than
  * getBoundingClientRect, so a transform on the way (a section still sliding
- * in, the seam around the demo) never moves where a line is drawn.
+ * in) never moves where a line is drawn.
  */
 function boxIn(el: HTMLElement, root: HTMLElement) {
   let x = 0;
@@ -1063,12 +1066,12 @@ function useLiveDemo(rootRef: RefObject<HTMLDivElement | null>) {
       // The page loads, and its sections come in, each lighting its marker
       // while it is the one in play. The form's stays lit until it is sent.
       set(el.load, "transform", `scaleX(${num(easeOut(ramp(t, LOAD_FROM, LOAD_TO)))})`);
-      set(el.load, "opacity", num(t < LOAD_FROM ? 0 : 1 - ramp(t, LOAD_TO, LOAD_TO + 0.25)));
+      set(el.load, "opacity", num(t < LOAD_FROM ? 0 : 1 - ramp(t, LOAD_TO, LOAD_TO + 0.4)));
       set(el.nav, "--in", num(easeOut(ramp(t, NAV_IN, NAV_IN + REVEAL)) * k));
       const stepIn = STEP_IN.map((at) => easeOut(ramp(t, at, at + REVEAL)) * k);
       el.steps.forEach((step, i) => set(step, "--in", num(stepIn[i])));
       const markerOff = [STEP_IN[1], STEP_IN[2], SENT];
-      el.markers.forEach((m, i) => set(m, "--lit", num(pulse(t, STEP_IN[i], markerOff[i], 0.2, 0.35))));
+      el.markers.forEach((m, i) => set(m, "--lit", num(pulse(t, STEP_IN[i], markerOff[i], 0.3, 0.5))));
 
       // Typing, a character at a time, with a caret after the last one.
       const focusOff = [focusAt[1], focusAt[2], CLICK];
@@ -1076,12 +1079,12 @@ function useLiveDemo(rootRef: RefObject<HTMLDivElement | null>) {
         const typed = charAt[i].filter((at) => t >= at).length;
         el.chars[i].forEach((c, j) => set(c, "opacity", j < typed ? "1" : "0"));
         set(el.placeholders[i], "opacity", typed ? "0" : "1");
-        set(el.fields[i], "--focus", num(pulse(t, focusAt[i], focusOff[i], 0.12, 0.12)));
+        set(el.fields[i], "--focus", num(pulse(t, focusAt[i], focusOff[i], 0.18, 0.18)));
         set(el.carets[i], "opacity", t >= focusAt[i] && t < focusOff[i] ? "1" : "0");
         set(el.carets[i], "transform", `translateX(${px(geo.carets[i][typed] ?? 0)})`);
 
         // Sent: the value dims, and a copy of it gathers on the button's port.
-        set(el.values[i], "opacity", num(1 - 0.45 * easeInOut(ramp(t, GATHER, GATHER + 0.3))));
+        set(el.values[i], "opacity", num(1 - 0.45 * easeInOut(ramp(t, GATHER, GATHER + 0.45))));
         const from = GATHER + i * GHOST_STAGGER;
         const g = easeInOut(ramp(t, from, from + GHOST_SECONDS));
         const v = geo.ghosts[i];
@@ -1090,17 +1093,17 @@ function useLiveDemo(rootRef: RefObject<HTMLDivElement | null>) {
       });
 
       // The pointer glides to the button and clicks; the button reads "Sent".
-      const glide = easeInOut(ramp(t, CURSOR_IN, CLICK - 0.06));
-      const leave = easeInOut(ramp(t, SENT + 0.3, SENT + 0.55));
+      const glide = easeInOut(ramp(t, CURSOR_IN, CLICK - 0.08));
+      const leave = easeInOut(ramp(t, SENT + 0.45, SENT + 0.85));
       const press = pulse(t, CLICK - 0.05, CLICK + 0.05, 0.05, 0.14);
-      set(el.cursor, "opacity", num(ramp(t, CURSOR_IN, CURSOR_IN + 0.15) * (1 - leave)));
+      set(el.cursor, "opacity", num(ramp(t, CURSOR_IN, CURSOR_IN + 0.25) * (1 - leave)));
       set(
         el.cursor,
         "transform",
         `translate(${px(CURSOR_FROM.x * (1 - glide) + 10 * leave)}, ${px(CURSOR_FROM.y * (1 - glide) + 14 * leave)}) scale(${num(1 - 0.15 * press)})`
       );
       set(el.send, "--press", num(press));
-      const sent = easeOut(ramp(t, SENT, SENT + 0.2));
+      const sent = easeOut(ramp(t, SENT, SENT + 0.3));
       set(el.send, "--sent", num(sent));
 
       // The button's port, where the bridge leaves from: there once the form
@@ -1115,8 +1118,8 @@ function useLiveDemo(rootRef: RefObject<HTMLDivElement | null>) {
       const bridgeTotal = geo.bridge + Math.hypot(geo.slot.x - geo.port.x, geo.slot.y - geo.port.y);
       const d = CHIP_FORMS_AT + travelled * (bridgeTotal - CHIP_FORMS_AT);
       const at = chipAt(d);
-      const formed = easeOut(ramp(t, CHIP_IN, CHIP_IN + 0.25));
-      const absorbed = ramp(t, LAND + 0.08, LAND + 0.24);
+      const formed = easeOut(ramp(t, CHIP_IN, CHIP_IN + 0.4));
+      const absorbed = ramp(t, LAND + 0.12, LAND + 0.36);
       set(el.chip, "opacity", num(formed * (1 - absorbed)));
       set(el.chip, "transform", `translate(${px(at.x)}, ${px(at.y)}) translate(-50%, -50%) scale(${num(0.7 + 0.3 * formed)})`);
       const moving = t > DEPART && t < LAND ? Math.sin(Math.PI * ramp(t, DEPART, LAND)) : 0;
@@ -1131,8 +1134,8 @@ function useLiveDemo(rootRef: RefObject<HTMLDivElement | null>) {
       // chip over it fades, so the handoff never dips.
       for (const { id } of nodes) {
         const a = arriveAt[id];
-        const done = id === "lead" ? easeOut(ramp(t, LAND - 0.02, LAND + 0.12)) : easeOut(ramp(t, a + 0.08, a + 0.32));
-        set(el.node[id], "--lit", num(pulse(t, a, a + RUN_SECONDS, 0.12, 0.4)));
+        const done = id === "lead" ? easeOut(ramp(t, LAND - 0.02, LAND + 0.18)) : easeOut(ramp(t, a + 0.12, a + 0.5));
+        set(el.node[id], "--lit", num(pulse(t, a, a + RUN_SECONDS, 0.18, 0.6)));
         set(el.node[id], "--done", num(done * k));
       }
       set(el.node.booked, "--pay", num(easeInOut(ramp(t, PAYOFF, PAYOFF + PAYOFF_SECONDS)) * k));
@@ -1153,17 +1156,16 @@ function useLiveDemo(rootRef: RefObject<HTMLDivElement | null>) {
     };
 
     /* Playing. The clock only advances while the demo is on screen, the tab
-       is showing, motion is allowed and (inside the seam) its section stands
-       open; otherwise it holds the frame it is on. */
+       is showing and motion is allowed; otherwise it holds the frame it is
+       on. */
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const scene = root.closest<HTMLElement>("[data-seam-scene]");
     let t = 0;
     let frame = 0;
     let last = 0;
     let onScreen = false;
 
     const playable = () =>
-      onScreen && !document.hidden && !reduceMotion.matches && scene?.dataset.seamOpen !== "false";
+      onScreen && !document.hidden && !reduceMotion.matches;
 
     const tick = (now: number) => {
       // A long gap (a stalled frame) moves the clock at most a tenth of a
@@ -1202,8 +1204,9 @@ function useLiveDemo(rootRef: RefObject<HTMLDivElement | null>) {
     resize.observe(root);
     document.fonts?.ready.then(remeasure);
 
-    // In view once its top is two thirds of the way up the screen, and out
-    // of it once it has left the screen entirely.
+    // In view once its top has come a third of the way up the screen, so
+    // the page is seen loading from the start, and out of view once it has
+    // left the screen entirely.
     const view = new IntersectionObserver(
       ([entry]) => {
         onScreen = entry.isIntersecting;
@@ -1213,8 +1216,6 @@ function useLiveDemo(rootRef: RefObject<HTMLDivElement | null>) {
     );
     view.observe(root);
 
-    const seam = scene ? new MutationObserver(sync) : null;
-    seam?.observe(scene!, { attributes: true, attributeFilter: ["data-seam-open"] });
     document.addEventListener("visibilitychange", sync);
     reduceMotion.addEventListener("change", sync);
 
@@ -1223,7 +1224,6 @@ function useLiveDemo(rootRef: RefObject<HTMLDivElement | null>) {
       cancelAnimationFrame(resizeFrame);
       resize.disconnect();
       view.disconnect();
-      seam?.disconnect();
       document.removeEventListener("visibilitychange", sync);
       reduceMotion.removeEventListener("change", sync);
     };
