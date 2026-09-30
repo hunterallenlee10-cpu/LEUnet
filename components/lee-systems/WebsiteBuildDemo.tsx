@@ -55,8 +55,9 @@ import { usePlayWhenVisible } from "@/components/lee-systems/usePlayWhenVisible"
  * breakpoint. The annotations (badges and labels) stay in pixels so they are
  * legible at every width.
  *
- * Decorative: hidden from assistive technology. The section around it states
- * what a site includes in text.
+ * Decorative: hidden from assistive technology. The page around it states
+ * what a site includes in text ("What we do", just above it on /lee-systems,
+ * and the FAQ).
  */
 
 /* -------------------------------------------------------------- timing -- */

@@ -41,8 +41,9 @@ import { usePlayWhenVisible } from "@/components/lee-systems/usePlayWhenVisible"
  * wires are measured from where the cards actually are, so they land on the
  * cards' ports at any width and after any change to the cards.
  *
- * Decorative: hidden from assistive technology, header included. The section
- * around it says in words what the system does.
+ * Decorative: hidden from assistive technology, header included. The page
+ * around it says in words what the system does ("What we do", just above it
+ * on /lee-systems).
  */
 
 type NodeId =

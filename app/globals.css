@@ -2894,10 +2894,11 @@
 
 /* ---------------------------------------------------------------------------
    Lee Systems Co. — the seam
-   For components/lee-systems/ExamplesSeam.tsx, around What we automate and
-   Website builds on /lee-systems, straight after What we do (the owner's
-   ask, 2026-09-30), and for the run of spine that leads into it from What we
-   do (`.ls-seam-lead`, in LeeSystemsOfferingsSection).
+   For components/lee-systems/ExamplesSeam.tsx, around the two animated
+   examples (side by side in LeeSystemsExamplesSection) on /lee-systems,
+   straight after What we do (the owner's ask, 2026-09-30), and for the run
+   of spine that leads into it from What we do (`.ls-seam-lead`, in
+   LeeSystemsOfferingsSection).
 
    The brass spine of "What we do" carries on down the page, and each section
    in the seam arrives closed on it: a lit line down its middle, the section
@@ -2908,7 +2909,7 @@
    0 (closed) to 1 (open), and everything here is drawn from it.
 
    Nothing here changes layout (a clip, an opacity and positioned edges), so
-   the sections keep their sizes and their ids land where they always did.
+   the sections keep their sizes and their ids land where they are.
    All of it sits behind the query the script checks: without scripting, or
    with reduced motion, `--open` stays 1 and none of it is drawn.
    --------------------------------------------------------------------------- */
