@@ -55,10 +55,10 @@ const offerings: [Offering, Offering] = [
  * open on the section, mirrored about a brass spine (right-aligned on the left,
  * left-aligned on the right), and the spine runs down into the node where the
  * two join, since a site's leads are what the automation answers. The spine
- * and the merge borrow Signal Routes' vocabulary, a drifting dash and a
- * travelling packet, so this reads as part of the hero's network rather than a
- * new trick. On a phone the halves stack, left-aligned, with the node between
- * them and the join below.
+ * and the merge use the page's diagram vocabulary, a drifting dash and a
+ * travelling packet, so this reads as part of the same network as the
+ * automation diagrams rather than a new trick. On a phone the halves stack,
+ * left-aligned, with the node between them and the join below.
  */
 export function LeeSystemsOfferingsSection() {
   const [automation, websites] = offerings;

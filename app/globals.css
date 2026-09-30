@@ -2904,218 +2904,45 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. — "Signal Routes"
-   One consumer: components/lee-systems/SignalRoutes.tsx, which the Lee
-   Systems Co. main page's hero renders. The geometry lives with the
-   component; everything here is how a route is painted, and what travels
-   down it.
+   Lee Systems Co. — the hero's video shade
+   One consumer: components/lee-systems/HeroVideoLoop.tsx, over the laptop
+   loop behind the /lee-systems hero (the owner's pick, 2026-09-30).
 
-   The layer draws over the warm-right/cool-left orbs the hero lights, never
-   instead of them: the orbs are the venture's tell. So nothing here paints a
-   ground.
-
-   The rule this block follows is that a route may never compete with the copy
-   that sits over it. That protection is a MASK on the layer itself, not a
-   scrim: a dark veil over a field this quiet would mute the orbs underneath
-   it. Masking removes the routes where the words
-   are and leaves the ground, whatever the ground happens to be. Value does the
-   rest: the resting routes are barely above the ground, and the one thing drawn
-   at full strength, the travelling signal, is 4% of a route long and passes any
-   given point in a fraction of a second.
-
-   Dash figures are percentages, not user units — every path declares
-   `pathLength="100"`. See the component for why.
+   On a phone the picture is a band across the top of the hero and the copy
+   starts in its lower third, so the shade darkens the very top (under the
+   header) and then fades the band to the page's black, which the copy sits
+   on. From md up the picture fills the hero: the left side, where the copy
+   is, goes nearly black and the right, where the laptop is, stays clear,
+   with the top and bottom edges faded into the sections either side.
    --------------------------------------------------------------------------- */
-
-/* Two mask layers intersected: a hole where the copy is, and a fade at the top
-   and bottom edges.
-
-   THE EDGE FADE is the more boring of the two and the one that was most
-   missing. Every route in this field is a diagonal, and every section that
-   carries it ends in a horizontal line, so the field used to be guillotined -
-   every curve stopping dead along one row of pixels, against a neighbouring
-   section in almost the same black. Business Mastery solves the same join with
-   a `from-neutral-950` fade inside the consumer, because that fade is about the
-   two sections meeting. This one belongs to the field: it dissolves whatever it
-   is given, which is why it can live here and serve both consumers at once.
-
-   THE COPY HOLE is not a hole - it bottoms out at 0.2, so a route under the
-   headline is dimmed to a fifth rather than cut out. Cutting it out is visible
-   as an oval of missing field the moment two routes enter it and neither
-   leaves; dimming reads as distance.
-
-   `mask-composite: intersect` multiplies the two, so the edge fade still
-   applies inside the copy hole and vice versa. Where it is unsupported the
-   layers fall back to the default `add`, which unions them to fully opaque -
-   i.e. to the unmasked field this block replaced, which is the right way for
-   this to fail. */
-.lsr-svg {
-  --lsr-edge-mask: linear-gradient(
-    to bottom,
-    transparent 0%,
-    #000 13%,
-    #000 87%,
-    transparent 100%
+.ls-hero-shade {
+  background: linear-gradient(
+    180deg,
+    rgb(10 10 10 / 0.5) 0%,
+    rgb(10 10 10 / 0) 18%,
+    rgb(10 10 10 / 0.1) 45%,
+    rgb(10 10 10 / 0.85) 78%,
+    rgb(10 10 10) 100%
   );
-  /* Centred, because the hub hero centres its copy in one column. */
-  --lsr-copy-mask: radial-gradient(
-    ellipse 38% 42% at 50% 50%,
-    rgba(0, 0, 0, 0.2) 0%,
-    rgba(0, 0, 0, 0.62) 55%,
-    #000 100%
-  );
-
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  -webkit-mask-image: var(--lsr-copy-mask), var(--lsr-edge-mask);
-  mask-image: var(--lsr-copy-mask), var(--lsr-edge-mask);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
 }
 
-/* The channel: continuous, and only just visible. Three weights, one per depth
-   tier - see the component header for what each tier is for. The near tier is
-   about where the single old weight was; everything else is new and quieter.
-   Resist brightening these. If the field reads as empty the answer is more
-   routes, not louder ones: the copy sits on top of all of them. */
-.lsr-route {
-  fill: none;
-  stroke-width: 1.15;
-}
-
-.lsr-route--near {
-  stroke: rgba(212, 168, 87, 0.16);
-}
-
-.lsr-route--mid {
-  stroke: rgba(212, 168, 87, 0.1);
-  stroke-width: 0.9;
-}
-
-.lsr-route--far {
-  stroke: rgba(212, 168, 87, 0.055);
-  stroke-width: 0.7;
-}
-
-/* Laid over the route rather than replacing it, so a channel reads as marked
-   out rather than as broken up. It drifts one dash period every 9s - slow
-   enough that a still screenshot cannot tell it moves, which is the point:
-   the eye should find the signal, not the ticking.
-
-   Near and mid only. The component does not render this pass for the far tier
-   at all: a dashed overlay on a route at 0.055 is a second stroke nobody can
-   see, and thirteen animated paths where eight will do. */
-.lsr-drift {
-  fill: none;
-  stroke-width: 1.15;
-  stroke-dasharray: 0.55 2.2;
-  animation: lsrDrift 9s linear infinite;
-}
-
-.lsr-drift--near {
-  stroke: rgba(212, 168, 87, 0.26);
-}
-
-.lsr-drift--mid {
-  stroke: rgba(212, 168, 87, 0.15);
-  stroke-width: 0.9;
-}
-
-@keyframes lsrDrift {
-  to {
-    stroke-dashoffset: -2.75;
-  }
-}
-
-/* What travels. A 4%-long dash with 96% of gap behind it, slid the length of
-   the path: one bright run per route per cycle, and nothing on the path
-   between runs. The easing is the venture's own packet curve (AutomationFlowDemo's), so a
-   signal accelerates away and settles into its junction rather than moving at
-   a constant rate. */
-.lsr-signal {
-  fill: none;
-  stroke: rgba(235, 211, 160, 0.9);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-dasharray: 4 96;
-  stroke-dashoffset: 100;
-  animation: lsrSignal 7.8s cubic-bezier(0.55, 0, 0.45, 1) infinite;
-}
-
-/* Holds at the start for the first fifth of the cycle, so the three staggered
-   routes are quiet between arrivals instead of running end to end. */
-@keyframes lsrSignal {
-  0%,
-  18% {
-    stroke-dashoffset: 100;
-    opacity: 0;
-  }
-  22% {
-    opacity: 1;
-  }
-  92%,
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0;
-  }
-}
-
-.lsr-waypoint {
-  fill: rgba(212, 168, 87, 0.4);
-}
-
-.lsr-relay {
-  fill: rgba(212, 168, 87, 0.62);
-}
-
-.lsr-hub {
-  fill: rgba(235, 211, 160, 0.9);
-  filter: drop-shadow(0 0 6px rgba(212, 168, 87, 0.55));
-}
-
-/* The ring the junction throws, on the same 7.8s beat the signals run, timed
-   to open just as the last of them lands. `r` is animated rather than a
-   transform: the circle has no box of its own to scale about, and giving it
-   one with `transform-box` to save a property nothing else animates would be
-   the more obscure of the two. */
-.lsr-ring {
-  fill: none;
-  stroke: rgba(212, 168, 87, 0.5);
-  stroke-width: 1;
-  animation: lsrRing 7.8s ease-out infinite;
-}
-
-@keyframes lsrRing {
-  0%,
-  62% {
-    r: 6;
-    opacity: 0;
-  }
-  66% {
-    opacity: 0.55;
-  }
-  100% {
-    r: 46;
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lsr-drift {
-    animation: none;
-  }
-
-  /* Both go entirely rather than parking. A signal held mid-route is a bright
-     dash sitting on a curve for no reason, and a ring frozen part-open is a
-     circle the field never explains. What remains is the composition the
-     motion moves through - routes, junctions, waypoints - which reads as a map
-     on its own. */
-  .lsr-signal,
-  .lsr-ring {
-    display: none;
+@media (min-width: 768px) {
+  .ls-hero-shade {
+    background:
+      linear-gradient(
+        180deg,
+        rgb(10 10 10 / 0.55) 0%,
+        rgb(10 10 10 / 0) 22%,
+        rgb(10 10 10 / 0) 72%,
+        rgb(10 10 10) 100%
+      ),
+      linear-gradient(
+        90deg,
+        rgb(10 10 10 / 0.94) 0%,
+        rgb(10 10 10 / 0.84) 30%,
+        rgb(10 10 10 / 0.4) 58%,
+        rgb(10 10 10 / 0.08) 100%
+      );
   }
 }
 
