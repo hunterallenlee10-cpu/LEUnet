@@ -21,7 +21,8 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { usePlayWhenVisible } from "@/components/lee-systems/usePlayWhenVisible";
 
 /**
  * "Your site": a browser window showing a small business page, annotated with
@@ -195,7 +196,7 @@ function scrollKeyframes(name: string, to: string) {
  * phone gone with nothing to do.
  *
  * Nothing plays until the frame is on screen: every animation is paused
- * until the observer in WebsiteBuildDemo sets `data-play="true"`, and paused
+ * until usePlayWhenVisible sets `data-play="true"`, and paused
  * again while it is off screen. Without scripting it just plays.
  */
 const styles = `
@@ -428,22 +429,9 @@ const fields = [
 ];
 
 export function WebsiteBuildDemo({ className }: { className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-
   // Plays while the frame is on screen and pauses while it is not, so a
   // visitor sees the build from its first frame and nothing runs unseen.
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        el.dataset.play = entry.isIntersecting ? "true" : "false";
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const ref = usePlayWhenVisible<HTMLDivElement>();
 
   return (
     <div
