@@ -111,13 +111,16 @@
   }
 }
 
+/* Bold and tightly tracked, the site's headline style, since 2026-09-30 (the
+   owner's pick over the light weight it launched in). Bold Geist is wider, so
+   the size sits a step under the light one's. */
 .hero-split-title {
   max-width: 15ch;
   color: #fff;
-  font-size: clamp(2.75rem, 7.4vw, 7rem);
-  font-weight: 300;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
+  font-size: clamp(2.6rem, 6.6vw, 6.25rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
