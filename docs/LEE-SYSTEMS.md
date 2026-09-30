@@ -133,7 +133,7 @@ Two sections of the main page follow The Real World's landing page
   says the systems do, and the frame is labelled "Example".
 - **The choice is yours** (`LeeSystemsChoiceSection`) is the page's closing
   pitch: a dim "Do nothing" card beside a lit "Take action" card, the same six
-  jobs done by hand and by the systems, a red "−$1,000s lost to missed leads"
+  jobs done by hand and by the systems, a red "−$10,000s lost to missed leads"
   opposite a gold "+$10,000s you could win from the same leads", the pricing
   promise as fine print, then
   "Rather call or email?". "Do it your way" is a real button: it says "Your
@@ -143,7 +143,9 @@ Two sections of the main page follow The Real World's landing page
 The "$0" in Two paths is the free consultation call, the only price the site
 states; "to start" sits beside it so it can't be read as the price of the
 AI. The two figures on the choice cards are the owner's (2026-09-29):
-doing nothing costs thousands, taking action can make tens of thousands.
+doing nothing costs tens of thousands, taking action can make tens of
+thousands. The loss read "thousands" until 2026-09-30, when the owner
+asked for it to match the gain.
 They replaced a "−$$$" sign and "$0 / consultation call". They are ranges,
 not results: the gain says "could", and neither names a client or a job. The
 gold buttons are `BookCallLink variant="glow"`, and like every other "Book a

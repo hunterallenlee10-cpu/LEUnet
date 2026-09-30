@@ -36,9 +36,10 @@ const TAKE_ACTION_ID = "ls-take-action";
  * button scrolls to the form that follows it. The fine print is
  * the owner's pricing promise (`pricingPromise`).
  *
- * Under each heading is the owner's figure for that path (2026-09-29): doing
- * nothing costs thousands, in red, and taking action can make tens of
- * thousands, in gold. They are ranges, not results: the gain says "could",
+ * Under each heading is the owner's figure for that path: doing nothing
+ * costs tens of thousands, in red, and taking action can make tens of
+ * thousands, in gold (the owner's figures, 2026-09-29; the loss matched to
+ * the gain at his ask, 2026-09-30). They are ranges, not results: the gain says "could",
  * and neither names a client. The "Do nothing" card's "Lose leads to whoever
  * answers first" sits in the row the other card uses for its terms.
  *
@@ -86,9 +87,9 @@ export function LeeSystemsChoiceSection() {
                   aria-hidden="true"
                   className="ls-loss text-4xl font-bold sm:text-5xl"
                 >
-                  −$1,000s
+                  −$10,000s
                 </span>
-                <span className="sr-only">Thousands of dollars</span>
+                <span className="sr-only">Tens of thousands of dollars</span>
                 <span className="mt-2 block text-sm text-neutral-400">
                   lost to missed leads
                 </span>
