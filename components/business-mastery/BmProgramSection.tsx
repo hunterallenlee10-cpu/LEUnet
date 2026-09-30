@@ -58,7 +58,7 @@ export function BmProgramSection() {
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="font-mono text-xs tabular-nums text-amber-400/80" aria-hidden="true">
+                  <p className="text-xs font-semibold tabular-nums text-amber-400/80" aria-hidden="true">
                     {String(i + 1).padStart(2, "0")}
                   </p>
                   <h3 className="mt-0.5 text-lg font-bold text-white">{pillar.title}</h3>

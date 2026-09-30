@@ -1,24 +1,10 @@
 import Image from "next/image";
-import { Cormorant_Garamond } from "next/font/google";
 import { ChevronDown } from "lucide-react";
 import {
   industryInSentence,
   leeSystemsIndustries,
   otherIndustriesLine,
 } from "@/data/lee-systems";
-
-/**
- * The names set over the pictures, where The Real World letters its campus
- * names by hand: Cormorant Garamond italic in brass, the serif the Business
- * Mastery hero already uses. Declared here so only this page fetches it, and
- * not preloaded, since the section sits well below the fold.
- */
-const coverTitle = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: "600",
-  style: "italic",
-  preload: false,
-});
 
 type IndustryId = (typeof leeSystemsIndustries)[number]["id"];
 
@@ -97,7 +83,7 @@ export function LeeSystemsIndustriesSection() {
                     className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/25 to-transparent"
                   />
                   <h3
-                    className={`${coverTitle.className} absolute inset-x-6 bottom-1 text-[2.5rem] leading-[1.05] text-brass-200 [text-shadow:0_2px_16px_rgb(0_0_0/0.85)]`}
+                    className="absolute inset-x-6 bottom-1 text-[2rem] font-bold leading-[1.05] tracking-tight text-brass-200 [text-shadow:0_2px_16px_rgb(0_0_0/0.85)]"
                   >
                     {name}
                   </h3>

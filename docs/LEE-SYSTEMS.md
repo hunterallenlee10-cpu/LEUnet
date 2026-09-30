@@ -108,10 +108,11 @@ routes that curved from them into a node.
 "Who we help" (`LeeSystemsIndustriesSection`, `#industries`) is a grid of
 picture cards after The Real World's campus cards, which the owner sent as
 the reference on 2026-09-29. Each card is a picture with the industry's name
-set over it (Cormorant Garamond italic in brass, where The Real World letters
-its campus names by hand), the industry's one-line summary, and a small
-uppercase "See examples" that opens the industry's list on the card. Only one
-card's list is open at a time, and opening one leaves the others their size.
+set over it (Geist bold in brass, the site's headline style; it was a
+Cormorant Garamond italic until 2026-09-30), the industry's one-line
+summary, and a small uppercase "See examples" that opens the industry's list
+on the card. Only one card's list is open at a time, and opening one leaves
+the others their size.
 
 The six pictures go in `public/lee-systems/industries/`, one per industry id
 (`law-firms.webp`, `home-services.webp`, `real-estate.webp`, `fitness.webp`,

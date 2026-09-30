@@ -619,7 +619,7 @@ function Stop({ index, label, isLast, children }: StopProps) {
       <div className="relative flex items-start justify-center">
         <span
           style={delay}
-          className="wbd-badge relative z-10 mt-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full border border-brass-400/50 bg-neutral-950 font-mono text-[9px] font-semibold text-brass-400"
+          className="wbd-badge relative z-10 mt-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full border border-brass-400/50 bg-neutral-950 text-[9px] font-semibold tabular-nums text-brass-400"
         >
           {index + 1}
         </span>

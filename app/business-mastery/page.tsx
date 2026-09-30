@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Geist_Mono } from "next/font/google";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
@@ -8,24 +7,6 @@ import { BmShiftSection } from "@/components/business-mastery/BmShiftSection";
 import { BmProofSection } from "@/components/business-mastery/BmProofSection";
 import { BmManifestoSection } from "@/components/business-mastery/BmManifestoSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
-
-/** The Business Mastery manifesto line, and nothing else on the site, which
- *  is why it is declared here rather than in the root layout: only this page
- *  preloads it. Only the two light weights the hero uses are fetched. */
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400"],
-  variable: "--font-cormorant",
-});
-
-/** The hero's eyebrow, and likewise nothing else on the site. It was declared
- *  in the root layout until 2026-09-28, which had every page preload a font
- *  only this one draws. It feeds the `font-mono-geist` token in
- *  app/globals.css. */
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-});
 
 const title = "Business Mastery | Learn to Start a Business and Use AI | LEU";
 const description =
@@ -69,9 +50,7 @@ export const metadata: Metadata = {
  */
 export default function BusinessMasteryPage() {
   return (
-    <div
-      className={`min-h-screen w-full bg-neutral-950 ${cormorant.variable} ${geistMono.variable}`}
-    >
+    <div className="min-h-screen w-full bg-neutral-950">
       <MainHeader />
 
       <main>

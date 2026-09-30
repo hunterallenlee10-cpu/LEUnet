@@ -292,7 +292,7 @@ both pages that set it have since moved to their own repos - see this repo's
 | `components/business-mastery/BmJourneyLocked.tsx` | 8 — the Coming Soon placeholder rendered while `BM_JOURNEY_LOCKED` is true (§3) |
 | `components/business-mastery/BmFinalCTASection.tsx` | 10 (built, not currently rendered — §3) |
 | `components/business-mastery/BmComingSoon.tsx` | Shared coming-soon marker (§7) |
-| `app/business-mastery/page.tsx` | Page assembly + metadata (no structured data yet; the comment there says why) + the Cormorant font for the hero's manifesto line |
+| `app/business-mastery/page.tsx` | Page assembly + metadata (no structured data yet; the comment there says why) |
 | `app/api/business-mastery-application/route.ts` | Application form handler, same Resend pattern as the other venture forms (Thread's `app/api/thread-order/route.ts` now lives in the Thread repo) |
 | `components/sections/BusinessMasterySection.tsx` | Homepage teaser (§8), rendered as the left panel of `components/sections/VenturesSection.tsx` |
 

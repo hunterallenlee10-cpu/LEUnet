@@ -127,7 +127,7 @@ export function BmProgramShowcase({ pillars }: { pillars: readonly Pillar[] }) {
                 className="group relative flex w-full items-baseline gap-5 border-t border-white/10 py-5 text-left transition-colors last:border-b focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
               >
                 <span
-                  className={`font-mono text-sm tabular-nums transition-colors ${
+                  className={`text-sm font-semibold tabular-nums transition-colors ${
                     selected ? "text-amber-400" : "text-neutral-600 group-hover:text-neutral-400"
                   }`}
                 >
@@ -176,7 +176,7 @@ export function BmProgramShowcase({ pillars }: { pillars: readonly Pillar[] }) {
         </div>
         <p className="relative mt-10 flex items-center justify-between text-sm text-neutral-500">
           <span>Included with membership</span>
-          <span className="font-mono tabular-nums">
+          <span className="tabular-nums">
             {String(active + 1).padStart(2, "0")} / {String(pillars.length).padStart(2, "0")}
           </span>
         </p>

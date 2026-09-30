@@ -125,7 +125,7 @@ export function LeeSystemsOnboardingSection() {
                   <span
                     aria-hidden="true"
                     className={clsx(
-                      "relative z-10 flex h-12 w-12 shrink-0 items-center justify-center self-start rounded-full border font-mono text-sm font-semibold transition-colors duration-500 lg:self-center",
+                      "relative z-10 flex h-12 w-12 shrink-0 items-center justify-center self-start rounded-full border text-sm font-semibold tabular-nums transition-colors duration-500 lg:self-center",
                       i <= active
                         ? "border-brass-300 bg-neutral-950 text-brass-200"
                         : "border-white/15 bg-neutral-950 text-neutral-500"

@@ -14,11 +14,11 @@ import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground
  * button (it was a hairline frame until 2026-09-28): it is the page's primary
  * action, and the site's rule is one filled gold button per section for that.
  *
- * The manifesto is the only serif on the site. It is the one sentence here
- * written by a person to be felt rather than to inform, and it gets a voice to
- * match; everything structural stays in Geist. The weight and size that keep a
- * high-contrast serif alive over a moving constellation are argued in
- * app/globals.css, which owns this block's typography.
+ * The manifesto is the one loud line: Geist bold and tightly tracked, the
+ * site's headline register, against the hairline name above it. It was a
+ * light Cormorant serif until 2026-09-30, when the site came down to one
+ * typeface. Its sizes are argued in app/globals.css, which owns this block's
+ * typography.
  *
  * Still a server component. The CTA is a plain anchor: `html` carries
  * `scroll-smooth` and `scroll-padding-top: 80px` globally, so an in-page hash
@@ -65,7 +65,7 @@ export function BmHeroSection() {
             {/* Hardcoded exactly as it was before this redesign. It is the
                 company name rather than page copy, so it stays out of
                 data/business-mastery.ts, which is the owner's confirmed copy. */}
-            <span className="font-mono-geist font-normal uppercase">
+            <span className="font-semibold uppercase">
               Lee Enterprises Unlimited
             </span>
           </p>
@@ -75,7 +75,7 @@ export function BmHeroSection() {
             <span className="bmh-title-b">Mastery</span>
           </h1>
 
-          <p className="bmh-manifesto bmh-rise max-w-[15em] font-serif font-light text-white text-balance [animation-delay:260ms]">
+          <p className="bmh-manifesto bmh-rise max-w-[15em] font-bold text-white text-balance [animation-delay:260ms]">
             {bmHero.manifesto}
           </p>
 
