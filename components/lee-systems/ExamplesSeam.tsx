@@ -12,6 +12,14 @@ const OPEN_FROM = 0.9;
 const OPEN_BY = 0.35;
 
 /**
+ * How far open a section has to be before the demos in it play: nearly all
+ * the way, so a run starts from its first frame as the section finishes
+ * opening, not behind the edges. The seam says so on the section's wrapper
+ * (`data-seam-open`), and usePlayWhenVisible holds a demo until it does.
+ */
+const STANDS_OPEN = 0.9;
+
+/**
  * The same query the seam's CSS sits behind (app/globals.css), so the script
  * drives the seam exactly when the page draws it. Without scripting, or with
  * reduced motion, every scene is simply open.
@@ -44,6 +52,11 @@ const smoothstep = (t: number) => t * t * (3 - 2 * t);
  * id, so #automation and #websites land exactly where they always did: the
  * seam changes nothing about layout, only what is drawn.
  *
+ * The animated demo in each section waits on its first frame until the
+ * section stands open (STANDS_OPEN), then plays: the seam says so on the
+ * section's wrapper and the demos' shared usePlayWhenVisible hook listens,
+ * so the doors open onto the demo and the run starts as they finish.
+ *
  * The motion is scrubbed by the scroll, both ways, one write per scene per
  * frame, and only while the seam is near the screen. Everything it drives is
  * a custom property (`--open`, 0 closed to 1 open) that the CSS turns into a
@@ -70,13 +83,21 @@ export function ExamplesSeam({ children }: { children: ReactNode }) {
     // a focused link is never half clipped.
     const update = () => {
       frame = 0;
+      if (!motion.matches) return;
       const vh = window.innerHeight;
       for (const scene of scenes) {
         const top = scene.getBoundingClientRect().top;
         const t = clamp01((OPEN_FROM * vh - top) / ((OPEN_FROM - OPEN_BY) * vh));
         const open = scene.contains(document.activeElement) ? 1 : smoothstep(t);
         scene.style.setProperty("--open", open.toFixed(4));
+        const stands = open >= STANDS_OPEN ? "true" : "false";
+        if (scene.dataset.seamOpen !== stands) scene.dataset.seamOpen = stands;
       }
+    };
+
+    // Where the seam isn't drawn, nothing is held back.
+    const release = () => {
+      for (const scene of scenes) delete scene.dataset.seamOpen;
     };
 
     const schedule = () => {
@@ -98,6 +119,7 @@ export function ExamplesSeam({ children }: { children: ReactNode }) {
       }
       listening = on;
       if (motion.matches) schedule();
+      else release();
     };
 
     const observer = new IntersectionObserver(
@@ -122,6 +144,7 @@ export function ExamplesSeam({ children }: { children: ReactNode }) {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       cancelAnimationFrame(frame);
+      release();
     };
   }, []);
 
