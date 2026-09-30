@@ -16,7 +16,7 @@ day and 301 to their cards in "Who we help" (see Redirects below).
 
 | URL | What it is | Built from |
 | --- | --- | --- |
-| `/lee-systems` | The page, in order: hero, two paths, the website video, what we do (the two offerings side by side), what we automate (`#automation`), websites (`#websites`), who we help (`#industries`), our projects, onboarding process (Audit, Build, Take off), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
+| `/lee-systems` | The page, in order: hero, two paths, the website video, what we do (the two offerings side by side), what we automate (`#automation`) and websites (`#websites`), both opening off What we do's spine as they scroll in (the seam, below), who we help (`#industries`), our projects, onboarding process (Audit, Build, Take off), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
 
 What came over from the folded pages: the automation page's seven areas
 (AI call answering first, full width; it was titled "Calls" there), its
@@ -49,6 +49,41 @@ into view and pauses while it is off screen (without scripting it just
 plays). When they were extracted, 72 screenshots of them (phone, tablet and
 desktop, eleven frozen moments each, plus reduced motion) matched the
 originals byte for byte.
+
+## The seam: from What we do into the examples
+
+Under "What we do" the brass spine between the two halves carries on down
+the page, and What we automate and Website builds each arrive closed on it:
+only the lit line down the middle. As a section scrolls up the screen, the
+line splits into two brass edges that glide out to the sides and the section
+opens between them from the middle, with a warm light spilling out of the gap
+that fades as it finishes (the owner's ask, 2026-09-30, for a smooth, unique
+way into the two animated examples). It is fully open before its heading
+reaches the middle of the screen, and it runs backwards when scrolling up. It
+takes its shape from the page's own spread, two halves mirrored about a
+spine, and from the split, lit layouts of the owner's references (The Real
+World's "Two paths" and "Their way vs our way"). It replaced a button under
+each half ("Explore automation", "See website builds") and the two dashed
+routes that curved from them into a node.
+
+- **Where**: `ExamplesSeam` (`components/lee-systems/ExamplesSeam.tsx`) in
+  `app/lee-systems/page.tsx`, wrapped around `<LeeSystemsAutomationSection />`
+  and `<LeeSystemsWebsitesSection />`. Any section put between its tags opens
+  the same way, and taking one out is deleting its line. The run of spine
+  from What we do down to the first section is the `ls-seam-lead` line at the
+  foot of `LeeSystemsOfferingsSection`.
+- **It never reaches inside a section.** It wraps each one and draws a clip,
+  an opacity and the two edges over it, so the sections and their animations
+  can change without touching it, and nothing about layout changes: each
+  section keeps its size and its id, so `#automation`, `#websites` and the
+  old URLs that redirect to them land exactly as before.
+- **How it's drawn**: the script writes one number per section, `--open`
+  (0 closed, 1 open), from where the section's top is on screen, once per
+  frame and only while the seam is near the viewport. The CSS is the "the
+  seam" block in `app/globals.css`.
+- **Reduced motion, or no scripting**: every section simply sits open, the
+  edges and the light aren't drawn, and the spine's run hides but keeps its
+  space.
 
 ## Who we help
 
@@ -346,3 +381,9 @@ empty slots then disappear instead.
   Nothing missed.", and the websites label reads "Website builds". The
   offerings in "What we do" and the FAQ still cover what the cards said, and
   the "See everything we automate" links became "See what we automate".
+- The "Explore automation" and "See website builds" buttons under the two
+  halves of "What we do", and the two dashed routes that curved from them
+  into a node under the spine (2026-09-30, at the owner's request). The
+  spine now runs straight on into the two sections and opens them (see The
+  seam). The dotted-line style only that join used (`.ls-dash`) went with
+  it.
