@@ -6,5 +6,7 @@ export const size = ogSize;
 export const contentType = ogContentType;
 
 export default function Image() {
-  return renderLeeSystemsOg(`${leeSystems.headline} ${leeSystems.headlineAccent}`);
+  return renderLeeSystemsOg(
+    [...leeSystems.headline, leeSystems.headlineAccent].join(" ")
+  );
 }

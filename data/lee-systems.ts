@@ -53,12 +53,17 @@ export const leeSystems = {
   tagline: "A Lee Enterprises Unlimited company",
   parentName: "Lee Enterprises Unlimited",
   /**
-   * The main page's headline, in two parts so the hero can light the second
-   * in brass (the owner's "get ahead of your competition" framing,
-   * 2026-09-29). The link preview reads both.
+   * The main page's headline, the owner's "what's in it for me" line
+   * (2026-09-30), which replaced "The world is changing. Beat your
+   * competition to every lead.": three beats, each on its own line, the last
+   * lit in brass. The link preview reads all three.
    */
-  headline: "The world is changing.",
-  headlineAccent: "Beat your competition to every lead.",
+  headline: ["More Customers.", "More Money."],
+  headlineAccent: "Less Work for You.",
+  /** Under the headline: the owner's line, then how, in one sentence. */
+  heroLine: "Let AI make you money.",
+  heroHow:
+    "It answers your calls, follows up with every lead and books the job, 24/7.",
   owner: "Hunter Lee",
   /** The parent company's inbox until Lee Systems Co. has its own. */
   contactEmail: site.email,
