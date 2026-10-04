@@ -175,8 +175,29 @@ export function industryInSentence(name: string): string {
   return name.charAt(0).toLowerCase() + name.slice(1);
 }
 
-export const otherIndustriesLine =
-  "Don't see your industry? If your business depends on following up with people, we can automate it.";
+/**
+ * The callout under the industry cards: the cards are examples, and any
+ * business is welcome (the owner asked for a "we can do anything" statement
+ * here, 2026-10-04). `capabilities` are services Lee Systems Co. offers, so
+ * the claim stays concrete.
+ */
+export const otherIndustries = {
+  eyebrow: "Not on the list?",
+  title: "Whatever your business does,",
+  titleAccent: "we can build it.",
+  body: "The industries above are only a few examples. If something in your business is repetitive, slow or slipping through the cracks, we can build a system that handles it. Built personally for you.",
+  capabilities: [
+    "AI call answering",
+    "Lead follow-up",
+    "Booking and reminders",
+    "CRM automation",
+    "Review requests",
+    "Websites",
+  ],
+  /** The last chip, in brass: the list above is not the limit. */
+  capabilitiesMore: "Anything else you need",
+  cta: "Tell us what you need",
+} as const;
 
 /**
  * "What do you need?" on the /lee-systems form, which replaced the automation
