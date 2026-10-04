@@ -68,9 +68,10 @@ file. Tell Claude when something is done and it checks it off here.
       [STRIPE.md](STRIPE.md)).
 - [ ] **Privacy policy.** It doesn't mention Vercel Analytics, Stripe or a
       booking tool. Claude doesn't rewrite legal text, so this one is yours.
-- [ ] **Over time.** 2–3 project walkthroughs (only work you have permission
-      to show) for the "Our projects" frames (`projects`), and Google reviews
-      from finished clients.
+- [ ] **Over time.** Project walkthroughs (only work you have permission to
+      show) for the "Our projects" carousel (`projects`), which has five
+      "coming soon" slides since 2026-10-04; each project you add takes one.
+      And Google reviews from finished clients.
 
 ## Waiting on your go
 

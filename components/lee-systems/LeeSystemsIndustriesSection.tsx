@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import {
   industryInSentence,
+  leeSystemsAnchors,
   leeSystemsIndustries,
-  otherIndustriesLine,
+  otherIndustries,
 } from "@/data/lee-systems";
 
 type IndustryId = (typeof leeSystemsIndustries)[number]["id"];
@@ -23,8 +24,9 @@ const pictured: ReadonlySet<IndustryId> = new Set<IndustryId>([]);
  * a picture with the industry's name set over it, its one-line summary, and
  * a small uppercase "See examples", after The Real World's "Explore campus".
  * The heading frames them as examples, not the only businesses served (the
- * owner's request, 2026-09-29); other industries get one line rather than
- * cards with nothing specific to say.
+ * owner's request, 2026-09-29). Under the cards, a callout says any business
+ * is welcome (2026-10-04), naming the services rather than more industries,
+ * and links to the page's form.
  *
  * Each industry's examples stay on its card behind "See examples", a native
  * <details> (so no client JS), and the shared `name` keeps one open at a
@@ -128,9 +130,57 @@ export function LeeSystemsIndustriesSection() {
           })}
         </div>
 
-        <p className="mx-auto mt-10 max-w-2xl text-center text-lg text-neutral-300">
-          {otherIndustriesLine}
-        </p>
+        <div className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-brass-400/25 bg-[#111] px-6 py-10 text-center md:px-14 md:py-14">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_90%_at_50%_0%,rgba(212,168,87,0.16),transparent_70%)]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brass-300/70 to-transparent"
+          />
+
+          <div className="relative">
+            <p className="text-xs font-semibold tracking-[0.18em] text-brass-300 uppercase">
+              {otherIndustries.eyebrow}
+            </p>
+            <h3 className="mx-auto mt-4 max-w-2xl text-3xl leading-tight font-bold tracking-tight text-white md:text-[2.75rem]">
+              {otherIndustries.title}{" "}
+              <span className="bg-gradient-to-b from-brass-200 to-brass-400 bg-clip-text text-transparent">
+                {otherIndustries.titleAccent}
+              </span>
+            </h3>
+            <p className="mx-auto mt-5 max-w-2xl leading-relaxed text-neutral-300 md:text-lg">
+              {otherIndustries.body}
+            </p>
+
+            <ul className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-2.5">
+              {otherIndustries.capabilities.map((capability) => (
+                <li
+                  key={capability}
+                  className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-sm text-neutral-200"
+                >
+                  {capability}
+                </li>
+              ))}
+              <li className="rounded-full border border-brass-400/40 bg-brass-400/10 px-4 py-1.5 text-sm font-medium text-brass-200">
+                <span aria-hidden="true">+ </span>
+                {otherIndustries.capabilitiesMore}
+              </li>
+            </ul>
+
+            <a
+              href={`#${leeSystemsAnchors.form}`}
+              className="btn-ls-secondary group mt-9 inline-flex min-h-11 items-center gap-2"
+            >
+              {otherIndustries.cta}
+              <ArrowRight
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );
