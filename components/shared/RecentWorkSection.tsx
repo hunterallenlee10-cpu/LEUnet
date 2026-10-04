@@ -11,7 +11,7 @@ const MIN_PROJECTS = 2;
 const CAROUSEL_SLIDES = 5;
 
 /**
- * "Our projects", on the homepage and /lee-systems: a carousel with one
+ * "Our projects", on the homepage and /lee-systems: a 360° carousel with one
  * slide per project in `site.projects`, each linking to the live site or its
  * walkthrough.
  *
@@ -33,7 +33,7 @@ export function RecentWorkSection({ id }: { id?: string }) {
     <section
       id={id}
       aria-labelledby="recent-work-title"
-      className="relative isolate py-20 md:py-28"
+      className="relative isolate overflow-x-clip py-20 md:py-28"
     >
       <div className="section-container">
         <div className="mx-auto mb-12 max-w-3xl text-center">
