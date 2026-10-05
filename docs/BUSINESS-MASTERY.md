@@ -24,7 +24,7 @@ Mastery program page, plus its homepage presence.
 >   and on the homepage ribbon (`site.stats`).
 > - **The Journey:** kept exactly as it is, Coming Soon marker included
 >   (owner's call), but **moved to the homepage** later the same day at the
->   owner's request, right above "Our projects" (`app/page.tsx`). It is no
+>   owner's request, right above "Recent Builds" (`app/page.tsx`). It is no
 >   longer on this page, which now ends on the founding offer (slot 6).
 >   `BM_JOURNEY_LOCKED` moved with it and is still the whole unlock.
 > - **Membership:** a paid monthly membership; the amount isn't set, so no
@@ -105,7 +105,7 @@ The owner's flow, with the added section slotted where it does the most work:
 | 5 | **Our Core Tenets** (was What We Believe) | The owner's three tenets, supplied 2026-09-07: Speed, Money In, For Free (they replaced the 8-step "How to Build Your Own Empire" framework). The manifesto above them, Owner doc §2 ("Nobody Builds Something Great Alone", network as the driving force), came **off the page on 2026-09-29** at the owner's request; `bmCoreBelief` is intact in the data file. The manifesto was slot 2 and the tenets slot 4 until they merged here on 2026-09-28 | Ready. Tenet titles are the owner's; the Speed description is the owner's own copy (supplied 2026-09-15), the other two one-line descriptions are build copy — see the note on `bmTenets` before editing "For Free" |
 | 6 | Founding Member Offer | Owner doc: one-time payment positioning, a "Limited Spots" box (a live-style counter until the owner asked for the words alone), 90-day guarantee (30-day at first build, extended by the owner), **application form** | Form ready; price + guarantee terms are content gaps (§6) |
 | 7 | Why I Built LEU | Owner doc §6: legacy statement + supporting idea | **Not on the page right now** — pulled at the owner's request, see below. Built and ready: renders the legacy statement + coming-soon marker whenever it goes back |
-| 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | **Moved to the homepage on 2026-09-28**, right above "Our projects", at the owner's request — not on this page any more. Still built and **visibly locked** until the owner launches it: the slot renders a Coming Soon placeholder; `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
+| 8 | My Journey — timeline (on-page eyebrow: "A Life in Full") | Owner doc §7: interactive 14-chapter timeline | **Moved to the homepage on 2026-09-28**, right above "Recent Builds", at the owner's request — not on this page any more. Still built and **visibly locked** until the owner launches it: the slot renders a Coming Soon placeholder; `BM_JOURNEY_LOCKED` in `data/business-mastery.ts` is the switch, see below. Titles only; chapter bodies are coming-soon until the My Story document is written |
 | ~~9~~ | ~~Your Journey Is Just Beginning~~ | Owner doc §8 — merged up into slot 2 on 2026-09-07, then **off the page entirely** on 2026-09-13, see the note below | Not on the page in any slot; the copy is unchanged and still `bmTransition` |
 | 10 | Achieve Your Dreams Today | Owner doc §9: final conversion section, CTA `JOIN LEU BUSINESS MASTERY →` scrolls back to the offer/form | **Not on the page right now** — pulled at the owner's request on 2026-09-27; `BmFinalCTASection` and `bmFinalCta` are intact |
 

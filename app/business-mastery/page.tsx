@@ -74,7 +74,7 @@ export default function BusinessMasteryPage() {
             asked that half back off the manifesto on 2026-09-13. `bmTransition`
             is whole and unchanged in the data file either way. */}
         {/* Section 8, The Journey, moved to the homepage at the owner's
-            request on 2026-09-28, right above Our projects (app/page.tsx), and
+            request on 2026-09-28, right above Recent Builds (app/page.tsx), and
             took its BM_JOURNEY_LOCKED switch with it. The page now ends on the
             founding offer. Putting it back here is the one line in
             app/page.tsx plus its imports. */}
