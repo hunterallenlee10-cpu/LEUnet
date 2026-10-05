@@ -20,11 +20,18 @@ export interface Stat {
 
 export interface Project {
   name: string;
+  /** The kind of business, e.g. "Plumbing". Shown above the name. */
+  category: string;
   /** One line on what was built. */
   summary: string;
-  /** The live site or the walkthrough video. */
+  /** What we built, as short tags, e.g. ["Website", "Contact forms"]. */
+  built: string[];
+  /** The live site. The whole box links here. */
   href: string;
-  /** Optional screenshot, e.g. "/images/projects/acme.webp". */
+  /**
+   * The box's screenshot, a 960x600 webp of the site's first screen, e.g.
+   * "/projects/acme.webp". docs/RECENT-BUILDS.md says how it is made.
+   */
   image?: string;
 }
 
@@ -77,8 +84,21 @@ export const site = {
     { value: "1,000+", label: "Businesses worked with", definition: "" },
     { value: "$150,000+", label: "Generated for our clients", definition: "" },
   ] as Stat[],
-  /** Finished work the owner has permission to show. */
-  projects: [] as Project[],
+  /**
+   * "Recent Builds": finished work the owner has permission to show, newest
+   * first. docs/RECENT-BUILDS.md has the format for adding one.
+   */
+  projects: [
+    {
+      name: "Lee Enterprises Unlimited",
+      category: "Business services",
+      summary:
+        "Our own site: one place to hire Lee Systems Co. or join Business Mastery, with forms that send each inquiry to the right inbox.",
+      built: ["Website", "Contact forms", "Narrated videos"],
+      href: "https://www.leeenterprisesunlimited.com",
+      image: "/projects/leu.webp",
+    },
+  ] as Project[],
   businessMastery: {
     /** e.g. "$49 a month". */
     price: "",
