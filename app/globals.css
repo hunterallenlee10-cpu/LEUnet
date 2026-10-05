@@ -2660,11 +2660,12 @@
 
 /* ---------------------------------------------------------------------------
    Lee Systems Co. - the shared motion vocabulary
-   `.ls-status` (a breathing status dot) and `.ls-spine-track`, for the
-   /lee-systems sections that draw them: LeeSystemsOfferingsSection,
-   LeeSystemsOnboardingSection and OnboardingDevices. (`.ls-dash`, a dotted
-   line drifting along its path, went with the dashed join under What we do,
-   2026-09-30.) The live demo (LeeSystemsLiveDemoSection) keeps its own
+   `.ls-status` (a breathing status dot), for the /lee-systems sections that
+   draw it: LeeSystemsOnboardingSection and OnboardingDevices. (`.ls-dash`, a
+   dotted line drifting along its path, went with the dashed join under What
+   we do, 2026-09-30, and `.ls-spine-track`, the packet down What we do's
+   spine, went with the spine when that section became two cards,
+   2026-10-05.) The live demo (LeeSystemsLiveDemoSection) keeps its own
    timeline and styles inside the component, so it can go anywhere and uses
    nothing here. Motion is decorative only: every animation below is
    disabled under prefers-reduced-motion.
@@ -2684,29 +2685,6 @@
 
 .ls-status {
   animation: lsPulse 2.6s ease-in-out infinite;
-}
-
-/* The spine of the main page's "What we do" spread
-   (LeeSystemsOfferingsSection): a track the height of the spine, with the
-   packet on its bottom edge, slid from one track-height above to rest, so the
-   packet runs top to bottom whatever height the two halves make the spine. */
-@keyframes lsSpineTrack {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  15%,
-  85% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-}
-
-.ls-spine-track {
-  animation: lsSpineTrack 5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
 }
 
 /* ---------------------------------------------------------------------------
@@ -2865,14 +2843,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ls-status,
-  .ls-spine-track {
+  .ls-status {
     animation: none;
-  }
-
-  /* Still, the packet would sit at the foot of the spine as a stray mark. */
-  .ls-spine-track {
-    display: none;
   }
 }
 

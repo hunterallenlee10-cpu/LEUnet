@@ -1,8 +1,13 @@
+import Image from "next/image";
+import { CircleCheck } from "lucide-react";
+import type { ReactNode } from "react";
+
 type Offering = {
   role: string;
   title: string;
   body: string;
   points: string[];
+  media: ReactNode;
 };
 
 /**
@@ -11,10 +16,10 @@ type Offering = {
  * at the owner's request the same day, and the button under each ("Explore
  * automation", "See website builds"), which scrolled to its section, came
  * off on 2026-09-30, also at the owner's request, with the live demo under
- * these halves showing the two working together. The website points are the ones the FAQ already promises, so nothing here
- * says more than it does. The demo under them has no text of its own
- * beyond two captions, so these halves are where the page says in words
- * what each half of it shows.
+ * these halves showing the two working together. The website points are the
+ * ones the FAQ already promises, so nothing here says more than it does. The
+ * demo under them has no text of its own beyond two captions, so these cards
+ * are where the page says in words what each half of it shows.
  */
 const offerings: [Offering, Offering] = [
   {
@@ -29,6 +34,7 @@ const offerings: [Offering, Offering] = [
       "Requests reviews and chases invoices for you",
       "Updates you & your systems automatically",
     ],
+    media: <AutomationMedia />,
   },
   {
     role: "The storefront",
@@ -42,112 +48,126 @@ const offerings: [Offering, Offering] = [
       "You own your domain and your content",
       "Optional care plan for hosting and updates",
     ],
+    media: <WebsiteMedia />,
   },
 ];
 
 /**
- * "What we do" as a two-page spread rather than two cards: the offerings sit
- * open on the section, mirrored about a brass spine (right-aligned on the left,
- * left-aligned on the right), with a packet travelling down it, the page's
- * diagram vocabulary, so this reads as part of the same network as the
- * automation diagrams rather than a new trick. On a phone the halves stack,
- * left-aligned, with the node between them.
+ * "What we do" as two cards side by side (stacked below 1024px), the owner's
+ * pick on 2026-10-05 from five directions, after the program cards on The
+ * Real World's pages: each offering gets a picture on top, its name and line
+ * under it, and its six points as a two-column checklist (one column on a
+ * phone). Automation shows the laptop-at-night still from the hero's loop;
+ * websites shows two real builds from Recent Builds, fanned. Pointing at a
+ * card lifts its border to brass and eases the picture; nothing else moves.
  *
- * Until 2026-09-30 the spine ran on under the halves into two dashed routes
- * that curved together into a node under the halves' buttons, and then, the
- * same day, on down into the live demo below, which split open from it as
- * it scrolled in (the seam). The owner asked for both to come off, so the
- * spine now ends with the halves.
+ * It replaced a two-page spread mirrored about a brass spine with a packet
+ * running down it, which had itself lost its dashed routes and its seam into
+ * the live demo on 2026-09-30.
  */
 export function LeeSystemsOfferingsSection() {
-  const [automation, websites] = offerings;
-
   return (
     <section className="relative isolate overflow-hidden pt-20 pb-20 md:pt-28 md:pb-28">
       <div className="section-container">
-        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-20">
+        <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
           <p className="mb-3 text-sm font-semibold text-brass-300">What we do</p>
           <h2 className="heading-lg text-white">Two ways we take work off your plate</h2>
         </div>
 
-        <div className="relative grid grid-cols-1 gap-y-14 lg:grid-cols-[1fr_auto_1fr] lg:gap-x-16">
-          <OfferingHalf offering={automation} side="left" />
-
-          <div className="relative flex items-center justify-center lg:w-px" aria-hidden="true">
-            {/* Phone and tablet: a short rule with the node on it. */}
-            <div className="flex w-full items-center gap-4 lg:hidden">
-              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-brass-400/40" />
-              <SpineNode />
-              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-brass-400/40" />
-            </div>
-
-            {/* Desktop: the spine, full height, with a packet running down it. */}
-            <div className="absolute inset-y-0 left-0 hidden w-px overflow-hidden lg:block">
-              <span className="absolute inset-0 bg-gradient-to-b from-transparent via-brass-400/45 to-brass-400/70" />
-              <span className="ls-spine-track absolute inset-0">
-                <span className="absolute bottom-0 left-1/2 h-16 w-[3px] -translate-x-1/2 rounded-full bg-gradient-to-b from-transparent to-brass-200 shadow-[0_0_12px_rgba(226,170,72,0.8)]" />
-              </span>
-            </div>
-            {/* Level with the halves' first line, the uppercase role. */}
-            <div className="absolute top-0 left-1/2 hidden -translate-x-1/2 lg:block">
-              <SpineNode />
-            </div>
-          </div>
-
-          <OfferingHalf offering={websites} side="right" />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {offerings.map((offering) => (
+            <OfferingCard key={offering.title} offering={offering} />
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function OfferingHalf({
-  offering,
-  side,
-}: {
-  offering: Offering;
-  side: "left" | "right";
-}) {
-  const mirrored = side === "left";
-
+function OfferingCard({ offering }: { offering: Offering }) {
   return (
-    <div
-      className={
-        mirrored
-          ? "flex flex-col lg:items-end lg:text-right"
-          : "flex flex-col lg:items-start lg:text-left"
-      }
-    >
-      <p className="mb-3 text-xs font-semibold tracking-[0.2em] text-brass-300 uppercase">
-        {offering.role}
-      </p>
-      <h3 className="mb-4 text-3xl font-bold text-white md:text-4xl">{offering.title}</h3>
-      <p className="mb-8 max-w-md text-lg leading-relaxed text-neutral-300">{offering.body}</p>
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#111110] transition-colors duration-300 hover:border-brass-400/55">
+      <div className="relative aspect-[16/9] overflow-hidden bg-[#0d0c0a]">
+        {offering.media}
+        {/* Fades the picture into the card so the copy can ride up over it. */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-45% to-[#111110]"
+        />
+      </div>
 
-      <ul className="w-full max-w-md border-b border-white/10">
-        {offering.points.map((point) => (
-          <li
-            key={point}
-            className={
-              mirrored
-                ? "flex items-start gap-3 border-t border-white/10 py-3 text-neutral-200 lg:flex-row-reverse"
-                : "flex items-start gap-3 border-t border-white/10 py-3 text-neutral-200"
-            }
-          >
-            <span aria-hidden="true" className="mt-3 h-px w-4 shrink-0 bg-brass-400" />
-            {point}
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div className="relative -mt-7 flex flex-1 flex-col px-6 pb-8 sm:px-9 sm:pb-9">
+        <p className="text-xs font-semibold tracking-[0.2em] text-brass-300 uppercase">
+          {offering.role}
+        </p>
+        <h3 className="mt-2.5 mb-2.5 text-3xl font-bold tracking-tight text-white md:text-4xl">
+          {offering.title}
+        </h3>
+        <p className="max-w-md text-lg leading-relaxed text-neutral-300">{offering.body}</p>
+
+        <ul className="mt-7 grid grid-cols-1 gap-x-6 gap-y-3.5 border-t border-white/10 pt-7 sm:grid-cols-2">
+          {offering.points.map((point) => (
+            <li key={point} className="flex gap-2.5 text-[15px] leading-snug text-neutral-300">
+              <CircleCheck
+                aria-hidden="true"
+                strokeWidth={1.75}
+                className="mt-px h-[18px] w-[18px] shrink-0 text-brass-400"
+              />
+              {point}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
   );
 }
 
-function SpineNode() {
+const easeImage =
+  "transition-transform duration-[1200ms] ease-[cubic-bezier(.16,1,.3,1)] motion-reduce:transition-none";
+
+function AutomationMedia() {
   return (
-    <span className="relative flex h-4 w-4 items-center justify-center">
-      <span className="ls-status absolute inset-0 rounded-full border border-brass-300/60" />
-      <span className="h-2 w-2 rounded-full bg-brass-300 shadow-[0_0_10px_rgba(226,170,72,0.9)]" />
-    </span>
+    <Image
+      src="/lee-systems/hero/hero-poster.jpg"
+      alt="A laptop on a desk at night showing a business dashboard"
+      fill
+      sizes="(min-width: 1280px) 38rem, (min-width: 1024px) 48vw, 92vw"
+      className={`object-cover ${easeImage} group-hover:scale-[1.04] motion-reduce:group-hover:scale-100`}
+    />
+  );
+}
+
+/** Two real builds, fanned on a brass glow; they part a little on hover. */
+function WebsiteMedia() {
+  const shot =
+    "absolute w-[62%] overflow-hidden rounded-lg border border-white/15 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.9)]";
+
+  return (
+    <div className="absolute inset-0 bg-[radial-gradient(70%_80%_at_50%_100%,rgba(212,168,87,0.28),transparent_70%)]">
+      <div
+        className={`${shot} ${easeImage} top-[14%] left-[8%] -rotate-[4deg] group-hover:-translate-x-2 group-hover:-rotate-[6deg] motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:-rotate-[4deg]`}
+      >
+        <Image
+          src="/projects/sage-and-stone.webp"
+          alt="Sage & Stone website, built by Lee Systems Co."
+          width={960}
+          height={600}
+          sizes="(min-width: 1024px) 24rem, 58vw"
+          className="w-full"
+        />
+      </div>
+      <div
+        className={`${shot} ${easeImage} top-[24%] right-[7%] rotate-[3deg] group-hover:translate-x-2 group-hover:rotate-[4deg] motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:rotate-[3deg]`}
+      >
+        <Image
+          src="/projects/graystone-contracting.webp"
+          alt="Graystone Contracting website, built by Lee Systems Co."
+          width={960}
+          height={600}
+          sizes="(min-width: 1024px) 24rem, 58vw"
+          className="w-full"
+        />
+      </div>
+    </div>
   );
 }
