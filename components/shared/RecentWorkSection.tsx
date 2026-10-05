@@ -65,11 +65,14 @@ export function RecentWorkSection({ id }: { id?: string }) {
   );
 }
 
+/** "https://www.acme.com/" -> "acme.com". */
+function hostname(href: string): string {
+  return new URL(href).hostname.replace(/^www\./, "");
+}
+
 function BuildBox({ project }: { project: Project }) {
   const external = isExternalHref(project.href);
-  const domain = external
-    ? new URL(project.href).hostname.replace(/^www\./, "")
-    : null;
+  const domain = external ? hostname(project.href) : null;
 
   return (
     <a
@@ -108,9 +111,16 @@ function BuildBox({ project }: { project: Project }) {
           {project.category}
         </p>
         <h3 className="mt-2 text-lg font-bold text-white">{project.name}</h3>
-        <p className="mt-2 leading-relaxed text-neutral-400">
-          {project.summary}
-        </p>
+        {project.upgradedFrom && (
+          <p className="mt-1 text-sm text-neutral-400">
+            Upgraded from {hostname(project.upgradedFrom)}
+          </p>
+        )}
+        {project.summary && (
+          <p className="mt-2 leading-relaxed text-neutral-400">
+            {project.summary}
+          </p>
+        )}
         {project.built.length > 0 && (
           <ul className="mt-4 flex flex-wrap gap-2" aria-label="What we built">
             {project.built.map((item) => (

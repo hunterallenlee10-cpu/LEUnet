@@ -3,8 +3,10 @@
 "Recent Builds" is the grid of boxes on the homepage and /lee-systems
 (`components/shared/RecentWorkSection.tsx`). Each box is one website we built:
 a screenshot of its first screen in a browser frame, the kind of business, the
-name, one line on the build, tags for what we built, and the whole box links to
-the live site. The entries live in `projects` in `data/site.ts`, newest first.
+name, tags for what we built, an optional result line, and the whole box links
+to the live site. A rebuild also says "Upgraded from <old site>"
+(`upgradedFrom`). The entries live in `projects` in `data/site.ts`, in the
+owner's order, and each name is written as its live site shows it.
 
 Only work the client has OK'd showing goes in, and nothing in a box is made
 up: if a detail isn't sent, it's left out.
@@ -16,6 +18,7 @@ Copy this, fill it in, one per site:
 ```
 Name: Smith Plumbing
 Link: https://smithplumbing.com
+Old site, if we rebuilt one (optional): https://old-smithplumbing.com
 Kind of business and town: Plumber, Frederick MD
 What we built:
 - Website
@@ -64,8 +67,12 @@ amounts blurred or fake. Screenshots as full-size PNGs.
 
 1. Add the entry to `projects` in `data/site.ts`.
 2. Screenshot the site's first screen at 1440×900 with Playwright, or use the
-   one you sent, and save it as a 960×600 webp (quality about 80) at
+   one you sent. In a Claude cloud session the browser can't verify the
+   proxy's certificate, so have Playwright hand each request to Node's
+   `fetch` (`page.route` + `route.fulfill`, run with `NODE_USE_ENV_PROXY=1`),
+   which goes through the proxy with full certificate checks. Save it as a
+   960×600 webp (quality about 80) at
    `public/projects/<name>.webp`. next.config.mjs serves images unoptimised,
    so each one is sized for its box.
-3. One "coming soon" box disappears per real build while `showPlaceholders`
-   is on.
+3. With fewer than three builds and `showPlaceholders` on, "coming soon"
+   boxes fill the row out to three.

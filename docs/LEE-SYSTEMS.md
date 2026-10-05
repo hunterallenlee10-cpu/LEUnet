@@ -327,7 +327,7 @@ still land on it.
 | What | Key | Until then |
 | --- | --- | --- |
 | Booking link | `bookingUrl` | "Book a free call" goes to the contact form (on `/lee-systems`, the page's own form) |
-| More finished builds ([RECENT-BUILDS.md](RECENT-BUILDS.md)) | `projects` | "Recent Builds" shows the LEU site plus "More builds coming soon" boxes out to three |
+| More finished builds ([RECENT-BUILDS.md](RECENT-BUILDS.md)) | `projects` | "Recent Builds" shows nine builds; with fewer than three, "More builds coming soon" boxes fill the row |
 | Call-answering demo number | `callAnswering.demoPhone` | No demo line under the automation animation |
 
 Set `showPlaceholders` to `false` to hide every "coming soon" frame at once;

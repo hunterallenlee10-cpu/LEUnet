@@ -2,7 +2,7 @@
 
 The things only Hunter can do for the site: links, photos, decisions and
 account set-up. Last updated 2026-10-05, when "Our projects" became "Recent
-Builds", a grid of website boxes starting with the LEU site.
+Builds", a grid of nine website boxes.
 
 Ask Claude for "my to-do list" in any session on this repo and it reads this
 file. Tell Claude when something is done and it checks it off here.
@@ -68,18 +68,14 @@ file. Tell Claude when something is done and it checks it off here.
       [STRIPE.md](STRIPE.md)).
 - [ ] **Privacy policy.** It doesn't mention Vercel Analytics, Stripe or a
       booking tool. Claude doesn't rewrite legal text, so this one is yours.
-- [ ] **H1 Performance and Thread T-Shirts links.** Both go in "Recent
-      Builds" as websites we built (2026-10-05), but the repo only has
-      stand-in addresses for them. Send each live link, plus the rest of the
-      details in [RECENT-BUILDS.md](RECENT-BUILDS.md).
 - [ ] **Automation walkthroughs: pick the format.** Recent Builds shows
       websites only for now. Talk through with Claude how automations should
       appear (a screen recording, an animated diagram or a narrated video),
       then send them the way [RECENT-BUILDS.md](RECENT-BUILDS.md) describes.
 - [ ] **Over time.** More finished builds for "Recent Builds" (`projects`),
       only work you have permission to show, sent in the format in
-      [RECENT-BUILDS.md](RECENT-BUILDS.md). The grid has the LEU site and two
-      "coming soon" boxes since 2026-10-05; each build you add takes one.
+      [RECENT-BUILDS.md](RECENT-BUILDS.md). The grid has nine builds since
+      2026-10-05 (eight client sites and the LEU site).
       And Google reviews from finished clients.
 
 ## Waiting on your go
@@ -89,6 +85,10 @@ file. Tell Claude when something is done and it checks it off here.
       Vercel Analytics already counts page views.
 
 ## Done
+
+- [x] **Recent Builds sites, H1 and Thread links included** (2026-10-05).
+      Eight client sites went in alongside the LEU site, each with a
+      screenshot of its live first screen.
 
 - [x] **Stats and scarcity** (2026-09-28). The stats stay exactly as
       published and the scarcity claims are gone. Optional: a one-line

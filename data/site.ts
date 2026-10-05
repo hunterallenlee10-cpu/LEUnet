@@ -19,15 +19,18 @@ export interface Stat {
 }
 
 export interface Project {
+  /** The name as the live site shows it. */
   name: string;
-  /** The kind of business, e.g. "Plumbing". Shown above the name. */
+  /** The kind of business and where, e.g. "Plumbing · Frederick, MD". */
   category: string;
-  /** One line on what was built. */
-  summary: string;
-  /** What we built, as short tags, e.g. ["Website", "Contact forms"]. */
+  /** Optional: one line on the result, only numbers the owner can back up. */
+  summary?: string;
+  /** What we built, as short tags, e.g. ["Website", "Backend automation"]. */
   built: string[];
   /** The live site. The whole box links here. */
   href: string;
+  /** For a rebuild: the client's old site, shown as "Upgraded from …". */
+  upgradedFrom?: string;
   /**
    * The box's screenshot, a 960x600 webp of the site's first screen, e.g.
    * "/projects/acme.webp". docs/RECENT-BUILDS.md says how it is made.
@@ -85,15 +88,71 @@ export const site = {
     { value: "$150,000+", label: "Generated for our clients", definition: "" },
   ] as Stat[],
   /**
-   * "Recent Builds": finished work the owner has permission to show, newest
-   * first. docs/RECENT-BUILDS.md has the format for adding one.
+   * "Recent Builds": finished work the owner has permission to show, in the
+   * owner's order (sent 2026-10-05), with our own site last. Names are as each
+   * live site shows them. docs/RECENT-BUILDS.md has the format for adding one.
    */
   projects: [
     {
+      name: "Pelican Power Wash",
+      category: "Exterior cleaning · Maryland",
+      built: ["Website", "Backend automation"],
+      href: "https://pelicanpowerwash.vercel.app",
+      image: "/projects/pelican-power-wash.webp",
+    },
+    {
+      name: "Graystone Contracting",
+      category: "Construction · Southern Maryland",
+      built: ["Website", "Backend automation", "Ready-to-go template"],
+      href: "https://template-greystone.vercel.app",
+      image: "/projects/graystone-contracting.webp",
+    },
+    {
+      name: "Sage & Stone",
+      category: "Landscaping · Southern Maryland",
+      built: ["Website", "Backend automation", "Ready-to-go template"],
+      href: "https://landscapingtemplate-eight.vercel.app",
+      image: "/projects/sage-and-stone.webp",
+    },
+    {
+      name: "Thread T-Shirts",
+      category: "Apparel · Ships worldwide",
+      built: ["Website", "Backend automation"],
+      href: "https://tread-two.vercel.app",
+      image: "/projects/thread.webp",
+    },
+    {
+      name: "H1 Performance",
+      category: "Athletic training · Nationwide",
+      built: ["Website", "Backend automation"],
+      href: "https://h1-three-sandy.vercel.app",
+      image: "/projects/h1-performance.webp",
+    },
+    {
+      name: "Terps Fostering Futures",
+      category: "Student club · University of Maryland",
+      built: ["Website", "Backend automation"],
+      href: "https://www.terpsfosteringfutures.com",
+      image: "/projects/terps-fostering-futures.webp",
+    },
+    {
+      name: "Forge Strength Co.",
+      category: "Fitness coaching",
+      built: ["Website", "Backend automation", "Ready-to-go template"],
+      href: "https://fitness-orpin-six.vercel.app",
+      image: "/projects/forge-strength.webp",
+    },
+    {
+      name: "G1 Baseball & Softball Training",
+      category: "Baseball & softball training",
+      built: ["Website", "Backend automation", "Ready-to-go template"],
+      href: "https://template-zeta-nine.vercel.app",
+      upgradedFrom: "https://g1-baseball.com",
+      image: "/projects/g1-baseball.webp",
+    },
+    {
       name: "Lee Enterprises Unlimited",
-      category: "Business services",
-      summary:
-        "Our own site: one place to hire Lee Systems Co. or join Business Mastery, with forms that send each inquiry to the right inbox.",
+      category: "Business services · Maryland",
       built: ["Website", "Contact forms", "Narrated videos"],
       href: "https://www.leeenterprisesunlimited.com",
       image: "/projects/leu.webp",
