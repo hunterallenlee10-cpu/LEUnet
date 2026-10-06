@@ -1,8 +1,8 @@
 # Hunter's to-do list
 
 The things only Hunter can do for the site: links, photos, decisions and
-account set-up. Last updated 2026-10-06, when the homepage's two paths made
-way for the Lee Systems offer and its calculator.
+account set-up. Last updated 2026-10-06, when the tools strip took your
+lists of 40.
 
 Ask Claude for "my to-do list" in any session on this repo and it reads this
 file. Tell Claude when something is done and it checks it off here.
@@ -22,12 +22,6 @@ file. Tell Claude when something is done and it checks it off here.
 - [ ] **Photo and bio.** A real photo and a few lines about you. They replace
       the "Photo coming soon" and "More about me coming soon" slots on the
       homepage (`founder.photo`, `founder.bio`).
-- [ ] **Tool logos.** The moving strip under the homepage hero shows 42 tools
-      since 2026-09-29: AI models and messaging on one row (Claude, OpenAI,
-      Grok, xAI, Gemini, Perplexity and more), business apps on the other
-      (HubSpot, Zapier, Make, Shopify, Instagram and more). It reads as "tools
-      we work with", so tell Claude which to keep, drop or add (`tools` in
-      `data/site.ts`).
 - [ ] **Business Mastery details.** Price, platform (Skool, for example), join
       link and the written guarantee terms. Already settled: a paid monthly
       membership, joining by application, and the 90-day guarantee as it
@@ -46,8 +40,8 @@ file. Tell Claude when something is done and it checks it off here.
 - [ ] **PageSpeed Insights (after it's live).** Run it on mobile for /,
       /lee-systems and /business-mastery, and send Claude the results.
 - [ ] **Test the forms (after it's live).** One real submission through the
-      contact form, to confirm the email arrives with the interest tag in its
-      subject, and two through the form at the bottom of /lee-systems: one
+      contact form, to confirm the email arrives (tagged "[General]" from the
+      homepage form, "[Lee Systems Co.]" after a "Book a free call"), and two through the form at the bottom of /lee-systems: one
       picking "Website" (subject "Lee Systems Co.: New Website Request from
       …") and one picking anything else ("…New Consultation Request from
       …").
@@ -85,6 +79,11 @@ file. Tell Claude when something is done and it checks it off here.
 
 ## Done
 
+- [x] **Tool logos** (2026-10-06). The strip under the homepage hero shows
+      your two lists of 40 in your order, plus xAI after Grok, 81 tools in
+      all. Five marks no free icon set carries (Clio, GoHighLevel, Jotform,
+      RingCentral, Angi) are drawn after the real ones; send the official
+      logo files if you'd like them swapped in.
 - [x] **Business Mastery subdomain** (2026-10-06). The subdomain is added in
       Vercel with its CNAME record at Wix, and
       https://mastery.leeenterprisesunlimited.com is Business Mastery's
