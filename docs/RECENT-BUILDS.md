@@ -77,6 +77,12 @@ amounts blurred or fake. Screenshots as full-size PNGs.
    which goes through the proxy with full certificate checks. Save it as a
    960×600 webp (quality about 80) at
    `public/projects/<name>.webp`. next.config.mjs serves images unoptimised,
-   so each one is sized for its box.
+   so each one is sized for its box. Look at each shot before saving it: a
+   hero that animates can be caught mid-change. Our own homepage swaps its
+   headline for an animation a few seconds in, so shoot it with
+   `reducedMotion: "reduce"`; H1's stat counter is clean about 1.5 seconds
+   after load.
 3. With fewer than three builds and `showPlaceholders` on, "coming soon"
    boxes fill the row out to three.
+4. When a client's site changes, retake its shot the same way. All of them
+   were last refreshed on 2026-10-06.
