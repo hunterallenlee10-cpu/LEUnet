@@ -3864,25 +3864,27 @@
    declarative. This comment exists so that is not mistaken for an omission. */
 
 /* ---------------------------------------------------------------------------
-   Business Mastery hero copy — "Quiet Capital"
+   Business Mastery hero copy — the page's own grammar, at the top
    One consumer: components/business-mastery/BmHeroSection.tsx, which owns the
    layout in Tailwind and defers to this block for the things Tailwind says
    badly. That split follows `.bmc-field` above: structure in the component,
    typography here.
 
-   Four of those things, specifically:
+   Since 2026-10-06 the hero is set in the same parts as the sections under
+   it (the owner's pick from five concepts): the `.bm-pill`, a two-tone
+   headline, a grey promise line with a bright phrase, the uppercase gold
+   button, and a trust line. The hairline "BUSINESS / MASTERY" masthead, its
+   shimmer, the flanked eyebrow and the gold rule went with the restyle; the
+   pill is styled with the other sections' pills further down this file.
 
-   1. Tracking with a matching indent. Letter-spacing hangs off the last glyph
-      of a line, so a centred tracked line sits half a space left of true
-      centre. Every tracked line here carries `text-indent` equal to its own
-      `letter-spacing`, which puts the glyphs back at W/2. Change one, change
-      the other.
-   2. A rhythm unit. `--bmh-u` is pure viewport height, so every interval in
+   Three things this block still does that Tailwind cannot:
+
+   1. A rhythm unit. `--bmh-u` is pure viewport height, so every interval in
       the block is priced in the space there actually is to spend and the
       column compresses on a short laptop instead of overflowing it. Every
       vertical interval below is a multiple of it. Tailwind's spacing scale is
       fixed-step and cannot express that.
-   3. A height cap on every display size, as `min(<width clamp>, <n>vh)`. The
+   2. A height cap on every display size, as `min(<width clamp>, <n>vh)`. The
       sizes want to be width-led — that is what keeps type in proportion to
       the measure it sits on — but width alone says nothing about whether the
       block still fits, and the one thing this hero cannot afford to push off
@@ -3890,37 +3892,20 @@
       while there is height to pay for it and the height term takes over when
       there is not. Each cap is set to coincide with its width value at a
       900px-tall viewport, so the caps change nothing where the design already
-      fit and only bind as the frame gets short.
+      fit and only bind as the frame gets short. Sizes that read height
+      directly have no breakpoint cliff to fall off.
+   3. The veil behind the copy, which travels with the block (below).
 
-      This replaced a step-down media query that did the same job as a cliff:
-      because sizes were width-led only, height could be answered solely by a
-      breakpoint, and 150-odd px of layout jumped between an 820px viewport
-      and an 830px one. Every laptop height from 830 to about 1000 put the
-      action under the fold. Sizes that read height directly have no cliff to
-      fall off, which is why the font-size half of that query is gone.
-   4. Flanking hairlines on the eyebrow, which are gradients on pseudo-elements.
-
-   The scale is a ratio, not a set of independent numbers. The manifesto is
-   the loudest object in the frame by a wide margin, and when it is set far
-   above everything else the name above it and the action below it read as
-   captions attached to it rather than as parts of one block — which is what
-   "sized odd" turned out to mean. The manifesto came down about 10% and
-   everything around it went up about 20-25%, which closes the ratio between
-   the manifesto and the title from roughly 2.0 to 1.4. Move one of these and
-   the others have to move with it.
-
-   The manifesto is set in the site's one typeface, Geist, bold and tightly
-   tracked: the headline register the rest of the site uses (the owner's
-   pick, 2026-09-30, when the Cormorant serif it used to be set in went, to
-   bring the site down to one font). Bold Geist is far wider than the light
-   serif was, so its sizes sit about 20% under the old ones, which keeps the
-   sentence on two lines: around 52px on a 1440x900 laptop, and 28px at the
-   phone floor.
+   The headline is the loudest object in the frame, bold Geist tightly
+   tracked: about 66px on a 1440x900 laptop and 36px at the phone floor, which
+   keeps the dim first line whole on a laptop ("Learn to start a business")
+   and lets it break to two on a phone. The promise and the description sit
+   a step apart in size so the key phrase in the promise is the second thing
+   read, and the description the third.
    --------------------------------------------------------------------------- */
 
 .bmh {
   --bmh-u: clamp(10px, 1.85vh, 24px);
-  --bmh-hair: rgba(255, 255, 255, 0.14);
   position: relative;
   /* Contains the veil below: without a stacking context here, a negative
      z-index child escapes behind this block's ancestors and paints under the
@@ -3932,10 +3917,10 @@
 
    `.bmc-scrim` is 54% x 48% — wider than it is tall — because it was aimed at
    a hero whose copy filled the middle of the frame. This block's exposure is
-   the opposite: the whitespace that makes the design work pushes the eyebrow
-   to the top of the column and the action to the bottom, and both land where
+   the opposite: the whitespace that makes the design work pushes the pill to
+   the top of the column and the trust line to the bottom, and both land where
    that pool has already faded to nothing, and a 1px amber line crossing the
-   manifesto is the thing most likely to make it go soft.
+   headline is the thing most likely to make it go soft.
 
    So the protection travels with the copy instead of being aimed at it from
    across the stylesheet: an ellipse shaped to this block, taller than it is
@@ -3955,8 +3940,8 @@
      150%/168% keep that comfortably outside the block at every size, and they
      keep doing so as the block grows. A fixed px cap does not - it silently
      stops covering once the block outgrows it, and the parts left outside are
-     the eyebrow and the action, which sit at the extremes and are exactly what
-     this layer exists to protect. */
+     the pill and the trust line, which sit at the extremes and are exactly
+     what this layer exists to protect. */
   width: 150%;
   height: 168%;
   pointer-events: none;
@@ -3969,225 +3954,70 @@
   );
 }
 
-/* Eyebrow: the house treatment (uppercase, amber, wide), flanked by two short
-   hairlines so it reads as a plate rather than a caption. It was Geist Mono
-   until 2026-09-30, when the site came down to Geist alone. */
-.bmh-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 1.6vw, 20px);
-}
-
-.bmh-eyebrow::before,
-.bmh-eyebrow::after {
-  content: '';
-  display: block;
-  height: 1px;
-  flex: none;
-  width: clamp(20px, 4vw, 50px);
-}
-
-.bmh-eyebrow::before {
-  background: linear-gradient(
-    to right,
-    rgba(212, 168, 87, 0) 0%,
-    rgba(212, 168, 87, 0.62) 100%
-  );
-}
-
-.bmh-eyebrow::after {
-  background: linear-gradient(
-    to left,
-    rgba(212, 168, 87, 0) 0%,
-    rgba(212, 168, 87, 0.62) 100%
-  );
-}
-
-.bmh-eyebrow span {
-  font-size: min(clamp(12px, 1.15vw, 17px), 2vh);
-  letter-spacing: 0.32em;
-  text-indent: 0.32em;
+/* The pill is the shared `.bm-pill`; the hero only keeps it on one line. At
+   390px the two names together are about 330px, so they fit the column once
+   nothing is allowed to wrap and the type steps down a notch. */
+.bmh .bm-pill,
+.bmh .bm-pill-badge {
   white-space: nowrap;
 }
 
-/* The name is a mark here, not the hero: it sits above the manifesto the way a
-   masthead sits above a leader. Both tiers are hairline weight. */
-.bmh-title-a {
-  display: block;
-  font-size: min(clamp(17px, 1.95vw, 30px), 3.12vh);
-  letter-spacing: 0.36em;
-  text-indent: 0.36em;
-}
+@media (max-width: 640px) {
+  .bmh .bm-pill {
+    font-size: 0.8125rem;
+  }
 
-/* The one word on the page that carries the brand, so it gets the brand's own
-   treatment: a metallic gradient echoing the house `.gradient-text`, which
-   reads as struck metal rather than as flat fill under a single light.
-
-   Paint lives here rather than as Tailwind classes on the span because the
-   bloom below has to be tuned against it, and because `background-clip: text`
-   needs the fallback `color` underneath it to be a real amber -- if the clip
-   is ever unsupported the word stays gold instead of vanishing.
-
-   The bloom is `filter: drop-shadow`, not `text-shadow`. A text-shadow is
-   built from glyph geometry and paints the same flat colour behind the whole
-   word; drop-shadow reads the pixels the gradient actually produced, so the
-   glow carries the gradient's own colour and stays warmer at the tail. Two
-   passes: a tight one that thickens the strokes and a wide one that puts
-   light into the black around them. */
-.bmh-title-b {
-  display: block;
-  margin-top: calc(var(--bmh-u) * 0.6);
-  font-size: min(clamp(26px, 3.15vw, 48px), 5.05vh);
-  letter-spacing: 0.3em;
-  text-indent: 0.3em;
-  /* The h1 sets `font-light` and both tiers inherited it. A gradient needs
-     stroke to show in -- at 300 this word was reading as an outline of a
-     colour rather than the colour -- so this tier alone steps to 400. The
-     masthead tier above stays hairline, which is what keeps the two apart. */
-  font-weight: 400;
-  color: #d4a857;
-  /* Two layers, both clipped to the glyphs: a specular band on top of the
-     metal. The band is the moving part -- 300% wide so it is well off the
-     word at either end of its travel, which is why the resting appearance is
-     exactly the base gradient and nothing has to be restored when the sweep
-     is switched off. The base layer stays at `100%` and never moves.
-
-     The base tops out at #ebd3a0 rather than at something nearer white, and
-     that ceiling is what makes the sweep visible at all: a highlight can only
-     read as light if the surface it crosses has somewhere left to brighten.
-     Set the middle stop near white and the band lands on pixels that are
-     already that colour and disappears exactly where the eye is looking. */
-  background-image:
-    linear-gradient(
-      100deg,
-      rgba(255, 255, 255, 0) 41%,
-      rgba(255, 255, 255, 0.92) 50%,
-      rgba(255, 255, 255, 0) 59%
-    ),
-    linear-gradient(
-      100deg,
-      #b98d3e 0%,
-      #d4a857 24%,
-      #ebd3a0 50%,
-      #d4a857 76%,
-      #b98d3e 100%
-    );
-  background-size: 300% 100%, 100% 100%;
-  background-position: 120% 0, 0 0;
-  background-repeat: no-repeat;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 2px rgba(212, 168, 87, 0.45))
-    drop-shadow(0 0 22px rgba(212, 168, 87, 0.35));
-}
-
-/* The sweep. Mostly this word sits still: the band crosses in the first
-   fifth of the cycle and the remaining four fifths are the rest between
-   passes, which is what makes it read as light catching metal rather than as
-   something blinking. It is slow enough not to compete with the constellation
-   already moving behind it, and the delay keeps it clear of the entrance.
-
-   Only `background-position` animates, and only on the top layer -- the metal
-   underneath never moves. Gated like `bmh-rise` below: with reduced motion
-   the declaration never applies and the word stays on its resting gradient,
-   which is the full design rather than a degraded one. */
-@media (prefers-reduced-motion: no-preference) {
-  .bmh-title-b {
-    animation: bmh-shimmer 8s ease-in-out 2.2s infinite;
+  .bmh .bm-pill-badge {
+    font-size: 0.75rem;
   }
 }
 
-/* The travel is 120% to -20% rather than anything wider, and the reason is
-   dwell. The band only crosses the glyphs while the position is between about
-   75% and 25%; everything outside that is the band travelling through empty
-   space with nothing to light. Cover 280 points in the same 1.8s and the pass
-   is over in a quarter of a second, which reads as a blink rather than as a
-   sweep. This range is barely wider than the part that does the work — both
-   ends still park the band clear of the word — so nearly all of the sweep's
-   time is spent on the glyphs. */
-@keyframes bmh-shimmer {
-  0% {
-    background-position: 120% 0, 0 0;
-  }
-  22%,
-  100% {
-    background-position: -20% 0, 0 0;
-  }
-}
-
-/* The manifesto pops by separation rather than by colour: it is the one white
-   object in a gold frame, and making it brighter than white is not available.
+/* The headline pops by separation rather than by colour: it is the one white
+   object in the frame, and making it brighter than white is not available.
    What it competes with is the constellation moving behind it -- a lit node
-   crossing a stroke of the manifesto is what makes the word go soft. The halo is two dark shadows, a tight one that keeps a node from
-   touching a stem and a wide one that sits the whole sentence on its own
-   ground. Both are black at low alpha, so on the parts of the field that are
-   already black they do nothing at all. */
-.bmh-manifesto {
-  margin-top: calc(var(--bmh-u) * 3);
-  font-size: min(clamp(28px, 3.6vw, 54px), 5.8vh);
-  line-height: 1.1;
-  letter-spacing: -0.025em;
+   crossing a stroke is what makes a word go soft. The halo is two dark
+   shadows, a tight one that keeps a node from touching a stem and a wide one
+   that sits the whole sentence on its own ground. Both are black at low
+   alpha, so on the parts of the field that are already black they do nothing
+   at all. The dim line is the "why now" rows' neutral-500, set in the
+   component; it is large text, so it clears contrast on the veil with room. */
+.bmh-headline {
+  margin-top: calc(var(--bmh-u) * 1.6);
+  font-size: min(clamp(36px, 4.6vw, 68px), 7.4vh);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.62), 0 2px 30px rgba(0, 0, 0, 0.88);
 }
 
-/* The only rule inside the column, sitting on equal intervals above and below.
-   Flex items never collapse margins, so both halves really do survive. */
-.bmh-rule {
-  display: block;
-  width: clamp(90px, 18vw, 240px);
-  height: 1px;
-  margin: calc(var(--bmh-u) * 3) 0;
-  /* The one divider in the block, and the only element that was neither gold
-     nor white. Carrying a gold centre ties it to the frame it divides; the
-     white hairline stays underneath it at the shoulders, so the rule still
-     resolves to nothing at both ends rather than stopping on a colour. */
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    var(--bmh-hair) 32%,
-    rgba(212, 168, 87, 0.55) 50%,
-    var(--bmh-hair) 68%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  box-shadow: 0 0 12px rgba(212, 168, 87, 0.28);
-}
-
-/* An amber text glow, at a wider radius and lower alpha than the usual
-   20px/0.5 because this line is tracked at 0.3em: the glow of each letter
-   overlaps its neighbours across a gap that wide, and a 0.5 alpha stacks into
-   a visible amber bar behind the words. */
-/* A plain sentence since 2026-09-28 (it was a tracked, all-caps mono line),
-   so it keeps the gold and the glow but not the tracking. */
+/* Grey with a bright phrase, as the body copy in the rows below. The amber
+   glow it carried until 2026-10-06 went with the amber. */
 .bmh-promise {
-  font-size: min(clamp(15px, 1.45vw, 22px), 2.5vh);
+  margin-top: calc(var(--bmh-u) * 1.5);
+  font-size: min(clamp(17px, 1.5vw, 23px), 2.6vh);
   line-height: 1.45;
-  text-shadow: 0 0 26px rgba(212, 168, 87, 0.42);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
 }
 
 .bmh-mechanism {
-  margin-top: calc(var(--bmh-u) * 1.6);
-  font-size: min(clamp(16px, 1.4vw, 22px), 2.45vh);
-  line-height: 1.8;
+  margin-top: calc(var(--bmh-u) * 1.1);
+  font-size: min(clamp(15px, 1.2vw, 18px), 2.1vh);
+  line-height: 1.7;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
 }
 
-/* A deliberate break with the house solid-amber pill: at this scale a filled
-   button is the loudest object in the frame and would undo everything above it.
-   A hairline frame carries the same weight as the rules, and the hover fills it
-   in — the house treatment arrives as the reward rather than as the resting
-   state. 48px tall with 12px type, so it is still a real touch target. */
+/* The program section's button, sized here so it keeps the hero's height
+   caps. 56px tall at rest, so it is the page's one big button twice over
+   (the second is at the foot of "What Business Mastery actually is"). The
+   resting glow is the smallest thing that lifts it off the constellation:
+   spread is negative so it stays a bloom just off the edge. The component
+   transitions the shadow with the colours, so colour and bloom change
+   together. */
 .bmh-cta {
-  margin-top: calc(var(--bmh-u) * 3.4);
-  min-height: 48px;
-  padding: 16px clamp(28px, 3.6vw, 52px);
+  margin-top: calc(var(--bmh-u) * 2.2);
+  min-height: 56px;
+  padding: 18px clamp(32px, 4.2vw, 64px);
   font-size: min(clamp(15px, 1.2vw, 18px), 2.2vh);
-  /* A filled gold button since 2026-09-28, the site's primary-action style,
-     in sentence case. The resting glow is the smallest thing that lifts it
-     off the constellation: spread is negative so it stays a bloom just off
-     the edge. The transition is on the shadow as well as the colours the
-     component sets, so the colour and the bloom change together. */
   box-shadow: 0 0 26px -8px rgba(212, 168, 87, 0.5);
-  transition-property: color, background-color, border-color, box-shadow;
 }
 
 .bmh-cta:hover,
@@ -4195,8 +4025,32 @@
   box-shadow: 0 0 38px -6px rgba(212, 168, 87, 0.75);
 }
 
-/* Slow, small, staggered, and in the order the argument is made. A quiet hero
-   that animates briskly stops being quiet. */
+/* Three short facts on one line, each with a gold check; they wrap to two
+   lines on a phone and stay centred. Small, grey and plain on purpose: the
+   button above is the loud thing, and this is the fine print that makes it
+   easier to press. */
+.bmh-trust {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 18px;
+  margin: calc(var(--bmh-u) * 1.2) 0 0;
+  padding: 0;
+  list-style: none;
+  color: #a3a3a3;
+  font-size: min(clamp(13px, 0.95vw, 14.5px), 1.9vh);
+  font-weight: 500;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+
+.bmh-trust li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+/* Slow, small, staggered, and in the order the argument is made. */
 @media (prefers-reduced-motion: no-preference) {
   .bmh-rise {
     animation: bmh-rise 900ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
@@ -4214,105 +4068,69 @@
   }
 }
 
-/* Short viewport. What is left of this query is the two things a height cap
-   cannot express. Line-height is a ratio, so it does not tighten on its own as
-   the manifesto shrinks; at this height the two lines want to sit closer than
-   1.24. And the action's padding is in px because it is a touch target rather
-   than type, so it does not scale with its font-size either.
-
-   The sizes and the rhythm used to step down here too. They no longer need to:
-   `--bmh-u` is pure vh and every display size carries a vh cap, so both are
-   already smaller by the time this query applies. See item 3 in the block
-   comment above for why that cliff was worth removing. */
+/* Short viewport. What is left of this query is the things a height cap
+   cannot express: line-height is a ratio, so it does not tighten on its own
+   as the headline shrinks, and the action's padding is in px because it is a
+   touch target rather than type, so it does not scale with its font-size
+   either. The sizes and the rhythm are already smaller by the time this
+   applies, since `--bmh-u` is pure vh and every display size carries a vh
+   cap. */
 @media (min-width: 641px) and (max-height: 820px) {
-  .bmh-manifesto {
-    line-height: 1.08;
-  }
-
-  .bmh-rule {
-    width: clamp(90px, 14vw, 180px);
+  .bmh-headline {
+    line-height: 1.02;
   }
 
   .bmh-cta {
-    padding: 13px clamp(26px, 3vw, 44px);
+    min-height: 50px;
+    padding: 14px clamp(28px, 3.4vw, 52px);
   }
 }
 
-/* Large viewport. The width caps above are reached at about 1520px wide, so
-   past that the frame keeps growing while the type stands still and the empty
-   space comes back. The measure widens with the type so the manifesto still
-   breaks to two lines rather than three.
+/* Large viewport. The width caps above are reached at about 1480px wide, so
+   past that the frame keeps growing while the type stands still and the
+   empty space comes back. The measure widens with the type so the dim line
+   stays whole.
 
    Every size here has to repeat the vh cap from the base block. These are
-   whole-declaration overrides, so a bare `52px` would not merely set a larger
-   size, it would drop the height cap with it — and a 1920x860 window would put
-   the action back under the fold. If you add a size to this query, cap it. */
+   whole-declaration overrides, so a bare `76px` would not merely set a larger
+   size, it would drop the height cap with it — and a 1920x860 window would
+   put the action back under the fold. If you add a size to this query, cap
+   it. */
 @media (min-width: 1800px) {
   .bmh {
-    max-width: 1040px;
+    max-width: 1140px;
   }
 
-  .bmh-manifesto {
-    font-size: min(clamp(28px, 3.4vw, 64px), 5.8vh);
-  }
-
-  .bmh-title-a {
-    font-size: min(32px, 3.12vh);
-  }
-
-  .bmh-title-b {
-    font-size: min(52px, 5.05vh);
+  .bmh-headline {
+    font-size: min(clamp(36px, 4vw, 78px), 7.4vh);
   }
 
   .bmh-promise {
-    font-size: min(23px, 2.5vh);
+    font-size: min(25px, 2.6vh);
   }
 
   .bmh-mechanism {
-    font-size: min(23px, 2.45vh);
+    font-size: min(19px, 2.1vh);
   }
 }
 
-/* Short phone. On a 640px-tall screen the manifesto is already breaking to
-   three lines at the floor size, and with the fixed header taking 72px off the
-   top there is not enough left to seat the action. The floor drops and the
-   rhythm tightens rather than the action being pushed off the screen. */
+/* Short phone. On a 640px-tall screen the headline is already breaking to
+   four lines at the floor size, and with the fixed header taking 72px off
+   the top there is not enough left to seat the action and the trust line.
+   The floor drops and the rhythm tightens rather than the action being
+   pushed off the screen. */
 @media (max-width: 640px) and (max-height: 700px) {
   .bmh {
     --bmh-u: clamp(9px, 1.3vh, 13px);
   }
 
-  .bmh-manifesto {
-    font-size: 24px;
+  .bmh-headline {
+    font-size: 32px;
   }
 
   .bmh-mechanism {
-    line-height: 1.7;
+    line-height: 1.6;
   }
-}
-
-/* At 390px the tracked lines start breaking words into separate objects, so the
-   widest of them give some of it back. */
-@media (max-width: 640px) {
-  .bmh-eyebrow {
-    gap: 10px;
-  }
-
-  .bmh-eyebrow::before,
-  .bmh-eyebrow::after {
-    width: 16px;
-  }
-
-  .bmh-eyebrow span {
-    letter-spacing: 0.24em;
-    text-indent: 0.24em;
-  }
-
-  .bmh-title-a {
-    letter-spacing: 0.28em;
-    text-indent: 0.28em;
-  }
-
 }
 
 /* ---------------------------------------------------------------------------

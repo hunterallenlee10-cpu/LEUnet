@@ -14,6 +14,15 @@ Mastery program page, plus its homepage presence.
 >   "Learn how to build, scale, and dominate." and "Speedrun Your Way to
 >   Success." The button is `businessMasteryAction` ("Apply to join", or
 >   "Join Business Mastery" once `joinMode` is "join"), a filled gold button.
+>   **Restyled 2026-10-06** (the owner's pick from five concepts) in the
+>   page's own parts: the `.bm-pill` with the gold badge, the headline set
+>   dim-then-bright like the "why now" rows (`bmHero.manifestoLines`), the
+>   promise line grey with its key phrase bright (`bmHero.subtitleRuns`),
+>   the description kept, the button uppercase like the program section's,
+>   and a trust line under it (`bmHeroTrust`: by application, paid monthly
+>   membership, 90-day guarantee, each restating a fact set elsewhere). The
+>   copy is unchanged and `bmHeroCopyIsConsistent` holds the split forms to
+>   the sentences. The constellation background is unchanged.
 > - **Homepage:** the teaser panel is gone. The homepage hero's second path
 >   ("Learn with us: Business Mastery") is the one hook now.
 > - **Scarcity:** the "Enrollment Closing Soon · 4 Spots Remain" line and the
