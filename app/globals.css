@@ -2849,6 +2849,79 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Lee Systems Co. — the Website builds deck
+   One consumer: components/lee-systems/WebsiteDeck.tsx, the picture on the
+   Website builds card under What we do (the owner's ask, 2026-10-06). Every
+   screenshot shares one box, sitting where the back one of the old fixed pair
+   sat; its `data-pose` moves it. "back" is that spot, "front" is the old front
+   one's (23% of the picture right and 10% down, written in the card's own
+   width and height), and "queue" waits unseen just behind "back". Each shuffle
+   the front one plays `lsDeckTuck`: it swings out to the right on top, then
+   drops under the others and slides back into the queue as it fades, while
+   the back one comes forward and the next build fades in behind it.
+--------------------------------------------------------------------------- */
+
+.ls-deck-card {
+  transition:
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 700ms ease;
+}
+
+.ls-deck-card[data-pose="front"] {
+  z-index: 30;
+  transform: translate(37.1%, 14.5%) rotate(3deg);
+}
+
+.ls-deck-card[data-pose="back"] {
+  z-index: 20;
+  transform: rotate(-4deg);
+}
+
+.ls-deck-card[data-pose="queue"],
+.ls-deck-card[data-pose="leaving"] {
+  z-index: 1;
+  opacity: 0;
+  transform: translate(-5%, -4%) rotate(-7deg) scale(0.9);
+}
+
+.ls-deck-card[data-pose="leaving"] {
+  animation: lsDeckTuck 1300ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@keyframes lsDeckTuck {
+  0% {
+    z-index: 40;
+    opacity: 1;
+    transform: translate(37.1%, 14.5%) rotate(3deg);
+  }
+  42% {
+    z-index: 40;
+    opacity: 1;
+    transform: translate(72%, 6%) rotate(9deg);
+  }
+  43% {
+    z-index: 1;
+    opacity: 1;
+    transform: translate(72%, 6%) rotate(9deg);
+  }
+  100% {
+    z-index: 1;
+    opacity: 0;
+    transform: translate(-5%, -4%) rotate(-7deg) scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ls-deck-card {
+    transition: none;
+  }
+
+  .ls-deck-card[data-pose="leaving"] {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Lee Systems Co. — the hero's video shade
    One consumer: components/lee-systems/HeroVideoLoop.tsx, over the laptop
    loop behind the /lee-systems hero (the owner's pick, 2026-09-30).
