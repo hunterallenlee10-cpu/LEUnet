@@ -1,5 +1,6 @@
 import { BmAudience, BmChapter, BmPillar, BmTenet } from "@/types";
 import { site } from "@/data/site";
+import { businessMasteryPage } from "@/data/navigation";
 
 // ---------------------------------------------------------------------------
 // Business Mastery (/business-mastery)
@@ -17,15 +18,28 @@ import { site } from "@/data/site";
  * points here, including the hero's. */
 export const BM_OFFER_ID = "bm-offer";
 
+const joinByLink =
+  site.businessMastery.joinMode === "join" && site.businessMastery.joinUrl;
+
 /**
- * The one Business Mastery action, wherever it appears: "Apply to join" while
- * people apply through the form on the page, "Join Business Mastery" once
- * `joinMode` in data/site.ts is "join" and a join link is set.
+ * The one Business Mastery action, wherever it appears off the Business
+ * Mastery page: "Apply to join" while people apply through the form on the
+ * page, "Join Business Mastery" once `joinMode` in data/site.ts is "join" and
+ * a join link is set.
  */
-export const businessMasteryAction =
-  site.businessMastery.joinMode === "join" && site.businessMastery.joinUrl
-    ? { label: "Join Business Mastery", href: site.businessMastery.joinUrl }
-    : { label: "Apply to join", href: `/business-mastery#${BM_OFFER_ID}` };
+export const businessMasteryAction = joinByLink
+  ? { label: "Join Business Mastery", href: site.businessMastery.joinUrl }
+  : { label: "Apply to join", href: `${businessMasteryPage}#${BM_OFFER_ID}` };
+
+/**
+ * The same action on the Business Mastery page itself, where applying is a
+ * scroll down to the form rather than a trip to the page. A bare #fragment,
+ * so it works whichever address the page is on: /business-mastery here, or
+ * the root of its own subdomain.
+ */
+export const bmPageAction = joinByLink
+  ? businessMasteryAction
+  : { label: businessMasteryAction.label, href: `#${BM_OFFER_ID}` };
 
 /**
  * The founding-member count. NOTHING RENDERS THIS RIGHT NOW - it is a record,

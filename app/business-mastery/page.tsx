@@ -1,27 +1,31 @@
 import type { Metadata } from "next";
-import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
+import { BmHeader } from "@/components/business-mastery/BmHeader";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
 import { BmShiftSection } from "@/components/business-mastery/BmShiftSection";
 import { BmProofSection } from "@/components/business-mastery/BmProofSection";
 import { BmManifestoSection } from "@/components/business-mastery/BmManifestoSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
+import { businessMasteryPage } from "@/data/navigation";
 
 const title = "Business Mastery | Learn to Start a Business and Use AI | LEU";
 const description =
   "Courses, coaching, and a community for people starting a business and learning to use AI. A paid monthly membership, part of Lee Enterprises Unlimited.";
 
-// The share image is app/business-mastery/opengraph-image.tsx.
+// The share image is app/business-mastery/opengraph-image.tsx. The canonical
+// address is the subdomain's root once BUSINESS_MASTERY_SITE_LIVE is on
+// (config/business-mastery-site.mjs), and this site's /business-mastery
+// until then, so search engines treat the subdomain as a copy before launch.
 export const metadata: Metadata = {
   title: { absolute: title },
   description,
   alternates: {
-    canonical: "/business-mastery",
+    canonical: businessMasteryPage,
   },
   openGraph: {
     type: "website",
-    url: "/business-mastery",
+    url: businessMasteryPage,
     siteName: "Lee Enterprises Unlimited",
     title,
     description,
@@ -51,7 +55,10 @@ export const metadata: Metadata = {
 export default function BusinessMasteryPage() {
   return (
     <div className="min-h-screen w-full bg-neutral-950">
-      <MainHeader />
+      {/* Its own header and footer rather than the main site's: the page is
+          Business Mastery's own site, on its own subdomain
+          (docs/BUSINESS-MASTERY.md). */}
+      <BmHeader />
 
       <main>
         <BmHeroSection />
@@ -83,7 +90,7 @@ export default function BusinessMasteryPage() {
           request on 2026-09-27. BmFinalCTASection and `bmFinalCta` are
           intact; putting it back is this line plus its import. */}
 
-      <MainFooter />
+      <MainFooter variant="business-mastery" />
     </div>
   );
 }

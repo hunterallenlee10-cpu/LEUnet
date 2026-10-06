@@ -1,7 +1,9 @@
 # leu
 
 The Lee Enterprises Unlimited website: the homepage (`/`), Business Mastery
-(`/business-mastery`), Lee Systems Co. (`/lee-systems`), `/contact` and
+(`/business-mastery`, moving to its own subdomain,
+mastery.leeenterprisesunlimited.com; see
+[docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md)), Lee Systems Co. (`/lee-systems`), `/contact` and
 `/legal`, plus `/book`, a short address that forwards to wherever "Book a free
 call" goes. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript,
 hosted on Vercel.

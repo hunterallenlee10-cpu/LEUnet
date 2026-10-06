@@ -3,6 +3,34 @@
 Execution plan and settled decisions for `/business-mastery`, the Business
 Mastery program page, plus its homepage presence.
 
+> **2026-10-06 own subdomain — read this first.** Business Mastery is moving
+> to its own site at **mastery.leeenterprisesunlimited.com**, served by this
+> same project (the owner's call, after weighing a separate domain, keeping
+> it as is, and tucking it behind an About section).
+>
+> - **How:** `next.config.mjs` rewrites `/` on that host to this page, sends
+>   `/business-mastery` there to `/`, and sends any other page asked for on
+>   that host to the same path on www. The page's assets, its share image
+>   and the application form's `/api` route are left alone, so the form works
+>   on either host. Try it locally at http://mastery.localhost:3000.
+> - **The switch:** `BUSINESS_MASTERY_SITE_LIVE` in
+>   `config/business-mastery-site.mjs`, off until the owner has attached the
+>   subdomain in Vercel and added its DNS record (docs/TODO.md). Turning it
+>   on moves every link to the program (`businessMasteryPage` and
+>   `businessMasteryAction`), the page's canonical and og:url, the sitemap
+>   entry and the share card's address to the subdomain, and makes www
+>   `/business-mastery` a 301 to it. Previews and `pnpm dev` keep serving
+>   `/business-mastery` either way.
+> - **Its own header and footer:** `BmHeader` (the LEU mark with "Business
+>   Mastery", and the page's apply button) and `MainFooter
+>   variant="business-mastery"` (no main-site page links; "A program of Lee
+>   Enterprises Unlimited" links home; legal links are full www addresses).
+>   The page's buttons use `bmPageAction`, a bare `#bm-offer`, so they
+>   scroll on either host.
+> - **Main site:** still points to Business Mastery from the header, the
+>   footer and the homepage hero's second path, unchanged until the owner
+>   says otherwise.
+
 > **2026-09-28 site fix — read this first.** The owner's site fix plan and
 > answers changed several things below. Where this document disagrees with
 > this note, this note wins.
@@ -70,7 +98,7 @@ Phases B (story) and C (checkout) remain — see §9.
 
 | | |
 | --- | --- |
-| Placement | **Dedicated page at `/business-mastery`** + one homepage teaser section. The homepage stays the company hub. |
+| Placement | **Dedicated page at `/business-mastery`** + one homepage teaser section. The homepage stays the company hub. Superseded on 2026-10-06: the page becomes its own site at mastery.leeenterprisesunlimited.com (see the note at the top). |
 | Homepage hook | A teaser section introduces the program on the homepage. It was originally reached by two routes: this section, plus the "Start your own venture" button in `PortfolioSection`, which had sat unwired until this program gave it a destination. That Portfolio section has since been removed from the homepage entirely. The homepage had two hooks again for a while: the teaser, plus the "Get started on your dreams" button under the mission statement in `AboutSection`, which had likewise sat unwired. The About section has since been removed from the homepage too, so the teaser is the one hook. |
 | Join flow | **Application form first.** Own API route, Resend email to `ceo@leeenterprisesunlimited.com`, same pattern as every other venture form. No on-page payment in this build. |
 | Payments | None in this build. Stripe checkout for the founding-member one-time payment is Phase C — the scaffolding already exists (`app/api/stripe/*`), but price, guarantee terms, and refund handling must be written first. |

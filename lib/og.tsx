@@ -23,7 +23,16 @@ const leuLogo = readFile(join(process.cwd(), "public/logos/leu-logo.png"), "base
  * Black and gold: the LEU logo, an optional name beside it, the page's
  * headline, and the company name and domain along the foot.
  */
-export async function renderLeuOg({ line, label }: { line: string; label?: string }) {
+export async function renderLeuOg({
+  line,
+  label,
+  domain = ogDomain,
+}: {
+  line: string;
+  label?: string;
+  /** The address along the foot; Business Mastery passes its subdomain. */
+  domain?: string;
+}) {
   const logoSrc = await leuLogo;
 
   return new ImageResponse(
@@ -81,7 +90,7 @@ export async function renderLeuOg({ line, label }: { line: string; label?: strin
           }}
         >
           <span>Lee Enterprises Unlimited</span>
-          <span style={{ color: "#FBBF24" }}>{ogDomain}</span>
+          <span style={{ color: "#FBBF24" }}>{domain}</span>
         </div>
       </div>
     ),

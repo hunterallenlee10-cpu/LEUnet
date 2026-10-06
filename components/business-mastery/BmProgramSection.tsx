@@ -2,7 +2,7 @@ import { BookOpen } from "lucide-react";
 import {
   bmPillars,
   bmProgram,
-  businessMasteryAction,
+  bmPageAction,
 } from "@/data/business-mastery";
 import { BmProgramShowcase } from "@/components/business-mastery/BmProgramShowcase";
 import { pillarIcons } from "@/components/business-mastery/bmPillarIcons";
@@ -71,15 +71,15 @@ export function BmProgramSection() {
 
         <div className="mt-14 flex justify-center md:mt-16">
           <a
-            href={businessMasteryAction.href}
+            href={bmPageAction.href}
             className="inline-flex min-h-14 items-center justify-center rounded-lg bg-amber-400 px-10 py-5 text-lg font-bold uppercase tracking-[0.12em] text-neutral-950 shadow-[0_0_26px_-8px_rgba(212,168,87,0.5)] transition-[color,background-color,box-shadow] duration-[260ms] hover:bg-amber-300 hover:shadow-[0_0_38px_-6px_rgba(212,168,87,0.75)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-amber-400/85 focus-visible:shadow-[0_0_38px_-6px_rgba(212,168,87,0.75)] max-sm:w-full sm:px-16 lg:px-20 lg:text-xl"
           >
             {/* "Apply now" here, at the owner's request (2026-09-28); the
                 hero keeps "Apply to join". Once joining is by link, both
-                follow `businessMasteryAction`. */}
-            {businessMasteryAction.label === "Apply to join"
+                follow `bmPageAction`. */}
+            {bmPageAction.label === "Apply to join"
               ? "Apply now"
-              : businessMasteryAction.label}
+              : bmPageAction.label}
           </a>
         </div>
       </div>

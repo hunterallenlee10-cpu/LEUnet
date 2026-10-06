@@ -1,5 +1,10 @@
 import { resolveH1SiteUrl } from "./config/h1-site.mjs";
 import { resolveThreadSiteUrl } from "./config/thread-site.mjs";
+import {
+  BUSINESS_MASTERY_HOST,
+  BUSINESS_MASTERY_SITE_LIVE,
+  BUSINESS_MASTERY_SITE_URL,
+} from "./config/business-mastery-site.mjs";
 
 // The redirects below are the only thing left here that points at the H1 site.
 // H1 Performance is no longer one of the ventures this site lists, so no app
@@ -28,6 +33,23 @@ const THREAD_SITE_URL = resolveThreadSiteUrl(
 const THREAD_REDIRECT_PERMANENT = Boolean(
   process.env.NEXT_PUBLIC_THREAD_SITE_URL
 );
+
+// Business Mastery's own subdomain, served by this project
+// (config/business-mastery-site.mjs, docs/BUSINESS-MASTERY.md). `has` host
+// values are regular expressions matched against the whole host, port left
+// off. mastery.localhost is there so the subdomain can be tried out under
+// `pnpm dev` at http://mastery.localhost:3000.
+const BM_HOST = `(?:${BUSINESS_MASTERY_HOST.replace(/\./g, "\\.")}|mastery\\.localhost)`;
+const onBmHost = [{ type: "host", value: BM_HOST }];
+
+// The www host, where everything but Business Mastery lives. The same origin
+// as `site.url` in data/site.ts, which next.config.mjs cannot import.
+const MAIN_SITE_URL = "https://www.leeenterprisesunlimited.com";
+// The bare domain too: Vercel forwards it to www, but a rule that only
+// matched www would miss a request it let through.
+const onMainHost = [
+  { type: "host", value: "(?:www\\.)?leeenterprisesunlimited\\.com" },
+];
 
 /**
  * Content Security Policy. Everything the site loads is same-origin, Vercel
@@ -91,8 +113,54 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return {
+      // Before the filesystem, or the homepage at app/page.tsx would answer
+      // "/" first. A rewrite, not a redirect: the address bar keeps showing
+      // mastery.leeenterprisesunlimited.com.
+      beforeFiles: [
+        { source: "/", has: onBmHost, destination: "/business-mastery" },
+      ],
+    };
+  },
   async redirects() {
     return [
+      // Business Mastery's subdomain shows its one page at its root, so the
+      // page's own path there goes to the root. Any other page asked for on
+      // that host (a mistyped /contact, an old /lee-systems link) goes to the
+      // same path on www, where it lives. What the Business Mastery page
+      // itself loads is left alone: anything with a dot in it (logos, fonts,
+      // robots.txt), anything starting with an underscore (Next's /_next and
+      // Vercel's /_vercel), the application form's /api route, and the
+      // page's own share image under /business-mastery/. These come first,
+      // so no rule below for www can catch a subdomain request.
+      {
+        source: "/business-mastery",
+        has: onBmHost,
+        destination: "/",
+        statusCode: 301,
+      },
+      {
+        source: "/:path((?!api/|_|business-mastery/)[^.]+)",
+        has: onBmHost,
+        destination: `${MAIN_SITE_URL}/:path`,
+        statusCode: 301,
+      },
+      // Once the subdomain is live, the www page forwards to it, so a link
+      // already shared keeps working and its search placement moves with it.
+      // Only on the real domain, so a Vercel preview or `pnpm dev` still shows
+      // /business-mastery to work on. A #fragment such as #bm-offer survives
+      // the redirect in the browser.
+      ...(BUSINESS_MASTERY_SITE_LIVE
+        ? [
+            {
+              source: "/business-mastery",
+              has: onMainHost,
+              destination: `${BUSINESS_MASTERY_SITE_URL}/`,
+              statusCode: 301,
+            },
+          ]
+        : []),
       // The Support Us contribution page and the Partners page came off the
       // site on 2026-09-28 (it covers LEU, Lee Systems Co. and Business
       // Mastery only). Both go to the homepage, as does /sponsors, the name
