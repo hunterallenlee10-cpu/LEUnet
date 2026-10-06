@@ -57,10 +57,58 @@ export const bmFoundingCounter = {
 // owner's site fix plan. The description is the owner's line, kept.
 export const bmHero = {
   manifesto: "Learn to start a business and actually use AI.",
+  /**
+   * The manifesto, set as two lines since 2026-10-06: the first dim, the
+   * second bright, the way every "why now" row below sets its heading. Not
+   * new copy. Joined with a space these ARE `manifesto`, verbatim, and
+   * `bmHeroCopyIsConsistent` below holds the two to that. Change the sentence
+   * and change the split in the same edit.
+   */
+  manifestoLines: ["Learn to start a business", "and actually use AI."],
   subtitle: "Live demos, coaching, and a community of people building alongside you.",
+  /**
+   * `subtitle` as runs, so the hero can set its key phrase bright against a
+   * grey sentence, as the paragraphs in the "why now" rows do. Same words,
+   * same order; `bmHeroCopyIsConsistent` holds them to `subtitle`.
+   */
+  subtitleRuns: [
+    { text: "Live demos, coaching, and " },
+    { text: "a community of people building alongside you.", strong: true },
+  ],
   description:
     "Skip years of unnecessary trial and error by learning from people already building, failing, adapting, and winning.",
 } as const;
+
+/**
+ * The line under the hero's button (2026-10-06): three facts the page already
+ * states, each restated in three words so they fit on one line. Not new
+ * claims, and never a count, a deadline or a price:
+ *
+ * - "By application" is `site.businessMastery.joinMode` being "apply", and
+ *   leaves the line when joining stops being by application.
+ * - "Paid monthly membership" is `site.businessMastery.format`, which the
+ *   offer section renders in full ("A paid monthly membership").
+ * - "90-day money-back guarantee" is `bmOffer.guaranteeHeading`, which the
+ *   offer section renders as its expandable's title.
+ *
+ * Change the fact where it lives and change the short form here in the same
+ * edit, or the page states two versions of one thing.
+ */
+export const bmHeroTrust: readonly string[] = [
+  ...(site.businessMastery.joinMode === "apply" ? ["By application"] : []),
+  "Paid monthly membership",
+  "90-day money-back guarantee",
+];
+
+/**
+ * True when the two split forms of the hero copy still spell the sentences
+ * they were split from. Read by the hero, which falls back to the whole
+ * sentences if this is ever false, so an edit to one side can never publish a
+ * sentence the owner didn't write.
+ */
+export const bmHeroCopyIsConsistent =
+  bmHero.manifestoLines.join(" ") === bmHero.manifesto &&
+  bmHero.subtitleRuns.map((run) => run.text).join("") === bmHero.subtitle;
 
 // --- Why now: The World Is About To Change (page slot 2) ------------------
 
