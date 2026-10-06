@@ -11,9 +11,10 @@ import { TalkNow } from "@/components/contact/TalkNow";
  * Dressed like the Lee Systems offer at the top of the page (2026-10-06, the
  * owner's ask to make it "go with the rest of the site"): the same brass
  * eyebrow and headline, and a form card cut like the calculator's. The
- * headline picks up the hero's "Never Miss Another Customer" and the
- * calculator's missed calls, and the line under it carries the offer terms
- * (2026-10-06, replacing "Not sure which fits? Tell me what you need.").
+ * headline is the owner's, "Every missed lead is lost money.", picking up
+ * the calculator's missed revenue, and the line under it carries the offer
+ * terms (2026-10-06, replacing "Not sure which fits? Tell me what you
+ * need.").
  */
 export function ContactSection() {
   return (
@@ -40,14 +41,21 @@ export function ContactSection() {
             </p>
             <h2
               id="contact-title"
-              className="mt-4 max-w-[15ch] text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-white text-balance md:text-5xl"
+              className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-white text-balance md:text-5xl"
             >
-              Every missed call is a lost customer.{" "}
-              <span className="text-brass-400">Let&apos;s fix that.</span>
+              Every missed lead is{" "}
+              {/* The owner's line (2026-10-06), with the weight on "lost
+                  money": its own line, a size up, in brass over a
+                  highlighter stripe of the same brass. */}
+              <span className="mt-1 block">
+                <span className="-ml-1 whitespace-nowrap bg-[linear-gradient(transparent_60%,rgb(212_168_87/0.22)_60%,rgb(212_168_87/0.22)_88%,transparent_88%)] px-1 text-[1.4em] leading-none text-brass-400">
+                  lost money.
+                </span>
+              </span>
             </h2>
-            <p className="mt-5 max-w-md text-lg leading-relaxed text-neutral-300">
-              Tell us where customers slip through: missed calls, slow
-              follow-up, or a website that doesn&apos;t bring in leads.
+            <p className="mt-6 max-w-md text-lg leading-relaxed text-neutral-300">
+              Tell us where leads slip through: missed calls, slow
+              follow-up, or a website that doesn&apos;t bring them in.
               You&apos;ll get a flat upfront quote with no hidden fees, built
               personally for you.
             </p>
