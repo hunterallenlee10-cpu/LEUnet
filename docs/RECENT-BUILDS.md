@@ -38,8 +38,8 @@ one if you like), not a photo of a screen.
 
 ## What to send for an automation (format still being decided)
 
-Automations don't show in Recent Builds yet. Until the format is settled
-(see the to-do list), collect:
+Automations don't show in Recent Builds yet. Until the format is settled,
+collect:
 
 ```
 Name: Missed-call text-back for Smith Plumbing
