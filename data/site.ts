@@ -199,8 +199,9 @@ export const site = {
   /**
    * The moving strip of tool logos under the homepage hero, in two rows: the
    * owner's two lists of 40, in the owner's order (2026-10-06), which
-   * replaced the 2026-09-29 rows. The strip reads as "tools we work with",
-   * so list only what that's true of. Each `icon` is a symbol id in
+   * replaced the 2026-09-29 rows, plus xAI after Grok at the owner's ask.
+   * The strip reads as "tools we work with", so list only what that's true
+   * of. Each `icon` is a symbol id in
    * public/tools/sprite.svg, whose header says where each mark comes from; a
    * new tool needs its icon added there too. An empty list hides the strip.
    */
@@ -285,6 +286,7 @@ export const site = {
       { name: "ClickUp", icon: "clickup" },
       { name: "Meta", icon: "meta" },
       { name: "Grok", icon: "grok" },
+      { name: "xAI", icon: "xai" },
       { name: "GoDaddy", icon: "godaddy" },
       { name: "Google Voice", icon: "googlevoice" },
       { name: "Zendesk", icon: "zendesk" },
