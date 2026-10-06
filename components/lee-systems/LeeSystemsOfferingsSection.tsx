@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { CircleCheck } from "lucide-react";
 import type { ReactNode } from "react";
+import { site } from "@/data/site";
+import { WebsiteDeck } from "@/components/lee-systems/WebsiteDeck";
 
 type Offering = {
   role: string;
@@ -58,8 +60,10 @@ const offerings: [Offering, Offering] = [
  * Real World's pages: each offering gets a picture on top, its name and line
  * under it, and its six points as a two-column checklist (one column on a
  * phone). Automation shows the laptop-at-night still from the hero's loop;
- * websites shows two real builds from Recent Builds, fanned. Pointing at a
- * card lifts its border to brass and eases the picture; nothing else moves.
+ * websites shows real builds from Recent Builds, fanned two at a time, and
+ * since 2026-10-06 (the owner's ask) shuffles through every one of them every
+ * 3.5 seconds (WebsiteDeck). Pointing at a card lifts its border to brass and
+ * eases the picture.
  *
  * It replaced a two-page spread mirrored about a brass spine with a packet
  * running down it, which had itself lost its dashed routes and its seam into
@@ -137,37 +141,18 @@ function AutomationMedia() {
   );
 }
 
-/** Two real builds, fanned on a brass glow; they part a little on hover. */
+/**
+ * Every build from Recent Builds, fanned on a brass glow and shuffling (see
+ * WebsiteDeck), so a new build joins the card as soon as it is added there.
+ */
 function WebsiteMedia() {
-  const shot =
-    "absolute w-[62%] overflow-hidden rounded-lg border border-white/15 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.9)]";
+  const shots = site.projects.flatMap((project) =>
+    project.image ? [{ name: project.name, image: project.image }] : [],
+  );
 
   return (
     <div className="absolute inset-0 bg-[radial-gradient(70%_80%_at_50%_100%,rgba(212,168,87,0.28),transparent_70%)]">
-      <div
-        className={`${shot} ${easeImage} top-[14%] left-[8%] -rotate-[4deg] group-hover:-translate-x-2 group-hover:-rotate-[6deg] motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:-rotate-[4deg]`}
-      >
-        <Image
-          src="/projects/sage-and-stone.webp"
-          alt="Sage & Stone website, built by Lee Systems Co."
-          width={960}
-          height={600}
-          sizes="(min-width: 1024px) 24rem, 58vw"
-          className="w-full"
-        />
-      </div>
-      <div
-        className={`${shot} ${easeImage} top-[24%] right-[7%] rotate-[3deg] group-hover:translate-x-2 group-hover:rotate-[4deg] motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:rotate-[3deg]`}
-      >
-        <Image
-          src="/projects/graystone-contracting.webp"
-          alt="Graystone Contracting website, built by Lee Systems Co."
-          width={960}
-          height={600}
-          sizes="(min-width: 1024px) 24rem, 58vw"
-          className="w-full"
-        />
-      </div>
+      <WebsiteDeck shots={shots} />
     </div>
   );
 }

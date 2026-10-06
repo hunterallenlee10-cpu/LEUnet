@@ -16,7 +16,7 @@ day and 301 to their cards in "Who we help" (see Redirects below).
 
 | URL | What it is | Built from |
 | --- | --- | --- |
-| `/lee-systems` | The page, in order: hero, two paths, the website video, what we do (the two offerings side by side), the live demo under it (the website `#websites` catching a lead, then the workflow `#automation` handling it), who we help (`#industries`), Recent Builds, onboarding process (Audit, Build, Take off, then a "Book a free call" button), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
+| `/lee-systems` | The page, in order: hero, two paths, the website video, what we do (the two offerings side by side; the Website builds card's picture shuffles through every Recent Build, two at a time, every 3.5 seconds, `WebsiteDeck`), the live demo under it (the website `#websites` catching a lead, then the workflow `#automation` handling it), who we help (`#industries`), Recent Builds, onboarding process (Audit, Build, Take off, then a "Book a free call" button), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
 
 What came over from the folded pages: the automation page's seven areas
 (AI call answering first, full width; it was titled "Calls" there), its
