@@ -3,7 +3,7 @@
 Execution plan and settled decisions for `/business-mastery`, the Business
 Mastery program page, plus its homepage presence.
 
-> **2026-10-06 own subdomain — read this first.** Business Mastery is moving
+> **2026-10-06 own subdomain — read this first.** Business Mastery has moved
 > to its own site at **mastery.leeenterprisesunlimited.com**, served by this
 > same project (the owner's call, after weighing a separate domain, keeping
 > it as is, and tucking it behind an About section).
@@ -14,9 +14,9 @@ Mastery program page, plus its homepage presence.
 >   and the application form's `/api` route are left alone, so the form works
 >   on either host. Try it locally at http://mastery.localhost:3000.
 > - **The switch:** `BUSINESS_MASTERY_SITE_LIVE` in
->   `config/business-mastery-site.mjs`, off until the owner has attached the
->   subdomain in Vercel and added its DNS record (docs/TODO.md). Turning it
->   on moves every link to the program (`businessMasteryPage` and
+>   `config/business-mastery-site.mjs`, **on since 2026-10-06**, once the
+>   subdomain was attached in Vercel and its CNAME record added at Wix, where
+>   the domain's DNS lives. Being on moves every link to the program (`businessMasteryPage` and
 >   `businessMasteryAction`), the page's canonical and og:url, the sitemap
 >   entry and the share card's address to the subdomain, and makes www
 >   `/business-mastery` a 301 to it. Previews and `pnpm dev` keep serving

@@ -1,28 +1,14 @@
 # Hunter's to-do list
 
 The things only Hunter can do for the site: links, photos, decisions and
-account set-up. Last updated 2026-10-06, when Business Mastery got its own
-subdomain.
+account set-up. Last updated 2026-10-06, when Business Mastery went live on
+its own subdomain.
 
 Ask Claude for "my to-do list" in any session on this repo and it reads this
 file. Tell Claude when something is done and it checks it off here.
 
 ## Open
 
-- [ ] **Business Mastery subdomain.** Business Mastery is getting its own
-      address, mastery.leeenterprisesunlimited.com (decided 2026-10-06). The
-      code side is done and switched off until the address works. Two steps:
-      1. In Vercel, open this project, go to Settings, then Domains, click
-         Add, and enter `mastery.leeenterprisesunlimited.com`. Vercel then
-         shows one DNS record to add, usually a CNAME named `mastery`.
-      2. Where you bought the domain (GoDaddy, Namecheap, Squarespace…), add
-         that record in its DNS settings. It usually works within the hour.
-
-      Once https://mastery.leeenterprisesunlimited.com shows the Business
-      Mastery page, tell Claude and it flips the switch
-      (`BUSINESS_MASTERY_SITE_LIVE` in `config/business-mastery-site.mjs`).
-      Every Business Mastery link on the main site then goes there, and the
-      old /business-mastery address forwards to it.
 - [ ] **Booking link.** Set up a Google Calendar booking page on
       ceo@leeenterprisesunlimited.com and send Claude the link. Every "Book a
       free call" button switches to it (`bookingUrl` in `data/site.ts`), except
@@ -93,6 +79,11 @@ file. Tell Claude when something is done and it checks it off here.
 
 ## Done
 
+- [x] **Business Mastery subdomain** (2026-10-06). The subdomain is added in
+      Vercel with its CNAME record at Wix, and
+      https://mastery.leeenterprisesunlimited.com is Business Mastery's
+      address now. Every link on the main site goes there, and the old
+      /business-mastery address forwards to it.
 - [x] **"Who we help" pictures** (2026-10-06). The six pictures made in
       your Everygen account on 2026-09-29 are on the /lee-systems industry
       cards, now that media.viewmax.io is reachable.
