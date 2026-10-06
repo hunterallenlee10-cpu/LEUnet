@@ -19,7 +19,7 @@ export function getStripe(): Stripe {
 
   if (!apiKey) {
     throw new Error(
-      "STRIPE_SECRET_KEY is not set. Add it as a sensitive environment variable — never commit it."
+      "STRIPE_SECRET_KEY is not set. Add it as a sensitive environment variable, and never commit it."
     );
   }
 
