@@ -2855,26 +2855,39 @@
    screenshot shares one box, sitting where the back one of the old fixed pair
    sat; its `data-pose` moves it. "back" is that spot, "front" is the old front
    one's (23% of the picture right and 10% down, written in the card's own
-   width and height), and "queue" waits unseen just behind "back". Each shuffle
-   the front one plays `lsDeckTuck`: it swings out to the right on top, then
-   drops under the others and slides back into the queue as it fades, while
-   the back one comes forward and the next build fades in behind it.
+   width and height), and "queue" waits unseen just behind "back".
+
+   Each shuffle runs in three beats so no two sites ever swap layers while
+   they overlap (the owner asked for it smoothed out, 2026-10-06):
+   1. The front one plays `lsDeckTuck`: it swings out to the right, on top,
+      until it clears the back one (0 to 560ms).
+   2. Only then does it drop under the others, and the back one starts
+      gliding forward (`transition-delay` on "front"), while the tucked one
+      slides back into the queue and is gone before it reaches the far side.
+   3. The next build fades up into the back spot (the delay on "back").
+   The layer swap used to land halfway through the swing while the two still
+   overlapped, which showed as a pop, and the tucked one stayed visible all
+   the way across.
 --------------------------------------------------------------------------- */
 
 .ls-deck-card {
   transition:
-    transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1000ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 700ms ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 .ls-deck-card[data-pose="front"] {
   z-index: 30;
   transform: translate(37.1%, 14.5%) rotate(3deg);
+  transition-delay: 560ms;
 }
 
 .ls-deck-card[data-pose="back"] {
   z-index: 20;
   transform: rotate(-4deg);
+  transition-delay: 740ms;
 }
 
 .ls-deck-card[data-pose="queue"],
@@ -2885,24 +2898,30 @@
 }
 
 .ls-deck-card[data-pose="leaving"] {
-  animation: lsDeckTuck 1300ms cubic-bezier(0.65, 0, 0.35, 1) both;
+  animation: lsDeckTuck 1400ms both;
 }
 
+/* 112% to the right clears the back site, even at 7deg, before the swap. */
 @keyframes lsDeckTuck {
   0% {
     z-index: 40;
     opacity: 1;
     transform: translate(37.1%, 14.5%) rotate(3deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.25, 1);
   }
-  42% {
+  40% {
     z-index: 40;
     opacity: 1;
-    transform: translate(72%, 6%) rotate(9deg);
+    transform: translate(112%, 8%) rotate(7deg);
   }
-  43% {
+  40.01% {
     z-index: 1;
     opacity: 1;
-    transform: translate(72%, 6%) rotate(9deg);
+    transform: translate(112%, 8%) rotate(7deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
+  }
+  78% {
+    opacity: 0;
   }
   100% {
     z-index: 1;
