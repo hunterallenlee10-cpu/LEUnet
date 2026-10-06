@@ -2,11 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import clsx from "clsx";
 import { contactInterests, type ContactInterest } from "@/data/contact";
-import { businessMasteryAction } from "@/data/business-mastery";
 import { site } from "@/data/site";
 import {
   FIELD_LIMITS,
@@ -69,7 +67,7 @@ export interface ContactFormProps {
 /**
  * The shared contact form, on the homepage (#contact) and on /contact. Five
  * fields, three required, and one question that routes the inquiry: Lee
- * Systems Co., Business Mastery, or something else. It posts to /api/contact,
+ * Systems Co. or something else. It posts to /api/contact,
  * which checks the same rules and emails the owner with the choice in the
  * subject line.
  */
@@ -219,18 +217,6 @@ export function ContactForm({
           <div className="mt-6">
             <p className="mb-4 text-neutral-300">Rather pick a time now?</p>
             <BookCallLink />
-          </div>
-        )}
-
-        {sentInterest === "business-mastery" && (
-          <div className="mt-6">
-            <p className="mb-4 text-neutral-300">Want to get started now?</p>
-            <Link
-              href={businessMasteryAction.href}
-              className="btn-primary inline-flex min-h-11 items-center justify-center"
-            >
-              {businessMasteryAction.label}
-            </Link>
           </div>
         )}
 

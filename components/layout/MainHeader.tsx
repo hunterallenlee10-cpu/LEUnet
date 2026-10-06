@@ -10,8 +10,8 @@ import { companyInfo } from "@/data/company";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 
 /**
- * The site header: the LEU lockup on the left, then Lee Systems Co.,
- * Business Mastery and Contact, then the gold "Book a free call" button.
+ * The site header: the LEU lockup on the left, then Lee Systems Co. and
+ * Contact, then the gold "Book a free call" button.
  * Below `lg` the links move into a drawer, and the button stays in the bar
  * beside the menu toggle.
  */

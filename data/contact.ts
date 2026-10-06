@@ -9,7 +9,6 @@
  */
 export const contactInterests = [
   { value: "lee-systems", label: "Lee Systems Co.", subjectTag: "Lee Systems Co." },
-  { value: "business-mastery", label: "Business Mastery", subjectTag: "Business Mastery" },
   { value: "something-else", label: "Something else", subjectTag: "General" },
 ] as const;
 
