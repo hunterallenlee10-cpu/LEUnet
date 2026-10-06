@@ -102,11 +102,10 @@ restaurant), with no people, text, signage or logos, so nothing in them
 stands for a client or a result. They are decorative (empty alt text), since
 each name is set over its picture as text.
 
-They are not in yet: this workspace's network policy blocks the host Everygen
-keeps them on (see "Who we help" pictures in `docs/TODO.md`). Until they are,
-each card's cover is a brass glow drawn in CSS, the same glow every picture
-loads over. To use a photo instead, save it under the industry's file name at
-800 x 450 and add the id to `pictured`.
+All six went in on 2026-10-06, cropped from Everygen's 1376 x 768 to 800 x
+450. Each loads over a brass glow drawn in CSS, which is also what a card
+shows if its id is taken out of `pictured`. To use a photo instead, save it
+under the industry's file name at 800 x 450.
 
 ## Two paths, and the choice
 
