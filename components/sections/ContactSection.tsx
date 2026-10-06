@@ -4,13 +4,16 @@ import { ContactFormBlock } from "@/components/contact/ContactFormBlock";
 import { TalkNow } from "@/components/contact/TalkNow";
 
 /**
- * Homepage: the contact section, for anyone not sure which path fits. It keeps
+ * Homepage: the contact section, the page's last ask. It keeps
  * the id "contact" so old /#contact links still land here; the nav's Contact
  * goes to /contact, which carries the same form.
  *
  * Dressed like the Lee Systems offer at the top of the page (2026-10-06, the
  * owner's ask to make it "go with the rest of the site"): the same brass
- * eyebrow and headline, and a form card cut like the calculator's.
+ * eyebrow and headline, and a form card cut like the calculator's. The
+ * headline picks up the hero's "Never Miss Another Customer" and the
+ * calculator's missed calls, and the line under it carries the offer terms
+ * (2026-10-06, replacing "Not sure which fits? Tell me what you need.").
  */
 export function ContactSection() {
   return (
@@ -37,16 +40,22 @@ export function ContactSection() {
             </p>
             <h2
               id="contact-title"
-              className="mt-4 max-w-[14ch] text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-white text-balance md:text-5xl"
+              className="mt-4 max-w-[15ch] text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-white text-balance md:text-5xl"
             >
-              Not sure which fits?{" "}
-              <span className="text-brass-400">Tell me what you need.</span>
+              Every missed call is a lost customer.{" "}
+              <span className="text-brass-400">Let&apos;s fix that.</span>
             </h2>
             <p className="mt-5 max-w-md text-lg leading-relaxed text-neutral-300">
-              {site.replyTime
-                ? `I'll point you the right way ${site.replyTime}.`
-                : "I'll point you the right way."}
+              Tell us where customers slip through: missed calls, slow
+              follow-up, or a website that doesn&apos;t bring in leads.
+              You&apos;ll get a flat upfront quote with no hidden fees, built
+              personally for you.
             </p>
+            {site.replyTime && (
+              <p className="mt-3 text-sm font-medium text-brass-300">
+                We reply {site.replyTime}.
+              </p>
+            )}
             <TalkNow className="mt-10" />
           </div>
 
