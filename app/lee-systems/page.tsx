@@ -6,6 +6,7 @@ import { LeeSystemsTwoPathsSection } from "@/components/lee-systems/LeeSystemsTw
 import { LeeSystemsWebsiteVideoSection } from "@/components/lee-systems/LeeSystemsWebsiteVideoSection";
 import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
 import { LeeSystemsLiveDemoSection } from "@/components/lee-systems/LeeSystemsLiveDemoSection";
+import { LeeSystemsWorkflowFilmSection } from "@/components/lee-systems/LeeSystemsWorkflowFilmSection";
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { LeeSystemsOnboardingSection } from "@/components/lee-systems/LeeSystemsOnboardingSection";
@@ -30,7 +31,8 @@ import {
  * systems), the website video (a visit to an outdated site, then to one
  * built right), the two offerings side by side at equal weight, then the
  * live demo of both working as one (a website catching a lead, and the
- * system handling it), who it is for, recent work, the onboarding process, the
+ * system handling it), the workflow film (one system running a week's calls,
+ * leads, jobs and reports), who it is for, recent work, the onboarding process, the
  * FAQ, the choice between doing nothing and a free call, and the form. Every
  * "Book a free call" in the body scrolls to the form; the header's goes
  * where `bookHref` says. The two paths and the choice follow The Real World's
@@ -175,6 +177,7 @@ export default function LeeSystemsPage() {
         <LeeSystemsWebsiteVideoSection />
         <LeeSystemsOfferingsSection />
         <LeeSystemsLiveDemoSection />
+        <LeeSystemsWorkflowFilmSection />
         <LeeSystemsIndustriesSection />
         <RecentWorkSection />
         <LeeSystemsOnboardingSection />
