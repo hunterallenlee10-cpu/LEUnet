@@ -40,7 +40,7 @@ export default function ContactPage() {
 
       <main className="relative isolate overflow-hidden pb-20 pt-32 md:pb-28 md:pt-40">
         <div className="absolute inset-0 section-fade" aria-hidden="true">
-          <div className="absolute -top-24 right-[12%] h-[30rem] w-[30rem] max-w-[80vw] rounded-full bg-amber-400/[0.07] blur-3xl" />
+          <div className="absolute -top-24 right-[12%] h-[30rem] w-[30rem] max-w-[80vw] rounded-full bg-brass-400/[0.07] blur-3xl" />
         </div>
 
         <div className="section-container relative">

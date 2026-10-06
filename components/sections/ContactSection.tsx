@@ -4,9 +4,17 @@ import { ContactFormBlock } from "@/components/contact/ContactFormBlock";
 import { TalkNow } from "@/components/contact/TalkNow";
 
 /**
- * Homepage: the contact section, for anyone not sure which path fits. It keeps
+ * Homepage: the contact section, the page's last ask. It keeps
  * the id "contact" so old /#contact links still land here; the nav's Contact
  * goes to /contact, which carries the same form.
+ *
+ * Dressed like the Lee Systems offer at the top of the page (2026-10-06, the
+ * owner's ask to make it "go with the rest of the site"): the same brass
+ * eyebrow and headline, and a form card cut like the calculator's. The
+ * headline is the owner's, "Every missed lead is lost money.", picking up
+ * the calculator's missed revenue, and the line under it carries the offer
+ * terms (2026-10-06, replacing "Not sure which fits? Tell me what you
+ * need.").
  */
 export function ContactSection() {
   return (
@@ -15,25 +23,48 @@ export function ContactSection() {
       aria-labelledby="contact-title"
       className="relative isolate overflow-hidden py-20 md:py-28"
     >
-      {/* Two offset orbs, dimmer than the hero's pools: a utility section
-          should not out-glow the paths above it. */}
+      {/* One brass pool behind the form, dimmer than the offer's: a utility
+          section should not out-glow the sections above it. */}
       <div className="pointer-events-none absolute inset-0 section-fade" aria-hidden="true">
-        <div className="absolute -top-24 right-[18%] h-[32rem] w-[32rem] max-w-[80vw] translate-x-1/2 rounded-full bg-amber-400/[0.08] blur-3xl" />
-        <div className="absolute -bottom-24 left-[16%] h-[26rem] w-[26rem] max-w-[70vw] -translate-x-1/2 rounded-full bg-slate-400/[0.05] blur-3xl" />
+        <div className="absolute right-[22%] top-1/2 h-[34rem] w-[34rem] max-w-[90vw] -translate-y-1/2 translate-x-1/2 rounded-full bg-brass-400/[0.07] blur-3xl" />
       </div>
 
       <div className="section-container relative">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
-          <div>
-            <h2 id="contact-title" className="heading-lg text-white">
-              Not sure which fits? Tell me what you need.
-            </h2>
-            <p className="mt-4 text-lg text-neutral-300">
-              {site.replyTime
-                ? `I'll point you the right way ${site.replyTime}.`
-                : "I'll point you the right way."}
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+          <div className="lg:pt-4">
+            <p className="flex items-center gap-3.5 text-xs font-semibold uppercase tracking-[0.22em] text-brass-300">
+              Contact
+              <span
+                className="h-px w-12 bg-gradient-to-r from-brass-400/70 to-transparent"
+                aria-hidden="true"
+              />
             </p>
-            <TalkNow className="mt-8" />
+            <h2
+              id="contact-title"
+              className="mt-4 text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-white text-balance md:text-5xl"
+            >
+              Every missed lead is{" "}
+              {/* The owner's line (2026-10-06), with the weight on "lost
+                  money": its own line, a size up, in brass over a
+                  highlighter stripe of the same brass. */}
+              <span className="mt-1 block">
+                <span className="-ml-1 whitespace-nowrap bg-[linear-gradient(transparent_60%,rgb(212_168_87/0.22)_60%,rgb(212_168_87/0.22)_88%,transparent_88%)] px-1 text-[1.4em] leading-none text-brass-400">
+                  lost money.
+                </span>
+              </span>
+            </h2>
+            <p className="mt-6 max-w-md text-lg leading-relaxed text-neutral-300">
+              Tell us where leads slip through: missed calls, slow
+              follow-up, or a website that doesn&apos;t bring them in.
+              You&apos;ll get a flat upfront quote with no hidden fees, built
+              personally for you.
+            </p>
+            {site.replyTime && (
+              <p className="mt-3 text-sm font-medium text-brass-300">
+                We reply {site.replyTime}.
+              </p>
+            )}
+            <TalkNow className="mt-10" />
           </div>
 
           <ContactFormBlock headingLevel="h3" />

@@ -2427,15 +2427,18 @@
   mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
 }
 
+/* One loop is one copy of the row, so the duration sets the speed: these
+   were doubled with the rows (20 and 22 tools to 40 each, 2026-10-06) to
+   keep the pace the strip had. */
 .tools-track {
   display: flex;
   width: max-content;
-  animation: toolsMarquee 110s linear infinite;
+  animation: toolsMarquee 220s linear infinite;
 }
 
 .tools-track--reverse {
   animation-direction: reverse;
-  animation-duration: 130s;
+  animation-duration: 240s;
 }
 
 .tools-row:hover .tools-track {

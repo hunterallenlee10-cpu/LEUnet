@@ -22,10 +22,10 @@ interface ContactFormRequest {
 
 /**
  * The shared contact form (components/contact/ContactForm.tsx): name, email,
- * phone, what the visitor is interested in, and an optional
- * message. Delivered through Resend to the same inbox as before, with the
- * interest at the front of the subject, e.g. "[Lee Systems Co.] New inquiry
- * from Jane Smith".
+ * phone and an optional message. Delivered through Resend to the same inbox
+ * as before, with a tag at the front of the subject: "[Lee Systems Co.] New
+ * inquiry from Jane Smith" when the visitor came from a "Book a free call"
+ * link (?interest=lee-systems), "[General]" otherwise.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -69,12 +69,12 @@ export async function POST(request: NextRequest) {
       errors.phone = "Please enter a valid phone number, including the area code.";
     }
 
-    // Checked against the form's own list so the email never carries a value
-    // the form could not have sent.
-    const interest = stringField(body.interest).trim();
-    if (!isContactInterest(interest)) {
-      errors.interest = "Please choose what you're interested in.";
-    }
+    // Optional since the owner took "I'm interested in" off the form
+    // (2026-10-06): the form sends the ?interest= its link carried, if any.
+    // Anything not on the list is treated as none, so the email never carries
+    // a value the form could not have sent.
+    const posted = stringField(body.interest).trim();
+    const interest = isContactInterest(posted) ? posted : null;
 
     const message = stringField(body.message).trim();
     if (message.length > FIELD_LIMITS.long) {
@@ -85,13 +85,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ errors }, { status: 400 });
     }
 
-    const choice = contactInterests.find((option) => option.value === interest);
+    const choice = interest
+      ? contactInterests.find((option) => option.value === interest)
+      : undefined;
 
     const emailBody = `
 Name: ${name}
 Email: ${email}
-Phone: ${phone}
-Interested in: ${choice?.label ?? interest}
+Phone: ${phone}${choice ? `\nInterested in: ${choice.label}` : ""}
 
 Message:
 ${message || "No message"}

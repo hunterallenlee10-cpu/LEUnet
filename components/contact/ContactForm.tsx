@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import clsx from "clsx";
-import { contactInterests, type ContactInterest } from "@/data/contact";
+import type { ContactInterest } from "@/data/contact";
 import { site } from "@/data/site";
 import {
   FIELD_LIMITS,
@@ -16,7 +16,7 @@ import {
 } from "@/lib/validation";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 
-type Field = "name" | "email" | "phone" | "interest" | "message";
+type Field = "name" | "email" | "phone" | "message";
 type FieldErrors = Partial<Record<Field | "form", string>>;
 
 const emptyForm = {
@@ -26,21 +26,25 @@ const emptyForm = {
   message: "",
 };
 
-/** The house form idiom, as on the site's other forms. */
-const labelClass = "mb-2 block text-sm font-semibold text-neutral-200";
+/** In the Lee Systems brass, after the homepage calculator's card. */
+const labelClass = "mb-2 block text-sm font-medium text-neutral-300";
 const fieldClass =
-  "w-full rounded-lg border bg-neutral-900 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-400/60";
+  "w-full rounded-lg border bg-neutral-950/70 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:border-brass-400/70 focus:outline-none focus:ring-2 focus:ring-brass-400/25";
 const borderFor = (error?: string) =>
-  error ? "border-red-500/60" : "border-neutral-700";
+  error ? "border-red-500/60" : "border-white/10 hover:border-white/20";
+
+/** The calculator's card (.calc in globals.css), as utilities. */
+const cardClass =
+  "relative rounded-3xl border border-white/10 bg-gradient-to-b from-[#1c1c1b]/90 to-[#121211]/90 p-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)] md:p-9";
 
 /** The order errors are checked in, which is the order focus goes to them. */
-const fieldOrder: Field[] = ["name", "email", "phone", "interest", "message"];
+const fieldOrder: Field[] = ["name", "email", "phone", "message"];
 
 function RequiredMark() {
   return (
     <>
       {" "}
-      <span className="text-amber-400" aria-hidden="true">
+      <span className="text-brass-300" aria-hidden="true">
         *
       </span>
     </>
@@ -57,39 +61,39 @@ function ErrorText({ id, children }: { id: string; children?: string }) {
 }
 
 export interface ContactFormProps {
-  /** Preselects "I'm interested in", e.g. from a link's ?interest=. */
+  /** Which path the visitor came from, from a link's ?interest= (every
+   *  "Book a free call" passes lee-systems). There's no field for it since
+   *  the owner took "I'm interested in" out (2026-10-06); it only tags the
+   *  email's subject line. */
   initialInterest?: ContactInterest | "";
-  /** The success message's heading level: it sits under the page's H1 on
-   *  /contact and under a section's H2 on the homepage. */
+  /** The level of the form's "Send a message" heading and of the success
+   *  message's: they sit under the page's H1 on /contact and under a
+   *  section's H2 on the homepage. */
   headingLevel?: "h2" | "h3";
 }
 
 /**
- * The shared contact form, on the homepage (#contact) and on /contact. Five
- * fields, three required, and one question that routes the inquiry: Lee
- * Systems Co. or something else. It posts to /api/contact,
- * which checks the same rules and emails the owner with the choice in the
- * subject line.
+ * The shared contact form, on the homepage (#contact) and on /contact. Four
+ * fields, three required. It posts to /api/contact, which checks the same
+ * rules and emails the owner.
  */
 export function ContactForm({
   initialInterest = "",
   headingLevel = "h3",
 }: ContactFormProps) {
   const [formData, setFormData] = useState(emptyForm);
-  const [interest, setInterest] = useState<ContactInterest | "">(initialInterest);
   const [honeypot, setHoneypot] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  /** The path the sent inquiry was about, so the thanks can match it. */
-  const [sentInterest, setSentInterest] = useState<ContactInterest | null>(null);
+  const [sent, setSent] = useState(false);
   const successRef = useRef<HTMLDivElement>(null);
 
   // The success panel replaces the form, taking the focused submit button with
   // it, so focus would fall back to <body>. Moving it to the panel keeps a
   // keyboard or screen reader user on the confirmation.
   useEffect(() => {
-    if (sentInterest) successRef.current?.focus();
-  }, [sentInterest]);
+    if (sent) successRef.current?.focus();
+  }, [sent]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -101,11 +105,6 @@ export function ContactForm({
     );
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: dropped, form: undefined }));
-  };
-
-  const chooseInterest = (value: ContactInterest) => {
-    setInterest(value);
-    setErrors((prev) => ({ ...prev, interest: undefined, form: undefined }));
   };
 
   const validate = (): FieldErrors => {
@@ -126,8 +125,6 @@ export function ContactForm({
     else if (!isValidPhone(phone))
       next.phone = "Please enter a valid phone number, including the area code.";
 
-    if (!interest) next.interest = "Please choose what you're interested in.";
-
     return next;
   };
 
@@ -137,11 +134,7 @@ export function ContactForm({
   const focusFirstError = (found: FieldErrors) => {
     const first = fieldOrder.find((field) => found[field]);
     if (!first) return;
-    const target =
-      first === "interest"
-        ? document.querySelector<HTMLInputElement>('input[name="interest"]')
-        : document.getElementById(`contact-${first}`);
-    target?.focus();
+    document.getElementById(`contact-${first}`)?.focus();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -161,11 +154,11 @@ export function ContactForm({
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, interest, honeypot }),
+        body: JSON.stringify({ ...formData, interest: initialInterest, honeypot }),
       });
 
       if (response.ok) {
-        setSentInterest(interest || "something-else");
+        setSent(true);
         setFormData(emptyForm);
         setHoneypot("");
         return;
@@ -191,17 +184,17 @@ export function ContactForm({
     }
   };
 
-  if (sentInterest) {
+  if (sent) {
     const Heading = headingLevel;
     return (
       <div
         ref={successRef}
         tabIndex={-1}
         role="status"
-        className="rounded-xl border border-amber-400/30 bg-amber-400/[0.06] p-8 text-center focus:outline-none md:p-10"
+        className={clsx(cardClass, "text-center focus:outline-none md:p-12")}
       >
         <CheckCircle2
-          className="mx-auto mb-5 h-12 w-12 text-amber-400"
+          className="mx-auto mb-5 h-12 w-12 text-brass-400"
           aria-hidden="true"
         />
         <Heading className="mb-3 text-2xl font-bold text-white">
@@ -213,7 +206,7 @@ export function ContactForm({
             : "I'll get back to you soon."}
         </p>
 
-        {sentInterest === "lee-systems" && site.bookingUrl && (
+        {site.bookingUrl && (
           <div className="mt-6">
             <p className="mb-4 text-neutral-300">Rather pick a time now?</p>
             <BookCallLink />
@@ -223,10 +216,9 @@ export function ContactForm({
         <button
           type="button"
           onClick={() => {
-            setSentInterest(null);
-            setInterest("");
+            setSent(false);
           }}
-          className="mt-8 inline-flex min-h-11 items-center text-sm font-semibold text-amber-400 underline-offset-4 hover:underline"
+          className="mt-8 inline-flex min-h-11 items-center text-sm font-semibold text-brass-300 underline-offset-4 hover:underline"
         >
           Send another message
         </button>
@@ -234,14 +226,22 @@ export function ContactForm({
     );
   }
 
+  const FormHeading = headingLevel;
   return (
     <form
       onSubmit={handleSubmit}
       noValidate
+      aria-labelledby="contact-form-title"
       aria-describedby="contact-form-description"
-      className="rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-8"
+      className={cardClass}
     >
-      <p id="contact-form-description" className="mb-6 text-sm text-neutral-400">
+      <FormHeading
+        id="contact-form-title"
+        className="text-[1.375rem] font-bold tracking-[-0.015em] text-white md:text-2xl"
+      >
+        Send a message
+      </FormHeading>
+      <p id="contact-form-description" className="mb-7 mt-1.5 text-sm text-neutral-400">
         Fields marked with an asterisk are required.
       </p>
 
@@ -338,54 +338,6 @@ export function ContactForm({
         </div>
       </div>
 
-      {/* Pills rather than the browser's radios. The inputs are still radios
-          and still keyboard-operable: they are `sr-only` inside each label,
-          and `focus-within` puts the ring on the pill. */}
-      <fieldset
-        className="mt-5 min-w-0 border-0 p-0"
-        aria-describedby={errors.interest ? "contact-interest-error" : undefined}
-      >
-        <legend className={labelClass}>
-          I&apos;m interested in
-          <RequiredMark />
-        </legend>
-        <div className="flex flex-wrap gap-2">
-          {contactInterests.map((option) => {
-            const checked = interest === option.value;
-            return (
-              <label
-                key={option.value}
-                className={clsx(
-                  "inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-colors focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-amber-400",
-                  checked
-                    ? "border-amber-400/60 bg-amber-400/[0.14] text-amber-200"
-                    : errors.interest
-                      ? "border-red-500/60 bg-neutral-900 text-neutral-300"
-                      : "border-neutral-700 bg-neutral-900 text-neutral-300 hover:border-amber-400/40"
-                )}
-              >
-                <input
-                  type="radio"
-                  name="interest"
-                  value={option.value}
-                  checked={checked}
-                  onChange={() => chooseInterest(option.value)}
-                  required
-                  className="sr-only"
-                />
-                <span
-                  aria-hidden="true"
-                  className={`h-2 w-2 shrink-0 rounded-full ${
-                    checked ? "bg-amber-400" : "bg-neutral-600"
-                  }`}
-                />
-                {option.label}
-              </label>
-            );
-          })}
-        </div>
-        <ErrorText id="contact-interest-error">{errors.interest}</ErrorText>
-      </fieldset>
 
       <div className="mt-5">
         <label htmlFor="contact-message" className={labelClass}>
@@ -409,9 +361,19 @@ export function ContactForm({
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-primary mt-6 inline-flex min-h-11 w-full items-center justify-center disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
+        className="btn-ls-glow group mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2.5 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:brightness-100"
       >
-        {isSubmitting ? "Sending..." : "Send message"}
+        {isSubmitting ? (
+          "Sending..."
+        ) : (
+          <>
+            Send message
+            <ArrowRight
+              className="h-5 w-5 shrink-0 transition-transform duration-200 motion-safe:group-hover:translate-x-1"
+              aria-hidden="true"
+            />
+          </>
+        )}
       </button>
     </form>
   );

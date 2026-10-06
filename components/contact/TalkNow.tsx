@@ -1,11 +1,12 @@
 import clsx from "clsx";
-import { Mail } from "lucide-react";
+import { ArrowUpRight, Mail, Phone } from "lucide-react";
 import { site, telHref } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 
 /**
  * "Rather talk now? Connect with us." beside the contact form, on the homepage
- * and /contact: the call button, then Instagram and email, each a link.
+ * and /contact: the phone, Instagram and email, each a row that links straight
+ * to it, in brass to match the Lee Systems offer.
  *
  * The "Book a free call" button only appears here once a booking link is set
  * in data/site.ts. Until then that button leads to this same contact form, so
@@ -26,30 +27,28 @@ export function TalkNow({
     : "";
 
   return (
-    <div className={clsx("rounded-xl border border-white/10 p-6", className)}>
-      <Heading className="text-lg font-semibold text-white">Rather talk now? Connect with us.</Heading>
+    <div className={className}>
+      <Heading className="text-base font-semibold text-white">
+        Rather talk now? Connect with us.
+      </Heading>
 
-      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-        {site.bookingUrl && <BookCallLink variant="secondary" />}
-        {phoneLink &&
-          (site.bookingUrl ? (
-            <a
-              href={phoneLink}
-              className="inline-flex min-h-11 items-center font-semibold text-amber-400 underline-offset-4 hover:underline"
-            >
-              Call {site.phone}
-            </a>
-          ) : (
-            <a
-              href={phoneLink}
-              className="btn-secondary inline-flex min-h-11 items-center justify-center"
-            >
-              Call {site.phone}
-            </a>
-          ))}
-      </div>
+      {site.bookingUrl && <BookCallLink variant="secondary" className="mt-4" />}
 
-      <ul className="mt-6 space-y-3 border-t border-white/10 pt-5">
+      <ul className="mt-4 divide-y divide-white/10 border-y border-white/10">
+        {phoneLink && (
+          <li>
+            <a href={phoneLink} className={rowClass}>
+              <span className={iconClass}>
+                <Phone className="h-[1.125rem] w-[1.125rem]" aria-hidden="true" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className={labelClass}>Call</span>
+                <span className={valueClass}>{site.phone}</span>
+              </span>
+              <ArrowUpRight className={arrowClass} aria-hidden="true" />
+            </a>
+          </li>
+        )}
         {site.instagramUrl && (
           <li>
             <a
@@ -61,17 +60,25 @@ export function TalkNow({
               <span className={iconClass}>
                 <InstagramIcon />
               </span>
-              <span className="min-w-0 break-all">{instagramHandle}</span>
-              <span className="sr-only"> on Instagram (opens in a new tab)</span>
+              <span className="min-w-0 flex-1">
+                <span className={labelClass}>Instagram</span>
+                <span className={valueClass}>{instagramHandle}</span>
+              </span>
+              <span className="sr-only"> (opens in a new tab)</span>
+              <ArrowUpRight className={arrowClass} aria-hidden="true" />
             </a>
           </li>
         )}
         <li>
           <a href={`mailto:${site.email}`} className={rowClass}>
             <span className={iconClass}>
-              <Mail className="h-5 w-5" aria-hidden="true" />
+              <Mail className="h-[1.125rem] w-[1.125rem]" aria-hidden="true" />
             </span>
-            <span className="min-w-0 break-all">{site.email}</span>
+            <span className="min-w-0 flex-1">
+              <span className={labelClass}>Email</span>
+              <span className={valueClass}>{site.email}</span>
+            </span>
+            <ArrowUpRight className={arrowClass} aria-hidden="true" />
           </a>
         </li>
       </ul>
@@ -79,11 +86,22 @@ export function TalkNow({
   );
 }
 
-const rowClass =
-  "group inline-flex min-h-11 items-center gap-3 font-medium text-neutral-200 transition-colors hover:text-amber-400";
+const rowClass = clsx(
+  "group flex min-h-11 items-center gap-4 py-4 outline-offset-4",
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-brass-300"
+);
 
 const iconClass =
-  "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-amber-400 transition-colors group-hover:border-amber-400/40";
+  "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-brass-400/25 bg-brass-400/[0.06] text-brass-300 transition-colors group-hover:border-brass-400/60";
+
+const labelClass =
+  "block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-neutral-500";
+
+const valueClass =
+  "mt-0.5 block break-all font-medium text-neutral-100 transition-colors group-hover:text-brass-300";
+
+const arrowClass =
+  "h-4 w-4 shrink-0 text-neutral-600 transition-[color,transform] duration-200 group-hover:text-brass-300 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5";
 
 /** lucide-react dropped its brand icons, so the Instagram glyph is drawn here
  *  in the same 24px, 2px-stroke style as the Mail icon beside it. */
@@ -96,7 +114,7 @@ function InstagramIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-5 w-5"
+      className="h-[1.125rem] w-[1.125rem]"
       aria-hidden="true"
     >
       <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
