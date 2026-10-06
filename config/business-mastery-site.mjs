@@ -11,8 +11,8 @@
  * `BUSINESS_MASTERY_SITE_LIVE` is the switch for everything else: the links
  * across the site, the page's canonical address, the sitemap entry and the
  * www /business-mastery redirect. Flip it to true only once
- * https://mastery.leeenterprisesunlimited.com shows the Business Mastery page
- * (docs/TODO.md), or every one of those would point at an address that does
+ * https://mastery.leeenterprisesunlimited.com shows the Business Mastery page,
+ * or every one of those would point at an address that does
  * not answer yet.
  *
  * A plain JavaScript module rather than TypeScript because next.config.mjs
