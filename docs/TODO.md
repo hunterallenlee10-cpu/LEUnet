@@ -1,8 +1,8 @@
 # Hunter's to-do list
 
 The things only Hunter can do for the site: links, photos, decisions and
-account set-up. Last updated 2026-10-05, when "Our projects" became "Recent
-Builds", a grid of nine website boxes.
+account set-up. Last updated 2026-10-06, when "Recent Builds" became a
+sideways row that takes any number of builds.
 
 Ask Claude for "my to-do list" in any session on this repo and it reads this
 file. Tell Claude when something is done and it checks it off here.
@@ -74,7 +74,7 @@ file. Tell Claude when something is done and it checks it off here.
       then send them the way [RECENT-BUILDS.md](RECENT-BUILDS.md) describes.
 - [ ] **Over time.** More finished builds for "Recent Builds" (`projects`),
       only work you have permission to show, sent in the format in
-      [RECENT-BUILDS.md](RECENT-BUILDS.md). The grid has nine builds since
+      [RECENT-BUILDS.md](RECENT-BUILDS.md). The row has nine builds since
       2026-10-05 (eight client sites and the LEU site).
       And Google reviews from finished clients.
 
