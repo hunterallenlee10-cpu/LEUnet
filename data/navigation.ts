@@ -1,7 +1,19 @@
 import { NavItem } from "@/types";
 import { leeSystemsRoutes } from "@/data/lee-systems";
+import {
+  BUSINESS_MASTERY_SITE_LIVE,
+  BUSINESS_MASTERY_SITE_URL,
+} from "@/config/business-mastery-site.mjs";
 
-export const businessMasteryPage = "/business-mastery";
+/**
+ * Where Business Mastery is: its own subdomain once
+ * `BUSINESS_MASTERY_SITE_LIVE` is on (config/business-mastery-site.mjs), the
+ * page on this site until then. Every link to it reads this, so the switch
+ * moves them all at once.
+ */
+export const businessMasteryPage = BUSINESS_MASTERY_SITE_LIVE
+  ? `${BUSINESS_MASTERY_SITE_URL}/`
+  : "/business-mastery";
 export const contactPage = "/contact";
 
 /**

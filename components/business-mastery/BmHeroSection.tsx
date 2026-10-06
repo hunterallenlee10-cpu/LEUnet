@@ -3,7 +3,7 @@ import {
   bmHero,
   bmHeroCopyIsConsistent,
   bmHeroTrust,
-  businessMasteryAction,
+  bmPageAction,
 } from "@/data/business-mastery";
 import { site } from "@/data/site";
 import { BmHeroBackground } from "@/components/business-mastery/BmHeroBackground";
@@ -121,10 +121,10 @@ export function BmHeroSection() {
               are a matched pair: uppercase, tracked, bold, with the resting
               bloom. Sizes and the bloom live in `.bmh-cta`. */}
           <a
-            href={businessMasteryAction.href}
+            href={bmPageAction.href}
             className="bmh-cta bmh-rise inline-flex items-center justify-center rounded-lg bg-amber-400 font-bold uppercase tracking-[0.12em] text-neutral-950 transition-[color,background-color,box-shadow] duration-[260ms] hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-amber-400/85 max-sm:w-full [animation-delay:480ms]"
           >
-            {businessMasteryAction.label}
+            {bmPageAction.label}
           </a>
 
           {/* A list, so a screen reader gets the three facts as three items
