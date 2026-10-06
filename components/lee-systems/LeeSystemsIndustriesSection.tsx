@@ -11,12 +11,18 @@ type IndustryId = (typeof leeSystemsIndustries)[number]["id"];
 
 /**
  * The industries whose picture is in public/lee-systems/industries/, as
- * `<id>.webp`. All six were generated on 2026-09-29 and are waiting to be
- * pulled in ("Who we help pictures" in docs/TODO.md). A card whose id isn't
- * listed shows its cover's brass glow instead, the same glow every picture
- * loads over.
+ * `<id>.webp`. All six were generated on 2026-09-29 and went in on
+ * 2026-10-06. A card whose id isn't listed shows its cover's brass glow
+ * instead, the same glow every picture loads over.
  */
-const pictured: ReadonlySet<IndustryId> = new Set<IndustryId>([]);
+const pictured: ReadonlySet<IndustryId> = new Set<IndustryId>([
+  "law-firms",
+  "home-services",
+  "real-estate",
+  "fitness",
+  "dealerships",
+  "restaurants",
+]);
 
 /**
  * "Who we help" on /lee-systems: example industries as picture-led cards,

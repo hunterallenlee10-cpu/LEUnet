@@ -2,20 +2,23 @@ import Image from "next/image";
 import { ArrowUpRight, Globe } from "lucide-react";
 import { isExternalHref, site, type Project } from "@/data/site";
 import { ComingSoonSlot } from "@/components/shared/ComingSoonSlot";
+import { BuildsStrip } from "@/components/shared/BuildsStrip";
 
 /** Fewer real builds than this and the section doesn't show them alone. */
 const MIN_PROJECTS = 1;
 
-/** While placeholders show, "coming soon" boxes fill the grid out to this. */
-const GRID_BOXES = 3;
+/** While placeholders show, "coming soon" boxes fill the row out to this. */
+const MIN_BOXES = 3;
 
 /**
- * "Recent Builds", on the homepage and /lee-systems: a grid of boxes, one per
+ * "Recent Builds", on the homepage and /lee-systems: a row of boxes, one per
  * website in `site.projects`, each showing the site's first screen in a
  * browser frame. The whole box links to the live site. The owner asked for
- * boxes in place of the 360° ring on 2026-10-05.
+ * boxes in place of the 360° ring on 2026-10-05, then for a sideways row in
+ * place of the grid on 2026-10-06 so the section can take any number of
+ * builds without growing taller (BuildsStrip).
  *
- * While `site.showPlaceholders` is true, "coming soon" boxes fill the grid out
+ * While `site.showPlaceholders` is true, "coming soon" boxes fill the row out
  * to three, and each real build takes the place of one. With placeholders
  * off, the section shows only real builds and hides with none. Nothing here
  * ever stands in a made-up project.
@@ -23,7 +26,7 @@ const GRID_BOXES = 3;
 export function RecentWorkSection({ id }: { id?: string }) {
   const { projects } = site;
   const openSlots = site.showPlaceholders
-    ? Math.max(0, GRID_BOXES - projects.length)
+    ? Math.max(0, MIN_BOXES - projects.length)
     : 0;
 
   if (projects.length < MIN_PROJECTS && openSlots === 0) return null;
@@ -44,22 +47,22 @@ export function RecentWorkSection({ id }: { id?: string }) {
           </p>
         </div>
 
-        <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <li key={project.href} className="flex">
-              <BuildBox project={project} />
-            </li>
-          ))}
-          {Array.from({ length: openSlots }, (_, i) => (
-            <li key={`open-slot-${i}`} className="flex">
+        <BuildsStrip
+          label="Recent Builds"
+          items={[
+            ...projects.map((project) => (
+              <BuildBox key={project.href} project={project} />
+            )),
+            ...Array.from({ length: openSlots }, (_, i) => (
               <ComingSoonSlot
+                key={`open-slot-${i}`}
                 label="More builds coming soon"
                 Icon={Globe}
                 className="min-h-40 w-full"
               />
-            </li>
-          ))}
-        </ul>
+            )),
+          ]}
+        />
       </div>
     </section>
   );
@@ -100,7 +103,7 @@ function BuildBox({ project }: { project: Project }) {
               src={project.image}
               alt={`${project.name} website, first screen`}
               fill
-              sizes="(min-width: 1024px) 24rem, (min-width: 768px) 45vw, 92vw"
+              sizes="(min-width: 1024px) 24rem, (min-width: 640px) 45vw, 85vw"
               className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             />
           </div>

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { OnboardingDevices } from "@/components/lee-systems/OnboardingDevices";
+import { BookCallLink } from "@/components/ui/BookCallLink";
+import { leeSystemsAnchors } from "@/data/lee-systems";
 
 const steps = [
   {
@@ -34,6 +36,10 @@ const steps = [
  * lights the step they are showing. Under prefers-reduced-motion the timer
  * does not run: the devices hold the first step and the list reads as plain
  * text.
+ *
+ * Under the steps, "Book a free call" (the owner's request, 2026-10-06), the
+ * hero's lit gold button, scrolling down to the page's form like the others
+ * in the page's body.
  */
 export function LeeSystemsOnboardingSection() {
   const [active, setActive] = useState(0);
@@ -163,6 +169,15 @@ export function LeeSystemsOnboardingSection() {
               );
             })}
           </ol>
+        </div>
+
+        <div className="mt-14 flex justify-center lg:mt-16">
+          <BookCallLink
+            variant="glow"
+            href={`#${leeSystemsAnchors.form}`}
+            arrow
+            className="h-14 w-full max-w-xs px-10 text-lg sm:w-auto sm:max-w-none"
+          />
         </div>
       </div>
     </section>
