@@ -232,7 +232,7 @@ export const leeSystemsFaqs = [
   {
     question: "What happens on the free call?",
     answer:
-      "We audit your current operations to uncover hidden profit leaks. If we're a mutual fit, you'll receive a straightforward, flat-rate quote upfront—zero hidden fees, zero revenue sharing, and zero mandatory ad spend.",
+      "We audit your current operations to uncover hidden profit leaks. If we're a mutual fit, you'll receive a straightforward, flat-rate quote upfront with zero hidden fees, zero revenue sharing, and zero mandatory ad spend.",
   },
   {
     question: "Is the call really free?",
@@ -267,7 +267,7 @@ export const leeSystemsFaqs = [
   {
     question: "What kinds of businesses do you work with?",
     answer:
-      "Every business thrives on new customers—and we know how to engineer predictable growth for yours, no matter the industry.",
+      "Every business thrives on new customers, and we know how to engineer predictable growth for yours, no matter the industry.",
   },
   {
     question: "How much does a website cost?",

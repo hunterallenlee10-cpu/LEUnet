@@ -81,12 +81,12 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
     case "invoice.paid": {
       const invoice = event.data.object as Stripe.Invoice;
       await notify(
-        `Invoice paid — ${formatAmount(invoice.amount_paid, invoice.currency)}`,
+        `Invoice paid: ${formatAmount(invoice.amount_paid, invoice.currency)}`,
         [
           `Invoice: ${invoice.number ?? invoice.id}`,
           `Venture: ${invoice.metadata?.ventureId ?? "unknown"}`,
           `Amount paid: ${formatAmount(invoice.amount_paid, invoice.currency)}`,
-          `Customer: ${invoice.customer_name ?? "—"} <${invoice.customer_email ?? "—"}>`,
+          `Customer: ${invoice.customer_name ?? "unknown"} <${invoice.customer_email ?? "unknown"}>`,
         ]
       );
       return;
@@ -94,9 +94,9 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
 
     case "invoice.payment_failed": {
       const invoice = event.data.object as Stripe.Invoice;
-      await notify(`Invoice payment failed — ${invoice.number ?? invoice.id}`, [
+      await notify(`Invoice payment failed: ${invoice.number ?? invoice.id}`, [
         `Invoice: ${invoice.number ?? invoice.id}`,
-        `Customer: ${invoice.customer_email ?? "—"}`,
+        `Customer: ${invoice.customer_email ?? "unknown"}`,
         `Amount due: ${formatAmount(invoice.amount_due, invoice.currency)}`,
         "Stripe will retry according to your dunning settings.",
       ]);

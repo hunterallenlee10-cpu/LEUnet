@@ -110,7 +110,7 @@ export function BmYearClock() {
 
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
           <span className="text-2xl font-bold tabular-nums tracking-tight text-white md:text-3xl">
-            {percent === null ? "—" : `${percent.toFixed(6)}%`}
+            {percent === null ? "…" : `${percent.toFixed(6)}%`}
           </span>
           <span className="mt-1 text-sm text-neutral-400">
             of {year ?? "this year"} is already gone
@@ -121,7 +121,7 @@ export function BmYearClock() {
       <div className="flex items-center justify-between border-t border-white/10 px-6 py-4 text-sm">
         <span className="text-neutral-500">Time left this year</span>
         <span className="font-semibold tabular-nums text-amber-300">
-          {daysLeft === null ? "—" : `${daysLeft} days`}
+          {daysLeft === null ? "…" : `${daysLeft} days`}
         </span>
       </div>
     </div>

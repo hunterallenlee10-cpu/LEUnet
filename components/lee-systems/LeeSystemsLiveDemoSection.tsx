@@ -338,7 +338,7 @@ export function LeeSystemsLiveDemoSection() {
           <Glows />
 
           <div id={leeSystemsAnchors.websites} aria-hidden="true" className="scroll-mt-8">
-            <p className={eyebrow}>01 — Your website catches the lead</p>
+            <p className={eyebrow}>01 Your website catches the lead</p>
             <Browser />
           </div>
 
@@ -353,7 +353,7 @@ export function LeeSystemsLiveDemoSection() {
                 width and a margin), so on a phone it wraps instead. */}
             <div className="relative h-[76px]">
               <p className={clsx(eyebrow, "absolute bottom-2.5 left-0 max-w-[calc(50%-3.75rem)] text-balance")}>
-                02 — Your system handles it
+                02 Your system handles it
               </p>
             </div>
             <Workflow />
