@@ -16,9 +16,9 @@ const geistSans = Geist({ subsets: ['latin'] })
  */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Lee Enterprises Unlimited | AI Automation & Business Training',
+  title: 'Lee Enterprises Unlimited | AI Automation & Websites',
   description:
-    'Hire Lee Systems Co. for AI automation and websites, or learn to start a business and use AI with Business Mastery.',
+    'Lee Systems Co. builds websites that bring in customers and AI automations that answer every call, follow up and book the job.',
   authors: [{ name: 'Lee Enterprises Unlimited' }],
   creator: 'Lee Enterprises Unlimited',
   publisher: 'Lee Enterprises Unlimited',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: 'Lee Enterprises Unlimited',
     title: 'Lee Enterprises Unlimited',
     description:
-      'Hire Lee Systems Co. for AI automation and websites, or learn to start a business and use AI with Business Mastery.',
+      'Lee Systems Co. builds websites that bring in customers and AI automations that answer every call, follow up and book the job.',
   },
   // Every share image is 1200x630, so every page gets the large card.
   twitter: {

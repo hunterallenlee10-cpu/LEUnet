@@ -1,28 +1,50 @@
 import Link from "next/link";
-import { businessMasteryPage, sectionIds } from "@/data/navigation";
+import { CircleCheck } from "lucide-react";
+import { sectionIds } from "@/data/navigation";
 import { leeSystemsRoutes } from "@/data/lee-systems";
-import { businessMasteryAction } from "@/data/business-mastery";
 import { site } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { HeroStage } from "@/components/sections/HeroStage";
 import { HeroVsl } from "@/components/sections/HeroVsl";
+import { MissedRevenueCalculator } from "@/components/sections/MissedRevenueCalculator";
+
+/** The two halves of the offer, three points each. */
+const offer = [
+  {
+    title: "Websites",
+    points: [
+      "Mobile-first and fast on any phone",
+      "Lead forms that turn visitors into customers",
+      "Basic SEO so local customers can find you",
+    ],
+  },
+  {
+    title: "Automations",
+    points: [
+      "Answers your business calls 24/7 with an AI assistant",
+      "Answers every new lead in under a minute",
+      "Follows up until the customer gives an answer",
+    ],
+  },
+];
 
 /**
  * The homepage hero. First a full-screen headline, line and button over a
  * field of gold dots (the owner's design, 2026-09-28, which replaced the LEU
  * logo and the "Hire us to automate your business, or learn to build your
  * own." headline; the owner's headline "Never Miss Another Customer",
- * 2026-09-29, replaced "Elevate Your Business with AI"). A few seconds in, the animation of what Lee Systems Co.
- * sets up plays in the headline's place, then hands back to it with a
+ * 2026-09-29, replaced "Elevate Your Business with AI"). A few seconds in,
+ * the animation of what Lee Systems Co. sets up plays in the headline's place, then hands back to it with a
  * "Replay animation" button (the owner's plan, 2026-09-29: HeroVsl.tsx, and
- * heroVslPlayer.ts for when it plays). Then "Split Ventures": the two ways to
- * work with LEU as two halves, hire Lee Systems Co. (first, and the brighter
- * of the two) or learn with Business Mastery, each with its own buttons, and
- * the statistics ribbon along the bottom edge.
+ * heroVslPlayer.ts for when it plays). Then the Lee Systems offer: one big
+ * call to hire Lee Systems Co. for websites and automations, beside the
+ * missed-revenue calculator (2026-10-06; it replaced "Split Ventures", the two
+ * halves for Lee Systems Co. and Business Mastery), and the statistics ribbon
+ * along the bottom edge.
  *
- * The styling lives in app/globals.css as `.hero-split-*` and, for the
- * animation, `.hero-vsl` (plus the shared `.leu-grain`); this file owns the
- * markup and the copy. Every movement in it stops under
+ * The styling lives in app/globals.css as `.hero-split-*` and `.hero-ls-*`,
+ * `.calc-*` for the calculator and, for the animation, `.hero-vsl` (plus
+ * the shared `.leu-grain`); this file owns the markup and the copy. Every movement in it stops under
  * prefers-reduced-motion (the end of that block), and the animation waits
  * for its "Play animation" button instead of starting by itself.
  */
@@ -96,75 +118,50 @@ export function HeroSection() {
         <HeroVsl />
       </HeroStage>
 
-      {/* Kept as one paragraph so it reads as a sentence pair; the spans
-          only split it into a brass eyebrow and a larger line below. The
-          eyebrow's full stop is for screen readers only. */}
-      <p className="hero-split-intro">
-        <span className="hero-split-intro-kicker">
-          Two ways to work with LEU<span className="sr-only">.</span>
-        </span>{" "}
-        <span className="hero-split-intro-line">Pick the one that fits.</span>
-      </p>
-
-      <div className="hero-split-fork">
-        <article
-          aria-labelledby="path-ls-title"
-          className="hero-split-half hero-split-half--ls"
-        >
-          <div className="hero-split-inner">
-            <p className="hero-split-who">Hire us: Lee Systems Co.</p>
-            <h2 id="path-ls-title" className="hero-split-half-title">
-              Never miss a customer again.
+      {/* The Lee Systems offer (the owner's ask, 2026-10-06): one big call
+          to hire Lee Systems Co. for websites and automations, beside the
+          missed-revenue calculator. It replaced "Two ways to work with LEU",
+          the Lee Systems Co. and Business Mastery halves; Business Mastery is
+          linked from the footer only now. The checklist points are the ones
+          /lee-systems already makes (LeeSystemsOfferingsSection.tsx). */}
+      <div className="hero-ls" aria-labelledby="hero-ls-title" role="region">
+        <div className="section-container hero-ls-grid">
+          <div>
+            <p className="hero-ls-eyebrow">Lee Systems Co.</p>
+            <h2 id="hero-ls-title" className="hero-ls-title">
+              A website that <em>brings customers in.</em> Automations that{" "}
+              <em>never let one slip.</em>
             </h2>
-            <p className="hero-split-blurb">
+            <p className="hero-ls-blurb">
               Get custom AI workflows and a high-performance website that run
-              your work on autopilot with guaranteed results.
+              your work on autopilot with guaranteed results. Built personally
+              for you.
             </p>
-            <div className="hero-split-actions">
-              <BookCallLink />
-              <Link href={leeSystemsRoutes.home} className="hero-split-link">
+            <div className="hero-ls-lists">
+              {offer.map((part) => (
+                <div key={part.title} className="hero-ls-list">
+                  <h3>{part.title}</h3>
+                  <ul>
+                    {part.points.map((point) => (
+                      <li key={point}>
+                        <CircleCheck aria-hidden="true" focusable="false" />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <div className="hero-ls-actions">
+              <BookCallLink variant="glow" arrow />
+              <Link href={leeSystemsRoutes.home} className="hero-ls-link">
                 See what we build
               </Link>
             </div>
           </div>
-        </article>
 
-        {/* Decorative: the line above already says "two ways" in words.
-            Between the two halves in the markup so that, stacked, it falls
-            between them as a divider; side by side it is the lit seam. */}
-        <div className="hero-split-or" aria-hidden="true">
-          <span>or</span>
+          <MissedRevenueCalculator />
         </div>
-
-        <article
-          aria-labelledby="path-bm-title"
-          className="hero-split-half hero-split-half--bm"
-        >
-          <div className="hero-split-inner">
-            <p className="hero-split-who">Learn with us: Business Mastery</p>
-            <h2 id="path-bm-title" className="hero-split-half-title">
-              Learn to start a business and actually use AI.
-            </h2>
-            <p className="hero-split-blurb">
-              Courses, coaching, and a community of people building alongside
-              you.
-            </p>
-            {site.businessMastery.price && (
-              <p className="hero-split-note">{site.businessMastery.price}</p>
-            )}
-            <div className="hero-split-actions">
-              <Link
-                href={businessMasteryAction.href}
-                className="btn-secondary inline-flex min-h-11 items-center justify-center"
-              >
-                {businessMasteryAction.label}
-              </Link>
-              <Link href={businessMasteryPage} className="hero-split-link">
-                See what you&apos;ll learn
-              </Link>
-            </div>
-          </div>
-        </article>
       </div>
 
       {site.stats.length > 0 && (

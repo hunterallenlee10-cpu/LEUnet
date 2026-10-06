@@ -5,18 +5,11 @@
    Used only by components/sections/HeroSection.tsx.
 
    A full-screen headline block over a field of gold dots (the owner's design,
-   2026-09-28), then the site's one choice as two halves with a lit seam
-   between them: Lee Systems Co. first (on the left from 1024px, on top below
-   that) and Business Mastery second, and the statistics as a ribbon along the
-   bottom edge. Each half lights its own ground in its own accent, Lee
-   Systems' brass and Business Mastery's amber, and Lee Systems' is the
-   brighter of the two because hiring Lee Systems Co. is the site's main path.
-   Each half holds its own buttons rather than being one big link.
-
-   From 1280px up, pointing at (or tabbing into) one half lets it lean a
-   little wider than the other; below that the halves stay even, and below
-   1024px they stack and the seam flattens into the divider between them. All
-   motion stops under prefers-reduced-motion at the end of the block.
+   2026-09-28), then one big call to hire Lee Systems Co. for websites and
+   automations beside the missed-revenue calculator (2026-10-06, replacing
+   the two halves for Lee Systems Co. and Business Mastery), and the
+   statistics as a ribbon along the bottom edge. All motion stops under
+   prefers-reduced-motion at the end of the block.
    --------------------------------------------------------------------------- */
 
 .hero-split {
@@ -24,8 +17,8 @@
 }
 
 /* The headline block: a screen tall from 640px up (short of that on very
-   tall screens), and a little less on a phone, so the two paths show under
-   it. It holds two layers in one grid cell: the headline, and the animation
+   tall screens), and a little less on a phone, so the Lee Systems section
+   shows under it. It holds two layers in one grid cell: the headline, and the animation
    that plays in its place (`.hero-vsl`, in the next block). Both are laid
    out from the start, so the block is as tall as the taller of the two and
    never changes height as they swap. `isolation` keeps the dots and the glow
@@ -67,7 +60,7 @@
    until a Lighthouse run showed those tripling the homepage's main-thread
    work. The tiles are too sparse to count as the page's largest paint, so
    the headline stays that. Both layers thin out towards the bottom, so the
-   block hands over to the two paths without an edge.
+   block hands over to the section under it without an edge.
 
    `::before` holds still. `::after` is a handful of brighter dots that fade
    in and out, which reads as a slow twinkle; only its opacity animates, so
@@ -232,20 +225,72 @@
   display: none;
 }
 
-/* The line that introduces the two paths: a small brass eyebrow between
-   two gold hairlines, then the invitation a size up beneath it. */
-.hero-split-intro {
+/* ---- the Lee Systems offer (the owner's ask, 2026-10-06) ----
+
+   It replaced "Two ways to work with LEU / Pick the one that fits", the
+   Lee Systems Co. and Business Mastery halves, when the owner moved Business
+   Mastery to the footer only. One big call to hire Lee Systems Co. for
+   websites and automations on the left, and the missed-revenue calculator on
+   the right (MissedRevenueCalculator.tsx); stacked below 1024px, the
+   calculator second. The ground is the old Lee Systems half's: a brass pool
+   from the bottom-left corner over fine diagonal hatching. */
+.hero-ls {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.625rem;
-  padding: 0 1.25rem;
-  text-align: center;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(3.5rem, 6vw, 5rem);
 }
 
-.hero-split-intro-kicker {
+.hero-ls::before,
+.hero-ls::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-ls::before {
+  background:
+    radial-gradient(
+      70% 80% at 18% 100%,
+      rgba(212, 168, 87, 0.2) 0%,
+      rgba(140, 105, 40, 0.06) 46%,
+      transparent 72%
+    ),
+    radial-gradient(
+      50% 60% at 82% 40%,
+      rgba(212, 168, 87, 0.08) 0%,
+      transparent 70%
+    );
+}
+
+.hero-ls::after {
+  opacity: 0.1;
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(212, 168, 87, 0.28) 0 1px,
+    transparent 1px 15px
+  );
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%);
+}
+
+.hero-ls-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-ls-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+}
+
+.hero-ls-eyebrow {
   display: flex;
   align-items: center;
   gap: 0.875rem;
@@ -256,338 +301,350 @@
   text-transform: uppercase;
 }
 
-.hero-split-intro-kicker::before,
-.hero-split-intro-kicker::after {
+.hero-ls-eyebrow::after {
   content: "";
-  width: clamp(1.5rem, 6vw, 4rem);
+  width: clamp(2rem, 6vw, 4rem);
   height: 1px;
-}
-
-.hero-split-intro-kicker::before {
-  background: linear-gradient(90deg, transparent, rgba(212, 168, 87, 0.7));
-}
-
-.hero-split-intro-kicker::after {
   background: linear-gradient(90deg, rgba(212, 168, 87, 0.7), transparent);
 }
 
-.hero-split-intro-line {
+.hero-ls-title {
+  margin-top: 1rem;
+  max-width: 18ch;
   color: #fff;
-  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-size: clamp(2.25rem, 4.6vw, 4rem);
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
-/* ---- the fork ---- */
-
-.hero-split-fork {
-  position: relative;
-  z-index: 1;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  margin-top: 1.5rem;
+.hero-ls-title em {
+  font-style: normal;
+  color: var(--color-brass-400);
 }
 
-@media (min-width: 1024px) {
-  .hero-split-fork {
-    flex-direction: row;
-    align-items: stretch;
-    min-height: 40vh;
-  }
-}
-
-/* `flex` is what the lean grows, so the transition lives here and the grown
-   values in the interaction block at the end. */
-.hero-split-half {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  flex: 1 1 0%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 2.5rem 1.25rem 3rem;
-  transition: flex 0.55s cubic-bezier(0.32, 0.72, 0.28, 1);
-}
-
-@media (min-width: 640px) {
-  .hero-split-half {
-    padding-inline: 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-split-half {
-    justify-content: flex-end;
-    padding: 2.25rem clamp(1.5rem, 5vw, 5.25rem) 2.75rem;
-  }
-}
-
-/* Each half's pool, rising from its own outer bottom corner in its own
-   accent. Lee Systems' is at full strength; Business Mastery's is held back,
-   and comes up when that half is the one in use. */
-.hero-split-half::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  transition: opacity 0.55s ease;
-}
-
-.hero-split-half--ls::before {
-  opacity: 1;
-  background: radial-gradient(
-    90% 90% at 30% 100%,
-    rgba(212, 168, 87, 0.24) 0%,
-    rgba(140, 105, 40, 0.07) 46%,
-    transparent 72%
-  );
-}
-
-.hero-split-half--bm::before {
-  opacity: 0.6;
-  background: radial-gradient(
-    90% 90% at 70% 100%,
-    rgba(251, 191, 36, 0.2) 0%,
-    rgba(180, 120, 20, 0.05) 46%,
-    transparent 72%
-  );
-}
-
-/* Fine diagonal hatching, mirrored between the halves, so the two grounds
-   read as two materials rather than one wash split by a line. */
-.hero-split-half::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  opacity: 0.12;
-  pointer-events: none;
-}
-
-.hero-split-half--ls::after {
-  background: repeating-linear-gradient(
-    115deg,
-    rgba(212, 168, 87, 0.28) 0 1px,
-    transparent 1px 15px
-  );
-}
-
-.hero-split-half--bm::after {
-  background: repeating-linear-gradient(
-    65deg,
-    rgba(251, 191, 36, 0.28) 0 1px,
-    transparent 1px 15px
-  );
-}
-
-.hero-split-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 29rem;
-}
-
-/* Side by side, each half's copy hugs its outer edge, so the two read as a
-   mirrored pair either side of the seam. */
-@media (min-width: 1024px) {
-  .hero-split-half--bm .hero-split-inner {
-    margin-left: auto;
-    text-align: right;
-  }
-}
-
-.hero-split-who {
-  font-size: 0.94rem;
-  font-weight: 600;
-}
-
-.hero-split-half--ls .hero-split-who {
-  color: rgb(224 190 120);
-}
-
-.hero-split-half--bm .hero-split-who {
-  color: rgb(251 191 36);
-}
-
-.hero-split-half-title {
-  margin-top: 0.625rem;
-  color: #fff;
-  font-size: clamp(1.6125rem, 2.47vw, 2.42rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
-}
-
-/* The quieter path's headline sits a step down from the main one's. */
-.hero-split-half--bm .hero-split-half-title {
-  font-size: clamp(1.48rem, 2.15vw, 2.15rem);
-}
-
-.hero-split-blurb {
-  margin-top: 0.75rem;
+.hero-ls-blurb {
+  margin-top: 1.25rem;
+  max-width: 34rem;
   color: rgb(212 212 212);
-  font-size: 1.075rem;
+  font-size: 1.125rem;
   line-height: 1.6;
 }
 
-.hero-split-note {
-  margin-top: 0.5rem;
-  color: rgb(163 163 163);
-  font-size: 0.94rem;
+.hero-ls-lists {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem 2rem;
+  margin-top: 2rem;
+  max-width: 38rem;
 }
 
-/* The buttons and links a step (7.5%) above body size, with the buttons'
-   padding scaled to match so they grow in proportion. */
-.hero-split-actions {
-  margin-top: 1.375rem;
-  font-size: 1.075rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem 1.25rem;
-}
-
-.hero-split-actions .btn-ls-primary,
-.hero-split-actions .btn-secondary {
-  padding: 0.8rem 1.6rem;
-}
-
-@media (min-width: 1024px) {
-  .hero-split-half--bm .hero-split-actions {
-    justify-content: flex-end;
+@media (min-width: 640px) {
+  .hero-ls-lists {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.hero-split-link {
+.hero-ls-list h3 {
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid rgba(212, 168, 87, 0.3);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hero-ls-list ul {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.hero-ls-list li {
+  display: flex;
+  gap: 0.625rem;
+  color: rgb(212 212 212);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.hero-ls-list li svg {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.1rem;
+  color: var(--color-brass-400);
+}
+
+.hero-ls-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin-top: 2.25rem;
+  font-size: 1.075rem;
+}
+
+.hero-ls-link {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
   border-radius: 0.25rem;
-  color: rgb(224 190 120);
+  color: var(--color-brass-300);
   font-weight: 600;
   text-underline-offset: 4px;
 }
 
-.hero-split-link:hover {
+.hero-ls-link:hover {
   text-decoration: underline;
 }
 
-.hero-split-half--bm .hero-split-link {
-  color: rgb(251 191 36);
+/* ---- the missed-revenue calculator ----
+   Used only by components/sections/MissedRevenueCalculator.tsx. A dark card
+   after the owner's reference (a car-payment estimator, 2026-10-06): the
+   result in a lit panel up top, then pills and brass sliders. */
+.calc {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  background: linear-gradient(180deg, rgba(28, 28, 27, 0.92), rgba(18, 18, 17, 0.92));
+  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.9);
+  padding: clamp(1.25rem, 3.5vw, 2.25rem);
 }
 
-/* ---- the seam ---- */
+.calc-title {
+  color: #fff;
+  font-size: clamp(1.375rem, 2.2vw, 1.625rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
 
-/* Below 1024px the halves stack and this is the divider between them, with
-   the left hairline in Lee Systems' brass and the right in Business
-   Mastery's amber, matching the side-by-side order. */
-.hero-split-or {
+.calc-sub {
+  margin-top: 0.375rem;
+  color: rgb(163 163 163);
+  font-size: 0.95rem;
+}
+
+.calc-result {
   position: relative;
-  z-index: 3;
+  overflow: hidden;
+  margin-top: 1.5rem;
+  padding: 1.375rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background:
+    radial-gradient(90% 120% at 0% 0%, rgba(212, 168, 87, 0.2) 0%, transparent 60%),
+    rgba(10, 10, 10, 0.6);
+}
+
+.calc-result-label {
+  color: rgb(212 212 212);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.calc-result-value {
+  margin-top: 0.25rem;
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-block: -1.5rem;
-  padding-inline: 1rem;
-  pointer-events: none;
+  align-items: baseline;
+  gap: 0.25rem;
+  color: #fff;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
 }
 
-.hero-split-or::before,
-.hero-split-or::after {
-  content: "";
-  flex: 1 1 0;
-  height: 1px;
+.calc-result-value small {
+  color: rgb(163 163 163);
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
-.hero-split-or::before {
-  background: linear-gradient(
-    to right,
-    rgba(212, 168, 87, 0) 0%,
-    rgba(212, 168, 87, 0.45) 100%
-  );
+.calc-result-detail {
+  margin-top: 0.75rem;
+  color: rgb(212 212 212);
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
-.hero-split-or::after {
-  background: linear-gradient(
-    to left,
-    rgba(251, 191, 36, 0) 0%,
-    rgba(251, 191, 36, 0.45) 100%
-  );
+.calc-result-detail b {
+  color: var(--color-brass-300);
+  font-weight: 600;
 }
 
-/* The ring in the ground colour cuts the blade short of the badge, so the
-   badge sits on the seam rather than being threaded on it. */
-.hero-split-or span {
+.calc-result .btn-ls-glow {
+  margin-top: 1.125rem;
+}
+
+.calc-modes {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  border: 0;
+  padding: 0;
+}
+
+.calc-mode {
+  position: relative;
+}
+
+.calc-mode input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.calc-mode span {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: none;
-  width: 3.225rem;
-  height: 3.225rem;
-  border: 1px solid rgba(251, 191, 36, 0.55);
+  min-height: 2.75rem;
+  padding: 0 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 9999px;
-  background: rgb(10 10 10);
-  box-shadow:
-    0 0 0 6px rgb(10 10 10),
-    0 0 30px rgba(251, 191, 36, 0.25);
-  color: rgb(251 191 36);
-  font-size: 0.875rem;
+  color: rgb(212 212 212);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.calc-mode input:hover + span {
+  border-color: rgba(212, 168, 87, 0.5);
+}
+
+.calc-mode input:checked + span {
+  border-color: var(--color-brass-400);
+  background: rgba(212, 168, 87, 0.14);
+  color: var(--color-brass-300);
+}
+
+.calc-mode input:focus-visible + span {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 2px;
+}
+
+.calc-fields {
+  margin-top: 0.5rem;
+}
+
+.calc-field {
+  margin-top: 1.25rem;
+}
+
+.calc-field-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.calc-field-head label {
+  color: rgb(212 212 212);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.calc-field-head output {
+  color: #fff;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The slider: a thin track filled in brass up to the thumb (`--fill`, set
+   inline), and a round brass thumb with a light centre, as in the owner's
+   reference. The input itself is 44px tall so it is easy to grab. */
+.calc-range {
+  --fill: 50%;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 2.75rem;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.calc-range:focus {
+  outline: none;
+}
+
+.calc-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--color-brass-400) 0 var(--fill),
+    rgba(255, 255, 255, 0.12) var(--fill) 100%
+  );
+}
+
+.calc-range::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.calc-range::-moz-range-progress {
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--color-brass-400);
+}
+
+.calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-top: calc((4px - 1.375rem) / 2);
+  border: 5px solid var(--color-brass-400);
+  border-radius: 9999px;
+  background: #f2ede4;
+  box-shadow: 0 0 0 4px rgba(212, 168, 87, 0.15);
+}
+
+.calc-range::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 1.375rem;
+  height: 1.375rem;
+  border: 5px solid var(--color-brass-400);
+  border-radius: 9999px;
+  background: #f2ede4;
+  box-shadow: 0 0 0 4px rgba(212, 168, 87, 0.15);
+}
+
+.calc-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px rgba(224, 190, 120, 0.55);
+}
+
+.calc-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 4px rgba(224, 190, 120, 0.55);
+}
+
+.calc-group {
+  margin-top: 1.5rem;
+  color: var(--color-brass-300);
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-indent: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-/* From 1024px up the seam is a lit blade leaning between the halves. The
-   lean is a skew rather than a rotation, so the blade spans the fork's full
-   height at any aspect ratio. */
-@media (min-width: 1024px) {
-  .hero-split-or {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    margin: 0 0 0 -1px;
-    padding: 0;
-    transform: skewX(-6deg);
-    background: linear-gradient(
-      to bottom,
-      rgba(251, 191, 36, 0) 0%,
-      rgba(251, 191, 36, 0.65) 30%,
-      rgba(253, 224, 140, 0.9) 55%,
-      rgba(251, 191, 36, 0.5) 80%,
-      rgba(251, 191, 36, 0) 100%
-    );
-    box-shadow: 0 0 24px 2px rgba(251, 191, 36, 0.3);
-    animation: heroSeamGlow 5s ease-in-out infinite;
-  }
-
-  .hero-split-or::before,
-  .hero-split-or::after {
-    display: none;
-  }
-
-  .hero-split-or span {
-    position: absolute;
-    top: 34%;
-    left: 50%;
-    transform: translate(-50%, -50%) skewX(6deg);
-  }
-}
-
-@keyframes heroSeamGlow {
-  0%,
-  100% {
-    box-shadow: 0 0 24px 2px rgba(251, 191, 36, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 38px 5px rgba(251, 191, 36, 0.5);
-  }
+.calc-note {
+  margin-top: 1.5rem;
+  color: rgb(140 140 140);
+  font-size: 0.8125rem;
+  line-height: 1.55;
 }
 
 /* ---- the statistics ribbon ---- */
@@ -639,53 +696,17 @@
   font-size: 0.75rem;
 }
 
-/* ---- interaction ---- */
-
-/* The lean is pointer-and-wide-desktop only: stacked halves growing on tap
-   would jump the page under the finger, a touch "hover" sticks, and between
-   1024px and 1280px the narrower half would have to re-wrap its copy.
-   Keyboard focus gets the same lean below, unguarded by pointer. */
-@media (hover: hover) and (min-width: 1280px) {
-  .hero-split-fork:has(.hero-split-half:hover) .hero-split-half {
-    flex: 0.92 1 0%;
-  }
-
-  .hero-split-fork .hero-split-half:hover {
-    flex: 1.12 1 0%;
-  }
-
-  .hero-split-half--bm:hover::before {
-    opacity: 0.9;
-  }
-}
-
-@media (min-width: 1280px) {
-  .hero-split-fork:has(.hero-split-half:focus-within) .hero-split-half {
-    flex: 0.92 1 0%;
-  }
-
-  .hero-split-fork .hero-split-half:focus-within {
-    flex: 1.12 1 0%;
-  }
-
-  .hero-split-half--bm:focus-within::before {
-    opacity: 0.9;
-  }
-}
-
 /* The reset in `@layer base` already stops every animation and transition on
    the site under this preference, and being in a layer its `!important`
    outranks anything here. This is the explicit, readable version for the one
    section where the motion is the point — it must keep working if that reset
    is ever narrowed. */
 @media (prefers-reduced-motion: reduce) {
-  .hero-split-or,
   .hero-split-top::after {
     animation: none;
   }
 
-  .hero-split-half,
-  .hero-split-half::before {
+  .calc-mode span {
     transition: none;
   }
 }

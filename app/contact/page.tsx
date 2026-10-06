@@ -7,7 +7,7 @@ import { site } from "@/data/site";
 
 const title = "Contact | Lee Enterprises Unlimited";
 const description =
-  "Book a free call with Lee Systems Co., ask about Business Mastery, or send Hunter Lee a message.";
+  "Book a free call with Lee Systems Co. about a website or automations, or send Hunter Lee a message.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

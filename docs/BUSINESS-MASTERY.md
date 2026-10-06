@@ -27,9 +27,11 @@ Mastery program page, plus its homepage presence.
 >   Enterprises Unlimited" links home; legal links are full www addresses).
 >   The page's buttons use `bmPageAction`, a bare `#bm-offer`, so they
 >   scroll on either host.
-> - **Main site:** still points to Business Mastery from the header, the
->   footer and the homepage hero's second path, unchanged until the owner
->   says otherwise.
+> - **Main site:** links to Business Mastery from the footer only (the
+>   owner's call, 2026-10-06: it is promoted on its own). The header link,
+>   the homepage hero's second path and the contact form's "Business
+>   Mastery" choice are gone. The www sitemap still lists the subdomain,
+>   since that is how search engines find it.
 
 > **2026-09-28 site fix — read this first.** The owner's site fix plan and
 > answers changed several things below. Where this document disagrees with
@@ -51,8 +53,9 @@ Mastery program page, plus its homepage presence.
 >   membership, 90-day guarantee, each restating a fact set elsewhere). The
 >   copy is unchanged and `bmHeroCopyIsConsistent` holds the split forms to
 >   the sentences. The constellation background is unchanged.
-> - **Homepage:** the teaser panel is gone. The homepage hero's second path
->   ("Learn with us: Business Mastery") is the one hook now.
+> - **Homepage:** the teaser panel is gone, and since 2026-10-06 so is the
+>   hero's second path ("Learn with us: Business Mastery"). The footer link
+>   is the one hook now.
 > - **Scarcity:** the "Enrollment Closing Soon · 4 Spots Remain" line and the
 >   "Limited Spots" box are removed. Scarcity wording shows only if
 >   `site.businessMastery.scarcity` (data/site.ts) is set, once, in the offer

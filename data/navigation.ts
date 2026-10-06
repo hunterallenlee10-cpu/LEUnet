@@ -17,8 +17,9 @@ export const businessMasteryPage = BUSINESS_MASTERY_SITE_LIVE
 export const contactPage = "/contact";
 
 /**
- * The header's links, in order: Lee Systems Co. first because hiring it is
- * the site's main path, then Business Mastery, then Contact. The gold "Book a
+ * The header's links, in order: Lee Systems Co., then Contact. Business
+ * Mastery is linked from the footer only (`footerPages`), at the owner's
+ * request (2026-10-06): it is promoted on its own, not from this site. The gold "Book a
  * free call" button after them is not an entry here; MainHeader draws it from
  * `bookLabel` and `bookHref` in data/site.ts.
  *
@@ -33,18 +34,16 @@ export const navigationItems: NavItem[] = [
     id: "nav-lee-systems",
   },
   {
-    label: "Business Mastery",
-    href: businessMasteryPage,
-    id: "nav-business-mastery",
-  },
-  {
     label: "Contact",
     href: contactPage,
     id: "nav-contact",
   },
 ];
 
-/** The footer's page links: the three places the site leads. */
+/**
+ * The footer's page links. The footer is the one place on the main site that
+ * links to Business Mastery (the owner's call, 2026-10-06).
+ */
 export const footerPages = [
   { label: "Lee Systems Co.", href: leeSystemsRoutes.home },
   { label: "Business Mastery", href: businessMasteryPage },

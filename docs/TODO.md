@@ -1,8 +1,8 @@
 # Hunter's to-do list
 
 The things only Hunter can do for the site: links, photos, decisions and
-account set-up. Last updated 2026-10-06, when Business Mastery went live on
-its own subdomain.
+account set-up. Last updated 2026-10-06, when the homepage's two paths made
+way for the Lee Systems offer and its calculator.
 
 Ask Claude for "my to-do list" in any session on this repo and it reads this
 file. Tell Claude when something is done and it checks it off here.
@@ -70,6 +70,12 @@ file. Tell Claude when something is done and it checks it off here.
       [RECENT-BUILDS.md](RECENT-BUILDS.md). The row has nine builds since
       2026-10-05 (eight client sites and the LEU site).
       And Google reviews from finished clients.
+
+- [ ] **Calculator numbers.** The homepage's "See what you're missing"
+      calculator (added 2026-10-06) starts at 40 calls a week, 20% missed, a
+      $500 average job and 30% of leads closed. Tell Claude if other starting
+      numbers or ranges fit your clients better (the top of
+      `components/sections/MissedRevenueCalculator.tsx`).
 
 ## Waiting on your go
 
