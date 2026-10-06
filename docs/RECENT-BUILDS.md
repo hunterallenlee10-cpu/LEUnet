@@ -1,9 +1,10 @@
 # Recent Builds: how to send a build
 
-"Recent Builds" is the sideways row of boxes on the homepage and /lee-systems
-(`components/shared/RecentWorkSection.tsx`, scrolled by `BuildsStrip.tsx`).
-It shows three boxes at a time on desktop, two on tablets and one with the
-next peeking in on phones; visitors swipe or use the arrows for the rest, so
+"Recent Builds" is the 360° ring of boxes on the homepage and /lee-systems
+(`components/shared/RecentWorkSection.tsx`, turned by `BuildsRing.tsx`). The
+front box faces the visitor and the rest wrap round behind it, so it's clear
+there are more; it turns to the next build every 3 seconds on its own, and
+visitors can drag it, use the arrows or dots, or click a build at the side, so
 any number of builds fits without the section getting taller. Each box is
 one website we built: a screenshot of its first screen in a browser frame, the
 kind of business, the name, tags for what we built, an optional result line,
