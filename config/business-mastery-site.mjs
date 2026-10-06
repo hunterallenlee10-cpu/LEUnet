@@ -24,7 +24,7 @@ export const BUSINESS_MASTERY_HOST = "mastery.leeenterprisesunlimited.com";
 export const BUSINESS_MASTERY_SITE_URL = `https://${BUSINESS_MASTERY_HOST}`;
 
 /**
- * false until the subdomain answers; see above.
+ * On since 2026-10-06, when the subdomain first answered with the page.
  * @type {boolean}
  */
-export const BUSINESS_MASTERY_SITE_LIVE = false;
+export const BUSINESS_MASTERY_SITE_LIVE = true;
