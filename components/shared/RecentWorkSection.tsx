@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, Globe } from "lucide-react";
 import { isExternalHref, site, type Project } from "@/data/site";
 import { ComingSoonSlot } from "@/components/shared/ComingSoonSlot";
-import { BuildsStrip } from "@/components/shared/BuildsStrip";
+import { BuildsRing } from "@/components/shared/BuildsRing";
 
 /** Fewer real builds than this and the section doesn't show them alone. */
 const MIN_PROJECTS = 1;
@@ -16,7 +16,8 @@ const MIN_BOXES = 3;
  * browser frame. The whole box links to the live site. The owner asked for
  * boxes in place of the 360° ring on 2026-10-05, then for a sideways row in
  * place of the grid on 2026-10-06 so the section can take any number of
- * builds without growing taller (BuildsStrip).
+ * builds without growing taller, and that afternoon for a 360° ring that
+ * turns on its own and shows the builds round the back (BuildsRing).
  *
  * While `site.showPlaceholders` is true, "coming soon" boxes fill the row out
  * to three, and each real build takes the place of one. With placeholders
@@ -47,7 +48,7 @@ export function RecentWorkSection({ id }: { id?: string }) {
           </p>
         </div>
 
-        <BuildsStrip
+        <BuildsRing
           label="Recent Builds"
           items={[
             ...projects.map((project) => (
