@@ -89,8 +89,9 @@ export const site = {
   ] as Stat[],
   /**
    * "Recent Builds": finished work the owner has permission to show, in the
-   * owner's order (sent 2026-10-05), with our own site last. Names are as each
-   * live site shows them. docs/RECENT-BUILDS.md has the format for adding one.
+   * owner's order (sent 2026-10-05; Copperleaf, Rocha and Lumen Chapel added
+   * 2026-10-07), with our own site last. Names are as each live site shows
+   * them. docs/RECENT-BUILDS.md has the format for adding one.
    */
   projects: [
     {
@@ -149,6 +150,27 @@ export const site = {
       href: "https://template-zeta-nine.vercel.app",
       upgradedFrom: "https://g1-baseball.com",
       image: "/projects/g1-baseball.webp",
+    },
+    {
+      name: "Copperleaf Grounds Co.",
+      category: "Lawn care · Brandywine Valley",
+      built: ["Website", "Backend automation", "Ready-to-go template"],
+      href: "https://boltlandscaping.vercel.app",
+      image: "/projects/copperleaf-grounds.webp",
+    },
+    {
+      name: "Rocha Family Auto Sales",
+      category: "Pre-owned vehicles · Sequim, Washington",
+      built: ["Website", "Backend automation", "Ready-to-go template"],
+      href: "https://rocha-nu.vercel.app",
+      image: "/projects/rocha-family-auto-sales.webp",
+    },
+    {
+      name: "Lumen Chapel",
+      category: "Church",
+      built: ["Website", "Backend automation", "Ready-to-go template"],
+      href: "https://template-church-xi.vercel.app",
+      image: "/projects/lumen-chapel.webp",
     },
     {
       name: "Lee Enterprises Unlimited",

@@ -85,4 +85,4 @@ amounts blurred or fake. Screenshots as full-size PNGs.
 3. With fewer than three builds and `showPlaceholders` on, "coming soon"
    boxes fill the row out to three.
 4. When a client's site changes, retake its shot the same way. All of them
-   were last refreshed on 2026-10-06.
+   were last refreshed on 2026-10-07.
