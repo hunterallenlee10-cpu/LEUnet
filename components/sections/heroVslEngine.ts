@@ -1129,13 +1129,13 @@ export function createHolo(
       T.pushIn[0]
     )
       .fromTo(
-        need(".holo-stage .holo-trust"),
+        need(".holo-stage .holo-pitch"),
         { opacity: 0, y: 12 },
         { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" },
         T.trust
       )
       .fromTo(
-        qa(".holo-stage .holo-ctas > a, .holo-stage .holo-links > a"),
+        qa(".holo-stage .holo-ctas > a"),
         { opacity: 0, y: 12 },
         { opacity: 1, y: 0, duration: 0.65, ease: "power3.out", stagger: 0.15 },
         T.ctas
