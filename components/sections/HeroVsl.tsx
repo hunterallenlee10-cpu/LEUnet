@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
 import { BookCallLink } from "@/components/ui/BookCallLink";
-import { leeSystemsLinks } from "@/data/lee-systems";
+import { leeSystemsRoutes } from "@/data/lee-systems";
 import { heroVslNiches, heroVslStats } from "@/data/hero-vsl";
 
 /** The flashes that burst as each gap seals and as the pipe lands in the bank,
@@ -45,7 +45,7 @@ const MESSAGE_PATH =
  * about 30 seconds long. Coins stream down a pipe from a call, a form and a
  * text; three gaps leak them until the automations switch on and seal each
  * one, a website adds a stream of its own, and it all folds into the bank for
- * the end card: the ribbon's figures, the promise and the links.
+ * the end card: the ribbon's figures, the headline and its two buttons.
  *
  * This is the markup and the copy, rendered on the server and hidden until
  * its turn. heroVslEngine.ts moves it (a GSAP timeline) and heroVslPlayer.ts
@@ -194,7 +194,7 @@ export function HeroVsl() {
 
             <div className="holo-caps">
               <p className="holo-cap">
-                Missed leads are missed <em>money</em>.
+                Every missed lead is <em>lost money</em>.
               </p>
               <p className="holo-cap">
                 Automations close every gap <em>leads slip through</em>.
@@ -270,24 +270,24 @@ export function HeroVsl() {
                 </ul>
               </div>
               <div className="holo-close">
-                <p className="holo-trust">
-                  <span className="holo-nb">One flat price.</span>{" "}
-                  <span className="holo-nb">No revenue share.</span>{" "}
-                  <span className="holo-nb">Just results.</span>
-                </p>
+                <div className="holo-pitch">
+                  <p className="holo-headline">
+                    <span className="holo-nb">We plug the leaks.</span>{" "}
+                    <span className="holo-nb">You keep the money.</span>
+                  </p>
+                  <p className="holo-terms">
+                    <span className="holo-nb">One flat price.</span>{" "}
+                    <span className="holo-nb">No revenue share.</span>
+                  </p>
+                </div>
                 <div className="holo-ctas">
                   <BookCallLink />
-                  <div className="holo-links">
-                    <Link
-                      href={leeSystemsLinks.automation}
-                      className="holo-link"
-                    >
-                      See what we automate
-                    </Link>
-                    <Link href={leeSystemsLinks.websites} className="holo-link">
-                      Websites built to bring in leads
-                    </Link>
-                  </div>
+                  <Link
+                    href={leeSystemsRoutes.home}
+                    className="btn-ls-secondary inline-flex min-h-11 items-center justify-center text-center"
+                  >
+                    Explore everything
+                  </Link>
                 </div>
               </div>
             </div>
