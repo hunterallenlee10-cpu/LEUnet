@@ -137,11 +137,11 @@ export const site = {
       image: "/projects/terps-fostering-futures.webp",
     },
     {
-      name: "Forge Strength Co.",
+      name: "Fieldhouse Athletic Club",
       category: "Fitness coaching",
       built: ["Website", "Backend automation", "Ready-to-go template"],
-      href: "https://fitness-orpin-six.vercel.app",
-      image: "/projects/forge-strength.webp",
+      href: "https://fitness-orpin-six.vercel.app/?style=fieldhouse",
+      image: "/projects/fieldhouse-athletic-club.webp",
     },
     {
       name: "G1 Baseball & Softball Training",
