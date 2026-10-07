@@ -1,11 +1,11 @@
-import { HeroVideoLoop } from "@/components/lee-systems/HeroVideoLoop";
+import { HeroStill } from "@/components/lee-systems/HeroStill";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { leeSystems, leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
- * The Lee Systems Co. main page hero, over a muted loop of a laptop at night
- * (HeroVideoLoop, the owner's pick, 2026-09-30, which replaced the Signal
- * Routes lines). The copy answers "what's in it for me": the owner's
+ * The Lee Systems Co. main page hero, over a still of a laptop at night
+ * (HeroStill; the owner's pick, 2026-09-30, which replaced the Signal Routes
+ * lines, was a loop of it until 2026-10-07). The copy answers "what's in it for me": the owner's
  * headline in three beats, the last in brass, then "Let AI make you money."
  * and how, in one sentence. One button: the free call, which scrolls to the
  * form.
@@ -17,7 +17,7 @@ import { leeSystems, leeSystemsAnchors } from "@/data/lee-systems";
 export function LeeSystemsHeroSection() {
   return (
     <section className="relative isolate overflow-hidden">
-      <HeroVideoLoop />
+      <HeroStill />
       <div className="leu-grain" aria-hidden="true" />
 
       <div className="section-container relative z-10 flex flex-col pb-20 pt-60 sm:pt-80 md:min-h-[40rem] md:justify-center md:py-28 lg:min-h-[44rem]">
