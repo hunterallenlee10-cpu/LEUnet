@@ -59,7 +59,7 @@ const offerings: [Offering, Offering] = [
  * pick on 2026-10-05 from five directions, after the program cards on The
  * Real World's pages: each offering gets a picture on top, its name and line
  * under it, and its six points as a two-column checklist (one column on a
- * phone). Automation shows the laptop-at-night still from the hero's loop;
+ * phone). Automation shows the hero's laptop-at-night still;
  * websites shows real builds from Recent Builds, fanned two at a time, and
  * since 2026-10-06 (the owner's ask) shuffles through every one of them every
  * 3.5 seconds (WebsiteDeck). Pointing at a card lifts its border to brass and
@@ -132,7 +132,7 @@ const easeImage =
 function AutomationMedia() {
   return (
     <Image
-      src="/lee-systems/hero/hero-poster.jpg"
+      src="/lee-systems/hero/hero-still-1280.webp"
       alt="A laptop on a desk at night showing a business dashboard"
       fill
       sizes="(min-width: 1280px) 38rem, (min-width: 1024px) 48vw, 92vw"

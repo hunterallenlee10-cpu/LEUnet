@@ -2965,9 +2965,9 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. — the hero's video shade
-   One consumer: components/lee-systems/HeroVideoLoop.tsx, over the laptop
-   loop behind the /lee-systems hero (the owner's pick, 2026-09-30).
+   Lee Systems Co. — the hero's picture shade
+   One consumer: components/lee-systems/HeroStill.tsx, over the laptop
+   still behind the /lee-systems hero (the owner's pick, 2026-09-30).
 
    On a phone the picture is a band across the top of the hero and the copy
    starts in its lower third, so the shade darkens the very top (under the
