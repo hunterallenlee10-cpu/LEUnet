@@ -1808,15 +1808,19 @@
   opacity: 0.7;
 }
 
-/* The one control while it plays: pause and play, a round button centred
-   under the stage. Its word is for screen readers. It goes once the end card
-   is up, where there is nothing left to pause. */
+/* The controls while it plays, centred together under the stage: a skip
+   pill that jumps to the end card, then pause and play, a round button whose
+   word is for screen readers. Both go once the end card is up, where there
+   is nothing left to skip or pause. */
 .holo-controls {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
   margin-top: 0.75rem;
 }
 
+.holo-skip,
 .holo-toggle {
   display: inline-flex;
   flex: none;
@@ -1838,11 +1842,29 @@
     visibility 0.35s;
 }
 
+.holo-skip {
+  gap: 0.4rem;
+  width: auto;
+  padding: 0 1rem 0 1.125rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.holo-skip svg {
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.holo-skip:hover,
 .holo-toggle:hover {
   border-color: var(--brass-300);
   background: rgb(212 168 87 / 0.14);
 }
 
+.holo-skip:focus-visible,
 .holo-toggle:focus-visible {
   outline: 2px solid var(--brass-300);
   outline-offset: 3px;
@@ -1865,6 +1887,7 @@
   display: block;
 }
 
+.holo[data-state="done"] .holo-skip,
 .holo[data-state="done"] .holo-toggle {
   opacity: 0;
   visibility: hidden;

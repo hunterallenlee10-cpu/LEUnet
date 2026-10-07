@@ -50,6 +50,7 @@ export function mountHeroVsl(top: HTMLElement): () => void {
   const cones = Array.from(layer.querySelectorAll(".holo-cone, .holo-cone-boost"));
   const stage = need(layer, ".holo-stage");
   const toggleBtn = need<HTMLButtonElement>(layer, ".holo-toggle");
+  const skipBtn = need<HTMLButtonElement>(layer, ".holo-skip");
   const endLinks = need(stage, ".holo-ctas");
 
   const reducedQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -174,9 +175,10 @@ export function mountHeroVsl(top: HTMLElement): () => void {
 
   function vslDone() {
     if (state !== "vsl" && state !== "intro") return;
-    // The pause button goes with nothing left to pause; focus on it moves to
-    // the end card's booking button rather than being dropped.
-    if (document.activeElement === toggleBtn) {
+    // The pause and skip buttons go with nothing left to pause or skip; focus
+    // on either moves to the end card's booking button rather than being
+    // dropped.
+    if (document.activeElement === toggleBtn || document.activeElement === skipBtn) {
       endLinks.querySelector<HTMLElement>("a")?.focus({ preventScroll: true });
     }
     holdLeft = heroVsl.hold;

@@ -492,6 +492,7 @@ export function createHolo(
   const coinsWrap = need(".holo-coins");
   const coinEls = qa(".holo-coin");
   const toggle = need<HTMLButtonElement>(".holo-toggle");
+  const skip = need<HTMLButtonElement>(".holo-skip");
   const toggleLabel = need(".holo-toggle-label");
   const vaultFill = need(".holo-vault-fill");
   const vaultLine = need(".holo-vault-line");
@@ -1299,17 +1300,20 @@ export function createHolo(
     sync();
   }
 
+  // Straight to the end of the end card, as the skip button does.
+  function skipToEnd() {
+    if (done || !armed) return;
+    tl.pause();
+    tl.progress(1, true);
+    renderAt(tl.time());
+    finish();
+  }
+
   // A keyboard user who reaches the end card's links early goes straight to
   // the end.
   function onFocusIn(e: FocusEvent) {
-    if (done || !armed) return;
     const target = e.target as Element | null;
-    if (target?.closest(".holo-stage .holo-ctas")) {
-      tl.pause();
-      tl.progress(1, true);
-      renderAt(tl.time());
-      finish();
-    }
+    if (target?.closest(".holo-stage .holo-ctas")) skipToEnd();
   }
 
   function onVisibility() {
@@ -1330,6 +1334,7 @@ export function createHolo(
   setState("idle");
 
   toggle.addEventListener("click", onToggle);
+  skip.addEventListener("click", skipToEnd);
   root.addEventListener("focusin", onFocusIn);
   document.addEventListener("visibilitychange", onVisibility);
 
@@ -1366,6 +1371,7 @@ export function createHolo(
     destroy() {
       destroyed = true;
       toggle.removeEventListener("click", onToggle);
+      skip.removeEventListener("click", skipToEnd);
       root.removeEventListener("focusin", onFocusIn);
       document.removeEventListener("visibilitychange", onVisibility);
       viewObserver.disconnect();
