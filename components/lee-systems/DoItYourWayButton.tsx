@@ -4,9 +4,12 @@ import { useState } from "react";
 
 /**
  * The "Do nothing" card's button, after The Real World's "Do It Your Way".
- * Picking it is allowed: it says what that choice means, and nudges the card
- * beside it (`nudgeId`) so the eye lands on the other option.
+ * Picking it is allowed: it opens Indeed in a new tab, says what that choice
+ * means, and nudges the card beside it (`nudgeId`) so the eye lands on the
+ * other option.
  */
+const INDEED_URL = "https://www.indeed.com/";
+
 export function DoItYourWayButton({ nudgeId }: { nudgeId: string }) {
   const [picked, setPicked] = useState(false);
 
@@ -27,9 +30,16 @@ export function DoItYourWayButton({ nudgeId }: { nudgeId: string }) {
 
   return (
     <>
-      <button type="button" onClick={pick} className="btn-ls-muted w-full">
+      <a
+        href={INDEED_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={pick}
+        className="btn-ls-muted w-full"
+      >
         Do it your way
-      </button>
+        <span className="sr-only"> (opens in a new tab)</span>
+      </a>
       <p aria-live="polite" className="text-sm text-neutral-400">
         {picked && (
           <span className="mt-3 block">
