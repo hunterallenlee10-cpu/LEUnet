@@ -8,8 +8,9 @@ import { useEffect, useRef, type ReactNode } from "react";
  * children; this only adds the part that runs in the browser, and is the
  * hero's one client boundary.
  *
- * The player and GSAP load after the page is interactive, in their own
- * chunk, so the headline paints without waiting on them. If that chunk never
+ * The player, GSAP and the 3D film (three.js) load after the page is
+ * interactive, in their own chunk, so the headline paints without waiting on
+ * them and none of it is in the page's first script. If that chunk never
  * arrives, the regular hero simply stays.
  */
 export function HeroStage({ children }: { children: ReactNode }) {
