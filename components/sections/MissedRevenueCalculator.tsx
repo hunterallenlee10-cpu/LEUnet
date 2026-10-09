@@ -4,13 +4,20 @@ import { useId, useState, type CSSProperties } from "react";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 
 /**
- * The homepage's missed-revenue calculator (the owner's ask, 2026-10-06,
- * after a car-payment estimator they liked): the visitor slides in their own
- * numbers and sees what missed calls and a site that doesn't turn visitors
- * into leads could be costing them a month. It works out money the visitor
- * is missing, never a price, because Lee Systems Co. quotes every project on
- * the call. The math is spelled out in the note under it, and every number
- * in it is one the visitor chose.
+ * The homepage's calculator. It started as a missed-revenue calculator (the
+ * owner's ask, 2026-10-06, after a car-payment estimator they liked) and now
+ * folds in the "economic impact" time-saved calculator the owner also liked
+ * (2026-10-09): one card, with a switch for each part so a visitor counts
+ * only what fits their business.
+ *
+ * - Missed calls: calls an AI assistant would answer.
+ * - Website leads: extra leads from a site that turns visitors into leads.
+ * - Busywork: repetitive hours automations take off the team, and what those
+ *   hours cost in pay.
+ *
+ * It works out what the visitor is missing, never a price, because Lee
+ * Systems Co. quotes every project on the call. The math is spelled out in
+ * the note under it, and every number in it is one the visitor chose.
  *
  * The defaults and ranges are below in one place so the owner can tune them.
  * The styling is `.calc-*` in app/globals.css.
@@ -18,7 +25,17 @@ import { BookCallLink } from "@/components/ui/BookCallLink";
 
 const WEEKS_PER_MONTH = 52 / 12;
 
-type FieldKey = "callsPerWeek" | "missedPct" | "visitors" | "extraPer100" | "jobValue" | "closePct";
+type FieldKey =
+  | "callsPerWeek"
+  | "missedPct"
+  | "visitors"
+  | "extraPer100"
+  | "jobValue"
+  | "closePct"
+  | "teamSize"
+  | "repetitiveHours"
+  | "hourlyRate"
+  | "automatedPct";
 
 type FieldSpec = {
   label: string;
@@ -85,107 +102,168 @@ const fields: Record<FieldKey, FieldSpec> = {
     initial: 30,
     format: (v) => `${v}%`,
   },
+  teamSize: {
+    label: "People on your team",
+    min: 1,
+    max: 50,
+    step: 1,
+    initial: 3,
+    format: (v) => count.format(v),
+  },
+  repetitiveHours: {
+    label: "Repetitive hours a week, each",
+    min: 1,
+    max: 40,
+    step: 1,
+    initial: 5,
+    format: (v) => `${v} hrs`,
+  },
+  hourlyRate: {
+    label: "Average hourly pay",
+    min: 15,
+    max: 150,
+    step: 5,
+    initial: 30,
+    format: (v) => usd.format(v),
+  },
+  automatedPct: {
+    label: "Share automations take over",
+    min: 10,
+    max: 90,
+    step: 5,
+    initial: 50,
+    format: (v) => `${v}%`,
+  },
 };
 
-const modes = [
-  { value: "automations", label: "Automations" },
-  { value: "website", label: "Website" },
-  { value: "both", label: "Both" },
-] as const;
+type Part = "calls" | "website" | "busywork";
 
-type Mode = (typeof modes)[number]["value"];
-
-const fieldsFor: Record<Mode, { group: string; keys: FieldKey[] }[]> = {
-  automations: [
-    { group: "Your calls", keys: ["callsPerWeek", "missedPct"] },
-    { group: "Your jobs", keys: ["jobValue", "closePct"] },
-  ],
-  website: [
-    { group: "Your website", keys: ["visitors", "extraPer100"] },
-    { group: "Your jobs", keys: ["jobValue", "closePct"] },
-  ],
-  both: [
-    { group: "Your calls", keys: ["callsPerWeek", "missedPct"] },
-    { group: "Your website", keys: ["visitors", "extraPer100"] },
-    { group: "Your jobs", keys: ["jobValue", "closePct"] },
-  ],
-};
+const parts: { value: Part; label: string; hint: string }[] = [
+  { value: "calls", label: "Missed calls", hint: "An AI assistant answers every one" },
+  { value: "website", label: "Website leads", hint: "A site that turns visitors into leads" },
+  { value: "busywork", label: "Busywork", hint: "Automations take repetitive tasks" },
+];
 
 const initialValues = Object.fromEntries(
   Object.entries(fields).map(([key, spec]) => [key, spec.initial])
 ) as Record<FieldKey, number>;
 
+const initialOn: Record<Part, boolean> = { calls: true, website: true, busywork: true };
+
 export function MissedRevenueCalculator() {
   const id = useId();
-  const [mode, setMode] = useState<Mode>("both");
+  const [on, setOn] = useState(initialOn);
   const [values, setValues] = useState(initialValues);
 
   const close = values.closePct / 100;
   const missedCalls = values.callsPerWeek * WEEKS_PER_MONTH * (values.missedPct / 100);
   const extraLeads = values.visitors * (values.extraPer100 / 100);
-  const fromCalls = missedCalls * close * values.jobValue;
-  const fromSite = extraLeads * close * values.jobValue;
-  const monthly =
-    mode === "automations" ? fromCalls : mode === "website" ? fromSite : fromCalls + fromSite;
+  const hoursBack =
+    values.teamSize * values.repetitiveHours * WEEKS_PER_MONTH * (values.automatedPct / 100);
 
-  const callsPart = (
-    <>
-      <b>{count.format(missedCalls)} missed calls</b> a month
-    </>
-  );
-  const sitePart = (
-    <>
-      <b>{count.format(extraLeads)} more leads</b> from your site
-    </>
-  );
+  const lines = [
+    on.calls && {
+      key: "calls",
+      label: "Missed calls",
+      detail: `${count.format(missedCalls)} a month answered`,
+      amount: missedCalls * close * values.jobValue,
+    },
+    on.website && {
+      key: "website",
+      label: "Website leads",
+      detail: `${count.format(extraLeads)} more a month`,
+      amount: extraLeads * close * values.jobValue,
+    },
+    on.busywork && {
+      key: "busywork",
+      label: "Busywork",
+      detail: `${count.format(hoursBack)} hrs back a month`,
+      amount: hoursBack * values.hourlyRate,
+    },
+  ].filter((line) => line !== false);
+
+  const monthly = lines.reduce((sum, line) => sum + line.amount, 0);
+  const anyOn = lines.length > 0;
+
+  const groups = [
+    on.calls && { group: "Your calls", keys: ["callsPerWeek", "missedPct"] as FieldKey[] },
+    on.website && { group: "Your website", keys: ["visitors", "extraPer100"] as FieldKey[] },
+    (on.calls || on.website) && {
+      group: "Your jobs",
+      keys: ["jobValue", "closePct"] as FieldKey[],
+    },
+    on.busywork && {
+      group: "Your team",
+      keys: ["teamSize", "repetitiveHours", "hourlyRate", "automatedPct"] as FieldKey[],
+    },
+  ].filter((group) => group !== false);
 
   return (
     <div className="calc" role="group" aria-labelledby={`${id}-title`}>
       <h3 id={`${id}-title`} className="calc-title">
         See what you&apos;re missing
       </h3>
-      <p className="calc-sub">Slide in your numbers. It&apos;s quick math, not a quote.</p>
+      <p className="calc-sub">
+        Switch on what fits your business, then slide in your numbers. It&apos;s quick math,
+        not a quote.
+      </p>
 
       <div className="calc-result">
-        <p className="calc-result-label">Revenue you could be missing</p>
+        <p className="calc-result-label">What it could be worth to you</p>
         <p className="calc-result-value" aria-live="polite" aria-atomic="true">
           {usd.format(monthly)}
           <small>/mo</small>
         </p>
-        <p className="calc-result-detail">
-          About {usd.format(monthly * 12)} a year, from{" "}
-          {mode === "automations" ? (
-            callsPart
-          ) : mode === "website" ? (
-            sitePart
-          ) : (
-            <>
-              {callsPart} and {sitePart}
-            </>
-          )}
-          .
-        </p>
+        {anyOn ? (
+          <>
+            <p className="calc-result-detail">
+              About <b>{usd.format(monthly * 12)} a year</b>
+              {on.busywork && (
+                <>
+                  , and <b>{count.format(hoursBack * 12)} hours</b> of your team&apos;s time back
+                </>
+              )}
+              .
+            </p>
+            <ul className="calc-breakdown">
+              {lines.map((line) => (
+                <li key={line.key}>
+                  <span className="calc-breakdown-label">
+                    {line.label}
+                    <small>{line.detail}</small>
+                  </span>
+                  <span className="calc-breakdown-amount">{usd.format(line.amount)}</span>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p className="calc-result-detail">Switch on a part below to see your numbers.</p>
+        )}
         <BookCallLink variant="glow" arrow />
       </div>
 
-      <fieldset className="calc-modes">
-        <legend className="sr-only">What to work out</legend>
-        {modes.map((option) => (
-          <label key={option.value} className="calc-mode">
-            <input
-              type="radio"
-              name={`${id}-mode`}
-              value={option.value}
-              checked={mode === option.value}
-              onChange={() => setMode(option.value)}
-            />
-            <span>{option.label}</span>
-          </label>
+      <div className="calc-parts" role="group" aria-label="What to count">
+        {parts.map((part) => (
+          <button
+            key={part.value}
+            type="button"
+            role="switch"
+            aria-checked={on[part.value]}
+            className="calc-part"
+            onClick={() => setOn((current) => ({ ...current, [part.value]: !current[part.value] }))}
+          >
+            <span className="calc-part-text">
+              <span className="calc-part-label">{part.label}</span>
+              <span className="calc-part-hint">{part.hint}</span>
+            </span>
+            <span className="calc-switch" aria-hidden="true" />
+          </button>
         ))}
-      </fieldset>
+      </div>
 
       <div className="calc-fields">
-        {fieldsFor[mode].map(({ group, keys }) => (
+        {groups.map(({ group, keys }) => (
           <div key={group}>
             <p className="calc-group">{group}</p>
             {keys.map((key) => {
@@ -224,12 +302,13 @@ export function MissedRevenueCalculator() {
       </div>
 
       <p className="calc-note">
-        {mode !== "website" &&
-          "Missed calls = calls a week × 4.33 × the share that go unanswered. "}
-        {mode !== "automations" &&
-          "Website leads = visitors × the extra leads per 100 you set. "}
-        Each is then × the share you turn into customers × your average job. Estimate only,
-        from the numbers you entered. Not a quote or a promise of results.
+        {on.calls && "Missed calls = calls a week × 4.33 × the share that go unanswered. "}
+        {on.website && "Website leads = visitors × the extra leads per 100 you set. "}
+        {(on.calls || on.website) &&
+          "Each is then × the share you turn into customers × your average job. "}
+        {on.busywork &&
+          "Busywork = people × repetitive hours a week × 4.33 × the share automated, × their hourly pay. "}
+        Estimate only, from the numbers you entered. Not a quote or a promise of results.
       </p>
     </div>
   );

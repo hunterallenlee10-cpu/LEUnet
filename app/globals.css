@@ -402,7 +402,9 @@
 /* ---- the missed-revenue calculator ----
    Used only by components/sections/MissedRevenueCalculator.tsx. A dark card
    after the owner's reference (a car-payment estimator, 2026-10-06): the
-   result in a lit panel up top, then pills and brass sliders. */
+   result in a lit panel up top with a line per part, then a switch for each
+   part (missed calls, website leads, busywork, 2026-10-09) and brass
+   sliders for the parts that are on. */
 .calc {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1.5rem;
@@ -478,57 +480,139 @@
   margin-top: 1.125rem;
 }
 
-.calc-modes {
+/* The breakdown under the total: one row per part that is switched on,
+   its name and what it counts on the left, its share of the total in brass
+   on the right. */
+.calc-breakdown {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.calc-breakdown li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.calc-breakdown-label {
+  color: rgb(229 229 229);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.calc-breakdown-label small {
+  display: block;
+  margin-top: 0.125rem;
+  color: rgb(163 163 163);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.calc-breakdown-amount {
+  color: var(--color-brass-300);
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The parts to count: one row per part, each a switch, so a visitor turns on
+   only what fits their business. */
+.calc-parts {
   margin-top: 1.5rem;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.5rem;
-  border: 0;
-  padding: 0;
 }
 
-.calc-mode {
-  position: relative;
-}
-
-.calc-mode input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.calc-mode span {
+.calc-part {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 2.75rem;
-  padding: 0 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 9999px;
-  color: rgb(212 212 212);
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-align: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.625rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.875rem;
+  background: rgba(255, 255, 255, 0.02);
+  text-align: left;
+  cursor: pointer;
   transition:
     border-color 0.2s ease,
-    background-color 0.2s ease,
-    color 0.2s ease;
+    background-color 0.2s ease;
 }
 
-.calc-mode input:hover + span {
+.calc-part:hover {
   border-color: rgba(212, 168, 87, 0.5);
 }
 
-.calc-mode input:checked + span {
-  border-color: var(--color-brass-400);
-  background: rgba(212, 168, 87, 0.14);
-  color: var(--color-brass-300);
+.calc-part[aria-checked="true"] {
+  border-color: rgba(212, 168, 87, 0.7);
+  background: rgba(212, 168, 87, 0.08);
 }
 
-.calc-mode input:focus-visible + span {
+.calc-part:focus-visible {
   outline: 2px solid var(--color-brass-300);
   outline-offset: 2px;
+}
+
+.calc-part-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.calc-part-label {
+  color: rgb(212 212 212);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.calc-part[aria-checked="true"] .calc-part-label {
+  color: #fff;
+}
+
+.calc-part-hint {
+  color: rgb(140 140 140);
+  font-size: 0.8125rem;
+}
+
+/* The switch itself: a pill track with a round knob that slides right and
+   turns brass when the part is on. */
+.calc-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.14);
+  transition: background-color 0.2s ease;
+}
+
+.calc-switch::after {
+  content: "";
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 9999px;
+  background: rgb(163 163 163);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.calc-part[aria-checked="true"] .calc-switch {
+  background: var(--color-brass-400);
+}
+
+.calc-part[aria-checked="true"] .calc-switch::after {
+  transform: translateX(1.25rem);
+  background: #f2ede4;
 }
 
 .calc-fields {
@@ -706,7 +790,9 @@
     animation: none;
   }
 
-  .calc-mode span {
+  .calc-part,
+  .calc-switch,
+  .calc-switch::after {
     transition: none;
   }
 }
