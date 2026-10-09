@@ -34,19 +34,21 @@ const offer = [
  * logo and the "Hire us to automate your business, or learn to build your
  * own." headline; the owner's headline "Never Miss Another Customer",
  * 2026-09-29, replaced "Elevate Your Business with AI"). A few seconds in,
- * the animation of what Lee Systems Co. sets up plays in the headline's place, then hands back to it with a
- * "Replay animation" button (the owner's plan, 2026-09-29: HeroVsl.tsx, and
- * heroVslPlayer.ts for when it plays). Then the Lee Systems offer: one big
- * call to hire Lee Systems Co. for websites and automations, beside the
- * missed-revenue calculator (2026-10-06; it replaced "Split Ventures", the two
- * halves for Lee Systems Co. and Business Mastery), and the statistics ribbon
- * along the bottom edge.
+ * "The Vault", a 3D film of what Lee Systems Co. sets up, plays over the
+ * whole first screen in the headline's place, then hands back to it with a
+ * "Replay animation" button (the owner's plan, 2026-09-29, and the owner's
+ * pick of film, 2026-10-08: HeroVsl.tsx, and heroVslPlayer.ts for when it
+ * plays). Then the Lee Systems offer: one big call to hire Lee Systems Co.
+ * for websites and automations, beside the missed-revenue calculator
+ * (2026-10-06; it replaced "Split Ventures", the two halves for Lee Systems
+ * Co. and Business Mastery), and the statistics ribbon along the bottom edge.
  *
  * The styling lives in app/globals.css as `.hero-split-*` and `.hero-ls-*`,
- * `.calc-*` for the calculator and, for the animation, `.hero-vsl` (plus
- * the shared `.leu-grain`); this file owns the markup and the copy. Every movement in it stops under
- * prefers-reduced-motion (the end of that block), and the animation waits
- * for its "Play animation" button instead of starting by itself.
+ * `.calc-*` for the calculator and, for the animation, `.hero-vsl` and
+ * `.vt-*` (plus the shared `.leu-grain`); this file owns the markup and the
+ * copy. Every movement in it stops under prefers-reduced-motion (the end of
+ * that block), and the animation waits for its "Play animation" button
+ * instead of starting by itself.
  */
 export function HeroSection() {
   return (
@@ -54,8 +56,9 @@ export function HeroSection() {
       id={sectionIds.hero}
       aria-labelledby="hero-title"
       // The header is `fixed`, so this section starts at y=0 underneath it;
-      // `.hero-split-copy` and `.hero-vsl` reserve the header's band in their
-      // padding. Heights are floors, never locks, so content too tall for
+      // `.hero-split-copy` reserves the header's band in its padding, and the
+      // film (`.hero-vsl`) runs under the header but keeps its words below
+      // it. Heights are floors, never locks, so content too tall for
       // the space grows the page rather than being clipped by
       // `overflow-hidden`. `isolate` keeps the grain's `overlay` blend
       // resolving against the hero alone.

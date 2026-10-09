@@ -1,15 +1,18 @@
 /**
- * The homepage hero's animation: the hologram that shows what Lee Systems Co.
- * sets up, in about 30 seconds (components/sections/HeroVsl.tsx draws it,
- * heroVslPlayer.ts runs it). These are the parts meant to be edited: how long
- * the hero waits and holds, the two amounts in the count under the bank, and
- * what each business type's version says. The end card's figures are the
- * ribbon's, from data/site.ts.
+ * The homepage hero's animation: "The Vault", a short 3D film of what Lee
+ * Systems Co. sets up, about 28 seconds long (components/sections/HeroVsl.tsx
+ * holds its words, heroVslEngine.ts draws it, heroVslPlayer.ts decides when
+ * it plays). These are the parts meant to be edited: how long the hero waits
+ * and holds, the two amounts in the running count, and what each business
+ * type's version says. The end card's figures are the ribbon's, from
+ * data/site.ts.
  *
  * The owner's plan (2026-09-29): the regular hero shows first, the animation
  * plays in its place once per page load, its end card holds, then the hero
  * comes back with a "Replay animation" button. People whose device asks for
- * less motion get a "Play animation" button instead of the autoplay.
+ * less motion get a "Play animation" button instead of the autoplay. The
+ * owner picked this film, Take 1 of three, on 2026-10-08; it replaced the
+ * gold line drawing that played here before.
  */
 
 import { site, type Stat } from "@/data/site";
@@ -22,23 +25,26 @@ export const heroVsl = {
    *  waits longer while a mouse is on the end card's button or links, or
    *  keyboard focus is inside the animation. */
   hold: 7,
-  /** The red count under the bank climbs to this while the gaps leak, and
-   *  freezes on it the moment the first leak is sealed: "−$4,200 lost". */
+  /** The red count beside the film climbs to this while the gaps leak, and
+   *  freezes on it once the automations switch on: "−$4,200 lost". */
   lossEnd: 4200,
-  /** Then it turns gold and climbs on from `lossEnd` to this by the end of
-   *  the website scene: "+$12,800 recovered". Keep it above `lossEnd`: the
-   *  count never goes back down. */
+  /** Then it turns gold and climbs on from `lossEnd` towards this, a step
+   *  for each coin that lands in the vault: "+$12,800 recovered" is where
+   *  the vault ends up, though the count gives way to the end card a little
+   *  before (at about +$10,850 with these two amounts). Keep it above
+   *  `lossEnd`: the count never goes back down. */
   recoveredEnd: 12800,
 } as const;
 
 export interface HeroVslNiche {
-  /** What leaks from each gap, top to bottom. */
+  /** What leaks from each crack in the pipe, top to bottom. */
   gaps: [string, string, string];
-  /** What the AI says when it answers the call. */
+  /** What the AI says when it answers the call (typed out on the first
+   *  fix's card). */
   call: string;
-  /** The follow-up text. */
+  /** The follow-up text, in the second fix's bubble. */
   text: string;
-  /** The new entry on the lead list. */
+  /** The new entry on the third fix's CRM card. */
   lead: string;
 }
 
