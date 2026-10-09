@@ -403,12 +403,15 @@ export function BuildsRing({ items, label }: { items: ReactNode[]; label: string
       </div>
 
       {count > 1 && (
-        <div className="mt-12 flex items-center justify-center gap-3 sm:gap-4">
+        // On a phone the dots take their own line above the buttons: in one
+        // row, a dozen builds' dots and the three buttons are wider than the
+        // screen and the page scrolls sideways.
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 sm:flex-nowrap sm:gap-4">
           <button type="button" onClick={prev} aria-label="Previous build" className={arrowClass}>
             <ChevronLeft className="h-5 w-5" aria-hidden="true" />
           </button>
 
-          <div className="flex items-center">
+          <div className="order-first flex basis-full items-center justify-center sm:order-none sm:basis-auto">
             {items.map((_, i) => (
               <button
                 key={i}
