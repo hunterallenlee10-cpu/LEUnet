@@ -148,7 +148,9 @@ const initialValues = Object.fromEntries(
   Object.entries(fields).map(([key, spec]) => [key, spec.initial])
 ) as Record<FieldKey, number>;
 
-const initialOn: Record<Part, boolean> = { calls: true, website: true, busywork: true };
+// Every part starts off (the owner's ask, 2026-10-10), so the visitor picks
+// what fits before any number shows.
+const initialOn: Record<Part, boolean> = { calls: false, website: false, busywork: false };
 
 export function MissedRevenueCalculator() {
   const id = useId();
