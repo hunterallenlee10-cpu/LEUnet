@@ -57,6 +57,11 @@ off the site on 2026-09-28. See [docs/STRIPE.md](docs/STRIPE.md) for setup,
 environment variables, the go-live checklist, and the cleanup the removal
 leaves for Stripe and Vercel.
 
+Client billing lives at `/pay`: a password-protected admin at `/pay/admin`
+makes Stripe Payment Links (one-time, monthly, or both), and each client gets
+a private page at `/pay/{id}` to review and pay. It is kept out of search and
+linked from nowhere. See [docs/PAY.md](docs/PAY.md).
+
 ## Lee Systems Co.
 
 Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It lives on
@@ -119,6 +124,8 @@ what stayed, and why.
   page, which folded into `/lee-systems`; its claims standard still applies.
 - [docs/STRIPE.md](docs/STRIPE.md) - invoicing: setup, environment
   variables, security and the go-live checklist.
+- [docs/PAY.md](docs/PAY.md) - client billing links at `/pay`: how they work,
+  security, and the environment variables.
 - [docs/H1.md](docs/H1.md) - what H1 Performance's move to its own site left
   here, and why.
 - [docs/THREAD.md](docs/THREAD.md) - the same for Thread T-Shirts.

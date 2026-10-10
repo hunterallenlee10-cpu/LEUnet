@@ -5,13 +5,15 @@
 - **Framework:** Next.js 16 App Router, Node runtime for all Stripe routes
 - **Account model:** one Stripe account covering Lee Systems Co. (formerly Lee Marketing Mastery, still tagged `lmm`), plus H1 and Thread invoicing (`docs/H1.md`, `docs/THREAD.md`)
 
-One flow is live in code:
+Two flows are live in code:
 
 | Flow | Route | Who calls it |
 | --- | --- | --- |
 | **Invoicing** — quoted work | `POST /api/stripe/invoice` | Internal only |
+| **Client billing** — payment links | `/pay/admin`, `/pay/{id}` | The owner makes them; clients pay |
 
-Invoicing is admin-only and has no UI. Payment events come back through
+Invoicing is admin-only and has no UI. Client billing has its own doc,
+[docs/PAY.md](PAY.md). Payment events come back through
 `POST /api/stripe/webhook` (§4).
 
 ---
@@ -102,6 +104,9 @@ Grant only:
 | Customers | Write |
 | Invoices | Write |
 | PaymentIntents | Read |
+| Products | Write (client billing) |
+| Prices | Write (client billing) |
+| Payment Links | Write (client billing) |
 
 Stripe has folded invoice items into the **Invoices** permission — there is no
 separate "Invoice Items" row to grant.
@@ -198,7 +203,8 @@ at <https://dashboard.stripe.com/tax>, assign product tax codes, then turn on
 - Restricted keys over secret keys, one per environment.
 - All Stripe calls are server-side.
 - Webhook signatures verified on the raw body before handling.
-- Invoices are paid on Stripe's hosted invoice page, so the site loads no
+- Invoices are paid on Stripe's hosted invoice page, and client billing
+  links on Stripe's hosted checkout, so the site loads no
   Stripe.js and embeds no Stripe UI, and the CSP in `next.config.mjs` allows no
   Stripe hosts. Adopting Stripe.js or embedded Checkout means adding
   `https://*.stripe.com` (and `https://*.link.com` for Link) to

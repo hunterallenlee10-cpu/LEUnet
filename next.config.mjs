@@ -111,6 +111,16 @@ const nextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      // Client billing (docs/PAY.md) stays out of search, on top of the
+      // pages' own noindex and the Disallow in app/robots.ts.
+      {
+        source: "/pay",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/pay/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
   },
   async rewrites() {
