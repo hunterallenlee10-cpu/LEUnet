@@ -7,7 +7,7 @@ import { createHash, timingSafeEqual } from "node:crypto";
  *
  * The credentials are PAY_ADMIN_USER and PAY_ADMIN_PASSWORD. With either one
  * unset, or a password shorter than MIN_PASSWORD_LENGTH, nobody gets in: the
- * admin fails closed rather than open.
+ * admin fails closed rather than open, and the 401 says which it is.
  */
 
 const MIN_PASSWORD_LENGTH = 16;
@@ -26,11 +26,39 @@ function safeEqual(provided: string, expected: string): boolean {
   return timingSafeEqual(a, b);
 }
 
+/**
+ * The login from the environment, or what's wrong with it. Both values are
+ * trimmed: a value pasted into Vercel often brings a trailing space or line
+ * break, and nobody can type that into a sign-in box.
+ */
+function adminLogin(): { user: string; password: string } | { problem: string } {
+  const user = (process.env.PAY_ADMIN_USER ?? "").trim();
+  const password = (process.env.PAY_ADMIN_PASSWORD ?? "").trim();
+
+  if (!user || !password) {
+    return {
+      problem:
+        "The admin login isn't set up on this deployment. Add PAY_ADMIN_USER and PAY_ADMIN_PASSWORD in Vercel (Production), then redeploy.",
+    };
+  }
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    return {
+      problem: `PAY_ADMIN_PASSWORD is shorter than ${MIN_PASSWORD_LENGTH} characters, so it is refused. Set a longer one in Vercel, then redeploy.`,
+    };
+  }
+  if (user.includes(":")) {
+    return {
+      problem:
+        "PAY_ADMIN_USER contains a colon, which a browser sign-in can't send. Pick a name without one in Vercel, then redeploy.",
+    };
+  }
+  return { user, password };
+}
+
 /** Whether an Authorization header carries the admin's credentials. */
 export function isPayAdminAuthorized(header: string | null): boolean {
-  const user = process.env.PAY_ADMIN_USER;
-  const password = process.env.PAY_ADMIN_PASSWORD;
-  if (!user || !password || password.length < MIN_PASSWORD_LENGTH) return false;
+  const login = adminLogin();
+  if ("problem" in login) return false;
 
   if (!header || !header.startsWith("Basic ")) return false;
 
@@ -46,8 +74,8 @@ export function isPayAdminAuthorized(header: string | null): boolean {
   if (colon === -1) return false;
 
   // Both checks always run, so the response time doesn't show which one failed.
-  const userOk = safeEqual(decoded.slice(0, colon), user);
-  const passwordOk = safeEqual(decoded.slice(colon + 1), password);
+  const userOk = safeEqual(decoded.slice(0, colon).trim(), login.user);
+  const passwordOk = safeEqual(decoded.slice(colon + 1), login.password);
   return userOk && passwordOk;
 }
 
@@ -76,9 +104,18 @@ export function rejectPayAdminRequest(request: Request): Response | null {
   return null;
 }
 
-/** The 401 that makes the browser ask for the user name and password. */
+/**
+ * The 401 that makes the browser ask for the user name and password. Its body
+ * shows after the owner clicks Cancel. When the login itself is misconfigured
+ * it says how, which is safe to show anyone: in that state nobody can sign in.
+ */
 export function payAdminChallenge(): Response {
-  return new Response("Authentication required", {
+  const login = adminLogin();
+  const message =
+    "problem" in login
+      ? login.problem
+      : "Sign-in required. If your user name and password are refused, check them against PAY_ADMIN_USER and PAY_ADMIN_PASSWORD in Vercel.";
+  return new Response(message, {
     status: 401,
     headers: {
       "WWW-Authenticate": `Basic realm="${REALM}", charset="UTF-8"`,

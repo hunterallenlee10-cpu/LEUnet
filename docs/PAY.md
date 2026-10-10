@@ -88,7 +88,9 @@ doesn't answer, it says so instead, so an outage never reads as "inactive".
   checked against `PAY_ADMIN_USER` and `PAY_ADMIN_PASSWORD` with a
   constant-time comparison. The admin page and both routes check again
   themselves. With either variable unset, or a password under 16 characters,
-  nobody gets in.
+  nobody gets in, and the sign-in page says which (click Cancel on the
+  browser's prompt to read it). Both values are trimmed, so a space or line
+  break pasted into Vercel doesn't break the login.
 - The admin API lives under `/pay/admin/api` so the browser reuses the
   credentials it has for `/pay/admin`.
 - The routes refuse POSTs that aren't same-origin JSON. Browsers attach Basic
