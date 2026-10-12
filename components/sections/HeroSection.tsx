@@ -13,9 +13,9 @@ const offer = [
   {
     title: "Websites",
     points: [
-      "Mobile-first and fast on any phone",
-      "Lead forms that turn visitors into customers",
-      "Basic SEO so local customers can find you",
+      "Loads fast and looks sharp on any screen",
+      "Turns visitors into customers",
+      "Built personally for your business",
     ],
   },
   {
