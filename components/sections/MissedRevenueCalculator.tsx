@@ -13,7 +13,9 @@ import { BookCallLink } from "@/components/ui/BookCallLink";
  * - Missed calls: calls an AI assistant would answer.
  * - Website leads: extra leads from a site that turns visitors into leads.
  * - Busywork: repetitive hours automations take off the team, and what those
- *   hours cost in pay.
+ *   hours cost in pay. Automations take all of it (the owner's ask,
+ *   2026-10-14: the pitch is that automations can take over all the work),
+ *   so there is no "share automated" slider.
  *
  * It works out what the visitor is missing, never a price, because Lee
  * Systems Co. quotes every project on the call. The math is spelled out in
@@ -34,8 +36,7 @@ type FieldKey =
   | "closePct"
   | "teamSize"
   | "repetitiveHours"
-  | "hourlyRate"
-  | "automatedPct";
+  | "hourlyRate";
 
 type FieldSpec = {
   label: string;
@@ -126,14 +127,6 @@ const fields: Record<FieldKey, FieldSpec> = {
     initial: 30,
     format: (v) => usd.format(v),
   },
-  automatedPct: {
-    label: "Share automations take over",
-    min: 10,
-    max: 90,
-    step: 5,
-    initial: 50,
-    format: (v) => `${v}%`,
-  },
 };
 
 type Part = "calls" | "website" | "busywork";
@@ -160,8 +153,7 @@ export function MissedRevenueCalculator() {
   const close = values.closePct / 100;
   const missedCalls = values.callsPerWeek * WEEKS_PER_MONTH * (values.missedPct / 100);
   const extraLeads = values.visitors * (values.extraPer100 / 100);
-  const hoursBack =
-    values.teamSize * values.repetitiveHours * WEEKS_PER_MONTH * (values.automatedPct / 100);
+  const hoursBack = values.teamSize * values.repetitiveHours * WEEKS_PER_MONTH;
 
   const lines = [
     on.calls && {
@@ -196,7 +188,7 @@ export function MissedRevenueCalculator() {
     },
     on.busywork && {
       group: "Your team",
-      keys: ["teamSize", "repetitiveHours", "hourlyRate", "automatedPct"] as FieldKey[],
+      keys: ["teamSize", "repetitiveHours", "hourlyRate"] as FieldKey[],
     },
   ].filter((group) => group !== false);
 
@@ -309,7 +301,7 @@ export function MissedRevenueCalculator() {
         {(on.calls || on.website) &&
           "Each is then × the share you turn into customers × your average job. "}
         {on.busywork &&
-          "Busywork = people × repetitive hours a week × 4.33 × the share automated, × their hourly pay. "}
+          "Busywork = people × repetitive hours a week × 4.33, × their hourly pay. "}
         Estimate only, from the numbers you entered. Not a quote or a promise of results.
       </p>
     </div>
