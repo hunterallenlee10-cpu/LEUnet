@@ -132,9 +132,9 @@ const fields: Record<FieldKey, FieldSpec> = {
 type Part = "calls" | "website" | "busywork";
 
 const parts: { value: Part; label: string; hint: string }[] = [
-  { value: "calls", label: "Missed calls", hint: "An AI assistant answers every one" },
   { value: "website", label: "Website leads", hint: "A site that turns visitors into leads" },
   { value: "busywork", label: "Busywork", hint: "Automations take repetitive tasks" },
+  { value: "calls", label: "Missed calls", hint: "An AI assistant answers every one" },
 ];
 
 const initialValues = Object.fromEntries(
@@ -156,12 +156,6 @@ export function MissedRevenueCalculator() {
   const hoursBack = values.teamSize * values.repetitiveHours * WEEKS_PER_MONTH;
 
   const lines = [
-    on.calls && {
-      key: "calls",
-      label: "Missed calls",
-      detail: `${count.format(missedCalls)} a month answered`,
-      amount: missedCalls * close * values.jobValue,
-    },
     on.website && {
       key: "website",
       label: "Website leads",
@@ -173,6 +167,12 @@ export function MissedRevenueCalculator() {
       label: "Busywork",
       detail: `${count.format(hoursBack)} hrs back a month`,
       amount: hoursBack * values.hourlyRate,
+    },
+    on.calls && {
+      key: "calls",
+      label: "Missed calls",
+      detail: `${count.format(missedCalls)} a month answered`,
+      amount: missedCalls * close * values.jobValue,
     },
   ].filter((line) => line !== false);
 
