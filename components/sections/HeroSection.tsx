@@ -23,7 +23,7 @@ const offer = [
     points: [
       "Answers your business calls 24/7 with an AI assistant",
       "Answers every new lead in under a minute",
-      "Follows up until the customer gives an answer",
+      "Endless possibilities: if it's done by hand, it can be automated",
     ],
   },
 ];
