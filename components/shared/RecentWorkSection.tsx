@@ -94,7 +94,7 @@ export function BuildBox({ project }: { project: Project }) {
             <span className="h-2 w-2 rounded-full bg-white/20" />
             <span className="h-2 w-2 rounded-full bg-white/20" />
             {domain && (
-              <span className="ml-2 truncate text-xs text-neutral-500">
+              <span className="ml-2 truncate text-xs text-neutral-400">
                 {domain}
               </span>
             )}

@@ -295,16 +295,17 @@ function Compare({
           ‹›
         </span>
       </div>
-      {/* Each tag hides once its side is wiped almost out of view. */}
-      {slider >= 10 && (
-        <span aria-hidden="true" className={tagClass("left-2")}>
-          Before
-        </span>
-      )}
-      {slider <= 90 && (
-        <span aria-hidden="true" className={tagClass("right-2")}>
-          After
-        </span>
+      {/* The tags show only mid-comparison: at either end they would sit
+          on top of the site's own header. */}
+      {slider >= 10 && slider <= 90 && (
+        <>
+          <span aria-hidden="true" className={tagClass("left-2")}>
+            Before
+          </span>
+          <span aria-hidden="true" className={tagClass("right-2")}>
+            After
+          </span>
+        </>
       )}
     </div>
   );

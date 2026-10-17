@@ -1,6 +1,7 @@
 # leu
 
-The Lee Enterprises Unlimited website: the homepage (`/`), Business Mastery
+The Lee Enterprises Unlimited website: the homepage (`/`), the Lee Systems Co.
+services hub (`/services`, with a page per service at `/services/[slug]`), Business Mastery
 (served at its own subdomain, mastery.leeenterprisesunlimited.com; see
 [docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md)), Lee Systems Co.
 (`/lee-systems`), `/contact` and `/legal`, plus `/book`, a short address that forwards to wherever "Book a free
@@ -117,6 +118,9 @@ what stayed, and why.
 
 - [docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md) - build spec and
   settled decisions for `/business-mastery` and its homepage presence.
+- [docs/SERVICES.md](docs/SERVICES.md) - the six service groups, `/services`
+  and its Demo Lab, the six service pages, the demos, and the placeholders
+  and media still to add.
 - [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) - the Lee Systems Co. page, its
   live demo and how to move it, where its copy lives, and the placeholders
   still to fill in.

@@ -109,10 +109,13 @@ export function ServiceRows() {
                   </QueryHashLink>
                   <Link
                     href={servicePath(group.slug)}
-                    aria-label={`Learn more about ${group.name}`}
                     className="btn-ls-secondary group inline-flex min-h-11 items-center justify-center gap-2"
                   >
-                    Learn more
+                    {/* One flex item, so the hidden words join the visible
+                        ones without a stray space. */}
+                    <span>
+                      Learn more<span className="sr-only"> about {group.name}</span>
+                    </span>
                     <ArrowRight
                       aria-hidden="true"
                       className="h-4 w-4 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5"
