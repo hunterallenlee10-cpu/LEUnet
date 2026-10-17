@@ -239,10 +239,7 @@ function ContentPreview() {
             </span>
           </span>
         </div>
-        <span className="absolute right-[2cqw] bottom-[5cqw] flex flex-col items-center gap-[0.4cqw] text-[1.8cqw] font-semibold text-white">
-          <Heart className="h-[3.4cqw] w-[3.4cqw] fill-white" />
-          2.4K
-        </span>
+        <Heart className="absolute right-[2cqw] bottom-[5cqw] h-[3.4cqw] w-[3.4cqw] fill-white text-white" />
       </Phone916>
     </div>
   );

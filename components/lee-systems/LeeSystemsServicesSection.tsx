@@ -1,25 +1,21 @@
-import { ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import { leeSystemsAnchors } from "@/data/lee-systems";
-import { carePlan, serviceGroups } from "@/data/services";
+import { carePlan, serviceGroups, servicePath, servicesRoutes } from "@/data/services";
 import { serviceIcons } from "@/components/services/serviceIcons";
-import { ServiceGroupItems } from "@/components/lee-systems/ServiceGroupItems";
+import { MiniPreview } from "@/components/services/MiniPreview";
 
 /**
- * "What we do" on /lee-systems (`#services`): everything Lee Systems Co.
- * does, as six groups (the owner's list, 2026-10-17), so a visitor gets it
- * in a glance and opens a group only for the detail. It replaced "Two ways
- * we take work off your plate", the two big Business automation and Website
- * builds cards (LeeSystemsOfferingsSection, kept but no longer rendered):
- * their points are all inside groups 1, 3 and 4 now, and the live demo
- * under this section still shows a website and a system working together.
+ * "What we do" on /lee-systems (`#services`): the six service groups
+ * (data/services.ts) as large cards, each with a tiny looping preview of its
+ * demo, its icon, name and outcome, and a link to its own page. Since
+ * 2026-10-17 the cards link out rather than opening their items in place
+ * ("See what's included"): each page lists them in full. "Try the demos"
+ * under the grid opens the Demo Lab on /services, and the Care Plan, an
+ * add-on to any of them, is one band under that.
  *
- * After the service grid of the owner's reference sites: per card a thin
- * line icon, the group's name and the one line saying what you get, then
- * "See what's included" (ServiceGroupItems), which shows its items as chips.
- * Three columns on wide screens, two on tablets, one on a phone; cards align
- * to the top of their row, so opening one doesn't stretch its neighbours.
- * Each card has its group's `anchor` as its id, so a link can land on it.
- * The Care Plan, an add-on to any of them, is one band under the grid.
+ * Each card keeps its group's old `anchor` as its id, so links made to a
+ * card before the service pages existed still land on it.
  */
 export function LeeSystemsServicesSection() {
   return (
@@ -42,42 +38,48 @@ export function LeeSystemsServicesSection() {
           </p>
         </div>
 
-        <ul className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {serviceGroups.map(({ anchor, icon, name, outcome, items }) => {
+        <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {serviceGroups.map(({ slug, anchor, icon, name, outcome }) => {
             const Icon = serviceIcons[icon];
             return (
-              <li
-                key={anchor}
-                id={anchor}
-                className="relative overflow-hidden rounded-xl border border-white/10 bg-[#17181b] px-6 pt-7 pb-3 transition-colors duration-300 hover:border-brass-400/40 motion-reduce:transition-none light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]"
-              >
-                {/* A soft glow behind the icon, the accent's only fill. */}
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_55%_at_0%_0%,rgb(var(--gold)/0.08),transparent_70%)]"
-                />
-                <div className="relative">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-brass-400/30 bg-brass-400/[0.06]">
-                    <Icon
+              <li key={slug} id={anchor} className="flex scroll-mt-24">
+                <Link
+                  href={servicePath(slug)}
+                  className="group flex w-full flex-col rounded-xl border border-white/10 bg-[#17181b] p-4 transition-colors duration-300 hover:border-brass-400/50 motion-reduce:transition-none sm:p-5 light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]"
+                >
+                  <MiniPreview slug={slug} />
+                  <span className="mt-5 flex items-center gap-2.5">
+                    <Icon aria-hidden="true" strokeWidth={1.5} className="h-5 w-5 shrink-0 text-brass-400" />
+                    <span className="text-xl font-bold tracking-tight text-white">{name}</span>
+                  </span>
+                  <span className="mt-2 leading-relaxed text-neutral-300">{outcome}</span>
+                  <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold text-brass-300 group-hover:underline group-hover:underline-offset-4">
+                    See how it works
+                    <ArrowRight
                       aria-hidden="true"
-                      strokeWidth={1.5}
-                      className="h-[22px] w-[22px] text-brass-400"
+                      className="h-4 w-4 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5"
                     />
                   </span>
-                  <h3 className="mt-5 text-xl font-bold tracking-tight text-white">
-                    {name}
-                  </h3>
-                  <p className="mt-2 leading-relaxed text-neutral-300 md:min-h-[3.25rem]">
-                    {outcome}
-                  </p>
-                  <ServiceGroupItems name={name} items={items.map((item) => item.name)} />
-                </div>
+                </Link>
               </li>
             );
           })}
         </ul>
 
-        <div className="mx-auto mt-6 flex max-w-6xl flex-col gap-3 rounded-xl border border-brass-400/25 bg-[#17181b] px-6 py-5 sm:flex-row sm:items-center sm:gap-5 light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]">
+        <div className="mt-10 flex justify-center">
+          <Link
+            href={servicesRoutes.demoLab}
+            className="btn-ls-secondary group inline-flex min-h-11 items-center justify-center gap-2"
+          >
+            Try the demos
+            <ArrowRight
+              aria-hidden="true"
+              className="h-4 w-4 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5"
+            />
+          </Link>
+        </div>
+
+        <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-3 rounded-xl border border-brass-400/25 bg-[#17181b] px-6 py-5 sm:flex-row sm:items-center sm:gap-5 light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]">
           <span className="flex items-center gap-3">
             <ShieldCheck
               aria-hidden="true"

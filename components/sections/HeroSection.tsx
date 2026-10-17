@@ -5,7 +5,6 @@ import { leeSystemsRoutes } from "@/data/lee-systems";
 import { site } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { MissedRevenueCalculator } from "@/components/sections/MissedRevenueCalculator";
-import { ServiceGroupsRow } from "@/components/sections/ServiceGroupsRow";
 
 /** The two halves of the offer, three points each. */
 const offer = [
@@ -132,8 +131,6 @@ export function HeroSection() {
           <MissedRevenueCalculator />
         </div>
 
-        {/* Every service group, one compact row (2026-10-17). */}
-        <ServiceGroupsRow />
       </div>
 
       {site.stats.length > 0 && (
