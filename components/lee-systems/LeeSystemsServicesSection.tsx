@@ -1,6 +1,7 @@
 import { ShieldCheck } from "lucide-react";
-import { carePlan, leeSystemsAnchors, serviceGroups } from "@/data/lee-systems";
-import { serviceIcons } from "@/components/lee-systems/serviceIcons";
+import { leeSystemsAnchors } from "@/data/lee-systems";
+import { carePlan, serviceGroups } from "@/data/services";
+import { serviceIcons } from "@/components/services/serviceIcons";
 import { ServiceGroupItems } from "@/components/lee-systems/ServiceGroupItems";
 
 /**
@@ -69,7 +70,7 @@ export function LeeSystemsServicesSection() {
                   <p className="mt-2 leading-relaxed text-neutral-300 md:min-h-[3.25rem]">
                     {outcome}
                   </p>
-                  <ServiceGroupItems name={name} items={items} />
+                  <ServiceGroupItems name={name} items={items.map((item) => item.name)} />
                 </div>
               </li>
             );

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import {
   industryInSentence,
@@ -6,6 +7,7 @@ import {
   leeSystemsIndustries,
   otherIndustries,
 } from "@/data/lee-systems";
+import { serviceGroups, servicePath } from "@/data/services";
 
 type IndustryId = (typeof leeSystemsIndustries)[number]["id"];
 
@@ -161,12 +163,14 @@ export function LeeSystemsIndustriesSection() {
             </p>
 
             <ul className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-2.5">
-              {otherIndustries.capabilities.map((capability) => (
-                <li
-                  key={capability}
-                  className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-sm text-neutral-200"
-                >
-                  {capability}
+              {serviceGroups.map(({ slug, name }) => (
+                <li key={slug} className="flex">
+                  <Link
+                    href={servicePath(slug)}
+                    className="inline-flex min-h-9 items-center rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-sm text-neutral-200 transition-colors hover:border-brass-400/50 hover:text-white motion-reduce:transition-none"
+                  >
+                    {name}
+                  </Link>
                 </li>
               ))}
               <li className="rounded-full border border-brass-400/40 bg-brass-400/10 px-4 py-1.5 text-sm font-medium text-brass-200">

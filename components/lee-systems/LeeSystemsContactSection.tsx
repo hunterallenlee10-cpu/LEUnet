@@ -1,4 +1,4 @@
-import { LeeSystemsInquiryForm } from "@/components/lee-systems/LeeSystemsInquiryForm";
+import { LeeSystemsInquiryFormBlock } from "@/components/lee-systems/LeeSystemsInquiryFormBlock";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { leeSystemsAnchors } from "@/data/lee-systems";
 import { site } from "@/data/site";
@@ -48,7 +48,7 @@ export function LeeSystemsContactSection() {
             tabIndex={-1}
             className="outline-none"
           >
-            <LeeSystemsInquiryForm />
+            <LeeSystemsInquiryFormBlock />
           </div>
         </div>
       </div>

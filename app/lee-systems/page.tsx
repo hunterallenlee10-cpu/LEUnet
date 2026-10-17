@@ -18,8 +18,8 @@ import {
   leeSystems,
   leeSystemsFaqs,
   leeSystemsRoutes,
-  serviceGroups,
 } from "@/data/lee-systems";
+import { serviceGroups } from "@/data/services";
 
 /**
  * The Lee Systems Co. page, and since 2026-09-29 the only one: the automation
@@ -122,7 +122,7 @@ const structuredData = {
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: service.name,
-        itemListElement: items.map((name) => ({
+        itemListElement: items.map(({ name }) => ({
           "@type": "Offer",
           itemOffered: { "@type": "Service", name },
         })),

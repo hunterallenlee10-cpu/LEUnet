@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { leeSystemsLinks, serviceGroups } from "@/data/lee-systems";
-import { serviceIcons } from "@/components/lee-systems/serviceIcons";
+import { leeSystemsLinks } from "@/data/lee-systems";
+import { serviceGroups } from "@/data/services";
+import { serviceIcons } from "@/components/services/serviceIcons";
 
 /**
  * "Everything we do" on the homepage (the owner's ask, 2026-10-17): the six

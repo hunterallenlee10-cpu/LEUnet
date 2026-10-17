@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { inquiryIndustryOptions, inquiryNeeds } from "@/data/lee-systems";
+import { inquiryIndustryOptions } from "@/data/lee-systems";
+import { inquiryNeeds, legacyNeedLabels } from "@/data/services";
 import { site } from "@/data/site";
 import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
 import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
@@ -95,9 +96,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Checked against the form's own lists so the email never carries a value
-    // the form could not have sent.
-    const needLabel = stringField(body.need).trim();
-    const need = inquiryNeeds.find(({ label }) => label === needLabel);
+    // the form could not have sent. The form posts a service slug
+    // ("ai-calls"); a page loaded before the slugs went in posts the old
+    // label, which `legacyNeedLabels` maps on.
+    const postedNeed = stringField(body.need).trim();
+    const needValue = legacyNeedLabels[postedNeed] ?? postedNeed;
+    const need = inquiryNeeds.find(({ value }) => value === needValue);
     if (!need) {
       errors.need = "Please select what you are looking for";
     }
