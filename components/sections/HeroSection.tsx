@@ -35,7 +35,7 @@ const offer = [
  * owner's headline "Never Miss Another Customer", 2026-09-29, replaced
  * "Elevate Your Business with AI"). "The Vault", a 3D film that played in
  * the headline's place, was taken out at the owner's ask (2026-10-17). Then
- * the Lee Systems offer: one big call to hire Lee Systems Co. for websites and automations, beside the missed-revenue calculator
+ * the LEU offer: one big call to hire LEU for websites and automations, beside the missed-revenue calculator
  * (2026-10-06; it replaced "Split Ventures", the two halves for Lee Systems
  * Co. and Business Mastery), and the statistics ribbon along the bottom edge.
  *
@@ -94,16 +94,16 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* The Lee Systems offer (the owner's ask, 2026-10-06): one big call
-          to hire Lee Systems Co. for websites and automations, beside the
+      {/* The LEU offer (the owner's ask, 2026-10-06): one big call
+          to hire LEU for websites and automations, beside the
           missed-revenue calculator. It replaced "Two ways to work with LEU",
-          the Lee Systems Co. and Business Mastery halves; Business Mastery is
+          the LEU and Business Mastery halves; Business Mastery is
           linked from the footer only now. The checklist points are the ones
-          /lee-systems already makes (LeeSystemsOfferingsSection.tsx). */}
+          /how-it-works already makes (LeeSystemsOfferingsSection.tsx). */}
       <div className="hero-ls" aria-labelledby="hero-ls-title" role="region">
         <div className="section-container hero-ls-grid">
           <div>
-            <p className="hero-ls-eyebrow">Lee Systems Co.</p>
+            <p className="hero-ls-eyebrow">Websites &amp; AI automation</p>
             <h2 id="hero-ls-title" className="hero-ls-title">
               A website that <em>brings customers in.</em> Automations that{" "}
               <em>never let one slip.</em>

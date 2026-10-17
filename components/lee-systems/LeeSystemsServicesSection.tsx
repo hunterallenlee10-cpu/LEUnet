@@ -6,7 +6,7 @@ import { serviceIcons } from "@/components/services/serviceIcons";
 import { MiniPreview } from "@/components/services/MiniPreview";
 
 /**
- * "What we do" on /lee-systems (`#services`): the six service groups
+ * "What we do" on /how-it-works (`#services`): the six service groups
  * (data/services.ts) as large cards, each with a tiny looping preview of its
  * demo, its icon, name and outcome, and a link to its own page. Since
  * 2026-10-17 the cards link out rather than opening their items in place

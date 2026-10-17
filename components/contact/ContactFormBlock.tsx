@@ -4,7 +4,7 @@ import { ContactFormFromQuery } from "@/components/contact/ContactFormFromQuery"
 
 /**
  * The contact form carrying the page's `?interest=` for the email's subject
- * tag (e.g. /contact?interest=lee-systems, where every "Book a free
+ * tag (e.g. /contact?interest=free-call, where every "Book a free
  * call" leads until a booking link is set).
  *
  * Reading the query string needs `useSearchParams`, which on a prerendered

@@ -13,7 +13,7 @@ import {
 } from "@/lib/validation";
 
 /*
- * The /lee-systems form (components/lee-systems/LeeSystemsInquiryForm.tsx),
+ * The /how-it-works form (components/lee-systems/LeeSystemsInquiryForm.tsx),
  * which replaced the automation consultation form (/api/automation-audit) and
  * the website quote form (/api/website-inquiry) on 2026-09-29. Each request
  * is delivered exactly where, and under exactly the subject, the old form for
@@ -145,16 +145,16 @@ ${site.replyTime ? `Reply promised ${site.replyTime}, to set up their free consu
     // the same words the two old forms used.
     return await sendLeadEmail({
       tag: "lee-systems-inquiry",
-      form: "Lee Systems inquiry form",
+      form: "LEU inquiry form",
       to: need.website ? WEBSITE_TO_EMAIL : CONSULTATION_TO_EMAIL,
       replyTo: email,
       subject: need.website
-        ? `Lee Systems Co.: New Website Request from ${fullName}, ${businessName}`
-        : `Lee Systems Co.: New Consultation Request from ${fullName}, ${businessName}`,
+        ? `LEU: New Website Request from ${fullName}, ${businessName}`
+        : `LEU: New Consultation Request from ${fullName}, ${businessName}`,
       text: emailBody,
     });
   } catch (error) {
-    console.error("[lee-systems-inquiry] Lee Systems inquiry form error:", error);
+    console.error("[lee-systems-inquiry] LEU inquiry form error:", error);
     return NextResponse.json(
       { error: "An error occurred while processing your request" },
       { status: 500 }

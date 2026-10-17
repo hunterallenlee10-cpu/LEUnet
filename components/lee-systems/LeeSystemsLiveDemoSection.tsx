@@ -26,7 +26,7 @@ import { leeSystemsAnchors } from "@/data/lee-systems";
 import { site, telHref } from "@/data/site";
 
 /**
- * The live demo on /lee-systems: one lead, start to finish (the owner's ask,
+ * The live demo on /how-it-works: one lead, start to finish (the owner's ask,
  * 2026-09-30, merging the "Your site" and "Example: a new lead" animations
  * into one). The website we build catches the lead, and the system we build
  * handles it, as one composition down the middle of the page:

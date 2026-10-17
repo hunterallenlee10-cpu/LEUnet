@@ -11,7 +11,7 @@ import "./services.css";
  * second: an old site turning into a new one, a business climbing to #1, a
  * late call getting booked, a lead getting a reply, a clip getting captions,
  * a voice note becoming a quote. Used on the homepage showcase, the
- * /lee-systems cards and the /services rows.
+ * /how-it-works cards and the /services rows.
  *
  * Pure CSS (services.css) that scales with its box (`cqw` units), so the
  * same preview works as a thumbnail and as a large panel. It only moves

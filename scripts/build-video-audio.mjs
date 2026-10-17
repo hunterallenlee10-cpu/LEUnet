@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Builds the soundtrack of one of the narrated videos on /lee-systems from an
+ * Builds the soundtrack of one of the narrated videos on /how-it-works from an
  * Everygen voiceover of each of its lines, and writes when each line starts.
  *
  *   node scripts/build-video-audio.mjs <video> <folder>

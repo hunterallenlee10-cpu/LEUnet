@@ -1,7 +1,7 @@
 /**
- * Lee Systems Co.'s six service groups: the one list every part of the site
+ * LEU's six service groups: the one list every part of the site
  * reads (the owner's list, 2026-10-17). The header's Services menu, the
- * homepage showcase, the /lee-systems "What we do" cards, the /services hub
+ * homepage showcase, the /how-it-works "What we do" cards, the /services hub
  * and its Demo Lab tabs, the six /services/[slug] pages, the "What do you
  * need?" select, the contact email's subject tag, the Service structured
  * data and the sitemap all map over `serviceGroups`. Change a group here and
@@ -14,7 +14,7 @@
  *
  * `slug` is the URL (/services/<slug>), the Demo Lab tab (?demo=<slug>) and
  * the form's option value (?service=<slug> or ?interest=<slug> preselects
- * it). `anchor` is the card's id on /lee-systems from before the service
+ * it). `anchor` is the card's id on /how-it-works from before the service
  * pages existed, kept so links already made to it still land.
  */
 
@@ -42,7 +42,7 @@ export type ServiceIconName =
 
 /**
  * The industries a service page can name under "Who it's for": the six on
- * /lee-systems (`leeSystemsIndustries`, which also supplies their names and
+ * /how-it-works (`leeSystemsIndustries`, which also supplies their names and
  * pictures), plus online stores for websites and content.
  */
 export type ServiceIndustryId =
@@ -63,7 +63,7 @@ export interface ServiceGroup {
   /** One or two sentences: what it is and who it helps. */
   description: string;
   icon: ServiceIconName;
-  /** The card's id on /lee-systems from before the service pages existed. */
+  /** The card's id on /how-it-works from before the service pages existed. */
   anchor: string;
   items: readonly ServiceItem[];
   /** Up to five item names shown as chips on the /services rows. */
@@ -82,7 +82,7 @@ export interface ServiceGroup {
   /** The service page's <title> and meta description (under 160 characters). */
   seo: { title: string; description: string };
   /**
-   * Questions from the /lee-systems FAQ (`leeSystemsFaqs`, by exact
+   * Questions from the /how-it-works FAQ (`leeSystemsFaqs`, by exact
    * question) that the service page repeats, because they fit it. The
    * answers stay in that one list.
    */
@@ -186,9 +186,9 @@ export const serviceGroups: readonly ServiceGroup[] = [
       intro: "Drag the slider from an old site to a new one, then switch industries.",
     },
     seo: {
-      title: "Websites & Online Stores | Lee Systems Co.",
+      title: "Websites & Online Stores | Lee Enterprises Unlimited",
       description:
-        "Websites and online stores built to turn visitors into calls, bookings and sales. Built personally for you by Lee Systems Co.",
+        "Websites and online stores built to turn visitors into calls, bookings and sales. Built personally for you by LEU.",
     },
     faqs: [
       "How much does a website cost?",
@@ -280,9 +280,9 @@ export const serviceGroups: readonly ServiceGroup[] = [
       intro: "See a business move from page two into the top three, then into an AI answer.",
     },
     seo: {
-      title: "Get Found & Get Leads | Lee Systems Co.",
+      title: "Get Found & Get Leads | Lee Enterprises Unlimited",
       description:
-        "Local SEO, AI search, ads and outreach that help more people find your business and reach out. Built personally for you by Lee Systems Co.",
+        "Local SEO, AI search, ads and outreach that help more people find your business and reach out. Built personally for you by LEU.",
     },
     faqs: [
       "Will AI talk to my customers without me knowing?",
@@ -358,9 +358,9 @@ export const serviceGroups: readonly ServiceGroup[] = [
       intro: "Pick a business. Watch the 11:48 PM call get answered and booked.",
     },
     seo: {
-      title: "AI Call Answering | Lee Systems Co.",
+      title: "AI Call Answering | Lee Enterprises Unlimited",
       description:
-        "A 24/7 AI phone assistant that answers your calls, books appointments and calls new leads back. Built personally for you by Lee Systems Co.",
+        "A 24/7 AI phone assistant that answers your calls, books appointments and calls new leads back. Built personally for you by LEU.",
     },
     faqs: [
       "What can the AI phone assistant do?",
@@ -469,9 +469,9 @@ export const serviceGroups: readonly ServiceGroup[] = [
       intro: "Be the lead. Type your first name and see what happens next.",
     },
     seo: {
-      title: "Follow-Up & Booking Automation | Lee Systems Co.",
+      title: "Follow-Up & Booking Automation | Lee Enterprises Unlimited",
       description:
-        "Instant lead replies, follow-ups, booking, reminders, review requests and invoice nudges that run on their own. Built by Lee Systems Co.",
+        "Instant lead replies, follow-ups, booking, reminders, review requests and invoice nudges that run on their own. Built by LEU.",
     },
     faqs: [
       "Will AI talk to my customers without me knowing?",
@@ -570,9 +570,9 @@ export const serviceGroups: readonly ServiceGroup[] = [
       intro: "Flip a clip from raw to edited, then watch a week of posts fill in.",
     },
     seo: {
-      title: "Content & Social Media | Lee Systems Co.",
+      title: "Content & Social Media | Lee Enterprises Unlimited",
       description:
-        "Short-form video editing, clips, posts and social media management across Instagram, TikTok, YouTube and Facebook. By Lee Systems Co.",
+        "Short-form video editing, clips, posts and social media management across Instagram, TikTok, YouTube and Facebook. By LEU.",
     },
     faqs: [
       "Will AI talk to my customers without me knowing?",
@@ -670,9 +670,9 @@ export const serviceGroups: readonly ServiceGroup[] = [
       intro: "Try four small tools: voice to quote, photo inspection, contract check and spreadsheet report.",
     },
     seo: {
-      title: "Custom AI Tools | Lee Systems Co.",
+      title: "Custom AI Tools | Lee Enterprises Unlimited",
       description:
-        "Custom AI tools for the work you do by hand: voice-to-quote, photo reports, contract review and spreadsheet reports. By Lee Systems Co.",
+        "Custom AI tools for the work you do by hand: voice-to-quote, photo reports, contract review and spreadsheet reports. By LEU.",
     },
     faqs: [
       "What do you build the systems with?",
@@ -684,7 +684,7 @@ export const serviceGroups: readonly ServiceGroup[] = [
 
 /**
  * The add-on that goes with any of the six rather than being a seventh: a
- * band under the cards on /lee-systems and a card on /services. "Quoted
+ * band under the cards on /how-it-works and a card on /services. "Quoted
  * separately" is the FAQ's own answer about the care plan.
  */
 export const carePlan = {
@@ -769,7 +769,7 @@ export const legacyNeedLabels: Record<string, ServiceSlug | typeof NOT_SURE> = {
 /**
  * Recent Builds left out of a service page's "Related builds": the owner's
  * own former ventures, which this site no longer lists (2026-10-17). They
- * stay in Recent Builds on the homepage and /lee-systems as before.
+ * stay in Recent Builds on the homepage and /how-it-works as before.
  */
 export const relatedBuildsExclude: readonly string[] = ["Thread T-Shirts", "H1 Performance"];
 
@@ -789,11 +789,11 @@ export function serviceIndustry(id: ServiceIndustryId): {
   };
 }
 
-/** A service page's FAQ: its `faqs` questions with their /lee-systems answers. */
+/** A service page's FAQ: its `faqs` questions with their /how-it-works answers. */
 export function serviceFaqs(group: ServiceGroup): { question: string; answer: string }[] {
   return group.faqs.map((question) => {
     const faq = leeSystemsFaqs.find((entry) => entry.question === question);
-    // A reworded question in data/lee-systems.ts fails the build here, rather
+    // A reworded question in data/how-it-works.ts fails the build here, rather
     // than dropping silently off the service page.
     if (!faq) throw new Error(`data/services.ts: no FAQ "${question}" in leeSystemsFaqs`);
     return faq;

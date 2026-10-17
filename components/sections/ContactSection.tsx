@@ -8,7 +8,7 @@ import { TalkNow } from "@/components/contact/TalkNow";
  * the id "contact" so old /#contact links still land here; the nav's Contact
  * goes to /contact, which carries the same form.
  *
- * Dressed like the Lee Systems offer at the top of the page (2026-10-06, the
+ * Dressed like the LEU offer at the top of the page (2026-10-06, the
  * owner's ask to make it "go with the rest of the site"): the same brass
  * eyebrow and headline, and a form card cut like the calculator's. The
  * headline is the owner's, "Every missed lead is lost money.", picking up

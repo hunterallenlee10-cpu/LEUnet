@@ -4,10 +4,10 @@ import { leeSystemsAnchors } from "@/data/lee-systems";
 import { site } from "@/data/site";
 
 /**
- * The one form on /lee-systems (#contact-form), and the page's last section:
+ * The one form on /how-it-works (#contact-form), and the page's last section:
  * every "Book a free call" button above it scrolls here. It replaced the
  * automation page's consultation form and the websites page's quote form when
- * both pages folded into /lee-systems (2026-09-29). Their ids, "audit" and
+ * both pages folded into /how-it-works (2026-09-29). Their ids, "audit" and
  * "website-quote", stay on wrappers around the form so links made for either
  * still land on it.
  *
@@ -16,7 +16,7 @@ import { site } from "@/data/site";
  *
  * The /services pages use it too (2026-10-17): `defaultNeed` starts "What do
  * you need?" on the page's own service, and `legacyAnchors={false}` leaves
- * out the two old ids, which only /lee-systems answers to.
+ * out the two old ids, which only /how-it-works answers to.
  */
 export function LeeSystemsContactSection({
   defaultNeed = "",

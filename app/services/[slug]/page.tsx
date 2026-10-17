@@ -63,7 +63,7 @@ export async function generateMetadata({
 /**
  * The service as schema.org data, with the page's breadcrumb trail and its
  * FAQ (2026-10-17). The provider is Lee Enterprises
- * Unlimited, the company; Lee Systems Co. is the brand it is sold under.
+ * Unlimited, the one business name since Lee Systems Co. was retired.
  * No price, rating or area served: none exist to cite.
  */
 function structuredData(group: ServiceGroup) {
@@ -76,7 +76,6 @@ function structuredData(group: ServiceGroup) {
     description: `${group.outcome} ${group.description}`,
     url,
     serviceType: group.name,
-    brand: { "@type": "Brand", name: leeSystems.name },
     provider: {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,

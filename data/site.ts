@@ -53,9 +53,9 @@ export const site = {
   /** Shown as a tap-to-call link wherever it appears. "" hides it. */
   phone: "(240) 925-2609",
   /**
-   * The Lee Systems Co. call scheduler, such as a Google Calendar booking
+   * The LEU call scheduler, such as a Google Calendar booking
    * page. While it is empty, every "Book a free call" goes to the contact
-   * form with Lee Systems Co. picked (see `bookHref` below).
+   * form with LEU picked (see `bookHref` below).
    */
   bookingUrl: "",
   /** The reply promise on general inquiries. "" drops the promise. */
@@ -316,7 +316,7 @@ export const site = {
   ] as Tool[][],
 };
 
-/** The one name for the first step with Lee Systems Co., everywhere. */
+/** The one name for the first step with LEU, everywhere. */
 export const bookLabel = "Book a free call";
 
 /**
@@ -328,9 +328,9 @@ export const bookLabelHero = "Book a Free Consultation";
 
 /**
  * Where every "Book a free call" goes, except the ones in the body of
- * /lee-systems, which scroll down to that page's own form.
+ * /how-it-works, which scroll down to that page's own form.
  */
-export const bookHref = site.bookingUrl || "/contact?interest=lee-systems";
+export const bookHref = site.bookingUrl || "/contact?interest=free-call";
 
 /** Whether a link leaves the site. */
 export function isExternalHref(href: string): boolean {

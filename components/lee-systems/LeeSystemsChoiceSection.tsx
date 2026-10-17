@@ -32,7 +32,7 @@ const TAKE_ACTION_ID = "ls-take-action";
 /**
  * "The choice is yours", after The Real World's section of that name (the
  * owner's reference, 2026-09-29): a dim "Do nothing" card beside a lit
- * "Take action" card. It is the Lee Systems page's closing pitch, and its
+ * "Take action" card. It is the How It Works page's closing pitch, and its
  * button scrolls to the form that follows it. The fine print is
  * the owner's pricing promise (`pricingPromise`).
  *

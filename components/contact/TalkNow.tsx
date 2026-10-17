@@ -6,7 +6,7 @@ import { BookCallLink } from "@/components/ui/BookCallLink";
 /**
  * "Rather talk now? Connect with us." beside the contact form, on the homepage
  * and /contact: the phone, Instagram and email, each a row that links straight
- * to it, in brass to match the Lee Systems offer.
+ * to it, in brass to match the LEU offer.
  *
  * The "Book a free call" button only appears here once a booking link is set
  * in data/site.ts. Until then that button leads to this same contact form, so

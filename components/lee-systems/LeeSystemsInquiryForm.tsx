@@ -40,7 +40,7 @@ const fieldClass =
   "w-full rounded-lg border bg-neutral-900 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brass-400/60";
 
 /**
- * The one form on /lee-systems. It replaced the automation page's
+ * The one form on /how-it-works. It replaced the automation page's
  * consultation form and the websites page's quote form (2026-09-29): what the
  * visitor needs is now one of its questions. Posts to /api/lee-systems-inquiry,
  * which checks the same rules server side and emails the request to where the
