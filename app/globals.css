@@ -2025,6 +2025,17 @@
   opacity: 1;
 }
 
+/* Navy thinned by alpha turns lavender on a pale page, so in light the fade
+   starts from solid navy and the resting opacity is higher. */
+:root[data-theme="light"] .bm-tenet-num {
+  background-image: linear-gradient(180deg, #1e40af 0%, rgb(30 64 175 / 0.12) 95%);
+  opacity: 0.9;
+}
+
+:root[data-theme="light"] .group:hover .bm-tenet-num {
+  opacity: 1;
+}
+
 /* "What happens after you apply", after a process strip the owner sent
    (2026-09-29): a small eyebrow between two hairlines, then numbered squares
    in gold on one line, each over a bold title. The squares are
@@ -2858,6 +2869,22 @@
     rgb(var(--ground) / 0.85) 78%,
     rgb(var(--ground)) 100%
   );
+}
+
+/* Navy copy needs a paler ground under it than white copy does, so on a
+   phone the light theme's fade reaches the page colour before the copy
+   starts, two thirds of the way down the band. */
+@media (max-width: 767.98px) {
+  :root[data-theme="light"] .ls-hero-shade {
+    background: linear-gradient(
+      180deg,
+      rgb(var(--ground) / 0.5) 0%,
+      rgb(var(--ground) / 0) 18%,
+      rgb(var(--ground) / 0.3) 38%,
+      rgb(var(--ground) / 0.92) 58%,
+      rgb(var(--ground)) 72%
+    );
+  }
 }
 
 @media (min-width: 768px) {
