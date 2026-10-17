@@ -33,7 +33,7 @@ import { useEffect, useRef } from "react";
  * that size two gold slivers crossing a gold field read as debris rather than
  * as something going somewhere, which is the one thing they are here to say.
  * What keeps them page-appropriate is not the absence of detail but the
- * palette: every part of a craft is the page's own amber, the canopy is the
+ * palette: every part of a craft is the page's own accent, the canopy is the
  * hero's own background colour, and there are still only two of them, entering
  * seconds apart.
  *
@@ -63,10 +63,11 @@ import { useEffect, useRef } from "react";
  * app/globals.css (`--bmc-*`), so the light theme can re-point them, and are
  * read back at draw time; these are the dark values, used until then.
  *
- * `gold` is amber-400, the page's accent, and `lit` the warmer gold used for
- * anything lit. `hot` is the engine cores only: a gold flame reads as a gold
- * shape stuck to a gold hull, so it has to run hotter than anything else on
- * the craft to read as light. `glow` is the shadow colour. `canopy` is
+ * `gold` is the page's accent (platinum in dark, navy in light; the names
+ * are from when it was gold), and `lit` the brighter tone used for anything
+ * lit. `hot` is the engine cores only: a flame in the hull's own colour reads
+ * as a shape stuck to the hull, so it has to run hotter than anything else
+ * on the craft to read as light. `glow` is the shadow colour. `canopy` is
  * `.bmc-field`'s ground rather than mixed here: it is a hole in the hull, so
  * it has to be the thing behind it. `links` scales the links' alpha: a 1px
  * navy line on a pale ground reads fainter than the same alpha of gold on
@@ -83,7 +84,7 @@ type Palette = {
 
 const DARK_PALETTE: Palette = {
   gold: "231,229,228",
-  lit: "255,255,255",
+  lit: "245,245,244",
   hot: "255,255,255",
   glow: "201,198,194",
   canopy: "14,15,17",

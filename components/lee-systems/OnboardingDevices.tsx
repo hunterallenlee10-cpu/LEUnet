@@ -165,7 +165,7 @@ function LaptopAudit() {
           ))}
         </ul>
         <span className="ob-scan pointer-events-none absolute inset-0">
-          <span className="block h-[2px] w-full bg-gradient-to-r from-transparent via-brass-300 to-transparent shadow-[0_0_14px_rgba(226,170,72,0.9)] light:shadow-[0_0_14px_rgb(29_78_216/0.5)]" />
+          <span className="block h-[2px] w-full bg-gradient-to-r from-transparent via-brass-300 to-transparent shadow-[0_0_14px_rgb(231_229_228/0.6)] light:shadow-[0_0_14px_rgb(29_78_216/0.5)]" />
         </span>
       </div>
     </div>
@@ -308,8 +308,8 @@ function LaptopLive() {
             />
             <defs>
               <linearGradient id="ob-area" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" className="[stop-color:rgb(224_190_120/0.35)] light:[stop-color:rgb(29_78_216/0.18)]" />
-                <stop offset="100%" className="[stop-color:rgb(224_190_120/0)] light:[stop-color:rgb(29_78_216/0)]" />
+                <stop offset="0%" className="[stop-color:rgb(231_229_228/0.22)] light:[stop-color:rgb(29_78_216/0.18)]" />
+                <stop offset="100%" className="[stop-color:rgb(231_229_228/0)] light:[stop-color:rgb(29_78_216/0)]" />
               </linearGradient>
             </defs>
           </svg>

@@ -252,7 +252,7 @@ const DESCRIPTION =
  * nothing else on the site can collide with it.
  */
 const styles = `
-.lwf-wrap { container: lwf / inline-size; --b200: var(--color-brass-200, #ebd3a0); --b300: var(--color-brass-300, #e0be78); --b400: var(--color-brass-400, #d4a857); --wash: rgba(212,168,87,.14); --edge: rgba(212,168,87,.4); --line: rgba(255,255,255,.1); --raised: #1a1813; --muted: #9a958b; --text: #f3f0e9; --lwf-w: 255 255 255; --lwf-g: 212 168 87; --lwf-g2: 224 190 120; --stage: #111110; --chrome: #0f0e0c; --canvas: #0c0b09; --node: #16140f; --port: #2a2720; --toast: #1d1a14; --ink2: #d4d1ca; --on-b: #17130b; --vignette: rgba(8,7,6,.75); --clockbg: rgba(12,11,9,.85); --shadow: none; }
+.lwf-wrap { container: lwf / inline-size; --b200: var(--color-brass-200, #ffffff); --b300: var(--color-brass-300, #f5f5f4); --b400: var(--color-brass-400, #e7e5e4); --wash: rgba(231,229,228,.09); --edge: rgba(231,229,228,.28); --line: rgba(255,255,255,.1); --raised: #1f2023; --muted: #a1a1aa; --text: #f4f4f5; --lwf-w: 255 255 255; --lwf-g: 231 229 228; --lwf-g2: 245 245 244; --stage: #17181b; --chrome: #121316; --canvas: #0e0f11; --node: #17181b; --port: #2a2c30; --toast: #1f2023; --ink2: #d4d4d8; --on-b: #0e0f11; --vignette: rgba(8,8,10,.75); --clockbg: rgba(14,15,17,.85); --shadow: none; }
 /* In the light theme it is the same editor in its daylight skin, the way n8n's
    own light mode looks: white chrome and nodes on a pale grey canvas, navy for
    what runs (the --b colours follow the theme's brass, which turns navy). */

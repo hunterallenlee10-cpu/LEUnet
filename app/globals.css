@@ -3909,7 +3909,7 @@
 
 /* The gold of a price: "$0" here, and "+$10,000s" on the "Take action" card. */
 .ls-price {
-  background: linear-gradient(180deg, #f6e3ae 0%, #e0be78 45%, #c4913f 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #e7e5e4 55%, #c9c6c2 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -4005,7 +4005,7 @@
      draw time and again when the theme changes, so the field follows the
      theme like everything else on the page. */
   --bmc-gold: 231, 229, 228;
-  --bmc-gold-lit: 255, 255, 255;
+  --bmc-gold-lit: 245, 245, 244;
   --bmc-gold-hot: 255, 255, 255;
   --bmc-glow: 201, 198, 194;
   --bmc-canopy: 14, 15, 17;
