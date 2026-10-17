@@ -2099,6 +2099,27 @@
   }
 }
 
+/* The program section's "Apply now" (BmProgramSection), the hero button's
+   twin: the same resting bloom, stronger on hover and focus. A navy bloom
+   needs more alpha on a pale page than platinum does on graphite. */
+.bm-cta-glow {
+  box-shadow: 0 0 26px -8px rgb(var(--gold) / 0.33);
+}
+
+.bm-cta-glow:hover,
+.bm-cta-glow:focus-visible {
+  box-shadow: 0 0 38px -6px rgb(var(--gold) / 0.5);
+}
+
+:root[data-theme="light"] .bm-cta-glow {
+  box-shadow: 0 0 26px -8px rgb(var(--gold) / 0.5);
+}
+
+:root[data-theme="light"] .bm-cta-glow:hover,
+:root[data-theme="light"] .bm-cta-glow:focus-visible {
+  box-shadow: 0 0 38px -6px rgb(var(--gold) / 0.75);
+}
+
 /* The program showcase: the bar under the current tab is its timer, and its
    animationend hands on to the next tab (BmProgramShowcase). */
 .bm-tab-progress {
@@ -3907,7 +3928,7 @@
   }
 }
 
-/* The gold of a price: "$0" here, and "+$10,000s" on the "Take action" card. */
+/* The accent of a price: "$0" here, and "+$10,000s" on the "Take action" card. */
 .ls-price {
   background: linear-gradient(180deg, #ffffff 0%, #e7e5e4 55%, #c9c6c2 100%);
   -webkit-background-clip: text;
@@ -4273,11 +4294,22 @@
   min-height: 56px;
   padding: 18px clamp(32px, 4.2vw, 64px);
   font-size: min(clamp(15px, 1.2vw, 18px), 2.2vh);
-  box-shadow: 0 0 26px -8px rgb(var(--gold) / 0.5);
+  box-shadow: 0 0 26px -8px rgb(var(--gold) / 0.33);
 }
 
 .bmh-cta:hover,
 .bmh-cta:focus-visible {
+  box-shadow: 0 0 38px -6px rgb(var(--gold) / 0.5);
+}
+
+/* A navy bloom needs more alpha to show on a pale page than platinum does on
+   graphite. */
+:root[data-theme="light"] .bmh-cta {
+  box-shadow: 0 0 26px -8px rgb(var(--gold) / 0.5);
+}
+
+:root[data-theme="light"] .bmh-cta:hover,
+:root[data-theme="light"] .bmh-cta:focus-visible {
   box-shadow: 0 0 38px -6px rgb(var(--gold) / 0.75);
 }
 

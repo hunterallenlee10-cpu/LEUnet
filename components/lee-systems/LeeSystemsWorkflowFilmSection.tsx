@@ -61,7 +61,7 @@ import { useEffect, useRef, type RefObject } from "react";
  * phone number is in the 555-0100 range kept for fiction, and "0:41" is the
  * example's own reply time, not a figure about any client.
  *
- * Self-contained: its colours fall back to the brass hexes if the theme's
+ * Self-contained: its colours fall back to the platinum hexes if the theme's
  * variables are missing, it takes nothing from its neighbours, and moving it
  * is moving its one line in app/lee-systems/page.tsx.
  */
