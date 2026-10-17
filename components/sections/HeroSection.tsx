@@ -28,13 +28,14 @@ const offer = [
 
 /**
  * The homepage hero. First a full-screen headline, line and button over a
- * field of gold dots (the owner's design, 2026-09-28, which replaced the LEU
- * logo and the "Hire us to automate your business, or learn to build your
- * own." headline; the owner's headline "Never Miss Another Customer",
- * 2026-09-29, replaced "Elevate Your Business with AI"). "The Vault", a 3D
- * film that played in the headline's place, was taken out at the owner's
- * ask (2026-10-17). Then the Lee Systems offer: one big call to hire Lee Systems Co.
- * for websites and automations, beside the missed-revenue calculator
+ * photo of snowy mountains, at night in the dark theme and in the sun in the
+ * light one (the owner's ask, 2026-10-17, which replaced the field of gold
+ * dots of 2026-09-28; the dots had replaced the LEU logo and the "Hire us to
+ * automate your business, or learn to build your own." headline; the
+ * owner's headline "Never Miss Another Customer", 2026-09-29, replaced
+ * "Elevate Your Business with AI"). "The Vault", a 3D film that played in
+ * the headline's place, was taken out at the owner's ask (2026-10-17). Then
+ * the Lee Systems offer: one big call to hire Lee Systems Co. for websites and automations, beside the missed-revenue calculator
  * (2026-10-06; it replaced "Split Ventures", the two halves for Lee Systems
  * Co. and Business Mastery), and the statistics ribbon along the bottom edge.
  *
@@ -57,6 +58,11 @@ export function HeroSection() {
       className="hero-split relative isolate flex flex-col overflow-hidden"
     >
       <div className="hero-split-top">
+        {/* The photo behind the headline (the owner's ask, 2026-10-17):
+            snowy mountains under the stars in the dark theme, sunny snowy
+            Alps in the light one. It is a CSS background (`.hero-scene` in
+            app/globals.css), so only the current theme's photo downloads. */}
+        <div className="hero-scene" aria-hidden="true" />
         <div className="hero-split-copy">
           {/* The owner's headline, capitalized as they wrote it. The space
               before the accent is real text, so it reads "Another
