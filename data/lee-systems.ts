@@ -314,13 +314,16 @@ export const otherIndustries = {
  * delivered the way the website quote form's requests were (its recipient and
  * its subject line); everything else the way the consultation form's were.
  * The route checks the posted value against this list, so a label can change
- * here without touching it.
+ * here without touching it. Since 2026-10-17 the choices follow the six
+ * service groups (`serviceGroups`), then "Not sure".
  */
 export const inquiryNeeds = [
+  { label: "Website or online store", website: true },
+  { label: "Get found & get leads", website: false },
   { label: "AI call answering", website: false },
-  { label: "Automation", website: false },
-  { label: "Website", website: true },
-  { label: "Website + automation", website: true },
+  { label: "Follow-up & booking automation", website: false },
+  { label: "Content & social media", website: false },
+  { label: "Custom AI tool", website: false },
   { label: "Not sure", website: false },
 ] as const;
 

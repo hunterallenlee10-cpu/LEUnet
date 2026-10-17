@@ -288,8 +288,8 @@ The offer changed on 2026-09-28 at the owner's request: the free
 
 | Form | Endpoint | Email subject |
 | --- | --- | --- |
-| The Lee Systems form on `/lee-systems` (name, business name, email, phone, what they need, industry, current website, message), when they need a website or a website plus automation | `/api/lee-systems-inquiry` | `Lee Systems Co.: New Website Request from {name}, {business}` |
-| The same form, for anything else (AI call answering, automation, not sure) | `/api/lee-systems-inquiry` | `Lee Systems Co.: New Consultation Request from {name}, {business}` |
+| The Lee Systems form on `/lee-systems` (name, business name, email, phone, what they need, industry, current website, message), when they pick "Website or online store" | `/api/lee-systems-inquiry` | `Lee Systems Co.: New Website Request from {name}, {business}` |
+| The same form, for any other choice (get found & get leads, AI call answering, follow-up & booking automation, content & social media, custom AI tool, not sure) | `/api/lee-systems-inquiry` | `Lee Systems Co.: New Consultation Request from {name}, {business}` |
 | The shared contact form, with Lee Systems Co. picked | `/api/contact` | `[Lee Systems Co.] New inquiry from {name}` |
 
 The Lee Systems form replaced the automation consultation form
