@@ -1,9 +1,10 @@
 /**
- * Lee Systems Co. - shared brand details and page content.
+ * LEU - shared brand details and page content.
  *
- * Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It sells AI
+ * Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25, and became
+ * plain LEU on 2026-10-17. It sells AI
  * automation (the lead offer, AI call answering included) and website builds,
- * both on one page, /lee-systems. The automation and websites pages folded
+ * both on one page, /how-it-works. The automation and websites pages folded
  * into it on 2026-09-29: their URLs, and the old /lee-marketing-mastery ones,
  * redirect to its #automation and #websites sections (next.config.mjs).
  *
@@ -23,12 +24,18 @@
 
 import { site } from "@/data/site";
 
+/**
+ * The page's address. It was /lee-systems until 2026-10-17, when the owner
+ * retired the Lee Systems Co. name and everything became Lee Enterprises
+ * Unlimited; the page is now "How It Works", and /lee-systems redirects here
+ * (next.config.mjs). The identifiers in the code keep the old name.
+ */
 export const leeSystemsRoutes = {
-  home: "/lee-systems",
+  home: "/how-it-works",
 } as const;
 
 /**
- * Section ids on /lee-systems that links point at, kept here so a link and
+ * Section ids on /how-it-works that links point at, kept here so a link and
  * its target agree. The form also keeps the ids the two forms it replaced had
  * on their own pages - "audit" (from when the automation form requested the
  * free Automation Audit) and "website-quote" - on wrappers around it, so
@@ -45,7 +52,7 @@ export const leeSystemsAnchors = {
   fullWeek: "full-week",
 } as const;
 
-/** Sections of /lee-systems, linked from anywhere on the site. */
+/** Sections of /how-it-works, linked from anywhere on the site. */
 export const leeSystemsLinks = {
   services: `${leeSystemsRoutes.home}#${leeSystemsAnchors.services}`,
   automation: `${leeSystemsRoutes.home}#${leeSystemsAnchors.automation}`,
@@ -54,9 +61,8 @@ export const leeSystemsLinks = {
 } as const;
 
 export const leeSystems = {
-  name: "Lee Systems Co.",
-  tagline: "A Lee Enterprises Unlimited company",
-  parentName: "Lee Enterprises Unlimited",
+  /** Since 2026-10-17 the one business name: Lee Systems Co. is retired. */
+  name: "Lee Enterprises Unlimited",
   /**
    * The main page's headline, the owner's "what's in it for me" line
    * (2026-09-30), which replaced "The world is changing. Beat your
@@ -73,7 +79,7 @@ export const leeSystems = {
   heroHow:
     "It makes & runs your beautiful website, answers calls, follows up with every lead, and books the job. All 24/7.",
   owner: "Hunter Lee",
-  /** The parent company's inbox until Lee Systems Co. has its own. */
+  /** The business inbox. */
   contactEmail: site.email,
   phone: site.phone,
 } as const;
@@ -82,7 +88,7 @@ export const leeSystems = {
 // 2026-10-17, when each group got its own page under /services.
 
 /**
- * The example industries on /lee-systems ("Who we help"). Law firms and home
+ * The example industries on /how-it-works ("Who we help"). Law firms and home
  * services, the two the owner knows best, come first; the rest were added on
  * the owner's request (2026-09-29). The closing line covers everyone else
  * rather than listing industries with nothing specific to say. The examples
@@ -210,8 +216,8 @@ export const inquiryIndustryOptions: readonly string[] = [
 ];
 
 /**
- * The /lee-systems FAQ: the automation page's questions, then the websites
- * page's, merged when those pages folded into /lee-systems (2026-09-29).
+ * The /how-it-works FAQ: the automation page's questions, then the websites
+ * page's, merged when those pages folded into /how-it-works (2026-09-29).
  * Both asked "How long does a build take?"; it is asked once here. The
  * answers to the free call, build time, kinds of business and website cost
  * questions are the owner's own wording (2026-09-29).
@@ -290,8 +296,8 @@ export const leeSystemsFaqs = [
 ];
 
 /**
- * How Lee Systems Co. prices its work: the owner's offer terms, stated in
- * "The choice is yours" on /lee-systems.
+ * How LEU prices its work: the owner's offer terms, stated in
+ * "The choice is yours" on /how-it-works.
  */
 export const pricingPromise = [
   "Flat upfront quote",
@@ -301,7 +307,7 @@ export const pricingPromise = [
   "You choose the contract terms",
 ] as const;
 
-/** The four things the homepage says Lee Systems Co. sets up. NOTHING RENDERS
+/** The four things the homepage says LEU sets up. NOTHING RENDERS
  * THIS RIGHT NOW: LeeSystemsSetupSection came off the homepage at the owner's
  * request (2026-09-28) and is kept so it can go back with no content work. */
 export const homeSetupItems = [

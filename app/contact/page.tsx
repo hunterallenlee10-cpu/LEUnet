@@ -7,7 +7,7 @@ import { site } from "@/data/site";
 
 const title = "Contact | Lee Enterprises Unlimited";
 const description =
-  "Book a free call with Lee Systems Co. about a website or automations, or send Hunter Lee a message.";
+  "Book a free call with Lee Enterprises Unlimited about a website or automations, or send Hunter Lee a message.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 /**
  * Where "Contact" in the nav goes, and where every "Book a free call" lands
- * (with Lee Systems Co. preselected) until a booking link is set.
+ * (with LEU preselected) until a booking link is set.
  */
 export default function ContactPage() {
   return (

@@ -30,7 +30,7 @@ import { useEffect, useRef, type RefObject } from "react";
 import { leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
- * "Watch one system run your week" on /lee-systems: a workflow editor in the
+ * "Watch one system run your week" on /how-it-works: a workflow editor in the
  * style of n8n, running four short stories end to end in about a minute, then
  * looping (the owner's pick on 2026-10-06, after five single-scene options
  * for the Business automation card and a preview of this combined one).

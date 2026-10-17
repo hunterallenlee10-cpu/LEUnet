@@ -14,7 +14,7 @@ import { leeSystems } from "@/data/lee-systems";
 import { serviceGroups, servicePath, servicesRoutes } from "@/data/services";
 
 /**
- * /services: everything Lee Systems Co. builds, in one place (2026-10-17).
+ * /services: everything LEU builds, in one place (2026-10-17).
  * The hero, the six service groups as alternating rows (each with "See it
  * work", which opens its tab in the Demo Lab, and "Learn more", its own
  * page), the Demo Lab, the Care Plan, a closing call, and the form.
@@ -22,7 +22,7 @@ import { serviceGroups, servicePath, servicesRoutes } from "@/data/services";
  * Its structured data lists the six service pages; each of those carries the
  * full Service node.
  */
-const title = "Services | Lee Systems Co.";
+const title = "Services | Lee Enterprises Unlimited";
 const description =
   "Websites, local SEO and leads, AI call answering, follow-up automation, content and custom AI tools. See each one working in the Demo Lab.";
 const pageUrl = `${SITE_URL}${servicesRoutes.hub}`;
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Lee Systems Co. services",
+  name: "Lee Enterprises Unlimited services",
   url: pageUrl,
   itemListElement: serviceGroups.map((group, index) => ({
     "@type": "ListItem",

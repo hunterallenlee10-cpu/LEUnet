@@ -27,7 +27,7 @@ const pictured: ReadonlySet<IndustryId> = new Set<IndustryId>([
 ]);
 
 /**
- * "Who we help" on /lee-systems: example industries as picture-led cards,
+ * "Who we help" on /how-it-works: example industries as picture-led cards,
  * after The Real World's campus cards (the owner's reference, 2026-09-29):
  * a picture with the industry's name set over it, its one-line summary, and
  * a small uppercase "See examples", after The Real World's "Explore campus".
@@ -41,7 +41,7 @@ const pictured: ReadonlySet<IndustryId> = new Set<IndustryId>([
  * time. Cards align to the top of their row, so opening one doesn't stretch
  * the others; from two columns up every summary is held to three lines'
  * height (none is longer), so closed cards match.
- * Each card keeps its industry's id, so /lee-systems#real-estate lands on it,
+ * Each card keeps its industry's id, so /how-it-works#real-estate lands on it,
  * and the retired law firm and home services pages redirect to theirs.
  *
  * The pictures (public/lee-systems/industries/, 800 x 450 WebP) were

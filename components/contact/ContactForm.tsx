@@ -26,7 +26,7 @@ const emptyForm = {
   message: "",
 };
 
-/** In the Lee Systems brass, after the homepage calculator's card. */
+/** In the LEU brass, after the homepage calculator's card. */
 const labelClass = "mb-2 block text-sm font-medium text-neutral-300";
 const fieldClass =
   "w-full rounded-lg border bg-neutral-950/70 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:border-brass-400/70 focus:outline-none focus:ring-2 focus:ring-brass-400/25";

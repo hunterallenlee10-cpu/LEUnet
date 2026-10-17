@@ -12,7 +12,7 @@ import type { ServiceIconName } from "@/data/services";
 /**
  * The line icon for each service group (`icon` in data/services.ts), shared
  * by every place a group appears (the Services menu, the homepage showcase,
- * the /lee-systems cards, /services and the service pages) so a group looks
+ * the /how-it-works cards, /services and the service pages) so a group looks
  * the same everywhere. Drawn thin (stroke 1.5) in the accent colour.
  */
 export const serviceIcons: Record<ServiceIconName, LucideIcon> = {

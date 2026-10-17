@@ -35,12 +35,12 @@ export function ServicesHero() {
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_70%_at_50%_0%,rgb(var(--gold)/0.12),transparent_70%)]"
       />
       <div className="section-container text-center">
-        <p className={eyebrow}>Lee Systems Co.</p>
+        <p className={eyebrow}>Services</p>
         <h1
           id="services-title"
           className="heading-xl mx-auto mt-5 max-w-4xl text-balance text-white"
         >
-          Everything Lee Systems Co. builds, <span className="text-brass-300">in one place.</span>
+          Everything we build, <span className="text-brass-300">in one place.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-neutral-300">
           Six ways we bring you more customers and take work off your plate. See

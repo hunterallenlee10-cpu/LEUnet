@@ -12,9 +12,9 @@
 
    A full-screen headline block over a photo of snowy mountains, at night in
    the dark theme and in the sun in the light one (the owner's ask,
-   2026-10-17), then one big call to hire Lee Systems Co. for websites and
+   2026-10-17), then one big call to hire LEU for websites and
    automations beside the missed-revenue calculator (2026-10-06, replacing
-   the two halves for Lee Systems Co. and Business Mastery), and the
+   the two halves for LEU and Business Mastery), and the
    statistics as a ribbon along the bottom edge. All motion stops under
    prefers-reduced-motion at the end of the block.
    --------------------------------------------------------------------------- */
@@ -203,11 +203,11 @@
   outline-offset: 3px;
 }
 
-/* ---- the Lee Systems offer (the owner's ask, 2026-10-06) ----
+/* ---- the LEU offer (the owner's ask, 2026-10-06) ----
 
    It replaced "Two ways to work with LEU / Pick the one that fits", the
-   Lee Systems Co. and Business Mastery halves, when the owner moved Business
-   Mastery to the footer only. One big call to hire Lee Systems Co. for
+   LEU and Business Mastery halves, when the owner moved Business
+   Mastery to the footer only. One big call to hire LEU for
    websites and automations on the left, and the missed-revenue calculator on
    the right (MissedRevenueCalculator.tsx); stacked below 1024px, the
    calculator second. The ground is the old Lee Systems half's: a brass pool
@@ -1443,7 +1443,7 @@
    --------------------------------------------------------------------------- */
 
 /* The marquee's heading: silver fading to grey, with the second half picked
-   out in the Lee Systems brass. */
+   out in the LEU brass. */
 .tools-title {
   font-size: clamp(1.25rem, 2.2vw, 1.875rem);
   font-weight: 700;
@@ -1566,7 +1566,7 @@
 }
 
 @theme {
-  /* Lee Systems Co. accent, as first built in brass gold (#D4A857). The
+  /* LEU accent, as first built in brass gold (#D4A857). The
      Lee Systems pages use this scale where the rest of the site uses amber.
      Both themes re-point it ("Light and dark themes" below: platinum in dark,
      navy in light), which is why it isn't `inline`: the utilities have to
@@ -1757,7 +1757,7 @@
     @apply px-6 py-3 border-2 border-amber-400 text-amber-400 font-semibold rounded-lg hover:bg-amber-400/10 transition-all duration-200;
   }
 
-  /* Lee Systems Co. buttons: the same shapes as the two above in brass, and
+  /* LEU buttons: the same shapes as the two above in brass, and
      without the scale-on-hover, which is louder than the brand's calm tone. */
   .btn-ls-primary {
     @apply px-6 py-3 bg-brass-400 text-neutral-950 font-semibold rounded-lg hover:bg-brass-300 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
@@ -1767,7 +1767,7 @@
     @apply px-6 py-3 border-2 border-brass-400 text-brass-300 font-semibold rounded-lg hover:bg-brass-400/10 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
   }
 
-  /* The pair in the Lee Systems page's "Two paths" and "The choice is yours"
+  /* The pair in the How It Works page's "Two paths" and "The choice is yours"
      sections, after The Real World's (the owner's reference, 2026-09-29): a
      dim grey button on the path of doing nothing, and a lit gold one for the
      call (BookCallLink's "glow"). */
@@ -1846,8 +1846,8 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. - the shared motion vocabulary
-   `.ls-status` (a breathing status dot), for the /lee-systems sections that
+   LEU - the shared motion vocabulary
+   `.ls-status` (a breathing status dot), for the /how-it-works sections that
    draw it: LeeSystemsOnboardingSection and OnboardingDevices. (`.ls-dash`, a
    dotted line drifting along its path, went with the dashed join under What
    we do, 2026-09-30, and `.ls-spine-track`, the packet down What we do's
@@ -1875,7 +1875,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. - onboarding devices
+   LEU - onboarding devices
    One consumer: components/lee-systems/OnboardingDevices.tsx. Every piece
    rests in its finished state; the animations below apply only inside the
    scene marked data-active="true", so a scene replays each time it becomes
@@ -2036,7 +2036,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. — the Website builds deck
+   LEU — the Website builds deck
    One consumer: components/lee-systems/WebsiteDeck.tsx, the picture on the
    Website builds card under What we do (the owner's ask, 2026-10-06). Every
    screenshot shares one box, sitting where the back one of the old fixed pair
@@ -2128,9 +2128,9 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. — the hero's picture shade
+   LEU — the hero's picture shade
    One consumer: components/lee-systems/HeroStill.tsx, over the laptop
-   still behind the /lee-systems hero (the owner's pick, 2026-09-30).
+   still behind the /how-it-works hero (the owner's pick, 2026-09-30).
 
    On a phone the picture is a band across the top of the hero and the copy
    starts in its lower third, so the shade darkens the very top (under the
@@ -2187,7 +2187,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. — "Two paths"
+   LEU — "Two paths"
    One consumer: components/lee-systems/TwoPathsDemo.tsx, in the section
    straight after the Lee Systems hero.
 

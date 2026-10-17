@@ -15,7 +15,7 @@ import type { CSSProperties, ReactNode } from "react";
  *
  * How the animation restarts. Every animated piece rests in its finished
  * state, and its animation only applies inside a scene marked
- * `data-active="true"` (see "Lee Systems Co. - onboarding devices" in
+ * `data-active="true"` (see "LEU - onboarding devices" in
  * globals.css). Making a scene active re-applies the animation, so it plays
  * from the start each time; a scene fading out keeps its finished content
  * rather than blinking empty. Under prefers-reduced-motion the animations go

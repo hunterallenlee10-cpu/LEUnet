@@ -13,7 +13,7 @@ import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
 
 const title = "Lee Enterprises Unlimited | AI Automation & Websites";
 const description =
-  "Lee Systems Co. builds websites that bring in customers and AI automations that answer every call, follow up and book the job.";
+  "Lee Enterprises Unlimited builds websites that bring in customers and AI automations that answer every call, follow up and book the job.";
 
 // The canonical and og:url live here rather than in the root layout, where
 // every page without its own would inherit them and point at the homepage.
@@ -39,14 +39,14 @@ export const metadata: Metadata = {
 };
 
 /**
- * The homepage: the hero and the Lee Systems offer with its calculator, the
+ * The homepage: the hero and the LEU offer with its calculator, the
  * six service groups (ServicesShowcase, 2026-10-17), the moving strip of
  * tools, the journey, recent work, and the contact form.
  * Business Mastery is linked from the footer only (the owner's call,
  * 2026-10-06). The order is the site fix
  * plan's, except that on 2026-09-28 the owner swapped the pricing promise for
  * the tool strip, moved the journey here from /business-mastery (right above
- * recent work), and paused "Who you'll work with" and "What Lee Systems Co.
+ * recent work), and paused "Who you'll work with" and "What LEU
  * sets up". Nothing else goes here.
  */
 export default function Home() {
@@ -60,7 +60,7 @@ export default function Home() {
             live previews, each linking to its page (2026-10-17). */}
         <ServicesShowcase />
         <ToolsMarqueeSection />
-        {/* "What Lee Systems Co. sets up" is out at the owner's request
+        {/* "What LEU sets up" is out at the owner's request
             (2026-09-28). LeeSystemsSetupSection is intact; putting it back
             is this line plus its import. */}
         {/* The journey, locked or open: BM_JOURNEY_LOCKED

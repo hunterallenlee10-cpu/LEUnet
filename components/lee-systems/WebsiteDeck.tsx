@@ -68,7 +68,7 @@ export function WebsiteDeck({ shots }: { shots: DeckShot[] }) {
     <div
       ref={deckRef}
       role="img"
-      aria-label={`Websites built by Lee Systems Co.: ${shots.map((shot) => shot.name).join(", ")}`}
+      aria-label={`Websites we built: ${shots.map((shot) => shot.name).join(", ")}`}
       className="absolute inset-0"
     >
       {shots.map((shot, index) => {

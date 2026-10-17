@@ -1,5 +1,5 @@
 /**
- * The /lee-systems hero's background: a still of a laptop on a desk at night,
+ * The /how-it-works hero's background: a still of a laptop on a desk at night,
  * its dashboard lit in brass. It was a five-second loop until 2026-10-07, when
  * the owner asked for a still of the same laptop without the small movement on
  * the screen. The picture is the loop's steady stretch averaged into one

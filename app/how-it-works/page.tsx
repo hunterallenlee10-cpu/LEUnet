@@ -22,7 +22,7 @@ import {
 import { serviceGroups, servicePath } from "@/data/services";
 
 /**
- * The Lee Systems Co. page, and since 2026-09-29 the only one: the automation
+ * The LEU page, and since 2026-09-29 the only one: the automation
  * and websites pages folded into it, and their URLs 301 to its #automation
  * and #websites sections (next.config.mjs). It replaced the Lee Marketing
  * Mastery hub at /lee-marketing-mastery, which redirects here too.
@@ -38,9 +38,9 @@ import { serviceGroups, servicePath } from "@/data/services";
  * where `bookHref` says. The two paths and the choice follow The Real World's
  * page (the owner's reference, 2026-09-29).
  */
-const title = "Lee Systems Co. | AI Automation & Websites for Business Owners";
+const title = "How It Works | Lee Enterprises Unlimited";
 const description =
-  "Lee Systems Co. builds websites that bring in customers, AI that answers calls and follows up every lead, plus marketing and content that gets you found.";
+  "How Lee Enterprises Unlimited builds websites that bring in customers, AI that answers calls and follows up every lead, plus marketing and content that gets you found.";
 
 /** The page's one canonical URL, on the www host. */
 const pageUrl = `${SITE_URL}${leeSystemsRoutes.home}`;
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
 
 /**
  * The business, its six service groups and the FAQ, all at this one URL.
- * Each group (`serviceGroups` in data/lee-systems.ts, the "What we do" cards)
+ * Each group (`serviceGroups` in data/how-it-works.ts, the "What we do" cards)
  * is a Service pointing at its own card, with what it includes as an offer
  * catalogue; the Organization's catalogue lists the six. They replaced the
  * two Service nodes (automation and websites) on 2026-10-17.
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
  */
 const businessNode = {
   "@type": "Organization",
-  "@id": `${pageUrl}#business`,
+  "@id": `${SITE_URL}/#organization`,
   name: leeSystems.name,
 };
 
@@ -99,18 +99,13 @@ const structuredData = {
     {
       ...businessNode,
       description,
-      url: pageUrl,
+      url: SITE_URL,
       email: leeSystems.contactEmail,
       ...(leeSystems.phone ? { telephone: leeSystems.phone } : {}),
       founder: { "@type": "Person", name: leeSystems.owner },
-      parentOrganization: {
-        "@type": "Organization",
-        name: leeSystems.parentName,
-        url: SITE_URL,
-      },
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "Lee Systems Co. Services",
+        name: "Lee Enterprises Unlimited services",
         itemListElement: services.map((service) => ({
           "@type": "Offer",
           itemOffered: { "@type": "Service", "@id": service["@id"] },

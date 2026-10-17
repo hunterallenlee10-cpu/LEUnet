@@ -1,4 +1,11 @@
-# Lee Systems Co.
+# How It Works (formerly Lee Systems Co.)
+
+> **2026-10-17:** the owner retired the Lee Systems Co. name; everything is sold
+> as Lee Enterprises Unlimited. This page is now **How It Works** at
+> `/how-it-works` (`/lee-systems` and every older URL below 301-redirect
+> there). Its hero label reads "How it works", the share card and structured
+> data say Lee Enterprises Unlimited, and lead emails start "LEU:". The rest of
+> this document keeps the old name where it records history.
 
 Lee Systems Co. ("A Lee Enterprises Unlimited company") replaced Lee Marketing
 Mastery on 2026-09-25. It sells **AI automation** (the lead offer, AI call

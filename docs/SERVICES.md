@@ -1,14 +1,14 @@
 # Services and the Demo Lab
 
-Lee Systems Co. sells six service groups (the owner's list, 2026-10-17). Each
-has its own page, a tile on the homepage, a card on `/lee-systems`, and an
+Lee Enterprises Unlimited sells six service groups (the owner's list, 2026-10-17). Each
+has its own page, a tile on the homepage, a card on `/how-it-works`, and an
 interactive demo a visitor can watch in under a minute.
 
 ## One list
 
 Everything reads `serviceGroups` in [`data/services.ts`](../data/services.ts):
 the header's Services menu, the homepage "What we do" bento, the
-`/lee-systems` cards and "Not on the list?" chips, `/services` and its Demo
+`/how-it-works` cards and "Not on the list?" chips, `/services` and its Demo
 Lab tabs, the six service pages, the "What do you need?" select, the contact
 email's subject tag, the structured data and the sitemap. Change a group
 there and it changes everywhere.
@@ -37,7 +37,7 @@ named (Google, Instagram and so on) are where the work shows up.
 
 Deep links: `/services?demo=ai-calls` or `/services#demo-lab?demo=ai-calls`
 opens a Demo Lab tab. `?service=<slug>` or `?interest=<slug>` on any page with
-the Lee Systems form picks that group in "What do you need?", and every
+the inquiry form picks that group in "What do you need?", and every
 demo's "Book a free call" uses it.
 
 ## The demos
@@ -59,7 +59,7 @@ Every demo is a client-side simulation from fixture data in `data/demos/`:
 no network requests, no live AI, made-up businesses and 555 numbers, the
 "Example" label and the "Simulated example" footnote.
 
-The small looping pictures on the homepage, `/lee-systems` and `/services`
+The small looping pictures on the homepage, `/how-it-works` and `/services`
 are `MiniPreview` (CSS only, `components/services/services.css`): they move
 only on screen and show their finished frame otherwise.
 

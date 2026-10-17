@@ -32,7 +32,7 @@ import {
  * moving to Booked on a mini CRM board, a reminder, a review request and a
  * paid invoice. Alongside, the website chat answers two questions and a
  * "PRICE" comment turns into an automatic DM. It ends on the "Good morning"
- * summary, with a link to the full-week animation on /lee-systems rather
+ * summary, with a link to the full-week animation on /how-it-works rather
  * than repeating it.
  */
 

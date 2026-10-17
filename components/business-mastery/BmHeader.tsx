@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 /**
  * Business Mastery's own header, in place of the site's MainHeader: the page
  * is its own site now, on its own subdomain (docs/BUSINESS-MASTERY.md), so
- * its bar carries no Lee Systems Co. or Contact links. The LEU mark with the
+ * its bar carries no LEU or Contact links. The LEU mark with the
  * program's name on the left, which goes back to the top, and the page's
  * one action on the right, with the light/dark switch beside it as in
  * MainHeader. The same height and the same see-through bar turning solid on

@@ -12,7 +12,6 @@ import {
   servicesRoutes,
   type ServiceGroup,
 } from "@/data/services";
-import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
 import { FaqAccordion } from "@/components/lee-systems/FaqAccordion";
 import { site } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
@@ -46,10 +45,10 @@ function SectionHeader({ id, kicker, title, lead }: { id: string; kicker: string
   );
 }
 
-/** Where the page sits: Lee Systems Co. › Services › this service. */
+/** Where the page sits: Home › Services › this service. */
 export function serviceBreadcrumbs(group: ServiceGroup) {
   return [
-    { name: leeSystems.name, href: leeSystemsRoutes.home },
+    { name: "Home", href: "/" },
     { name: "Services", href: servicesRoutes.hub },
     { name: group.name, href: servicePath(group.slug) },
   ];
@@ -97,7 +96,7 @@ export function ServiceHero({ group }: { group: ServiceGroup }) {
         <div>
           <p className={`${eyebrow} flex items-center gap-2.5`}>
             <Icon aria-hidden="true" strokeWidth={1.5} className="h-5 w-5 text-brass-400" />
-            Lee Systems Co.
+            Lee Enterprises Unlimited
           </p>
           <h1 id="service-title" className="heading-xl mt-5 text-balance text-white">
             {group.name}
@@ -286,7 +285,7 @@ export function PairsSection({ group }: { group: ServiceGroup }) {
   );
 }
 
-/** Answers from the /lee-systems FAQ that fit this service. */
+/** Answers from the /how-it-works FAQ that fit this service. */
 export function ServiceFaqSection({ group }: { group: ServiceGroup }) {
   const faqs = serviceFaqs(group);
   if (faqs.length === 0) return null;
