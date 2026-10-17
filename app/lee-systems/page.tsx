@@ -17,8 +17,8 @@ import { SITE_URL } from "@/data/company";
 import {
   leeSystems,
   leeSystemsFaqs,
-  leeSystemsLinks,
   leeSystemsRoutes,
+  serviceGroups,
 } from "@/data/lee-systems";
 
 /**
@@ -40,7 +40,7 @@ import {
  */
 const title = "Lee Systems Co. | AI Automation & Websites for Business Owners";
 const description =
-  "Lee Systems Co. builds AI systems that answer your calls and new leads, handle intake and send follow-ups, plus websites built to bring in leads.";
+  "Lee Systems Co. builds websites that bring in customers, AI that answers calls and follows up every lead, plus marketing and content that gets you found.";
 
 /** The page's one canonical URL, on the www host. */
 const pageUrl = `${SITE_URL}${leeSystemsRoutes.home}`;
@@ -66,15 +66,16 @@ export const metadata: Metadata = {
 };
 
 /**
- * The business, the two services it sells and the FAQ, all at this one URL.
- * The two `Service` nodes used to live on the automation and websites pages;
- * they keep their names, descriptions and catalogues, and point at their
- * sections here.
+ * The business, its six service groups and the FAQ, all at this one URL.
+ * Each group (`serviceGroups` in data/lee-systems.ts, the "What we do" cards)
+ * is a Service pointing at its own card, with what it includes as an offer
+ * catalogue; the Organization's catalogue lists the six. They replaced the
+ * two Service nodes (automation and websites) on 2026-10-17.
  *
  * An Organization rather than a LocalBusiness type: the site publishes no
  * address or service area (the owner's call, 2026-09-28), and local-business
- * data without an address is flagged as incomplete. No rating or review: none
- * exist to cite.
+ * data without an address is flagged as incomplete. No rating, review or
+ * price: none exist to cite.
  */
 const businessNode = {
   "@type": "Organization",
@@ -82,36 +83,13 @@ const businessNode = {
   name: leeSystems.name,
 };
 
-const services = [
-  {
-    "@id": `${pageUrl}#service-automation`,
-    name: "Business Automation",
-    description:
-      "AI call answering, instant lead replies, intake, follow-ups and review requests, built around the tools you already use. Start with a free call.",
-    serviceType: "Business process automation",
-    url: `${SITE_URL}${leeSystemsLinks.automation}`,
-    catalog: "Automation Systems",
-    offers: [
-      "AI Call Answering",
-      "Lead Response Automation",
-      "Sales Follow-Up Automation",
-      "Client Intake and Communication",
-      "Review and Referral Requests",
-      "Billing Reminders",
-      "Internal Operations Automation",
-    ],
-  },
-  {
-    "@id": `${pageUrl}#service-websites`,
-    name: "Website Builds",
-    description:
-      "Conversion-focused websites for businesses. Mobile-first, fast, lead forms, basic SEO, and you own it. Free quotes from Lee Systems Co.",
-    serviceType: "Website design and development",
-    url: `${SITE_URL}${leeSystemsLinks.websites}`,
-    catalog: "Website Services",
-    offers: ["New Website Builds", "Website Redesigns", "Ongoing Care Plans"],
-  },
-];
+const services = serviceGroups.map(({ anchor, name, outcome, items }) => ({
+  "@id": `${pageUrl}#${anchor}`,
+  name,
+  description: outcome,
+  url: `${pageUrl}#${anchor}`,
+  items,
+}));
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -137,14 +115,14 @@ const structuredData = {
         })),
       },
     },
-    ...services.map(({ catalog, offers, ...service }) => ({
+    ...services.map(({ items, ...service }) => ({
       "@type": "Service",
       ...service,
       provider: businessNode,
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: catalog,
-        itemListElement: offers.map((name) => ({
+        name: service.name,
+        itemListElement: items.map((name) => ({
           "@type": "Offer",
           itemOffered: { "@type": "Service", name },
         })),
