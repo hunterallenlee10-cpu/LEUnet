@@ -42,6 +42,8 @@ export interface Demo {
   last: number;
   status: DemoStatus;
   reduced: boolean;
+  /** On screen in a visible tab: when a demo's own media may play. */
+  active: boolean;
   byVisitor: boolean;
   /**
    * Goes up each time the demo starts over (Play from the top, Replay, Step
@@ -175,6 +177,7 @@ export function useDemo({
       last,
       status: state.status,
       reduced,
+      active,
       byVisitor: state.byVisitor,
       run: state.run,
       reached: (n: number) => state.step >= n,
