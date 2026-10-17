@@ -16,7 +16,7 @@ day and 301 to their cards in "Who we help" (see Redirects below).
 
 | URL | What it is | Built from |
 | --- | --- | --- |
-| `/lee-systems` | The page, in order: hero, two paths, the website video, what we do (the two offerings side by side; the Website builds card's picture shuffles through every Recent Build, two at a time, every 3.5 seconds, `WebsiteDeck`), the live demo under it (the website `#websites` catching a lead, then the workflow `#automation` handling it), who we help (`#industries`), Recent Builds, onboarding process (Audit, Build, Take off, then a "Book a free call" button), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
+| `/lee-systems` | The page, in order: hero, two paths, the website video, what we do (`#services`: the six service groups as cards, each with a "See what's included" button that shows its items as chips, and the Care Plan band under them; `LeeSystemsServicesSection`, content in `serviceGroups` and `carePlan` in `data/lee-systems.ts`. It replaced the two offerings side by side, `LeeSystemsOfferingsSection`, on 2026-10-17), the live demo under it (the website `#websites` catching a lead, then the workflow `#automation` handling it), who we help (`#industries`), Recent Builds, onboarding process (Audit, Build, Take off, then a "Book a free call" button), FAQ (`#faq`), the choice is yours, and the form (`#contact-form`) | `app/lee-systems/page.tsx`, `components/lee-systems/` |
 
 What came over from the folded pages: the automation page's seven areas
 (AI call answering first, full width; it was titled "Calls" there), its
@@ -288,8 +288,8 @@ The offer changed on 2026-09-28 at the owner's request: the free
 
 | Form | Endpoint | Email subject |
 | --- | --- | --- |
-| The Lee Systems form on `/lee-systems` (name, business name, email, phone, what they need, industry, current website, message), when they need a website or a website plus automation | `/api/lee-systems-inquiry` | `Lee Systems Co.: New Website Request from {name}, {business}` |
-| The same form, for anything else (AI call answering, automation, not sure) | `/api/lee-systems-inquiry` | `Lee Systems Co.: New Consultation Request from {name}, {business}` |
+| The Lee Systems form on `/lee-systems` (name, business name, email, phone, what they need, industry, current website, message), when they pick "Website or online store" | `/api/lee-systems-inquiry` | `Lee Systems Co.: New Website Request from {name}, {business}` |
+| The same form, for any other choice (get found & get leads, AI call answering, follow-up & booking automation, content & social media, custom AI tool, not sure) | `/api/lee-systems-inquiry` | `Lee Systems Co.: New Consultation Request from {name}, {business}` |
 | The shared contact form, with Lee Systems Co. picked | `/api/contact` | `[Lee Systems Co.] New inquiry from {name}` |
 
 The Lee Systems form replaced the automation consultation form
