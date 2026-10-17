@@ -40,7 +40,7 @@ export function BmFoundingOfferSection() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(70% 55% at 50% 40%, rgba(251, 191, 36, 0.08) 0%, transparent 70%)",
+              "radial-gradient(70% 55% at 50% 40%, rgb(var(--amber) / 0.08) 0%, transparent 70%)",
           }}
         />
       </div>
@@ -79,7 +79,7 @@ export function BmFoundingOfferSection() {
             full legal terms are a Phase C gate — see docs/BUSINESS-MASTERY.md
             §6 — so the body carries the summary and points people to email
             for the details. */}
-        <details className="group mx-auto mt-8 max-w-2xl rounded-xl border border-neutral-800 bg-neutral-900/40">
+        <details className="group mx-auto mt-8 max-w-2xl rounded-xl border border-neutral-800 bg-neutral-900/40 light:bg-[#fff]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 [&::-webkit-details-marker]:hidden">
             <span className="flex items-center gap-3">
               <ShieldCheck

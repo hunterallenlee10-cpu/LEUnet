@@ -77,12 +77,12 @@ function delay(i: number, start = 0): CSSProperties {
 function Laptop({ children }: { children: ReactNode }) {
   return (
     <div className="relative ml-[6%] w-[80%]">
-      <div className="rounded-t-[1.1rem] border border-white/15 bg-neutral-900 p-[2.2%] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)]">
+      <div className="rounded-t-[1.1rem] border border-white/15 bg-neutral-900 p-[2.2%] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] light:shadow-[0_30px_70px_-30px_rgb(15_26_46/0.3)]">
         <div className="@container relative aspect-[16/10] overflow-hidden rounded-[0.35rem] bg-neutral-950">
           {children}
         </div>
       </div>
-      <div className="relative -mx-[7%] h-3 rounded-b-[1rem] bg-gradient-to-b from-neutral-600 to-neutral-800 shadow-[0_18px_30px_-12px_rgba(0,0,0,0.9)]">
+      <div className="relative -mx-[7%] h-3 rounded-b-[1rem] bg-gradient-to-b from-neutral-600 to-neutral-800 shadow-[0_18px_30px_-12px_rgba(0,0,0,0.9)] light:shadow-[0_18px_30px_-14px_rgb(15_26_46/0.35)]">
         <span className="absolute top-0 left-1/2 h-1 w-[16%] -translate-x-1/2 rounded-b-md bg-neutral-900/70" />
       </div>
     </div>
@@ -92,7 +92,7 @@ function Laptop({ children }: { children: ReactNode }) {
 function Phone({ children }: { children: ReactNode }) {
   return (
     <div className="ob-float absolute right-0 bottom-0 w-[28%]">
-      <div className="rounded-[2rem] border border-white/20 bg-neutral-900 p-[5%] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.95),0_0_0_1px_rgba(0,0,0,0.6)]">
+      <div className="rounded-[2rem] border border-white/20 bg-neutral-900 p-[5%] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.95),0_0_0_1px_rgba(0,0,0,0.6)] light:shadow-[0_30px_60px_-24px_rgb(15_26_46/0.35),0_0_0_1px_rgb(15_26_46/0.12)]">
         <div className="@container relative aspect-[9/19] overflow-hidden rounded-[1.6rem] bg-neutral-950">
           <span className="absolute top-[2.5%] left-1/2 z-20 h-[3.4%] w-[34%] -translate-x-1/2 rounded-full bg-black" />
           {children}
@@ -165,7 +165,7 @@ function LaptopAudit() {
           ))}
         </ul>
         <span className="ob-scan pointer-events-none absolute inset-0">
-          <span className="block h-[2px] w-full bg-gradient-to-r from-transparent via-brass-300 to-transparent shadow-[0_0_14px_rgba(226,170,72,0.9)]" />
+          <span className="block h-[2px] w-full bg-gradient-to-r from-transparent via-brass-300 to-transparent shadow-[0_0_14px_rgb(231_229_228/0.6)] light:shadow-[0_0_14px_rgb(29_78_216/0.5)]" />
         </span>
       </div>
     </div>
@@ -294,7 +294,7 @@ function LaptopLive() {
         <div className="relative flex-1">
           <svg viewBox="0 0 200 70" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" fill="none">
             {[17.5, 35, 52.5].map((y) => (
-              <line key={y} x1="0" x2="200" y1={y} y2={y} stroke="rgba(255,255,255,0.06)" vectorEffect="non-scaling-stroke" />
+              <line key={y} x1="0" x2="200" y1={y} y2={y} className="stroke-[rgb(var(--ink)/0.06)]" vectorEffect="non-scaling-stroke" />
             ))}
             <path
               className="ob-area"
@@ -302,15 +302,14 @@ function LaptopLive() {
               fill="url(#ob-area)"
             />
             <path
-              className="ob-draw"
+              className="ob-draw stroke-brass-300"
               d="M0 64 C30 60 45 56 70 50 C95 44 110 46 135 32 C155 21 175 14 200 5"
-              stroke="#e0be78"
               strokeWidth="1.4"
             />
             <defs>
               <linearGradient id="ob-area" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="rgba(224,190,120,0.35)" />
-                <stop offset="100%" stopColor="rgba(224,190,120,0)" />
+                <stop offset="0%" className="[stop-color:rgb(231_229_228/0.22)] light:[stop-color:rgb(29_78_216/0.18)]" />
+                <stop offset="100%" className="[stop-color:rgb(231_229_228/0)] light:[stop-color:rgb(29_78_216/0)]" />
               </linearGradient>
             </defs>
           </svg>
