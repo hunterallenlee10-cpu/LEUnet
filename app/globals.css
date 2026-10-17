@@ -1,163 +1,3829 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
 
-@custom-variant dark (&:is(.dark *));
+/* ---------------------------------------------------------------------------
+   Homepage hero — "Split Ventures"
+   Used only by components/sections/HeroSection.tsx.
+
+   A full-screen headline block over a field of gold dots (the owner's design,
+   2026-09-28), then one big call to hire Lee Systems Co. for websites and
+   automations beside the missed-revenue calculator (2026-10-06, replacing
+   the two halves for Lee Systems Co. and Business Mastery), and the
+   statistics as a ribbon along the bottom edge. All motion stops under
+   prefers-reduced-motion at the end of the block.
+   --------------------------------------------------------------------------- */
+
+.hero-split {
+  background: radial-gradient(120% 90% at 50% 0%, #0b0a07 0%, #060606 60%, #000 100%);
+}
+
+/* The headline block: a screen tall from 640px up (short of that on very
+   tall screens), and a little less on a phone, so the Lee Systems section
+   shows under it. It holds two layers in one grid cell: the headline, and
+   the animation that plays in its place (`.hero-vsl`, in the next block),
+   which fills the block edge to edge and adds nothing to its height, so the
+   block never changes height as they swap. `isolation` keeps the dots and
+   the glow behind the words without leaving this block. */
+.hero-split-top {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  min-height: 88svh;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .hero-split-top {
+    min-height: min(100svh, 62rem);
+  }
+}
+
+/* The headline, its line and its buttons. Content sits a little below the
+   middle because the fixed header covers the block's top 80px. */
+.hero-split-copy {
+  grid-area: 1 / 1;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 7rem 1.25rem 5rem;
+}
+
+/* The field of gold dots, and a warm light from the top edge where the header
+   meets the hero. The dots are three small tiles of an SVG repeated at sizes
+   that don't line up (347, 523 and 431px), so the pattern never visibly
+   repeats: no elements, no script, about 2KB. They were inline SVG shapes
+   until a Lighthouse run showed those tripling the homepage's main-thread
+   work. The tiles are too sparse to count as the page's largest paint, so
+   the headline stays that. Both layers thin out towards the bottom, so the
+   block hands over to the section under it without an edge.
+
+   `::before` holds still. `::after` is a handful of brighter dots that fade
+   in and out, which reads as a slow twinkle; only its opacity animates, so
+   the browser does it without repainting. */
+.hero-split-top::before,
+.hero-split-top::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+.hero-split-top::before {
+  background:
+    radial-gradient(
+      70% 45% at 50% 0%,
+      rgba(212, 168, 87, 0.09) 0%,
+      rgba(212, 168, 87, 0.03) 45%,
+      transparent 75%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='347' height='347' fill='%23d9b25f'%3E%3Ccircle cx='327' cy='76' r='1.1' fill-opacity='0.42'/%3E%3Ccircle cx='108' cy='120' r='1.5' fill-opacity='0.52'/%3E%3Ccircle cx='236' cy='40' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='211' cy='336' r='0.7' fill-opacity='0.67'/%3E%3Ccircle cx='166' cy='16' r='0.8' fill-opacity='0.42'/%3E%3Ccircle cx='305' cy='340' r='1.3' fill-opacity='0.50'/%3E%3Ccircle cx='163' cy='198' r='1.5' fill-opacity='0.42'/%3E%3Ccircle cx='288' cy='137' r='0.8' fill-opacity='0.57'/%3E%3Ccircle cx='233' cy='104' r='0.7' fill-opacity='0.36'/%3E%3Ccircle cx='144' cy='81' r='0.8' fill-opacity='0.48'/%3E%3Ccircle cx='80' cy='164' r='1.2' fill-opacity='0.36'/%3E%3C/svg%3E") 0 0 / 347px 347px,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='523' height='523' fill='%23d9b25f'%3E%3Ccircle cx='241' cy='297' r='0.9' fill-opacity='0.56'/%3E%3Ccircle cx='210' cy='456' r='1.0' fill-opacity='0.75'/%3E%3Ccircle cx='324' cy='467' r='0.8' fill-opacity='0.64'/%3E%3Ccircle cx='443' cy='349' r='1.8' fill-opacity='0.68'/%3E%3Ccircle cx='385' cy='411' r='1.7' fill-opacity='0.54'/%3E%3Ccircle cx='517' cy='309' r='1.8' fill-opacity='0.30'/%3E%3Ccircle cx='233' cy='3' r='0.8' fill-opacity='0.59'/%3E%3Ccircle cx='278' cy='149' r='1.5' fill-opacity='0.64'/%3E%3Ccircle cx='475' cy='216' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='365' cy='464' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='5' cy='74' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='320' cy='352' r='0.9' fill-opacity='0.67'/%3E%3Ccircle cx='60' cy='268' r='0.8' fill-opacity='0.68'/%3E%3C/svg%3E") 120px 60px / 523px 523px;
+}
+
+.hero-split-top::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='431' height='431' fill='%23d9b25f'%3E%3Ccircle cx='263' cy='427' r='1.5' fill-opacity='0.81'/%3E%3Ccircle cx='126' cy='269' r='1.2' fill-opacity='0.87'/%3E%3Ccircle cx='251' cy='224' r='1.0' fill-opacity='0.59'/%3E%3Ccircle cx='317' cy='237' r='1.4' fill-opacity='0.81'/%3E%3Ccircle cx='408' cy='109' r='2.2' fill-opacity='0.61'/%3E%3Ccircle cx='33' cy='421' r='1.2' fill-opacity='0.89'/%3E%3C/svg%3E") 60px 200px / 431px 431px;
+  animation: heroTwinkle 6s ease-in-out infinite;
+  will-change: opacity;
+}
+
+@keyframes heroTwinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+/* Bold and tightly tracked, the site's headline style, since 2026-09-30 (the
+   owner's pick over the light weight it launched in). Bold Geist is wider, so
+   the size sits a step under the light one's. */
+.hero-split-title {
+  max-width: 15ch;
+  color: #fff;
+  font-size: clamp(2.6rem, 6.6vw, 6.25rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.hero-split-accent {
+  color: var(--color-brass-400);
+}
+
+.hero-split-lede {
+  margin-top: clamp(1.5rem, 4vw, 3.25rem);
+  max-width: 46rem;
+  color: rgb(212 212 212);
+  font-size: clamp(1.0625rem, 1.55vw, 1.5rem);
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.hero-split-cta {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem 1rem;
+  margin-top: clamp(2rem, 5vw, 4.25rem);
+}
+
+/* The hero's button: brass, lit from above. `BookCallLink variant="hero"`. */
+.btn-hero {
+  min-height: 3.5rem;
+  padding: 1rem 2.75rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, #e8c983 0%, #d4a857 55%, #bf954b 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 12px 32px -12px rgba(212, 168, 87, 0.5);
+  color: #0a0a0a;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  font-weight: 600;
+  transition: filter 0.2s ease;
+}
+
+.btn-hero:hover {
+  filter: brightness(1.08);
+}
+
+.btn-hero:focus-visible {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 3px;
+}
+
+/* "Replay animation", once the animation has played ("Play animation" from
+   the start under reduced motion): beside the booking button, and quieter
+   than it. On a phone the two don't fit side by side, so it hangs under the
+   booking button in the room the block keeps below its words, and showing
+   it moves nothing on the page. */
+.hero-replay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: fit-content;
+  min-height: 3.5rem;
+  margin: 0.875rem auto 0;
+  /* the booking button's height, less this one's border */
+  padding: calc(1rem - 1px) 1.75rem;
+  border: 1px solid rgb(212 168 87 / 0.55);
+  border-radius: 0.75rem;
+  background: rgb(12 10 6 / 0.55);
+  color: var(--color-brass-200);
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+@media (min-width: 640px) {
+  .hero-replay {
+    position: static;
+    margin: 0;
+  }
+}
+
+.hero-replay:hover {
+  border-color: var(--color-brass-300);
+  background: rgb(212 168 87 / 0.12);
+}
+
+.hero-replay:focus-visible {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 3px;
+}
+
+.hero-replay svg {
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+}
+
+.hero-replay[data-kind="play"] .hero-replay-again,
+.hero-replay:not([data-kind="play"]) .hero-replay-play {
+  display: none;
+}
+
+/* ---- the Lee Systems offer (the owner's ask, 2026-10-06) ----
+
+   It replaced "Two ways to work with LEU / Pick the one that fits", the
+   Lee Systems Co. and Business Mastery halves, when the owner moved Business
+   Mastery to the footer only. One big call to hire Lee Systems Co. for
+   websites and automations on the left, and the missed-revenue calculator on
+   the right (MissedRevenueCalculator.tsx); stacked below 1024px, the
+   calculator second. The ground is the old Lee Systems half's: a brass pool
+   from the bottom-left corner over fine diagonal hatching. */
+.hero-ls {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(3.5rem, 6vw, 5rem);
+}
+
+.hero-ls::before,
+.hero-ls::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-ls::before {
+  background:
+    radial-gradient(
+      70% 80% at 18% 100%,
+      rgba(212, 168, 87, 0.2) 0%,
+      rgba(140, 105, 40, 0.06) 46%,
+      transparent 72%
+    ),
+    radial-gradient(
+      50% 60% at 82% 40%,
+      rgba(212, 168, 87, 0.08) 0%,
+      transparent 70%
+    );
+}
+
+.hero-ls::after {
+  opacity: 0.1;
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(212, 168, 87, 0.28) 0 1px,
+    transparent 1px 15px
+  );
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%);
+}
+
+.hero-ls-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-ls-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+}
+
+.hero-ls-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  color: var(--color-brass-300);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.hero-ls-eyebrow::after {
+  content: "";
+  width: clamp(2rem, 6vw, 4rem);
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212, 168, 87, 0.7), transparent);
+}
+
+.hero-ls-title {
+  margin-top: 1rem;
+  max-width: 18ch;
+  color: #fff;
+  font-size: clamp(2.25rem, 4.6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.hero-ls-title em {
+  font-style: normal;
+  color: var(--color-brass-400);
+}
+
+.hero-ls-blurb {
+  margin-top: 1.25rem;
+  max-width: 34rem;
+  color: rgb(212 212 212);
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.hero-ls-lists {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem 2rem;
+  margin-top: 2rem;
+  max-width: 38rem;
+}
+
+@media (min-width: 640px) {
+  .hero-ls-lists {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.hero-ls-list h3 {
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid rgba(212, 168, 87, 0.3);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hero-ls-list ul {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.hero-ls-list li {
+  display: flex;
+  gap: 0.625rem;
+  color: rgb(212 212 212);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.hero-ls-list li svg {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.1rem;
+  color: var(--color-brass-400);
+}
+
+.hero-ls-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin-top: 2.25rem;
+  font-size: 1.075rem;
+}
+
+.hero-ls-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  border-radius: 0.25rem;
+  color: var(--color-brass-300);
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+
+.hero-ls-link:hover {
+  text-decoration: underline;
+}
+
+/* ---- the missed-revenue calculator ----
+   Used only by components/sections/MissedRevenueCalculator.tsx. A dark card
+   after the owner's reference (a car-payment estimator, 2026-10-06): the
+   result in a lit panel up top with a line per part, then a switch for each
+   part (missed calls, website leads, busywork, 2026-10-09) and brass
+   sliders for the parts that are on. */
+.calc {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  background: linear-gradient(180deg, rgba(28, 28, 27, 0.92), rgba(18, 18, 17, 0.92));
+  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.9);
+  padding: clamp(1.25rem, 3.5vw, 2.25rem);
+}
+
+.calc-title {
+  color: #fff;
+  font-size: clamp(1.375rem, 2.2vw, 1.625rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.calc-sub {
+  margin-top: 0.375rem;
+  color: rgb(163 163 163);
+  font-size: 0.95rem;
+}
+
+.calc-result {
+  position: relative;
+  overflow: hidden;
+  margin-top: 1.5rem;
+  padding: 1.375rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background:
+    radial-gradient(90% 120% at 0% 0%, rgba(212, 168, 87, 0.2) 0%, transparent 60%),
+    rgba(10, 10, 10, 0.6);
+}
+
+.calc-result-label {
+  color: rgb(212 212 212);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.calc-result-value {
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  color: #fff;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.calc-result-value small {
+  color: rgb(163 163 163);
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.calc-result-detail {
+  margin-top: 0.75rem;
+  color: rgb(212 212 212);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.calc-result-detail b {
+  color: var(--color-brass-300);
+  font-weight: 600;
+}
+
+.calc-result .btn-ls-glow {
+  margin-top: 1.125rem;
+}
+
+/* The breakdown under the total: one row per part that is switched on,
+   its name and what it counts on the left, its share of the total in brass
+   on the right. */
+.calc-breakdown {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.calc-breakdown li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.calc-breakdown-label {
+  color: rgb(229 229 229);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.calc-breakdown-label small {
+  display: block;
+  margin-top: 0.125rem;
+  color: rgb(163 163 163);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.calc-breakdown-amount {
+  color: var(--color-brass-300);
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The parts to count: one row per part, each a switch, so a visitor turns on
+   only what fits their business. */
+.calc-parts {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.calc-part {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.625rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.875rem;
+  background: rgba(255, 255, 255, 0.02);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.calc-part:hover {
+  border-color: rgba(212, 168, 87, 0.5);
+}
+
+.calc-part[aria-checked="true"] {
+  border-color: rgba(212, 168, 87, 0.7);
+  background: rgba(212, 168, 87, 0.08);
+}
+
+.calc-part:focus-visible {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 2px;
+}
+
+.calc-part-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.calc-part-label {
+  color: rgb(212 212 212);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.calc-part[aria-checked="true"] .calc-part-label {
+  color: #fff;
+}
+
+.calc-part-hint {
+  color: rgb(140 140 140);
+  font-size: 0.8125rem;
+}
+
+/* The switch itself: a pill track with a round knob that slides right and
+   turns brass when the part is on. */
+.calc-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.14);
+  transition: background-color 0.2s ease;
+}
+
+.calc-switch::after {
+  content: "";
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 9999px;
+  background: rgb(163 163 163);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.calc-part[aria-checked="true"] .calc-switch {
+  background: var(--color-brass-400);
+}
+
+.calc-part[aria-checked="true"] .calc-switch::after {
+  transform: translateX(1.25rem);
+  background: #f2ede4;
+}
+
+.calc-fields {
+  margin-top: 0.5rem;
+}
+
+.calc-field {
+  margin-top: 1.25rem;
+}
+
+.calc-field-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.calc-field-head label {
+  color: rgb(212 212 212);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.calc-field-head output {
+  color: #fff;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The slider: a thin track filled in brass up to the thumb (`--fill`, set
+   inline), and a round brass thumb with a light centre, as in the owner's
+   reference. The input itself is 44px tall so it is easy to grab. */
+.calc-range {
+  --fill: 50%;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 2.75rem;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.calc-range:focus {
+  outline: none;
+}
+
+.calc-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--color-brass-400) 0 var(--fill),
+    rgba(255, 255, 255, 0.12) var(--fill) 100%
+  );
+}
+
+.calc-range::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.calc-range::-moz-range-progress {
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--color-brass-400);
+}
+
+.calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-top: calc((4px - 1.375rem) / 2);
+  border: 5px solid var(--color-brass-400);
+  border-radius: 9999px;
+  background: #f2ede4;
+  box-shadow: 0 0 0 4px rgba(212, 168, 87, 0.15);
+}
+
+.calc-range::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 1.375rem;
+  height: 1.375rem;
+  border: 5px solid var(--color-brass-400);
+  border-radius: 9999px;
+  background: #f2ede4;
+  box-shadow: 0 0 0 4px rgba(212, 168, 87, 0.15);
+}
+
+.calc-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px rgba(224, 190, 120, 0.55);
+}
+
+.calc-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 4px rgba(224, 190, 120, 0.55);
+}
+
+.calc-group {
+  margin-top: 1.5rem;
+  color: var(--color-brass-300);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.calc-note {
+  margin-top: 1.5rem;
+  color: rgb(140 140 140);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+
+/* ---- the statistics ribbon ---- */
+
+/* The hero's bottom edge: the hairline is a deliberate boundary, so no fade
+   layer is needed. */
+.hero-split-ribbon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: clamp(1.25rem, 5vw, 4.375rem);
+  row-gap: 0.25rem;
+  padding: 0.875rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 8, 8, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.hero-split-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.hero-split-stat b {
+  color: rgb(251 191 36);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.hero-split-stat span {
+  color: rgb(163 163 163);
+  font-size: 0.78125rem;
+}
+
+/* A figure's one-sentence definition, when data/site.ts gives it one: its own
+   line under the figure, and allowed to wrap. */
+.hero-split-stat:has(.hero-split-stat-def) {
+  flex-wrap: wrap;
+}
+
+.hero-split-stat .hero-split-stat-def {
+  flex-basis: 100%;
+  max-width: 16rem;
+  white-space: normal;
+  font-size: 0.75rem;
+}
+
+/* The reset in `@layer base` already stops every animation and transition on
+   the site under this preference, and being in a layer its `!important`
+   outranks anything here. This is the explicit, readable version for the one
+   section where the motion is the point — it must keep working if that reset
+   is ever narrowed. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-split-top::after {
+    animation: none;
+  }
+
+  .calc-part,
+  .calc-switch,
+  .calc-switch::after {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Homepage hero — the animation: "The Vault" (the owner's pick, 2026-10-08)
+   Used only by components/sections/HeroVsl.tsx, which holds its words, and
+   heroVslEngine.ts and heroVslPlayer.ts beside it, which draw and run it.
+
+   A real-time 3D film over the hero's whole first screen (`.hero-split-top`),
+   edge to edge and under the fixed header, in the same grid cell as the
+   headline: gold coins leak out of three cracks in a glass pipe until gold
+   collars clamp them shut, a website adds a stream, and the coins stack up in
+   a vault for the end card. The engine draws the scene on a canvas
+   (`.vt-gl`); everything here is the words over it.
+
+   Those words are laid out in the film's own units (`.vt-ref`: 1600 x 900 on
+   wide screens, 900 x 1125 on tall ones, as `data-orient` says), and the
+   engine scales that layer to the screen. On a screen of another shape the
+   frame stays whole, centred under the header, and the engine says where it
+   landed: `--fx` and `--ft` (its left and top edges), `--fb` (the room under
+   it) and `--head` (the header's band), all in the film's units, and `--k`
+   (the scale). Where the hero runs taller than the screen (a phone on its
+   side), the frame fits the first screen, and `--below` (screen pixels, on
+   `.vt`) is the part under it. The headlines, the count, the end card and
+   the controls are placed from those; the few small words that would be too
+   small to read on a phone have a floor of so many screen pixels
+   (`calc(Npx / var(--k))`). The engine sets every moving value itself, frame
+   by frame; nothing here animates on its own.
+   --------------------------------------------------------------------------- */
+
+/* The layer: hidden until its turn (the player fades it in and out). Its
+   contents are all positioned, so it never adds to the block's height. */
+.hero-vsl {
+  grid-area: 1 / 1;
+  align-self: stretch;
+  justify-self: stretch;
+  position: relative;
+  z-index: 2;
+  text-align: left;
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* The film's last 5rem fade into the page, as the hero's own layers do, so
+   where the hero ends above the bottom of the screen (or scrolls up while
+   the film plays) the scene doesn't end in a hard line. Only the scene and
+   its ground fade; the words and buttons over it stay whole. */
+.vt {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #050403 calc(100% - 5rem), rgb(5 4 3 / 0));
+  color: #f4eee2;
+  -webkit-font-smoothing: antialiased;
+}
+
+.vt-gl,
+.vt-gl canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.vt-gl {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 5rem), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 5rem), transparent);
+}
+
+.vt-ref {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+/* Nothing here eases between the values the player and the engine set,
+   least of all `visibility`. It matters under reduced motion, where the
+   site's reset (`@layer base`) gives every element a near-zero transition:
+   each layer that shows would stay "hidden" for a frame, one more per level
+   down, and a button still hidden can't take focus when the player moves it
+   there (the film's pause button as it starts, the end card's booking
+   button on a skip). The buttons keep their own transition lists, and the
+   hero's button row, which the player hides and shows, gets the same. */
+.hero-vsl,
+.hero-vsl *:not(a, .vt-skip, .vt-toggle),
+.hero-split-cta {
+  transition-property: none;
+}
+
+/* Darker where the words are: the left on wide screens, the top and bottom
+   on tall ones. */
+.vt-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgb(5 4 3 / 0.82) 0,
+    rgb(5 4 3 / 0.55) calc(var(--fx) + 544px),
+    rgb(5 4 3 / 0) calc(var(--fx) + 896px)
+  );
+}
+
+.vt[data-orient="tall"] .vt-shade {
+  background: linear-gradient(
+    180deg,
+    rgb(5 4 3 / 0.85) 0,
+    rgb(5 4 3 / 0.55) calc(var(--head) + 233px),
+    rgb(5 4 3 / 0) calc(var(--head) + 413px),
+    /* in step with the count, which rises off the controls on a phone */
+    rgb(5 4 3 / 0) calc(100% - var(--below, 0px) / var(--k) - 274px - max(64px, 72px / var(--k))),
+    rgb(5 4 3 / 0.8) calc(100% - var(--below, 0px) / var(--k) - 26px - max(64px, 72px / var(--k)))
+  );
+}
+
+/* The headlines: beside the film on wide screens, across the top under the
+   header on tall ones. Each line rises out of its own mask. */
+.vt-caps {
+  position: absolute;
+  left: calc(var(--fx) + 150px);
+  bottom: calc(var(--fb) + 342px);
+  width: 700px;
+}
+
+.vt[data-orient="tall"] .vt-caps {
+  left: calc(var(--fx) + 64px);
+  top: calc(var(--head) + 46px);
+  bottom: auto;
+  width: 772px;
+}
+
+.vt-cap {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: #f6f0e4;
+  font-size: 58px;
+  line-height: 1.06;
+  font-weight: 640;
+  letter-spacing: -0.032em;
+}
+
+.vt[data-orient="tall"] .vt-cap {
+  top: 0;
+  bottom: auto;
+  font-size: 56px;
+}
+
+.vt-lines,
+.vt-m,
+.vt-l {
+  display: block;
+}
+
+.vt[data-orient="tall"] .vt-lines--wide,
+.vt:not([data-orient="tall"]) .vt-lines--tall {
+  display: none;
+}
+
+.vt-m {
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.vt-l {
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.vt-cap em {
+  font-style: normal;
+  color: #d4a857;
+  background: linear-gradient(180deg, #f3d995, #d4a857 60%, #b88a3c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.vt-sub {
+  display: block;
+  margin-top: 22px;
+  color: #e0be78;
+  font-size: max(24px, calc(13px / var(--k)));
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* The running count: red money lost, then gold money recovered. */
+.vt-count {
+  position: absolute;
+  left: calc(var(--fx) + 150px);
+  top: calc(var(--ft) + 600px);
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  transform-origin: 0 50%;
+}
+
+/* At the bottom on tall screens, clear of the play controls in the corner
+   (44px, and 16px under them), as the end card is. The engine keeps the
+   labels and cards above it. */
+.vt[data-orient="tall"] .vt-count {
+  left: calc(var(--fx) + 64px);
+  top: auto;
+  bottom: calc(var(--below, 0px) / var(--k) + max(64px, 72px / var(--k)));
+}
+
+.vt-count b {
+  font-size: 60px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+
+.vt-count span {
+  color: #a39c8c;
+  font-size: max(21px, calc(12px / var(--k)));
+  font-weight: 500;
+}
+
+/* On tall screens the vault can rise behind the count's word. */
+.vt[data-orient="tall"] .vt-count span {
+  text-shadow: 0 0 14px rgb(5 4 3 / 0.9);
+}
+
+.vt-count i {
+  align-self: center;
+  width: 10px;
+  height: 10px;
+  margin-right: 2px;
+  border-radius: 50%;
+}
+
+.vt-count[data-mode="lost"] b {
+  color: #ff6a5e;
+  text-shadow: 0 0 24px rgb(255 90 78 / 0.35);
+}
+
+.vt-count[data-mode="lost"] i {
+  background: #ff5a4e;
+  box-shadow: 0 0 12px #ff5a4e;
+}
+
+.vt-count[data-mode="gain"] b {
+  color: #f0cf86;
+  text-shadow: 0 0 26px rgb(212 168 87 / 0.4);
+}
+
+.vt-count[data-mode="gain"] i {
+  background: #d4a857;
+  box-shadow: 0 0 12px #d4a857;
+}
+
+/* The labels the camera carries: each crack's problem, then its fix, and
+   the website and the vault. */
+.vt-lab,
+.vt-tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  font-weight: 600;
+  text-transform: uppercase;
+  transform-origin: 0 0;
+}
+
+.vt-lab {
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+}
+
+.vt-lab > span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* On the pipe's left, reading towards it. */
+.vt-lab.is-left > span {
+  flex-direction: row-reverse;
+  transform: translateX(-100%);
+}
+
+.vt-lab-p {
+  color: #d9cfbf;
+}
+
+.vt-lab-p::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff5a4e;
+  box-shadow: 0 0 10px #ff5a4e;
+}
+
+.vt-lab-f {
+  color: #f0cf86;
+}
+
+.vt-lab-f::before {
+  content: "";
+  width: 16px;
+  height: 1.5px;
+  background: #d4a857;
+}
+
+.vt-tag {
+  color: #cbbfa9;
+  font-size: 14px;
+  line-height: 1.25;
+  letter-spacing: 0.14em;
+}
+
+/* The fixes at work: a call answered, a text sent, a lead filed. */
+.vt-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 360px;
+  padding: 18px 20px 20px;
+  border: 1px solid rgb(212 168 87 / 0.38);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgb(34 29 21 / 0.82), rgb(16 14 11 / 0.86));
+  box-shadow:
+    0 24px 60px -20px rgb(0 0 0 / 0.9),
+    inset 0 1px 0 rgb(255 240 210 / 0.12),
+    0 0 40px -12px rgb(212 168 87 / 0.35);
+  transform-origin: 0 0;
+}
+
+.vt-card-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: #e9c882;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vt-card-h svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: #d4a857;
+}
+
+.vt-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: #a39c8c;
+  font-size: 11px;
+}
+
+.vt-live::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #5fd38a;
+  box-shadow: 0 0 8px #5fd38a;
+}
+
+.vt-card p {
+  min-height: 52px;
+  color: #f4eee2;
+  font-size: 19px;
+  line-height: 1.38;
+}
+
+.vt-wave {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 34px;
+  margin-bottom: 12px;
+}
+
+.vt-wave i {
+  flex: 1;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #f3d995, #c4913f);
+}
+
+.vt-bubble {
+  display: inline-block;
+  padding: 12px 16px;
+  border-radius: 18px 18px 18px 5px;
+  background: #d4a857;
+  color: #14110b;
+  font-weight: 500;
+}
+
+.vt-meta {
+  margin-top: 10px;
+  color: #a39c8c;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.vt-lead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #f4eee2;
+  font-size: 20px;
+  line-height: normal;
+  font-weight: 650;
+}
+
+.vt-lead::before {
+  content: "";
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d4a857;
+  box-shadow: 0 0 10px #d4a857;
+}
+
+.vt-rows {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.vt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: rgb(255 255 255 / 0.04);
+  color: #d9cfbf;
+  font-size: 16px;
+  line-height: normal;
+}
+
+.vt-row b {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f4eee2;
+  font-weight: 600;
+}
+
+.vt-row b svg {
+  width: 16px;
+  height: 16px;
+  color: #d4a857;
+}
+
+/* The end card: the ribbon's figures, the headline, the terms and the two
+   buttons. Beside the vault on wide screens; on tall ones the figures sit
+   under the header and the rest at the bottom, with the vault between. */
+.vt-end {
+  position: absolute;
+  left: calc(var(--fx) + 150px);
+  top: calc(var(--ft) + 120px);
+  bottom: calc(var(--fb) + 70px);
+  width: 640px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.vt[data-orient="tall"] .vt-end {
+  left: calc(var(--fx) + 64px);
+  right: calc(var(--fx) + 64px);
+  top: calc(var(--head) + 24px);
+  /* clear of the play controls in the corner (44px, and 16px under them) */
+  bottom: calc(var(--below, 0px) / var(--k) + max(60px, 72px / var(--k)));
+  width: auto;
+  justify-content: space-between;
+}
+
+.vt-stats {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 56px;
+}
+
+.vt-stat--lead {
+  flex-basis: 100%;
+  margin-bottom: 34px;
+}
+
+.vt-stat b {
+  display: block;
+  color: #f0d396;
+  font-size: 58px;
+  line-height: 1;
+  font-weight: 680;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.vt-stat--lead b {
+  font-size: 132px;
+  line-height: 0.92;
+  font-weight: 720;
+  letter-spacing: -0.045em;
+  background: linear-gradient(180deg, #fbe7b5 0%, #e3bc6c 45%, #b4842f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 28px rgb(212 168 87 / 0.28));
+}
+
+.vt[data-orient="tall"] .vt-stat--lead b {
+  font-size: 120px;
+}
+
+.vt-stat-label {
+  display: block;
+  margin-top: 8px;
+  color: #cfc5b4;
+  font-size: max(18px, calc(12px / var(--k)));
+  font-weight: 500;
+}
+
+.vt-stat--lead .vt-stat-label {
+  margin-top: 12px;
+  font-size: max(21px, calc(13px / var(--k)));
+}
+
+.vt-close {
+  margin-top: 48px;
+}
+
+.vt[data-orient="tall"] .vt-close {
+  margin-top: 0;
+}
+
+.vt-headline {
+  color: #f6f0e4;
+  font-size: 50px;
+  line-height: 1.06;
+  font-weight: 660;
+  letter-spacing: -0.03em;
+}
+
+.vt[data-orient="tall"] .vt-headline {
+  font-size: 54px;
+}
+
+/* On a short phone the vault rises behind the closing words: a dark halo
+   keeps them legible there, and over the dark ground it doesn't show. */
+.vt[data-orient="tall"] .vt-headline,
+.vt[data-orient="tall"] .vt-terms {
+  text-shadow:
+    0 0 22px rgb(5 4 3 / 0.95),
+    0 1px 3px rgb(5 4 3 / 0.8);
+}
+
+.vt-headline span {
+  display: block;
+}
+
+.vt-terms {
+  margin-top: 16px;
+  color: #e0be78;
+  font-size: max(22px, calc(13px / var(--k)));
+  font-weight: 500;
+}
+
+/* The real booking button and link (BookCallLink's lit gold "glow", and the
+   outlined Lee Systems button), at the film's size. They can be clicked and
+   reached by keyboard only once they are there: the engine lifts `inert` as
+   they arrive. On a phone they keep a 44px target and 15px words. */
+.vt-ctas {
+  display: flex;
+  gap: 14px;
+  margin-top: 30px;
+  pointer-events: auto;
+}
+
+.vt-ctas > a {
+  min-height: max(58px, calc(44px / var(--k)));
+  padding: 0 max(30px, calc(16px / var(--k)));
+  border-radius: 12px;
+  font-size: max(19px, calc(15px / var(--k)));
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.vt[data-orient="tall"] .vt-ctas {
+  flex-wrap: wrap;
+}
+
+.vt[data-orient="tall"] .vt-ctas > a {
+  flex: 1 1 0;
+  min-height: max(68px, calc(44px / var(--k)));
+  font-size: max(22px, calc(15px / var(--k)));
+}
+
+/* The controls while it plays, in the bottom corner, at screen size: a skip
+   pill that jumps to the end card, then pause and play, a round button whose
+   word is for screen readers. Both go once the end card is up, where there
+   is nothing left to skip or pause. Where the hero runs taller than the
+   screen (a phone on its side), they stay on the first screen (`--below`). */
+.vt-controls {
+  position: absolute;
+  right: 1rem;
+  bottom: calc(var(--below, 0px) + 1rem);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+@media (min-width: 1024px) {
+  .vt-controls {
+    right: 1.5rem;
+    bottom: calc(var(--below, 0px) + 1.5rem);
+  }
+}
+
+.vt-skip,
+.vt-toggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgb(212 168 87 / 0.45);
+  border-radius: 50%;
+  background: rgb(12 10 6 / 0.6);
+  color: var(--color-brass-200);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  /* they show at once (and can take focus at once); they go with a fade,
+     below */
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    opacity 0.35s ease;
+}
+
+.vt-skip {
+  gap: 0.4rem;
+  width: auto;
+  padding: 0 1rem 0 1.125rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.vt-skip svg {
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.vt-skip:hover,
+.vt-toggle:hover {
+  border-color: var(--color-brass-300);
+  background: rgb(212 168 87 / 0.14);
+}
+
+.vt-skip:focus-visible,
+.vt-toggle:focus-visible {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 3px;
+}
+
+.vt-toggle svg {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.vt-toggle .i-pause,
+.vt[data-state="playing"] .vt-toggle .i-play,
+.vt[data-state="waiting"] .vt-toggle .i-play {
+  display: none;
+}
+
+.vt[data-state="playing"] .vt-toggle .i-pause,
+.vt[data-state="waiting"] .vt-toggle .i-pause {
+  display: block;
+}
+
+/* Out of reach at once, hidden once they have faded. */
+.vt[data-state="done"] .vt-skip,
+.vt[data-state="done"] .vt-toggle {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    opacity 0.35s ease,
+    visibility 0s linear 0.35s;
+}
+
+/* The Business Mastery application's questions (BmApplicationForm): each one
+   slides in from the side it is coming from, forward from below-right, back
+   from the left. Only opacity and transform move; nothing under reduced
+   motion. */
+.bm-apply-step--forward {
+  animation: bmApplyForward 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bm-apply-step--back {
+  animation: bmApplyBack 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bmApplyForward {
+  from {
+    opacity: 0;
+    transform: translateX(1.5rem);
+  }
+}
+
+@keyframes bmApplyBack {
+  from {
+    opacity: 0;
+    transform: translateX(-1.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-apply-step--forward,
+  .bm-apply-step--back {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Business Mastery: "The world is about to change" (BmShiftSection), the
+   program showcase (BmProgramShowcase), the tenet rows and the after-apply
+   line. The owner's 2026-09-29 redesign away from grids of cards. Every
+   animation here is transform, opacity or a colour, and all of it stops
+   under reduced motion (the block at the end).
+   --------------------------------------------------------------------------- */
+
+/* Pill labels: an icon (or a gold badge) and a word, in a hairline capsule. */
+.bm-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: fit-content;
+  padding: 0.3125rem 0.75rem 0.3125rem 0.3125rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.03);
+  color: rgb(212 212 212);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.bm-pill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  border: 1px solid rgb(251 191 36 / 0.35);
+  border-radius: 9999px;
+  background: rgb(251 191 36 / 0.08);
+  color: #fcd34d;
+}
+
+.bm-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3125rem 0.75rem;
+  border-radius: 9999px;
+  background: #fbbf24;
+  color: #0a0a0a;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+/* The framed "screens" the rows show: a hairline, a lit top edge and a faint
+   gold wash from one corner, so they read as lit glass rather than cards. */
+.bm-shift-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgb(251 191 36 / 0.09), transparent 55%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.015));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    0 30px 80px -40px rgb(0 0 0 / 0.9),
+    0 0 60px -30px rgb(251 191 36 / 0.25);
+}
+
+.bm-live-dot {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 9999px;
+  background: #fbbf24;
+  box-shadow: 0 0 0 0 rgb(251 191 36 / 0.6);
+  animation: bmLivePulse 1.8s ease-out infinite;
+}
+
+@keyframes bmLivePulse {
+  70% {
+    box-shadow: 0 0 0 7px rgb(251 191 36 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(251 191 36 / 0);
+  }
+}
+
+/* The AI window's typing caret, thinking dots and ticked-off results. */
+.bm-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: #fbbf24;
+  animation: bmCaret 0.9s steps(1) infinite;
+}
+
+@keyframes bmCaret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.bm-thinking {
+  display: inline-flex;
+  gap: 0.3125rem;
+}
+
+.bm-thinking span {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 9999px;
+  background: rgb(251 191 36 / 0.8);
+  animation: bmThinking 1s ease-in-out infinite;
+}
+
+.bm-thinking span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.bm-thinking span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bmThinking {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.bm-result {
+  animation: bmResult 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bmResult {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* The stages path: each stop glows as a light runs down the link from the
+   stop above. Link i and stop i share a delay of i x 1.2s in a 4.8s cycle. */
+.bm-path-node {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgb(251 191 36 / 0.35);
+  border-radius: 9999px;
+  background: #0f0f0f;
+  color: #fcd34d;
+  animation: bmNodeGlow 4.8s ease-out infinite;
+}
+
+@keyframes bmNodeGlow {
+  0%,
+  45%,
+  100% {
+    border-color: rgb(251 191 36 / 0.35);
+    box-shadow: 0 0 0 0 rgb(251 191 36 / 0);
+  }
+  8% {
+    border-color: rgb(251 191 36 / 0.95);
+    box-shadow: 0 0 22px 2px rgb(251 191 36 / 0.45);
+  }
+}
+
+.bm-path-link {
+  position: absolute;
+  top: 2.75rem;
+  bottom: -1.75rem;
+  left: calc(1.375rem - 0.5px);
+  width: 1px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgb(251 191 36 / 0.45), rgb(251 191 36 / 0.15));
+}
+
+.bm-path-light {
+  position: absolute;
+  left: -1px;
+  width: 3px;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, transparent, #fde68a);
+  opacity: 0;
+  animation: bmPathLight 4.8s linear infinite;
+}
+
+@keyframes bmPathLight {
+  0% {
+    top: -2.5rem;
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  25% {
+    top: 100%;
+    opacity: 1;
+  }
+  26%,
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Rise in on scroll. A scroll-driven animation, so a browser without them
+   (or with reduced motion) simply shows the content: nothing waits on JS. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bm-reveal {
+      animation: bmReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 30%;
+    }
+
+    .bm-steps-line--x {
+      animation: bmDrawX linear both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 50%;
+    }
+
+    .bm-steps-line--y {
+      animation: bmDrawY linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 60%;
+    }
+  }
+}
+
+@keyframes bmReveal {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bmDrawX {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bmDrawY {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* The program showcase: the bar under the current tab is its timer, and its
+   animationend hands on to the next tab (BmProgramShowcase). */
+.bm-tab-progress {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform-origin: left;
+  background: linear-gradient(90deg, #f59e0b, #fde68a);
+  animation: bmTabProgress 6s linear both;
+}
+
+.bm-tab-progress--full {
+  animation: none;
+}
+
+@keyframes bmTabProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.bm-panel-in {
+  animation: bmPanelIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bmPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+/* The pillar icon in a slowly turning dashed orbit. */
+.bm-orbit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgb(251 191 36 / 0.16), rgb(251 191 36 / 0.03) 70%);
+  box-shadow: 0 0 40px -8px rgb(251 191 36 / 0.45);
+}
+
+.bm-orbit-ring {
+  position: absolute;
+  inset: -0.625rem;
+  border: 1px dashed rgb(251 191 36 / 0.45);
+  border-radius: 9999px;
+  animation: bmOrbit 18s linear infinite;
+}
+
+@keyframes bmOrbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* The tenets' numerals: solid gold fading down to nothing, brightening
+   under the pointer. (An outline was tried first; the site font's glyphs
+   overlap internally, so a text stroke drew seams inside the "1".) */
+.bm-tenet-num {
+  background: linear-gradient(180deg, rgb(251 191 36 / 0.85) 0%, rgb(251 191 36 / 0.08) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+
+.group:hover .bm-tenet-num {
+  opacity: 1;
+}
+
+/* "What happens after you apply", after a process strip the owner sent
+   (2026-09-29): a small eyebrow between two hairlines, then numbered squares
+   in gold on one line, each over a bold title. The squares are
+   `--bm-badge` wide, and the lines are placed from it. */
+.bm-steps {
+  --bm-badge: 2.75rem;
+  --bm-steps-gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .bm-steps {
+    --bm-badge: 3rem;
+  }
+}
+
+.bm-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  color: var(--color-amber-400);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.bm-kicker::before,
+.bm-kicker::after {
+  content: "";
+  width: clamp(1.5rem, 6vw, 3.5rem);
+  height: 1px;
+}
+
+.bm-kicker::before {
+  background: linear-gradient(90deg, transparent, rgb(251 191 36 / 0.7));
+}
+
+.bm-kicker::after {
+  background: linear-gradient(90deg, rgb(251 191 36 / 0.7), transparent);
+}
+
+.bm-steps-list {
+  position: relative;
+  display: grid;
+  gap: var(--bm-steps-gap);
+}
+
+@media (min-width: 768px) {
+  .bm-steps-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 2rem;
+  }
+}
+
+.bm-step-badge {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--bm-badge);
+  height: var(--bm-badge);
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, #fcd34d 0%, #fbbf24 45%, #d97706 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.45),
+    0 10px 28px -8px rgb(251 191 36 / 0.55);
+  color: #0a0a0a;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The line: across the whole strip from md up, fading out past the first and
+   last squares; below md, one piece down the left from each square to the
+   next. */
+.bm-steps-line {
+  position: absolute;
+  display: block;
+}
+
+.bm-steps-line--x {
+  display: none;
+  top: calc(var(--bm-badge) / 2);
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform-origin: left;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(251 191 36 / 0.6) 12%,
+    rgb(251 191 36 / 0.6) 88%,
+    transparent
+  );
+}
+
+.bm-steps-line--y {
+  top: calc(var(--bm-badge) / 2);
+  bottom: calc(-1 * (var(--bm-steps-gap) + var(--bm-badge) / 2));
+  left: calc(var(--bm-badge) / 2 - 0.5px);
+  width: 1px;
+  transform-origin: top;
+  background: linear-gradient(180deg, rgb(251 191 36 / 0.7), rgb(251 191 36 / 0.3));
+}
+
+@media (min-width: 768px) {
+  .bm-steps-line--x {
+    display: block;
+  }
+
+  .bm-steps-line--y {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-live-dot,
+  .bm-caret,
+  .bm-thinking span,
+  .bm-result,
+  .bm-path-node,
+  .bm-path-light,
+  .bm-tab-progress,
+  .bm-panel-in,
+  .bm-orbit-ring {
+    animation: none;
+  }
+
+  .bm-path-light {
+    display: none;
+  }
+
+  .bm-tab-progress {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Homepage tool strip - components/sections/ToolsMarqueeSection.tsx
+   Two rows of logo pills sliding in opposite directions, faded at both edges.
+   Each track holds its list twice and slides by exactly one copy (-50%), so
+   the loop has no seam; the list's trailing padding matches its gap for the
+   same reason. Hovering a row pauses it. Under prefers-reduced-motion the
+   rows stop, the duplicate copy goes, and the pills wrap onto more lines.
+   --------------------------------------------------------------------------- */
+
+/* The marquee's heading: silver fading to grey, with the second half picked
+   out in the Lee Systems brass. */
+.tools-title {
+  font-size: clamp(1.25rem, 2.2vw, 1.875rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  background: linear-gradient(180deg, #fff 0%, rgb(163 163 163) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tools-title-accent {
+  background: linear-gradient(
+    100deg,
+    var(--color-brass-200) 0%,
+    var(--color-brass-400) 55%,
+    #bf954b 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.tools-row {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* One loop is one copy of the row, so the duration sets the speed: these
+   were doubled with the rows (20 and 22 tools to 40 each, 2026-10-06) to
+   keep the pace the strip had. */
+.tools-track {
+  display: flex;
+  width: max-content;
+  animation: toolsMarquee 220s linear infinite;
+}
+
+.tools-track--reverse {
+  animation-direction: reverse;
+  animation-duration: 240s;
+}
+
+.tools-row:hover .tools-track {
+  animation-play-state: paused;
+}
+
+.tools-list {
+  display: flex;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.tools-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.975rem 1.5rem;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 1.1rem;
+  background: rgb(255 255 255 / 0.03);
+  color: rgb(163 163 163);
+  font-size: 1.03rem;
+  font-weight: 600;
+  white-space: nowrap;
+  fill: currentColor;
+}
+
+@keyframes toolsMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tools-row {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .tools-track {
+    width: auto;
+    justify-content: center;
+    padding: 0 1rem;
+    animation: none;
+  }
+
+  .tools-list {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .tools-list[aria-hidden] {
+    display: none;
+  }
+}
+
+/* Static noise, not an animated layer. Large flat gradients on a dark ground
+   band on 8-bit displays; this is enough to break that up. It used to sit
+   inside a dedicated background wrapper that carried these rules for it, so
+   now it stacks and ignores the pointer itself: painted over the whole hero
+   (the section isolates, so `overlay` resolves against the hero alone). */
+.leu-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+}
 
 @theme inline {
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
-  --color-background: var(--background);
-  --radius-sm: calc(var(--radius) * 0.6);
+  /* Lee Systems Co. accent. 400 is the brand colour (#D4A857); on the site's
+     near-black it measures about 8.7:1, and near-black text on a brass-400
+     button clears WCAG AA with room to spare. The Lee Systems pages use this
+     scale where the rest of the site uses amber, so the venture reads as its
+     own brand without leaving the house palette. */
+  --color-brass-200: #ebd3a0;
+  --color-brass-300: #e0be78;
+  --color-brass-400: #d4a857;
+
+  /* Live overrides of Tailwind's default radii (md 8px, lg 10px, xl 14px, 2xl
+     18px, where the defaults are 6, 8, 12 and 16), so every `rounded-md` to
+     `rounded-2xl` on the site, and the `.glass-card` and `.btn-*` rules below,
+     are sized by these. */
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
-  color-scheme: light;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
+  /* The site is dark-only, so its native UI (scrollbars, <select> popups,
+     autofill) is too. The viewport's colorScheme meta in app/layout.tsx says
+     the same, but a root `color-scheme` in CSS outranks the meta, so this is
+     the one that decides. */
   color-scheme: dark;
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    color-scheme: dark;
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-  }
+  --radius: 0.625rem;
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  html {
+    @apply bg-neutral-950 scroll-smooth;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-neutral-950 text-white antialiased;
   }
+
+  /* Smooth scrolling with reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Scroll margin for sticky header */
+  html {
+    scroll-padding-top: 80px;
+  }
+
+  /* A visible keyboard focus ring on every link and control that doesn't
+     draw its own. `:where` keeps it at zero specificity, so any focus
+     utility on an element still wins. */
+  :where(a, button, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-amber-400);
+    outline-offset: 3px;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-amber-400 text-neutral-950;
+  }
+}
+
+@layer components {
+  /* Glass card components */
+  /* THE card. Every card on the site uses these values (GlassCard renders
+     the same thing), so a card looks and sizes the same on every page:
+     rounded-xl, a white/10 hairline, a white/[0.04] fill. Padding is p-6,
+     md:p-8 wherever a card holds text. */
+  .glass-card {
+    @apply bg-white/[0.04] border border-white/10 rounded-xl;
+  }
+
+  /* Button base styles */
+  .btn-primary {
+    @apply px-6 py-3 bg-amber-400 text-neutral-950 font-semibold rounded-lg hover:bg-amber-300 transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 border-2 border-amber-400 text-amber-400 font-semibold rounded-lg hover:bg-amber-400/10 transition-all duration-200;
+  }
+
+  /* Lee Systems Co. buttons: the same shapes as the two above in brass, and
+     without the scale-on-hover, which is louder than the brand's calm tone. */
+  .btn-ls-primary {
+    @apply px-6 py-3 bg-brass-400 text-neutral-950 font-semibold rounded-lg hover:bg-brass-300 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
+  }
+
+  .btn-ls-secondary {
+    @apply px-6 py-3 border-2 border-brass-400 text-brass-300 font-semibold rounded-lg hover:bg-brass-400/10 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
+  }
+
+  /* The pair in the Lee Systems page's "Two paths" and "The choice is yours"
+     sections, after The Real World's (the owner's reference, 2026-09-29): a
+     dim grey button on the path of doing nothing, and a lit gold one for the
+     call (BookCallLink's "glow"). */
+  .btn-ls-muted {
+    @apply inline-flex min-h-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-b from-neutral-700/50 to-neutral-800/50 px-5 py-3 text-center font-semibold text-neutral-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors duration-200 hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-300;
+  }
+
+  .btn-ls-glow {
+    @apply rounded-xl px-5 py-3 font-bold text-neutral-950 transition-[filter] duration-200 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
+    background: linear-gradient(180deg, #f3d995 0%, #ddb466 50%, #c4913f 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.5),
+      0 0 0 1px rgb(212 168 87 / 0.6),
+      0 12px 36px -10px rgb(226 170 72 / 0.75);
+  }
+
+  /* Section utilities */
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Heading styles */
+  .heading-xl {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+  }
+
+  .heading-lg {
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+  }
+
+  /* The gold label above each section heading on /business-mastery ("What
+     we believe", "Member offer"...). It was `text-sm font-semibold` in
+     sentence case until the owner asked for these more prominent
+     (2026-09-28): bold, uppercase and widely tracked now, the register the
+     hero's eyebrow and the proof labels already use. The indent equals the
+     tracking because letter-spacing hangs off the last glyph and would sit a
+     centred line half a space left of true centre. `text-balance` because
+     the longest label wraps to two lines on a phone, and two even lines read
+     as one label rather than a label and an orphan. */
+  .bm-eyebrow {
+    @apply mb-4 text-base md:text-lg font-bold uppercase tracking-[0.2em] indent-[0.2em] text-amber-400 text-balance;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 bg-clip-text text-transparent;
+  }
+}
+
+/* The mobile menu drawer slides in from the right edge. */
+@keyframes drawerIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobile-drawer {
+  animation: drawerIn 220ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-drawer {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Lee Systems Co. - the shared motion vocabulary
+   `.ls-status` (a breathing status dot), for the /lee-systems sections that
+   draw it: LeeSystemsOnboardingSection and OnboardingDevices. (`.ls-dash`, a
+   dotted line drifting along its path, went with the dashed join under What
+   we do, 2026-09-30, and `.ls-spine-track`, the packet down What we do's
+   spine, went with the spine when that section became two cards,
+   2026-10-05.) The live demo (LeeSystemsLiveDemoSection) keeps its own
+   timeline and styles inside the component, so it can go anywhere and uses
+   nothing here. Motion is decorative only: every animation below is
+   disabled under prefers-reduced-motion.
+--------------------------------------------------------------------------- */
+
+@keyframes lsPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+}
+
+.ls-status {
+  animation: lsPulse 2.6s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------------------
+   Lee Systems Co. - onboarding devices
+   One consumer: components/lee-systems/OnboardingDevices.tsx. Every piece
+   rests in its finished state; the animations below apply only inside the
+   scene marked data-active="true", so a scene replays each time it becomes
+   current and fades out whole. `both` fill holds each piece at its first frame
+   through its stagger delay. All of it stops under prefers-reduced-motion.
+--------------------------------------------------------------------------- */
+
+@keyframes obRise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes obPop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes obDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.96);
+  }
+}
+
+@keyframes obGrow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes obWire {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes obDraw {
+  from {
+    stroke-dashoffset: 260;
+  }
+}
+
+@keyframes obFade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* The audit's scan line: the box is the height of the screen, the line sits
+   on its top edge, so translating the box by its own height runs the line
+   from the top of the screen to the bottom. */
+@keyframes obScan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes obFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.ob-grow {
+  transform-origin: left;
+}
+
+.ob-wire {
+  transform-origin: top;
+}
+
+/* In the viewBox's own units: the curve is a little over 200 long, so 260
+   covers it. Not pathLength="100" with non-scaling-stroke, which Chromium
+   dashes in screen pixels and so stops the line partway across. */
+.ob-draw {
+  stroke-dasharray: 260;
+}
+
+.ob-scan {
+  opacity: 0;
+}
+
+.ob-float {
+  animation: obFloat 6s ease-in-out infinite;
+}
+
+.ob-scene[data-active="true"] .ob-rise {
+  animation: obRise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.ob-scene[data-active="true"] .ob-pop {
+  animation: obPop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.ob-scene[data-active="true"] .ob-drop {
+  animation: obDrop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.ob-scene[data-active="true"] .ob-grow {
+  animation: obGrow 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.ob-scene[data-active="true"] .ob-wire {
+  animation: obWire 0.35s ease-out both;
+}
+
+.ob-scene[data-active="true"] .ob-draw {
+  animation: obDraw 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.ob-scene[data-active="true"] .ob-area {
+  animation: obFade 1s ease-out 1.1s both;
+}
+
+.ob-scene[data-active="true"] .ob-scan {
+  animation: obScan 2.6s ease-in-out 0.2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-float,
+  .ob-scene[data-active="true"] .ob-rise,
+  .ob-scene[data-active="true"] .ob-pop,
+  .ob-scene[data-active="true"] .ob-drop,
+  .ob-scene[data-active="true"] .ob-grow,
+  .ob-scene[data-active="true"] .ob-wire,
+  .ob-scene[data-active="true"] .ob-draw,
+  .ob-scene[data-active="true"] .ob-area,
+  .ob-scene[data-active="true"] .ob-scan {
+    animation: none;
+  }
+
+  .ob-scene {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ls-status {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Lee Systems Co. — the Website builds deck
+   One consumer: components/lee-systems/WebsiteDeck.tsx, the picture on the
+   Website builds card under What we do (the owner's ask, 2026-10-06). Every
+   screenshot shares one box, sitting where the back one of the old fixed pair
+   sat; its `data-pose` moves it. "back" is that spot, "front" is the old front
+   one's (23% of the picture right and 10% down, written in the card's own
+   width and height), and "queue" waits unseen just behind "back".
+
+   Each shuffle runs in three beats so no two sites ever swap layers while
+   they overlap (the owner asked for it smoothed out, 2026-10-06):
+   1. The front one plays `lsDeckTuck`: it swings out to the right, on top,
+      until it clears the back one (0 to 560ms).
+   2. Only then does it drop under the others, and the back one starts
+      gliding forward (`transition-delay` on "front"), while the tucked one
+      slides back into the queue and is gone before it reaches the far side.
+   3. The next build fades up into the back spot (the delay on "back").
+   The layer swap used to land halfway through the swing while the two still
+   overlapped, which showed as a pop, and the tucked one stayed visible all
+   the way across.
+--------------------------------------------------------------------------- */
+
+.ls-deck-card {
+  transition:
+    transform 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 700ms ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.ls-deck-card[data-pose="front"] {
+  z-index: 30;
+  transform: translate(37.1%, 14.5%) rotate(3deg);
+  transition-delay: 560ms;
+}
+
+.ls-deck-card[data-pose="back"] {
+  z-index: 20;
+  transform: rotate(-4deg);
+  transition-delay: 740ms;
+}
+
+.ls-deck-card[data-pose="queue"],
+.ls-deck-card[data-pose="leaving"] {
+  z-index: 1;
+  opacity: 0;
+  transform: translate(-5%, -4%) rotate(-7deg) scale(0.9);
+}
+
+.ls-deck-card[data-pose="leaving"] {
+  animation: lsDeckTuck 1400ms both;
+}
+
+/* 112% to the right clears the back site, even at 7deg, before the swap. */
+@keyframes lsDeckTuck {
+  0% {
+    z-index: 40;
+    opacity: 1;
+    transform: translate(37.1%, 14.5%) rotate(3deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.25, 1);
+  }
+  40% {
+    z-index: 40;
+    opacity: 1;
+    transform: translate(112%, 8%) rotate(7deg);
+  }
+  40.01% {
+    z-index: 1;
+    opacity: 1;
+    transform: translate(112%, 8%) rotate(7deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
+  }
+  78% {
+    opacity: 0;
+  }
+  100% {
+    z-index: 1;
+    opacity: 0;
+    transform: translate(-5%, -4%) rotate(-7deg) scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ls-deck-card {
+    transition: none;
+  }
+
+  .ls-deck-card[data-pose="leaving"] {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Lee Systems Co. — the hero's picture shade
+   One consumer: components/lee-systems/HeroStill.tsx, over the laptop
+   still behind the /lee-systems hero (the owner's pick, 2026-09-30).
+
+   On a phone the picture is a band across the top of the hero and the copy
+   starts in its lower third, so the shade darkens the very top (under the
+   header) and then fades the band to the page's black, which the copy sits
+   on. From md up the picture fills the hero: the left side, where the copy
+   is, goes nearly black and the right, where the laptop is, stays clear,
+   with the top and bottom edges faded into the sections either side.
+   --------------------------------------------------------------------------- */
+.ls-hero-shade {
+  background: linear-gradient(
+    180deg,
+    rgb(10 10 10 / 0.5) 0%,
+    rgb(10 10 10 / 0) 18%,
+    rgb(10 10 10 / 0.1) 45%,
+    rgb(10 10 10 / 0.85) 78%,
+    rgb(10 10 10) 100%
+  );
+}
+
+@media (min-width: 768px) {
+  .ls-hero-shade {
+    background:
+      linear-gradient(
+        180deg,
+        rgb(10 10 10 / 0.55) 0%,
+        rgb(10 10 10 / 0) 22%,
+        rgb(10 10 10 / 0) 72%,
+        rgb(10 10 10) 100%
+      ),
+      linear-gradient(
+        90deg,
+        rgb(10 10 10 / 0.94) 0%,
+        rgb(10 10 10 / 0.84) 30%,
+        rgb(10 10 10 / 0.4) 58%,
+        rgb(10 10 10 / 0.08) 100%
+      );
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Lee Systems Co. — "Two paths"
+   One consumer: components/lee-systems/TwoPathsDemo.tsx, in the section
+   straight after the Lee Systems hero.
+
+   After The Real World's "Two Paths Lie Before You" (the owner's reference,
+   2026-09-29): a video-style frame of three panels behind a white play
+   button, a caption along its bottom, and under it a line that splits into
+   two paths with a VS between them. Here the panels are the three systems
+   one example lead passes through: calls, follow-up, intake + CRM. As the
+   example plays, a panel turns gold when the systems handle its step, or
+   drains to grey when the lead slips through by hand.
+
+   Since 2026-09-29 it is one narrated video: the lead by hand, then with AI,
+   every line read aloud and captioned, with pause, sound and captions
+   buttons in the top corner and a progress bar in two chapters. The website
+   video under it (WebsiteVideo) plays in the same frame and uses this block
+   too; both render through components/lee-systems/NarratedVideo.tsx.
+
+   Everything inside the frame is sized in container units (cqw, a percent of
+   the frame's width), so the composition scales like a video still from a
+   phone to a desktop; clamps keep the smallest text readable.
+   --------------------------------------------------------------------------- */
+
+.ls-paths-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  container-type: inline-size;
+  aspect-ratio: 3 / 2;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 1rem;
+  background: #0a0a0a;
+  box-shadow:
+    0 40px 90px -40px rgb(0 0 0 / 0.9),
+    0 0 70px -30px rgb(212 168 87 / 0.35);
+}
+
+@media (min-width: 640px) {
+  .ls-paths-frame {
+    aspect-ratio: 16 / 9;
+    border-radius: 1.25rem;
+  }
+}
+
+/* The lit top edge, brightest over the right-hand path it leads to. */
+.ls-paths-frame::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  right: 0;
+  left: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(212 168 87 / 0.35) 40%,
+    #ecd08a 78%,
+    rgb(212 168 87 / 0.25)
+  );
+  pointer-events: none;
+}
+
+.ls-paths-panels {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* The reference's panels are red, green and blue; here each colour is held
+   back to a glow on black so the frame stays in the brand's register: brass
+   for calls, green for follow-up, blue for the CRM. The top padding leaves
+   the "Example" tag its own row; the bottom padding is the caption's. */
+.ls-paths-panel {
+  --tint: 212 168 87;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(2.25rem, 6.5cqw, 3.75rem) 0.25rem calc(3rem + 5.5cqw);
+}
+
+.ls-paths-panel[data-panel="follow-up"] {
+  --tint: 74 222 128;
+}
+
+.ls-paths-panel[data-panel="crm"] {
+  --tint: 96 165 250;
+}
+
+/* The website video's panels take the same three tints in a new order:
+   blue for speed, brass for design, green for the leads it brings in. */
+.ls-paths-panel[data-panel="speed"] {
+  --tint: 96 165 250;
+}
+
+.ls-paths-panel[data-panel="leads"] {
+  --tint: 74 222 128;
+}
+
+.ls-paths-panel + .ls-paths-panel {
+  border-left: 1px solid rgb(255 255 255 / 0.07);
+}
+
+.ls-paths-panel > * {
+  transition: opacity 0.5s ease;
+}
+
+/* The panel's ground, on its own layer so it can dim or drain without taking
+   the label and the orb with it; a fine dot grid gives it texture. */
+.ls-paths-panel::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(75% 50% at 50% 50%, rgb(var(--tint) / 0.24), transparent 72%),
+    linear-gradient(
+      180deg,
+      rgb(var(--tint) / 0.18) 0%,
+      rgb(var(--tint) / 0.05) 50%,
+      transparent 100%
+    ),
+    radial-gradient(rgb(255 255 255 / 0.08) 0.8px, transparent 1.2px) 0 0 /
+      max(12px, 2.4cqw) max(12px, 2.4cqw);
+  transition:
+    opacity 0.7s ease,
+    filter 0.7s ease;
+}
+
+/* The line along the top of the panel the caption is talking about. */
+.ls-paths-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgb(var(--tint)), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.ls-paths-panel[data-focus]::after {
+  opacity: 1;
+}
+
+.ls-paths-panel[data-status="good"]::after {
+  background: linear-gradient(90deg, transparent, #f1d68f, transparent);
+}
+
+.ls-paths-panel[data-status="bad"]::after {
+  background: linear-gradient(90deg, transparent, rgb(163 163 163), transparent);
+}
+
+/* While the video plays (or sits paused), the panels it hasn't reached yet
+   sit back. */
+.ls-paths-frame:is([data-state="playing"], [data-state="paused"])
+  .ls-paths-panel[data-status="idle"]
+  > * {
+  opacity: 0.4;
+}
+
+.ls-paths-frame:is([data-state="playing"], [data-state="paused"])
+  .ls-paths-panel[data-status="idle"]::before {
+  opacity: 0.35;
+}
+
+.ls-paths-panel[data-status="bad"]::before {
+  filter: grayscale(1);
+  opacity: 0.35;
+}
+
+.ls-paths-label {
+  max-width: 100%;
+  color: #fff;
+  font-size: clamp(0.6875rem, 3.4cqw, 2.125rem);
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1;
+  word-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow:
+    0 2px 0 rgb(0 0 0 / 0.6),
+    0 0 28px rgb(var(--tint) / 0.45);
+}
+
+.ls-paths-stage {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.625rem, 2.4cqw, 1.5rem);
+  width: 100%;
+}
+
+.ls-paths-orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(3rem, 13cqw, 7.5rem);
+  aspect-ratio: 1;
+  border: 1px solid rgb(var(--tint) / 0.5);
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 50% 30%, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.02) 70%),
+    #0b0b0b;
+  box-shadow:
+    0 0 0 clamp(5px, 1.5cqw, 14px) rgb(var(--tint) / 0.07),
+    0 0 0 clamp(10px, 3cqw, 28px) rgb(var(--tint) / 0.035);
+  color: rgb(var(--tint));
+  transition:
+    background 0.5s ease,
+    border-color 0.5s ease,
+    box-shadow 0.5s ease,
+    color 0.5s ease;
+}
+
+.ls-paths-icon {
+  width: 42%;
+  height: 42%;
+}
+
+/* Ringing: rings leave the orb and the handset shakes. */
+.ls-paths-panel[data-status="ringing"] .ls-paths-orb::before,
+.ls-paths-panel[data-status="ringing"] .ls-paths-orb::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid rgb(var(--tint) / 0.8);
+  border-radius: inherit;
+  animation: lsPathsRing 1.5s ease-out infinite;
+}
+
+.ls-paths-panel[data-status="ringing"] .ls-paths-orb::after {
+  animation-delay: 0.75s;
+}
+
+.ls-paths-panel[data-status="ringing"] .ls-paths-icon {
+  animation: lsPathsWiggle 1.5s ease-in-out infinite;
+}
+
+@keyframes lsPathsRing {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes lsPathsWiggle {
+  0%,
+  40%,
+  100% {
+    transform: rotate(0);
+  }
+  5%,
+  15%,
+  25% {
+    transform: rotate(-14deg);
+  }
+  10%,
+  20%,
+  30% {
+    transform: rotate(14deg);
+  }
+}
+
+.ls-paths-panel[data-status="good"] .ls-paths-orb {
+  border-color: #f1d68f;
+  background: linear-gradient(180deg, #f1d68f 0%, #d4a857 55%, #b98a3e 100%);
+  box-shadow:
+    0 0 0 clamp(5px, 1.5cqw, 14px) rgb(212 168 87 / 0.14),
+    0 0 clamp(24px, 7cqw, 72px) rgb(212 168 87 / 0.5);
+  color: #0a0a0a;
+}
+
+.ls-paths-panel[data-status="bad"] .ls-paths-orb {
+  border-color: rgb(115 115 115 / 0.7);
+  border-style: dashed;
+  background: #111;
+  box-shadow: none;
+  color: rgb(163 163 163);
+}
+
+.ls-paths-chip {
+  max-width: 94%;
+  padding: 0.3em 0.8em;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.5);
+  color: rgb(229 229 229);
+  font-size: clamp(0.625rem, 1.45cqw, 0.875rem);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  text-wrap: balance;
+  transition: opacity 0.4s ease;
+}
+
+.ls-paths-chip[data-hidden] {
+  opacity: 0;
+}
+
+.ls-paths-panel[data-status="ringing"] .ls-paths-chip {
+  border-color: rgb(var(--tint) / 0.5);
+  color: #fff;
+}
+
+.ls-paths-panel[data-status="good"] .ls-paths-chip {
+  border-color: rgb(212 168 87 / 0.55);
+  background: rgb(212 168 87 / 0.14);
+  color: #f1d68f;
+}
+
+.ls-paths-panel[data-status="bad"] .ls-paths-chip {
+  border-color: rgb(251 113 133 / 0.35);
+  background: rgb(251 113 133 / 0.08);
+  color: rgb(253 164 175);
+}
+
+.ls-paths-tag {
+  position: absolute;
+  z-index: 3;
+  top: clamp(0.5rem, 1.8cqw, 1rem);
+  left: clamp(0.5rem, 1.8cqw, 1rem);
+  padding: 0.3em 0.75em;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.55);
+  color: rgb(212 212 212);
+  font-size: clamp(0.5625rem, 1.1cqw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* The run that's playing, after "Example": grey by hand, brass with AI. */
+.ls-paths-tag-run::before {
+  content: "·";
+  margin-inline: 0.5em;
+  color: rgb(115 115 115);
+}
+
+.ls-paths-tag-run {
+  color: rgb(212 212 212);
+}
+
+.ls-paths-tag[data-mode="after"] .ls-paths-tag-run {
+  color: #f1d68f;
+}
+
+/* The caption: the reference's "Which campus will you choose?" line, which
+   here also narrates the example, with Replay under it once the AI version
+   ends. Above the play overlay, but clicks pass through it. */
+.ls-paths-caption {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.5rem, 1.4cqw, 0.875rem);
+  min-height: 38%;
+  padding: 0 7cqw clamp(1rem, 3.4cqw, 2.25rem);
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 0.88) 0%,
+    rgb(0 0 0 / 0.6) 40%,
+    transparent 100%
+  );
+  text-align: center;
+  pointer-events: none;
+}
+
+.ls-paths-caption-text {
+  display: block;
+  max-width: 40ch;
+  color: #fff;
+  font-size: clamp(0.8125rem, 2.15cqw, 1.375rem);
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: balance;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.9);
+  animation: lsPathsCaptionIn 0.45s ease both;
+}
+
+.ls-paths-caption-text[data-kind="prompt"],
+.ls-paths-caption-text[data-kind="title"],
+.ls-paths-caption-text[data-kind="ending"] {
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.ls-paths-frame[data-mode="after"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
+  color: #f1d68f;
+}
+
+.ls-paths-frame[data-mode="before"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
+  color: rgb(212 212 212);
+}
+
+@keyframes lsPathsCaptionIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The progress bar, in two chapters as long as the two runs: grey by hand,
+   brass with AI. The component sets each fill's scaleX from the video's
+   clock every frame, so it can't drift from the voice. */
+.ls-paths-progress {
+  position: absolute;
+  z-index: 3;
+  inset: auto 0 0;
+  display: flex;
+  gap: 3px;
+  height: 3px;
+}
+
+.ls-paths-progress-run {
+  flex-basis: 0;
+  overflow: hidden;
+  background: rgb(255 255 255 / 0.1);
+}
+
+.ls-paths-progress-fill {
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: rgb(163 163 163);
+}
+
+.ls-paths-progress-run[data-run="after"] .ls-paths-progress-fill {
+  background: linear-gradient(90deg, #b98a3e, #f1d68f);
+}
+
+/* Paused: the picture dims under a white play disc, like a paused video. */
+.ls-paths-frame[data-state="paused"] .ls-paths-panels {
+  filter: brightness(0.55);
+}
+
+.ls-paths-paused {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(3rem, 11cqw, 6rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -62%);
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow:
+    0 0 0 clamp(6px, 1.4cqw, 13px) rgb(255 255 255 / 0.14),
+    0 16px 40px -10px rgb(0 0 0 / 0.8);
+  color: #0a0a0a;
+  pointer-events: none;
+}
+
+.ls-paths-paused svg {
+  width: 36%;
+  height: 36%;
+  margin-left: 8%;
+}
+
+/* Pause, sound and captions, in the corner opposite the tag. Above the
+   frame's click-to-pause layer, so they take their own clicks. */
+.ls-paths-controls {
+  position: absolute;
+  z-index: 4;
+  top: clamp(0.5rem, 1.8cqw, 1rem);
+  right: clamp(0.5rem, 1.8cqw, 1rem);
+  display: flex;
+  gap: clamp(0.25rem, 0.8cqw, 0.5rem);
+}
+
+.ls-paths-control {
+  display: grid;
+  place-items: center;
+  width: clamp(1.75rem, 4.4cqw, 2.5rem);
+  aspect-ratio: 1;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.55);
+  color: rgb(229 229 229);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.ls-paths-control:hover {
+  border-color: rgb(212 168 87 / 0.6);
+  color: #fff;
+}
+
+.ls-paths-control:focus-visible {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 2px;
+}
+
+.ls-paths-control[aria-pressed="false"] {
+  color: rgb(163 163 163);
+}
+
+.ls-paths-control svg {
+  width: 50%;
+  height: 50%;
+}
+
+/* The play button covers the whole frame, like a video's poster, so a click
+   anywhere on it plays. It draws nothing itself: its face is the middle orb,
+   which turns into the reference's white disc while the button is there. */
+.ls-paths-play {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  cursor: pointer;
+}
+
+.ls-paths-play:focus-visible {
+  outline: none;
+}
+
+.ls-paths-panel .ls-paths-orb[data-play] {
+  border: 1px solid #fff;
+  background: #fff;
+  box-shadow:
+    0 0 0 clamp(6px, 1.4cqw, 13px) rgb(255 255 255 / 0.14),
+    0 16px 40px -10px rgb(0 0 0 / 0.8);
+  color: #0a0a0a;
+  transition: transform 0.2s ease;
+}
+
+.ls-paths-orb[data-play] .ls-paths-icon {
+  width: 36%;
+  height: 36%;
+  margin-left: 8%;
+}
+
+.ls-paths-frame:has(.ls-paths-play:hover) .ls-paths-orb[data-play] {
+  transform: scale(1.06);
+}
+
+.ls-paths-frame:has(.ls-paths-play:focus-visible) .ls-paths-orb[data-play] {
+  outline: 2px solid var(--color-brass-300);
+  outline-offset: 4px;
+}
+
+/* After the by-hand version, the chip under the disc says what it plays. */
+.ls-paths-panel .ls-paths-chip[data-play] {
+  border-color: rgb(212 168 87 / 0.6);
+  background: rgb(0 0 0 / 0.6);
+  color: #f1d68f;
+  font-weight: 700;
+}
+
+.ls-paths-replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 2rem;
+  padding: 0.35em 0.9em;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.6);
+  color: rgb(229 229 229);
+  font-size: clamp(0.75rem, 1.3cqw, 0.875rem);
+  font-weight: 600;
+  pointer-events: auto;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.ls-paths-replay:hover {
+  border-color: rgb(212 168 87 / 0.6);
+  color: #fff;
+}
+
+.ls-paths-replay svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* ---- the fork ---- */
+
+.ls-paths-stem {
+  display: block;
+  width: 1px;
+  height: clamp(2rem, 5vw, 3.5rem);
+  margin-inline: auto;
+  background: linear-gradient(to bottom, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.2));
+}
+
+/* Under the website video there is one way on, so its stem is the lit
+   brass of the right-hand path, running straight into the button. */
+.ls-paths-stem--lit {
+  background: linear-gradient(to bottom, rgb(212 168 87 / 0.35), #d4a857);
+  filter: drop-shadow(0 0 4px rgb(212 168 87 / 0.8));
+}
+
+/* The website video's page loading: its icon turns rather than shakes. */
+.ls-paths-panel[data-panel="speed"][data-status="ringing"] .ls-paths-icon {
+  animation: lsPathsSpin 1.1s linear infinite;
+}
+
+@keyframes lsPathsSpin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* A path's padding is the same on both sides, so its node sits under the
+   end of its branch; the VS in the middle fits inside the two paddings. */
+.ls-paths-path {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(1.5rem, 3vw, 2.25rem) 1rem 0;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .ls-paths-path {
+    padding-inline: 2rem;
+  }
+}
+
+/* Each path's half of the split: from the middle of the fork out over its
+   column, then down to its node. The left half is grey; the right is the
+   reference's lit line, in brass. */
+.ls-paths-branch {
+  position: absolute;
+  top: 0;
+  height: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid;
+  transition:
+    border-color 0.4s ease,
+    filter 0.4s ease;
+}
+
+.ls-paths-branch--left {
+  right: 0;
+  left: 50%;
+  border-left: 1px solid;
+  border-color: rgb(255 255 255 / 0.2);
+  border-top-left-radius: 1rem;
+}
+
+.ls-paths-branch--right {
+  right: 50%;
+  left: 0;
+  border-right: 1px solid;
+  border-color: #d4a857;
+  border-top-right-radius: 1rem;
+  filter: drop-shadow(0 0 4px rgb(212 168 87 / 0.8));
+}
+
+.ls-paths-node {
+  display: grid;
+  place-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 1px solid;
+  border-radius: 9999px;
+  background: #0a0a0a;
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    color 0.4s ease;
+}
+
+.ls-paths-node::after {
+  content: "";
+  width: 0.45rem;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.ls-paths-node--left {
+  border-color: rgb(255 255 255 / 0.3);
+  color: rgb(163 163 163);
+}
+
+.ls-paths-node--right {
+  border-color: #d4a857;
+  color: #f1d68f;
+  box-shadow: 0 0 12px rgb(212 168 87 / 0.6);
+}
+
+/* The path being played lights up. */
+.ls-paths-fork[data-mode="before"] .ls-paths-branch--left {
+  border-color: rgb(255 255 255 / 0.6);
+}
+
+.ls-paths-fork[data-mode="before"] .ls-paths-node--left {
+  border-color: rgb(255 255 255 / 0.75);
+  color: #fff;
+  box-shadow: 0 0 12px rgb(255 255 255 / 0.3);
+}
+
+.ls-paths-fork[data-mode="after"] .ls-paths-branch--right {
+  filter: drop-shadow(0 0 7px rgb(212 168 87));
+}
+
+/* The face-off between the two paths. Its ring is split like the fork above
+   it, grey on the by-hand side and brass on the side of the call, and the
+   letters are set like the frame's labels: heavy, italic, uppercase. */
+.ls-paths-vs {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  transform: translate(-50%, -50%);
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.06), transparent 70%) padding-box,
+    linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+    linear-gradient(90deg, rgb(255 255 255 / 0.22) 30%, rgb(212 168 87 / 0.8) 70%) border-box;
+  box-shadow: 0 0 24px -8px rgb(212 168 87 / 0.55);
+  color: rgb(229 229 229);
+  font-size: 0.6875rem;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 640px) {
+  .ls-paths-vs {
+    width: 3.25rem;
+    height: 3.25rem;
+    font-size: 0.9375rem;
+  }
+}
+
+/* The gold of a price: "$0" here, and "+$10,000s" on the "Take action" card. */
+.ls-price {
+  background: linear-gradient(180deg, #f6e3ae 0%, #e0be78 45%, #c4913f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Its opposite: the red of money lost, "Lose money" on the by-hand path of "Two
+   paths" and "−$1,000s" on the "Do nothing" card. The
+   same three-stop fall as the gold, with a faint glow that a text-shadow
+   can't give clipped text. */
+.ls-loss {
+  background: linear-gradient(180deg, #fecaca 0%, #f87171 45%, #dc2626 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgb(239 68 68 / 0.35));
+}
+
+/* On a whole headline rather than a figure, the full glow reads as neon and
+   outshines the lit path's button beside it, so "Lose money" gets less. */
+.ls-paths-path .ls-loss {
+  filter: drop-shadow(0 0 10px rgb(239 68 68 / 0.18));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ls-paths-panel[data-status="ringing"] .ls-paths-orb::before,
+  .ls-paths-panel[data-status="ringing"] .ls-paths-orb::after {
+    display: none;
+  }
+
+  .ls-paths-panel[data-status="ringing"] .ls-paths-icon,
+  .ls-paths-panel[data-panel="speed"][data-status="ringing"] .ls-paths-icon,
+  .ls-paths-caption-text {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Business Mastery hero — "Constellation"
+   One consumer: components/business-mastery/BmHeroBackground.tsx, which the
+   page's hero renders. The field
+   itself is drawn to a canvas; everything here is the ground it is drawn on
+   and the scrim that keeps the copy off it.
+
+   This replaced a single static gold pool. The pool was not wrong — the hero
+   is a manifesto and the words carry it — but it left the one page on the site
+   whose subject is a *network* with the only hero that never moves.
+
+   The rule this block follows is that nothing here may compete with the type.
+   The hero is a centred column with no logo, no cards and one action, so the
+   background has no quiet corner to be busy in; the protection has to come
+   from value, not from geometry. Hence `.bmc-scrim`, a value gap laid under
+   the column the way the old homepage hero laid one under its logo.
+
+   The warm pool from the previous hero is kept, at the same position and very
+   nearly the same alpha, as the first layer of `.bmc-field`. It is the reason
+   the section still reads gold rather than blue-black once the links are
+   drawn over it, and moving it above the canvas would wash the field out.
+   --------------------------------------------------------------------------- */
+
+.bmc-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    /* The previous hero's gold pool, high and centred. */
+    radial-gradient(
+      90% 70% at 50% 12%,
+      rgba(212, 168, 87, 0.13) 0%,
+      rgba(180, 120, 20, 0.045) 45%,
+      transparent 75%
+    ),
+    /* A ground with a centre, so the frame is not flat black behind the field. */
+    radial-gradient(115% 95% at 50% 8%, #0a0d14 0%, #05070b 58%, #000 100%);
+}
+
+.bmc-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Sits above the field, below the copy. Without it the headline is white type
+   on a field of 1px gold lines, and the lines that cross a letterform read as
+   strikethrough. */
+.bmc-scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    54% 48% at 50% 50%,
+    rgba(0, 0, 0, 0.66) 0%,
+    rgba(0, 0, 0, 0.3) 52%,
+    transparent 78%
+  );
+}
+
+/* Below the copy's breakpoint the hero stacks taller and the headline wraps to
+   two lines, so the column the scrim has to protect is a much larger share of
+   the frame. Left at the desktop figures, the eyebrow and the first headline
+   line sit outside it, on bare field. */
+@media (max-width: 640px) {
+  .bmc-scrim {
+    background: radial-gradient(
+      74% 62% at 50% 48%,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.36) 56%,
+      transparent 84%
+    );
+  }
+}
+
+/* The canvas holds still under this preference — BmHeroBackground composes one
+   frame and never starts its loop — so there is no animation here to stop. The
+   component is the only place that can honour it, because the motion is not
+   declarative. This comment exists so that is not mistaken for an omission. */
+
+/* ---------------------------------------------------------------------------
+   Business Mastery hero copy — the page's own grammar, at the top
+   One consumer: components/business-mastery/BmHeroSection.tsx, which owns the
+   layout in Tailwind and defers to this block for the things Tailwind says
+   badly. That split follows `.bmc-field` above: structure in the component,
+   typography here.
+
+   Since 2026-10-06 the hero is set in the same parts as the sections under
+   it (the owner's pick from five concepts): the `.bm-pill`, a two-tone
+   headline, a grey promise line with a bright phrase, the uppercase gold
+   button, and a trust line. The hairline "BUSINESS / MASTERY" masthead, its
+   shimmer, the flanked eyebrow and the gold rule went with the restyle; the
+   pill is styled with the other sections' pills further down this file.
+
+   Three things this block still does that Tailwind cannot:
+
+   1. A rhythm unit. `--bmh-u` is pure viewport height, so every interval in
+      the block is priced in the space there actually is to spend and the
+      column compresses on a short laptop instead of overflowing it. Every
+      vertical interval below is a multiple of it. Tailwind's spacing scale is
+      fixed-step and cannot express that.
+   2. A height cap on every display size, as `min(<width clamp>, <n>vh)`. The
+      sizes want to be width-led — that is what keeps type in proportion to
+      the measure it sits on — but width alone says nothing about whether the
+      block still fits, and the one thing this hero cannot afford to push off
+      screen is the action at the bottom of it. So the width value governs
+      while there is height to pay for it and the height term takes over when
+      there is not. Each cap is set to coincide with its width value at a
+      900px-tall viewport, so the caps change nothing where the design already
+      fit and only bind as the frame gets short. Sizes that read height
+      directly have no breakpoint cliff to fall off.
+   3. The veil behind the copy, which travels with the block (below).
+
+   The headline is the loudest object in the frame, bold Geist tightly
+   tracked: about 66px on a 1440x900 laptop and 36px at the phone floor, which
+   keeps the dim first line whole on a laptop ("Learn to start a business")
+   and lets it break to two on a phone. The promise and the description sit
+   a step apart in size so the key phrase in the promise is the second thing
+   read, and the description the third.
+   --------------------------------------------------------------------------- */
+
+.bmh {
+  --bmh-u: clamp(10px, 1.85vh, 24px);
+  position: relative;
+  /* Contains the veil below: without a stacking context here, a negative
+     z-index child escapes behind this block's ancestors and paints under the
+     canvas, where it does nothing at all. */
+  isolation: isolate;
+}
+
+/* The veil.
+
+   `.bmc-scrim` is 54% x 48% — wider than it is tall — because it was aimed at
+   a hero whose copy filled the middle of the frame. This block's exposure is
+   the opposite: the whitespace that makes the design work pushes the pill to
+   the top of the column and the trust line to the bottom, and both land where
+   that pool has already faded to nothing, and a 1px amber line crossing the
+   headline is the thing most likely to make it go soft.
+
+   So the protection travels with the copy instead of being aimed at it from
+   across the stylesheet: an ellipse shaped to this block, taller than it is
+   wide, with no visible edge. It is sized in percentages of the block, so it
+   keeps covering the copy at any viewport without being re-tuned, and it
+   leaves the field bright at the frame's edges where the constellation is
+   supposed to be seen. `.bmc-scrim` is untouched. */
+.bmh::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  /* Percentages of the block, with no pixel ceiling. The gradient is fully
+     transparent past 84% of its radius, so real coverage is 0.84 x half-size:
+     150%/168% keep that comfortably outside the block at every size, and they
+     keep doing so as the block grows. A fixed px cap does not - it silently
+     stops covering once the block outgrows it, and the parts left outside are
+     the pill and the trust line, which sit at the extremes and are exactly
+     what this layer exists to protect. */
+  width: 150%;
+  height: 168%;
+  pointer-events: none;
+  background: radial-gradient(
+    46% 50% at 50% 50%,
+    rgba(0, 0, 0, 0.76) 0%,
+    rgba(0, 0, 0, 0.58) 44%,
+    rgba(0, 0, 0, 0.26) 68%,
+    rgba(0, 0, 0, 0) 84%
+  );
+}
+
+/* The pill is the shared `.bm-pill`; the hero only keeps it on one line. At
+   390px the two names together are about 330px, so they fit the column once
+   nothing is allowed to wrap and the type steps down a notch. */
+.bmh .bm-pill,
+.bmh .bm-pill-badge {
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .bmh .bm-pill {
+    font-size: 0.8125rem;
+  }
+
+  .bmh .bm-pill-badge {
+    font-size: 0.75rem;
+  }
+}
+
+/* The headline pops by separation rather than by colour: it is the one white
+   object in the frame, and making it brighter than white is not available.
+   What it competes with is the constellation moving behind it -- a lit node
+   crossing a stroke is what makes a word go soft. The halo is two dark
+   shadows, a tight one that keeps a node from touching a stem and a wide one
+   that sits the whole sentence on its own ground. Both are black at low
+   alpha, so on the parts of the field that are already black they do nothing
+   at all. The dim line is the "why now" rows' neutral-500, set in the
+   component; it is large text, so it clears contrast on the veil with room. */
+.bmh-headline {
+  margin-top: calc(var(--bmh-u) * 1.6);
+  font-size: min(clamp(36px, 4.6vw, 68px), 7.4vh);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.62), 0 2px 30px rgba(0, 0, 0, 0.88);
+}
+
+/* Grey with a bright phrase, as the body copy in the rows below. The amber
+   glow it carried until 2026-10-06 went with the amber. */
+.bmh-promise {
+  margin-top: calc(var(--bmh-u) * 1.5);
+  font-size: min(clamp(17px, 1.5vw, 23px), 2.6vh);
+  line-height: 1.45;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
+}
+
+.bmh-mechanism {
+  margin-top: calc(var(--bmh-u) * 1.1);
+  font-size: min(clamp(15px, 1.2vw, 18px), 2.1vh);
+  line-height: 1.7;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
+}
+
+/* The program section's button, sized here so it keeps the hero's height
+   caps. 56px tall at rest, so it is the page's one big button twice over
+   (the second is at the foot of "What Business Mastery actually is"). The
+   resting glow is the smallest thing that lifts it off the constellation:
+   spread is negative so it stays a bloom just off the edge. The component
+   transitions the shadow with the colours, so colour and bloom change
+   together. */
+.bmh-cta {
+  margin-top: calc(var(--bmh-u) * 2.2);
+  min-height: 56px;
+  padding: 18px clamp(32px, 4.2vw, 64px);
+  font-size: min(clamp(15px, 1.2vw, 18px), 2.2vh);
+  box-shadow: 0 0 26px -8px rgba(212, 168, 87, 0.5);
+}
+
+.bmh-cta:hover,
+.bmh-cta:focus-visible {
+  box-shadow: 0 0 38px -6px rgba(212, 168, 87, 0.75);
+}
+
+/* Three short facts on one line, each with a gold check; they wrap to two
+   lines on a phone and stay centred. Small, grey and plain on purpose: the
+   button above is the loud thing, and this is the fine print that makes it
+   easier to press. */
+.bmh-trust {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 18px;
+  margin: calc(var(--bmh-u) * 1.2) 0 0;
+  padding: 0;
+  list-style: none;
+  color: #a3a3a3;
+  font-size: min(clamp(13px, 0.95vw, 14.5px), 1.9vh);
+  font-weight: 500;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+
+.bmh-trust li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+/* Slow, small, staggered, and in the order the argument is made. */
+@media (prefers-reduced-motion: no-preference) {
+  .bmh-rise {
+    animation: bmh-rise 900ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+}
+
+@keyframes bmh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Short viewport. What is left of this query is the things a height cap
+   cannot express: line-height is a ratio, so it does not tighten on its own
+   as the headline shrinks, and the action's padding is in px because it is a
+   touch target rather than type, so it does not scale with its font-size
+   either. The sizes and the rhythm are already smaller by the time this
+   applies, since `--bmh-u` is pure vh and every display size carries a vh
+   cap. */
+@media (min-width: 641px) and (max-height: 820px) {
+  .bmh-headline {
+    line-height: 1.02;
+  }
+
+  .bmh-cta {
+    min-height: 50px;
+    padding: 14px clamp(28px, 3.4vw, 52px);
+  }
+}
+
+/* Large viewport. The width caps above are reached at about 1480px wide, so
+   past that the frame keeps growing while the type stands still and the
+   empty space comes back. The measure widens with the type so the dim line
+   stays whole.
+
+   Every size here has to repeat the vh cap from the base block. These are
+   whole-declaration overrides, so a bare `76px` would not merely set a larger
+   size, it would drop the height cap with it — and a 1920x860 window would
+   put the action back under the fold. If you add a size to this query, cap
+   it. */
+@media (min-width: 1800px) {
+  .bmh {
+    max-width: 1140px;
+  }
+
+  .bmh-headline {
+    font-size: min(clamp(36px, 4vw, 78px), 7.4vh);
+  }
+
+  .bmh-promise {
+    font-size: min(25px, 2.6vh);
+  }
+
+  .bmh-mechanism {
+    font-size: min(19px, 2.1vh);
+  }
+}
+
+/* Short phone. On a 640px-tall screen the headline is already breaking to
+   four lines at the floor size, and with the fixed header taking 72px off
+   the top there is not enough left to seat the action and the trust line.
+   The floor drops and the rhythm tightens rather than the action being
+   pushed off the screen. */
+@media (max-width: 640px) and (max-height: 700px) {
+  .bmh {
+    --bmh-u: clamp(9px, 1.3vh, 13px);
+  }
+
+  .bmh-headline {
+    font-size: 32px;
+  }
+
+  .bmh-mechanism {
+    line-height: 1.6;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Section stitching.
+
+   Every page sits on one continuous ground (the body's neutral-950); sections
+   no longer paint their own backgrounds or divider lines. A section's
+   decorative layer (orbs, glows, drawn fields) carries this class so it fades
+   out towards its top and bottom edges instead of being cut flat by the
+   section's `overflow-hidden`, which is what drew a visible line between one
+   section and the next.
+--------------------------------------------------------------------------- */
+.section-fade {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 82%,
+    transparent 100%
+  );
 }
