@@ -28,6 +28,8 @@ interface DemoState {
   status: DemoStatus;
   /** Whether a visitor started this run, so step captions are announced. */
   byVisitor: boolean;
+  /** Counts runs from the start, so a demo can drop choices made in the last. */
+  run: number;
 }
 
 /** Goes on the demo's outer element: the hook watches it to know when the
@@ -41,6 +43,13 @@ export interface Demo {
   status: DemoStatus;
   reduced: boolean;
   byVisitor: boolean;
+  /**
+   * Goes up each time the demo starts over (Play from the top, Replay, Step
+   * through, restart). A demo stores a visitor's own choices with the run
+   * they were made in and ignores them once it moves on, so Replay plays the
+   * demo as written.
+   */
+  run: number;
   /** True once the demo has reached step `n`. */
   reached: (n: number) => boolean;
   play: () => void;
@@ -50,6 +59,21 @@ export interface Demo {
   next: () => void;
   /** Back to the start, for a demo whose input changed (a new scenario). */
   restart: (byVisitor?: boolean) => void;
+}
+
+/** A fresh run: from the top, or on the result (`done`) under reduced motion. */
+function fromTop(
+  current: DemoState,
+  status: DemoStatus,
+  byVisitor: boolean,
+  last: number,
+): DemoState {
+  return {
+    step: status === "done" ? last : 0,
+    status,
+    byVisitor,
+    run: current.run + 1,
+  };
 }
 
 export function useDemo({
@@ -72,17 +96,18 @@ export function useDemo({
     step: 0,
     status: "idle",
     byVisitor: false,
+    run: 0,
   });
 
   // Reduced motion opens on the result. Adjusted during render rather than in
   // an effect, so the first painted frame is already the right one.
   if (reduced && state.status === "idle") {
-    setState({ step: last, status: "done", byVisitor: false });
+    setState(fromTop(state, "done", false, last));
   }
 
   // The first time it is on screen, it starts by itself.
   if (autoplay && !reduced && active && state.status === "idle") {
-    setState({ step: 0, status: "playing", byVisitor: false });
+    setState(fromTop(state, "playing", false, last));
   }
 
   useEffect(() => {
@@ -103,10 +128,10 @@ export function useDemo({
     setState((current) =>
       current.status === "paused"
         ? { ...current, status: "playing", byVisitor: true }
-        : { step: 0, status: "playing", byVisitor: true },
+        : fromTop(current, "playing", true, last),
     );
     track("demo_play", { service });
-  }, [service]);
+  }, [service, last]);
 
   const pause = useCallback(() => {
     setState((current) =>
@@ -115,18 +140,16 @@ export function useDemo({
   }, []);
 
   const stepThrough = useCallback(() => {
-    setState({ step: 0, status: "stepping", byVisitor: true });
+    setState((current) => fromTop(current, "stepping", true, last));
     track("demo_play", { service });
-  }, [service]);
+  }, [service, last]);
 
   const replay = useCallback(() => {
-    if (reduced) {
-      stepThrough();
-      return;
-    }
-    setState({ step: 0, status: "playing", byVisitor: true });
+    setState((current) =>
+      fromTop(current, reduced ? "stepping" : "playing", true, last),
+    );
     track("demo_play", { service });
-  }, [reduced, service, stepThrough]);
+  }, [reduced, service, last]);
 
   const next = useCallback(() => {
     setState((current) => {
@@ -137,10 +160,8 @@ export function useDemo({
 
   const restart = useCallback(
     (byVisitor = true) => {
-      setState(
-        reduced
-          ? { step: last, status: "done", byVisitor }
-          : { step: 0, status: "playing", byVisitor },
+      setState((current) =>
+        fromTop(current, reduced ? "done" : "playing", byVisitor, last),
       );
     },
     [reduced, last],
@@ -155,6 +176,7 @@ export function useDemo({
       status: state.status,
       reduced,
       byVisitor: state.byVisitor,
+      run: state.run,
       reached: (n: number) => state.step >= n,
       play,
       pause,

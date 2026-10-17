@@ -11,6 +11,7 @@ import {
 } from "@/data/services";
 import { serviceIcons } from "@/components/services/serviceIcons";
 import { DemoSlot } from "@/components/services/demos/registry";
+import type { DemoAssets } from "@/components/services/demo/sizes";
 import "./services.css";
 
 /**
@@ -27,16 +28,16 @@ import "./services.css";
  * so the link in the bar shares the demo on screen. Only the chosen demo
  * loads; the rest are fetched when picked.
  */
-export function DemoLab() {
+export function DemoLab({ assets }: { assets: DemoAssets }) {
   return (
-    <Suspense fallback={<Lab requested={null} />}>
-      <LabFromQuery />
+    <Suspense fallback={<Lab requested={null} assets={assets} />}>
+      <LabFromQuery assets={assets} />
     </Suspense>
   );
 }
 
-function LabFromQuery() {
-  return <Lab requested={useSearchParams().get("demo")} />;
+function LabFromQuery({ assets }: { assets: DemoAssets }) {
+  return <Lab requested={useSearchParams().get("demo")} assets={assets} />;
 }
 
 const HASH_PREFIX = `#${servicesAnchors.demoLab}?`;
@@ -53,7 +54,7 @@ function subscribeHash(onChange: () => void) {
   return () => window.removeEventListener("hashchange", onChange);
 }
 
-function Lab({ requested }: { requested: string | null }) {
+function Lab({ requested, assets }: { requested: string | null; assets: DemoAssets }) {
   const fromHash = useSyncExternalStore(subscribeHash, demoFromHash, () => null);
   const wanted = fromHash ?? requested;
 
@@ -165,7 +166,7 @@ function Lab({ requested }: { requested: string | null }) {
             {isSelected && (
               <>
                 <p className="mb-4 text-center text-neutral-300">{demo.intro}</p>
-                <DemoSlot slug={slug} formPath="/services" />
+                <DemoSlot slug={slug} formPath="/services" assets={assets} />
               </>
             )}
           </div>

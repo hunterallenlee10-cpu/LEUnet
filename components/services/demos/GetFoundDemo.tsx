@@ -2,8 +2,7 @@
 
 import { DemoFrame } from "@/components/services/demo/DemoFrame";
 import { useDemo } from "@/components/services/demo/useDemo";
-import { demoSizes, type DemoProps } from "@/components/services/demo/sizes";
-import { getService } from "@/data/services";
+import { demoSizes, demoTitles, type DemoProps } from "@/components/services/demo/sizes";
 
 // Stub, replaced by the full demo in phase 4.
 const durations = [1500, 1500, 1500] as const;
@@ -14,7 +13,7 @@ export default function GetFoundDemo({ formPath }: DemoProps) {
     <DemoFrame
       frameRef={frameRef}
       demo={demo}
-      title={getService("get-found").name}
+      title={demoTitles["get-found"]}
       formPath={formPath}
       stageClassName={demoSizes["get-found"].stage}
     >

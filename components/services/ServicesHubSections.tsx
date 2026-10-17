@@ -12,6 +12,7 @@ import { QueryHashLink } from "@/components/ui/QueryHashLink";
 import { serviceIcons } from "@/components/services/serviceIcons";
 import { MiniPreview } from "@/components/services/MiniPreview";
 import { DemoLab } from "@/components/services/DemoLab";
+import { getDemoAssets } from "@/lib/demo-assets";
 
 /**
  * The sections of /services, top to bottom: the hero, one row per service
@@ -156,7 +157,7 @@ export function DemoLabSection() {
           </p>
         </div>
         <div className="mx-auto max-w-5xl rounded-2xl border border-white/10 bg-white/[0.02] p-3 sm:p-6 light:bg-[#fff]/60">
-          <DemoLab />
+          <DemoLab assets={getDemoAssets()} />
         </div>
       </div>
     </section>
