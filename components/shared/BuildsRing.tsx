@@ -57,8 +57,8 @@ export function BuildsRing({ items, label }: { items: ReactNode[]; label: string
   const step = 360 / Math.max(count, 1);
 
   const regionRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<HTMLUListElement>(null);
-  const cardRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const shadeRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const geometry = useRef({ stage: 0, card: 0 });
   const sim = useRef({ pos: 0, vel: 0, target: 0, last: 0, frame: 0 });
@@ -345,8 +345,10 @@ export function BuildsRing({ items, label }: { items: ReactNode[]; label: string
           className="pointer-events-none absolute inset-x-[15%] -bottom-6 h-24 rounded-[50%] bg-[radial-gradient(closest-side,rgb(var(--gold)/0.16),transparent)] blur-md"
         />
 
-        <ul
+        <div
           ref={stageRef}
+          role="group"
+          aria-roledescription="carousel"
           tabIndex={count > 1 ? 0 : undefined}
           aria-label={
             count > 1
@@ -369,7 +371,7 @@ export function BuildsRing({ items, label }: { items: ReactNode[]; label: string
           {items.map((item, i) => {
             const isFront = i === active;
             return (
-              <li
+              <div
                 key={i}
                 ref={(el) => {
                   cardRefs.current[i] = el;
@@ -397,10 +399,10 @@ export function BuildsRing({ items, label }: { items: ReactNode[]; label: string
                   }}
                   className="pointer-events-none absolute inset-0 rounded-xl bg-black opacity-0 light:bg-neutral-950"
                 />
-              </li>
+              </div>
             );
           })}
-        </ul>
+        </div>
       </div>
 
       {count > 1 && (
@@ -420,7 +422,7 @@ export function BuildsRing({ items, label }: { items: ReactNode[]; label: string
                 onClick={() => goTo(i)}
                 aria-label={`Go to build ${i + 1} of ${count}`}
                 aria-current={i === active ? "true" : undefined}
-                className="group inline-flex h-11 w-5 items-center justify-center focus-visible:outline-2 focus-visible:outline-brass-300 sm:w-6"
+                className="group inline-flex h-11 w-6 items-center justify-center focus-visible:outline-2 focus-visible:outline-brass-300"
               >
                 <span
                   className={clsx(

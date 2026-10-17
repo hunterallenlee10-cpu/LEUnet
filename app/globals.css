@@ -109,6 +109,19 @@
   );
 }
 
+/* Phones get a 1280px copy (2026-10-17): about half the bytes of the
+   1920px one, and the photo is the homepage's largest paint. Kept in step
+   with the preload in components/sections/HeroSection.tsx. */
+@media (max-width: 799px) {
+  .hero-scene {
+    background-image: url("/hero/night-1280.webp");
+  }
+
+  :root[data-theme="light"] .hero-scene {
+    background-image: url("/hero/day-1280.webp");
+  }
+}
+
 @media (min-width: 1600px) {
   .hero-scene {
     background-image: url("/hero/night-2560.webp");

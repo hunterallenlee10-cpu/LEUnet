@@ -18,8 +18,8 @@ import {
   leeSystems,
   leeSystemsFaqs,
   leeSystemsRoutes,
-  serviceGroups,
 } from "@/data/lee-systems";
+import { serviceGroups, servicePath } from "@/data/services";
 
 /**
  * The Lee Systems Co. page, and since 2026-09-29 the only one: the automation
@@ -83,11 +83,13 @@ const businessNode = {
   name: leeSystems.name,
 };
 
-const services = serviceGroups.map(({ anchor, name, outcome, items }) => ({
-  "@id": `${pageUrl}#${anchor}`,
+// Since 2026-10-17 each group has its own page, which carries its full
+// Service node under the same @id; this page names the six and points there.
+const services = serviceGroups.map(({ slug, name, outcome, items }) => ({
+  "@id": `${SITE_URL}${servicePath(slug)}#service`,
   name,
   description: outcome,
-  url: `${pageUrl}#${anchor}`,
+  url: `${SITE_URL}${servicePath(slug)}`,
   items,
 }));
 
@@ -122,7 +124,7 @@ const structuredData = {
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: service.name,
-        itemListElement: items.map((name) => ({
+        itemListElement: items.map(({ name }) => ({
           "@type": "Offer",
           itemOffered: { "@type": "Service", name },
         })),

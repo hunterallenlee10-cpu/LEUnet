@@ -27,6 +27,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useRef, type RefObject } from "react";
+import { leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
  * "Watch one system run your week" on /lee-systems: a workflow editor in the
@@ -474,7 +475,10 @@ export function LeeSystemsWorkflowFilmSection() {
   useWorkflowFilm(rootRef);
 
   return (
-    <section className="relative isolate overflow-x-clip pt-6 pb-20 md:pt-10 md:pb-28">
+    <section
+      id={leeSystemsAnchors.fullWeek}
+      className="relative isolate overflow-x-clip pt-6 pb-20 md:pt-10 md:pb-28"
+    >
       <style href="lee-systems-workflow-film" precedence="default">
         {styles}
       </style>

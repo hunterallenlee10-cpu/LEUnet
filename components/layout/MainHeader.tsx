@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,12 +15,18 @@ import { navigationItems } from "@/data/navigation";
 import { companyInfo } from "@/data/company";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { ServicesMenu } from "@/components/layout/ServicesMenu";
 
 /**
- * The site header: the LEU lockup on the left, then Lee Systems Co. and
- * Contact, then the gold "Book a free call" button and the light/dark switch.
- * Below `lg` the links move into a drawer, and the button stays in the bar
- * beside the menu toggle.
+ * The site header: the LEU lockup on the left, then Services, Lee Systems
+ * Co. and Contact, then the gold "Book a free call" button and the light/dark
+ * switch. Below `lg` the links move into a drawer, and the button stays in the
+ * bar beside the menu toggle.
+ *
+ * Services is a real button that opens the six service groups
+ * (ServicesMenu): on hover or click from `lg` up, as an expandable section in
+ * the drawer below it. Escape closes it and puts focus back on the button.
+ * The drawer keeps Tab inside itself while it is open.
  */
 export function MainHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -42,6 +54,10 @@ export function MainHeader() {
 
   const pathname = usePathname();
   const isCurrent = (href: string) => pathname === href;
+  // The whole section counts: /services and each /services/[slug] page.
+  const isInSection = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   // At most one read per frame, plus one on mount, so a page that loads
   // already scrolled (a reload, a /#contact link) gets the solid bar at once.
@@ -126,6 +142,14 @@ export function MainHeader() {
     };
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
+      // A desktop menu hands focus back to the button that opened it, so the
+      // next Tab carries on from there. The drawer does the same for its own
+      // button when it closes (the scroll-lock effect above).
+      if (!mobileMenuOpen && openDropdownId) {
+        openWrapperRef.current
+          ?.querySelector<HTMLButtonElement>("button[aria-expanded]")
+          ?.focus();
+      }
       setOpenDropdownId(null);
       setMobileMenuOpen(false);
     };
@@ -187,11 +211,34 @@ export function MainHeader() {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     setMobileMenuOpen(false);
     closeDropdown();
-    if (new URL(event.currentTarget.href).pathname === pathname) {
+    const target = new URL(event.currentTarget.href);
+    // A link to a section of this page (/services#demo-lab) scrolls to it.
+    if (target.pathname === pathname && !target.hash) {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       window.setTimeout(() =>
         window.scrollTo({ top: 0, behavior: reduce ? "instant" : "smooth" })
       );
+    }
+  };
+
+  // Tab and Shift+Tab wrap around inside the open drawer (it is a modal
+  // dialog), instead of walking out into the page hidden behind it.
+  const trapDrawerFocus = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Tab" || !drawerRef.current) return;
+    const focusable = Array.from(
+      drawerRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    );
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
   };
 
@@ -244,6 +291,52 @@ export function MainHeader() {
               {navigationItems.map((item) => {
                 const isOpen = openDropdownId === item.id;
                 const panelId = `${item.id}-desktop-menu`;
+
+                if (item.menu === "services") {
+                  return (
+                    <div
+                      key={item.id}
+                      className="relative"
+                      ref={isOpen ? openWrapperRef : undefined}
+                      onMouseEnter={() => {
+                        if (!isOpen) openDropdown(item.id, true);
+                        else cancelClose();
+                      }}
+                      onMouseLeave={closeDropdownSoon}
+                      onBlur={closeDropdownSoon}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => toggleDropdownFromChevron(item.id)}
+                        aria-expanded={isOpen}
+                        aria-controls={isOpen ? panelId : undefined}
+                        className={`flex items-center gap-1 rounded transition-colors hover:text-amber-400 ${
+                          isInSection(item.href) ? "text-amber-400" : "text-white"
+                        }`}
+                      >
+                        {item.label}
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                          aria-hidden="true"
+                        />
+                      </button>
+
+                      {/* The gap above the panel is padding on this wrapper,
+                          so the pointer stays inside the hover area while
+                          crossing from the button to the rows. */}
+                      {isOpen && (
+                        <div className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3">
+                          <ServicesMenu
+                            id={panelId}
+                            variant="panel"
+                            onNavigate={handleNavClick}
+                            isCurrent={isCurrent}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
 
                 if (!item.subItems) {
                   return (
@@ -358,6 +451,8 @@ export function MainHeader() {
             className="absolute inset-0 h-full w-full cursor-default bg-black/60"
           />
           <div
+            ref={drawerRef}
+            onKeyDown={trapDrawerFocus}
             id="mobile-menu"
             role="dialog"
             aria-modal="true"
@@ -383,6 +478,36 @@ export function MainHeader() {
               {navigationItems.map((item) => {
                 const isOpen = openDropdownId === item.id;
                 const panelId = `${item.id}-mobile-menu`;
+
+                if (item.menu === "services") {
+                  return (
+                    <div key={item.id}>
+                      <button
+                        type="button"
+                        onClick={() => (isOpen ? closeDropdown() : openDropdown(item.id))}
+                        aria-expanded={isOpen}
+                        aria-controls={isOpen ? panelId : undefined}
+                        className={`flex w-full items-center justify-between rounded-lg px-3 py-3 text-left hover:bg-neutral-900 ${
+                          isInSection(item.href) ? "text-amber-400" : "text-white"
+                        }`}
+                      >
+                        {item.label}
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                          aria-hidden="true"
+                        />
+                      </button>
+                      {isOpen && (
+                        <ServicesMenu
+                          id={panelId}
+                          variant="drawer"
+                          onNavigate={handleNavClick}
+                          isCurrent={isCurrent}
+                        />
+                      )}
+                    </div>
+                  );
+                }
 
                 return (
                   <div key={item.id}>

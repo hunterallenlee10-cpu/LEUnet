@@ -1,3 +1,5 @@
+import { serviceGroups, type ServiceSlug } from "@/data/services";
+
 /**
  * The paths a contact-form link can carry in `?interest=`, e.g.
  * /contact?interest=lee-systems from every "Book a free call". The form has no
@@ -5,12 +7,26 @@
  * /api/contact checks it against this list and puts its `subjectTag` at the
  * front of the email subject, "[General]" when there is none.
  */
-export const contactInterests = [
-  { value: "lee-systems", label: "Lee Systems Co.", subjectTag: "Lee Systems Co." },
-  { value: "something-else", label: "Something else", subjectTag: "General" },
-] as const;
+export type ContactInterest = "lee-systems" | "something-else" | ServiceSlug;
 
-export type ContactInterest = (typeof contactInterests)[number]["value"];
+/**
+ * Since 2026-10-17 a link can also name one of the six service groups by its
+ * slug (/contact?interest=ai-calls), which tags the email with the group:
+ * "[Lee Systems Co. · AI Call Answering]".
+ */
+export const contactInterests: readonly {
+  value: ContactInterest;
+  label: string;
+  subjectTag: string;
+}[] = [
+  { value: "lee-systems", label: "Lee Systems Co.", subjectTag: "Lee Systems Co." },
+  ...serviceGroups.map(({ slug, name }) => ({
+    value: slug,
+    label: `Lee Systems Co.: ${name}`,
+    subjectTag: `Lee Systems Co. · ${name}`,
+  })),
+  { value: "something-else", label: "Something else", subjectTag: "General" },
+];
 
 export function isContactInterest(value: string): value is ContactInterest {
   return contactInterests.some((option) => option.value === value);

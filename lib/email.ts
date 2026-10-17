@@ -48,6 +48,20 @@ export async function sendLeadEmail({
   subject,
   text,
 }: LeadEmail): Promise<NextResponse> {
+  // LEAD_EMAIL_DRY_RUN=1 logs the email instead of sending it, for testing
+  // the forms locally or on a preview without filling a real inbox. Never set
+  // it on Production: every lead would be logged and dropped.
+  if (process.env.LEAD_EMAIL_DRY_RUN === "1") {
+    console.info(
+      `[${tag}] Dry run (LEAD_EMAIL_DRY_RUN=1): the ${form} email was not sent.`,
+      JSON.stringify({ to, replyTo, subject, text })
+    );
+    return NextResponse.json(
+      { message: "Dry run: email not sent", dryRun: true },
+      { status: 200 }
+    );
+  }
+
   // Checked up front so a missing key is reported as itself rather than as a
   // generic failure: the Resend constructor throws on an absent key.
   if (!process.env.RESEND_API_KEY) {

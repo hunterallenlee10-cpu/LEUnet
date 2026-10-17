@@ -1,5 +1,6 @@
 import { NavItem } from "@/types";
 import { leeSystemsRoutes } from "@/data/lee-systems";
+import { servicesRoutes } from "@/data/services";
 import {
   BUSINESS_MASTERY_SITE_LIVE,
   BUSINESS_MASTERY_SITE_URL,
@@ -17,7 +18,8 @@ export const businessMasteryPage = BUSINESS_MASTERY_SITE_LIVE
 export const contactPage = "/contact";
 
 /**
- * The header's links, in order: Lee Systems Co., then Contact. Business
+ * The header's links, in order: Services (a menu of the six service groups,
+ * 2026-10-17), Lee Systems Co., then Contact. Business
  * Mastery is linked from the footer only (`footerPages`), at the owner's
  * request (2026-10-06): it is promoted on its own, not from this site. The gold "Book a
  * free call" button after them is not an entry here; MainHeader draws it from
@@ -28,6 +30,12 @@ export const contactPage = "/contact";
  * both lived on that one page.
  */
 export const navigationItems: NavItem[] = [
+  {
+    label: "Services",
+    href: servicesRoutes.hub,
+    id: "nav-services",
+    menu: "services",
+  },
   {
     label: "Lee Systems Co.",
     href: leeSystemsRoutes.home,
@@ -46,6 +54,7 @@ export const navigationItems: NavItem[] = [
  */
 export const footerPages = [
   { label: "Lee Systems Co.", href: leeSystemsRoutes.home },
+  { label: "Services", href: servicesRoutes.hub },
   { label: "Business Mastery", href: businessMasteryPage },
   { label: "Contact", href: contactPage },
 ] as const;

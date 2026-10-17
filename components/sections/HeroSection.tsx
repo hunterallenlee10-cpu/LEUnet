@@ -5,7 +5,6 @@ import { leeSystemsRoutes } from "@/data/lee-systems";
 import { site } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { MissedRevenueCalculator } from "@/components/sections/MissedRevenueCalculator";
-import { ServiceGroupsRow } from "@/components/sections/ServiceGroupsRow";
 
 /** The two halves of the offer, three points each. */
 const offer = [
@@ -45,6 +44,8 @@ const offer = [
  * Every movement in it stops under prefers-reduced-motion (the end of that
  * block).
  */
+const heroPhotoPreload = `(function(){try{var t=document.documentElement.getAttribute("data-theme")==="light"?"day":"night";var w=matchMedia("(min-width: 1600px)").matches?"2560":matchMedia("(max-width: 799px)").matches?"1280":"1920";var l=document.createElement("link");l.rel="preload";l.as="image";l.href="/hero/"+t+"-"+w+".webp";l.setAttribute("fetchpriority","high");document.head.appendChild(l)}catch(e){}})()`;
+
 export function HeroSection() {
   return (
     <section
@@ -64,6 +65,12 @@ export function HeroSection() {
             Alps in the light one. It is a CSS background (`.hero-scene` in
             app/globals.css), so only the current theme's photo downloads. */}
         <div className="hero-scene" aria-hidden="true" />
+        {/* Starts the photo downloading as soon as this markup arrives,
+            instead of when the stylesheet's background rule is applied:
+            it is the page's largest paint. It picks the same file the CSS
+            will (theme; 1280px under 800px wide, 2560px from 1600px), so
+            still only one photo downloads. */}
+        <script dangerouslySetInnerHTML={{ __html: heroPhotoPreload }} />
         <div className="hero-split-copy">
           {/* The owner's headline, capitalized as they wrote it. The space
               before the accent is real text, so it reads "Another
@@ -132,8 +139,6 @@ export function HeroSection() {
           <MissedRevenueCalculator />
         </div>
 
-        {/* Every service group, one compact row (2026-10-17). */}
-        <ServiceGroupsRow />
       </div>
 
       {site.stats.length > 0 && (

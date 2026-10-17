@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { MainHeader } from "@/components/layout/MainHeader";
 import { MainFooter } from "@/components/layout/MainFooter";
 import { HeroSection } from "@/components/sections/HeroSection";
+import { ServicesShowcase } from "@/components/sections/ServicesShowcase";
 import { ToolsMarqueeSection } from "@/components/sections/ToolsMarqueeSection";
 import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
@@ -39,7 +40,8 @@ export const metadata: Metadata = {
 
 /**
  * The homepage: the hero and the Lee Systems offer with its calculator, the
- * moving strip of tools, the journey, recent work, and the contact form.
+ * six service groups (ServicesShowcase, 2026-10-17), the moving strip of
+ * tools, the journey, recent work, and the contact form.
  * Business Mastery is linked from the footer only (the owner's call,
  * 2026-10-06). The order is the site fix
  * plan's, except that on 2026-09-28 the owner swapped the pricing promise for
@@ -54,6 +56,9 @@ export default function Home() {
 
       <main>
         <HeroSection />
+        {/* "What we do": the six service groups as a bento of tiles with
+            live previews, each linking to its page (2026-10-17). */}
+        <ServicesShowcase />
         <ToolsMarqueeSection />
         {/* "What Lee Systems Co. sets up" is out at the owner's request
             (2026-09-28). LeeSystemsSetupSection is intact; putting it back

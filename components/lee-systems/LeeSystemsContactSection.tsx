@@ -1,4 +1,4 @@
-import { LeeSystemsInquiryForm } from "@/components/lee-systems/LeeSystemsInquiryForm";
+import { LeeSystemsInquiryFormBlock } from "@/components/lee-systems/LeeSystemsInquiryFormBlock";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { leeSystemsAnchors } from "@/data/lee-systems";
 import { site } from "@/data/site";
@@ -13,8 +13,18 @@ import { site } from "@/data/site";
  *
  * tabIndex={-1} lets a hash jump to any of the three ids move focus there
  * too, so the next Tab lands in the form.
+ *
+ * The /services pages use it too (2026-10-17): `defaultNeed` starts "What do
+ * you need?" on the page's own service, and `legacyAnchors={false}` leaves
+ * out the two old ids, which only /lee-systems answers to.
  */
-export function LeeSystemsContactSection() {
+export function LeeSystemsContactSection({
+  defaultNeed = "",
+  legacyAnchors = true,
+}: {
+  defaultNeed?: string;
+  legacyAnchors?: boolean;
+} = {}) {
   return (
     <section
       id={leeSystemsAnchors.form}
@@ -42,15 +52,19 @@ export function LeeSystemsContactSection() {
           )}
         </div>
 
-        <div id={leeSystemsAnchors.auditForm} tabIndex={-1} className="outline-none">
-          <div
-            id={leeSystemsAnchors.websiteQuoteForm}
-            tabIndex={-1}
-            className="outline-none"
-          >
-            <LeeSystemsInquiryForm />
+        {legacyAnchors ? (
+          <div id={leeSystemsAnchors.auditForm} tabIndex={-1} className="outline-none">
+            <div
+              id={leeSystemsAnchors.websiteQuoteForm}
+              tabIndex={-1}
+              className="outline-none"
+            >
+              <LeeSystemsInquiryFormBlock />
+            </div>
           </div>
-        </div>
+        ) : (
+          <LeeSystemsInquiryFormBlock defaultNeed={defaultNeed} />
+        )}
       </div>
     </section>
   );
