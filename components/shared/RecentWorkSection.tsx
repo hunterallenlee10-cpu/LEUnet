@@ -74,7 +74,7 @@ function hostname(href: string): string {
   return new URL(href).hostname.replace(/^www\./, "");
 }
 
-function BuildBox({ project }: { project: Project }) {
+export function BuildBox({ project }: { project: Project }) {
   const external = isExternalHref(project.href);
   const domain = external ? hostname(project.href) : null;
 

@@ -729,6 +729,16 @@ export const legacyNeedLabels: Record<string, ServiceSlug | typeof NOT_SURE> = {
   "Not sure": NOT_SURE,
 };
 
+/**
+ * Recent Builds left out of a service page's "Related builds": the owner's
+ * own former ventures, which this site no longer lists (2026-10-17). They
+ * stay in Recent Builds on the homepage and /lee-systems as before.
+ */
+export const relatedBuildsExclude: readonly string[] = ["Thread T-Shirts", "H1 Performance"];
+
+/** How many related builds a service page shows. */
+export const relatedBuildsLimit = 6;
+
 /** "Who it's for" cards: the industry's name and picture, by id. */
 export function serviceIndustry(id: ServiceIndustryId): {
   name: string;

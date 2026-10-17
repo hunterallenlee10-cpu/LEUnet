@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/data/company";
 import { businessMasteryPage, contactPage } from "@/data/navigation";
 import { leeSystemsRoutes } from "@/data/lee-systems";
+import { servicePath, serviceSlugs, servicesRoutes } from "@/data/services";
 
 /**
  * /sitemap.xml: every page worth finding in search, on the www host. /book is
@@ -21,6 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "/",
     leeSystemsRoutes.home,
+    servicesRoutes.hub,
+    ...serviceSlugs.map(servicePath),
     businessMasteryPage,
     contactPage,
     "/legal",
