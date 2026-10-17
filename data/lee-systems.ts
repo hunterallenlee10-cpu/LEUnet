@@ -41,6 +41,8 @@ export const leeSystemsAnchors = {
   form: "contact-form",
   auditForm: "audit",
   websiteQuoteForm: "website-quote",
+  /** "Watch one system run your week", linked from the Follow-Up demo. */
+  fullWeek: "full-week",
 } as const;
 
 /** Sections of /lee-systems, linked from anywhere on the site. */
@@ -48,6 +50,7 @@ export const leeSystemsLinks = {
   services: `${leeSystemsRoutes.home}#${leeSystemsAnchors.services}`,
   automation: `${leeSystemsRoutes.home}#${leeSystemsAnchors.automation}`,
   websites: `${leeSystemsRoutes.home}#${leeSystemsAnchors.websites}`,
+  fullWeek: `${leeSystemsRoutes.home}#${leeSystemsAnchors.fullWeek}`,
 } as const;
 
 export const leeSystems = {
