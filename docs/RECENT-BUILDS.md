@@ -23,7 +23,7 @@ Copy this, fill it in, one per site:
 Name: Smith Plumbing
 Link: https://smithplumbing.com
 Old site, if we rebuilt one (optional): https://old-smithplumbing.com
-Kind of business and town: Plumber, Frederick MD
+Kind of business and town: Plumber, [Town, State]
 What we built:
 - Website
 - AI call assistant
