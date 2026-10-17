@@ -72,14 +72,14 @@ export function LeeSystemsChoiceSection() {
           <div className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:gap-y-0 sm:p-8">
             <div>
               <Clock
-                className="mx-auto h-9 w-9 text-neutral-500"
+                className="mx-auto h-9 w-9 text-neutral-400"
                 strokeWidth={1.25}
                 aria-hidden="true"
               />
               <h3 className="mt-4 text-2xl font-semibold text-neutral-200">
                 Do nothing
               </h3>
-              <p className="mt-1 text-sm text-neutral-500">Keep doing it by hand</p>
+              <p className="mt-1 text-sm text-neutral-400">Keep doing it by hand</p>
             </div>
             <div className="mt-6 border-t border-white/10 pt-6">
               <p>

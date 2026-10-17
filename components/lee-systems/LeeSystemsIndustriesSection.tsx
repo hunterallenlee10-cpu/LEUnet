@@ -64,7 +64,7 @@ export function LeeSystemsIndustriesSection() {
           </h2>
         </div>
 
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
           {leeSystemsIndustries.map(({ id, name, summary, examples }, i) => {
             const audience = industryInSentence(name);
             return (
@@ -74,7 +74,7 @@ export function LeeSystemsIndustriesSection() {
                 className="group/card overflow-hidden rounded-xl border border-white/10 bg-[#17181b] transition-colors duration-300 hover:border-brass-400/40 light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]"
               >
                 <div
-                  className="relative aspect-video overflow-hidden [--ind-glow:rgb(231_229_228/0.13)] light:bg-[#172554] light:[--ind-glow:rgb(212_168_87/0.2)]"
+                  className="relative aspect-[2/1] overflow-hidden md:aspect-video [--ind-glow:rgb(231_229_228/0.13)] light:bg-[#172554] light:[--ind-glow:rgb(212_168_87/0.2)]"
                   style={{
                     backgroundImage: `radial-gradient(60% 85% at ${22 + i * 11}% 30%, var(--ind-glow), transparent 70%)`,
                   }}

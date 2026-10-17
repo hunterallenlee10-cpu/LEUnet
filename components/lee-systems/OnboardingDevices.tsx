@@ -181,7 +181,7 @@ function PhoneAudit() {
   return (
     <div className="flex h-full flex-col px-[7cqw] pt-[22cqw]">
       <p className="text-center text-[16cqw] leading-none font-semibold text-white/90">9:41</p>
-      <p className="mb-[8cqw] text-center text-[5cqw] text-neutral-500">Tuesday</p>
+      <p className="mb-[8cqw] text-center text-[5cqw] text-neutral-400">Tuesday</p>
       <div className="space-y-[3cqw]">
         {notes.map((note, i) => (
           <Notification key={i} title={note.title} body={note.body} tone="alert" style={delay(i, 300)} />
@@ -346,7 +346,7 @@ function PhoneLive() {
   return (
     <div className="flex h-full flex-col px-[7cqw] pt-[22cqw]">
       <p className="text-center text-[16cqw] leading-none font-semibold text-white/90">9:41</p>
-      <p className="mb-[8cqw] text-center text-[5cqw] text-neutral-500">Tuesday</p>
+      <p className="mb-[8cqw] text-center text-[5cqw] text-neutral-400">Tuesday</p>
       <div className="space-y-[3cqw]">
         {notes.map((note, i) => (
           <Notification key={note.title} title={note.title} body={note.body} tone="good" style={delay(i * 2, 200)} />

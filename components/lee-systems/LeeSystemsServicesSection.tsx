@@ -16,6 +16,10 @@ import { MiniPreview } from "@/components/services/MiniPreview";
  *
  * Each card keeps its group's old `anchor` as its id, so links made to a
  * card before the service pages existed still land on it.
+ *
+ * Below md each card is a compact row, preview on the left and the words on
+ * the right (2026-10-17): stacked full-size, the six ran past 3,000px on a
+ * phone.
  */
 export function LeeSystemsServicesSection() {
   return (
@@ -38,27 +42,29 @@ export function LeeSystemsServicesSection() {
           </p>
         </div>
 
-        <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-3 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
           {serviceGroups.map(({ slug, anchor, icon, name, outcome }) => {
             const Icon = serviceIcons[icon];
             return (
               <li key={slug} id={anchor} className="flex scroll-mt-24">
                 <Link
                   href={servicePath(slug)}
-                  className="group flex w-full flex-col rounded-xl border border-white/10 bg-[#17181b] p-4 transition-colors duration-300 hover:border-brass-400/50 motion-reduce:transition-none sm:p-5 light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]"
+                  className="group grid w-full grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] items-center gap-4 rounded-xl border border-white/10 bg-[#17181b] p-3.5 transition-colors duration-300 hover:border-brass-400/50 motion-reduce:transition-none sm:p-5 md:flex md:flex-col md:items-stretch md:gap-0 light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]"
                 >
                   <MiniPreview slug={slug} />
-                  <span className="mt-5 flex items-center gap-2.5">
-                    <Icon aria-hidden="true" strokeWidth={1.5} className="h-5 w-5 shrink-0 text-brass-400" />
-                    <span className="text-xl font-bold tracking-tight text-white">{name}</span>
-                  </span>
-                  <span className="mt-2 leading-relaxed text-neutral-300">{outcome}</span>
-                  <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold text-brass-300 group-hover:underline group-hover:underline-offset-4">
+                  <span className="flex min-w-0 flex-col md:flex-1">
+                    <span className="flex items-center gap-2.5 md:mt-5">
+                      <Icon aria-hidden="true" strokeWidth={1.5} className="hidden h-5 w-5 shrink-0 text-brass-400 md:block" />
+                      <span className="text-base leading-snug font-bold tracking-tight text-white md:text-xl">{name}</span>
+                    </span>
+                    <span className="mt-1 text-sm leading-relaxed text-neutral-300 md:mt-2 md:text-base">{outcome}</span>
+                    <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-semibold text-brass-300 group-hover:underline group-hover:underline-offset-4 md:pt-4">
                     See how it works
                     <ArrowRight
                       aria-hidden="true"
                       className="h-4 w-4 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5"
                     />
+                    </span>
                   </span>
                 </Link>
               </li>

@@ -8,7 +8,9 @@ import {
   PairsSection,
   RelatedBuildsSection,
   ServiceDemoSection,
+  ServiceFaqSection,
   ServiceHero,
+  serviceBreadcrumbs,
   StepsSection,
 } from "@/components/services/ServicePageSections";
 import { ServicesCtaBand } from "@/components/services/ServicesHubSections";
@@ -19,6 +21,7 @@ import { site } from "@/data/site";
 import {
   getService,
   isServiceSlug,
+  serviceFaqs,
   servicePath,
   serviceSlugs,
   type ServiceGroup,
@@ -58,14 +61,15 @@ export async function generateMetadata({
 }
 
 /**
- * The service as schema.org data. The provider is Lee Enterprises
+ * The service as schema.org data, with the page's breadcrumb trail and its
+ * FAQ (2026-10-17). The provider is Lee Enterprises
  * Unlimited, the company; Lee Systems Co. is the brand it is sold under.
  * No price, rating or area served: none exist to cite.
  */
 function structuredData(group: ServiceGroup) {
   const url = `${SITE_URL}${servicePath(group.slug)}`;
-  return {
-    "@context": "https://schema.org",
+  const faqs = serviceFaqs(group);
+  const service = {
     "@type": "Service",
     "@id": `${url}#service`,
     name: group.name,
@@ -89,6 +93,33 @@ function structuredData(group: ServiceGroup) {
         itemOffered: { "@type": "Service", name: item.name, description: item.detail },
       })),
     },
+  };
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      service,
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: serviceBreadcrumbs(group).map((crumb, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: crumb.name,
+          item: `${SITE_URL}${crumb.href}`,
+        })),
+      },
+      ...(faqs.length > 0
+        ? [
+            {
+              "@type": "FAQPage",
+              mainEntity: faqs.map(({ question, answer }) => ({
+                "@type": "Question",
+                name: question,
+                acceptedAnswer: { "@type": "Answer", text: answer },
+              })),
+            },
+          ]
+        : []),
+    ],
   };
 }
 
@@ -116,6 +147,7 @@ export default async function ServicePage({
         <StepsSection group={group} />
         <RelatedBuildsSection group={group} />
         <PairsSection group={group} />
+        <ServiceFaqSection group={group} />
         <ServicesCtaBand
           title="Want this for your business?"
           body={`Book a free call about ${group.name}. We'll look at how your business runs and give you a flat quote up front.`}

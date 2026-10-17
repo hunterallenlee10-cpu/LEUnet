@@ -18,7 +18,7 @@
  * pages existed, kept so links already made to it still land.
  */
 
-import { leeSystemsIndustries } from "@/data/lee-systems";
+import { leeSystemsFaqs, leeSystemsIndustries } from "@/data/lee-systems";
 
 export const serviceSlugs = [
   "websites",
@@ -81,6 +81,12 @@ export interface ServiceGroup {
   demo: { label: string; intro: string };
   /** The service page's <title> and meta description (under 160 characters). */
   seo: { title: string; description: string };
+  /**
+   * Questions from the /lee-systems FAQ (`leeSystemsFaqs`, by exact
+   * question) that the service page repeats, because they fit it. The
+   * answers stay in that one list.
+   */
+  faqs: readonly string[];
 }
 
 interface ServiceStep {
@@ -184,6 +190,14 @@ export const serviceGroups: readonly ServiceGroup[] = [
       description:
         "Websites and online stores built to turn visitors into calls, bookings and sales. Built personally for you by Lee Systems Co.",
     },
+    faqs: [
+      "How much does a website cost?",
+      "Do I need my content and photos ready first?",
+      "Can you rebuild my existing website?",
+      "Do I own the website?",
+      "What happens after launch?",
+      "Can the site connect to the automation systems you build?",
+    ],
   },
   {
     slug: "get-found",
@@ -270,6 +284,10 @@ export const serviceGroups: readonly ServiceGroup[] = [
       description:
         "Local SEO, AI search, ads and outreach that help more people find your business and reach out. Built personally for you by Lee Systems Co.",
     },
+    faqs: [
+      "Will AI talk to my customers without me knowing?",
+      "Is the call really free?",
+    ],
   },
   {
     slug: "ai-calls",
@@ -344,6 +362,11 @@ export const serviceGroups: readonly ServiceGroup[] = [
       description:
         "A 24/7 AI phone assistant that answers your calls, books appointments and calls new leads back. Built personally for you by Lee Systems Co.",
     },
+    faqs: [
+      "What can the AI phone assistant do?",
+      "Will AI talk to my customers without me knowing?",
+      "Do I need to replace my current software?",
+    ],
   },
   {
     slug: "follow-up",
@@ -450,6 +473,11 @@ export const serviceGroups: readonly ServiceGroup[] = [
       description:
         "Instant lead replies, follow-ups, booking, reminders, review requests and invoice nudges that run on their own. Built by Lee Systems Co.",
     },
+    faqs: [
+      "Will AI talk to my customers without me knowing?",
+      "Do I need to replace my current software?",
+      "Can the site connect to the automation systems you build?",
+    ],
   },
   {
     slug: "content",
@@ -546,6 +574,10 @@ export const serviceGroups: readonly ServiceGroup[] = [
       description:
         "Short-form video editing, clips, posts and social media management across Instagram, TikTok, YouTube and Facebook. By Lee Systems Co.",
     },
+    faqs: [
+      "Will AI talk to my customers without me knowing?",
+      "Is the call really free?",
+    ],
   },
   {
     slug: "custom-ai",
@@ -642,6 +674,11 @@ export const serviceGroups: readonly ServiceGroup[] = [
       description:
         "Custom AI tools for the work you do by hand: voice-to-quote, photo reports, contract review and spreadsheet reports. By Lee Systems Co.",
     },
+    faqs: [
+      "What do you build the systems with?",
+      "Do I need to replace my current software?",
+      "Is the call really free?",
+    ],
   },
 ];
 
@@ -750,6 +787,17 @@ export function serviceIndustry(id: ServiceIndustryId): {
     name: industry.name,
     image: `/lee-systems/industries/${industry.id}.webp`,
   };
+}
+
+/** A service page's FAQ: its `faqs` questions with their /lee-systems answers. */
+export function serviceFaqs(group: ServiceGroup): { question: string; answer: string }[] {
+  return group.faqs.map((question) => {
+    const faq = leeSystemsFaqs.find((entry) => entry.question === question);
+    // A reworded question in data/lee-systems.ts fails the build here, rather
+    // than dropping silently off the service page.
+    if (!faq) throw new Error(`data/services.ts: no FAQ "${question}" in leeSystemsFaqs`);
+    return faq;
+  });
 }
 
 // Fails the build if a slug is missing from serviceGroups or listed twice.
