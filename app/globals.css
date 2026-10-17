@@ -2453,6 +2453,11 @@
     @apply bg-white/[0.04] border border-white/10 rounded-xl;
   }
 
+  /* Light: a white card on the pale page; the 4% wash reads as muddy grey. */
+  :root[data-theme="light"] .glass-card {
+    background-color: #ffffff;
+  }
+
   /* Button base styles */
   .btn-primary {
     @apply px-6 py-3 bg-amber-400 text-neutral-950 font-semibold rounded-lg hover:bg-amber-300 transition-all duration-200 hover:scale-105 active:scale-95;
