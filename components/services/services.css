@@ -94,6 +94,10 @@
 .svc-dot:nth-child(3) { animation-delay: 0.3s; }
 @keyframes svc-dot { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
 
+/* The photo inspection's scan line, top to bottom. */
+.svc-scan { animation: svc-scan 2.4s ease-in-out both; }
+@keyframes svc-scan { from { top: 0; } to { top: 100%; } }
+
 /* The Content demo's clip progress: the edit is shorter, so it runs faster. */
 .svc-reel-fast { animation: svc-progress 6s linear infinite; }
 .svc-reel-slow { animation: svc-progress 14s linear infinite; }
@@ -102,7 +106,8 @@
   .svc-enter,
   .svc-dot,
   .svc-reel-fast,
-  .svc-reel-slow {
+  .svc-reel-slow,
+  .svc-scan {
     animation: none !important;
   }
 }

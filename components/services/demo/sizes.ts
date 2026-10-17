@@ -27,7 +27,7 @@ export const demoSizes: Record<ServiceSlug, { stage: string; toolbar?: string }>
   "ai-calls": { stage: "h-[960px] sm:h-[500px]", toolbar: "min-h-[69px]" },
   "follow-up": { stage: "h-[1450px] sm:h-[880px] lg:h-[600px]" },
   content: { stage: "h-[1100px] sm:h-[640px] lg:h-[620px]" },
-  "custom-ai": { stage: "h-[700px] sm:h-[600px] lg:h-[540px]", toolbar: "min-h-[69px]" },
+  "custom-ai": { stage: "h-[900px] sm:h-[840px] lg:h-[520px]", toolbar: "min-h-[69px]" },
 };
 
 /** Each demo's title in its frame, shared with its placeholder. */
