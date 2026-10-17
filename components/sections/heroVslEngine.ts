@@ -538,10 +538,18 @@ const FINAL = {
       c = aces(c * uExposure);
       c = pow(c, vec3(1.0/2.2));
       if (uLight > 0.5) {
-        float a = clamp(max(mid.a, max(c.r, max(c.g, c.b))), 0.0, 1.0);
+        // Light on its own shows as its hue at a strength that ignores the
+        // faintest of it (gamma lifts that into a visible wash), over the
+        // objects' cover.
+        float m = max(c.r, max(c.g, c.b));
+        float g = smoothstep(0.12, 0.95, m);
+        float a = clamp(mid.a, 0.0, 1.0);
+        vec3 glow = m > 0.0 ? c / m * g : vec3(0.0);
+        float A = mix(g, 1.0, a);
+        c = mix(glow, c, a);
         float n = hash(vUv*uRes + floor(uTime*24.0)*13.17) - 0.5;
-        c = clamp(c + n * 0.03 * a, 0.0, a);
-        gl_FragColor = vec4(c, a);
+        c = clamp(c + n * 0.03 * a, 0.0, A);
+        gl_FragColor = vec4(c, A);
         return;
       }
       float v = smoothstep(0.95, 0.25, length(d*vec2(1.0, 1.15)));
@@ -1441,6 +1449,7 @@ function buildFilm(
   function applyTheme() {
     renderer.setClearColor(light ? 0x000000 : 0x050403, light ? 0 : 1);
     fog.color.copy(light ? lightFog : darkFog);
+    fog.density = light ? 0.022 : 0.052;
     haze.visible = !light;
     webFrameMat.color.copy(light ? webFrameLight : webFrameDark);
     finalPass.uniforms.uLight.value = light ? 1 : 0;

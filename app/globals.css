@@ -3161,32 +3161,34 @@
 
 /* The frame is a video, so the light theme leaves the picture dark, like a
    screen on the page: inside it the theme's colours are put back to the dark
-   ones, and only the frame's shadow changes, to the light theme's soft navy. */
+   theme's graphite and platinum (the same values as :root), so the video
+   looks the same in both themes. Only the frame's shadow changes, to the
+   light theme's soft navy. */
 :root[data-theme="light"] .ls-paths-frame {
   color-scheme: dark;
   --ink: 255 255 255;
-  --gold: 212 168 87;
-  --amber: 251 191 36;
-  --ground: 10 10 10;
-  --color-white: #fff;
-  --color-neutral-50: oklch(98.5% 0 none);
-  --color-neutral-100: oklch(97% 0 none);
-  --color-neutral-200: oklch(92.2% 0 none);
-  --color-neutral-300: oklch(87% 0 none);
-  --color-neutral-400: oklch(70.8% 0 none);
-  --color-neutral-500: oklch(55.6% 0 none);
-  --color-neutral-600: oklch(43.9% 0 none);
-  --color-neutral-700: oklch(37.1% 0 none);
-  --color-neutral-800: oklch(26.9% 0 none);
-  --color-neutral-900: oklch(20.5% 0 none);
-  --color-neutral-950: oklch(14.5% 0 none);
-  --color-brass-200: #ebd3a0;
-  --color-brass-300: #e0be78;
-  --color-brass-400: #d4a857;
-  --paths-hi: #f1d68f;
-  --paths-edge: #ecd08a;
-  --paths-lo: #b98a3e;
-  --paths-warm: 212 168 87;
+  --gold: 231 229 228;
+  --amber: 231 229 228;
+  --ground: 14 15 17;
+  --color-white: #f4f4f5;
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #36393e;
+  --color-neutral-800: #26282c;
+  --color-neutral-900: #17181b;
+  --color-neutral-950: #0e0f11;
+  --color-brass-200: #ffffff;
+  --color-brass-300: #f5f5f4;
+  --color-brass-400: #e7e5e4;
+  --paths-hi: #ffffff;
+  --paths-edge: #f5f5f4;
+  --paths-lo: #c9c6c2;
+  --paths-warm: 231 229 228;
   border-color: rgb(15 26 46 / 0.12);
   box-shadow:
     0 40px 80px -36px rgb(15 26 46 / 0.45),
