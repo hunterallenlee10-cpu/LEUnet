@@ -19,7 +19,7 @@
    --------------------------------------------------------------------------- */
 
 .hero-split {
-  background: radial-gradient(120% 90% at 50% 0%, #0b0a07 0%, #060606 60%, #000 100%);
+  background: radial-gradient(120% 90% at 50% 0%, #1a1b1f 0%, #0e0f11 60%, #0a0b0c 100%);
 }
 
 /* Light: the same pool of light from the top, in daylight greys. The gold
@@ -96,14 +96,32 @@
       rgb(var(--gold) / 0.03) 45%,
       transparent 75%
     ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='347' height='347' fill='%23d4d4d8'%3E%3Ccircle cx='327' cy='76' r='1.1' fill-opacity='0.42'/%3E%3Ccircle cx='108' cy='120' r='1.5' fill-opacity='0.52'/%3E%3Ccircle cx='236' cy='40' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='211' cy='336' r='0.7' fill-opacity='0.67'/%3E%3Ccircle cx='166' cy='16' r='0.8' fill-opacity='0.42'/%3E%3Ccircle cx='305' cy='340' r='1.3' fill-opacity='0.50'/%3E%3Ccircle cx='163' cy='198' r='1.5' fill-opacity='0.42'/%3E%3Ccircle cx='288' cy='137' r='0.8' fill-opacity='0.57'/%3E%3Ccircle cx='233' cy='104' r='0.7' fill-opacity='0.36'/%3E%3Ccircle cx='144' cy='81' r='0.8' fill-opacity='0.48'/%3E%3Ccircle cx='80' cy='164' r='1.2' fill-opacity='0.36'/%3E%3C/svg%3E") 0 0 / 347px 347px,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='523' height='523' fill='%23d4d4d8'%3E%3Ccircle cx='241' cy='297' r='0.9' fill-opacity='0.56'/%3E%3Ccircle cx='210' cy='456' r='1.0' fill-opacity='0.75'/%3E%3Ccircle cx='324' cy='467' r='0.8' fill-opacity='0.64'/%3E%3Ccircle cx='443' cy='349' r='1.8' fill-opacity='0.68'/%3E%3Ccircle cx='385' cy='411' r='1.7' fill-opacity='0.54'/%3E%3Ccircle cx='517' cy='309' r='1.8' fill-opacity='0.30'/%3E%3Ccircle cx='233' cy='3' r='0.8' fill-opacity='0.59'/%3E%3Ccircle cx='278' cy='149' r='1.5' fill-opacity='0.64'/%3E%3Ccircle cx='475' cy='216' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='365' cy='464' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='5' cy='74' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='320' cy='352' r='0.9' fill-opacity='0.67'/%3E%3Ccircle cx='60' cy='268' r='0.8' fill-opacity='0.68'/%3E%3C/svg%3E") 120px 60px / 523px 523px;
+}
+
+.hero-split-top::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='431' height='431' fill='%23d4d4d8'%3E%3Ccircle cx='263' cy='427' r='1.5' fill-opacity='0.81'/%3E%3Ccircle cx='126' cy='269' r='1.2' fill-opacity='0.87'/%3E%3Ccircle cx='251' cy='224' r='1.0' fill-opacity='0.59'/%3E%3Ccircle cx='317' cy='237' r='1.4' fill-opacity='0.81'/%3E%3Ccircle cx='408' cy='109' r='2.2' fill-opacity='0.61'/%3E%3Ccircle cx='33' cy='421' r='1.2' fill-opacity='0.89'/%3E%3C/svg%3E") 60px 200px / 431px 431px;
+  animation: heroTwinkle 6s ease-in-out infinite;
+  will-change: opacity;
+}
+
+/* Light keeps the dots gold, its one touch of the brand colour; dark draws
+   them in platinum. */
+:root[data-theme="light"] .hero-split-top::before {
+  background:
+    radial-gradient(
+      70% 45% at 50% 0%,
+      rgb(var(--gold) / 0.09) 0%,
+      rgb(var(--gold) / 0.03) 45%,
+      transparent 75%
+    ),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='347' height='347' fill='%23d9b25f'%3E%3Ccircle cx='327' cy='76' r='1.1' fill-opacity='0.42'/%3E%3Ccircle cx='108' cy='120' r='1.5' fill-opacity='0.52'/%3E%3Ccircle cx='236' cy='40' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='211' cy='336' r='0.7' fill-opacity='0.67'/%3E%3Ccircle cx='166' cy='16' r='0.8' fill-opacity='0.42'/%3E%3Ccircle cx='305' cy='340' r='1.3' fill-opacity='0.50'/%3E%3Ccircle cx='163' cy='198' r='1.5' fill-opacity='0.42'/%3E%3Ccircle cx='288' cy='137' r='0.8' fill-opacity='0.57'/%3E%3Ccircle cx='233' cy='104' r='0.7' fill-opacity='0.36'/%3E%3Ccircle cx='144' cy='81' r='0.8' fill-opacity='0.48'/%3E%3Ccircle cx='80' cy='164' r='1.2' fill-opacity='0.36'/%3E%3C/svg%3E") 0 0 / 347px 347px,
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='523' height='523' fill='%23d9b25f'%3E%3Ccircle cx='241' cy='297' r='0.9' fill-opacity='0.56'/%3E%3Ccircle cx='210' cy='456' r='1.0' fill-opacity='0.75'/%3E%3Ccircle cx='324' cy='467' r='0.8' fill-opacity='0.64'/%3E%3Ccircle cx='443' cy='349' r='1.8' fill-opacity='0.68'/%3E%3Ccircle cx='385' cy='411' r='1.7' fill-opacity='0.54'/%3E%3Ccircle cx='517' cy='309' r='1.8' fill-opacity='0.30'/%3E%3Ccircle cx='233' cy='3' r='0.8' fill-opacity='0.59'/%3E%3Ccircle cx='278' cy='149' r='1.5' fill-opacity='0.64'/%3E%3Ccircle cx='475' cy='216' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='365' cy='464' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='5' cy='74' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='320' cy='352' r='0.9' fill-opacity='0.67'/%3E%3Ccircle cx='60' cy='268' r='0.8' fill-opacity='0.68'/%3E%3C/svg%3E") 120px 60px / 523px 523px;
 }
 
-.hero-split-top::after {
+:root[data-theme="light"] .hero-split-top::after {
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='431' height='431' fill='%23d9b25f'%3E%3Ccircle cx='263' cy='427' r='1.5' fill-opacity='0.81'/%3E%3Ccircle cx='126' cy='269' r='1.2' fill-opacity='0.87'/%3E%3Ccircle cx='251' cy='224' r='1.0' fill-opacity='0.59'/%3E%3Ccircle cx='317' cy='237' r='1.4' fill-opacity='0.81'/%3E%3Ccircle cx='408' cy='109' r='2.2' fill-opacity='0.61'/%3E%3Ccircle cx='33' cy='421' r='1.2' fill-opacity='0.89'/%3E%3C/svg%3E") 60px 200px / 431px 431px;
-  animation: heroTwinkle 6s ease-in-out infinite;
-  will-change: opacity;
 }
 
 @keyframes heroTwinkle {
@@ -157,10 +175,10 @@
   min-height: 3.5rem;
   padding: 1rem 2.75rem;
   border-radius: 0.75rem;
-  background: linear-gradient(180deg, #e8c983 0%, var(--color-brass-400) 55%, #bf954b 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #e7e5e4 55%, #c9c6c2 100%);
   box-shadow:
-    inset 0 1px 0 rgb(var(--ink) / 0.35),
-    0 12px 32px -12px rgb(var(--gold) / 0.5);
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 12px 32px -12px rgb(231 229 228 / 0.25);
   color: var(--color-neutral-950);
   font-size: clamp(1rem, 1.3vw, 1.25rem);
   font-weight: 600;
@@ -208,7 +226,7 @@
   padding: calc(1rem - 1px) 1.75rem;
   border: 1px solid rgb(var(--gold) / 0.55);
   border-radius: 0.75rem;
-  background: rgb(12 10 6 / 0.55);
+  background: rgb(14 15 17 / 0.55);
   color: var(--color-brass-200);
   font-size: clamp(1rem, 1.3vw, 1.25rem);
   font-weight: 600;
@@ -283,7 +301,7 @@
     radial-gradient(
       70% 80% at 18% 100%,
       rgb(var(--gold) / 0.2) 0%,
-      rgba(140, 105, 40, 0.06) 46%,
+      rgb(113 113 122 / 0.06) 46%,
       transparent 72%
     ),
     radial-gradient(
@@ -435,7 +453,7 @@
 .calc {
   border: 1px solid rgb(var(--ink) / 0.1);
   border-radius: 1.5rem;
-  background: linear-gradient(180deg, rgba(28, 28, 27, 0.92), rgba(18, 18, 17, 0.92));
+  background: linear-gradient(180deg, rgb(28 29 32 / 0.92), rgb(19 20 23 / 0.92));
   box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.9);
   padding: clamp(1.25rem, 3.5vw, 2.25rem);
 }
@@ -644,7 +662,7 @@
 
 .calc-part[aria-checked="true"] .calc-switch::after {
   transform: translateX(1.25rem);
-  background: #f2ede4;
+  background: #ffffff;
 }
 
 :root[data-theme="light"] .calc-part[aria-checked="true"] .calc-switch::after {
@@ -729,7 +747,7 @@
   margin-top: calc((4px - 1.375rem) / 2);
   border: 5px solid var(--color-brass-400);
   border-radius: 9999px;
-  background: #f2ede4;
+  background: #ffffff;
   box-shadow: 0 0 0 4px rgb(var(--gold) / 0.15);
 }
 
@@ -739,16 +757,16 @@
   height: 1.375rem;
   border: 5px solid var(--color-brass-400);
   border-radius: 9999px;
-  background: #f2ede4;
+  background: #ffffff;
   box-shadow: 0 0 0 4px rgb(var(--gold) / 0.15);
 }
 
 .calc-range:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 4px rgba(224, 190, 120, 0.55);
+  box-shadow: 0 0 0 4px rgb(231 229 228 / 0.45);
 }
 
 .calc-range:focus-visible::-moz-range-thumb {
-  box-shadow: 0 0 0 4px rgba(224, 190, 120, 0.55);
+  box-shadow: 0 0 0 4px rgb(231 229 228 / 0.45);
 }
 
 /* Light: a white thumb in a navy ring. Each pseudo-element needs its own
@@ -799,7 +817,7 @@
   row-gap: 0.25rem;
   padding: 0.875rem 1rem;
   border-top: 1px solid rgb(var(--ink) / 0.08);
-  background: rgba(8, 8, 8, 0.72);
+  background: rgb(14 15 17 / 0.72);
   backdrop-filter: blur(8px);
 }
 
@@ -908,6 +926,13 @@
   -webkit-font-smoothing: antialiased;
 }
 
+/* The light theme's film is drawn on nothing (heroVslEngine.ts), over the
+   page's own ground. */
+:root[data-theme="light"] .vt {
+  background: linear-gradient(to bottom, rgb(var(--ground)) calc(100% - 5rem), rgb(var(--ground) / 0));
+  color: #0f1a2e;
+}
+
 .vt-gl,
 .vt-gl canvas {
   position: absolute;
@@ -997,6 +1022,10 @@
   letter-spacing: -0.032em;
 }
 
+:root[data-theme="light"] .vt-cap {
+  color: #0f1a2e;
+}
+
 .vt[data-orient="tall"] .vt-cap {
   top: 0;
   bottom: auto;
@@ -1034,6 +1063,10 @@
   -webkit-text-fill-color: transparent;
 }
 
+:root[data-theme="light"] .vt-cap em {
+  background-image: linear-gradient(180deg, #2f56c9, #1e40af 60%, #1a3794);
+}
+
 .vt-sub {
   display: block;
   margin-top: 22px;
@@ -1041,6 +1074,10 @@
   font-size: max(24px, calc(13px / var(--k)));
   font-weight: 500;
   letter-spacing: 0;
+}
+
+:root[data-theme="light"] .vt-sub {
+  color: #1e40af;
 }
 
 /* The running count: red money lost, then gold money recovered. */
@@ -1077,6 +1114,10 @@
   font-weight: 500;
 }
 
+:root[data-theme="light"] .vt-count span {
+  color: #5b6578;
+}
+
 /* On tall screens the vault can rise behind the count's word. */
 .vt[data-orient="tall"] .vt-count span {
   text-shadow: 0 0 14px rgb(var(--ground) / 0.9);
@@ -1100,6 +1141,16 @@
   box-shadow: 0 0 12px #ff5a4e;
 }
 
+:root[data-theme="light"] .vt-count[data-mode="lost"] b {
+  color: #dc2626;
+  text-shadow: none;
+}
+
+:root[data-theme="light"] .vt-count[data-mode="lost"] i {
+  background: #dc2626;
+  box-shadow: 0 0 10px rgb(220 38 38 / 0.45);
+}
+
 .vt-count[data-mode="gain"] b {
   color: #f0cf86;
   text-shadow: 0 0 26px rgb(var(--gold) / 0.4);
@@ -1108,6 +1159,15 @@
 .vt-count[data-mode="gain"] i {
   background: var(--color-brass-400);
   box-shadow: 0 0 12px var(--color-brass-400);
+}
+
+:root[data-theme="light"] .vt-count[data-mode="gain"] b {
+  color: #1e40af;
+  text-shadow: none;
+}
+
+:root[data-theme="light"] .vt-count[data-mode="gain"] i {
+  box-shadow: 0 0 10px rgb(30 64 175 / 0.45);
 }
 
 /* The labels the camera carries: each crack's problem, then its fix, and
@@ -1148,6 +1208,10 @@
   color: #d9cfbf;
 }
 
+:root[data-theme="light"] .vt-lab-p {
+  color: #334155;
+}
+
 .vt-lab-p::before {
   content: "";
   width: 7px;
@@ -1157,8 +1221,17 @@
   box-shadow: 0 0 10px #ff5a4e;
 }
 
+:root[data-theme="light"] .vt-lab-p::before {
+  background: #dc2626;
+  box-shadow: 0 0 8px rgb(220 38 38 / 0.45);
+}
+
 .vt-lab-f {
   color: #f0cf86;
+}
+
+:root[data-theme="light"] .vt-lab-f {
+  color: #1e40af;
 }
 
 .vt-lab-f::before {
@@ -1173,6 +1246,10 @@
   font-size: 14px;
   line-height: 1.25;
   letter-spacing: 0.14em;
+}
+
+:root[data-theme="light"] .vt-tag {
+  color: #475266;
 }
 
 /* The fixes at work: a call answered, a text sent, a lead filed. */
@@ -1192,6 +1269,15 @@
   transform-origin: 0 0;
 }
 
+/* White cards on the light film. */
+:root[data-theme="light"] .vt-card {
+  border-color: #e1e6ee;
+  background: rgb(255 255 255 / 0.94);
+  box-shadow:
+    0 20px 50px -24px rgb(15 26 46 / 0.22),
+    0 2px 6px -2px rgb(15 26 46 / 0.08);
+}
+
 .vt-card-h {
   display: flex;
   align-items: center;
@@ -1203,6 +1289,10 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+:root[data-theme="light"] .vt-card-h {
+  color: #1e40af;
 }
 
 .vt-card-h svg {
@@ -1221,6 +1311,10 @@
   font-size: 11px;
 }
 
+:root[data-theme="light"] .vt-live {
+  color: #5b6578;
+}
+
 .vt-live::before {
   content: "";
   width: 6px;
@@ -1230,11 +1324,20 @@
   box-shadow: 0 0 8px #5fd38a;
 }
 
+:root[data-theme="light"] .vt-live::before {
+  background: #047857;
+  box-shadow: none;
+}
+
 .vt-card p {
   min-height: 52px;
   color: #f4eee2;
   font-size: 19px;
   line-height: 1.38;
+}
+
+:root[data-theme="light"] .vt-card p {
+  color: #0f1a2e;
 }
 
 .vt-wave {
@@ -1252,6 +1355,10 @@
   background: linear-gradient(180deg, #f3d995, #c4913f);
 }
 
+:root[data-theme="light"] .vt-wave i {
+  background: linear-gradient(180deg, #2f56c9, #1a3794);
+}
+
 .vt-bubble {
   display: inline-block;
   padding: 12px 16px;
@@ -1259,6 +1366,10 @@
   background: var(--color-brass-400);
   color: #14110b;
   font-weight: 500;
+}
+
+:root[data-theme="light"] .vt-bubble {
+  color: #f6f7f9;
 }
 
 .vt-meta {
@@ -1271,6 +1382,10 @@
   text-transform: uppercase;
 }
 
+:root[data-theme="light"] .vt-meta {
+  color: #5b6578;
+}
+
 .vt-lead {
   display: flex;
   align-items: center;
@@ -1280,6 +1395,10 @@
   font-size: 20px;
   line-height: normal;
   font-weight: 650;
+}
+
+:root[data-theme="light"] .vt-lead {
+  color: #0f1a2e;
 }
 
 .vt-lead::before {
@@ -1310,12 +1429,20 @@
   line-height: normal;
 }
 
+:root[data-theme="light"] .vt-row {
+  color: #334155;
+}
+
 .vt-row b {
   display: flex;
   align-items: center;
   gap: 8px;
   color: #f4eee2;
   font-weight: 600;
+}
+
+:root[data-theme="light"] .vt-row b {
+  color: #0f1a2e;
 }
 
 .vt-row b svg {
@@ -1370,6 +1497,10 @@
   white-space: nowrap;
 }
 
+:root[data-theme="light"] .vt-stat b {
+  color: #0f1a2e;
+}
+
 .vt-stat--lead b {
   font-size: 132px;
   line-height: 0.92;
@@ -1382,6 +1513,11 @@
   filter: drop-shadow(0 0 28px rgb(var(--gold) / 0.28));
 }
 
+:root[data-theme="light"] .vt-stat--lead b {
+  background-image: linear-gradient(180deg, #2f56c9 0%, #1e40af 55%, #1a3794 100%);
+  filter: none;
+}
+
 .vt[data-orient="tall"] .vt-stat--lead b {
   font-size: 120px;
 }
@@ -1392,6 +1528,10 @@
   color: #cfc5b4;
   font-size: max(18px, calc(12px / var(--k)));
   font-weight: 500;
+}
+
+:root[data-theme="light"] .vt-stat-label {
+  color: #475266;
 }
 
 .vt-stat--lead .vt-stat-label {
@@ -1413,6 +1553,10 @@
   line-height: 1.06;
   font-weight: 660;
   letter-spacing: -0.03em;
+}
+
+:root[data-theme="light"] .vt-headline {
+  color: #0f1a2e;
 }
 
 .vt[data-orient="tall"] .vt-headline {
@@ -1437,6 +1581,10 @@
   color: #e0be78;
   font-size: max(22px, calc(13px / var(--k)));
   font-weight: 500;
+}
+
+:root[data-theme="light"] .vt-terms {
+  color: #1e40af;
 }
 
 /* The real booking button and link (BookCallLink's lit gold "glow", and the
@@ -1512,6 +1660,16 @@
     border-color 0.2s ease,
     background-color 0.2s ease,
     opacity 0.35s ease;
+}
+
+:root[data-theme="light"] .vt-skip,
+:root[data-theme="light"] .vt-toggle {
+  background: rgb(255 255 255 / 0.75);
+}
+
+:root[data-theme="light"] .vt-skip:hover,
+:root[data-theme="light"] .vt-toggle:hover {
+  background: #e8eefb;
 }
 
 .vt-skip {
@@ -1637,7 +1795,7 @@
   border: 1px solid rgb(var(--amber) / 0.35);
   border-radius: 9999px;
   background: rgb(var(--amber) / 0.08);
-  color: #fcd34d;
+  color: #f5f5f4;
 }
 
 /* On the light page a capsule reads as a white chip resting on it, and the
@@ -1656,7 +1814,7 @@
   gap: 0.375rem;
   padding: 0.3125rem 0.75rem;
   border-radius: 9999px;
-  background: #fbbf24;
+  background: #e7e5e4;
   color: var(--color-neutral-950);
   font-size: 0.8125rem;
   font-weight: 700;
@@ -1699,7 +1857,7 @@
   width: 0.4375rem;
   height: 0.4375rem;
   border-radius: 9999px;
-  background: #fbbf24;
+  background: #e7e5e4;
   box-shadow: 0 0 0 0 rgb(var(--amber) / 0.6);
   animation: bmLivePulse 1.8s ease-out infinite;
 }
@@ -1720,7 +1878,7 @@
   height: 1.05em;
   margin-left: 2px;
   vertical-align: text-bottom;
-  background: #fbbf24;
+  background: #e7e5e4;
   animation: bmCaret 0.9s steps(1) infinite;
 }
 
@@ -1732,16 +1890,16 @@
 /* The year clock's (BmYearClock) arc gradient and its sweeping seconds tick.
    Classes rather than SVG attributes so the light theme can reach them. */
 .bm-clock-stop-a {
-  stop-color: #fde68a;
+  stop-color: #ffffff;
 }
 
 .bm-clock-stop-b {
-  stop-color: #f59e0b;
+  stop-color: #a8a5a0;
 }
 
 .bm-clock-tick {
-  stroke: #fde68a;
-  filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.9));
+  stroke: #ffffff;
+  filter: drop-shadow(0 0 4px rgb(231 229 228 / 0.6));
 }
 
 :root[data-theme="light"] .bm-clock-stop-a {
@@ -1820,8 +1978,8 @@
   height: 2.75rem;
   border: 1px solid rgb(var(--amber) / 0.35);
   border-radius: 9999px;
-  background: #0f0f0f;
-  color: #fcd34d;
+  background: #121316;
+  color: #f5f5f4;
   animation: bmNodeGlow 4.8s ease-out infinite;
 }
 
@@ -1860,7 +2018,7 @@
   width: 3px;
   height: 2.5rem;
   border-radius: 9999px;
-  background: linear-gradient(180deg, transparent, #fde68a);
+  background: linear-gradient(180deg, transparent, #ffffff);
   opacity: 0;
   animation: bmPathLight 4.8s linear infinite;
 }
@@ -1950,7 +2108,7 @@
   height: 2px;
   width: 100%;
   transform-origin: left;
-  background: linear-gradient(90deg, #f59e0b, #fde68a);
+  background: linear-gradient(90deg, #a8a5a0, #ffffff);
   animation: bmTabProgress 6s linear both;
 }
 
@@ -2099,10 +2257,10 @@
   width: var(--bm-badge);
   height: var(--bm-badge);
   border-radius: 0.75rem;
-  background: linear-gradient(180deg, #fcd34d 0%, #fbbf24 45%, #d97706 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #e7e5e4 55%, #c9c6c2 100%);
   box-shadow:
-    inset 0 1px 0 rgb(var(--ink) / 0.45),
-    0 10px 28px -8px rgb(var(--amber) / 0.55);
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 12px 32px -12px rgb(231 229 228 / 0.25);
   color: var(--color-neutral-950);
   font-size: 0.9375rem;
   font-weight: 800;
@@ -2210,7 +2368,7 @@
     100deg,
     var(--color-brass-200) 0%,
     var(--color-brass-400) 55%,
-    #bf954b 100%
+    #a8a5a0 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -2315,12 +2473,11 @@
 }
 
 @theme {
-  /* Lee Systems Co. accent. 400 is the brand colour (#D4A857); on the site's
-     near-black it measures about 8.7:1, and near-black text on a brass-400
-     button clears WCAG AA with room to spare. The Lee Systems pages use this
-     scale where the rest of the site uses amber, so the venture reads as its
-     own brand without leaving the house palette. Not `inline`: the light theme
-     re-points these variables, so the utilities have to read them. */
+  /* Lee Systems Co. accent, as first built in brass gold (#D4A857). The
+     Lee Systems pages use this scale where the rest of the site uses amber.
+     Both themes re-point it ("Light and dark themes" below: platinum in dark,
+     navy in light), which is why it isn't `inline`: the utilities have to
+     read the variables. */
   --color-brass-200: #ebd3a0;
   --color-brass-300: #e0be78;
   --color-brass-400: #d4a857;
@@ -2340,21 +2497,25 @@
 /* ---------------------------------------------------------------------------
    Light and dark themes
 
-   Dark is the default and the site as it was built. The light theme
-   ("Daylight & Navy") is turned on by `data-theme="light"` on <html>, set by
-   the theme switch (components/ui/ThemeToggle.tsx) and, before the first
-   paint, by the inline script in app/layout.tsx.
+   Two themes, picked by the owner on 2026-10-17:
+   - Dark, the default: "Graphite & Platinum". Soft graphite greys, white
+     text, and platinum (a warm silver) where the site was built in brass
+     gold. The gold logo is the one colour left on the page.
+   - Light: "Daylight & Navy", turned on by `data-theme="light"` on <html>,
+     set by the theme switch (components/ui/ThemeToggle.tsx) and, before the
+     first paint, by the inline script in app/layout.tsx.
 
    It works by re-pointing colour variables rather than restyling components:
    - Tailwind's own colour variables, so `text-white`, `bg-neutral-950`,
-     `text-amber-400`, `bg-brass-400` and the rest flip by themselves. The
-     neutral scale is mirrored (950, the page, becomes the lightest), white
-     becomes navy ink, and amber and brass become navy.
+     `text-amber-400`, `bg-brass-400` and the rest follow the theme. Amber
+     and brass are the accent's names from when it was gold: platinum in
+     dark, navy in light. In light the neutral scale is mirrored (950, the
+     page, becomes the lightest) and white becomes navy ink.
    - Four colours as bare RGB channels for this stylesheet, written
      `rgb(var(--ink) / 0.1)`: --ink (text, hairlines, white washes), --gold
-     (brass-400), --amber (amber-400) and --ground (the page).
-   Anything a variable can't express (a gold gradient, a canvas drawing) gets
-   a `:root[data-theme="light"]` rule next to its dark one.
+     and --amber (the accent, as above) and --ground (the page).
+   Anything a variable can't express (a gradient, a canvas drawing) gets a
+   `:root[data-theme="light"]` rule next to its dark one.
    --------------------------------------------------------------------------- */
 :root {
   /* The native UI (scrollbars, <select> popups, autofill) follows the theme.
@@ -2364,10 +2525,35 @@
   --radius: 0.625rem;
 
   --ink: 255 255 255;
-  --gold: 212 168 87;
-  --amber: 251 191 36;
-  --ground: 10 10 10;
-  --fg-dim: rgb(140 140 140);
+  --gold: 231 229 228;
+  --amber: 231 229 228;
+  --ground: 14 15 17;
+  --fg-dim: #8a8a93;
+
+  /* Graphite: a cool, slightly blue-grey scale in place of Tailwind's flat
+     neutral, so the page reads as graphite rather than black. */
+  --color-white: #f4f4f5;
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #36393e;
+  --color-neutral-800: #26282c;
+  --color-neutral-900: #17181b;
+  --color-neutral-950: #0e0f11;
+
+  /* Platinum where the gold was. 200 was the brightest gold, so it is
+     white. */
+  --color-amber-200: #ffffff;
+  --color-amber-300: #f5f5f4;
+  --color-amber-400: #e7e5e4;
+  --color-amber-500: #c9c6c2;
+  --color-brass-200: #ffffff;
+  --color-brass-300: #f5f5f4;
+  --color-brass-400: #e7e5e4;
 }
 
 :root[data-theme="light"] {
@@ -2498,11 +2684,11 @@
 
   .btn-ls-glow {
     @apply rounded-xl px-5 py-3 font-bold text-neutral-950 transition-[filter] duration-200 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
-    background: linear-gradient(180deg, #f3d995 0%, #ddb466 50%, #c4913f 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #e7e5e4 50%, #c9c6c2 100%);
     box-shadow:
       inset 0 1px 0 rgb(var(--ink) / 0.5),
       0 0 0 1px rgb(var(--gold) / 0.6),
-      0 12px 36px -10px rgb(226 170 72 / 0.75);
+      0 12px 36px -10px rgb(231 229 228 / 0.3);
   }
 
   /* Light: the same lit button in navy. */
@@ -2939,10 +3125,17 @@
   aspect-ratio: 3 / 2;
   border: 1px solid rgb(var(--ink) / 0.1);
   border-radius: 1rem;
+  /* The frame's accent: the bright, rim and deep stops of what lights up, and
+     the calls panel's tint. Platinum here; the light theme keeps the video in
+     its original brass (below). */
+  --paths-hi: #ffffff;
+  --paths-edge: #f5f5f4;
+  --paths-lo: #c9c6c2;
+  --paths-warm: 231 229 228;
   background: #0a0a0a;
   box-shadow:
     0 40px 90px -40px rgb(0 0 0 / 0.9),
-    0 0 70px -30px rgb(var(--gold) / 0.35);
+    0 0 70px -30px rgb(var(--gold) / 0.22);
 }
 
 /* The frame is a video, so the light theme leaves the picture dark, like a
@@ -2969,6 +3162,10 @@
   --color-brass-200: #ebd3a0;
   --color-brass-300: #e0be78;
   --color-brass-400: #d4a857;
+  --paths-hi: #f1d68f;
+  --paths-edge: #ecd08a;
+  --paths-lo: #b98a3e;
+  --paths-warm: 212 168 87;
   border-color: rgb(15 26 46 / 0.12);
   box-shadow:
     0 40px 80px -36px rgb(15 26 46 / 0.45),
@@ -2995,7 +3192,7 @@
     90deg,
     transparent,
     rgb(var(--gold) / 0.35) 40%,
-    #ecd08a 78%,
+    var(--paths-edge) 78%,
     rgb(var(--gold) / 0.25)
   );
   pointer-events: none;
@@ -3009,11 +3206,12 @@
 }
 
 /* The reference's panels are red, green and blue; here each colour is held
-   back to a glow on black so the frame stays in the brand's register: brass
-   for calls, green for follow-up, blue for the CRM. The top padding leaves
+   back to a glow on black so the frame stays in the brand's register: the
+   accent (platinum, or brass in the light theme) for calls, green for
+   follow-up, blue for the CRM. The top padding leaves
    the "Example" tag its own row; the bottom padding is the caption's. */
 .ls-paths-panel {
-  --tint: 212 168 87;
+  --tint: var(--paths-warm);
   position: relative;
   isolation: isolate;
   display: flex;
@@ -3086,7 +3284,7 @@
 }
 
 .ls-paths-panel[data-status="good"]::after {
-  background: linear-gradient(90deg, transparent, #f1d68f, transparent);
+  background: linear-gradient(90deg, transparent, var(--paths-hi), transparent);
 }
 
 .ls-paths-panel[data-status="bad"]::after {
@@ -3212,8 +3410,8 @@
 }
 
 .ls-paths-panel[data-status="good"] .ls-paths-orb {
-  border-color: #f1d68f;
-  background: linear-gradient(180deg, #f1d68f 0%, var(--color-brass-400) 55%, #b98a3e 100%);
+  border-color: var(--paths-hi);
+  background: linear-gradient(180deg, var(--paths-hi) 0%, var(--color-brass-400) 55%, var(--paths-lo) 100%);
   box-shadow:
     0 0 0 clamp(5px, 1.5cqw, 14px) rgb(var(--gold) / 0.14),
     0 0 clamp(24px, 7cqw, 72px) rgb(var(--gold) / 0.5);
@@ -3255,7 +3453,7 @@
 .ls-paths-panel[data-status="good"] .ls-paths-chip {
   border-color: rgb(var(--gold) / 0.55);
   background: rgb(var(--gold) / 0.14);
-  color: #f1d68f;
+  color: var(--paths-hi);
 }
 
 .ls-paths-panel[data-status="bad"] .ls-paths-chip {
@@ -3292,7 +3490,7 @@
 }
 
 .ls-paths-tag[data-mode="after"] .ls-paths-tag-run {
-  color: #f1d68f;
+  color: var(--paths-hi);
 }
 
 /* The caption: the reference's "Which campus will you choose?" line, which
@@ -3341,7 +3539,7 @@
 }
 
 .ls-paths-frame[data-mode="after"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
-  color: #f1d68f;
+  color: var(--paths-hi);
 }
 
 .ls-paths-frame[data-mode="before"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
@@ -3386,7 +3584,7 @@
 }
 
 .ls-paths-progress-run[data-run="after"] .ls-paths-progress-fill {
-  background: linear-gradient(90deg, #b98a3e, #f1d68f);
+  background: linear-gradient(90deg, var(--paths-lo), var(--paths-hi));
 }
 
 /* Paused: the picture dims under a white play disc, like a paused video. */
@@ -3506,7 +3704,7 @@
 .ls-paths-panel .ls-paths-chip[data-play] {
   border-color: rgb(var(--gold) / 0.6);
   background: rgb(0 0 0 / 0.6);
-  color: #f1d68f;
+  color: var(--paths-hi);
   font-weight: 700;
 }
 
@@ -3610,7 +3808,7 @@
   border-right: 1px solid;
   border-color: var(--color-brass-400);
   border-top-right-radius: 1rem;
-  filter: drop-shadow(0 0 4px rgb(var(--gold) / 0.8));
+  filter: drop-shadow(0 0 4px rgb(var(--gold) / 0.55));
 }
 
 /* A navy line glows less than a gold one on black, or it reads as blurred. */
@@ -3647,8 +3845,8 @@
 
 .ls-paths-node--right {
   border-color: var(--color-brass-400);
-  color: #f1d68f;
-  box-shadow: 0 0 12px rgb(var(--gold) / 0.6);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgb(var(--gold) / 0.4);
 }
 
 :root[data-theme="light"] .ls-paths-node--right {
@@ -3668,7 +3866,7 @@
 }
 
 .ls-paths-fork[data-mode="after"] .ls-paths-branch--right {
-  filter: drop-shadow(0 0 7px rgb(var(--gold)));
+  filter: drop-shadow(0 0 7px rgb(var(--gold) / 0.65));
 }
 
 :root[data-theme="light"] .ls-paths-fork[data-mode="after"] .ls-paths-branch--right {
@@ -3778,10 +3976,11 @@
    from value, not from geometry. Hence `.bmc-scrim`, a value gap laid under
    the column the way the old homepage hero laid one under its logo.
 
-   The warm pool from the previous hero is kept, at the same position and very
-   nearly the same alpha, as the first layer of `.bmc-field`. It is the reason
-   the section still reads gold rather than blue-black once the links are
-   drawn over it, and moving it above the canvas would wash the field out.
+   The pool from the previous hero is kept, at the same position, as the
+   first layer of `.bmc-field`, in platinum since the dark theme became
+   Graphite & Platinum. It is the reason the section reads lit rather than
+   flat black once the links are drawn over it, and moving it above the canvas
+   would wash the field out.
    --------------------------------------------------------------------------- */
 
 .bmc-field {
@@ -3791,28 +3990,29 @@
   overflow: hidden;
   pointer-events: none;
   background:
-    /* The previous hero's gold pool, high and centred. */
+    /* The previous hero's pool, high and centred. Platinum reads stronger
+       than gold on graphite, so it carries about two thirds of the alpha. */
     radial-gradient(
       90% 70% at 50% 12%,
-      rgb(var(--gold) / 0.13) 0%,
-      rgba(180, 120, 20, 0.045) 45%,
+      rgb(231 229 228 / 0.085) 0%,
+      rgb(168 165 160 / 0.03) 45%,
       transparent 75%
     ),
     /* A ground with a centre, so the frame is not flat black behind the field. */
-    radial-gradient(115% 95% at 50% 8%, #0a0d14 0%, #05070b 58%, #000 100%);
+    radial-gradient(115% 95% at 50% 8%, #121316 0%, #0b0c0e 58%, #000 100%);
 
   /* The canvas palette, as bare channels. BmHeroBackground reads these at
      draw time and again when the theme changes, so the field follows the
      theme like everything else on the page. */
-  --bmc-gold: 251, 191, 36;
-  --bmc-gold-lit: 253, 224, 150;
-  --bmc-gold-hot: 255, 244, 214;
-  --bmc-glow: 251, 191, 36;
-  --bmc-canopy: 8, 11, 18;
+  --bmc-gold: 231, 229, 228;
+  --bmc-gold-lit: 255, 255, 255;
+  --bmc-gold-hot: 255, 255, 255;
+  --bmc-glow: 201, 198, 194;
+  --bmc-canopy: 14, 15, 17;
   --bmc-links: 1;
 }
 
-/* Daylight: a pale sky with a navy pool where the gold one was, and a navy
+/* Daylight: a pale sky with a navy pool where the platinum one is, and a navy
    network drawn on it. "Lit" means deeper rather than brighter on a light
    ground, the engines keep a touch of gold as decoration, and the canopy is
    still cut from the ground colour. */

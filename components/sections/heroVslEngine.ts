@@ -1,4 +1,5 @@
 import {
+  AddEquation,
   AdditiveBlending,
   AmbientLight,
   BackSide,
@@ -8,6 +9,7 @@ import {
   CatmullRomCurve3,
   CircleGeometry,
   Color,
+  CustomBlending,
   CylinderGeometry,
   DirectionalLight,
   DoubleSide,
@@ -23,6 +25,7 @@ import {
   Mesh,
   MeshBasicMaterial,
   MeshStandardMaterial,
+  OneFactor,
   PerspectiveCamera,
   PlaneGeometry,
   PMREMGenerator,
@@ -38,6 +41,7 @@ import {
   SphereGeometry,
   Sprite,
   SpriteMaterial,
+  SrcAlphaFactor,
   sRGBEncoding,
   TorusGeometry,
   TubeGeometry,
@@ -46,6 +50,8 @@ import {
   Vector3,
   WebGLRenderer,
   WebGLRenderTarget,
+  ZeroFactor,
+  type Material,
   type Object3D,
   type Texture,
 } from "three";
@@ -178,6 +184,43 @@ const PANEL_CORNERS = [
   [0.5, 0.3225],
 ] as const;
 
+/** The website panel's colours: a dark glass screen, or in the light theme
+ *  a pale one in the site's navy. */
+const WEB_DARK = {
+  body: ["rgba(28,24,18,0.92)", "rgba(12,10,8,0.92)"],
+  frame: "rgba(240,205,130,0.95)",
+  bar: "rgba(255,255,255,0.06)",
+  dots: ["#c9a256", "#8a7a5c", "#5d5444"],
+  url: "rgba(255,255,255,0.08)",
+  title: "#f4eee2",
+  accent: "#d4a857",
+  lede: "rgba(244,238,226,0.35)",
+  button: ["#f3d995", "#c4913f"],
+  image: ["rgba(212,168,87,0.38)", "rgba(212,168,87,0.06)"],
+  imageEdge: "rgba(240,205,130,0.5)",
+  card: "rgba(255,255,255,0.05)",
+  cardEdge: "rgba(240,205,130,0.55)",
+  cardTitle: "rgba(244,238,226,0.5)",
+  cardText: "rgba(244,238,226,0.22)",
+};
+const WEB_LIGHT: typeof WEB_DARK = {
+  body: ["rgba(255,255,255,0.97)", "rgba(238,241,246,0.97)"],
+  frame: "rgba(30,64,175,0.9)",
+  bar: "rgba(15,26,46,0.05)",
+  dots: ["#c8962e", "#c3cad6", "#e1e6ee"],
+  url: "rgba(15,26,46,0.07)",
+  title: "#0f1a2e",
+  accent: "#1e40af",
+  lede: "rgba(15,26,46,0.25)",
+  button: ["#2f56c9", "#1a3794"],
+  image: ["rgba(30,64,175,0.22)", "rgba(30,64,175,0.04)"],
+  imageEdge: "rgba(30,64,175,0.35)",
+  card: "rgba(15,26,46,0.03)",
+  cardEdge: "rgba(30,64,175,0.3)",
+  cardTitle: "rgba(15,26,46,0.55)",
+  cardText: "rgba(15,26,46,0.2)",
+};
+
 /* ---------- the frame ----------
    The film was composed in two frames: 1600 x 900 for wide screens and
    900 x 1125 for tall ones (narrower than 1.2:1). On any other shape the
@@ -294,6 +337,9 @@ function roundRect(x: CanvasRenderingContext2D, X: number, Y: number, W: number,
   x.arcTo(X, Y, X + W, Y, r);
   x.closePath();
 }
+
+/** The site's light theme is on (lib/theme.ts sets it on <html>). */
+const lightTheme = () => document.documentElement.dataset.theme === "light";
 
 /* ---------- three helpers ---------- */
 
@@ -457,7 +503,14 @@ function studioEnvironment(renderer: WebGLRenderer) {
   return rt;
 }
 
-/** The last pass: tone, gamma, vignette, grain and a little colour fringe. */
+/**
+ * The last pass: tone, gamma, vignette, grain and a little colour fringe.
+ * In the light theme (`uLight`) the scene is drawn on nothing, and this pass
+ * hands the page a see-through picture instead: the objects at their own
+ * cover, and the light around them (glows, beams, sparks) at its own
+ * strength, so gold light tints the page as it would a pale wall. No
+ * vignette and no warm lift there; they would only grey the page.
+ */
 const FINAL = {
   uniforms: {
     tDiffuse: { value: null },
@@ -466,9 +519,10 @@ const FINAL = {
     uRes: { value: new Vector2(1, 1) },
     uCA: { value: 0.006 },
     uLift: { value: 0 },
+    uLight: { value: 0 },
   },
   vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
-  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime; uniform float uExposure; uniform vec2 uRes; uniform float uCA; uniform float uLift;
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime; uniform float uExposure; uniform vec2 uRes; uniform float uCA; uniform float uLift; uniform float uLight;
     varying vec2 vUv;
     vec3 aces(vec3 x){ return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14),0.0,1.0); }
     float hash(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
@@ -477,11 +531,19 @@ const FINAL = {
       float r2 = dot(d,d);
       vec2 off = d * uCA * (0.3 + 3.0*r2);
       vec3 c;
+      vec4 mid = texture2D(tDiffuse, vUv);
       c.r = texture2D(tDiffuse, vUv - off).r;
-      c.g = texture2D(tDiffuse, vUv).g;
+      c.g = mid.g;
       c.b = texture2D(tDiffuse, vUv + off).b;
       c = aces(c * uExposure);
       c = pow(c, vec3(1.0/2.2));
+      if (uLight > 0.5) {
+        float a = clamp(max(mid.a, max(c.r, max(c.g, c.b))), 0.0, 1.0);
+        float n = hash(vUv*uRes + floor(uTime*24.0)*13.17) - 0.5;
+        c = clamp(c + n * 0.03 * a, 0.0, a);
+        gl_FragColor = vec4(c, a);
+        return;
+      }
       float v = smoothstep(0.95, 0.25, length(d*vec2(1.0, 1.15)));
       c *= mix(0.5, 1.0, v);
       c += vec3(0.010, 0.007, 0.004) * (1.0 + uLift);
@@ -713,8 +775,9 @@ export function createHeroFilm(root: HTMLElement, opts: HeroFilmOptions = {}): H
   try {
     // No antialiasing on the canvas itself: the scene is drawn into the
     // composer's multisampled buffer, and the canvas only ever gets the
-    // final full-screen pass.
-    renderer = new WebGLRenderer({ canvas, powerPreference: "high-performance", ...GL_OPTIONS });
+    // final full-screen pass. A canvas that can be see-through, for the
+    // light theme; the dark film is drawn fully opaque on it.
+    renderer = new WebGLRenderer({ canvas, powerPreference: "high-performance", alpha: true, ...GL_OPTIONS });
   } catch {
     return null;
   }
@@ -757,7 +820,13 @@ function buildFilm(
   renderer.setPixelRatio(pr);
   renderer.setClearColor(0x050403, 1);
   const scene = new Scene();
-  scene.fog = new FogExp2(lin("#060504").getHex(), 0.052);
+  const fog = new FogExp2(lin("#060504").getHex(), 0.052);
+  scene.fog = fog;
+  // In the light theme the far side of the scene fades towards the page
+  // instead (`applyTheme`).
+  const darkFog = fog.color.clone();
+  const lightFog = lin("#f6f7f9");
+  let light = lightTheme();
   // `let`: a lost and restored WebGL context empties it, and it is drawn
   // again (`onContextRestored`).
   let envRT = studioEnvironment(renderer);
@@ -1174,6 +1243,8 @@ function buildFilm(
   });
   const webBack = new Mesh(new PlaneGeometry(1.02, 0.665), webFrameMat);
   scene.add(webBack);
+  const webFrameDark = webFrameMat.color.clone();
+  const webFrameLight = lin("#c3cad6");
   const WEBPOS = new Vector3();
   // where its coins leave from: the panel's button, in world space
   const WEB_SRC = new Vector3();
@@ -1185,20 +1256,21 @@ function buildFilm(
     const x = webCtx;
     const W = 1024;
     const H = 660;
+    const k = light ? WEB_LIGHT : WEB_DARK;
     x.clearRect(0, 0, W, H);
     const a = (from: number, to: number) => E.outCubic(clamp((q - from) / (to - from)));
     // glass body
     x.globalAlpha = a(0, 0.25);
     const bg = x.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, "rgba(28,24,18,0.92)");
-    bg.addColorStop(1, "rgba(12,10,8,0.92)");
+    bg.addColorStop(0, k.body[0]);
+    bg.addColorStop(1, k.body[1]);
     x.fillStyle = bg;
     roundRect(x, 8, 8, W - 16, H - 16, 28);
     x.fill();
     x.globalAlpha = 1;
     // frame draws on
     const fr = a(0, 0.3);
-    x.strokeStyle = "rgba(240,205,130,0.95)";
+    x.strokeStyle = k.frame;
     x.lineWidth = 4;
     x.setLineDash([3200 * fr, 4000]);
     roundRect(x, 8, 8, W - 16, H - 16, 28);
@@ -1206,34 +1278,34 @@ function buildFilm(
     x.setLineDash([]);
     // top bar
     x.globalAlpha = a(0.12, 0.35);
-    x.fillStyle = "rgba(255,255,255,0.06)";
+    x.fillStyle = k.bar;
     x.fillRect(10, 10, W - 20, 64);
-    ["#c9a256", "#8a7a5c", "#5d5444"].forEach((c, i) => {
+    k.dots.forEach((c, i) => {
       x.fillStyle = c;
       x.beginPath();
       x.arc(48 + i * 30, 42, 9, 0, Math.PI * 2);
       x.fill();
     });
-    x.fillStyle = "rgba(255,255,255,0.08)";
+    x.fillStyle = k.url;
     roundRect(x, 180, 26, 520, 32, 16);
     x.fill();
     x.globalAlpha = 1;
     // hero
-    x.fillStyle = "#f4eee2";
+    x.fillStyle = k.title;
     roundRect(x, 70, 140, 520 * a(0.25, 0.5), 46, 10);
     x.fill();
-    x.fillStyle = "#d4a857";
+    x.fillStyle = k.accent;
     roundRect(x, 70, 204, 380 * a(0.32, 0.56), 46, 10);
     x.fill();
-    x.fillStyle = "rgba(244,238,226,0.35)";
+    x.fillStyle = k.lede;
     roundRect(x, 70, 276, 460 * a(0.38, 0.6), 16, 8);
     x.fill();
     // button
     const btn = a(0.48, 0.68);
     x.globalAlpha = btn;
     const bgr = x.createLinearGradient(0, 322, 0, 376);
-    bgr.addColorStop(0, "#f3d995");
-    bgr.addColorStop(1, "#c4913f");
+    bgr.addColorStop(0, k.button[0]);
+    bgr.addColorStop(1, k.button[1]);
     x.fillStyle = bgr;
     roundRect(x, 70, 322 + (1 - btn) * 14, 200, 54, 14);
     x.fill();
@@ -1241,12 +1313,12 @@ function buildFilm(
     // image block
     x.globalAlpha = a(0.4, 0.66);
     const ig = x.createLinearGradient(640, 120, 960, 400);
-    ig.addColorStop(0, "rgba(212,168,87,0.38)");
-    ig.addColorStop(1, "rgba(212,168,87,0.06)");
+    ig.addColorStop(0, k.image[0]);
+    ig.addColorStop(1, k.image[1]);
     x.fillStyle = ig;
     roundRect(x, 650, 128, 300, 250, 18);
     x.fill();
-    x.strokeStyle = "rgba(240,205,130,0.5)";
+    x.strokeStyle = k.imageEdge;
     x.lineWidth = 2;
     roundRect(x, 650, 128, 300, 250, 18);
     x.stroke();
@@ -1256,17 +1328,17 @@ function buildFilm(
       const c = a(0.6 + i * 0.08, 0.82 + i * 0.06);
       const dy = (1 - c) * 24;
       x.globalAlpha = c;
-      x.fillStyle = "rgba(255,255,255,0.05)";
+      x.fillStyle = k.card;
       roundRect(x, 70 + i * 300, 440 + dy, 270, 150, 16);
       x.fill();
-      x.strokeStyle = "rgba(240,205,130,0.55)";
+      x.strokeStyle = k.cardEdge;
       x.lineWidth = 2;
       roundRect(x, 70 + i * 300, 440 + dy, 270, 150, 16);
       x.stroke();
-      x.fillStyle = "rgba(244,238,226,0.5)";
+      x.fillStyle = k.cardTitle;
       roundRect(x, 96 + i * 300, 474 + dy, 140, 14, 7);
       x.fill();
-      x.fillStyle = "rgba(244,238,226,0.22)";
+      x.fillStyle = k.cardText;
       roundRect(x, 96 + i * 300, 504 + dy, 200, 10, 5);
       x.fill();
       roundRect(x, 96 + i * 300, 526 + dy, 170, 10, 5);
@@ -1342,6 +1414,39 @@ function buildFilm(
   const dustPts = new Points(dGeo, dustMat);
   dustPts.frustumCulled = false;
   scene.add(dustPts);
+
+  /* ---------- the theme ---------- */
+  // Additive light only adds colour: it leaves the buffer's alpha alone, so
+  // the alpha holds just the objects' cover, which the light theme's last
+  // pass needs (the dark film never reads it). The same goes for the bloom
+  // added on top.
+  const lightOnly = (m: Material) => {
+    if (m.blending !== AdditiveBlending) return;
+    m.blending = CustomBlending;
+    m.blendEquation = AddEquation;
+    m.blendSrc = SrcAlphaFactor;
+    m.blendDst = OneFactor;
+    m.blendSrcAlpha = ZeroFactor;
+    m.blendDstAlpha = OneFactor;
+  };
+  scene.traverse((o) => {
+    const mat = (o as Partial<Mesh>).material;
+    if (mat) for (const m of Array.isArray(mat) ? mat : [mat]) lightOnly(m);
+  });
+  lightOnly(bloom.materialCopy);
+
+  // The light theme draws the scene on nothing and the page shows through
+  // (see FINAL): no dark ground, no warm haze behind it, and the website
+  // panel as a pale screen.
+  function applyTheme() {
+    renderer.setClearColor(light ? 0x000000 : 0x050403, light ? 0 : 1);
+    fog.color.copy(light ? lightFog : darkFog);
+    haze.visible = !light;
+    webFrameMat.color.copy(light ? webFrameLight : webFrameDark);
+    finalPass.uniforms.uLight.value = light ? 1 : 0;
+    webDrawn = -1;
+  }
+  applyTheme();
 
   /* ---------- the words, from the server's markup ---------- */
   const layer = need(".vt-ref");
@@ -2488,6 +2593,17 @@ function buildFilm(
   const sizeObserver = new ResizeObserver(onResize);
   sizeObserver.observe(root);
 
+  // The header's theme switch, mid-film: the next frame draws in the new
+  // theme, or this one again while the film holds still.
+  const themeObserver = new MutationObserver(() => {
+    const next = lightTheme();
+    if (next === light || destroyed) return;
+    light = next;
+    applyTheme();
+    if (!raf && !failed && !lost && !stale) renderAt(t);
+  });
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
   return {
     start() {
       armed = true;
@@ -2529,6 +2645,7 @@ function buildFilm(
       canvas.removeEventListener("webglcontextrestored", onContextRestored);
       viewObserver.disconnect();
       sizeObserver.disconnect();
+      themeObserver.disconnect();
 
       scene.traverse(disposeObject);
       coins.dispose();

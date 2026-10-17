@@ -82,11 +82,11 @@ type Palette = {
 };
 
 const DARK_PALETTE: Palette = {
-  gold: "251,191,36",
-  lit: "253,224,150",
-  hot: "255,244,214",
-  glow: "251,191,36",
-  canopy: "8,11,18",
+  gold: "231,229,228",
+  lit: "255,255,255",
+  hot: "255,255,255",
+  glow: "201,198,194",
+  canopy: "14,15,17",
   links: 1,
 };
 

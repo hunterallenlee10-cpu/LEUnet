@@ -37,7 +37,7 @@ const borderFor = (error?: string) =>
  *  a plain white card: the dark gradient has no light counterpart worth
  *  keeping, and a black shadow reads as dirt on a pale page. */
 const cardClass =
-  "relative rounded-3xl border border-white/10 bg-gradient-to-b from-[#1c1c1b]/90 to-[#121211]/90 p-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)] light:bg-none light:bg-neutral-900 light:shadow-[0_24px_60px_-28px_rgb(15_26_46/0.22)] md:p-9";
+  "relative rounded-3xl border border-white/10 bg-gradient-to-b from-[#1c1d20]/90 to-[#131417]/90 p-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)] light:bg-none light:bg-neutral-900 light:shadow-[0_24px_60px_-28px_rgb(15_26_46/0.22)] md:p-9";
 
 /** The order errors are checked in, which is the order focus goes to them. */
 const fieldOrder: Field[] = ["name", "email", "phone", "message"];
