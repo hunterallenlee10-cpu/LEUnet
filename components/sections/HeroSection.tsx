@@ -29,11 +29,13 @@ const offer = [
 ];
 
 /**
- * The homepage hero. First a full-screen headline, line and button over a
- * field of gold dots (the owner's design, 2026-09-28, which replaced the LEU
- * logo and the "Hire us to automate your business, or learn to build your
- * own." headline; the owner's headline "Never Miss Another Customer",
- * 2026-09-29, replaced "Elevate Your Business with AI"). A few seconds in,
+ * The homepage hero. First a full-screen headline, line and button over
+ * snowy mountains at night, or in the sun in light mode (the owner's ask,
+ * 2026-10-17, which replaced the field of gold dots of 2026-09-28; the dots
+ * had replaced the LEU logo and the "Hire us to automate your business, or
+ * learn to build your own." headline; the owner's headline "Never Miss
+ * Another Customer", 2026-09-29, replaced "Elevate Your Business with AI").
+ * A few seconds in,
  * "The Vault", a 3D film of what Lee Systems Co. sets up, plays over the
  * whole first screen in the headline's place, then hands back to it with a
  * "Replay animation" button (the owner's plan, 2026-09-29, and the owner's
@@ -65,6 +67,16 @@ export function HeroSection() {
       className="hero-split relative isolate flex flex-col overflow-hidden"
     >
       <HeroStage>
+        {/* The scene behind the headline (the owner's ask, 2026-10-17):
+            snowy mountains under the moon, or the same mountains in the sun
+            when the visitor's device is set to light mode. The sky, stars
+            and moon or sun are CSS; the mountains are
+            public/hero/mountains-*.svg, drawn by
+            scripts/build-hero-mountains.mjs. */}
+        <div className="hero-scene" aria-hidden="true">
+          <div className="hero-scene-orb" />
+          <div className="hero-scene-peaks" />
+        </div>
         <div className="hero-split-copy" data-hero-copy>
           {/* The owner's headline, capitalized as they wrote it. The space
               before the accent is real text, so it reads "Another

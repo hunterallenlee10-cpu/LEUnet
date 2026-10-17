@@ -4,9 +4,9 @@
    Homepage hero — "Split Ventures"
    Used only by components/sections/HeroSection.tsx.
 
-   A full-screen headline block over a field of gold dots (the owner's design,
-   2026-09-28), then one big call to hire Lee Systems Co. for websites and
-   automations beside the missed-revenue calculator (2026-10-06, replacing
+   A full-screen headline block over snowy mountains, at night or, in light
+   mode, in the sun (the owner's ask, 2026-10-17), then one big call to hire
+   Lee Systems Co. for websites and automations beside the missed-revenue calculator (2026-10-06, replacing
    the two halves for Lee Systems Co. and Business Mastery), and the
    statistics as a ribbon along the bottom edge. All motion stops under
    prefers-reduced-motion at the end of the block.
@@ -53,43 +53,54 @@
   padding: 7rem 1.25rem 5rem;
 }
 
-/* The field of gold dots, and a warm light from the top edge where the header
-   meets the hero. The dots are three small tiles of an SVG repeated at sizes
-   that don't line up (347, 523 and 431px), so the pattern never visibly
-   repeats: no elements, no script, about 2KB. They were inline SVG shapes
-   until a Lighthouse run showed those tripling the homepage's main-thread
-   work. The tiles are too sparse to count as the page's largest paint, so
-   the headline stays that. Both layers thin out towards the bottom, so the
-   block hands over to the section under it without an edge.
+/* The scene behind the headline (the owner's ask, 2026-10-17, replacing the
+   field of gold dots of 2026-09-28): snowy mountains under the moon, or, when
+   the visitor's device is set to light mode, the same mountains in the sun.
+   The sky is a gradient, the stars are three small tiles of an SVG repeated
+   at sizes that don't line up (347, 523 and 431px) so the pattern never
+   visibly repeats, and the moon or sun (`.hero-scene-orb`) is one round
+   element, so all of it fits any screen shape. The mountains
+   (`.hero-scene-peaks`) are public/hero/mountains-night.svg or -day.svg,
+   drawn by scripts/build-hero-mountains.mjs; they keep their bottom edge and
+   centre on any screen, cropping the sides on a narrow one, and only the
+   one the visitor sees is downloaded. None of it is large or detailed enough
+   to count as the page's largest paint, so the headline stays that. The
+   whole scene thins out over its last 6rem, so the hero hands over to the
+   section under it without an edge.
 
-   `::before` holds still. `::after` is a handful of brighter dots that fade
-   in and out, which reads as a slow twinkle; only its opacity animates, so
-   the browser does it without repainting. */
-.hero-split-top::before,
-.hero-split-top::after {
-  content: "";
+   `::before` holds the stars still. `::after` is a handful of brighter stars
+   that fade in and out, which reads as a slow twinkle; only its opacity
+   animates, so the browser does it without repainting. */
+.hero-scene {
   position: absolute;
   inset: 0;
   z-index: -1;
+  overflow: hidden;
   pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-}
-
-.hero-split-top::before {
   background:
-    radial-gradient(
-      70% 45% at 50% 0%,
-      rgba(212, 168, 87, 0.09) 0%,
-      rgba(212, 168, 87, 0.03) 45%,
-      transparent 75%
-    ),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='347' height='347' fill='%23d9b25f'%3E%3Ccircle cx='327' cy='76' r='1.1' fill-opacity='0.42'/%3E%3Ccircle cx='108' cy='120' r='1.5' fill-opacity='0.52'/%3E%3Ccircle cx='236' cy='40' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='211' cy='336' r='0.7' fill-opacity='0.67'/%3E%3Ccircle cx='166' cy='16' r='0.8' fill-opacity='0.42'/%3E%3Ccircle cx='305' cy='340' r='1.3' fill-opacity='0.50'/%3E%3Ccircle cx='163' cy='198' r='1.5' fill-opacity='0.42'/%3E%3Ccircle cx='288' cy='137' r='0.8' fill-opacity='0.57'/%3E%3Ccircle cx='233' cy='104' r='0.7' fill-opacity='0.36'/%3E%3Ccircle cx='144' cy='81' r='0.8' fill-opacity='0.48'/%3E%3Ccircle cx='80' cy='164' r='1.2' fill-opacity='0.36'/%3E%3C/svg%3E") 0 0 / 347px 347px,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='523' height='523' fill='%23d9b25f'%3E%3Ccircle cx='241' cy='297' r='0.9' fill-opacity='0.56'/%3E%3Ccircle cx='210' cy='456' r='1.0' fill-opacity='0.75'/%3E%3Ccircle cx='324' cy='467' r='0.8' fill-opacity='0.64'/%3E%3Ccircle cx='443' cy='349' r='1.8' fill-opacity='0.68'/%3E%3Ccircle cx='385' cy='411' r='1.7' fill-opacity='0.54'/%3E%3Ccircle cx='517' cy='309' r='1.8' fill-opacity='0.30'/%3E%3Ccircle cx='233' cy='3' r='0.8' fill-opacity='0.59'/%3E%3Ccircle cx='278' cy='149' r='1.5' fill-opacity='0.64'/%3E%3Ccircle cx='475' cy='216' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='365' cy='464' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='5' cy='74' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='320' cy='352' r='0.9' fill-opacity='0.67'/%3E%3Ccircle cx='60' cy='268' r='0.8' fill-opacity='0.68'/%3E%3C/svg%3E") 120px 60px / 523px 523px;
+    radial-gradient(90% 40% at 50% 100%, rgb(70 98 160 / 0.35) 0%, transparent 70%),
+    linear-gradient(to bottom, #02040b 0%, #050a1b 30%, #0b1633 62%, #18284d 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 6rem), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 6rem), transparent 100%);
 }
 
-.hero-split-top::after {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='431' height='431' fill='%23d9b25f'%3E%3Ccircle cx='263' cy='427' r='1.5' fill-opacity='0.81'/%3E%3Ccircle cx='126' cy='269' r='1.2' fill-opacity='0.87'/%3E%3Ccircle cx='251' cy='224' r='1.0' fill-opacity='0.59'/%3E%3Ccircle cx='317' cy='237' r='1.4' fill-opacity='0.81'/%3E%3Ccircle cx='408' cy='109' r='2.2' fill-opacity='0.61'/%3E%3Ccircle cx='33' cy='421' r='1.2' fill-opacity='0.89'/%3E%3C/svg%3E") 60px 200px / 431px 431px;
+.hero-scene::before,
+.hero-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: linear-gradient(to bottom, #000 25%, transparent 72%);
+  mask-image: linear-gradient(to bottom, #000 25%, transparent 72%);
+}
+
+.hero-scene::before {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='347' height='347' fill='%23eef2ff'%3E%3Ccircle cx='327' cy='76' r='1.1' fill-opacity='0.42'/%3E%3Ccircle cx='108' cy='120' r='1.5' fill-opacity='0.52'/%3E%3Ccircle cx='236' cy='40' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='211' cy='336' r='0.7' fill-opacity='0.67'/%3E%3Ccircle cx='166' cy='16' r='0.8' fill-opacity='0.42'/%3E%3Ccircle cx='305' cy='340' r='1.3' fill-opacity='0.50'/%3E%3Ccircle cx='163' cy='198' r='1.5' fill-opacity='0.42'/%3E%3Ccircle cx='288' cy='137' r='0.8' fill-opacity='0.57'/%3E%3Ccircle cx='233' cy='104' r='0.7' fill-opacity='0.36'/%3E%3Ccircle cx='144' cy='81' r='0.8' fill-opacity='0.48'/%3E%3Ccircle cx='80' cy='164' r='1.2' fill-opacity='0.36'/%3E%3C/svg%3E") 0 0 / 347px 347px,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='523' height='523' fill='%23eef2ff'%3E%3Ccircle cx='241' cy='297' r='0.9' fill-opacity='0.56'/%3E%3Ccircle cx='210' cy='456' r='1.0' fill-opacity='0.75'/%3E%3Ccircle cx='324' cy='467' r='0.8' fill-opacity='0.64'/%3E%3Ccircle cx='443' cy='349' r='1.8' fill-opacity='0.68'/%3E%3Ccircle cx='385' cy='411' r='1.7' fill-opacity='0.54'/%3E%3Ccircle cx='517' cy='309' r='1.8' fill-opacity='0.30'/%3E%3Ccircle cx='233' cy='3' r='0.8' fill-opacity='0.59'/%3E%3Ccircle cx='278' cy='149' r='1.5' fill-opacity='0.64'/%3E%3Ccircle cx='475' cy='216' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='365' cy='464' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='5' cy='74' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='320' cy='352' r='0.9' fill-opacity='0.67'/%3E%3Ccircle cx='60' cy='268' r='0.8' fill-opacity='0.68'/%3E%3C/svg%3E") 120px 60px / 523px 523px;
+}
+
+.hero-scene::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='431' height='431' fill='%23ffffff'%3E%3Ccircle cx='263' cy='427' r='1.5' fill-opacity='0.81'/%3E%3Ccircle cx='126' cy='269' r='1.2' fill-opacity='0.87'/%3E%3Ccircle cx='251' cy='224' r='1.0' fill-opacity='0.59'/%3E%3Ccircle cx='317' cy='237' r='1.4' fill-opacity='0.81'/%3E%3Ccircle cx='408' cy='109' r='2.2' fill-opacity='0.61'/%3E%3Ccircle cx='33' cy='421' r='1.2' fill-opacity='0.89'/%3E%3C/svg%3E") 60px 200px / 431px 431px;
   animation: heroTwinkle 6s ease-in-out infinite;
   will-change: opacity;
 }
@@ -101,6 +112,73 @@
   }
   50% {
     opacity: 0.15;
+  }
+}
+
+/* The moon: up on the right, clear of the headline and under the header's
+   band, with a cold halo. */
+.hero-scene-orb {
+  position: absolute;
+  top: max(6.5rem, 15%);
+  right: 11%;
+  width: clamp(3.25rem, 5.5vw, 5.75rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 64% 30%, rgb(170 160 135 / 0.35) 0 9%, transparent 10%),
+    radial-gradient(circle at 34% 58%, rgb(170 160 135 / 0.3) 0 13%, transparent 14%),
+    radial-gradient(circle at 60% 72%, rgb(170 160 135 / 0.22) 0 7%, transparent 8%),
+    radial-gradient(circle at 36% 32%, #fffbef 0%, #ece5d0 55%, #d3cab0 100%);
+  box-shadow:
+    0 0 2.5rem 0.5rem rgb(214 224 255 / 0.28),
+    0 0 9rem 3rem rgb(140 165 230 / 0.14);
+}
+
+.hero-scene-peaks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48%;
+  background: url("/hero/mountains-night.svg") center bottom / 100% 100% no-repeat;
+}
+
+/* A phone shows only the middle of the range, which is the low valley kept
+   clear for the headline; a shorter band there takes in more of its width,
+   out to the snowy peaks either side. */
+@media (min-width: 640px) {
+  .hero-scene-peaks {
+    height: 62%;
+  }
+}
+
+/* Light mode: a clear blue sky, the sun up on the left, no stars, and the
+   sunlit mountains, with the headline in dark ink so it reads on the sky. */
+@media (prefers-color-scheme: light) {
+  .hero-scene {
+    background:
+      radial-gradient(55% 45% at 16% 18%, rgb(255 236 186 / 0.55) 0%, transparent 70%),
+      linear-gradient(to bottom, #5b9be0 0%, #86bbec 32%, #bcdcf5 62%, #e7f3fc 100%);
+  }
+
+  .hero-scene::before,
+  .hero-scene::after {
+    display: none;
+  }
+
+  .hero-scene-orb {
+    left: 12%;
+    right: auto;
+    width: clamp(4rem, 7vw, 7rem);
+    background: radial-gradient(circle, #fffef6 0%, #fff6d2 62%, #ffe9a6 100%);
+    box-shadow:
+      0 0 2.5rem 1rem rgb(255 244 200 / 0.85),
+      0 0 8rem 3.5rem rgb(255 222 140 / 0.45),
+      0 0 18rem 8rem rgb(255 230 170 / 0.25);
+  }
+
+  .hero-scene-peaks {
+    background-image: url("/hero/mountains-day.svg");
   }
 }
 
@@ -223,6 +301,29 @@
 .hero-replay[data-kind="play"] .hero-replay-again,
 .hero-replay:not([data-kind="play"]) .hero-replay-play {
   display: none;
+}
+
+/* Light mode's sunny sky (`.hero-scene`) wants dark words: navy ink for the
+   headline and its line, and a deeper brass for the accent, which on the
+   pale sky still measures over 4.5:1. The buttons are already dark-on-gold
+   and gold-on-dark, so they keep their colours; the replay button only
+   keeps its dark backing on hover. */
+@media (prefers-color-scheme: light) {
+  .hero-split-title {
+    color: #0b1626;
+  }
+
+  .hero-split-accent {
+    color: #7a4f08;
+  }
+
+  .hero-split-lede {
+    color: #1c2a3c;
+  }
+
+  .hero-replay:hover {
+    background: rgb(12 10 6 / 0.72);
+  }
 }
 
 /* ---- the Lee Systems offer (the owner's ask, 2026-10-06) ----
@@ -786,7 +887,7 @@
    section where the motion is the point — it must keep working if that reset
    is ever narrowed. */
 @media (prefers-reduced-motion: reduce) {
-  .hero-split-top::after {
+  .hero-scene::after {
     animation: none;
   }
 
