@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 
+/* `light:` applies a utility only in the light theme, for the few colours a
+   variable can't flip on its own: `bg-[#121212] light:bg-[#fff]`. See "Light
+   and dark themes" below. `white` itself is navy ink in the light theme (that
+   is how `text-white` flips), so real white has to be written as #fff. */
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
 /* ---------------------------------------------------------------------------
    Homepage hero — "Split Ventures"
    Used only by components/sections/HeroSection.tsx.
@@ -14,6 +20,12 @@
 
 .hero-split {
   background: radial-gradient(120% 90% at 50% 0%, #0b0a07 0%, #060606 60%, #000 100%);
+}
+
+/* Light: the same pool of light from the top, in daylight greys. The gold
+   dots stay gold, the light theme's one touch of the brand colour. */
+:root[data-theme="light"] .hero-split {
+  background: radial-gradient(120% 90% at 50% 0%, #ffffff 0%, #f6f7f9 60%, #eef1f6 100%);
 }
 
 /* The headline block: a screen tall from 640px up (short of that on very
@@ -159,6 +171,17 @@
   filter: brightness(1.08);
 }
 
+:root[data-theme="light"] .btn-hero {
+  background: linear-gradient(180deg, #2f56c9 0%, #1e40af 55%, #1a3794 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25),
+    0 12px 32px -12px rgb(30 64 175 / 0.45);
+}
+
+:root[data-theme="light"] .btn-hero:hover {
+  filter: brightness(1.12);
+}
+
 .btn-hero:focus-visible {
   outline: 2px solid var(--color-brass-300);
   outline-offset: 3px;
@@ -202,6 +225,10 @@
     position: static;
     margin: 0;
   }
+}
+
+:root[data-theme="light"] .hero-replay {
+  background: rgb(255 255 255 / 0.7);
 }
 
 .hero-replay:hover {
@@ -413,6 +440,11 @@
   padding: clamp(1.25rem, 3.5vw, 2.25rem);
 }
 
+:root[data-theme="light"] .calc {
+  background: linear-gradient(180deg, #ffffff, #fbfcfd);
+  box-shadow: 0 30px 80px -40px rgb(15 26 46 / 0.3);
+}
+
 .calc-title {
   color: var(--color-white);
   font-size: clamp(1.375rem, 2.2vw, 1.625rem);
@@ -615,6 +647,10 @@
   background: #f2ede4;
 }
 
+:root[data-theme="light"] .calc-part[aria-checked="true"] .calc-switch::after {
+  background: #ffffff;
+}
+
 .calc-fields {
   margin-top: 0.5rem;
 }
@@ -715,6 +751,24 @@
   box-shadow: 0 0 0 4px rgba(224, 190, 120, 0.55);
 }
 
+/* Light: a white thumb in a navy ring. Each pseudo-element needs its own
+   rule; a browser drops a whole rule over a selector it doesn't know. */
+:root[data-theme="light"] .calc-range::-webkit-slider-thumb {
+  background: #ffffff;
+}
+
+:root[data-theme="light"] .calc-range::-moz-range-thumb {
+  background: #ffffff;
+}
+
+:root[data-theme="light"] .calc-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px rgb(29 78 216 / 0.35);
+}
+
+:root[data-theme="light"] .calc-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 4px rgb(29 78 216 / 0.35);
+}
+
 .calc-group {
   margin-top: 1.5rem;
   color: var(--color-brass-300);
@@ -749,6 +803,10 @@
   backdrop-filter: blur(8px);
 }
 
+:root[data-theme="light"] .hero-split-ribbon {
+  background: rgb(255 255 255 / 0.8);
+}
+
 .hero-split-stat {
   display: flex;
   align-items: baseline;
@@ -757,7 +815,7 @@
 }
 
 .hero-split-stat b {
-  color: rgb(251 191 36);
+  color: rgb(var(--amber));
   font-size: 1.0625rem;
   font-weight: 700;
 }
@@ -1582,6 +1640,16 @@
   color: #fcd34d;
 }
 
+/* On the light page a capsule reads as a white chip resting on it, and the
+   icon takes the navy accent. */
+:root[data-theme="light"] .bm-pill {
+  background: #ffffff;
+}
+
+:root[data-theme="light"] .bm-pill-icon {
+  color: #1e40af;
+}
+
 .bm-pill-badge {
   display: inline-flex;
   align-items: center;
@@ -1592,6 +1660,10 @@
   color: var(--color-neutral-950);
   font-size: 0.8125rem;
   font-weight: 700;
+}
+
+:root[data-theme="light"] .bm-pill-badge {
+  background: #1e40af;
 }
 
 /* The framed "screens" the rows show: a hairline, a lit top edge and a faint
@@ -1608,6 +1680,19 @@
     inset 0 1px 0 rgb(var(--ink) / 0.08),
     0 30px 80px -40px rgb(0 0 0 / 0.9),
     0 0 60px -30px rgb(var(--amber) / 0.25);
+}
+
+/* Light: a white sheet with a faint navy wash in the same corner, lifted by a
+   soft navy-tinted shadow instead of the black drop. */
+:root[data-theme="light"] .bm-shift-panel {
+  border-color: #e1e6ee;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgb(30 64 175 / 0.06), transparent 55%),
+    #ffffff;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 30px 60px -32px rgb(15 26 46 / 0.22),
+    0 2px 6px -2px rgb(15 26 46 / 0.06);
 }
 
 .bm-live-dot {
@@ -1637,6 +1722,39 @@
   vertical-align: text-bottom;
   background: #fbbf24;
   animation: bmCaret 0.9s steps(1) infinite;
+}
+
+:root[data-theme="light"] .bm-live-dot,
+:root[data-theme="light"] .bm-caret {
+  background: #1e40af;
+}
+
+/* The year clock's (BmYearClock) arc gradient and its sweeping seconds tick.
+   Classes rather than SVG attributes so the light theme can reach them. */
+.bm-clock-stop-a {
+  stop-color: #fde68a;
+}
+
+.bm-clock-stop-b {
+  stop-color: #f59e0b;
+}
+
+.bm-clock-tick {
+  stroke: #fde68a;
+  filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.9));
+}
+
+:root[data-theme="light"] .bm-clock-stop-a {
+  stop-color: #2f56c9;
+}
+
+:root[data-theme="light"] .bm-clock-stop-b {
+  stop-color: #1e3a8a;
+}
+
+:root[data-theme="light"] .bm-clock-tick {
+  stroke: #1d4ed8;
+  filter: drop-shadow(0 0 3px rgb(30 64 175 / 0.45));
 }
 
 @keyframes bmCaret {
@@ -1707,6 +1825,12 @@
   animation: bmNodeGlow 4.8s ease-out infinite;
 }
 
+/* The stop is a disc cut out of the panel, so on the white sheet it is white. */
+:root[data-theme="light"] .bm-path-node {
+  background: #ffffff;
+  color: #1e40af;
+}
+
 @keyframes bmNodeGlow {
   0%,
   45%,
@@ -1739,6 +1863,10 @@
   background: linear-gradient(180deg, transparent, #fde68a);
   opacity: 0;
   animation: bmPathLight 4.8s linear infinite;
+}
+
+:root[data-theme="light"] .bm-path-light {
+  background: linear-gradient(180deg, transparent, #2f56c9);
 }
 
 @keyframes bmPathLight {
@@ -1824,6 +1952,10 @@
   transform-origin: left;
   background: linear-gradient(90deg, #f59e0b, #fde68a);
   animation: bmTabProgress 6s linear both;
+}
+
+:root[data-theme="light"] .bm-tab-progress {
+  background: linear-gradient(90deg, #1e3a8a, #2f56c9);
 }
 
 .bm-tab-progress--full {
@@ -1966,6 +2098,14 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* The gold squares become the navy of the page's buttons. */
+:root[data-theme="light"] .bm-step-badge {
+  background: linear-gradient(180deg, #2f56c9 0%, #1e40af 55%, #1a3794 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25),
+    0 12px 32px -12px rgb(30 64 175 / 0.45);
+}
+
 /* The line: across the whole strip from md up, fading out past the first and
    last squares; below md, one piece down the left from each square to the
    next. */
@@ -2048,7 +2188,7 @@
   line-height: 1.25;
   letter-spacing: -0.015em;
   text-wrap: balance;
-  background: linear-gradient(180deg, #fff 0%, var(--color-neutral-400) 100%);
+  background: linear-gradient(180deg, var(--color-white) 0%, var(--color-neutral-400) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2063,6 +2203,10 @@
   );
   -webkit-background-clip: text;
   background-clip: text;
+}
+
+:root[data-theme="light"] .tools-title-accent {
+  background-image: linear-gradient(100deg, #1e3a8a 0%, #1e40af 55%, #2f56c9 100%);
 }
 
 .tools-row {
@@ -2345,6 +2489,15 @@
       0 12px 36px -10px rgb(226 170 72 / 0.75);
   }
 
+  /* Light: the same lit button in navy. */
+  :root[data-theme="light"] .btn-ls-glow {
+    background: linear-gradient(180deg, #3a63d6 0%, #2447b8 50%, #1a3794 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.3),
+      0 0 0 1px rgb(30 64 175 / 0.6),
+      0 12px 36px -10px rgb(30 64 175 / 0.5);
+  }
+
   /* Section utilities */
   .section-container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
@@ -2375,8 +2528,7 @@
   /* Gradient text */
   .gradient-text {
     @apply bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 bg-clip-text text-transparent;
-  }
-}
+  }}
 
 /* The mobile menu drawer slides in from the right edge. */
 @keyframes drawerIn {
@@ -2699,7 +2851,7 @@
     rgb(var(--ground) / 0) 18%,
     rgb(var(--ground) / 0.1) 45%,
     rgb(var(--ground) / 0.85) 78%,
-    rgb(10 10 10) 100%
+    rgb(var(--ground)) 100%
   );
 }
 
@@ -2711,7 +2863,7 @@
         rgb(var(--ground) / 0.55) 0%,
         rgb(var(--ground) / 0) 22%,
         rgb(var(--ground) / 0) 72%,
-        rgb(10 10 10) 100%
+        rgb(var(--ground)) 100%
       ),
       linear-gradient(
         90deg,
@@ -2759,6 +2911,36 @@
   box-shadow:
     0 40px 90px -40px rgb(0 0 0 / 0.9),
     0 0 70px -30px rgb(var(--gold) / 0.35);
+}
+
+/* The frame is a video, so the light theme leaves the picture dark, like a
+   screen on the page: inside it the theme's colours are put back to the dark
+   ones, and only the frame's shadow changes, to the light theme's soft navy. */
+:root[data-theme="light"] .ls-paths-frame {
+  color-scheme: dark;
+  --ink: 255 255 255;
+  --gold: 212 168 87;
+  --amber: 251 191 36;
+  --ground: 10 10 10;
+  --color-white: #fff;
+  --color-neutral-50: oklch(98.5% 0 none);
+  --color-neutral-100: oklch(97% 0 none);
+  --color-neutral-200: oklch(92.2% 0 none);
+  --color-neutral-300: oklch(87% 0 none);
+  --color-neutral-400: oklch(70.8% 0 none);
+  --color-neutral-500: oklch(55.6% 0 none);
+  --color-neutral-600: oklch(43.9% 0 none);
+  --color-neutral-700: oklch(37.1% 0 none);
+  --color-neutral-800: oklch(26.9% 0 none);
+  --color-neutral-900: oklch(20.5% 0 none);
+  --color-neutral-950: oklch(14.5% 0 none);
+  --color-brass-200: #ebd3a0;
+  --color-brass-300: #e0be78;
+  --color-brass-400: #d4a857;
+  border-color: rgb(15 26 46 / 0.12);
+  box-shadow:
+    0 40px 80px -36px rgb(15 26 46 / 0.45),
+    0 18px 36px -24px rgb(15 26 46 / 0.3);
 }
 
 @media (min-width: 640px) {
@@ -3399,6 +3581,11 @@
   filter: drop-shadow(0 0 4px rgb(var(--gold) / 0.8));
 }
 
+/* A navy line glows less than a gold one on black, or it reads as blurred. */
+:root[data-theme="light"] .ls-paths-branch--right {
+  filter: drop-shadow(0 0 3px rgb(var(--gold) / 0.35));
+}
+
 .ls-paths-node {
   display: grid;
   place-items: center;
@@ -3406,7 +3593,7 @@
   height: 1.125rem;
   border: 1px solid;
   border-radius: 9999px;
-  background: #0a0a0a;
+  background: rgb(var(--ground));
   transition:
     border-color 0.4s ease,
     box-shadow 0.4s ease,
@@ -3432,6 +3619,11 @@
   box-shadow: 0 0 12px rgb(var(--gold) / 0.6);
 }
 
+:root[data-theme="light"] .ls-paths-node--right {
+  color: var(--color-brass-400);
+  box-shadow: 0 0 10px rgb(var(--gold) / 0.3);
+}
+
 /* The path being played lights up. */
 .ls-paths-fork[data-mode="before"] .ls-paths-branch--left {
   border-color: rgb(var(--ink) / 0.6);
@@ -3444,7 +3636,11 @@
 }
 
 .ls-paths-fork[data-mode="after"] .ls-paths-branch--right {
-  filter: drop-shadow(0 0 7px rgb(212 168 87));
+  filter: drop-shadow(0 0 7px rgb(var(--gold)));
+}
+
+:root[data-theme="light"] .ls-paths-fork[data-mode="after"] .ls-paths-branch--right {
+  filter: drop-shadow(0 0 5px rgb(var(--gold) / 0.6));
 }
 
 /* The face-off between the two paths. Its ring is split like the fork above
@@ -3463,7 +3659,7 @@
   border-radius: 9999px;
   background:
     radial-gradient(circle, rgb(var(--ink) / 0.06), transparent 70%) padding-box,
-    linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+    linear-gradient(rgb(var(--ground)), rgb(var(--ground))) padding-box,
     linear-gradient(90deg, rgb(var(--ink) / 0.22) 30%, rgb(var(--gold) / 0.8) 70%) border-box;
   box-shadow: 0 0 24px -8px rgb(var(--gold) / 0.55);
   color: var(--color-neutral-200);
@@ -3489,6 +3685,12 @@
   color: transparent;
 }
 
+/* Gold text doesn't hold up on white, so in the light theme the price falls
+   through the navy of the buttons instead. */
+:root[data-theme="light"] .ls-price {
+  background-image: linear-gradient(180deg, #2f56c9 0%, #1e40af 55%, #1a3794 100%);
+}
+
 /* Its opposite: the red of money lost, "Lose money" on the by-hand path of "Two
    paths" and "−$1,000s" on the "Do nothing" card. The
    same three-stop fall as the gold, with a faint glow that a text-shadow
@@ -3505,6 +3707,13 @@
    outshines the lit path's button beside it, so "Lose money" gets less. */
 .ls-paths-path .ls-loss {
   filter: drop-shadow(0 0 10px rgb(239 68 68 / 0.18));
+}
+
+/* On white the pale top of the red would vanish, so the light theme's red
+   starts deeper and drops the glow. */
+:root[data-theme="light"] .ls-loss {
+  background-image: linear-gradient(180deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+  filter: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3559,6 +3768,38 @@
     ),
     /* A ground with a centre, so the frame is not flat black behind the field. */
     radial-gradient(115% 95% at 50% 8%, #0a0d14 0%, #05070b 58%, #000 100%);
+
+  /* The canvas palette, as bare channels. BmHeroBackground reads these at
+     draw time and again when the theme changes, so the field follows the
+     theme like everything else on the page. */
+  --bmc-gold: 251, 191, 36;
+  --bmc-gold-lit: 253, 224, 150;
+  --bmc-gold-hot: 255, 244, 214;
+  --bmc-glow: 251, 191, 36;
+  --bmc-canopy: 8, 11, 18;
+  --bmc-links: 1;
+}
+
+/* Daylight: a pale sky with a navy pool where the gold one was, and a navy
+   network drawn on it. "Lit" means deeper rather than brighter on a light
+   ground, the engines keep a touch of gold as decoration, and the canopy is
+   still cut from the ground colour. */
+:root[data-theme="light"] .bmc-field {
+  background:
+    radial-gradient(
+      90% 70% at 50% 12%,
+      rgb(30 64 175 / 0.09) 0%,
+      rgb(30 64 175 / 0.03) 45%,
+      transparent 75%
+    ),
+    radial-gradient(115% 95% at 50% 8%, #ffffff 0%, #f3f5f9 58%, #e8edf5 100%);
+
+  --bmc-gold: 30, 64, 175;
+  --bmc-gold-lit: 23, 37, 84;
+  --bmc-gold-hot: 200, 150, 46;
+  --bmc-glow: 47, 86, 201;
+  --bmc-canopy: 246, 247, 249;
+  --bmc-links: 1.5;
 }
 
 .bmc-canvas {
@@ -3593,6 +3834,28 @@
       74% 62% at 50% 48%,
       rgba(0, 0, 0, 0.72) 0%,
       rgba(0, 0, 0, 0.36) 56%,
+      transparent 84%
+    );
+  }
+}
+
+/* Light: the same value gap, made of the page's own light ground so navy
+   lines fade out under the navy headline. */
+:root[data-theme="light"] .bmc-scrim {
+  background: radial-gradient(
+    54% 48% at 50% 50%,
+    rgb(246 247 249 / 0.8) 0%,
+    rgb(246 247 249 / 0.42) 52%,
+    transparent 78%
+  );
+}
+
+@media (max-width: 640px) {
+  :root[data-theme="light"] .bmc-scrim {
+    background: radial-gradient(
+      74% 62% at 50% 48%,
+      rgb(246 247 249 / 0.85) 0%,
+      rgb(246 247 249 / 0.45) 56%,
       transparent 84%
     );
   }
@@ -3694,6 +3957,16 @@
   );
 }
 
+:root[data-theme="light"] .bmh::before {
+  background: radial-gradient(
+    46% 50% at 50% 50%,
+    rgb(246 247 249 / 0.82) 0%,
+    rgb(246 247 249 / 0.64) 44%,
+    rgb(246 247 249 / 0.3) 68%,
+    rgb(246 247 249 / 0) 84%
+  );
+}
+
 /* The pill is the shared `.bm-pill`; the hero only keeps it on one line. At
    390px the two names together are about 330px, so they fit the column once
    nothing is allowed to wrap and the type steps down a notch. */
@@ -3745,6 +4018,17 @@
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
 }
 
+/* Light: the halos are the light ground rather than black, for the same job
+   of keeping a lit node off a stem. */
+:root[data-theme="light"] .bmh-headline {
+  text-shadow: 0 0 10px rgb(246 247 249 / 0.8), 0 2px 30px rgb(246 247 249 / 0.9);
+}
+
+:root[data-theme="light"] .bmh-promise,
+:root[data-theme="light"] .bmh-mechanism {
+  text-shadow: 0 1px 12px rgb(246 247 249 / 0.9);
+}
+
 /* The program section's button, sized here so it keeps the hero's height
    caps. 56px tall at rest, so it is the page's one big button twice over
    (the second is at the foot of "What Business Mastery actually is"). The
@@ -3781,6 +4065,11 @@
   font-size: min(clamp(13px, 0.95vw, 14.5px), 1.9vh);
   font-weight: 500;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+
+:root[data-theme="light"] .bmh-trust {
+  color: var(--color-neutral-500);
+  text-shadow: 0 1px 10px rgb(246 247 249 / 0.9);
 }
 
 .bmh-trust li {

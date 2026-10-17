@@ -342,7 +342,7 @@ export function BuildsRing({ items, label }: { items: ReactNode[]; label: string
         {/* A soft brass floor under the ring, so it stands in a space. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-[15%] -bottom-6 h-24 rounded-[50%] bg-[radial-gradient(closest-side,rgba(212,168,87,0.16),transparent)] blur-md"
+          className="pointer-events-none absolute inset-x-[15%] -bottom-6 h-24 rounded-[50%] bg-[radial-gradient(closest-side,rgb(var(--gold)/0.16),transparent)] blur-md"
         />
 
         <ul
@@ -385,16 +385,17 @@ export function BuildsRing({ items, label }: { items: ReactNode[]; label: string
                   !isFront && "cursor-pointer",
                 )}
               >
-                <div inert={!isFront} className="flex w-full rounded-xl bg-[#121212]">
+                <div inert={!isFront} className="flex w-full rounded-xl bg-[#121212] light:bg-[#fff] light:shadow-[0_18px_40px_-24px_rgb(15_26_46/0.35)]">
                   {item}
                 </div>
-                {/* Darkens the builds round the back of the ring. */}
+                {/* Darkens the builds round the back of the ring (fades them
+                    into the page, in the light theme). */}
                 <span
                   aria-hidden="true"
                   ref={(el) => {
                     shadeRefs.current[i] = el;
                   }}
-                  className="pointer-events-none absolute inset-0 rounded-xl bg-black opacity-0"
+                  className="pointer-events-none absolute inset-0 rounded-xl bg-black opacity-0 light:bg-neutral-950"
                 />
               </li>
             );

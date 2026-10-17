@@ -69,10 +69,10 @@ export function LeeSystemsIndustriesSection() {
               <div
                 key={id}
                 id={id}
-                className="group/card overflow-hidden rounded-xl border border-white/10 bg-[#141414] transition-colors duration-300 hover:border-brass-400/40"
+                className="group/card overflow-hidden rounded-xl border border-white/10 bg-[#141414] transition-colors duration-300 hover:border-brass-400/40 light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]"
               >
                 <div
-                  className="relative aspect-video overflow-hidden"
+                  className="relative aspect-video overflow-hidden light:bg-[#172554]"
                   style={{
                     backgroundImage: `radial-gradient(60% 85% at ${22 + i * 11}% 30%, rgb(212 168 87 / 0.2), transparent 70%)`,
                   }}
@@ -88,16 +88,16 @@ export function LeeSystemsIndustriesSection() {
                   )}
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/25 to-transparent"
+                    className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/25 to-transparent light:from-[#0f1a2e]/90 light:via-[#0f1a2e]/20"
                   />
                   <h3
-                    className="absolute inset-x-6 bottom-1 text-[2rem] font-bold leading-[1.05] tracking-tight text-brass-200 [text-shadow:0_2px_16px_rgb(0_0_0/0.85)]"
+                    className="absolute inset-x-6 bottom-1 text-[2rem] font-bold leading-[1.05] tracking-tight text-brass-200 [text-shadow:0_2px_16px_rgb(0_0_0/0.85)] light:text-[#f6f7f9]"
                   >
                     {name}
                   </h3>
                 </div>
 
-                <div className="bg-[radial-gradient(90%_80%_at_0%_100%,rgba(212,168,87,0.08),transparent_70%)] px-6 pt-3 pb-3">
+                <div className="bg-[radial-gradient(90%_80%_at_0%_100%,rgb(var(--gold)/0.08),transparent_70%)] light:bg-none px-6 pt-3 pb-3">
                   <p className="leading-relaxed text-neutral-300 md:min-h-[3lh]">
                     {summary}
                   </p>
@@ -136,10 +136,10 @@ export function LeeSystemsIndustriesSection() {
           })}
         </div>
 
-        <div className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-brass-400/25 bg-[#111] px-6 py-10 text-center md:px-14 md:py-14">
+        <div className="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-brass-400/25 bg-[#111] light:bg-[#fff] light:shadow-[0_24px_60px_-28px_rgb(15_26_46/0.22)] px-6 py-10 text-center md:px-14 md:py-14">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_90%_at_50%_0%,rgba(212,168,87,0.16),transparent_70%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_90%_at_50%_0%,rgb(var(--gold)/0.16),transparent_70%)] light:opacity-50"
           />
           <div
             aria-hidden="true"

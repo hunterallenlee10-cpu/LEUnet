@@ -64,8 +64,8 @@ export function BmYearClock() {
         <svg viewBox="0 0 300 300" className="my-6 h-60 w-60 overflow-visible md:h-72 md:w-72">
           <defs>
             <linearGradient id="bm-clock-arc" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#fde68a" />
-              <stop offset="100%" stopColor="#f59e0b" />
+              <stop offset="0%" className="bm-clock-stop-a" />
+              <stop offset="100%" className="bm-clock-stop-b" />
             </linearGradient>
           </defs>
           {TICKS.map((i) => (
@@ -76,11 +76,11 @@ export function BmYearClock() {
               x2="150"
               y2="14"
               transform={`rotate(${i * 6} 150 150)`}
-              stroke={i % 5 === 0 ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.12)"}
+              style={{ stroke: `rgb(var(--ink) / ${i % 5 === 0 ? 0.35 : 0.12})` }}
               strokeWidth={i % 5 === 0 ? 2 : 1}
             />
           ))}
-          <circle cx="150" cy="150" r={RADIUS} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="10" />
+          <circle cx="150" cy="150" r={RADIUS} fill="none" strokeWidth="10" style={{ stroke: "rgb(var(--ink) / 0.07)" }} />
           <circle
             cx="150"
             cy="150"
@@ -100,11 +100,10 @@ export function BmYearClock() {
             y1="1"
             x2="150"
             y2="20"
-            stroke="#fde68a"
             strokeWidth="3"
             strokeLinecap="round"
             transform={`rotate(${seconds * 6} 150 150)`}
-            style={{ filter: "drop-shadow(0 0 4px rgba(251,191,36,0.9))" }}
+            className="bm-clock-tick"
           />
         </svg>
 

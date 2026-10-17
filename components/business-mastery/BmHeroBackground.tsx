@@ -58,15 +58,51 @@ import { useEffect, useRef } from "react";
  * window never causes the field to jump.
  */
 
-/** Amber-400, the page's accent, and the warmer gold used for anything lit. */
-const GOLD = "251,191,36";
-const GOLD_LIT = "253,224,150";
-/** Engine cores only. A gold flame reads as a gold shape stuck to a gold hull;
- *  it has to run hotter than anything else on the craft to read as light. */
-const GOLD_HOT = "255,244,214";
-/** The canopy, taken from `.bmc-field`'s ground in app/globals.css rather than
- *  mixed here — it is a hole in the hull, so it has to be the thing behind it. */
-const CANOPY = "8,11,18";
+/**
+ * The field's colours, as "r, g, b" channels. They live on `.bmc-field` in
+ * app/globals.css (`--bmc-*`), so the light theme can re-point them, and are
+ * read back at draw time; these are the dark values, used until then.
+ *
+ * `gold` is amber-400, the page's accent, and `lit` the warmer gold used for
+ * anything lit. `hot` is the engine cores only: a gold flame reads as a gold
+ * shape stuck to a gold hull, so it has to run hotter than anything else on
+ * the craft to read as light. `glow` is the shadow colour. `canopy` is
+ * `.bmc-field`'s ground rather than mixed here: it is a hole in the hull, so
+ * it has to be the thing behind it. `links` scales the links' alpha: a 1px
+ * navy line on a pale ground reads fainter than the same alpha of gold on
+ * black.
+ */
+type Palette = {
+  gold: string;
+  lit: string;
+  hot: string;
+  glow: string;
+  canopy: string;
+  links: number;
+};
+
+const DARK_PALETTE: Palette = {
+  gold: "251,191,36",
+  lit: "253,224,150",
+  hot: "255,244,214",
+  glow: "251,191,36",
+  canopy: "8,11,18",
+  links: 1,
+};
+
+function readPalette(el: Element): Palette {
+  const style = getComputedStyle(el);
+  const read = (name: string, fallback: string) =>
+    style.getPropertyValue(name).trim() || fallback;
+  return {
+    gold: read("--bmc-gold", DARK_PALETTE.gold),
+    lit: read("--bmc-gold-lit", DARK_PALETTE.lit),
+    hot: read("--bmc-gold-hot", DARK_PALETTE.hot),
+    glow: read("--bmc-glow", DARK_PALETTE.glow),
+    canopy: read("--bmc-canopy", DARK_PALETTE.canopy),
+    links: Number(read("--bmc-links", "1")) || 1,
+  };
+}
 
 /**
  * The palette lives here rather than in `data/business-mastery.ts` because
@@ -229,6 +265,7 @@ export function BmHeroBackground() {
     let visible = true;
     let frame = 0;
     let last = 0;
+    let palette = readPalette(canvas);
 
     const measure = () => {
       const rect = canvas.getBoundingClientRect();
@@ -361,8 +398,8 @@ export function BmHeroBackground() {
           }
           for (const [alpha, weight] of CONTRAIL_PASSES) {
             const fade = ctx.createLinearGradient(hx, hy, tx, ty);
-            fade.addColorStop(0, `rgba(${GOLD_LIT},${alpha})`);
-            fade.addColorStop(1, `rgba(${GOLD_LIT},0)`);
+            fade.addColorStop(0, `rgba(${palette.lit},${alpha})`);
+            fade.addColorStop(1, `rgba(${palette.lit},0)`);
             ctx.strokeStyle = fade;
             ctx.lineWidth = size * weight;
             ctx.stroke();
@@ -387,11 +424,11 @@ export function BmHeroBackground() {
         ctx.lineTo(size * -0.5, size * 0.1 * side);
         ctx.closePath();
       }
-      ctx.fillStyle = `rgba(${GOLD},0.6)`;
+      ctx.fillStyle = `rgba(${palette.gold},0.6)`;
       ctx.fill();
       ctx.lineJoin = "round";
       ctx.lineWidth = Math.max(0.75, size * 0.055);
-      ctx.strokeStyle = `rgba(${GOLD_LIT},0.72)`;
+      ctx.strokeStyle = `rgba(${palette.lit},0.72)`;
       ctx.stroke();
 
       // Hull: a lance with a notched tail, the brightest thing on the craft
@@ -406,9 +443,9 @@ export function BmHeroBackground() {
       ctx.lineTo(size * -0.4, size * -0.23);
       ctx.lineTo(size * 0.34, size * -0.17);
       ctx.closePath();
-      ctx.shadowColor = `rgba(${GOLD},0.9)`;
+      ctx.shadowColor = `rgba(${palette.glow},0.9)`;
       ctx.shadowBlur = size * 0.8;
-      ctx.fillStyle = `rgba(${GOLD_LIT},0.96)`;
+      ctx.fillStyle = `rgba(${palette.lit},0.96)`;
       ctx.fill();
       ctx.shadowBlur = 0;
 
@@ -419,16 +456,16 @@ export function BmHeroBackground() {
       // solid lozenge.
       ctx.beginPath();
       ctx.ellipse(size * 0.2, 0, size * 0.3, size * 0.105, 0, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${CANOPY},0.62)`;
+      ctx.fillStyle = `rgba(${palette.canopy},0.62)`;
       ctx.fill();
 
       // Twin engines, sunk into the tail notch and running hotter than the
       // hull — the one place on the craft that is meant to read as light
       // rather than as lit metal. Second of the three blurs a craft is
       // allowed.
-      ctx.shadowColor = `rgba(${GOLD},0.95)`;
+      ctx.shadowColor = `rgba(${palette.glow},0.95)`;
       ctx.shadowBlur = size * 0.55;
-      ctx.fillStyle = `rgba(${GOLD_HOT},0.95)`;
+      ctx.fillStyle = `rgba(${palette.hot},0.95)`;
       for (const side of SIDES) {
         ctx.beginPath();
         ctx.arc(size * -0.5, spread * side, size * 0.09, 0, Math.PI * 2);
@@ -439,7 +476,7 @@ export function BmHeroBackground() {
       // are what fixes the wingspan for the eye — unlit, the wings fall away
       // into the field behind them and the craft loses half its width.
       ctx.shadowBlur = size * 0.3;
-      ctx.fillStyle = `rgba(${GOLD_LIT},0.9)`;
+      ctx.fillStyle = `rgba(${palette.lit},0.9)`;
       for (const side of SIDES) {
         ctx.beginPath();
         ctx.arc(size * -0.4, size * 0.66 * side, size * 0.055, 0, Math.PI * 2);
@@ -503,8 +540,9 @@ export function BmHeroBackground() {
           // what makes a craft look like it is travelling *through* something.
           const flare = Math.max(nodes[a].flare, nodes[b].flare);
           alpha += flare * 0.6;
+          alpha *= palette.links;
 
-          ctx.strokeStyle = `rgba(${GOLD},${Math.min(alpha, 0.9).toFixed(3)})`;
+          ctx.strokeStyle = `rgba(${palette.gold},${Math.min(alpha, 0.9).toFixed(3)})`;
           ctx.beginPath();
           ctx.moveTo(nodes[a].x * width, nodes[a].y * height);
           ctx.lineTo(nodes[b].x * width, nodes[b].y * height);
@@ -531,9 +569,9 @@ export function BmHeroBackground() {
         // Fades in and out across its run, so it never pops at either end.
         const fade = Math.sin(pulse.t * Math.PI);
         ctx.save();
-        ctx.shadowColor = `rgba(${GOLD},0.9)`;
+        ctx.shadowColor = `rgba(${palette.glow},0.9)`;
         ctx.shadowBlur = 9;
-        ctx.fillStyle = `rgba(${GOLD_LIT},${(0.95 * fade).toFixed(3)})`;
+        ctx.fillStyle = `rgba(${palette.lit},${(0.95 * fade).toFixed(3)})`;
         ctx.beginPath();
         ctx.arc(px, py, 2, 0, Math.PI * 2);
         ctx.fill();
@@ -547,11 +585,11 @@ export function BmHeroBackground() {
         const lit = node.hub || node.flare > 0.02;
         if (lit) {
           ctx.save();
-          ctx.shadowColor = `rgba(${GOLD},${0.85 * Math.max(node.flare, node.hub ? 1 : 0)})`;
+          ctx.shadowColor = `rgba(${palette.glow},${0.85 * Math.max(node.flare, node.hub ? 1 : 0)})`;
           ctx.shadowBlur = node.hub ? 10 : 8 * node.flare;
         }
         const alpha = (node.hub ? 0.95 : 0.55) + node.flare * 0.45;
-        ctx.fillStyle = `rgba(${node.hub || node.flare > 0.3 ? GOLD_LIT : GOLD},${Math.min(alpha, 1).toFixed(3)})`;
+        ctx.fillStyle = `rgba(${node.hub || node.flare > 0.3 ? palette.lit : palette.gold},${Math.min(alpha, 1).toFixed(3)})`;
         ctx.beginPath();
         ctx.arc(
           node.x * width,
@@ -644,6 +682,17 @@ export function BmHeroBackground() {
     );
     intersectionObserver.observe(canvas);
 
+    // The theme switch re-points the palette. A running loop picks it up on
+    // its next frame; a still field is composed again.
+    const themeObserver = new MutationObserver(() => {
+      palette = readPalette(canvas);
+      if (motionQuery.matches) step(0);
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     applyMotionPreference();
     motionQuery.addEventListener("change", applyMotionPreference);
     document.addEventListener("visibilitychange", sync);
@@ -652,6 +701,7 @@ export function BmHeroBackground() {
       stop();
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
+      themeObserver.disconnect();
       motionQuery.removeEventListener("change", applyMotionPreference);
       document.removeEventListener("visibilitychange", sync);
     };
