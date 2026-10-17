@@ -347,7 +347,7 @@ export function BmJourneyTimeline() {
                       <span
                         className={`relative h-2.5 w-2.5 rounded-[2px] transition-all ${
                           isActive
-                            ? "scale-125 bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.7)]"
+                            ? "scale-125 bg-amber-400 shadow-[0_0_10px_rgb(var(--amber)/0.7)]"
                             : isPassed
                               ? "bg-amber-400/50"
                               : "bg-neutral-700 group-hover:bg-neutral-500"

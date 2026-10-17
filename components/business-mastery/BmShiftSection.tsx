@@ -46,7 +46,7 @@ export function BmShiftSection() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(60% 40% at 50% 8%, rgba(251, 191, 36, 0.08) 0%, transparent 70%)",
+              "radial-gradient(60% 40% at 50% 8%, rgb(var(--amber) / 0.08) 0%, transparent 70%)",
           }}
         />
       </div>

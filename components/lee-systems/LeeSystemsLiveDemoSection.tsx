@@ -383,9 +383,9 @@ export function LeeSystemsLiveDemoSection() {
 function Glows() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-      <span className="absolute left-1/2 top-[2%] h-[58%] w-[120%] -translate-x-1/2 bg-[radial-gradient(closest-side,rgba(212,168,87,0.13),rgba(212,168,87,0.04)_55%,transparent)]" />
-      <span className="absolute bottom-[-4%] left-1/2 h-[46%] w-[120%] -translate-x-1/2 bg-[radial-gradient(closest-side,rgba(212,168,87,0.1),rgba(212,168,87,0.03)_55%,transparent)]" />
-      <span className="absolute inset-x-0 bottom-0 h-[40%] bg-[radial-gradient(rgba(255,255,255,0.07)_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(closest-side,#000_35%,transparent)]" />
+      <span className="absolute left-1/2 top-[2%] h-[58%] w-[120%] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(var(--gold)/0.13),rgb(var(--gold)/0.04)_55%,transparent)] light:opacity-60" />
+      <span className="absolute bottom-[-4%] left-1/2 h-[46%] w-[120%] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(var(--gold)/0.1),rgb(var(--gold)/0.03)_55%,transparent)] light:opacity-60" />
+      <span className="absolute inset-x-0 bottom-0 h-[40%] bg-[radial-gradient(rgb(var(--ink)/0.07)_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(closest-side,#000_35%,transparent)]" />
     </div>
   );
 }
@@ -399,7 +399,7 @@ function Glows() {
  */
 function Browser() {
   return (
-    <div className="@container relative mt-3 overflow-hidden rounded-lg border border-white/10 bg-neutral-900/90 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.06)]">
+    <div className="@container relative mt-3 overflow-hidden rounded-lg border border-white/10 bg-neutral-900/90 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.06)] light:shadow-[0_30px_70px_-34px_rgb(15_26_46/0.28)]">
       <div className="relative flex items-center gap-2.5 border-b border-white/10 bg-neutral-950/70 px-3 py-2">
         <span className="flex shrink-0 gap-1.5">
           <span className="h-2 w-2 rounded-full bg-[#ff5f57]/70" />
@@ -467,7 +467,7 @@ function StepMarker({ n }: { n: number }) {
       {n}
       <span
         data-lsd="marker"
-        className="lsd-lit absolute -inset-px grid place-items-center rounded-full bg-brass-400 text-neutral-950 shadow-[0_0_10px_rgba(212,168,87,0.5)]"
+        className="lsd-lit absolute -inset-px grid place-items-center rounded-full bg-brass-400 text-neutral-950 shadow-[0_0_10px_rgb(var(--gold)/0.5)]"
       >
         {n}
       </span>
@@ -564,7 +564,7 @@ function Field({
         wide && "col-span-2 @min-[560px]:col-span-1"
       )}
     >
-      <span className="lsd-focus pointer-events-none absolute -inset-px rounded-md border border-brass-400/75 shadow-[0_0_0_2px_rgba(212,168,87,0.18)]" />
+      <span className="lsd-focus pointer-events-none absolute -inset-px rounded-md border border-brass-400/75 shadow-[0_0_0_2px_rgb(var(--gold)/0.18)]" />
       <span
         data-lsd="placeholder"
         className={clsx("lsd-placeholder absolute inset-y-0 left-2.5 flex items-center text-neutral-500", text)}
@@ -680,9 +680,9 @@ function CardFrame({ id, listed }: { id: NodeId; listed?: boolean }) {
   return (
     <>
       <span className="lsd-doneborder pointer-events-none absolute -inset-px rounded-lg border border-brass-400/55" />
-      <span className="lsd-ring pointer-events-none absolute -inset-px rounded-lg border border-brass-300/90 shadow-[0_0_18px_-4px_rgba(212,168,87,0.65)]" />
+      <span className="lsd-ring pointer-events-none absolute -inset-px rounded-lg border border-brass-300/90 shadow-[0_0_18px_-4px_rgb(var(--gold)/0.65)]" />
       {id === "booked" && (
-        <span className="lsd-pay pointer-events-none absolute -inset-px rounded-lg border border-brass-200/90 bg-brass-400/[0.1] shadow-[0_0_0_3px_rgba(212,168,87,0.14),0_0_40px_-2px_rgba(212,168,87,0.55)]" />
+        <span className="lsd-pay pointer-events-none absolute -inset-px rounded-lg border border-brass-200/90 bg-brass-400/[0.1] shadow-[0_0_0_3px_rgb(var(--gold)/0.14),0_0_40px_-2px_rgb(var(--gold)/0.55)]" />
       )}
       {hasIn && <Port side="top" className={listed ? "@max-[640px]:hidden" : undefined} />}
       {hasOut && <Port side="bottom" />}
@@ -700,7 +700,7 @@ function NodeIcon({ Icon, className }: { Icon: LucideIcon; className?: string })
       )}
     >
       <Icon className="h-3.5 w-3.5" />
-      <span className="lsd-tile absolute -inset-px grid place-items-center rounded-md border border-brass-400/30 bg-[#231d10] text-brass-300">
+      <span className="lsd-tile absolute -inset-px grid place-items-center rounded-md border border-brass-400/30 bg-[#1f2023] text-brass-300 light:bg-[#e8eefb]">
         <Icon className="h-3.5 w-3.5" />
       </span>
     </span>
@@ -817,7 +817,7 @@ function Port({ side, className }: { side: "top" | "bottom" | "left"; className?
     >
       <span
         className={clsx(
-          "absolute -inset-px rounded-full bg-brass-400 shadow-[0_0_6px_rgba(212,168,87,0.9)]",
+          "absolute -inset-px rounded-full bg-brass-400 shadow-[0_0_6px_rgb(var(--gold)/0.9)]",
           side === "bottom" ? "lsd-port-out" : "lsd-port-in"
         )}
       />
@@ -828,8 +828,8 @@ function Port({ side, className }: { side: "top" | "bottom" | "left"; className?
 /** The lead, as a chip: the same one travels down the line and sits in "New lead". */
 function LeadChip() {
   return (
-    <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-brass-400/60 bg-[#17140d] px-2 py-0.5 text-[11px] font-semibold leading-tight text-brass-200 shadow-[0_0_14px_-2px_rgba(212,168,87,0.5)]">
-      <span className="h-1.5 w-1.5 rounded-full bg-brass-300 shadow-[0_0_6px_rgba(224,190,120,0.9)]" />
+    <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-brass-400/60 bg-[#17181b] px-2 py-0.5 text-[11px] font-semibold leading-tight text-brass-200 shadow-[0_0_14px_-2px_rgb(var(--gold)/0.5)] light:bg-[#e8eefb]">
+      <span className="h-1.5 w-1.5 rounded-full bg-brass-300 shadow-[0_0_6px_rgb(231_229_228/0.6)] light:shadow-[0_0_6px_rgb(29_78_216/0.6)]" />
       {LEAD}
     </span>
   );
@@ -848,12 +848,12 @@ function Connectors() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0">
       <svg className="absolute inset-0 h-full w-full overflow-visible" fill="none">
-        <path data-lsd="bridge-base" stroke="rgba(212,168,87,0.3)" strokeWidth="1.5" opacity="0" />
-        <path data-lsd="bridge-fill" stroke="#D4A857" strokeWidth="2" strokeLinecap="round" opacity="0" />
+        <path data-lsd="bridge-base" className="stroke-[rgb(var(--gold)/0.3)]" strokeWidth="1.5" opacity="0" />
+        <path data-lsd="bridge-fill" className="stroke-brass-400" strokeWidth="2" strokeLinecap="round" opacity="0" />
         {edges.map((_, i) => (
           <g key={i}>
-            <path data-lsd="edge-base" stroke="rgba(255,255,255,0.14)" strokeWidth="1.5" />
-            <path data-lsd="edge-fill" stroke="#D4A857" strokeWidth="1.5" opacity="0" />
+            <path data-lsd="edge-base" className="stroke-[rgb(var(--ink)/0.14)] light:stroke-[rgb(var(--ink)/0.22)]" strokeWidth="1.5" />
+            <path data-lsd="edge-fill" className="stroke-brass-400" strokeWidth="1.5" opacity="0" />
           </g>
         ))}
       </svg>
@@ -861,7 +861,7 @@ function Connectors() {
         <span
           key={i}
           data-lsd="packet"
-          className="absolute left-0 top-0 h-1.5 w-1.5 rounded-full bg-brass-300 opacity-0 shadow-[0_0_6px_1px_rgba(212,168,87,0.9)] will-change-transform"
+          className="absolute left-0 top-0 h-1.5 w-1.5 rounded-full bg-brass-300 opacity-0 shadow-[0_0_6px_1px_rgb(var(--gold)/0.9)] will-change-transform"
         />
       ))}
     </div>
@@ -879,11 +879,11 @@ function Travellers() {
         data-lsd="send-port"
         className="absolute left-0 top-0 h-[7px] w-[7px] rounded-full border border-white/25 bg-neutral-950 opacity-0"
       >
-        <span data-lsd="send-port-lit" className="absolute -inset-px rounded-full bg-brass-400 shadow-[0_0_6px_rgba(212,168,87,0.9)]" />
+        <span data-lsd="send-port-lit" className="absolute -inset-px rounded-full bg-brass-400 shadow-[0_0_6px_rgb(var(--gold)/0.9)]" />
       </span>
       <span
         data-lsd="trail"
-        className="absolute left-0 top-0 h-16 w-[3px] origin-bottom rounded-full bg-gradient-to-b from-transparent via-brass-300/60 to-[#f6e7c4] opacity-0 shadow-[0_0_10px_1px_rgba(224,190,120,0.55)] will-change-transform"
+        className="absolute left-0 top-0 h-16 w-[3px] origin-bottom rounded-full bg-gradient-to-b from-transparent via-brass-300/60 to-[#ffffff] opacity-0 shadow-[0_0_10px_1px_rgb(231_229_228/0.35)] light:to-[#2f56c9] light:shadow-[0_0_10px_1px_rgb(29_78_216/0.4)] will-change-transform"
       />
       <span data-lsd="chip" className="absolute left-0 top-0 opacity-0 will-change-transform">
         <LeadChip />

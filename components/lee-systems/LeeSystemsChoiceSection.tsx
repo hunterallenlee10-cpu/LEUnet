@@ -119,7 +119,7 @@ export function LeeSystemsChoiceSection() {
 
           <div
             id={TAKE_ACTION_ID}
-            className="flex flex-col rounded-2xl border border-brass-400/40 bg-[radial-gradient(120%_70%_at_50%_0%,rgba(212,168,87,0.14),transparent_65%)] p-6 text-center shadow-[0_0_80px_-30px_rgba(212,168,87,0.5)] sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:gap-y-0 sm:p-8"
+            className="flex flex-col rounded-2xl border border-brass-400/40 bg-[radial-gradient(120%_70%_at_50%_0%,rgb(var(--gold)/0.09),transparent_65%)] p-6 text-center shadow-[0_0_80px_-30px_rgb(var(--gold)/0.3)] light:bg-[#fff] light:bg-[radial-gradient(120%_70%_at_50%_0%,rgb(var(--gold)/0.07),transparent_65%)] light:shadow-[0_24px_60px_-28px_rgb(30_64_175/0.3)] sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:gap-y-0 sm:p-8"
           >
             <div>
               <Zap

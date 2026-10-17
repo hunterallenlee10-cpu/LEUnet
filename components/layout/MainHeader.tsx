@@ -8,10 +8,11 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { navigationItems } from "@/data/navigation";
 import { companyInfo } from "@/data/company";
 import { BookCallLink } from "@/components/ui/BookCallLink";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 /**
  * The site header: the LEU lockup on the left, then Lee Systems Co. and
- * Contact, then the gold "Book a free call" button.
+ * Contact, then the gold "Book a free call" button and the light/dark switch.
  * Below `lg` the links move into a drawer, and the button stays in the bar
  * beside the menu toggle.
  */
@@ -322,6 +323,8 @@ export function MainHeader() {
             </nav>
 
             <BookCallLink className="whitespace-nowrap px-4 py-2 text-sm sm:px-5 sm:text-base" />
+
+            <ThemeToggle className="-mx-1 lg:-mr-2" />
 
             <button
               ref={menuButtonRef}
