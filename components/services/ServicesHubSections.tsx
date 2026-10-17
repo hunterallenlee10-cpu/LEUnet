@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, Gauge, ShieldCheck, Signal } from "lucide-react";
+import { ArrowRight, Check, Gauge, ShieldCheck, Signal } from "lucide-react";
+import { pricingPromise } from "@/data/lee-systems";
 import {
   carePlan,
   demoLabHref,
@@ -54,6 +55,26 @@ export function ServicesHero() {
             Try the demos
           </a>
         </div>
+
+        {/* Straight to one service's row (2026-10-17). */}
+        <nav aria-label="Jump to a service" className="mx-auto mt-10 max-w-3xl">
+          <ul className="flex flex-wrap justify-center gap-2">
+            {serviceGroups.map(({ slug, name, icon }) => {
+              const Icon = serviceIcons[icon];
+              return (
+                <li key={slug}>
+                  <a
+                    href={`#${slug}`}
+                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 text-sm text-neutral-200 transition-colors hover:border-brass-400/50 hover:text-white motion-reduce:transition-none light:bg-[#fff]"
+                  >
+                    <Icon aria-hidden="true" strokeWidth={1.5} className="h-4 w-4 text-brass-400" />
+                    {name}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
       </div>
     </section>
   );
@@ -249,6 +270,16 @@ export function ServicesCtaBand({
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-neutral-300">{body}</p>
           <BookCallLink href={href} variant="glow" arrow className="mt-8" />
+          {/* The owner's offer terms (`pricingPromise`), right where the
+              decision is made. */}
+          <ul className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-neutral-300">
+            {pricingPromise.map((term) => (
+              <li key={term} className="flex items-center gap-1.5">
+                <Check aria-hidden="true" className="h-4 w-4 text-brass-400" />
+                {term}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

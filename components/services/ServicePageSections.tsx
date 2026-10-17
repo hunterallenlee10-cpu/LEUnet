@@ -1,15 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CircleCheck, ShoppingBag } from "lucide-react";
+import { ArrowRight, ChevronRight, CircleCheck, ShoppingBag } from "lucide-react";
 import {
   getService,
   relatedBuildsExclude,
   relatedBuildsLimit,
   serviceIndustry,
+  serviceFaqs,
   servicePath,
   servicesAnchors,
+  servicesRoutes,
   type ServiceGroup,
 } from "@/data/services";
+import { leeSystems, leeSystemsRoutes } from "@/data/lee-systems";
+import { FaqAccordion } from "@/components/lee-systems/FaqAccordion";
 import { site } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { serviceIcons } from "@/components/services/serviceIcons";
@@ -42,14 +46,53 @@ function SectionHeader({ id, kicker, title, lead }: { id: string; kicker: string
   );
 }
 
+/** Where the page sits: Lee Systems Co. › Services › this service. */
+export function serviceBreadcrumbs(group: ServiceGroup) {
+  return [
+    { name: leeSystems.name, href: leeSystemsRoutes.home },
+    { name: "Services", href: servicesRoutes.hub },
+    { name: group.name, href: servicePath(group.slug) },
+  ];
+}
+
+function Breadcrumbs({ group }: { group: ServiceGroup }) {
+  const crumbs = serviceBreadcrumbs(group);
+  return (
+    <nav aria-label="Breadcrumb" className="section-container mb-8 md:mb-10">
+      <ol className="flex flex-wrap items-center gap-1.5 text-sm text-neutral-400">
+        {crumbs.map((crumb, index) => {
+          const last = index === crumbs.length - 1;
+          return (
+            <li key={crumb.href} className="flex items-center gap-1.5">
+              {last ? (
+                <span aria-current="page" className="text-neutral-200">
+                  {crumb.name}
+                </span>
+              ) : (
+                <>
+                  <Link href={crumb.href} className="rounded hover:text-white">
+                    {crumb.name}
+                  </Link>
+                  <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
+                </>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
 export function ServiceHero({ group }: { group: ServiceGroup }) {
   const Icon = serviceIcons[group.icon];
   return (
-    <section aria-labelledby="service-title" className="relative isolate overflow-hidden pt-16 pb-14 md:pt-24 md:pb-20">
+    <section aria-labelledby="service-title" className="relative isolate overflow-hidden pt-8 pb-14 md:pt-12 md:pb-20">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_70%_at_50%_0%,rgb(var(--gold)/0.12),transparent_70%)]"
       />
+      <Breadcrumbs group={group} />
       <div className="section-container grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
         <div>
           <p className={`${eyebrow} flex items-center gap-2.5`}>
@@ -238,6 +281,22 @@ export function PairsSection({ group }: { group: ServiceGroup }) {
             );
           })}
         </ul>
+      </div>
+    </section>
+  );
+}
+
+/** Answers from the /lee-systems FAQ that fit this service. */
+export function ServiceFaqSection({ group }: { group: ServiceGroup }) {
+  const faqs = serviceFaqs(group);
+  if (faqs.length === 0) return null;
+  return (
+    <section aria-labelledby="service-faq-title" className={section}>
+      <div className="section-container">
+        <div className="mx-auto max-w-3xl">
+          <SectionHeader id="service-faq-title" kicker="FAQs" title="Questions people ask" />
+        </div>
+        <FaqAccordion items={faqs} idPrefix={`faq-${group.slug}`} chevronClassName="text-brass-400" />
       </div>
     </section>
   );
