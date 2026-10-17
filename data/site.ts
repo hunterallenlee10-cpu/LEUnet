@@ -21,7 +21,7 @@ export interface Stat {
 export interface Project {
   /** The name as the live site shows it. */
   name: string;
-  /** The kind of business and where, e.g. "Plumbing · Frederick, MD". */
+  /** The kind of business and where, e.g. "Landscaping · Southern Maryland". */
   category: string;
   /** Optional: one line on the result, only numbers the owner can back up. */
   summary?: string;
