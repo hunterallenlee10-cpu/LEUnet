@@ -4,7 +4,7 @@ import { MainFooter } from "@/components/layout/MainFooter";
 import { LeeSystemsHeroSection } from "@/components/lee-systems/LeeSystemsHeroSection";
 import { LeeSystemsTwoPathsSection } from "@/components/lee-systems/LeeSystemsTwoPathsSection";
 import { LeeSystemsWebsiteVideoSection } from "@/components/lee-systems/LeeSystemsWebsiteVideoSection";
-import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
+import { LeeSystemsServicesSection } from "@/components/lee-systems/LeeSystemsServicesSection";
 import { LeeSystemsLiveDemoSection } from "@/components/lee-systems/LeeSystemsLiveDemoSection";
 import { LeeSystemsWorkflowFilmSection } from "@/components/lee-systems/LeeSystemsWorkflowFilmSection";
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
@@ -29,8 +29,8 @@ import {
  *
  * The order: the hero, the two paths (an example lead with and without the
  * systems), the website video (a visit to an outdated site, then to one
- * built right), the two offerings side by side at equal weight, then the
- * live demo of both working as one (a website catching a lead, and the
+ * built right), what we do (the six service groups, `#services`, which
+ * replaced the two offerings side by side on 2026-10-17), then the live demo of both working as one (a website catching a lead, and the
  * system handling it), the workflow film (one system running a week's calls,
  * leads, jobs and reports), who it is for, recent work, the onboarding process, the
  * FAQ, the choice between doing nothing and a free call, and the form. Every
@@ -175,7 +175,7 @@ export default function LeeSystemsPage() {
         <LeeSystemsHeroSection />
         <LeeSystemsTwoPathsSection />
         <LeeSystemsWebsiteVideoSection />
-        <LeeSystemsOfferingsSection />
+        <LeeSystemsServicesSection />
         <LeeSystemsLiveDemoSection />
         <LeeSystemsWorkflowFilmSection />
         <LeeSystemsIndustriesSection />

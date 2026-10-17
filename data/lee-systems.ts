@@ -35,6 +35,7 @@ export const leeSystemsRoutes = {
  * links made for either still land on it.
  */
 export const leeSystemsAnchors = {
+  services: "services",
   automation: "automation",
   websites: "websites",
   form: "contact-form",
@@ -42,8 +43,9 @@ export const leeSystemsAnchors = {
   websiteQuoteForm: "website-quote",
 } as const;
 
-/** The two offerings' sections, linked from anywhere on the site. */
+/** Sections of /lee-systems, linked from anywhere on the site. */
 export const leeSystemsLinks = {
+  services: `${leeSystemsRoutes.home}#${leeSystemsAnchors.services}`,
   automation: `${leeSystemsRoutes.home}#${leeSystemsAnchors.automation}`,
   websites: `${leeSystemsRoutes.home}#${leeSystemsAnchors.websites}`,
 } as const;
@@ -71,6 +73,120 @@ export const leeSystems = {
   /** The parent company's inbox until Lee Systems Co. has its own. */
   contactEmail: site.email,
   phone: site.phone,
+} as const;
+
+/**
+ * Everything Lee Systems Co. does, merged into six groups so a visitor can
+ * take it in at a glance (the owner's list, 2026-10-17). Each group leads
+ * with what the customer gets, then lists what is in it. These drive the
+ * "What we do" cards on /lee-systems (`#services`, each card at its own
+ * `anchor`), the homepage's "Everything we do" row, the chips under "Not on
+ * the list?" and the page's Service structured data, so a change here
+ * reaches all four. `icon` names a line icon in
+ * components/lee-systems/serviceIcons.ts.
+ *
+ * No tool or vendor names: the platforms named below are where the work
+ * shows up, not what it is built with.
+ */
+export const serviceGroups = [
+  {
+    anchor: "services-websites",
+    icon: "websites",
+    name: "Websites & Online Stores",
+    outcome: "A website that brings customers in.",
+    items: [
+      "Conversion websites for local businesses",
+      "Premium animated and 3D sites",
+      "Online stores with checkout",
+      "Real estate listing sites with map search",
+      "Client portals and online booking",
+      "Redesigns that keep your Google rankings",
+      "Online payments built in",
+    ],
+  },
+  {
+    anchor: "services-leads",
+    icon: "leads",
+    name: "Get Found & Get Leads",
+    outcome: "More people find you. More of them reach out.",
+    items: [
+      "Google Maps and local SEO",
+      "Showing up in ChatGPT and Google AI answers",
+      "Google Ads and Facebook/Instagram ads",
+      "Lead lists and done-for-you cold email",
+      "LinkedIn outreach",
+    ],
+  },
+  {
+    anchor: "services-calls",
+    icon: "calls",
+    name: "AI Call Answering",
+    outcome: "Every call answered, day or night.",
+    items: [
+      "24/7 AI phone assistant that answers questions and books appointments",
+      "Instant callback when a new lead fills out your form",
+      "Outbound calls to your lead list, with call summaries",
+    ],
+  },
+  {
+    anchor: "services-follow-up",
+    icon: "followUp",
+    name: "Follow-Up & Booking Automation",
+    outcome: "Every lead followed up. Every job booked.",
+    items: [
+      "Replies to new leads in under a minute",
+      "Website chat assistant",
+      "Instagram comment-to-DM replies",
+      "Booking and reminders",
+      "CRM updates with no retyping",
+      "Email follow-up sequences",
+      "Review requests",
+      "Invoice reminders",
+      "A daily summary sent to your phone",
+    ],
+  },
+  {
+    anchor: "services-content",
+    icon: "content",
+    name: "Content & Social Media",
+    outcome: "Content that gets attention and gets you customers.",
+    items: [
+      "Short-form video editing",
+      "Podcasts and long videos turned into clips",
+      "Social media management across Instagram, TikTok, YouTube and Facebook",
+      "Scripts, captions and carousels",
+      "AI visuals and clearly labeled AI video ads",
+      "Custom brand music and jingles",
+      "Social media audits",
+    ],
+  },
+  {
+    anchor: "services-custom-ai",
+    icon: "customAi",
+    name: "Custom AI Tools",
+    outcome: "If it's done by hand, we can build a tool for it.",
+    items: [
+      "Speak a job, get a quote or invoice PDF",
+      "Photo-to-report inspections",
+      "Contract review with deadline reminders",
+      "Reports from big spreadsheets and exports",
+      "AI assistants trained on your process",
+      "Private AI that keeps your data in-house",
+      "Connecting the software you already use",
+    ],
+  },
+] as const;
+
+export type ServiceIcon = (typeof serviceGroups)[number]["icon"];
+
+/**
+ * The add-on that goes with any of the six rather than being a seventh: one
+ * band under the cards. "Quoted separately" is the FAQ's own answer about
+ * the care plan.
+ */
+export const carePlan = {
+  name: "Care Plan",
+  body: "Hosting, updates, speed monitoring and security after launch. Add it to any build; it's quoted separately.",
 } as const;
 
 /**
@@ -178,22 +294,15 @@ export function industryInSentence(name: string): string {
 /**
  * The callout under the industry cards: the cards are examples, and any
  * business is welcome (the owner asked for a "we can do anything" statement
- * here, 2026-10-04). `capabilities` are services Lee Systems Co. offers, so
- * the claim stays concrete.
+ * here, 2026-10-04). Its chips are the six service groups (2026-10-17), so
+ * the claim stays concrete, then "Anything else you need".
  */
 export const otherIndustries = {
   eyebrow: "Not on the list?",
   title: "Whatever your business does,",
   titleAccent: "we can build it.",
   body: "The industries above are only a few examples. If something in your business is repetitive, slow or slipping through the cracks, we can build a system that handles it. Built personally for you.",
-  capabilities: [
-    "AI call answering",
-    "Lead follow-up",
-    "Booking and reminders",
-    "CRM automation",
-    "Review requests",
-    "Websites",
-  ],
+  capabilities: serviceGroups.map(({ name }) => name),
   /** The last chip, in brass: the list above is not the limit. */
   capabilitiesMore: "Anything else you need",
   cta: "Tell us what you need",
