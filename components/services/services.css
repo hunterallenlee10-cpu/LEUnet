@@ -1,0 +1,110 @@
+/* ---------------------------------------------------------------------------
+   Services: the mini-previews (components/services/MiniPreview.tsx) and the
+   few demo effects Tailwind utilities can't express.
+
+   Mini-previews loop in CSS only. Each animated part carries a `svc-a-*`
+   class. Nothing animates until MiniPreview marks the preview `data-play`
+   (on screen), and under prefers-reduced-motion nothing animates at all.
+   Every part's own (un-animated) style is its finished state, so the still
+   picture, off screen or with motion off, is the result: the new site, the
+   business at #1, "Booked". Coming into view, the loop starts from the top
+   behind a short fade.
+   --------------------------------------------------------------------------- */
+
+.svc-mp [class*="svc-a-"] {
+  animation-duration: var(--svc-loop, 6s);
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+
+.svc-mp:not([data-play]) [class*="svc-a-"],
+.svc-mp:not([data-play]) [class*="svc-l-"] {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-mp [class*="svc-a-"],
+  .svc-mp [class*="svc-l-"] {
+    animation: none !important;
+  }
+}
+
+/* A part arriving at a point in the loop, then staying. */
+@keyframes svc-in-10 { 0%, 10% { opacity: 0; transform: translateY(12%); } 16%, 100% { opacity: 1; transform: none; } }
+@keyframes svc-in-25 { 0%, 25% { opacity: 0; transform: translateY(12%); } 31%, 100% { opacity: 1; transform: none; } }
+@keyframes svc-in-40 { 0%, 40% { opacity: 0; transform: translateY(12%); } 46%, 100% { opacity: 1; transform: none; } }
+@keyframes svc-in-55 { 0%, 55% { opacity: 0; transform: translateY(12%); } 61%, 100% { opacity: 1; transform: none; } }
+@keyframes svc-in-70 { 0%, 70% { opacity: 0; transform: translateY(12%); } 76%, 100% { opacity: 1; transform: none; } }
+.svc-a-in10 { animation-name: svc-in-10; }
+.svc-a-in25 { animation-name: svc-in-25; }
+.svc-a-in40 { animation-name: svc-in-40; }
+.svc-a-in55 { animation-name: svc-in-55; }
+.svc-a-in70 { animation-name: svc-in-70; }
+
+/* A part on screen for the first part of the loop only. */
+@keyframes svc-out-25 { 0%, 22% { opacity: 1; } 28%, 100% { opacity: 0; } }
+@keyframes svc-out-40 { 0%, 37% { opacity: 1; } 43%, 100% { opacity: 0; } }
+.svc-a-out25 { animation-name: svc-out-25; opacity: 0; }
+.svc-a-out40 { animation-name: svc-out-40; opacity: 0; }
+
+/* The whole picture fading back in as the loop restarts. */
+@keyframes svc-fade { 0% { opacity: 0; } 5%, 100% { opacity: 1; } }
+.svc-a-fade { animation-name: svc-fade; }
+
+/* Get found: the business climbs from fourth to first; the rest step down. */
+@keyframes svc-rank-up { 0%, 30% { transform: translateY(360%); } 52%, 100% { transform: none; } }
+@keyframes svc-rank-down { 0%, 30% { transform: translateY(-120%); } 52%, 100% { transform: none; } }
+.svc-a-rankup { animation-name: svc-rank-up; }
+.svc-a-rankdown { animation-name: svc-rank-down; }
+
+/* Content: the captions swap word by word as the clip plays. */
+@keyframes svc-word-1 { 0%, 30% { opacity: 1; } 33%, 100% { opacity: 0; } }
+@keyframes svc-word-2 { 0%, 30% { opacity: 0; } 33%, 63% { opacity: 1; } 66%, 100% { opacity: 0; } }
+@keyframes svc-word-3 { 0%, 63% { opacity: 0; } 66%, 100% { opacity: 1; } }
+.svc-a-word1 { animation-name: svc-word-1; opacity: 0; }
+.svc-a-word2 { animation-name: svc-word-2; opacity: 0; }
+.svc-a-word3 { animation-name: svc-word-3; }
+@keyframes svc-progress { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
+.svc-a-progress { animation-name: svc-progress; animation-timing-function: linear !important; transform-origin: left; }
+
+/* Short inner loops (a spinner, a ringing pulse, a voice waveform). */
+.svc-l-spin { animation: svc-spin 0.9s linear infinite; }
+@keyframes svc-spin { to { transform: rotate(360deg); } }
+.svc-l-pulse { animation: svc-pulse 1.4s ease-out infinite; }
+@keyframes svc-pulse { 0% { transform: scale(0.8); opacity: 0.7; } 100% { transform: scale(1.6); opacity: 0; } }
+.svc-l-wave { animation: svc-wave 0.9s ease-in-out infinite alternate; transform-origin: center; }
+@keyframes svc-wave { 0% { transform: scaleY(0.35); } 100% { transform: scaleY(1); } }
+
+/* ---------------------------------------------------------------------------
+   Demo effects
+   --------------------------------------------------------------------------- */
+
+/* A line or card arriving in a demo. */
+.svc-enter {
+  animation: svc-enter 420ms cubic-bezier(0.3, 0.7, 0.3, 1) both;
+}
+@keyframes svc-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* A typing indicator's three dots. */
+.svc-dot { animation: svc-dot 1s ease-in-out infinite; }
+.svc-dot:nth-child(2) { animation-delay: 0.15s; }
+.svc-dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes svc-dot { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-enter,
+  .svc-dot {
+    animation: none !important;
+  }
+}
+
+/* The Demo Lab's tabs scroll sideways on a phone without showing a bar. */
+.svc-tabs {
+  scrollbar-width: none;
+}
+.svc-tabs::-webkit-scrollbar {
+  display: none;
+}
