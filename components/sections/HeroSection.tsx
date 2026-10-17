@@ -28,10 +28,18 @@ const offer = [
   },
 ];
 
+/** The hero photo's three widths, in public/hero. */
+const heroPhotoSrcSet = (scene: "night" | "day") =>
+  [1280, 1920, 2560].map((w) => `/hero/${scene}-${w}.webp ${w}w`).join(", ");
+
+/** Full width, or 1.5 times the screen's height where that is wider. */
+const heroPhotoSizes = "(max-aspect-ratio: 3/2) 150vh, 100vw";
+
 /**
- * The homepage hero. First a full-screen headline, line and button over
- * snowy mountains at night, or in the sun in light mode (the owner's ask,
- * 2026-10-17, which replaced the field of gold dots of 2026-09-28; the dots
+ * The homepage hero. First a full-screen headline, line and button over a
+ * photo of snowy mountains at night, or in the sun in light mode (the
+ * owner's ask, 2026-10-17, which replaced the field of gold dots of
+ * 2026-09-28; the dots
  * had replaced the LEU logo and the "Hire us to automate your business, or
  * learn to build your own." headline; the owner's headline "Never Miss
  * Another Customer", 2026-09-29, replaced "Elevate Your Business with AI").
@@ -67,15 +75,39 @@ export function HeroSection() {
       className="hero-split relative isolate flex flex-col overflow-hidden"
     >
       <HeroStage>
-        {/* The scene behind the headline (the owner's ask, 2026-10-17):
-            snowy mountains under the moon, or the same mountains in the sun
-            when the visitor's device is set to light mode. The sky, stars
-            and moon or sun are CSS; the mountains are
-            public/hero/mountains-*.svg, drawn by
-            scripts/build-hero-mountains.mjs. */}
+        {/* The photo behind the headline (the owner's ask, 2026-10-17):
+            snowy mountains under the stars, or sunny snowy Alps when the
+            visitor's device is set to light mode. The <picture> lets the
+            browser fetch only the one it shows. Both are free Unsplash
+            photos (no credit required): night
+            https://images.unsplash.com/photo-1519681393784-d120267933ba and
+            day https://images.unsplash.com/photo-1512273222628-4daea6e55abb,
+            saved as 1280, 1920
+            and 2560px WebP in public/hero. A plain <img> because the site
+            serves images as-is (next.config.mjs) and <Image> has no
+            light/dark <source>. It fills the block, so on a screen narrower
+            than the photo's 3:2 it is as wide as the block is tall times
+            1.5, which `sizes` says. */}
         <div className="hero-scene" aria-hidden="true">
-          <div className="hero-scene-orb" />
-          <div className="hero-scene-peaks" />
+          <picture>
+            <source
+              media="(prefers-color-scheme: light)"
+              type="image/webp"
+              srcSet={heroPhotoSrcSet("day")}
+              sizes={heroPhotoSizes}
+            />
+            <img
+              className="hero-scene-photo"
+              src="/hero/night-1920.webp"
+              srcSet={heroPhotoSrcSet("night")}
+              sizes={heroPhotoSizes}
+              alt=""
+              width={2560}
+              height={1708}
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
         </div>
         <div className="hero-split-copy" data-hero-copy>
           {/* The owner's headline, capitalized as they wrote it. The space
