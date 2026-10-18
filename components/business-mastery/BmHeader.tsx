@@ -4,14 +4,16 @@ import { useEffect, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import { companyInfo } from "@/data/company";
 import { bmPageAction } from "@/data/business-mastery";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 /**
  * Business Mastery's own header, in place of the site's MainHeader: the page
  * is its own site now, on its own subdomain (docs/BUSINESS-MASTERY.md), so
- * its bar carries no Lee Systems Co. or Contact links. The LEU mark with the
+ * its bar carries no LEU or Contact links. The LEU mark with the
  * program's name on the left, which goes back to the top, and the page's
- * one action on the right. The same height and the same see-through bar
- * turning solid on scroll as MainHeader, so the hero's top padding still fits.
+ * one action on the right, with the light/dark switch beside it as in
+ * MainHeader. The same height and the same see-through bar turning solid on
+ * scroll as MainHeader, so the hero's top padding still fits.
  */
 export function BmHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -57,23 +59,29 @@ export function BmHeader() {
           <Image
             src={companyInfo.mark}
             alt={companyInfo.logoAlt}
-            width={204}
+            width={205}
             height={160}
             sizes="51px"
             preload
             className="h-10 w-auto"
           />
-          <span className="whitespace-nowrap text-xs font-semibold uppercase tracking-widest text-amber-400 max-[359px]:hidden xl:text-sm">
+          {/* On a phone the name stacks onto two lines, which is what leaves
+              room for the button and the theme switch on one bar. */}
+          <span className="w-min text-xs font-semibold uppercase leading-tight tracking-widest text-amber-400 max-[359px]:hidden sm:w-auto sm:whitespace-nowrap xl:text-sm">
             Business Mastery
           </span>
         </a>
 
-        <a
-          href={bmPageAction.href}
-          className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-neutral-950 transition-colors duration-200 hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 sm:px-5 sm:text-base"
-        >
-          {bmPageAction.label}
-        </a>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href={bmPageAction.href}
+            className="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-neutral-950 transition-colors duration-200 hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 sm:px-5 sm:text-base"
+          >
+            {bmPageAction.label}
+          </a>
+
+          <ThemeToggle className="-mr-2 lg:-mr-3" />
+        </div>
       </div>
     </header>
   );

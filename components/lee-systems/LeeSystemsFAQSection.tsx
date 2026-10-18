@@ -2,7 +2,7 @@ import { FaqAccordion } from "@/components/lee-systems/FaqAccordion";
 import { leeSystemsFaqs } from "@/data/lee-systems";
 
 /**
- * The /lee-systems FAQ: the automation and websites pages' questions in one
+ * The /how-it-works FAQ: the automation and websites pages' questions in one
  * list (`leeSystemsFaqs`), since those pages folded into this one
  * (2026-09-29). The page also emits the list as FAQPage structured data.
  */

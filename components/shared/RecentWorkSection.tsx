@@ -11,7 +11,7 @@ const MIN_PROJECTS = 1;
 const MIN_BOXES = 3;
 
 /**
- * "Recent Builds", on the homepage and /lee-systems: a row of boxes, one per
+ * "Recent Builds", on the homepage and /how-it-works: a row of boxes, one per
  * website in `site.projects`, each showing the site's first screen in a
  * browser frame. The whole box links to the live site. The owner asked for
  * boxes in place of the 360° ring on 2026-10-05, then for a sideways row in
@@ -74,7 +74,7 @@ function hostname(href: string): string {
   return new URL(href).hostname.replace(/^www\./, "");
 }
 
-function BuildBox({ project }: { project: Project }) {
+export function BuildBox({ project }: { project: Project }) {
   const external = isExternalHref(project.href);
   const domain = external ? hostname(project.href) : null;
 
@@ -94,7 +94,7 @@ function BuildBox({ project }: { project: Project }) {
             <span className="h-2 w-2 rounded-full bg-white/20" />
             <span className="h-2 w-2 rounded-full bg-white/20" />
             {domain && (
-              <span className="ml-2 truncate text-xs text-neutral-500">
+              <span className="ml-2 truncate text-xs text-neutral-400">
                 {domain}
               </span>
             )}

@@ -26,16 +26,18 @@ const emptyForm = {
   message: "",
 };
 
-/** In the Lee Systems brass, after the homepage calculator's card. */
+/** In the LEU brass, after the homepage calculator's card. */
 const labelClass = "mb-2 block text-sm font-medium text-neutral-300";
 const fieldClass =
   "w-full rounded-lg border bg-neutral-950/70 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:border-brass-400/70 focus:outline-none focus:ring-2 focus:ring-brass-400/25";
 const borderFor = (error?: string) =>
   error ? "border-red-500/60" : "border-white/10 hover:border-white/20";
 
-/** The calculator's card (.calc in globals.css), as utilities. */
+/** The calculator's card (.calc in globals.css), as utilities. In light it is
+ *  a plain white card: the dark gradient has no light counterpart worth
+ *  keeping, and a black shadow reads as dirt on a pale page. */
 const cardClass =
-  "relative rounded-3xl border border-white/10 bg-gradient-to-b from-[#1c1c1b]/90 to-[#121211]/90 p-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)] md:p-9";
+  "relative rounded-3xl border border-white/10 bg-gradient-to-b from-[#1c1d20]/90 to-[#131417]/90 p-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)] light:bg-none light:bg-neutral-900 light:shadow-[0_24px_60px_-28px_rgb(15_26_46/0.22)] md:p-9";
 
 /** The order errors are checked in, which is the order focus goes to them. */
 const fieldOrder: Field[] = ["name", "email", "phone", "message"];

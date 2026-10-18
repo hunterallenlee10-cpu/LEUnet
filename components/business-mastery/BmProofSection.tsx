@@ -31,7 +31,7 @@ export function BmProofSection() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(60% 70% at 50% 50%, rgba(251, 191, 36, 0.06) 0%, transparent 70%)",
+              "radial-gradient(60% 70% at 50% 50%, rgb(var(--amber) / 0.06) 0%, transparent 70%)",
           }}
         />
       </div>

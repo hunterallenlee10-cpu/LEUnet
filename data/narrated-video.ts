@@ -1,5 +1,5 @@
 /**
- * The shape of the narrated videos on /lee-systems: "Two paths" (a lead
+ * The shape of the narrated videos on /how-it-works: "Two paths" (a lead
  * handled by hand, then with AI) and the website video under it (a visit to
  * an outdated site, then to one built right). Both play in the same frame
  * (components/lee-systems/NarratedVideo.tsx): a line either side of two runs
@@ -9,7 +9,7 @@
  * video files with Node's type stripping.
  */
 
-/** "before" is the worse run, "after" the one Lee Systems Co. builds. */
+/** "before" is the worse run, "after" the one LEU builds. */
 export type VideoChapter = "intro" | "before" | "after" | "outro";
 
 export type PanelStatus = "idle" | "ringing" | "good" | "bad";

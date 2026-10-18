@@ -1,28 +1,37 @@
 @import 'tailwindcss';
 
+/* `light:` applies a utility only in the light theme, for the few colours a
+   variable can't flip on its own: `bg-[#121212] light:bg-[#fff]`. See "Light
+   and dark themes" below. `white` itself is navy ink in the light theme (that
+   is how `text-white` flips), so real white has to be written as #fff. */
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
 /* ---------------------------------------------------------------------------
    Homepage hero — "Split Ventures"
    Used only by components/sections/HeroSection.tsx.
 
-   A full-screen headline block over a field of gold dots (the owner's design,
-   2026-09-28), then one big call to hire Lee Systems Co. for websites and
+   A full-screen headline block over a photo of snowy mountains, at night in
+   the dark theme and in the sun in the light one (the owner's ask,
+   2026-10-17), then one big call to hire LEU for websites and
    automations beside the missed-revenue calculator (2026-10-06, replacing
-   the two halves for Lee Systems Co. and Business Mastery), and the
+   the two halves for LEU and Business Mastery), and the
    statistics as a ribbon along the bottom edge. All motion stops under
    prefers-reduced-motion at the end of the block.
    --------------------------------------------------------------------------- */
 
 .hero-split {
-  background: radial-gradient(120% 90% at 50% 0%, #0b0a07 0%, #060606 60%, #000 100%);
+  background: radial-gradient(120% 90% at 50% 0%, #1a1b1f 0%, #0e0f11 60%, #0a0b0c 100%);
+}
+
+/* Light: the same pool of light from the top, in daylight greys. */
+:root[data-theme="light"] .hero-split {
+  background: radial-gradient(120% 90% at 50% 0%, #ffffff 0%, #f6f7f9 60%, #eef1f6 100%);
 }
 
 /* The headline block: a screen tall from 640px up (short of that on very
    tall screens), and a little less on a phone, so the Lee Systems section
-   shows under it. It holds two layers in one grid cell: the headline, and
-   the animation that plays in its place (`.hero-vsl`, in the next block),
-   which fills the block edge to edge and adds nothing to its height, so the
-   block never changes height as they swap. `isolation` keeps the dots and
-   the glow behind the words without leaving this block. */
+   shows under it. `isolation` keeps the photo behind the words without
+   leaving this block. */
 .hero-split-top {
   position: relative;
   z-index: 1;
@@ -40,7 +49,7 @@
   }
 }
 
-/* The headline, its line and its buttons. Content sits a little below the
+/* The headline, its line and its button. Content sits a little below the
    middle because the fixed header covers the block's top 80px. */
 .hero-split-copy {
   grid-area: 1 / 1;
@@ -53,54 +62,73 @@
   padding: 7rem 1.25rem 5rem;
 }
 
-/* The field of gold dots, and a warm light from the top edge where the header
-   meets the hero. The dots are three small tiles of an SVG repeated at sizes
-   that don't line up (347, 523 and 431px), so the pattern never visibly
-   repeats: no elements, no script, about 2KB. They were inline SVG shapes
-   until a Lighthouse run showed those tripling the homepage's main-thread
-   work. The tiles are too sparse to count as the page's largest paint, so
-   the headline stays that. Both layers thin out towards the bottom, so the
-   block hands over to the section under it without an edge.
-
-   `::before` holds still. `::after` is a handful of brighter dots that fade
-   in and out, which reads as a slow twinkle; only its opacity animates, so
-   the browser does it without repainting. */
-.hero-split-top::before,
-.hero-split-top::after {
-  content: "";
+/* The photo behind the headline (the owner's ask, 2026-10-17, replacing the
+   field of gold dots of 2026-09-28): snowy mountains under the stars in the
+   dark theme, sunny snowy Alps in the light one. Both are free Unsplash
+   photos (no credit required),
+   https://images.unsplash.com/photo-1519681393784-d120267933ba and
+   https://images.unsplash.com/photo-1512273222628-4daea6e55abb, saved as
+   1920 and 2560px WebP in public/hero (the site serves images as-is,
+   next.config.mjs). A background rather than an <img> because the theme is
+   an attribute, which a <picture> can't choose by; this way only the current
+   theme's photo downloads. It fills the block, cropping to the middle on a
+   narrow screen with the mountains kept in view. A shade behind the words
+   keeps them readable, and the whole scene thins out over its last 6rem, so
+   the hero hands over to the section under it without an edge. */
+.hero-scene {
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  background: url("/hero/night-1920.webp") 50% 75% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 6rem), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 6rem), transparent 100%);
 }
 
-.hero-split-top::before {
+.hero-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
-    radial-gradient(
-      70% 45% at 50% 0%,
-      rgba(212, 168, 87, 0.09) 0%,
-      rgba(212, 168, 87, 0.03) 45%,
-      transparent 75%
-    ),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='347' height='347' fill='%23d9b25f'%3E%3Ccircle cx='327' cy='76' r='1.1' fill-opacity='0.42'/%3E%3Ccircle cx='108' cy='120' r='1.5' fill-opacity='0.52'/%3E%3Ccircle cx='236' cy='40' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='211' cy='336' r='0.7' fill-opacity='0.67'/%3E%3Ccircle cx='166' cy='16' r='0.8' fill-opacity='0.42'/%3E%3Ccircle cx='305' cy='340' r='1.3' fill-opacity='0.50'/%3E%3Ccircle cx='163' cy='198' r='1.5' fill-opacity='0.42'/%3E%3Ccircle cx='288' cy='137' r='0.8' fill-opacity='0.57'/%3E%3Ccircle cx='233' cy='104' r='0.7' fill-opacity='0.36'/%3E%3Ccircle cx='144' cy='81' r='0.8' fill-opacity='0.48'/%3E%3Ccircle cx='80' cy='164' r='1.2' fill-opacity='0.36'/%3E%3C/svg%3E") 0 0 / 347px 347px,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='523' height='523' fill='%23d9b25f'%3E%3Ccircle cx='241' cy='297' r='0.9' fill-opacity='0.56'/%3E%3Ccircle cx='210' cy='456' r='1.0' fill-opacity='0.75'/%3E%3Ccircle cx='324' cy='467' r='0.8' fill-opacity='0.64'/%3E%3Ccircle cx='443' cy='349' r='1.8' fill-opacity='0.68'/%3E%3Ccircle cx='385' cy='411' r='1.7' fill-opacity='0.54'/%3E%3Ccircle cx='517' cy='309' r='1.8' fill-opacity='0.30'/%3E%3Ccircle cx='233' cy='3' r='0.8' fill-opacity='0.59'/%3E%3Ccircle cx='278' cy='149' r='1.5' fill-opacity='0.64'/%3E%3Ccircle cx='475' cy='216' r='0.9' fill-opacity='0.66'/%3E%3Ccircle cx='365' cy='464' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='5' cy='74' r='1.2' fill-opacity='0.45'/%3E%3Ccircle cx='320' cy='352' r='0.9' fill-opacity='0.67'/%3E%3Ccircle cx='60' cy='268' r='0.8' fill-opacity='0.68'/%3E%3C/svg%3E") 120px 60px / 523px 523px;
+    radial-gradient(60% 45% at 50% 48%, rgb(3 5 14 / 0.45) 0%, transparent 100%),
+    linear-gradient(to bottom, rgb(3 5 14 / 0.35) 0%, transparent 30%);
 }
 
-.hero-split-top::after {
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='431' height='431' fill='%23d9b25f'%3E%3Ccircle cx='263' cy='427' r='1.5' fill-opacity='0.81'/%3E%3Ccircle cx='126' cy='269' r='1.2' fill-opacity='0.87'/%3E%3Ccircle cx='251' cy='224' r='1.0' fill-opacity='0.59'/%3E%3Ccircle cx='317' cy='237' r='1.4' fill-opacity='0.81'/%3E%3Ccircle cx='408' cy='109' r='2.2' fill-opacity='0.61'/%3E%3Ccircle cx='33' cy='421' r='1.2' fill-opacity='0.89'/%3E%3C/svg%3E") 60px 200px / 431px 431px;
-  animation: heroTwinkle 6s ease-in-out infinite;
-  will-change: opacity;
+:root[data-theme="light"] .hero-scene {
+  background-image: url("/hero/day-1920.webp");
 }
 
-@keyframes heroTwinkle {
-  0%,
-  100% {
-    opacity: 1;
+/* Light: a soft bright veil behind the words in place of the dark one, since
+   they are navy ink here. */
+:root[data-theme="light"] .hero-scene::after {
+  background: radial-gradient(
+    62% 44% at 50% 50%,
+    rgb(255 255 255 / 0.78) 0%,
+    rgb(255 255 255 / 0.5) 55%,
+    transparent 100%
+  );
+}
+
+/* Phones get a 1280px copy (2026-10-17): about half the bytes of the
+   1920px one, and the photo is the homepage's largest paint. Kept in step
+   with the preload in components/sections/HeroSection.tsx. */
+@media (max-width: 799px) {
+  .hero-scene {
+    background-image: url("/hero/night-1280.webp");
   }
-  50% {
-    opacity: 0.15;
+
+  :root[data-theme="light"] .hero-scene {
+    background-image: url("/hero/day-1280.webp");
+  }
+}
+
+@media (min-width: 1600px) {
+  .hero-scene {
+    background-image: url("/hero/night-2560.webp");
+  }
+
+  :root[data-theme="light"] .hero-scene {
+    background-image: url("/hero/day-2560.webp");
   }
 }
 
@@ -109,7 +137,7 @@
    the size sits a step under the light one's. */
 .hero-split-title {
   max-width: 15ch;
-  color: #fff;
+  color: var(--color-white);
   font-size: clamp(2.6rem, 6.6vw, 6.25rem);
   font-weight: 700;
   line-height: 1.02;
@@ -124,7 +152,7 @@
 .hero-split-lede {
   margin-top: clamp(1.5rem, 4vw, 3.25rem);
   max-width: 46rem;
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
   font-size: clamp(1.0625rem, 1.55vw, 1.5rem);
   line-height: 1.5;
   text-wrap: balance;
@@ -145,11 +173,11 @@
   min-height: 3.5rem;
   padding: 1rem 2.75rem;
   border-radius: 0.75rem;
-  background: linear-gradient(180deg, #e8c983 0%, #d4a857 55%, #bf954b 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #e7e5e4 55%, #c9c6c2 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 12px 32px -12px rgba(212, 168, 87, 0.5);
-  color: #0a0a0a;
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 12px 32px -12px rgb(231 229 228 / 0.25);
+  color: var(--color-neutral-950);
   font-size: clamp(1rem, 1.3vw, 1.25rem);
   font-weight: 600;
   transition: filter 0.2s ease;
@@ -159,77 +187,27 @@
   filter: brightness(1.08);
 }
 
+:root[data-theme="light"] .btn-hero {
+  background: linear-gradient(180deg, #2f56c9 0%, #1e40af 55%, #1a3794 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25),
+    0 12px 32px -12px rgb(30 64 175 / 0.45);
+}
+
+:root[data-theme="light"] .btn-hero:hover {
+  filter: brightness(1.12);
+}
+
 .btn-hero:focus-visible {
   outline: 2px solid var(--color-brass-300);
   outline-offset: 3px;
 }
 
-/* "Replay animation", once the animation has played ("Play animation" from
-   the start under reduced motion): beside the booking button, and quieter
-   than it. On a phone the two don't fit side by side, so it hangs under the
-   booking button in the room the block keeps below its words, and showing
-   it moves nothing on the page. */
-.hero-replay {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  width: fit-content;
-  min-height: 3.5rem;
-  margin: 0.875rem auto 0;
-  /* the booking button's height, less this one's border */
-  padding: calc(1rem - 1px) 1.75rem;
-  border: 1px solid rgb(212 168 87 / 0.55);
-  border-radius: 0.75rem;
-  background: rgb(12 10 6 / 0.55);
-  color: var(--color-brass-200);
-  font-size: clamp(1rem, 1.3vw, 1.25rem);
-  font-weight: 600;
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-@media (min-width: 640px) {
-  .hero-replay {
-    position: static;
-    margin: 0;
-  }
-}
-
-.hero-replay:hover {
-  border-color: var(--color-brass-300);
-  background: rgb(212 168 87 / 0.12);
-}
-
-.hero-replay:focus-visible {
-  outline: 2px solid var(--color-brass-300);
-  outline-offset: 3px;
-}
-
-.hero-replay svg {
-  flex: none;
-  width: 1.05em;
-  height: 1.05em;
-}
-
-.hero-replay[data-kind="play"] .hero-replay-again,
-.hero-replay:not([data-kind="play"]) .hero-replay-play {
-  display: none;
-}
-
-/* ---- the Lee Systems offer (the owner's ask, 2026-10-06) ----
+/* ---- the LEU offer (the owner's ask, 2026-10-06) ----
 
    It replaced "Two ways to work with LEU / Pick the one that fits", the
-   Lee Systems Co. and Business Mastery halves, when the owner moved Business
-   Mastery to the footer only. One big call to hire Lee Systems Co. for
+   LEU and Business Mastery halves, when the owner moved Business
+   Mastery to the footer only. One big call to hire LEU for
    websites and automations on the left, and the missed-revenue calculator on
    the right (MissedRevenueCalculator.tsx); stacked below 1024px, the
    calculator second. The ground is the old Lee Systems half's: a brass pool
@@ -255,13 +233,13 @@
   background:
     radial-gradient(
       70% 80% at 18% 100%,
-      rgba(212, 168, 87, 0.2) 0%,
-      rgba(140, 105, 40, 0.06) 46%,
+      rgb(var(--gold) / 0.2) 0%,
+      rgb(113 113 122 / 0.06) 46%,
       transparent 72%
     ),
     radial-gradient(
       50% 60% at 82% 40%,
-      rgba(212, 168, 87, 0.08) 0%,
+      rgb(var(--gold) / 0.08) 0%,
       transparent 70%
     );
 }
@@ -270,7 +248,7 @@
   opacity: 0.1;
   background: repeating-linear-gradient(
     115deg,
-    rgba(212, 168, 87, 0.28) 0 1px,
+    rgb(var(--gold) / 0.28) 0 1px,
     transparent 1px 15px
   );
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%);
@@ -305,13 +283,13 @@
   content: "";
   width: clamp(2rem, 6vw, 4rem);
   height: 1px;
-  background: linear-gradient(90deg, rgba(212, 168, 87, 0.7), transparent);
+  background: linear-gradient(90deg, rgb(var(--gold) / 0.7), transparent);
 }
 
 .hero-ls-title {
   margin-top: 1rem;
   max-width: 18ch;
-  color: #fff;
+  color: var(--color-white);
   font-size: clamp(2.25rem, 4.6vw, 4rem);
   font-weight: 700;
   line-height: 1.04;
@@ -327,7 +305,7 @@
 .hero-ls-blurb {
   margin-top: 1.25rem;
   max-width: 34rem;
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
   font-size: 1.125rem;
   line-height: 1.6;
 }
@@ -348,8 +326,8 @@
 
 .hero-ls-list h3 {
   padding-bottom: 0.625rem;
-  border-bottom: 1px solid rgba(212, 168, 87, 0.3);
-  color: #fff;
+  border-bottom: 1px solid rgb(var(--gold) / 0.3);
+  color: var(--color-white);
   font-size: 1rem;
   font-weight: 700;
 }
@@ -363,7 +341,7 @@
 .hero-ls-list li {
   display: flex;
   gap: 0.625rem;
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
   font-size: 0.95rem;
   line-height: 1.45;
 }
@@ -406,15 +384,20 @@
    part (missed calls, website leads, busywork, 2026-10-09) and brass
    sliders for the parts that are on. */
 .calc {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(var(--ink) / 0.1);
   border-radius: 1.5rem;
-  background: linear-gradient(180deg, rgba(28, 28, 27, 0.92), rgba(18, 18, 17, 0.92));
+  background: linear-gradient(180deg, rgb(28 29 32 / 0.92), rgb(19 20 23 / 0.92));
   box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.9);
   padding: clamp(1.25rem, 3.5vw, 2.25rem);
 }
 
+:root[data-theme="light"] .calc {
+  background: linear-gradient(180deg, #ffffff, #fbfcfd);
+  box-shadow: 0 30px 80px -40px rgb(15 26 46 / 0.3);
+}
+
 .calc-title {
-  color: #fff;
+  color: var(--color-white);
   font-size: clamp(1.375rem, 2.2vw, 1.625rem);
   font-weight: 700;
   letter-spacing: -0.015em;
@@ -422,7 +405,7 @@
 
 .calc-sub {
   margin-top: 0.375rem;
-  color: rgb(163 163 163);
+  color: var(--color-neutral-400);
   font-size: 0.95rem;
 }
 
@@ -431,15 +414,15 @@
   overflow: hidden;
   margin-top: 1.5rem;
   padding: 1.375rem 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgb(var(--ink) / 0.08);
   border-radius: 1rem;
   background:
-    radial-gradient(90% 120% at 0% 0%, rgba(212, 168, 87, 0.2) 0%, transparent 60%),
-    rgba(10, 10, 10, 0.6);
+    radial-gradient(90% 120% at 0% 0%, rgb(var(--gold) / 0.2) 0%, transparent 60%),
+    rgb(var(--ground) / 0.6);
 }
 
 .calc-result-label {
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
   font-size: 0.875rem;
   font-weight: 500;
 }
@@ -449,7 +432,7 @@
   display: flex;
   align-items: baseline;
   gap: 0.25rem;
-  color: #fff;
+  color: var(--color-white);
   font-size: clamp(2.5rem, 6vw, 3.5rem);
   font-weight: 700;
   line-height: 1;
@@ -458,7 +441,7 @@
 }
 
 .calc-result-value small {
-  color: rgb(163 163 163);
+  color: var(--color-neutral-400);
   font-size: 1.125rem;
   font-weight: 500;
   letter-spacing: 0;
@@ -466,7 +449,7 @@
 
 .calc-result-detail {
   margin-top: 0.75rem;
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
   font-size: 0.875rem;
   line-height: 1.5;
 }
@@ -485,7 +468,7 @@
    on the right. */
 .calc-breakdown {
   margin-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgb(var(--ink) / 0.08);
 }
 
 .calc-breakdown li {
@@ -494,11 +477,11 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.625rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgb(var(--ink) / 0.06);
 }
 
 .calc-breakdown-label {
-  color: rgb(229 229 229);
+  color: var(--color-neutral-200);
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -506,7 +489,7 @@
 .calc-breakdown-label small {
   display: block;
   margin-top: 0.125rem;
-  color: rgb(163 163 163);
+  color: var(--color-neutral-400);
   font-size: 0.8125rem;
   font-weight: 400;
 }
@@ -535,9 +518,9 @@
   width: 100%;
   min-height: 3.5rem;
   padding: 0.625rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgb(var(--ink) / 0.12);
   border-radius: 0.875rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgb(var(--ink) / 0.02);
   text-align: left;
   cursor: pointer;
   transition:
@@ -546,12 +529,12 @@
 }
 
 .calc-part:hover {
-  border-color: rgba(212, 168, 87, 0.5);
+  border-color: rgb(var(--gold) / 0.5);
 }
 
 .calc-part[aria-checked="true"] {
-  border-color: rgba(212, 168, 87, 0.7);
-  background: rgba(212, 168, 87, 0.08);
+  border-color: rgb(var(--gold) / 0.7);
+  background: rgb(var(--gold) / 0.08);
 }
 
 .calc-part:focus-visible {
@@ -566,17 +549,17 @@
 }
 
 .calc-part-label {
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
   font-size: 0.95rem;
   font-weight: 600;
 }
 
 .calc-part[aria-checked="true"] .calc-part-label {
-  color: #fff;
+  color: var(--color-white);
 }
 
 .calc-part-hint {
-  color: rgb(140 140 140);
+  color: var(--fg-dim);
   font-size: 0.8125rem;
 }
 
@@ -588,7 +571,7 @@
   width: 2.75rem;
   height: 1.5rem;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.14);
+  background: rgb(var(--ink) / 0.14);
   transition: background-color 0.2s ease;
 }
 
@@ -600,7 +583,7 @@
   width: 1.125rem;
   height: 1.125rem;
   border-radius: 9999px;
-  background: rgb(163 163 163);
+  background: var(--color-neutral-400);
   transition:
     transform 0.2s ease,
     background-color 0.2s ease;
@@ -612,7 +595,11 @@
 
 .calc-part[aria-checked="true"] .calc-switch::after {
   transform: translateX(1.25rem);
-  background: #f2ede4;
+  background: #ffffff;
+}
+
+:root[data-theme="light"] .calc-part[aria-checked="true"] .calc-switch::after {
+  background: #ffffff;
 }
 
 .calc-fields {
@@ -631,13 +618,13 @@
 }
 
 .calc-field-head label {
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
   font-size: 0.95rem;
   font-weight: 500;
 }
 
 .calc-field-head output {
-  color: #fff;
+  color: var(--color-white);
   font-size: 1.0625rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -669,14 +656,14 @@
   background: linear-gradient(
     to right,
     var(--color-brass-400) 0 var(--fill),
-    rgba(255, 255, 255, 0.12) var(--fill) 100%
+    rgb(var(--ink) / 0.12) var(--fill) 100%
   );
 }
 
 .calc-range::-moz-range-track {
   height: 4px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgb(var(--ink) / 0.12);
 }
 
 .calc-range::-moz-range-progress {
@@ -693,8 +680,8 @@
   margin-top: calc((4px - 1.375rem) / 2);
   border: 5px solid var(--color-brass-400);
   border-radius: 9999px;
-  background: #f2ede4;
-  box-shadow: 0 0 0 4px rgba(212, 168, 87, 0.15);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgb(var(--gold) / 0.15);
 }
 
 .calc-range::-moz-range-thumb {
@@ -703,16 +690,34 @@
   height: 1.375rem;
   border: 5px solid var(--color-brass-400);
   border-radius: 9999px;
-  background: #f2ede4;
-  box-shadow: 0 0 0 4px rgba(212, 168, 87, 0.15);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgb(var(--gold) / 0.15);
 }
 
 .calc-range:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 4px rgba(224, 190, 120, 0.55);
+  box-shadow: 0 0 0 4px rgb(231 229 228 / 0.45);
 }
 
 .calc-range:focus-visible::-moz-range-thumb {
-  box-shadow: 0 0 0 4px rgba(224, 190, 120, 0.55);
+  box-shadow: 0 0 0 4px rgb(231 229 228 / 0.45);
+}
+
+/* Light: a white thumb in a navy ring. Each pseudo-element needs its own
+   rule; a browser drops a whole rule over a selector it doesn't know. */
+:root[data-theme="light"] .calc-range::-webkit-slider-thumb {
+  background: #ffffff;
+}
+
+:root[data-theme="light"] .calc-range::-moz-range-thumb {
+  background: #ffffff;
+}
+
+:root[data-theme="light"] .calc-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px rgb(29 78 216 / 0.35);
+}
+
+:root[data-theme="light"] .calc-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 4px rgb(29 78 216 / 0.35);
 }
 
 .calc-group {
@@ -726,7 +731,7 @@
 
 .calc-note {
   margin-top: 1.5rem;
-  color: rgb(140 140 140);
+  color: var(--fg-dim);
   font-size: 0.8125rem;
   line-height: 1.55;
 }
@@ -744,9 +749,13 @@
   column-gap: clamp(1.25rem, 5vw, 4.375rem);
   row-gap: 0.25rem;
   padding: 0.875rem 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(8, 8, 8, 0.72);
+  border-top: 1px solid rgb(var(--ink) / 0.08);
+  background: rgb(14 15 17 / 0.72);
   backdrop-filter: blur(8px);
+}
+
+:root[data-theme="light"] .hero-split-ribbon {
+  background: rgb(255 255 255 / 0.8);
 }
 
 .hero-split-stat {
@@ -757,13 +766,13 @@
 }
 
 .hero-split-stat b {
-  color: rgb(251 191 36);
+  color: rgb(var(--amber));
   font-size: 1.0625rem;
   font-weight: 700;
 }
 
 .hero-split-stat span {
-  color: rgb(163 163 163);
+  color: var(--color-neutral-400);
   font-size: 0.78125rem;
 }
 
@@ -786,732 +795,11 @@
    section where the motion is the point — it must keep working if that reset
    is ever narrowed. */
 @media (prefers-reduced-motion: reduce) {
-  .hero-split-top::after {
-    animation: none;
-  }
-
   .calc-part,
   .calc-switch,
   .calc-switch::after {
     transition: none;
   }
-}
-
-/* ---------------------------------------------------------------------------
-   Homepage hero — the animation: "The Vault" (the owner's pick, 2026-10-08)
-   Used only by components/sections/HeroVsl.tsx, which holds its words, and
-   heroVslEngine.ts and heroVslPlayer.ts beside it, which draw and run it.
-
-   A real-time 3D film over the hero's whole first screen (`.hero-split-top`),
-   edge to edge and under the fixed header, in the same grid cell as the
-   headline: gold coins leak out of three cracks in a glass pipe until gold
-   collars clamp them shut, a website adds a stream, and the coins stack up in
-   a vault for the end card. The engine draws the scene on a canvas
-   (`.vt-gl`); everything here is the words over it.
-
-   Those words are laid out in the film's own units (`.vt-ref`: 1600 x 900 on
-   wide screens, 900 x 1125 on tall ones, as `data-orient` says), and the
-   engine scales that layer to the screen. On a screen of another shape the
-   frame stays whole, centred under the header, and the engine says where it
-   landed: `--fx` and `--ft` (its left and top edges), `--fb` (the room under
-   it) and `--head` (the header's band), all in the film's units, and `--k`
-   (the scale). Where the hero runs taller than the screen (a phone on its
-   side), the frame fits the first screen, and `--below` (screen pixels, on
-   `.vt`) is the part under it. The headlines, the count, the end card and
-   the controls are placed from those; the few small words that would be too
-   small to read on a phone have a floor of so many screen pixels
-   (`calc(Npx / var(--k))`). The engine sets every moving value itself, frame
-   by frame; nothing here animates on its own.
-   --------------------------------------------------------------------------- */
-
-/* The layer: hidden until its turn (the player fades it in and out). Its
-   contents are all positioned, so it never adds to the block's height. */
-.hero-vsl {
-  grid-area: 1 / 1;
-  align-self: stretch;
-  justify-self: stretch;
-  position: relative;
-  z-index: 2;
-  text-align: left;
-  visibility: hidden;
-  opacity: 0;
-}
-
-/* The film's last 5rem fade into the page, as the hero's own layers do, so
-   where the hero ends above the bottom of the screen (or scrolls up while
-   the film plays) the scene doesn't end in a hard line. Only the scene and
-   its ground fade; the words and buttons over it stay whole. */
-.vt {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background: linear-gradient(to bottom, #050403 calc(100% - 5rem), rgb(5 4 3 / 0));
-  color: #f4eee2;
-  -webkit-font-smoothing: antialiased;
-}
-
-.vt-gl,
-.vt-gl canvas {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.vt-gl {
-  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 5rem), transparent);
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 5rem), transparent);
-}
-
-.vt-ref {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform-origin: 0 0;
-  pointer-events: none;
-}
-
-/* Nothing here eases between the values the player and the engine set,
-   least of all `visibility`. It matters under reduced motion, where the
-   site's reset (`@layer base`) gives every element a near-zero transition:
-   each layer that shows would stay "hidden" for a frame, one more per level
-   down, and a button still hidden can't take focus when the player moves it
-   there (the film's pause button as it starts, the end card's booking
-   button on a skip). The buttons keep their own transition lists, and the
-   hero's button row, which the player hides and shows, gets the same. */
-.hero-vsl,
-.hero-vsl *:not(a, .vt-skip, .vt-toggle),
-.hero-split-cta {
-  transition-property: none;
-}
-
-/* Darker where the words are: the left on wide screens, the top and bottom
-   on tall ones. */
-.vt-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgb(5 4 3 / 0.82) 0,
-    rgb(5 4 3 / 0.55) calc(var(--fx) + 544px),
-    rgb(5 4 3 / 0) calc(var(--fx) + 896px)
-  );
-}
-
-.vt[data-orient="tall"] .vt-shade {
-  background: linear-gradient(
-    180deg,
-    rgb(5 4 3 / 0.85) 0,
-    rgb(5 4 3 / 0.55) calc(var(--head) + 233px),
-    rgb(5 4 3 / 0) calc(var(--head) + 413px),
-    /* in step with the count, which rises off the controls on a phone */
-    rgb(5 4 3 / 0) calc(100% - var(--below, 0px) / var(--k) - 274px - max(64px, 72px / var(--k))),
-    rgb(5 4 3 / 0.8) calc(100% - var(--below, 0px) / var(--k) - 26px - max(64px, 72px / var(--k)))
-  );
-}
-
-/* The headlines: beside the film on wide screens, across the top under the
-   header on tall ones. Each line rises out of its own mask. */
-.vt-caps {
-  position: absolute;
-  left: calc(var(--fx) + 150px);
-  bottom: calc(var(--fb) + 342px);
-  width: 700px;
-}
-
-.vt[data-orient="tall"] .vt-caps {
-  left: calc(var(--fx) + 64px);
-  top: calc(var(--head) + 46px);
-  bottom: auto;
-  width: 772px;
-}
-
-.vt-cap {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  color: #f6f0e4;
-  font-size: 58px;
-  line-height: 1.06;
-  font-weight: 640;
-  letter-spacing: -0.032em;
-}
-
-.vt[data-orient="tall"] .vt-cap {
-  top: 0;
-  bottom: auto;
-  font-size: 56px;
-}
-
-.vt-lines,
-.vt-m,
-.vt-l {
-  display: block;
-}
-
-.vt[data-orient="tall"] .vt-lines--wide,
-.vt:not([data-orient="tall"]) .vt-lines--tall {
-  display: none;
-}
-
-.vt-m {
-  overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
-}
-
-.vt-l {
-  white-space: nowrap;
-  will-change: transform;
-}
-
-.vt-cap em {
-  font-style: normal;
-  color: #d4a857;
-  background: linear-gradient(180deg, #f3d995, #d4a857 60%, #b88a3c);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.vt-sub {
-  display: block;
-  margin-top: 22px;
-  color: #e0be78;
-  font-size: max(24px, calc(13px / var(--k)));
-  font-weight: 500;
-  letter-spacing: 0;
-}
-
-/* The running count: red money lost, then gold money recovered. */
-.vt-count {
-  position: absolute;
-  left: calc(var(--fx) + 150px);
-  top: calc(var(--ft) + 600px);
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-  transform-origin: 0 50%;
-}
-
-/* At the bottom on tall screens, clear of the play controls in the corner
-   (44px, and 16px under them), as the end card is. The engine keeps the
-   labels and cards above it. */
-.vt[data-orient="tall"] .vt-count {
-  left: calc(var(--fx) + 64px);
-  top: auto;
-  bottom: calc(var(--below, 0px) / var(--k) + max(64px, 72px / var(--k)));
-}
-
-.vt-count b {
-  font-size: 60px;
-  font-weight: 650;
-  letter-spacing: -0.03em;
-}
-
-.vt-count span {
-  color: #a39c8c;
-  font-size: max(21px, calc(12px / var(--k)));
-  font-weight: 500;
-}
-
-/* On tall screens the vault can rise behind the count's word. */
-.vt[data-orient="tall"] .vt-count span {
-  text-shadow: 0 0 14px rgb(5 4 3 / 0.9);
-}
-
-.vt-count i {
-  align-self: center;
-  width: 10px;
-  height: 10px;
-  margin-right: 2px;
-  border-radius: 50%;
-}
-
-.vt-count[data-mode="lost"] b {
-  color: #ff6a5e;
-  text-shadow: 0 0 24px rgb(255 90 78 / 0.35);
-}
-
-.vt-count[data-mode="lost"] i {
-  background: #ff5a4e;
-  box-shadow: 0 0 12px #ff5a4e;
-}
-
-.vt-count[data-mode="gain"] b {
-  color: #f0cf86;
-  text-shadow: 0 0 26px rgb(212 168 87 / 0.4);
-}
-
-.vt-count[data-mode="gain"] i {
-  background: #d4a857;
-  box-shadow: 0 0 12px #d4a857;
-}
-
-/* The labels the camera carries: each crack's problem, then its fix, and
-   the website and the vault. */
-.vt-lab,
-.vt-tag {
-  position: absolute;
-  left: 0;
-  top: 0;
-  white-space: nowrap;
-  font-weight: 600;
-  text-transform: uppercase;
-  transform-origin: 0 0;
-}
-
-.vt-lab {
-  font-size: 15px;
-  line-height: 1;
-  letter-spacing: 0.12em;
-}
-
-.vt-lab > span {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* On the pipe's left, reading towards it. */
-.vt-lab.is-left > span {
-  flex-direction: row-reverse;
-  transform: translateX(-100%);
-}
-
-.vt-lab-p {
-  color: #d9cfbf;
-}
-
-.vt-lab-p::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #ff5a4e;
-  box-shadow: 0 0 10px #ff5a4e;
-}
-
-.vt-lab-f {
-  color: #f0cf86;
-}
-
-.vt-lab-f::before {
-  content: "";
-  width: 16px;
-  height: 1.5px;
-  background: #d4a857;
-}
-
-.vt-tag {
-  color: #cbbfa9;
-  font-size: 14px;
-  line-height: 1.25;
-  letter-spacing: 0.14em;
-}
-
-/* The fixes at work: a call answered, a text sent, a lead filed. */
-.vt-card {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 360px;
-  padding: 18px 20px 20px;
-  border: 1px solid rgb(212 168 87 / 0.38);
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgb(34 29 21 / 0.82), rgb(16 14 11 / 0.86));
-  box-shadow:
-    0 24px 60px -20px rgb(0 0 0 / 0.9),
-    inset 0 1px 0 rgb(255 240 210 / 0.12),
-    0 0 40px -12px rgb(212 168 87 / 0.35);
-  transform-origin: 0 0;
-}
-
-.vt-card-h {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-  color: #e9c882;
-  font-size: 13px;
-  line-height: 1;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.vt-card-h svg {
-  flex: none;
-  width: 18px;
-  height: 18px;
-  color: #d4a857;
-}
-
-.vt-live {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: auto;
-  color: #a39c8c;
-  font-size: 11px;
-}
-
-.vt-live::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #5fd38a;
-  box-shadow: 0 0 8px #5fd38a;
-}
-
-.vt-card p {
-  min-height: 52px;
-  color: #f4eee2;
-  font-size: 19px;
-  line-height: 1.38;
-}
-
-.vt-wave {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  height: 34px;
-  margin-bottom: 12px;
-}
-
-.vt-wave i {
-  flex: 1;
-  height: 100%;
-  border-radius: 3px;
-  background: linear-gradient(180deg, #f3d995, #c4913f);
-}
-
-.vt-bubble {
-  display: inline-block;
-  padding: 12px 16px;
-  border-radius: 18px 18px 18px 5px;
-  background: #d4a857;
-  color: #14110b;
-  font-weight: 500;
-}
-
-.vt-meta {
-  margin-top: 10px;
-  color: #a39c8c;
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.vt-lead {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-  color: #f4eee2;
-  font-size: 20px;
-  line-height: normal;
-  font-weight: 650;
-}
-
-.vt-lead::before {
-  content: "";
-  flex: none;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #d4a857;
-  box-shadow: 0 0 10px #d4a857;
-}
-
-.vt-rows {
-  display: grid;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.vt-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 9px 12px;
-  border-radius: 9px;
-  background: rgb(255 255 255 / 0.04);
-  color: #d9cfbf;
-  font-size: 16px;
-  line-height: normal;
-}
-
-.vt-row b {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #f4eee2;
-  font-weight: 600;
-}
-
-.vt-row b svg {
-  width: 16px;
-  height: 16px;
-  color: #d4a857;
-}
-
-/* The end card: the ribbon's figures, the headline, the terms and the two
-   buttons. Beside the vault on wide screens; on tall ones the figures sit
-   under the header and the rest at the bottom, with the vault between. */
-.vt-end {
-  position: absolute;
-  left: calc(var(--fx) + 150px);
-  top: calc(var(--ft) + 120px);
-  bottom: calc(var(--fb) + 70px);
-  width: 640px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.vt[data-orient="tall"] .vt-end {
-  left: calc(var(--fx) + 64px);
-  right: calc(var(--fx) + 64px);
-  top: calc(var(--head) + 24px);
-  /* clear of the play controls in the corner (44px, and 16px under them) */
-  bottom: calc(var(--below, 0px) / var(--k) + max(60px, 72px / var(--k)));
-  width: auto;
-  justify-content: space-between;
-}
-
-.vt-stats {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 56px;
-}
-
-.vt-stat--lead {
-  flex-basis: 100%;
-  margin-bottom: 34px;
-}
-
-.vt-stat b {
-  display: block;
-  color: #f0d396;
-  font-size: 58px;
-  line-height: 1;
-  font-weight: 680;
-  letter-spacing: -0.035em;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.vt-stat--lead b {
-  font-size: 132px;
-  line-height: 0.92;
-  font-weight: 720;
-  letter-spacing: -0.045em;
-  background: linear-gradient(180deg, #fbe7b5 0%, #e3bc6c 45%, #b4842f 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 28px rgb(212 168 87 / 0.28));
-}
-
-.vt[data-orient="tall"] .vt-stat--lead b {
-  font-size: 120px;
-}
-
-.vt-stat-label {
-  display: block;
-  margin-top: 8px;
-  color: #cfc5b4;
-  font-size: max(18px, calc(12px / var(--k)));
-  font-weight: 500;
-}
-
-.vt-stat--lead .vt-stat-label {
-  margin-top: 12px;
-  font-size: max(21px, calc(13px / var(--k)));
-}
-
-.vt-close {
-  margin-top: 48px;
-}
-
-.vt[data-orient="tall"] .vt-close {
-  margin-top: 0;
-}
-
-.vt-headline {
-  color: #f6f0e4;
-  font-size: 50px;
-  line-height: 1.06;
-  font-weight: 660;
-  letter-spacing: -0.03em;
-}
-
-.vt[data-orient="tall"] .vt-headline {
-  font-size: 54px;
-}
-
-/* On a short phone the vault rises behind the closing words: a dark halo
-   keeps them legible there, and over the dark ground it doesn't show. */
-.vt[data-orient="tall"] .vt-headline,
-.vt[data-orient="tall"] .vt-terms {
-  text-shadow:
-    0 0 22px rgb(5 4 3 / 0.95),
-    0 1px 3px rgb(5 4 3 / 0.8);
-}
-
-.vt-headline span {
-  display: block;
-}
-
-.vt-terms {
-  margin-top: 16px;
-  color: #e0be78;
-  font-size: max(22px, calc(13px / var(--k)));
-  font-weight: 500;
-}
-
-/* The real booking button and link (BookCallLink's lit gold "glow", and the
-   outlined Lee Systems button), at the film's size. They can be clicked and
-   reached by keyboard only once they are there: the engine lifts `inert` as
-   they arrive. On a phone they keep a 44px target and 15px words. */
-.vt-ctas {
-  display: flex;
-  gap: 14px;
-  margin-top: 30px;
-  pointer-events: auto;
-}
-
-.vt-ctas > a {
-  min-height: max(58px, calc(44px / var(--k)));
-  padding: 0 max(30px, calc(16px / var(--k)));
-  border-radius: 12px;
-  font-size: max(19px, calc(15px / var(--k)));
-  font-weight: 650;
-  white-space: nowrap;
-}
-
-.vt[data-orient="tall"] .vt-ctas {
-  flex-wrap: wrap;
-}
-
-.vt[data-orient="tall"] .vt-ctas > a {
-  flex: 1 1 0;
-  min-height: max(68px, calc(44px / var(--k)));
-  font-size: max(22px, calc(15px / var(--k)));
-}
-
-/* The controls while it plays, in the bottom corner, at screen size: a skip
-   pill that jumps to the end card, then pause and play, a round button whose
-   word is for screen readers. Both go once the end card is up, where there
-   is nothing left to skip or pause. Where the hero runs taller than the
-   screen (a phone on its side), they stay on the first screen (`--below`). */
-.vt-controls {
-  position: absolute;
-  right: 1rem;
-  bottom: calc(var(--below, 0px) + 1rem);
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-
-@media (min-width: 1024px) {
-  .vt-controls {
-    right: 1.5rem;
-    bottom: calc(var(--below, 0px) + 1.5rem);
-  }
-}
-
-.vt-skip,
-.vt-toggle {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid rgb(212 168 87 / 0.45);
-  border-radius: 50%;
-  background: rgb(12 10 6 / 0.6);
-  color: var(--color-brass-200);
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  /* they show at once (and can take focus at once); they go with a fade,
-     below */
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    opacity 0.35s ease;
-}
-
-.vt-skip {
-  gap: 0.4rem;
-  width: auto;
-  padding: 0 1rem 0 1.125rem;
-  border-radius: 999px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-.vt-skip svg {
-  flex: none;
-  width: 0.875rem;
-  height: 0.875rem;
-}
-
-.vt-skip:hover,
-.vt-toggle:hover {
-  border-color: var(--color-brass-300);
-  background: rgb(212 168 87 / 0.14);
-}
-
-.vt-skip:focus-visible,
-.vt-toggle:focus-visible {
-  outline: 2px solid var(--color-brass-300);
-  outline-offset: 3px;
-}
-
-.vt-toggle svg {
-  flex: none;
-  width: 1.125rem;
-  height: 1.125rem;
-}
-
-.vt-toggle .i-pause,
-.vt[data-state="playing"] .vt-toggle .i-play,
-.vt[data-state="waiting"] .vt-toggle .i-play {
-  display: none;
-}
-
-.vt[data-state="playing"] .vt-toggle .i-pause,
-.vt[data-state="waiting"] .vt-toggle .i-pause {
-  display: block;
-}
-
-/* Out of reach at once, hidden once they have faded. */
-.vt[data-state="done"] .vt-skip,
-.vt[data-state="done"] .vt-toggle {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    opacity 0.35s ease,
-    visibility 0s linear 0.35s;
 }
 
 /* The Business Mastery application's questions (BmApplicationForm): each one
@@ -1562,10 +850,10 @@
   gap: 0.625rem;
   width: fit-content;
   padding: 0.3125rem 0.75rem 0.3125rem 0.3125rem;
-  border: 1px solid rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(var(--ink) / 0.1);
   border-radius: 9999px;
-  background: rgb(255 255 255 / 0.03);
-  color: rgb(212 212 212);
+  background: rgb(var(--ink) / 0.03);
+  color: var(--color-neutral-300);
   font-size: 0.875rem;
   font-weight: 600;
 }
@@ -1576,10 +864,20 @@
   justify-content: center;
   width: 1.875rem;
   height: 1.875rem;
-  border: 1px solid rgb(251 191 36 / 0.35);
+  border: 1px solid rgb(var(--amber) / 0.35);
   border-radius: 9999px;
-  background: rgb(251 191 36 / 0.08);
-  color: #fcd34d;
+  background: rgb(var(--amber) / 0.08);
+  color: #f5f5f4;
+}
+
+/* On the light page a capsule reads as a white chip resting on it, and the
+   icon takes the navy accent. */
+:root[data-theme="light"] .bm-pill {
+  background: #ffffff;
+}
+
+:root[data-theme="light"] .bm-pill-icon {
+  color: #1e40af;
 }
 
 .bm-pill-badge {
@@ -1588,10 +886,14 @@
   gap: 0.375rem;
   padding: 0.3125rem 0.75rem;
   border-radius: 9999px;
-  background: #fbbf24;
-  color: #0a0a0a;
+  background: #e7e5e4;
+  color: var(--color-neutral-950);
   font-size: 0.8125rem;
   font-weight: 700;
+}
+
+:root[data-theme="light"] .bm-pill-badge {
+  background: #1e40af;
 }
 
 /* The framed "screens" the rows show: a hairline, a lit top edge and a faint
@@ -1599,32 +901,45 @@
 .bm-shift-panel {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(var(--ink) / 0.1);
   border-radius: 1.25rem;
   background:
-    radial-gradient(120% 80% at 100% 0%, rgb(251 191 36 / 0.09), transparent 55%),
-    linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.015));
+    radial-gradient(120% 80% at 100% 0%, rgb(var(--amber) / 0.09), transparent 55%),
+    linear-gradient(180deg, rgb(var(--ink) / 0.045), rgb(var(--ink) / 0.015));
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    inset 0 1px 0 rgb(var(--ink) / 0.08),
     0 30px 80px -40px rgb(0 0 0 / 0.9),
-    0 0 60px -30px rgb(251 191 36 / 0.25);
+    0 0 60px -30px rgb(var(--amber) / 0.25);
+}
+
+/* Light: a white sheet with a faint navy wash in the same corner, lifted by a
+   soft navy-tinted shadow instead of the black drop. */
+:root[data-theme="light"] .bm-shift-panel {
+  border-color: #e1e6ee;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgb(30 64 175 / 0.06), transparent 55%),
+    #ffffff;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 30px 60px -32px rgb(15 26 46 / 0.22),
+    0 2px 6px -2px rgb(15 26 46 / 0.06);
 }
 
 .bm-live-dot {
   width: 0.4375rem;
   height: 0.4375rem;
   border-radius: 9999px;
-  background: #fbbf24;
-  box-shadow: 0 0 0 0 rgb(251 191 36 / 0.6);
+  background: #e7e5e4;
+  box-shadow: 0 0 0 0 rgb(var(--amber) / 0.6);
   animation: bmLivePulse 1.8s ease-out infinite;
 }
 
 @keyframes bmLivePulse {
   70% {
-    box-shadow: 0 0 0 7px rgb(251 191 36 / 0);
+    box-shadow: 0 0 0 7px rgb(var(--amber) / 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgb(251 191 36 / 0);
+    box-shadow: 0 0 0 0 rgb(var(--amber) / 0);
   }
 }
 
@@ -1635,8 +950,41 @@
   height: 1.05em;
   margin-left: 2px;
   vertical-align: text-bottom;
-  background: #fbbf24;
+  background: #e7e5e4;
   animation: bmCaret 0.9s steps(1) infinite;
+}
+
+:root[data-theme="light"] .bm-live-dot,
+:root[data-theme="light"] .bm-caret {
+  background: #1e40af;
+}
+
+/* The year clock's (BmYearClock) arc gradient and its sweeping seconds tick.
+   Classes rather than SVG attributes so the light theme can reach them. */
+.bm-clock-stop-a {
+  stop-color: #ffffff;
+}
+
+.bm-clock-stop-b {
+  stop-color: #a8a5a0;
+}
+
+.bm-clock-tick {
+  stroke: #ffffff;
+  filter: drop-shadow(0 0 4px rgb(231 229 228 / 0.6));
+}
+
+:root[data-theme="light"] .bm-clock-stop-a {
+  stop-color: #2f56c9;
+}
+
+:root[data-theme="light"] .bm-clock-stop-b {
+  stop-color: #1e3a8a;
+}
+
+:root[data-theme="light"] .bm-clock-tick {
+  stroke: #1d4ed8;
+  filter: drop-shadow(0 0 3px rgb(30 64 175 / 0.45));
 }
 
 @keyframes bmCaret {
@@ -1654,7 +1002,7 @@
   width: 0.4375rem;
   height: 0.4375rem;
   border-radius: 9999px;
-  background: rgb(251 191 36 / 0.8);
+  background: rgb(var(--amber) / 0.8);
   animation: bmThinking 1s ease-in-out infinite;
 }
 
@@ -1700,23 +1048,29 @@
   justify-content: center;
   width: 2.75rem;
   height: 2.75rem;
-  border: 1px solid rgb(251 191 36 / 0.35);
+  border: 1px solid rgb(var(--amber) / 0.35);
   border-radius: 9999px;
-  background: #0f0f0f;
-  color: #fcd34d;
+  background: #121316;
+  color: #f5f5f4;
   animation: bmNodeGlow 4.8s ease-out infinite;
+}
+
+/* The stop is a disc cut out of the panel, so on the white sheet it is white. */
+:root[data-theme="light"] .bm-path-node {
+  background: #ffffff;
+  color: #1e40af;
 }
 
 @keyframes bmNodeGlow {
   0%,
   45%,
   100% {
-    border-color: rgb(251 191 36 / 0.35);
-    box-shadow: 0 0 0 0 rgb(251 191 36 / 0);
+    border-color: rgb(var(--amber) / 0.35);
+    box-shadow: 0 0 0 0 rgb(var(--amber) / 0);
   }
   8% {
-    border-color: rgb(251 191 36 / 0.95);
-    box-shadow: 0 0 22px 2px rgb(251 191 36 / 0.45);
+    border-color: rgb(var(--amber) / 0.95);
+    box-shadow: 0 0 22px 2px rgb(var(--amber) / 0.45);
   }
 }
 
@@ -1727,7 +1081,7 @@
   left: calc(1.375rem - 0.5px);
   width: 1px;
   overflow: hidden;
-  background: linear-gradient(180deg, rgb(251 191 36 / 0.45), rgb(251 191 36 / 0.15));
+  background: linear-gradient(180deg, rgb(var(--amber) / 0.45), rgb(var(--amber) / 0.15));
 }
 
 .bm-path-light {
@@ -1736,9 +1090,13 @@
   width: 3px;
   height: 2.5rem;
   border-radius: 9999px;
-  background: linear-gradient(180deg, transparent, #fde68a);
+  background: linear-gradient(180deg, transparent, #ffffff);
   opacity: 0;
   animation: bmPathLight 4.8s linear infinite;
+}
+
+:root[data-theme="light"] .bm-path-light {
+  background: linear-gradient(180deg, transparent, #2f56c9);
 }
 
 @keyframes bmPathLight {
@@ -1813,6 +1171,27 @@
   }
 }
 
+/* The program section's "Apply now" (BmProgramSection), the hero button's
+   twin: the same resting bloom, stronger on hover and focus. A navy bloom
+   needs more alpha on a pale page than platinum does on graphite. */
+.bm-cta-glow {
+  box-shadow: 0 0 26px -8px rgb(var(--gold) / 0.33);
+}
+
+.bm-cta-glow:hover,
+.bm-cta-glow:focus-visible {
+  box-shadow: 0 0 38px -6px rgb(var(--gold) / 0.5);
+}
+
+:root[data-theme="light"] .bm-cta-glow {
+  box-shadow: 0 0 26px -8px rgb(var(--gold) / 0.5);
+}
+
+:root[data-theme="light"] .bm-cta-glow:hover,
+:root[data-theme="light"] .bm-cta-glow:focus-visible {
+  box-shadow: 0 0 38px -6px rgb(var(--gold) / 0.75);
+}
+
 /* The program showcase: the bar under the current tab is its timer, and its
    animationend hands on to the next tab (BmProgramShowcase). */
 .bm-tab-progress {
@@ -1822,8 +1201,12 @@
   height: 2px;
   width: 100%;
   transform-origin: left;
-  background: linear-gradient(90deg, #f59e0b, #fde68a);
+  background: linear-gradient(90deg, #a8a5a0, #ffffff);
   animation: bmTabProgress 6s linear both;
+}
+
+:root[data-theme="light"] .bm-tab-progress {
+  background: linear-gradient(90deg, #1e3a8a, #2f56c9);
 }
 
 .bm-tab-progress--full {
@@ -1859,14 +1242,14 @@
   width: 5.5rem;
   height: 5.5rem;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgb(251 191 36 / 0.16), rgb(251 191 36 / 0.03) 70%);
-  box-shadow: 0 0 40px -8px rgb(251 191 36 / 0.45);
+  background: radial-gradient(circle, rgb(var(--amber) / 0.16), rgb(var(--amber) / 0.03) 70%);
+  box-shadow: 0 0 40px -8px rgb(var(--amber) / 0.45);
 }
 
 .bm-orbit-ring {
   position: absolute;
   inset: -0.625rem;
-  border: 1px dashed rgb(251 191 36 / 0.45);
+  border: 1px dashed rgb(var(--amber) / 0.45);
   border-radius: 9999px;
   animation: bmOrbit 18s linear infinite;
 }
@@ -1881,7 +1264,7 @@
    under the pointer. (An outline was tried first; the site font's glyphs
    overlap internally, so a text stroke drew seams inside the "1".) */
 .bm-tenet-num {
-  background: linear-gradient(180deg, rgb(251 191 36 / 0.85) 0%, rgb(251 191 36 / 0.08) 95%);
+  background: linear-gradient(180deg, rgb(var(--amber) / 0.85) 0%, rgb(var(--amber) / 0.08) 95%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1890,6 +1273,17 @@
 }
 
 .group:hover .bm-tenet-num {
+  opacity: 1;
+}
+
+/* Navy thinned by alpha turns lavender on a pale page, so in light the fade
+   starts from solid navy and the resting opacity is higher. */
+:root[data-theme="light"] .bm-tenet-num {
+  background-image: linear-gradient(180deg, #1e40af 0%, rgb(30 64 175 / 0.12) 95%);
+  opacity: 0.9;
+}
+
+:root[data-theme="light"] .group:hover .bm-tenet-num {
   opacity: 1;
 }
 
@@ -1928,11 +1322,11 @@
 }
 
 .bm-kicker::before {
-  background: linear-gradient(90deg, transparent, rgb(251 191 36 / 0.7));
+  background: linear-gradient(90deg, transparent, rgb(var(--amber) / 0.7));
 }
 
 .bm-kicker::after {
-  background: linear-gradient(90deg, rgb(251 191 36 / 0.7), transparent);
+  background: linear-gradient(90deg, rgb(var(--amber) / 0.7), transparent);
 }
 
 .bm-steps-list {
@@ -1956,14 +1350,22 @@
   width: var(--bm-badge);
   height: var(--bm-badge);
   border-radius: 0.75rem;
-  background: linear-gradient(180deg, #fcd34d 0%, #fbbf24 45%, #d97706 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #e7e5e4 55%, #c9c6c2 100%);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.45),
-    0 10px 28px -8px rgb(251 191 36 / 0.55);
-  color: #0a0a0a;
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 12px 32px -12px rgb(231 229 228 / 0.25);
+  color: var(--color-neutral-950);
   font-size: 0.9375rem;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
+}
+
+/* The gold squares become the navy of the page's buttons. */
+:root[data-theme="light"] .bm-step-badge {
+  background: linear-gradient(180deg, #2f56c9 0%, #1e40af 55%, #1a3794 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25),
+    0 12px 32px -12px rgb(30 64 175 / 0.45);
 }
 
 /* The line: across the whole strip from md up, fading out past the first and
@@ -1984,8 +1386,8 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgb(251 191 36 / 0.6) 12%,
-    rgb(251 191 36 / 0.6) 88%,
+    rgb(var(--amber) / 0.6) 12%,
+    rgb(var(--amber) / 0.6) 88%,
     transparent
   );
 }
@@ -1996,7 +1398,7 @@
   left: calc(var(--bm-badge) / 2 - 0.5px);
   width: 1px;
   transform-origin: top;
-  background: linear-gradient(180deg, rgb(251 191 36 / 0.7), rgb(251 191 36 / 0.3));
+  background: linear-gradient(180deg, rgb(var(--amber) / 0.7), rgb(var(--amber) / 0.3));
 }
 
 @media (min-width: 768px) {
@@ -2041,14 +1443,14 @@
    --------------------------------------------------------------------------- */
 
 /* The marquee's heading: silver fading to grey, with the second half picked
-   out in the Lee Systems brass. */
+   out in the LEU brass. */
 .tools-title {
   font-size: clamp(1.25rem, 2.2vw, 1.875rem);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.015em;
   text-wrap: balance;
-  background: linear-gradient(180deg, #fff 0%, rgb(163 163 163) 100%);
+  background: linear-gradient(180deg, var(--color-white) 0%, var(--color-neutral-400) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2059,10 +1461,14 @@
     100deg,
     var(--color-brass-200) 0%,
     var(--color-brass-400) 55%,
-    #bf954b 100%
+    #a8a5a0 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
+}
+
+:root[data-theme="light"] .tools-title-accent {
+  background-image: linear-gradient(100deg, #1e3a8a 0%, #1e40af 55%, #2f56c9 100%);
 }
 
 .tools-row {
@@ -2100,10 +1506,10 @@
   align-items: center;
   gap: 0.7rem;
   padding: 0.975rem 1.5rem;
-  border: 1px solid rgb(255 255 255 / 0.08);
+  border: 1px solid rgb(var(--ink) / 0.08);
   border-radius: 1.1rem;
-  background: rgb(255 255 255 / 0.03);
-  color: rgb(163 163 163);
+  background: rgb(var(--ink) / 0.03);
+  color: var(--color-neutral-400);
   font-size: 1.03rem;
   font-weight: 600;
   white-space: nowrap;
@@ -2159,16 +1565,18 @@
   mix-blend-mode: overlay;
 }
 
-@theme inline {
-  /* Lee Systems Co. accent. 400 is the brand colour (#D4A857); on the site's
-     near-black it measures about 8.7:1, and near-black text on a brass-400
-     button clears WCAG AA with room to spare. The Lee Systems pages use this
-     scale where the rest of the site uses amber, so the venture reads as its
-     own brand without leaving the house palette. */
+@theme {
+  /* LEU accent, as first built in brass gold (#D4A857). The
+     Lee Systems pages use this scale where the rest of the site uses amber.
+     Both themes re-point it ("Light and dark themes" below: platinum in dark,
+     navy in light), which is why it isn't `inline`: the utilities have to
+     read the variables. */
   --color-brass-200: #ebd3a0;
   --color-brass-300: #e0be78;
   --color-brass-400: #d4a857;
+}
 
+@theme inline {
   /* Live overrides of Tailwind's default radii (md 8px, lg 10px, xl 14px, 2xl
      18px, where the defaults are 6, 8, 12 and 16), so every `rounded-md` to
      `rounded-2xl` on the site, and the `.glass-card` and `.btn-*` rules below,
@@ -2179,13 +1587,111 @@
   --radius-2xl: calc(var(--radius) * 1.8);
 }
 
+/* ---------------------------------------------------------------------------
+   Light and dark themes
+
+   Two themes, picked by the owner on 2026-10-17:
+   - Dark, the default: "Graphite & Platinum". Soft graphite greys, white
+     text, and platinum (a warm silver) where the site was built in brass
+     gold. The gold logo is the one colour left on the page.
+   - Light: "Daylight & Navy", turned on by `data-theme="light"` on <html>,
+     set by the theme switch (components/ui/ThemeToggle.tsx) and, before the
+     first paint, by the inline script in app/layout.tsx.
+
+   It works by re-pointing colour variables rather than restyling components:
+   - Tailwind's own colour variables, so `text-white`, `bg-neutral-950`,
+     `text-amber-400`, `bg-brass-400` and the rest follow the theme. Amber
+     and brass are the accent's names from when it was gold: platinum in
+     dark, navy in light. In light the neutral scale is mirrored (950, the
+     page, becomes the lightest) and white becomes navy ink.
+   - Four colours as bare RGB channels for this stylesheet, written
+     `rgb(var(--ink) / 0.1)`: --ink (text, hairlines, white washes), --gold
+     and --amber (the accent, as above) and --ground (the page).
+   Anything a variable can't express (a gradient, a canvas drawing) gets a
+   `:root[data-theme="light"]` rule next to its dark one.
+   --------------------------------------------------------------------------- */
 :root {
-  /* The site is dark-only, so its native UI (scrollbars, <select> popups,
-     autofill) is too. The viewport's colorScheme meta in app/layout.tsx says
-     the same, but a root `color-scheme` in CSS outranks the meta, so this is
-     the one that decides. */
+  /* The native UI (scrollbars, <select> popups, autofill) follows the theme.
+     A root `color-scheme` in CSS outranks the viewport meta in
+     app/layout.tsx, so this is the one that decides. */
   color-scheme: dark;
   --radius: 0.625rem;
+
+  --ink: 255 255 255;
+  --gold: 231 229 228;
+  --amber: 231 229 228;
+  --ground: 14 15 17;
+  --fg-dim: #8a8a93;
+
+  /* Graphite: a cool, slightly blue-grey scale in place of Tailwind's flat
+     neutral, so the page reads as graphite rather than black. */
+  --color-white: #f4f4f5;
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #36393e;
+  --color-neutral-800: #26282c;
+  --color-neutral-900: #17181b;
+  --color-neutral-950: #0e0f11;
+
+  /* Platinum where the gold was. 200 was the brightest gold, so it is
+     white. */
+  --color-amber-200: #ffffff;
+  --color-amber-300: #f5f5f4;
+  --color-amber-400: #e7e5e4;
+  --color-amber-500: #c9c6c2;
+  --color-brass-200: #ffffff;
+  --color-brass-300: #f5f5f4;
+  --color-brass-400: #e7e5e4;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --ink: 15 26 46;
+  --gold: 30 64 175;
+  --amber: 30 64 175;
+  --ground: 246 247 249;
+  --fg-dim: #6b7487;
+
+  /* Navy ink for everything that was white. */
+  --color-white: #0f1a2e;
+
+  /* The neutral scale, mirrored: text greys darken, surfaces lighten. */
+  --color-neutral-50: #0b1424;
+  --color-neutral-100: #0f1a2e;
+  --color-neutral-200: #1e293b;
+  --color-neutral-300: #334155;
+  --color-neutral-400: #475266;
+  --color-neutral-500: #5b6578;
+  --color-neutral-600: #7d8799;
+  --color-neutral-700: #c3cad6;
+  --color-neutral-800: #e1e6ee;
+  --color-neutral-900: #ffffff;
+  --color-neutral-950: #f6f7f9;
+
+  /* Gold becomes navy. 200 was the brightest gold, so it is the deepest navy. */
+  --color-amber-200: #1e3a8a;
+  --color-amber-300: #1d4ed8;
+  --color-amber-400: #1e40af;
+  --color-amber-500: #1e3a8a;
+  --color-brass-200: #1e3a8a;
+  --color-brass-300: #1d4ed8;
+  --color-brass-400: #1e40af;
+
+  /* Status colours, darkened to read on white. */
+  --color-red-200: #991b1b;
+  --color-red-300: #b91c1c;
+  --color-red-400: #dc2626;
+  --color-red-500: #dc2626;
+  --color-emerald-300: #065f46;
+  --color-emerald-400: #047857;
+  --color-yellow-400: #a16207;
+  --color-cyan-400: #0e7490;
 }
 
 @layer base {
@@ -2237,6 +1743,11 @@
     @apply bg-white/[0.04] border border-white/10 rounded-xl;
   }
 
+  /* Light: a white card on the pale page; the 4% wash reads as muddy grey. */
+  :root[data-theme="light"] .glass-card {
+    background-color: #ffffff;
+  }
+
   /* Button base styles */
   .btn-primary {
     @apply px-6 py-3 bg-amber-400 text-neutral-950 font-semibold rounded-lg hover:bg-amber-300 transition-all duration-200 hover:scale-105 active:scale-95;
@@ -2246,7 +1757,7 @@
     @apply px-6 py-3 border-2 border-amber-400 text-amber-400 font-semibold rounded-lg hover:bg-amber-400/10 transition-all duration-200;
   }
 
-  /* Lee Systems Co. buttons: the same shapes as the two above in brass, and
+  /* LEU buttons: the same shapes as the two above in brass, and
      without the scale-on-hover, which is louder than the brand's calm tone. */
   .btn-ls-primary {
     @apply px-6 py-3 bg-brass-400 text-neutral-950 font-semibold rounded-lg hover:bg-brass-300 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
@@ -2256,21 +1767,30 @@
     @apply px-6 py-3 border-2 border-brass-400 text-brass-300 font-semibold rounded-lg hover:bg-brass-400/10 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
   }
 
-  /* The pair in the Lee Systems page's "Two paths" and "The choice is yours"
+  /* The pair in the How It Works page's "Two paths" and "The choice is yours"
      sections, after The Real World's (the owner's reference, 2026-09-29): a
      dim grey button on the path of doing nothing, and a lit gold one for the
      call (BookCallLink's "glow"). */
   .btn-ls-muted {
-    @apply inline-flex min-h-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-b from-neutral-700/50 to-neutral-800/50 px-5 py-3 text-center font-semibold text-neutral-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors duration-200 hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-300;
+    @apply inline-flex min-h-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-b from-neutral-700/50 to-neutral-800/50 px-5 py-3 text-center font-semibold text-neutral-300 shadow-[inset_0_1px_0_rgb(var(--ink)/0.08)] transition-colors duration-200 hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-300;
   }
 
   .btn-ls-glow {
     @apply rounded-xl px-5 py-3 font-bold text-neutral-950 transition-[filter] duration-200 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass-300;
-    background: linear-gradient(180deg, #f3d995 0%, #ddb466 50%, #c4913f 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #e7e5e4 50%, #c9c6c2 100%);
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.5),
-      0 0 0 1px rgb(212 168 87 / 0.6),
-      0 12px 36px -10px rgb(226 170 72 / 0.75);
+      inset 0 1px 0 rgb(var(--ink) / 0.5),
+      0 0 0 1px rgb(var(--gold) / 0.6),
+      0 12px 36px -10px rgb(231 229 228 / 0.3);
+  }
+
+  /* Light: the same lit button in navy. */
+  :root[data-theme="light"] .btn-ls-glow {
+    background: linear-gradient(180deg, #3a63d6 0%, #2447b8 50%, #1a3794 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.3),
+      0 0 0 1px rgb(30 64 175 / 0.6),
+      0 12px 36px -10px rgb(30 64 175 / 0.5);
   }
 
   /* Section utilities */
@@ -2303,8 +1823,7 @@
   /* Gradient text */
   .gradient-text {
     @apply bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 bg-clip-text text-transparent;
-  }
-}
+  }}
 
 /* The mobile menu drawer slides in from the right edge. */
 @keyframes drawerIn {
@@ -2327,8 +1846,8 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. - the shared motion vocabulary
-   `.ls-status` (a breathing status dot), for the /lee-systems sections that
+   LEU - the shared motion vocabulary
+   `.ls-status` (a breathing status dot), for the /how-it-works sections that
    draw it: LeeSystemsOnboardingSection and OnboardingDevices. (`.ls-dash`, a
    dotted line drifting along its path, went with the dashed join under What
    we do, 2026-09-30, and `.ls-spine-track`, the packet down What we do's
@@ -2356,7 +1875,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. - onboarding devices
+   LEU - onboarding devices
    One consumer: components/lee-systems/OnboardingDevices.tsx. Every piece
    rests in its finished state; the animations below apply only inside the
    scene marked data-active="true", so a scene replays each time it becomes
@@ -2517,7 +2036,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. — the Website builds deck
+   LEU — the Website builds deck
    One consumer: components/lee-systems/WebsiteDeck.tsx, the picture on the
    Website builds card under What we do (the owner's ask, 2026-10-06). Every
    screenshot shares one box, sitting where the back one of the old fixed pair
@@ -2609,9 +2128,9 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. — the hero's picture shade
+   LEU — the hero's picture shade
    One consumer: components/lee-systems/HeroStill.tsx, over the laptop
-   still behind the /lee-systems hero (the owner's pick, 2026-09-30).
+   still behind the /how-it-works hero (the owner's pick, 2026-09-30).
 
    On a phone the picture is a band across the top of the hero and the copy
    starts in its lower third, so the shade darkens the very top (under the
@@ -2623,12 +2142,28 @@
 .ls-hero-shade {
   background: linear-gradient(
     180deg,
-    rgb(10 10 10 / 0.5) 0%,
-    rgb(10 10 10 / 0) 18%,
-    rgb(10 10 10 / 0.1) 45%,
-    rgb(10 10 10 / 0.85) 78%,
-    rgb(10 10 10) 100%
+    rgb(var(--ground) / 0.5) 0%,
+    rgb(var(--ground) / 0) 18%,
+    rgb(var(--ground) / 0.1) 45%,
+    rgb(var(--ground) / 0.85) 78%,
+    rgb(var(--ground)) 100%
   );
+}
+
+/* Navy copy needs a paler ground under it than white copy does, so on a
+   phone the light theme's fade reaches the page colour before the copy
+   starts, two thirds of the way down the band. */
+@media (max-width: 767.98px) {
+  :root[data-theme="light"] .ls-hero-shade {
+    background: linear-gradient(
+      180deg,
+      rgb(var(--ground) / 0.5) 0%,
+      rgb(var(--ground) / 0) 18%,
+      rgb(var(--ground) / 0.3) 38%,
+      rgb(var(--ground) / 0.92) 58%,
+      rgb(var(--ground)) 72%
+    );
+  }
 }
 
 @media (min-width: 768px) {
@@ -2636,23 +2171,23 @@
     background:
       linear-gradient(
         180deg,
-        rgb(10 10 10 / 0.55) 0%,
-        rgb(10 10 10 / 0) 22%,
-        rgb(10 10 10 / 0) 72%,
-        rgb(10 10 10) 100%
+        rgb(var(--ground) / 0.55) 0%,
+        rgb(var(--ground) / 0) 22%,
+        rgb(var(--ground) / 0) 72%,
+        rgb(var(--ground)) 100%
       ),
       linear-gradient(
         90deg,
-        rgb(10 10 10 / 0.94) 0%,
-        rgb(10 10 10 / 0.84) 30%,
-        rgb(10 10 10 / 0.4) 58%,
-        rgb(10 10 10 / 0.08) 100%
+        rgb(var(--ground) / 0.94) 0%,
+        rgb(var(--ground) / 0.84) 30%,
+        rgb(var(--ground) / 0.4) 58%,
+        rgb(var(--ground) / 0.08) 100%
       );
   }
 }
 
 /* ---------------------------------------------------------------------------
-   Lee Systems Co. — "Two paths"
+   LEU — "Two paths"
    One consumer: components/lee-systems/TwoPathsDemo.tsx, in the section
    straight after the Lee Systems hero.
 
@@ -2681,12 +2216,55 @@
   overflow: hidden;
   container-type: inline-size;
   aspect-ratio: 3 / 2;
-  border: 1px solid rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(var(--ink) / 0.1);
   border-radius: 1rem;
+  /* The frame's accent: the bright, rim and deep stops of what lights up, and
+     the calls panel's tint. Platinum here; the light theme keeps the video in
+     its original brass (below). */
+  --paths-hi: #ffffff;
+  --paths-edge: #f5f5f4;
+  --paths-lo: #c9c6c2;
+  --paths-warm: 231 229 228;
   background: #0a0a0a;
   box-shadow:
     0 40px 90px -40px rgb(0 0 0 / 0.9),
-    0 0 70px -30px rgb(212 168 87 / 0.35);
+    0 0 70px -30px rgb(var(--gold) / 0.22);
+}
+
+/* The frame is a video, so the light theme leaves the picture dark, like a
+   screen on the page: inside it the theme's colours are put back to the dark
+   theme's graphite and platinum (the same values as :root), so the video
+   looks the same in both themes. Only the frame's shadow changes, to the
+   light theme's soft navy. */
+:root[data-theme="light"] .ls-paths-frame {
+  color-scheme: dark;
+  --ink: 255 255 255;
+  --gold: 231 229 228;
+  --amber: 231 229 228;
+  --ground: 14 15 17;
+  --color-white: #f4f4f5;
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #36393e;
+  --color-neutral-800: #26282c;
+  --color-neutral-900: #17181b;
+  --color-neutral-950: #0e0f11;
+  --color-brass-200: #ffffff;
+  --color-brass-300: #f5f5f4;
+  --color-brass-400: #e7e5e4;
+  --paths-hi: #ffffff;
+  --paths-edge: #f5f5f4;
+  --paths-lo: #c9c6c2;
+  --paths-warm: 231 229 228;
+  border-color: rgb(15 26 46 / 0.12);
+  box-shadow:
+    0 40px 80px -36px rgb(15 26 46 / 0.45),
+    0 18px 36px -24px rgb(15 26 46 / 0.3);
 }
 
 @media (min-width: 640px) {
@@ -2708,9 +2286,9 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgb(212 168 87 / 0.35) 40%,
-    #ecd08a 78%,
-    rgb(212 168 87 / 0.25)
+    rgb(var(--gold) / 0.35) 40%,
+    var(--paths-edge) 78%,
+    rgb(var(--gold) / 0.25)
   );
   pointer-events: none;
 }
@@ -2723,11 +2301,12 @@
 }
 
 /* The reference's panels are red, green and blue; here each colour is held
-   back to a glow on black so the frame stays in the brand's register: brass
-   for calls, green for follow-up, blue for the CRM. The top padding leaves
+   back to a glow on black so the frame stays in the brand's register: the
+   accent (platinum, or brass in the light theme) for calls, green for
+   follow-up, blue for the CRM. The top padding leaves
    the "Example" tag its own row; the bottom padding is the caption's. */
 .ls-paths-panel {
-  --tint: 212 168 87;
+  --tint: var(--paths-warm);
   position: relative;
   isolation: isolate;
   display: flex;
@@ -2755,7 +2334,7 @@
 }
 
 .ls-paths-panel + .ls-paths-panel {
-  border-left: 1px solid rgb(255 255 255 / 0.07);
+  border-left: 1px solid rgb(var(--ink) / 0.07);
 }
 
 .ls-paths-panel > * {
@@ -2777,7 +2356,7 @@
       rgb(var(--tint) / 0.05) 50%,
       transparent 100%
     ),
-    radial-gradient(rgb(255 255 255 / 0.08) 0.8px, transparent 1.2px) 0 0 /
+    radial-gradient(rgb(var(--ink) / 0.08) 0.8px, transparent 1.2px) 0 0 /
       max(12px, 2.4cqw) max(12px, 2.4cqw);
   transition:
     opacity 0.7s ease,
@@ -2800,11 +2379,11 @@
 }
 
 .ls-paths-panel[data-status="good"]::after {
-  background: linear-gradient(90deg, transparent, #f1d68f, transparent);
+  background: linear-gradient(90deg, transparent, var(--paths-hi), transparent);
 }
 
 .ls-paths-panel[data-status="bad"]::after {
-  background: linear-gradient(90deg, transparent, rgb(163 163 163), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-neutral-400), transparent);
 }
 
 /* While the video plays (or sits paused), the panels it hasn't reached yet
@@ -2827,7 +2406,7 @@
 
 .ls-paths-label {
   max-width: 100%;
-  color: #fff;
+  color: var(--color-white);
   font-size: clamp(0.6875rem, 3.4cqw, 2.125rem);
   font-style: italic;
   font-weight: 900;
@@ -2859,7 +2438,7 @@
   border: 1px solid rgb(var(--tint) / 0.5);
   border-radius: 9999px;
   background:
-    radial-gradient(circle at 50% 30%, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.02) 70%),
+    radial-gradient(circle at 50% 30%, rgb(var(--ink) / 0.12), rgb(var(--ink) / 0.02) 70%),
     #0b0b0b;
   box-shadow:
     0 0 0 clamp(5px, 1.5cqw, 14px) rgb(var(--tint) / 0.07),
@@ -2926,12 +2505,12 @@
 }
 
 .ls-paths-panel[data-status="good"] .ls-paths-orb {
-  border-color: #f1d68f;
-  background: linear-gradient(180deg, #f1d68f 0%, #d4a857 55%, #b98a3e 100%);
+  border-color: var(--paths-hi);
+  background: linear-gradient(180deg, var(--paths-hi) 0%, var(--color-brass-400) 55%, var(--paths-lo) 100%);
   box-shadow:
-    0 0 0 clamp(5px, 1.5cqw, 14px) rgb(212 168 87 / 0.14),
-    0 0 clamp(24px, 7cqw, 72px) rgb(212 168 87 / 0.5);
-  color: #0a0a0a;
+    0 0 0 clamp(5px, 1.5cqw, 14px) rgb(var(--gold) / 0.14),
+    0 0 clamp(24px, 7cqw, 72px) rgb(var(--gold) / 0.5);
+  color: var(--color-neutral-950);
 }
 
 .ls-paths-panel[data-status="bad"] .ls-paths-orb {
@@ -2939,16 +2518,16 @@
   border-style: dashed;
   background: #111;
   box-shadow: none;
-  color: rgb(163 163 163);
+  color: var(--color-neutral-400);
 }
 
 .ls-paths-chip {
   max-width: 94%;
   padding: 0.3em 0.8em;
-  border: 1px solid rgb(255 255 255 / 0.14);
+  border: 1px solid rgb(var(--ink) / 0.14);
   border-radius: 9999px;
   background: rgb(0 0 0 / 0.5);
-  color: rgb(229 229 229);
+  color: var(--color-neutral-200);
   font-size: clamp(0.625rem, 1.45cqw, 0.875rem);
   font-weight: 600;
   line-height: 1.25;
@@ -2963,13 +2542,13 @@
 
 .ls-paths-panel[data-status="ringing"] .ls-paths-chip {
   border-color: rgb(var(--tint) / 0.5);
-  color: #fff;
+  color: var(--color-white);
 }
 
 .ls-paths-panel[data-status="good"] .ls-paths-chip {
-  border-color: rgb(212 168 87 / 0.55);
-  background: rgb(212 168 87 / 0.14);
-  color: #f1d68f;
+  border-color: rgb(var(--gold) / 0.55);
+  background: rgb(var(--gold) / 0.14);
+  color: var(--paths-hi);
 }
 
 .ls-paths-panel[data-status="bad"] .ls-paths-chip {
@@ -2984,10 +2563,10 @@
   top: clamp(0.5rem, 1.8cqw, 1rem);
   left: clamp(0.5rem, 1.8cqw, 1rem);
   padding: 0.3em 0.75em;
-  border: 1px solid rgb(255 255 255 / 0.12);
+  border: 1px solid rgb(var(--ink) / 0.12);
   border-radius: 9999px;
   background: rgb(0 0 0 / 0.55);
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
   font-size: clamp(0.5625rem, 1.1cqw, 0.75rem);
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -2998,15 +2577,15 @@
 .ls-paths-tag-run::before {
   content: "·";
   margin-inline: 0.5em;
-  color: rgb(115 115 115);
+  color: var(--color-neutral-500);
 }
 
 .ls-paths-tag-run {
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
 }
 
 .ls-paths-tag[data-mode="after"] .ls-paths-tag-run {
-  color: #f1d68f;
+  color: var(--paths-hi);
 }
 
 /* The caption: the reference's "Which campus will you choose?" line, which
@@ -3036,7 +2615,7 @@
 .ls-paths-caption-text {
   display: block;
   max-width: 40ch;
-  color: #fff;
+  color: var(--color-white);
   font-size: clamp(0.8125rem, 2.15cqw, 1.375rem);
   font-weight: 600;
   line-height: 1.35;
@@ -3055,11 +2634,11 @@
 }
 
 .ls-paths-frame[data-mode="after"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
-  color: #f1d68f;
+  color: var(--paths-hi);
 }
 
 .ls-paths-frame[data-mode="before"] .ls-paths-caption-text:is([data-kind="title"], [data-kind="ending"]) {
-  color: rgb(212 212 212);
+  color: var(--color-neutral-300);
 }
 
 @keyframes lsPathsCaptionIn {
@@ -3088,7 +2667,7 @@
 .ls-paths-progress-run {
   flex-basis: 0;
   overflow: hidden;
-  background: rgb(255 255 255 / 0.1);
+  background: rgb(var(--ink) / 0.1);
 }
 
 .ls-paths-progress-fill {
@@ -3096,11 +2675,11 @@
   height: 100%;
   transform: scaleX(0);
   transform-origin: left;
-  background: rgb(163 163 163);
+  background: var(--color-neutral-400);
 }
 
 .ls-paths-progress-run[data-run="after"] .ls-paths-progress-fill {
-  background: linear-gradient(90deg, #b98a3e, #f1d68f);
+  background: linear-gradient(90deg, var(--paths-lo), var(--paths-hi));
 }
 
 /* Paused: the picture dims under a white play disc, like a paused video. */
@@ -3119,11 +2698,11 @@
   aspect-ratio: 1;
   transform: translate(-50%, -62%);
   border-radius: 9999px;
-  background: #fff;
+  background: var(--color-white);
   box-shadow:
-    0 0 0 clamp(6px, 1.4cqw, 13px) rgb(255 255 255 / 0.14),
+    0 0 0 clamp(6px, 1.4cqw, 13px) rgb(var(--ink) / 0.14),
     0 16px 40px -10px rgb(0 0 0 / 0.8);
-  color: #0a0a0a;
+  color: var(--color-neutral-950);
   pointer-events: none;
 }
 
@@ -3149,18 +2728,18 @@
   place-items: center;
   width: clamp(1.75rem, 4.4cqw, 2.5rem);
   aspect-ratio: 1;
-  border: 1px solid rgb(255 255 255 / 0.14);
+  border: 1px solid rgb(var(--ink) / 0.14);
   border-radius: 9999px;
   background: rgb(0 0 0 / 0.55);
-  color: rgb(229 229 229);
+  color: var(--color-neutral-200);
   transition:
     border-color 0.2s ease,
     color 0.2s ease;
 }
 
 .ls-paths-control:hover {
-  border-color: rgb(212 168 87 / 0.6);
-  color: #fff;
+  border-color: rgb(var(--gold) / 0.6);
+  color: var(--color-white);
 }
 
 .ls-paths-control:focus-visible {
@@ -3169,7 +2748,7 @@
 }
 
 .ls-paths-control[aria-pressed="false"] {
-  color: rgb(163 163 163);
+  color: var(--color-neutral-400);
 }
 
 .ls-paths-control svg {
@@ -3193,11 +2772,11 @@
 
 .ls-paths-panel .ls-paths-orb[data-play] {
   border: 1px solid #fff;
-  background: #fff;
+  background: var(--color-white);
   box-shadow:
-    0 0 0 clamp(6px, 1.4cqw, 13px) rgb(255 255 255 / 0.14),
+    0 0 0 clamp(6px, 1.4cqw, 13px) rgb(var(--ink) / 0.14),
     0 16px 40px -10px rgb(0 0 0 / 0.8);
-  color: #0a0a0a;
+  color: var(--color-neutral-950);
   transition: transform 0.2s ease;
 }
 
@@ -3218,9 +2797,9 @@
 
 /* After the by-hand version, the chip under the disc says what it plays. */
 .ls-paths-panel .ls-paths-chip[data-play] {
-  border-color: rgb(212 168 87 / 0.6);
+  border-color: rgb(var(--gold) / 0.6);
   background: rgb(0 0 0 / 0.6);
-  color: #f1d68f;
+  color: var(--paths-hi);
   font-weight: 700;
 }
 
@@ -3230,10 +2809,10 @@
   gap: 0.4em;
   min-height: 2rem;
   padding: 0.35em 0.9em;
-  border: 1px solid rgb(255 255 255 / 0.18);
+  border: 1px solid rgb(var(--ink) / 0.18);
   border-radius: 9999px;
   background: rgb(0 0 0 / 0.6);
-  color: rgb(229 229 229);
+  color: var(--color-neutral-200);
   font-size: clamp(0.75rem, 1.3cqw, 0.875rem);
   font-weight: 600;
   pointer-events: auto;
@@ -3243,8 +2822,8 @@
 }
 
 .ls-paths-replay:hover {
-  border-color: rgb(212 168 87 / 0.6);
-  color: #fff;
+  border-color: rgb(var(--gold) / 0.6);
+  color: var(--color-white);
 }
 
 .ls-paths-replay svg {
@@ -3259,14 +2838,14 @@
   width: 1px;
   height: clamp(2rem, 5vw, 3.5rem);
   margin-inline: auto;
-  background: linear-gradient(to bottom, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.2));
+  background: linear-gradient(to bottom, rgb(var(--ink) / 0.3), rgb(var(--ink) / 0.2));
 }
 
 /* Under the website video there is one way on, so its stem is the lit
    brass of the right-hand path, running straight into the button. */
 .ls-paths-stem--lit {
-  background: linear-gradient(to bottom, rgb(212 168 87 / 0.35), #d4a857);
-  filter: drop-shadow(0 0 4px rgb(212 168 87 / 0.8));
+  background: linear-gradient(to bottom, rgb(var(--gold) / 0.35), var(--color-brass-400));
+  filter: drop-shadow(0 0 4px rgb(var(--gold) / 0.8));
 }
 
 /* The website video's page loading: its icon turns rather than shakes. */
@@ -3314,7 +2893,7 @@
   right: 0;
   left: 50%;
   border-left: 1px solid;
-  border-color: rgb(255 255 255 / 0.2);
+  border-color: rgb(var(--ink) / 0.2);
   border-top-left-radius: 1rem;
 }
 
@@ -3322,9 +2901,14 @@
   right: 50%;
   left: 0;
   border-right: 1px solid;
-  border-color: #d4a857;
+  border-color: var(--color-brass-400);
   border-top-right-radius: 1rem;
-  filter: drop-shadow(0 0 4px rgb(212 168 87 / 0.8));
+  filter: drop-shadow(0 0 4px rgb(var(--gold) / 0.55));
+}
+
+/* A navy line glows less than a gold one on black, or it reads as blurred. */
+:root[data-theme="light"] .ls-paths-branch--right {
+  filter: drop-shadow(0 0 3px rgb(var(--gold) / 0.35));
 }
 
 .ls-paths-node {
@@ -3334,7 +2918,7 @@
   height: 1.125rem;
   border: 1px solid;
   border-radius: 9999px;
-  background: #0a0a0a;
+  background: rgb(var(--ground));
   transition:
     border-color 0.4s ease,
     box-shadow 0.4s ease,
@@ -3350,29 +2934,38 @@
 }
 
 .ls-paths-node--left {
-  border-color: rgb(255 255 255 / 0.3);
-  color: rgb(163 163 163);
+  border-color: rgb(var(--ink) / 0.3);
+  color: var(--color-neutral-400);
 }
 
 .ls-paths-node--right {
-  border-color: #d4a857;
-  color: #f1d68f;
-  box-shadow: 0 0 12px rgb(212 168 87 / 0.6);
+  border-color: var(--color-brass-400);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgb(var(--gold) / 0.4);
+}
+
+:root[data-theme="light"] .ls-paths-node--right {
+  color: var(--color-brass-400);
+  box-shadow: 0 0 10px rgb(var(--gold) / 0.3);
 }
 
 /* The path being played lights up. */
 .ls-paths-fork[data-mode="before"] .ls-paths-branch--left {
-  border-color: rgb(255 255 255 / 0.6);
+  border-color: rgb(var(--ink) / 0.6);
 }
 
 .ls-paths-fork[data-mode="before"] .ls-paths-node--left {
-  border-color: rgb(255 255 255 / 0.75);
-  color: #fff;
-  box-shadow: 0 0 12px rgb(255 255 255 / 0.3);
+  border-color: rgb(var(--ink) / 0.75);
+  color: var(--color-white);
+  box-shadow: 0 0 12px rgb(var(--ink) / 0.3);
 }
 
 .ls-paths-fork[data-mode="after"] .ls-paths-branch--right {
-  filter: drop-shadow(0 0 7px rgb(212 168 87));
+  filter: drop-shadow(0 0 7px rgb(var(--gold) / 0.65));
+}
+
+:root[data-theme="light"] .ls-paths-fork[data-mode="after"] .ls-paths-branch--right {
+  filter: drop-shadow(0 0 5px rgb(var(--gold) / 0.6));
 }
 
 /* The face-off between the two paths. Its ring is split like the fork above
@@ -3390,11 +2983,11 @@
   border: 1px solid transparent;
   border-radius: 9999px;
   background:
-    radial-gradient(circle, rgb(255 255 255 / 0.06), transparent 70%) padding-box,
-    linear-gradient(#0a0a0a, #0a0a0a) padding-box,
-    linear-gradient(90deg, rgb(255 255 255 / 0.22) 30%, rgb(212 168 87 / 0.8) 70%) border-box;
-  box-shadow: 0 0 24px -8px rgb(212 168 87 / 0.55);
-  color: rgb(229 229 229);
+    radial-gradient(circle, rgb(var(--ink) / 0.06), transparent 70%) padding-box,
+    linear-gradient(rgb(var(--ground)), rgb(var(--ground))) padding-box,
+    linear-gradient(90deg, rgb(var(--ink) / 0.22) 30%, rgb(var(--gold) / 0.8) 70%) border-box;
+  box-shadow: 0 0 24px -8px rgb(var(--gold) / 0.55);
+  color: var(--color-neutral-200);
   font-size: 0.6875rem;
   font-style: italic;
   font-weight: 900;
@@ -3409,12 +3002,18 @@
   }
 }
 
-/* The gold of a price: "$0" here, and "+$10,000s" on the "Take action" card. */
+/* The accent of a price: "$0" here, and "+$10,000s" on the "Take action" card. */
 .ls-price {
-  background: linear-gradient(180deg, #f6e3ae 0%, #e0be78 45%, #c4913f 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #e7e5e4 55%, #c9c6c2 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Gold text doesn't hold up on white, so in the light theme the price falls
+   through the navy of the buttons instead. */
+:root[data-theme="light"] .ls-price {
+  background-image: linear-gradient(180deg, #2f56c9 0%, #1e40af 55%, #1a3794 100%);
 }
 
 /* Its opposite: the red of money lost, "Lose money" on the by-hand path of "Two
@@ -3433,6 +3032,13 @@
    outshines the lit path's button beside it, so "Lose money" gets less. */
 .ls-paths-path .ls-loss {
   filter: drop-shadow(0 0 10px rgb(239 68 68 / 0.18));
+}
+
+/* On white the pale top of the red would vanish, so the light theme's red
+   starts deeper and drops the glow. */
+:root[data-theme="light"] .ls-loss {
+  background-image: linear-gradient(180deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+  filter: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3465,10 +3071,11 @@
    from value, not from geometry. Hence `.bmc-scrim`, a value gap laid under
    the column the way the old homepage hero laid one under its logo.
 
-   The warm pool from the previous hero is kept, at the same position and very
-   nearly the same alpha, as the first layer of `.bmc-field`. It is the reason
-   the section still reads gold rather than blue-black once the links are
-   drawn over it, and moving it above the canvas would wash the field out.
+   The pool from the previous hero is kept, at the same position, as the
+   first layer of `.bmc-field`, in platinum since the dark theme became
+   Graphite & Platinum. It is the reason the section reads lit rather than
+   flat black once the links are drawn over it, and moving it above the canvas
+   would wash the field out.
    --------------------------------------------------------------------------- */
 
 .bmc-field {
@@ -3478,15 +3085,48 @@
   overflow: hidden;
   pointer-events: none;
   background:
-    /* The previous hero's gold pool, high and centred. */
+    /* The previous hero's pool, high and centred. Platinum reads stronger
+       than gold on graphite, so it carries about two thirds of the alpha. */
     radial-gradient(
       90% 70% at 50% 12%,
-      rgba(212, 168, 87, 0.13) 0%,
-      rgba(180, 120, 20, 0.045) 45%,
+      rgb(231 229 228 / 0.085) 0%,
+      rgb(168 165 160 / 0.03) 45%,
       transparent 75%
     ),
     /* A ground with a centre, so the frame is not flat black behind the field. */
-    radial-gradient(115% 95% at 50% 8%, #0a0d14 0%, #05070b 58%, #000 100%);
+    radial-gradient(115% 95% at 50% 8%, #121316 0%, #0b0c0e 58%, #000 100%);
+
+  /* The canvas palette, as bare channels. BmHeroBackground reads these at
+     draw time and again when the theme changes, so the field follows the
+     theme like everything else on the page. */
+  --bmc-gold: 231, 229, 228;
+  --bmc-gold-lit: 245, 245, 244;
+  --bmc-gold-hot: 255, 255, 255;
+  --bmc-glow: 201, 198, 194;
+  --bmc-canopy: 14, 15, 17;
+  --bmc-links: 1;
+}
+
+/* Daylight: a pale sky with a navy pool where the platinum one is, and a navy
+   network drawn on it. "Lit" means deeper rather than brighter on a light
+   ground, the engines keep a touch of gold as decoration, and the canopy is
+   still cut from the ground colour. */
+:root[data-theme="light"] .bmc-field {
+  background:
+    radial-gradient(
+      90% 70% at 50% 12%,
+      rgb(30 64 175 / 0.09) 0%,
+      rgb(30 64 175 / 0.03) 45%,
+      transparent 75%
+    ),
+    radial-gradient(115% 95% at 50% 8%, #ffffff 0%, #f3f5f9 58%, #e8edf5 100%);
+
+  --bmc-gold: 30, 64, 175;
+  --bmc-gold-lit: 23, 37, 84;
+  --bmc-gold-hot: 200, 150, 46;
+  --bmc-glow: 47, 86, 201;
+  --bmc-canopy: 246, 247, 249;
+  --bmc-links: 1.5;
 }
 
 .bmc-canvas {
@@ -3521,6 +3161,28 @@
       74% 62% at 50% 48%,
       rgba(0, 0, 0, 0.72) 0%,
       rgba(0, 0, 0, 0.36) 56%,
+      transparent 84%
+    );
+  }
+}
+
+/* Light: the same value gap, made of the page's own light ground so navy
+   lines fade out under the navy headline. */
+:root[data-theme="light"] .bmc-scrim {
+  background: radial-gradient(
+    54% 48% at 50% 50%,
+    rgb(246 247 249 / 0.8) 0%,
+    rgb(246 247 249 / 0.42) 52%,
+    transparent 78%
+  );
+}
+
+@media (max-width: 640px) {
+  :root[data-theme="light"] .bmc-scrim {
+    background: radial-gradient(
+      74% 62% at 50% 48%,
+      rgb(246 247 249 / 0.85) 0%,
+      rgb(246 247 249 / 0.45) 56%,
       transparent 84%
     );
   }
@@ -3622,6 +3284,16 @@
   );
 }
 
+:root[data-theme="light"] .bmh::before {
+  background: radial-gradient(
+    46% 50% at 50% 50%,
+    rgb(246 247 249 / 0.82) 0%,
+    rgb(246 247 249 / 0.64) 44%,
+    rgb(246 247 249 / 0.3) 68%,
+    rgb(246 247 249 / 0) 84%
+  );
+}
+
 /* The pill is the shared `.bm-pill`; the hero only keeps it on one line. At
    390px the two names together are about 330px, so they fit the column once
    nothing is allowed to wrap and the type steps down a notch. */
@@ -3673,6 +3345,17 @@
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
 }
 
+/* Light: the halos are the light ground rather than black, for the same job
+   of keeping a lit node off a stem. */
+:root[data-theme="light"] .bmh-headline {
+  text-shadow: 0 0 10px rgb(246 247 249 / 0.8), 0 2px 30px rgb(246 247 249 / 0.9);
+}
+
+:root[data-theme="light"] .bmh-promise,
+:root[data-theme="light"] .bmh-mechanism {
+  text-shadow: 0 1px 12px rgb(246 247 249 / 0.9);
+}
+
 /* The program section's button, sized here so it keeps the hero's height
    caps. 56px tall at rest, so it is the page's one big button twice over
    (the second is at the foot of "What Business Mastery actually is"). The
@@ -3685,12 +3368,23 @@
   min-height: 56px;
   padding: 18px clamp(32px, 4.2vw, 64px);
   font-size: min(clamp(15px, 1.2vw, 18px), 2.2vh);
-  box-shadow: 0 0 26px -8px rgba(212, 168, 87, 0.5);
+  box-shadow: 0 0 26px -8px rgb(var(--gold) / 0.33);
 }
 
 .bmh-cta:hover,
 .bmh-cta:focus-visible {
-  box-shadow: 0 0 38px -6px rgba(212, 168, 87, 0.75);
+  box-shadow: 0 0 38px -6px rgb(var(--gold) / 0.5);
+}
+
+/* A navy bloom needs more alpha to show on a pale page than platinum does on
+   graphite. */
+:root[data-theme="light"] .bmh-cta {
+  box-shadow: 0 0 26px -8px rgb(var(--gold) / 0.5);
+}
+
+:root[data-theme="light"] .bmh-cta:hover,
+:root[data-theme="light"] .bmh-cta:focus-visible {
+  box-shadow: 0 0 38px -6px rgb(var(--gold) / 0.75);
 }
 
 /* Three short facts on one line, each with a gold check; they wrap to two
@@ -3709,6 +3403,11 @@
   font-size: min(clamp(13px, 0.95vw, 14.5px), 1.9vh);
   font-weight: 500;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+
+:root[data-theme="light"] .bmh-trust {
+  color: var(--color-neutral-500);
+  text-shadow: 0 1px 10px rgb(246 247 249 / 0.9);
 }
 
 .bmh-trust li {
