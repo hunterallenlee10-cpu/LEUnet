@@ -1434,6 +1434,191 @@
 }
 
 /* ---------------------------------------------------------------------------
+   The Real World sections (2026-10-18): the drawn panels that stand in for
+   the reference's photos. Every animation is transform, opacity or a stroke
+   offset, runs only with no-preference for motion, and the resting state
+   (what reduced motion shows) is the finished picture.
+   --------------------------------------------------------------------------- */
+
+/* The skill stack (BmIntroSection): full bars and lit "Learned" tags at rest. */
+.bm-skill-bar {
+  width: 100%;
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bm-skill-bar {
+    animation: bmSkillFill 4.5s ease-in-out infinite;
+  }
+
+  .bm-skill-check {
+    animation: bmSkillCheck 4.5s ease-in-out infinite;
+  }
+}
+
+@keyframes bmSkillFill {
+  0% {
+    transform: scaleX(0.08);
+  }
+  40%,
+  85% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0.08);
+  }
+}
+
+@keyframes bmSkillCheck {
+  0%,
+  35% {
+    opacity: 0;
+  }
+  42%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* The new-economy chart (BmEconomySection): the climbing line draws itself,
+   the area and the end dot follow it in, as the panel scrolls into view. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bm-chart-draw {
+      stroke-dasharray: 1;
+      animation: bmChartDraw linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 55%;
+    }
+
+    .bm-chart-area,
+    .bm-chart-dot {
+      animation: bmChartFade linear both;
+      animation-timeline: view();
+      animation-range: entry 45% cover 60%;
+    }
+  }
+}
+
+@keyframes bmChartDraw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes bmChartFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* The network panel (BmWayOutSection): light runs out along each line in
+   turn and lights its node. At rest the lines are faint and the nodes plain. */
+.bm-net-pulse {
+  stroke-dasharray: 0.18 1;
+  stroke-dashoffset: 0.18;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bm-net-pulse {
+    animation: bmNetPulse 4.2s ease-in-out infinite;
+  }
+
+  .bm-net-node {
+    animation: bmNetNode 4.2s ease-in-out infinite;
+  }
+}
+
+@keyframes bmNetPulse {
+  0% {
+    stroke-dashoffset: 0.18;
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  22% {
+    stroke-dashoffset: -0.82;
+    opacity: 1;
+  }
+  26%,
+  100% {
+    stroke-dashoffset: -0.82;
+    opacity: 0;
+  }
+}
+
+@keyframes bmNetNode {
+  0%,
+  18%,
+  40%,
+  100% {
+    border-color: rgb(var(--ink) / 0.1);
+    color: var(--color-neutral-300);
+  }
+  24%,
+  32% {
+    border-color: rgb(var(--amber) / 0.6);
+    color: var(--color-white);
+  }
+}
+
+/* The new-skills band (BmNewSkillsSection): one subject at a time. At rest
+   only the first shows. Five subjects at 3s each; the keyframe windows are
+   one fifth of the cycle, so a sixth subject needs them redrawn. */
+.bm-cycle-item:not(:first-child) {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bm-cycle-item {
+    opacity: 0;
+    animation: bmCycle 15s ease-in-out infinite;
+  }
+}
+
+@keyframes bmCycle {
+  0% {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  3%,
+  17% {
+    opacity: 1;
+    transform: none;
+  }
+  20%,
+  100% {
+    opacity: 0;
+    transform: translateY(-0.75rem);
+  }
+}
+
+/* A faint circuit behind the band: a grid of hairlines, faded at the edges. */
+.bm-circuit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgb(var(--ink) / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--ink) / 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(60% 80% at 50% 50%, #000, transparent);
+  mask-image: radial-gradient(60% 80% at 50% 50%, #000, transparent);
+}
+
+/* ---------------------------------------------------------------------------
    Homepage tool strip - components/sections/ToolsMarqueeSection.tsx
    Two rows of logo pills sliding in opposite directions, faded at both edges.
    Each track holds its list twice and slides by exactly one copy (-50%), so
