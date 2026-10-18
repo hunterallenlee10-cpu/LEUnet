@@ -44,11 +44,11 @@ const onBmHost = [{ type: "host", value: BM_HOST }];
 
 // The www host, where everything but Business Mastery lives. The same origin
 // as `site.url` in data/site.ts, which next.config.mjs cannot import.
-const MAIN_SITE_URL = "https://www.leeenterprisesunlimited.com";
+const MAIN_SITE_URL = "https://www.leeenterprisesunlimited.net";
 // The bare domain too: Vercel forwards it to www, but a rule that only
 // matched www would miss a request it let through.
 const onMainHost = [
-  { type: "host", value: "(?:www\\.)?leeenterprisesunlimited\\.com" },
+  { type: "host", value: "(?:www\\.)?leeenterprisesunlimited\\.net" },
 ];
 
 /**
@@ -127,7 +127,7 @@ const nextConfig = {
     return {
       // Before the filesystem, or the homepage at app/page.tsx would answer
       // "/" first. A rewrite, not a redirect: the address bar keeps showing
-      // mastery.leeenterprisesunlimited.com.
+      // mastery.leeenterprisesunlimited.net.
       beforeFiles: [
         { source: "/", has: onBmHost, destination: "/business-mastery" },
       ],
