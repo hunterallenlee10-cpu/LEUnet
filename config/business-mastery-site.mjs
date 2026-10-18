@@ -26,8 +26,8 @@ export const BUSINESS_MASTERY_HOST = "mastery.leeenterprisesunlimited.net";
 export const BUSINESS_MASTERY_SITE_URL = `https://${BUSINESS_MASTERY_HOST}`;
 
 /**
- * Off until mastery.leeenterprisesunlimited.net is attached to this project in
- * Vercel and answers with the page.
+ * On since 2026-10-18, when mastery.leeenterprisesunlimited.net was attached
+ * to this project in Vercel.
  * @type {boolean}
  */
-export const BUSINESS_MASTERY_SITE_LIVE = false;
+export const BUSINESS_MASTERY_SITE_LIVE = true;
