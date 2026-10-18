@@ -3,6 +3,27 @@
 Execution plan and settled decisions for `/business-mastery`, the Business
 Mastery program page, plus its homepage presence.
 
+> **2026-10-18 The Real World sections — read this first.** At the owner's
+> request, eight sections modelled on The Real World's landing page joined
+> the page, in Business Mastery's own words. Page order now: Hero → The world
+> is about to change → **Master the skills / A modern approach**
+> (`BmIntroSection`) → **Is this you?** (`BmIsThisYouSection`) → What
+> Business Mastery actually is → **Dominate the new economy**
+> (`BmEconomySection`) → **Your way out**, ending on the proof figures
+> (`BmWayOutSection`; the figures were their own `BmProofSection` and are now
+> `BmProofRow`) → **What you'll learn** (`BmLearnSection`) → Our core tenets →
+> **New skills** (`BmNewSkillsSection`) → **The choice is yours / Or do
+> nothing** (`BmChoiceSection`) → the member offer and form. The glow layer
+> still alternates (every second section). Copy is build copy in
+> `data/business-mastery.ts` (`bmIntro` … `bmChoice`), and it keeps §6: the
+> reference's member counts, income claims, "millionaire mentors", "$99" and
+> "lock in your price before it increases" are not carried over. Under each
+> button the reference's member count is `bmHeroTrust` (`BmCta`); the choice
+> card shows `site.businessMastery.price` only once it is set. The
+> reference's photos are drawn panels (a skill stack, the old route against
+> this one, a chart, the network around the LEU mark), so real photos can
+> replace them later.
+
 > **2026-10-18 the .net site — read this first.** This repo is the .net
 > site (www.leeenterprisesunlimited.net), a separate copy of the .com site.
 > It now has its own Business Mastery at **mastery.leeenterprisesunlimited.net**

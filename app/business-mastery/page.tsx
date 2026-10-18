@@ -4,7 +4,13 @@ import { BmHeader } from "@/components/business-mastery/BmHeader";
 import { BmHeroSection } from "@/components/business-mastery/BmHeroSection";
 import { BmProgramSection } from "@/components/business-mastery/BmProgramSection";
 import { BmShiftSection } from "@/components/business-mastery/BmShiftSection";
-import { BmProofSection } from "@/components/business-mastery/BmProofSection";
+import { BmIntroSection } from "@/components/business-mastery/BmIntroSection";
+import { BmIsThisYouSection } from "@/components/business-mastery/BmIsThisYouSection";
+import { BmEconomySection } from "@/components/business-mastery/BmEconomySection";
+import { BmWayOutSection } from "@/components/business-mastery/BmWayOutSection";
+import { BmLearnSection } from "@/components/business-mastery/BmLearnSection";
+import { BmNewSkillsSection } from "@/components/business-mastery/BmNewSkillsSection";
+import { BmChoiceSection } from "@/components/business-mastery/BmChoiceSection";
 import { BmManifestoSection } from "@/components/business-mastery/BmManifestoSection";
 import { BmFoundingOfferSection } from "@/components/business-mastery/BmFoundingOfferSection";
 import { businessMasteryPage } from "@/data/navigation";
@@ -46,11 +52,14 @@ export const metadata: Metadata = {
  * (docs/BUSINESS-MASTERY.md §9).
  *
  * Section order is the settled page flow from docs/BUSINESS-MASTERY.md §3 —
- * change it there first. It was last reordered on 2026-09-29, when "The
- * world is about to change" took slot 2 and absorbed "Who this is for".
- * Every section shares the body's neutral-950, so what alternates is a glow
- * layer: 2, 4 and 6 carry one, 3 and 5 don't. Keep that alternation if the
- * order changes again.
+ * change it there first. It was last changed on 2026-10-18, when eight
+ * sections after The Real World's landing page joined it at the owner's
+ * request (the intro rows, Is this you?, the new economy, Your way out with
+ * the proof figures at its foot, What you'll learn, New skills, and The
+ * choice is yours). Every section shares the body's neutral-950, so what
+ * alternates is a glow layer: the even sections carry one (the shift, Is
+ * this you?, the new economy, What you'll learn, New skills, the offer) and
+ * the odd ones don't. Keep that alternation if the order changes again.
  */
 export default function BusinessMasteryPage() {
   return (
@@ -63,9 +72,15 @@ export default function BusinessMasteryPage() {
       <main>
         <BmHeroSection />
         <BmShiftSection />
+        <BmIntroSection />
+        <BmIsThisYouSection />
         <BmProgramSection />
-        <BmProofSection />
+        <BmEconomySection />
+        <BmWayOutSection />
+        <BmLearnSection />
         <BmManifestoSection />
+        <BmNewSkillsSection />
+        <BmChoiceSection />
         <BmFoundingOfferSection />
         {/* Section 7, Why I Built LEU, is out at the owner's request — "for
             now", so this is a pause rather than a deletion. BmFounderSection
