@@ -13,9 +13,11 @@ import { LeeSystemsOnboardingSection } from "@/components/lee-systems/LeeSystems
 import { LeeSystemsFAQSection } from "@/components/lee-systems/LeeSystemsFAQSection";
 import { LeeSystemsChoiceSection } from "@/components/lee-systems/LeeSystemsChoiceSection";
 import { LeeSystemsContactSection } from "@/components/lee-systems/LeeSystemsContactSection";
+import { BookCallBand } from "@/components/ui/BookCallBand";
 import { SITE_URL } from "@/data/company";
 import {
   leeSystems,
+  leeSystemsAnchors,
   leeSystemsFaqs,
   leeSystemsRoutes,
 } from "@/data/lee-systems";
@@ -151,6 +153,14 @@ export default function LeeSystemsPage() {
         <LeeSystemsTwoPathsSection />
         <LeeSystemsWebsiteVideoSection />
         <LeeSystemsServicesSection />
+        {/* The one stretch of the page without a "Book a free call" (the
+            services, the demo and the film) gets a band up front (the
+            owner's ask, 2026-10-19). */}
+        <BookCallBand
+          title="Not sure which one you need?"
+          line="Book a free call. We'll look at how your business runs and tell you where to start."
+          href={`#${leeSystemsAnchors.form}`}
+        />
         <LeeSystemsLiveDemoSection />
         <LeeSystemsWorkflowFilmSection />
         <LeeSystemsIndustriesSection />

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactInterests, isContactInterest } from "@/data/contact";
 import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
-import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
+import { FORMS_TO_EMAIL, sendLeadEmail } from "@/lib/email";
 import {
   FIELD_LIMITS,
   INVALID_NAME_MESSAGE,
@@ -22,8 +22,8 @@ interface ContactFormRequest {
 
 /**
  * The shared contact form (components/contact/ContactForm.tsx): name, email,
- * phone and an optional message. Delivered through Resend to the same inbox
- * as before, with a tag at the front of the subject: "[LEU] New
+ * phone and an optional message. Delivered through Resend to FORMS_TO_EMAIL
+ * (ceo@leeenterprisesunlimited.com), with a tag at the front of the subject: "[LEU] New
  * inquiry from Jane Smith" when the visitor came from a "Book a free call"
  * link (?interest=free-call), "[General]" otherwise.
  */
@@ -101,7 +101,7 @@ ${message || "No message"}
     return await sendLeadEmail({
       tag: "contact",
       form: "contact form",
-      to: DEFAULT_TO_EMAIL,
+      to: FORMS_TO_EMAIL,
       replyTo: email,
       subject: `[${choice?.subjectTag ?? "General"}] New inquiry from ${name}`,
       text: emailBody,

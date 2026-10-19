@@ -408,9 +408,9 @@ at the owner's request:
 | Tell us your story (one open textarea; its hint asks where they are, what they're building, what's holding them back, and what they want from membership) | yes |
 | Honeypot | hidden |
 
-Env override pattern mirrors the other routes:
-`BM_TO_EMAIL || CONTACT_TO_EMAIL || "ceo@leeenterprisesunlimited.com"`, the
-last two through `DEFAULT_TO_EMAIL` in `lib/email.ts`.
+Delivers to ceo@leeenterprisesunlimited.com like every form on the site
+(`FORMS_TO_EMAIL` in `lib/email.ts`). Since 2026-10-19 no environment
+variable overrides it; `BM_TO_EMAIL` is no longer read.
 
 ---
 
