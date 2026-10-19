@@ -39,13 +39,14 @@ export const metadata: Metadata = {
 
 /**
  * The homepage: the hero and the Lee Systems offer with its calculator, the
- * moving strip of tools, the journey, recent work, and the contact form.
+ * moving strip of tools, recent work, the contact form, and the journey.
  * Business Mastery is linked from the footer only (the owner's call,
  * 2026-10-06). The order is the site fix
  * plan's, except that on 2026-09-28 the owner swapped the pricing promise for
  * the tool strip, moved the journey here from /business-mastery (right above
  * recent work), and paused "Who you'll work with" and "What Lee Systems Co.
- * sets up". Nothing else goes here.
+ * sets up". On 2026-10-19 the owner moved the journey to the very bottom,
+ * under the contact form. Nothing else goes here.
  */
 export default function Home() {
   return (
@@ -58,15 +59,16 @@ export default function Home() {
         {/* "What Lee Systems Co. sets up" is out at the owner's request
             (2026-09-28). LeeSystemsSetupSection is intact; putting it back
             is this line plus its import. */}
-        {/* The journey, locked or open: BM_JOURNEY_LOCKED
-            (data/business-mastery.ts) is the switch, and flipping it is the
-            whole unlock. */}
-        {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
         <RecentWorkSection />
         {/* Who you'll work with is out "for now" at the owner's request
             (2026-09-28). WhoYoullWorkWithSection is intact; putting it back
             is this line plus its import. */}
         <ContactSection />
+        {/* The journey sits last, under the contact form (the owner's call,
+            2026-10-19). BM_JOURNEY_LOCKED (data/business-mastery.ts) is the
+            switch between locked and open, and flipping it is the whole
+            unlock. */}
+        {BM_JOURNEY_LOCKED ? <BmJourneyLocked /> : <BmJourneyTimeline />}
       </main>
 
       <MainFooter />
