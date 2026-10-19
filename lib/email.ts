@@ -16,11 +16,19 @@ export const FROM_EMAIL =
   process.env.CONTACT_FROM_EMAIL || "noreply@leeenterprisesunlimited.com";
 
 /**
- * Where site email lands. A route with its own variable (LEE_SYSTEMS_TO_EMAIL,
- * BM_TO_EMAIL and so on) checks that first and falls back to this.
+ * Where the invoice payment notifications land (app/api/stripe/webhook).
  */
 export const DEFAULT_TO_EMAIL =
   process.env.CONTACT_TO_EMAIL || companyInfo.contactEmail;
+
+/**
+ * Where every form on the site delivers: ceo@leeenterprisesunlimited.com,
+ * always (the owner's call, 2026-10-19). Deliberately not read from the
+ * environment, so a leftover variable such as CONTACT_TO_EMAIL,
+ * LEE_SYSTEMS_TO_EMAIL, WEBSITE_TO_EMAIL or BM_TO_EMAIL can never send leads
+ * to another inbox. The subject line tells the forms apart.
+ */
+export const FORMS_TO_EMAIL = companyInfo.contactEmail;
 
 interface LeadEmail {
   /** The route's log prefix, e.g. "contact" for "[contact] ...". */

@@ -10,6 +10,7 @@ import {
   isValidName,
   isValidPhone,
 } from "@/lib/validation";
+import { site } from "@/data/site";
 
 const emptyForm = {
   fullName: "",
@@ -153,7 +154,7 @@ export function BmApplicationForm() {
         else fieldRef.current?.focus();
       } else {
         setErrors({
-          form: `We couldn't send your application. Please try again. Reference: ${
+          form: `We couldn't send your application. Please try again, or email ${site.email}. Reference: ${
             data?.code || "unknown"
           }, http_${response.status}`,
         });

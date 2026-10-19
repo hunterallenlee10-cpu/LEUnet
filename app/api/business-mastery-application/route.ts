@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
-import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
+import { FORMS_TO_EMAIL, sendLeadEmail } from "@/lib/email";
 import {
   FIELD_LIMITS,
   INVALID_NAME_MESSAGE,
@@ -9,11 +9,10 @@ import {
   isValidPhone,
 } from "@/lib/validation";
 
-// Delivers to the site-wide contact address, matching the other venture
-// forms. Its own route rather than a shared one with a flag: the subject line
-// is what distinguishes a Business Mastery application in the inbox, and that
-// only works if it is set here.
-const BM_TO_EMAIL = process.env.BM_TO_EMAIL || DEFAULT_TO_EMAIL;
+// Delivers to FORMS_TO_EMAIL (ceo@leeenterprisesunlimited.com), like every
+// other form. Its own route rather than a shared one with a flag: the subject
+// line is what distinguishes a Business Mastery application in the inbox, and
+// that only works if it is set here.
 
 /** What the form posts. Typed `unknown` because a request can come from anywhere. */
 interface BmApplicationRequest {
@@ -90,7 +89,7 @@ ${story}
     return await sendLeadEmail({
       tag: "bm-application",
       form: "Business Mastery application form",
-      to: BM_TO_EMAIL,
+      to: FORMS_TO_EMAIL,
       replyTo: email,
       subject: `New Business Mastery Application from ${fullName}`,
       text: emailBody,

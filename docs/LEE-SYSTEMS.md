@@ -296,10 +296,9 @@ The Lee Systems form replaced the automation consultation form
 (`/api/automation-audit`) and the website quote form (`/api/website-inquiry`)
 on 2026-09-29, and delivers each request exactly as the old form for that
 kind of request did, so the inbox and its filters see no change. It sends
-through Resend to `LEE_SYSTEMS_TO_EMAIL`, then `LMM_TO_EMAIL`, then
-`CONTACT_TO_EMAIL` (website requests check `WEBSITE_TO_EMAIL` first). With
-none set, it goes to ceo@leeenterprisesunlimited.com. The contact form goes
-to `CONTACT_TO_EMAIL`.
+through Resend to ceo@leeenterprisesunlimited.com, as does every form on the
+site (`FORMS_TO_EMAIL` in `lib/email.ts`, fixed in code since 2026-10-19 so
+no environment variable can redirect it).
 
 The form sits in `#contact-form` and keeps the two old forms' anchor ids,
 `audit` and `website-quote`, on wrappers around it, so links made for either

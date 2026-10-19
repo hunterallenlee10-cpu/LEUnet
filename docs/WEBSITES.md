@@ -16,9 +16,9 @@
 > website half `#websites` lands on (the websites text came off the same
 > day); the
 > quote form is gone, and a website request made through the one form on
-> `/lee-systems` (`/api/lee-systems-inquiry`) still resolves
-> `WEBSITE_TO_EMAIL` → `LEE_SYSTEMS_TO_EMAIL` → `LMM_TO_EMAIL` →
-> `CONTACT_TO_EMAIL` and keeps the "New Website Request" subject (§4); there
+> `/lee-systems` (`/api/lee-systems-inquiry`) goes to
+> ceo@leeenterprisesunlimited.com like every form (`FORMS_TO_EMAIL`, since
+> 2026-10-19) and keeps the "New Website Request" subject (§4); there
 > are no sibling links (§5) and no page of its own, so no share image of its
 > own (§7); and no section carries `scroll-mt-24`, because html's
 > `scroll-padding-top` offsets every anchor (§2).

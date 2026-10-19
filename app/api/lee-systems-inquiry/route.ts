@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { inquiryIndustryOptions, inquiryNeeds } from "@/data/lee-systems";
 import { site } from "@/data/site";
 import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
-import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
+import { FORMS_TO_EMAIL, sendLeadEmail } from "@/lib/email";
 import {
   FIELD_LIMITS,
   INVALID_NAME_MESSAGE,
@@ -15,23 +15,14 @@ import {
  * The /lee-systems form (components/lee-systems/LeeSystemsInquiryForm.tsx),
  * which replaced the automation consultation form (/api/automation-audit) and
  * the website quote form (/api/website-inquiry) on 2026-09-29. Each request
- * is delivered exactly where, and under exactly the subject, the old form for
- * that kind of request used, so the inbox and any filters on it see no
- * change: a website choice goes the way website quote requests did,
- * everything else the way consultation requests did.
+ * goes under exactly the subject the old form for that kind of request used,
+ * so inbox filters see no change: a website choice as a "New Website
+ * Request", everything else as a "New Consultation Request".
  *
- * Both default to the site-wide contact address, matching the contact form
- * and the payment notifications. LEE_SYSTEMS_TO_EMAIL splits Lee Systems
- * leads out if that is ever wanted, and WEBSITE_TO_EMAIL website requests on
- * their own. LMM_TO_EMAIL is still read so an environment configured before
- * the Lee Marketing Mastery rename keeps delivering where it did.
+ * Both deliver to FORMS_TO_EMAIL (ceo@leeenterprisesunlimited.com), like
+ * every other form; since 2026-10-19 no environment variable can redirect
+ * them (lib/email.ts).
  */
-const CONSULTATION_TO_EMAIL =
-  process.env.LEE_SYSTEMS_TO_EMAIL ||
-  process.env.LMM_TO_EMAIL ||
-  DEFAULT_TO_EMAIL;
-
-const WEBSITE_TO_EMAIL = process.env.WEBSITE_TO_EMAIL || CONSULTATION_TO_EMAIL;
 
 /** What the form posts. Typed `unknown` because a request can come from anywhere. */
 interface LeeSystemsInquiryRequest {
@@ -142,7 +133,7 @@ ${site.replyTime ? `Reply promised ${site.replyTime}, to set up their free consu
     return await sendLeadEmail({
       tag: "lee-systems-inquiry",
       form: "Lee Systems inquiry form",
-      to: need.website ? WEBSITE_TO_EMAIL : CONSULTATION_TO_EMAIL,
+      to: FORMS_TO_EMAIL,
       replyTo: email,
       subject: need.website
         ? `Lee Systems Co.: New Website Request from ${fullName}, ${businessName}`
