@@ -7,6 +7,7 @@ import { RecentWorkSection } from "@/components/shared/RecentWorkSection";
 import { BmJourneyTimeline } from "@/components/business-mastery/BmJourneyTimeline";
 import { BmJourneyLocked } from "@/components/business-mastery/BmJourneyLocked";
 import { ContactSection } from "@/components/sections/ContactSection";
+import { BookCallBand } from "@/components/ui/BookCallBand";
 import { site } from "@/data/site";
 import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
 
@@ -39,7 +40,8 @@ export const metadata: Metadata = {
 
 /**
  * The homepage: the hero and the Lee Systems offer with its calculator, the
- * moving strip of tools, recent work, the contact form, and the journey.
+ * moving strip of tools, recent work, the contact form, and the journey,
+ * with a "Book a free call" band after the tools and after recent work.
  * Business Mastery is linked from the footer only (the owner's call,
  * 2026-10-06). The order is the site fix
  * plan's, except that on 2026-09-28 the owner swapped the pricing promise for
@@ -56,10 +58,20 @@ export default function Home() {
       <main>
         <HeroSection />
         <ToolsMarqueeSection />
+        {/* A "Book a free call" band every couple of sections, worded for
+            the section above it (the owner's ask, 2026-10-19). */}
+        <BookCallBand
+          title="Already using these tools? We'll plug right in."
+          line="Book a free call and we'll map out what to automate first, around the tools you already run."
+        />
         {/* "What Lee Systems Co. sets up" is out at the owner's request
             (2026-09-28). LeeSystemsSetupSection is intact; putting it back
             is this line plus its import. */}
         <RecentWorkSection />
+        <BookCallBand
+          title="Want a website like these?"
+          line="Book a free call and get a flat upfront quote, built personally for your business."
+        />
         {/* Who you'll work with is out "for now" at the owner's request
             (2026-09-28). WhoYoullWorkWithSection is intact; putting it back
             is this line plus its import. */}
