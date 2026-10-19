@@ -11,9 +11,16 @@ export function getResend(): Resend {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-/** The sender on every email the site sends. */
+/**
+ * The sender on every email the site sends. Resend's shared test sender by
+ * default, the one the .com site already sends from (2026-10-19): it works
+ * without a verified domain, but Resend only delivers it to the address the
+ * Resend account is registered under, which is the inbox the forms go to.
+ * Once leeenterprisesunlimited.com is verified in Resend, set
+ * CONTACT_FROM_EMAIL to e.g. noreply@leeenterprisesunlimited.com.
+ */
 export const FROM_EMAIL =
-  process.env.CONTACT_FROM_EMAIL || "noreply@leeenterprisesunlimited.com";
+  process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
 
 /**
  * Where the invoice payment notifications land (app/api/stripe/webhook).
