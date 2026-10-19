@@ -4,7 +4,7 @@ import { MainFooter } from "@/components/layout/MainFooter";
 import { LeeSystemsHeroSection } from "@/components/lee-systems/LeeSystemsHeroSection";
 import { LeeSystemsTwoPathsSection } from "@/components/lee-systems/LeeSystemsTwoPathsSection";
 import { LeeSystemsWebsiteVideoSection } from "@/components/lee-systems/LeeSystemsWebsiteVideoSection";
-import { LeeSystemsOfferingsSection } from "@/components/lee-systems/LeeSystemsOfferingsSection";
+import { LeeSystemsServicesSection } from "@/components/lee-systems/LeeSystemsServicesSection";
 import { LeeSystemsLiveDemoSection } from "@/components/lee-systems/LeeSystemsLiveDemoSection";
 import { LeeSystemsWorkflowFilmSection } from "@/components/lee-systems/LeeSystemsWorkflowFilmSection";
 import { LeeSystemsIndustriesSection } from "@/components/lee-systems/LeeSystemsIndustriesSection";
@@ -19,20 +19,20 @@ import {
   leeSystems,
   leeSystemsAnchors,
   leeSystemsFaqs,
-  leeSystemsLinks,
   leeSystemsRoutes,
 } from "@/data/lee-systems";
+import { serviceGroups, servicePath } from "@/data/services";
 
 /**
- * The Lee Systems Co. page, and since 2026-09-29 the only one: the automation
+ * The LEU page, and since 2026-09-29 the only one: the automation
  * and websites pages folded into it, and their URLs 301 to its #automation
  * and #websites sections (next.config.mjs). It replaced the Lee Marketing
  * Mastery hub at /lee-marketing-mastery, which redirects here too.
  *
  * The order: the hero, the two paths (an example lead with and without the
  * systems), the website video (a visit to an outdated site, then to one
- * built right), the two offerings side by side at equal weight, then the
- * live demo of both working as one (a website catching a lead, and the
+ * built right), what we do (the six service groups, `#services`, which
+ * replaced the two offerings side by side on 2026-10-17), then the live demo of both working as one (a website catching a lead, and the
  * system handling it), the workflow film (one system running a week's calls,
  * leads, jobs and reports), who it is for, recent work, the onboarding process, the
  * FAQ, the choice between doing nothing and a free call, and the form. Every
@@ -40,9 +40,9 @@ import {
  * where `bookHref` says. The two paths and the choice follow The Real World's
  * page (the owner's reference, 2026-09-29).
  */
-const title = "Lee Systems Co. | AI Automation & Websites for Business Owners";
+const title = "How It Works | Lee Enterprises Unlimited";
 const description =
-  "Lee Systems Co. builds AI systems that answer your calls and new leads, handle intake and send follow-ups, plus websites built to bring in leads.";
+  "How Lee Enterprises Unlimited builds websites that bring in customers, AI that answers calls and follows up every lead, plus marketing and content that gets you found.";
 
 /** The page's one canonical URL, on the www host. */
 const pageUrl = `${SITE_URL}${leeSystemsRoutes.home}`;
@@ -68,52 +68,32 @@ export const metadata: Metadata = {
 };
 
 /**
- * The business, the two services it sells and the FAQ, all at this one URL.
- * The two `Service` nodes used to live on the automation and websites pages;
- * they keep their names, descriptions and catalogues, and point at their
- * sections here.
+ * The business, its six service groups and the FAQ, all at this one URL.
+ * Each group (`serviceGroups` in data/how-it-works.ts, the "What we do" cards)
+ * is a Service pointing at its own card, with what it includes as an offer
+ * catalogue; the Organization's catalogue lists the six. They replaced the
+ * two Service nodes (automation and websites) on 2026-10-17.
  *
  * An Organization rather than a LocalBusiness type: the site publishes no
  * address or service area (the owner's call, 2026-09-28), and local-business
- * data without an address is flagged as incomplete. No rating or review: none
- * exist to cite.
+ * data without an address is flagged as incomplete. No rating, review or
+ * price: none exist to cite.
  */
 const businessNode = {
   "@type": "Organization",
-  "@id": `${pageUrl}#business`,
+  "@id": `${SITE_URL}/#organization`,
   name: leeSystems.name,
 };
 
-const services = [
-  {
-    "@id": `${pageUrl}#service-automation`,
-    name: "Business Automation",
-    description:
-      "AI call answering, instant lead replies, intake, follow-ups and review requests, built around the tools you already use. Start with a free call.",
-    serviceType: "Business process automation",
-    url: `${SITE_URL}${leeSystemsLinks.automation}`,
-    catalog: "Automation Systems",
-    offers: [
-      "AI Call Answering",
-      "Lead Response Automation",
-      "Sales Follow-Up Automation",
-      "Client Intake and Communication",
-      "Review and Referral Requests",
-      "Billing Reminders",
-      "Internal Operations Automation",
-    ],
-  },
-  {
-    "@id": `${pageUrl}#service-websites`,
-    name: "Website Builds",
-    description:
-      "Conversion-focused websites for businesses. Mobile-first, fast, lead forms, basic SEO, and you own it. Free quotes from Lee Systems Co.",
-    serviceType: "Website design and development",
-    url: `${SITE_URL}${leeSystemsLinks.websites}`,
-    catalog: "Website Services",
-    offers: ["New Website Builds", "Website Redesigns", "Ongoing Care Plans"],
-  },
-];
+// Since 2026-10-17 each group has its own page, which carries its full
+// Service node under the same @id; this page names the six and points there.
+const services = serviceGroups.map(({ slug, name, outcome, items }) => ({
+  "@id": `${SITE_URL}${servicePath(slug)}#service`,
+  name,
+  description: outcome,
+  url: `${SITE_URL}${servicePath(slug)}`,
+  items,
+}));
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -121,32 +101,27 @@ const structuredData = {
     {
       ...businessNode,
       description,
-      url: pageUrl,
+      url: SITE_URL,
       email: leeSystems.contactEmail,
       ...(leeSystems.phone ? { telephone: leeSystems.phone } : {}),
       founder: { "@type": "Person", name: leeSystems.owner },
-      parentOrganization: {
-        "@type": "Organization",
-        name: leeSystems.parentName,
-        url: SITE_URL,
-      },
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "Lee Systems Co. Services",
+        name: "Lee Enterprises Unlimited services",
         itemListElement: services.map((service) => ({
           "@type": "Offer",
           itemOffered: { "@type": "Service", "@id": service["@id"] },
         })),
       },
     },
-    ...services.map(({ catalog, offers, ...service }) => ({
+    ...services.map(({ items, ...service }) => ({
       "@type": "Service",
       ...service,
       provider: businessNode,
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: catalog,
-        itemListElement: offers.map((name) => ({
+        name: service.name,
+        itemListElement: items.map(({ name }) => ({
           "@type": "Offer",
           itemOffered: { "@type": "Service", name },
         })),
@@ -177,9 +152,9 @@ export default function LeeSystemsPage() {
         <LeeSystemsHeroSection />
         <LeeSystemsTwoPathsSection />
         <LeeSystemsWebsiteVideoSection />
-        <LeeSystemsOfferingsSection />
+        <LeeSystemsServicesSection />
         {/* The one stretch of the page without a "Book a free call" (the
-            offerings, the demo and the film) gets a band up front (the
+            services, the demo and the film) gets a band up front (the
             owner's ask, 2026-10-19). */}
         <BookCallBand
           title="Not sure which one you need?"

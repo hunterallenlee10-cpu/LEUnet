@@ -1,5 +1,5 @@
 /**
- * The "Two paths" video on /lee-systems: one example lead, played by hand and
+ * The "Two paths" video on /how-it-works: one example lead, played by hand and
  * then with AI, as one narrated video. Every line below is both read aloud
  * and shown as the caption, so the voice and the captions always say the
  * same thing. The owner asked for the two runs to become one video with
@@ -14,7 +14,7 @@
  *
  * Every step is something the owner has confirmed the systems do
  * (`site.callAnswering`, and the automation offering and FAQ on
- * /lee-systems); the time and the day only make it an example, which is why
+ * /how-it-works); the time and the day only make it an example, which is why
  * the frame is labelled "Example". No result or client is implied.
  *
  * The "before" run is by hand and the "after" run is with AI; the shape of

@@ -3,11 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { CheckCircle2 } from "lucide-react";
-import {
-  inquiryIndustryOptions,
-  inquiryNeeds,
-  leeSystems,
-} from "@/data/lee-systems";
+import { inquiryIndustryOptions, leeSystems } from "@/data/lee-systems";
+import { inquiryNeeds } from "@/data/services";
 import { site } from "@/data/site";
 import {
   FIELD_LIMITS,
@@ -33,22 +30,37 @@ const emptyForm = {
 type FormState = typeof emptyForm;
 type FieldErrors = Partial<Record<keyof FormState | "form", string>>;
 
-const needOptions = inquiryNeeds.map(({ label }) => label);
+const industryOptions = inquiryIndustryOptions.map((option) => ({
+  value: option,
+  label: option,
+}));
 
 const labelClass = "block text-sm font-semibold text-neutral-200 mb-2";
 const fieldClass =
   "w-full rounded-lg border bg-neutral-900 px-4 py-3 text-white placeholder-neutral-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brass-400/60";
 
 /**
- * The one form on /lee-systems. It replaced the automation page's
+ * The one form on /how-it-works. It replaced the automation page's
  * consultation form and the websites page's quote form (2026-09-29): what the
  * visitor needs is now one of its questions. Posts to /api/lee-systems-inquiry,
  * which checks the same rules server side and emails the request to where the
  * old form for that kind of request sent it; the recipient is set there and
  * never sent from the browser.
+ *
+ * "What do you need?" lists the six service groups and "Not sure", each
+ * posted as its slug (data/services.ts). `initialNeed` starts it on one: a
+ * service page passes its own, and LeeSystemsInquiryFormBlock passes a link's
+ * ?service= or ?interest=.
  */
-export function LeeSystemsInquiryForm() {
-  const [formData, setFormData] = useState<FormState>(emptyForm);
+export function LeeSystemsInquiryForm({
+  initialNeed = "",
+}: {
+  initialNeed?: string;
+} = {}) {
+  const [formData, setFormData] = useState<FormState>({
+    ...emptyForm,
+    need: initialNeed,
+  });
   const [honeypot, setHoneypot] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -132,7 +144,7 @@ export function LeeSystemsInquiryForm() {
 
       if (response.ok) {
         setSubmitted(true);
-        setFormData(emptyForm);
+        setFormData({ ...emptyForm, need: initialNeed });
         return;
       }
 
@@ -199,7 +211,7 @@ export function LeeSystemsInquiryForm() {
       onSubmit={handleSubmit}
       noValidate
       aria-describedby="inquiry-form-description"
-      className="mx-auto max-w-3xl rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-10"
+      className="mx-auto max-w-3xl rounded-xl border border-white/10 bg-white/[0.04] p-6 md:p-10 light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]"
     >
       <div className="mb-2">
         <h3 className="text-2xl font-bold text-white">
@@ -286,7 +298,7 @@ export function LeeSystemsInquiryForm() {
           error={errors.need}
           value={formData.need}
           onChange={handleChange}
-          options={needOptions}
+          options={inquiryNeeds}
         />
         <SelectField
           id="industry"
@@ -294,7 +306,7 @@ export function LeeSystemsInquiryForm() {
           error={errors.industry}
           value={formData.industry}
           onChange={handleChange}
-          options={inquiryIndustryOptions}
+          options={industryOptions}
         />
       </div>
 
@@ -422,7 +434,7 @@ interface SelectFieldProps {
   label: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: readonly string[];
+  options: readonly { value: string; label: string }[];
   error?: string;
 }
 
@@ -447,8 +459,8 @@ function SelectField({ id, label, value, onChange, options, error }: SelectField
       >
         <option value="">Select...</option>
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

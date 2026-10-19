@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { companyInfo } from "@/data/company";
 
 /**
@@ -12,7 +13,9 @@ import { companyInfo } from "@/data/company";
  * shows it.
  *
  * No site header or footer: the LEU mark (linking home) and the page itself,
- * so a client has one thing to look at.
+ * so a client has one thing to look at. The light/dark switch sits dimmed in
+ * the corner, there for anyone who looks for it without competing with the
+ * payment.
  */
 export const metadata: Metadata = {
   title: { absolute: `Payment | ${companyInfo.name}` },
@@ -29,8 +32,8 @@ export default function PayLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="flex min-h-dvh flex-col bg-neutral-950 bg-[radial-gradient(90%_50%_at_50%_0%,rgba(251,191,36,0.07),transparent_70%)]">
-      <header className="flex justify-center px-4 pt-8 sm:pt-12">
+    <div className="flex min-h-dvh flex-col bg-neutral-950 bg-[radial-gradient(90%_50%_at_50%_0%,rgb(var(--amber)/0.07),transparent_70%)]">
+      <header className="relative flex justify-center px-4 pt-8 sm:pt-12">
         <Link
           href="/"
           className="inline-flex min-h-11 items-center gap-3 rounded-lg"
@@ -38,7 +41,7 @@ export default function PayLayout({
           <Image
             src={companyInfo.mark}
             alt={companyInfo.logoAlt}
-            width={204}
+            width={205}
             height={160}
             sizes="51px"
             preload
@@ -48,6 +51,7 @@ export default function PayLayout({
             {companyInfo.name}
           </span>
         </Link>
+        <ThemeToggle className="absolute right-2 top-2 opacity-60 hover:opacity-100 focus-visible:opacity-100 sm:right-4 sm:top-4" />
       </header>
 
       <main className="flex-1 px-4 pt-12 pb-20 sm:px-6 sm:pt-16">

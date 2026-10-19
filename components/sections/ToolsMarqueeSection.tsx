@@ -29,7 +29,7 @@ export function ToolsMarqueeSection() {
         id="tools-title"
         className="section-container tools-title mb-10 text-center"
       >
-        Built cutting-edge, connected to{" "}
+        Built to work with{" "}
         <span className="tools-title-accent">the tools you already use.</span>
       </h2>
 

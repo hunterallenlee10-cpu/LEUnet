@@ -1,9 +1,10 @@
 /**
- * Lee Systems Co. - shared brand details and page content.
+ * LEU - shared brand details and page content.
  *
- * Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It sells AI
+ * Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25, and became
+ * plain LEU on 2026-10-17. It sells AI
  * automation (the lead offer, AI call answering included) and website builds,
- * both on one page, /lee-systems. The automation and websites pages folded
+ * both on one page, /how-it-works. The automation and websites pages folded
  * into it on 2026-09-29: their URLs, and the old /lee-marketing-mastery ones,
  * redirect to its #automation and #websites sections (next.config.mjs).
  *
@@ -23,35 +24,45 @@
 
 import { site } from "@/data/site";
 
+/**
+ * The page's address. It was /lee-systems until 2026-10-17, when the owner
+ * retired the Lee Systems Co. name and everything became Lee Enterprises
+ * Unlimited; the page is now "How It Works", and /lee-systems redirects here
+ * (next.config.mjs). The identifiers in the code keep the old name.
+ */
 export const leeSystemsRoutes = {
-  home: "/lee-systems",
+  home: "/how-it-works",
 } as const;
 
 /**
- * Section ids on /lee-systems that links point at, kept here so a link and
+ * Section ids on /how-it-works that links point at, kept here so a link and
  * its target agree. The form also keeps the ids the two forms it replaced had
  * on their own pages - "audit" (from when the automation form requested the
  * free Automation Audit) and "website-quote" - on wrappers around it, so
  * links made for either still land on it.
  */
 export const leeSystemsAnchors = {
+  services: "services",
   automation: "automation",
   websites: "websites",
   form: "contact-form",
   auditForm: "audit",
   websiteQuoteForm: "website-quote",
+  /** "Watch one system run your week", linked from the Follow-Up demo. */
+  fullWeek: "full-week",
 } as const;
 
-/** The two offerings' sections, linked from anywhere on the site. */
+/** Sections of /how-it-works, linked from anywhere on the site. */
 export const leeSystemsLinks = {
+  services: `${leeSystemsRoutes.home}#${leeSystemsAnchors.services}`,
   automation: `${leeSystemsRoutes.home}#${leeSystemsAnchors.automation}`,
   websites: `${leeSystemsRoutes.home}#${leeSystemsAnchors.websites}`,
+  fullWeek: `${leeSystemsRoutes.home}#${leeSystemsAnchors.fullWeek}`,
 } as const;
 
 export const leeSystems = {
-  name: "Lee Systems Co.",
-  tagline: "A Lee Enterprises Unlimited company",
-  parentName: "Lee Enterprises Unlimited",
+  /** Since 2026-10-17 the one business name: Lee Systems Co. is retired. */
+  name: "Lee Enterprises Unlimited",
   /**
    * The main page's headline, the owner's "what's in it for me" line
    * (2026-09-30), which replaced "The world is changing. Beat your
@@ -68,13 +79,16 @@ export const leeSystems = {
   heroHow:
     "It makes & runs your beautiful website, answers calls, follows up with every lead, and books the job. All 24/7.",
   owner: "Hunter Lee",
-  /** The parent company's inbox until Lee Systems Co. has its own. */
+  /** The business inbox. */
   contactEmail: site.email,
   phone: site.phone,
 } as const;
 
+// The six service groups and the Care Plan moved to data/services.ts on
+// 2026-10-17, when each group got its own page under /services.
+
 /**
- * The example industries on /lee-systems ("Who we help"). Law firms and home
+ * The example industries on /how-it-works ("Who we help"). Law firms and home
  * services, the two the owner knows best, come first; the rest were added on
  * the owner's request (2026-09-29). The closing line covers everyone else
  * rather than listing industries with nothing specific to say. The examples
@@ -178,42 +192,22 @@ export function industryInSentence(name: string): string {
 /**
  * The callout under the industry cards: the cards are examples, and any
  * business is welcome (the owner asked for a "we can do anything" statement
- * here, 2026-10-04). `capabilities` are services Lee Systems Co. offers, so
- * the claim stays concrete.
+ * here, 2026-10-04). Its chips are the six service groups (2026-10-17,
+ * `serviceGroups` in data/services.ts, each linking to its page), so the
+ * claim stays concrete, then "Anything else you need".
  */
 export const otherIndustries = {
   eyebrow: "Not on the list?",
   title: "Whatever your business does,",
   titleAccent: "we can build it.",
   body: "The industries above are only a few examples. If something in your business is repetitive, slow or slipping through the cracks, we can build a system that handles it. Built personally for you.",
-  capabilities: [
-    "AI call answering",
-    "Lead follow-up",
-    "Booking and reminders",
-    "CRM automation",
-    "Review requests",
-    "Websites",
-  ],
   /** The last chip, in brass: the list above is not the limit. */
   capabilitiesMore: "Anything else you need",
   cta: "Tell us what you need",
 } as const;
 
-/**
- * "What do you need?" on the /lee-systems form, which replaced the automation
- * consultation form and the website quote form. A `website` choice is
- * delivered the way the website quote form's requests were (its recipient and
- * its subject line); everything else the way the consultation form's were.
- * The route checks the posted value against this list, so a label can change
- * here without touching it.
- */
-export const inquiryNeeds = [
-  { label: "AI call answering", website: false },
-  { label: "Automation", website: false },
-  { label: "Website", website: true },
-  { label: "Website + automation", website: true },
-  { label: "Not sure", website: false },
-] as const;
+// "What do you need?" (`inquiryNeeds`) lives in data/services.ts with the
+// groups it lists.
 
 /** The form's industry choices: the industries the page shows, then Other. */
 export const inquiryIndustryOptions: readonly string[] = [
@@ -222,8 +216,8 @@ export const inquiryIndustryOptions: readonly string[] = [
 ];
 
 /**
- * The /lee-systems FAQ: the automation page's questions, then the websites
- * page's, merged when those pages folded into /lee-systems (2026-09-29).
+ * The /how-it-works FAQ: the automation page's questions, then the websites
+ * page's, merged when those pages folded into /how-it-works (2026-09-29).
  * Both asked "How long does a build take?"; it is asked once here. The
  * answers to the free call, build time, kinds of business and website cost
  * questions are the owner's own wording (2026-09-29).
@@ -302,8 +296,8 @@ export const leeSystemsFaqs = [
 ];
 
 /**
- * How Lee Systems Co. prices its work: the owner's offer terms, stated in
- * "The choice is yours" on /lee-systems.
+ * How LEU prices its work: the owner's offer terms, stated in
+ * "The choice is yours" on /how-it-works.
  */
 export const pricingPromise = [
   "Flat upfront quote",
@@ -313,7 +307,7 @@ export const pricingPromise = [
   "You choose the contract terms",
 ] as const;
 
-/** The four things the homepage says Lee Systems Co. sets up. NOTHING RENDERS
+/** The four things the homepage says LEU sets up. NOTHING RENDERS
  * THIS RIGHT NOW: LeeSystemsSetupSection came off the homepage at the owner's
  * request (2026-09-28) and is kept so it can go back with no content work. */
 export const homeSetupItems = [

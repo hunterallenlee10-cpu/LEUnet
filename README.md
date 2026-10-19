@@ -1,9 +1,11 @@
 # leu
 
-The Lee Enterprises Unlimited website: the homepage (`/`), Business Mastery
-(served at its own subdomain, mastery.leeenterprisesunlimited.com; see
-[docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md)), Lee Systems Co.
-(`/lee-systems`), `/contact` and `/legal`, plus `/book`, a short address that forwards to wherever "Book a free
+The Lee Enterprises Unlimited website, .net edition
+(www.leeenterprisesunlimited.net): the homepage (`/`), the services hub
+(`/services`, with a page per service at `/services/[slug]`), How It Works
+(`/how-it-works`, formerly `/lee-systems`), Business Mastery (its own copy,
+separate from the .com's, at mastery.leeenterprisesunlimited.net; see
+[docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md)), `/contact` and `/legal`, plus `/book`, a short address that forwards to wherever "Book a free
 call" goes. Next.js 16 (App Router), React 19, Tailwind CSS v4 and TypeScript,
 hosted on Vercel.
 
@@ -14,7 +16,7 @@ the founder photo and bio, projects, and Business Mastery's price and join
 settings all live in one file: [`data/site.ts`](data/site.ts). Every page
 reads them from there. An empty value hides whatever needs it, or shows a
 "coming soon" slot while `showPlaceholders` is true (the photo, the bio and the
-projects). Adding the Lee Systems Co. booking link is one line there:
+projects). Adding the booking link is one line there:
 `bookingUrl`.
 
 The repo was bootstrapped with [v0](https://v0.app) and is linked to a
@@ -48,8 +50,8 @@ reads.
 
 ## Payments
 
-Stripe Invoicing is wired up for Lee Systems Co. (formerly Lee Marketing
-Mastery, still tagged `lmm`), and invoices can still be tagged `h1` for H1
+Stripe Invoicing is wired up for LEU's services (once Lee Systems Co. and
+before that Lee Marketing Mastery, still tagged `lmm`), and invoices can still be tagged `h1` for H1
 Performance and `thread` for Thread T-Shirts, which are invoiced from here even
 though neither is on this site any more ([docs/H1.md](docs/H1.md),
 [docs/THREAD.md](docs/THREAD.md)). The public Support Us contribution page came
@@ -62,10 +64,19 @@ makes Stripe Payment Links (one-time, monthly, or both), and each client gets
 a private page at `/pay/{id}` to review and pay. It is kept out of search and
 linked from nowhere. See [docs/PAY.md](docs/PAY.md).
 
-## Lee Systems Co.
+## One name: Lee Enterprises Unlimited
 
-Lee Systems Co. replaced Lee Marketing Mastery on 2026-09-25. It lives on
-one page, `/lee-systems`. The automation and websites pages folded into it on
+Since 2026-10-17 everything on the site is sold as Lee Enterprises Unlimited.
+The owner retired the Lee Systems Co. name (which had replaced Lee Marketing
+Mastery on 2026-09-25): page titles, labels, share images, structured data and
+lead email subjects ("LEU: New Consultation Request ...") all use LEU now, and
+the page that was `/lee-systems` is How It Works at `/how-it-works`, with
+`/lee-systems` 301-redirecting there. The code keeps the old identifiers
+(`components/lee-systems/`, `data/lee-systems.ts`, `leeSystems`,
+`/api/lee-systems-inquiry`, the `lee-systems` contact interest), since
+renaming them changes nothing a visitor sees.
+
+The page lives at `/how-it-works`. The automation and websites pages folded into it on
 2026-09-29 and 301-redirect to its `#automation` and `#websites` sections,
 the law firm and home services pages came off the same day and 301-redirect
 to their cards (`#law-firms`, `#home-services`), and every old
@@ -99,8 +110,7 @@ See [docs/THREAD.md](docs/THREAD.md) for what left, what stayed, and why.
 H1 Performance runs from its own repo and website:
 [hunterallenlee10-cpu/h1-performance](https://github.com/hunterallenlee10-cpu/h1-performance).
 It is no longer one of the ventures this site lists — nothing here names it or
-links to it. The site covers Lee Enterprises Unlimited, Lee Systems Co. and
-Business Mastery only.
+links to it. The site covers Lee Enterprises Unlimited and Business Mastery only.
 
 What remains is the redirect: `/h1-performance` and `/h1/*` forward to the H1
 site so the URLs that page used to answer on keep their inbound links and
@@ -117,7 +127,11 @@ what stayed, and why.
 
 - [docs/BUSINESS-MASTERY.md](docs/BUSINESS-MASTERY.md) - build spec and
   settled decisions for `/business-mastery` and its homepage presence.
-- [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) - the Lee Systems Co. page, its
+- [docs/SERVICES.md](docs/SERVICES.md) - the six service groups, `/services`
+  and its Demo Lab, the six service pages, the demos, and the placeholders
+  and media still to add.
+- [docs/LEE-SYSTEMS.md](docs/LEE-SYSTEMS.md) - the How It Works page (formerly
+  the Lee Systems Co. page at `/lee-systems`), its
   live demo and how to move it, where its copy lives, and the placeholders
   still to fill in.
 - [docs/WEBSITES.md](docs/WEBSITES.md) - historical build spec for the websites

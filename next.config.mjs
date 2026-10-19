@@ -44,11 +44,11 @@ const onBmHost = [{ type: "host", value: BM_HOST }];
 
 // The www host, where everything but Business Mastery lives. The same origin
 // as `site.url` in data/site.ts, which next.config.mjs cannot import.
-const MAIN_SITE_URL = "https://www.leeenterprisesunlimited.com";
+const MAIN_SITE_URL = "https://www.leeenterprisesunlimited.net";
 // The bare domain too: Vercel forwards it to www, but a rule that only
 // matched www would miss a request it let through.
 const onMainHost = [
-  { type: "host", value: "(?:www\\.)?leeenterprisesunlimited\\.com" },
+  { type: "host", value: "(?:www\\.)?leeenterprisesunlimited\\.net" },
 ];
 
 /**
@@ -127,7 +127,7 @@ const nextConfig = {
     return {
       // Before the filesystem, or the homepage at app/page.tsx would answer
       // "/" first. A rewrite, not a redirect: the address bar keeps showing
-      // mastery.leeenterprisesunlimited.com.
+      // mastery.leeenterprisesunlimited.net.
       beforeFiles: [
         { source: "/", has: onBmHost, destination: "/business-mastery" },
       ],
@@ -196,31 +196,47 @@ const nextConfig = {
         destination: "/",
         statusCode: 301,
       },
+      // The owner retired the Lee Systems Co. name on 2026-10-17: everything
+      // is Lee Enterprises Unlimited now, and the page moved from
+      // /lee-systems to /how-it-works ("How It Works"). Exact paths only:
+      // /lee-systems/... also holds the page's pictures in public/, which a
+      // wildcard would break. The older redirects below go straight to the
+      // new address rather than through this one.
+      {
+        source: "/lee-systems",
+        destination: "/how-it-works",
+        statusCode: 301,
+      },
+      {
+        source: "/lee-systems/opengraph-image",
+        destination: "/how-it-works/opengraph-image",
+        statusCode: 301,
+      },
       // The Lee Systems Co. automation and websites pages folded into
-      // /lee-systems on 2026-09-29, so each old URL lands on its section
+      // /lee-systems on 2026-09-29 (now /how-it-works), so each old URL lands on its section
       // there. Permanent, and 301s for the same reason as the rename below.
       // The browser follows the destination's #fragment, so any #anchor on
       // the old URL gives way to the section's.
       {
         source: "/lee-systems/automation",
-        destination: "/lee-systems#automation",
+        destination: "/how-it-works#automation",
         statusCode: 301,
       },
       {
         source: "/lee-systems/websites",
-        destination: "/lee-systems#websites",
+        destination: "/how-it-works#websites",
         statusCode: 301,
       },
       // Their share images went with them. Anything still linking to one (a
       // cached share card, say) gets the page's card instead.
       {
         source: "/lee-systems/automation/opengraph-image",
-        destination: "/lee-systems/opengraph-image",
+        destination: "/how-it-works/opengraph-image",
         statusCode: 301,
       },
       {
         source: "/lee-systems/websites/opengraph-image",
-        destination: "/lee-systems/opengraph-image",
+        destination: "/how-it-works/opengraph-image",
         statusCode: 301,
       },
       // The law firm and home services pages came off on 2026-09-29 at the
@@ -229,58 +245,58 @@ const nextConfig = {
       // gets the page's.
       {
         source: "/lee-systems/law-firms",
-        destination: "/lee-systems#law-firms",
+        destination: "/how-it-works#law-firms",
         statusCode: 301,
       },
       {
         source: "/lee-systems/home-services",
-        destination: "/lee-systems#home-services",
+        destination: "/how-it-works#home-services",
         statusCode: 301,
       },
       {
         source: "/lee-systems/law-firms/opengraph-image",
-        destination: "/lee-systems/opengraph-image",
+        destination: "/how-it-works/opengraph-image",
         statusCode: 301,
       },
       {
         source: "/lee-systems/home-services/opengraph-image",
-        destination: "/lee-systems/opengraph-image",
+        destination: "/how-it-works/opengraph-image",
         statusCode: 301,
       },
       // Lee Marketing Mastery became Lee Systems Co. on 2026-09-25 and moved
-      // from /lee-marketing-mastery to /lee-systems. Same-origin rename with
+      // from /lee-marketing-mastery to /lee-systems (now /how-it-works). Same-origin rename with
       // no plan to go back, so these are permanent. 301 rather than Next's
       // default 308 for `permanent: true` because the owner asked for 301s;
       // for page GETs the two are equivalent to browsers and search engines.
-      // The two offerings go straight to their sections on /lee-systems
+      // The two offerings go straight to their sections on /how-it-works
       // rather than through the folded pages' redirects above; the retired
       // Traditional & Digital Marketing page, and any other old path, goes to
       // the main page. Specific rules first: Next uses the first match.
       {
         source: "/lee-marketing-mastery",
-        destination: "/lee-systems",
+        destination: "/how-it-works",
         statusCode: 301,
       },
       {
         source: "/lee-marketing-mastery/automation",
-        destination: "/lee-systems#automation",
+        destination: "/how-it-works#automation",
         statusCode: 301,
       },
       {
         source: "/lee-marketing-mastery/websites",
-        destination: "/lee-systems#websites",
+        destination: "/how-it-works#websites",
         statusCode: 301,
       },
       {
         source: "/lee-marketing-mastery/:path*",
-        destination: "/lee-systems",
+        destination: "/how-it-works",
         statusCode: 301,
       },
       // The old logo and social-sharing image went with the brand. Anything
       // still linking to them (a cached share card, say) gets the new card.
       {
         source: "/og/lee-marketing-mastery.png",
-        destination: "/lee-systems/opengraph-image",
+        destination: "/how-it-works/opengraph-image",
         statusCode: 301,
       },
       // H1 Performance moved to its own site on 2026-09-01 and came off this

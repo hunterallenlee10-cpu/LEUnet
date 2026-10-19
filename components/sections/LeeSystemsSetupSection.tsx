@@ -9,14 +9,14 @@ const icons = {
   websites: Globe,
 } as const;
 
-/** Homepage: the four things Lee Systems Co. sets up, and where to see the rest. */
+/** Homepage: the four things LEU sets up, and where to see the rest. */
 export function LeeSystemsSetupSection() {
   return (
     <section aria-labelledby="setup-title" className="relative isolate py-20 md:py-28">
       <div className="section-container">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <h2 id="setup-title" className="heading-lg text-white">
-            What Lee Systems Co. sets up
+            What we set up
           </h2>
         </div>
 

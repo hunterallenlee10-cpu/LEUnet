@@ -1,5 +1,5 @@
 /**
- * The website video on /lee-systems, straight under "Two paths": the same
+ * The website video on /how-it-works, straight under "Two paths": the same
  * visit to an outdated site and then to a site built right, as one narrated
  * video in the same frame and style (the owner's ask, 2026-09-29). Every line
  * is read aloud and shown as its caption.

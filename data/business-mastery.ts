@@ -597,3 +597,243 @@ export const bmFinalCta = {
   supporting:
     "Courses. Coaching. Community. Daily support. Real opportunities. One mission: helping you build what you've been dreaming about.",
 } as const;
+
+// ===========================================================================
+// The Real World sections (2026-10-18)
+//
+// Eight sections added at the owner's request from screenshots of The Real
+// World's landing page ("add all of these sections into my page with my
+// businesses context"): Master the skills / A modern approach, Is this you?,
+// Dominate the new economy, Your way out, What you'll learn, New skills, and
+// The choice is yours / Or do nothing.
+//
+// ALL OF IT IS BUILD COPY, written for that request and safe to edit. It
+// follows the reference's structure and voice but not its claims, under the
+// same standard as §6 of docs/BUSINESS-MASTERY.md: no member counts, no
+// income promises, no "millionaire mentors", no price and no price rise.
+// Where the reference states a figure, these sections use the owner's own
+// (`bmProofPoints`), and where it shows social proof under a button, they
+// show `bmHeroTrust`, facts the page already states. Where the reference
+// states a price ("$99", "lock in your price"), the choice card shows
+// `site.businessMastery.price` only once it is set, and nothing about a
+// price rising, because none is planned.
+//
+// Each paragraph is a list of runs; a run with `strong` renders bright.
+// ===========================================================================
+
+/** A paragraph as runs of text; `strong` runs render bright. */
+export type BmRun = { readonly text: string; readonly strong?: boolean };
+
+// --- Intro: Master the skills / A modern approach ---------------------------
+
+export const bmIntro = {
+  skills: {
+    headingLines: ["Master the skills that", "build a business."],
+    paragraphs: [
+      [
+        { text: "Business Mastery", strong: true },
+        { text: " is a membership that teaches you how to start a business and actually use AI to run it." },
+      ],
+      [
+        { text: "Through live demos, daily calls and personal coaching, you learn how to find customers, get paid, and build the systems that keep a business running." },
+      ],
+    ] as readonly (readonly BmRun[])[],
+  },
+  modern: {
+    headingLines: ["A modern approach", "to business education."],
+    paragraphs: [
+      [
+        { text: "Traditional education is rigid and slow to change. " },
+        { text: "Business Mastery", strong: true },
+        { text: " moves at the speed business does: when something new starts working, members learn it now." },
+      ],
+      [
+        { text: "The program focuses on practical skills you use in your own business this week, rather than " },
+        { text: "waiting years for a degree.", strong: true },
+      ],
+    ] as readonly (readonly BmRun[])[],
+  },
+  /** The skills panel beside the first row. Subjects the program covers. */
+  skillsPanel: [
+    "Finding the idea",
+    "Sales",
+    "Marketing",
+    "AI & automation",
+    "Systems & operations",
+  ],
+  /** The comparison panel beside the second row. */
+  compare: {
+    old: {
+      label: "The old route",
+      items: ["Years of theory", "A fixed syllabus", "Learn it, then maybe use it"],
+    },
+    bm: {
+      label: "Business Mastery",
+      items: ["Live demos of real work", "Updated as business changes", "Use it in your business this week"],
+    },
+  },
+} as const;
+
+// --- Is this you? -----------------------------------------------------------
+
+export const bmIsThisYou = {
+  eyebrow: "Be honest with yourself",
+  headingLead: "Is this",
+  headingAccent: "you?",
+  items: [
+    [{ text: "You're " }, { text: "tired of watching others", strong: true }, { text: " build the life you want." }],
+    [{ text: "You know you're capable of more, but " }, { text: "nobody around you", strong: true }, { text: " gets it." }],
+    [{ text: "You've tried learning from YouTube and free content, " }, { text: "but nothing sticks.", strong: true }],
+    [{ text: "You want a " }, { text: "step-by-step system", strong: true }, { text: ", not random advice from people who haven't done it." }],
+    [{ text: "You're willing to " }, { text: "put in the work", strong: true }, { text: " if someone shows you exactly what to do." }],
+    [{ text: "You want to " }, { text: "build real skills", strong: true }, { text: " that bring money in, not a certificate that collects dust." }],
+    [{ text: "You're ready to " }, { text: "surround yourself with builders", strong: true }, { text: " instead of people who drag you down." }],
+    [{ text: "You want to " }, { text: "escape the 9-5", strong: true }, { text: " and build something of your own." }],
+  ] as readonly (readonly BmRun[])[],
+  closer: "If that's you, Business Mastery was built for you.",
+  closerNote:
+    "Not for people who want to sit around and think about it. For people who are ready to move.",
+} as const;
+
+// --- Dominate the new economy -----------------------------------------------
+
+export const bmEconomy = {
+  eyebrow: "Why this matters right now",
+  headingLead: "Dominate the new economy with",
+  headingAccent: "Business Mastery.",
+  subheading: [
+    { text: "Old ways of working are " },
+    { text: "disappearing", strong: true },
+  ] as readonly BmRun[],
+  paragraphs: [
+    "New businesses are being built overnight. AI, automation and the internet have rewritten the rules of starting and running a business.",
+    "The playbook that worked for your parents' generation won't carry yours. The world has moved on, and the people who see it early are the ones who build something.",
+    "Prices keep rising. A degree doesn't guarantee a job anymore. Waiting is a decision too.",
+  ],
+  features: [
+    { title: "Build your own income", body: "Learn the skills the modern economy actually pays for" },
+    { title: "Stay ahead of the curve", body: "Daily calls on new tools, strategies and opportunities" },
+    { title: "Future-proof yourself", body: "Learn to use AI before everyone else is forced to" },
+  ],
+} as const;
+
+// --- Your way out -------------------------------------------------------------
+
+export const bmWayOut = {
+  headingLead: "Business Mastery.",
+  headingAccent: "Your way out.",
+  paragraphs: [
+    [{ text: "School won't teach you how to start a business. Your employer doesn't want you to leave. The system is built to keep you exactly where you are." }],
+    [{ text: "Business Mastery gives you the skills, the coaching and the network to break out, on your own terms, at your own speed." }],
+    [{ text: "The chance to build a business with AI has never been bigger. But the window doesn't stay open forever." }],
+    [
+      // The figures are `bmProofPoints`' own; change them together.
+      { text: "We have built 50+ businesses and worked with 1,000+ more. " },
+      { text: "Living proof that this works.", strong: true },
+    ],
+  ] as readonly (readonly BmRun[])[],
+  features: [
+    { title: "Take control", body: "Stop waiting for permission to build the life you want" },
+    { title: "A proven system", body: "Follow the same steps we use to build our own businesses" },
+    { title: "Real mentorship", body: "Get coached by people who build businesses for a living" },
+  ],
+  /** The labels on the panel's network, read around its centre. */
+  panelNodes: ["Coaching", "Daily calls", "Live demos", "Members", "Tools", "Opportunities"],
+} as const;
+
+// --- What you'll learn --------------------------------------------------------
+
+export const bmLearn = {
+  eyebrow: "The latest information",
+  heading: "What you'll learn",
+  lead: "When a new technology changes how business works,",
+  leadRuns: [
+    { text: "Business Mastery", strong: true },
+    { text: " is where you'll learn " },
+    { text: "how to take advantage of it.", strong: true },
+  ] as readonly BmRun[],
+  paragraphs: [
+    [
+      { text: "Members get " },
+      { text: "the latest information on the daily calls.", strong: true },
+      { text: " New tools, new strategies and new ways to bring money in, explained by people using them." },
+    ],
+    [
+      { text: "Business is changing faster than ever. Whole business models are being rewritten by " },
+      { text: "AI and the internet.", strong: true },
+      { text: " The people who learn the right skills at the right moment are the ones who build something that lasts. " },
+      { text: "Everyone else watches from the sidelines.", strong: true },
+    ],
+  ] as readonly (readonly BmRun[])[],
+  /** What the demos and calls cover, across starting, running and growing. */
+  topics: [
+    "Finding a business idea",
+    "Getting your first customers",
+    "Sales that close",
+    "Marketing that brings leads in",
+    "AI tools and automation",
+    "Systems that save you hours",
+    "Money, pricing and getting paid",
+    "Growing past the first stage",
+  ],
+} as const;
+
+// --- New skills ---------------------------------------------------------------
+
+export const bmNewSkills = {
+  heading: "New skills",
+  description:
+    "We're always adding new demos, tools and strategies as business changes. Join Business Mastery and level up now.",
+  /** The band's cycling items, one at a time. */
+  items: [
+    { title: "Artificial Intelligence", note: "Built into every subject" },
+    { title: "Automation", note: "Let the busywork run itself" },
+    { title: "Sales", note: "Turn conversations into customers" },
+    { title: "Marketing", note: "Get seen by the right people" },
+    { title: "Systems", note: "Run the business without burning out" },
+  ],
+  ctaNote: "Get access to every demo, call and resource",
+} as const;
+
+// --- The choice is yours / Or do nothing ---------------------------------------
+
+export const bmChoice = {
+  heading: "The choice is yours",
+  action: {
+    heading: "Take action",
+    subheading: "You need to act now.",
+    /** What membership includes, each from `bmPillars` or the audience. */
+    items: [
+      "Step-by-step live demos",
+      "Daily calls",
+      "Personal coaching",
+      "Hands-on help with your business",
+      "Private community and network",
+      "No experience needed",
+    ],
+    /** `bmOffer.guaranteeHeading`, said plainly; change the two together. */
+    guarantee: "90-day money-back guarantee",
+    note: "Applying is free. No payment is taken when you apply.",
+  },
+  nothing: {
+    heading: "Or do nothing...",
+    lines: ["Go watch Netflix. Work a 9-5.", 'Keep scrolling. Keep consuming. Keep telling yourself "next month."'],
+    paragraphs: [
+      [
+        { text: "The timing will never be perfect.", strong: true },
+        { text: " And every day spent on the outside is a day the people inside pull further ahead." },
+      ],
+      [
+        { text: "The difference between people building something right now and people watching it happen " },
+        { text: "isn't talent, luck, or connections. It's a single decision, made at a single moment.", strong: true },
+      ],
+    ] as readonly (readonly BmRun[])[],
+  },
+  decision: {
+    heading: "Make the decision today.",
+    paragraphs: [
+      "Applying takes a few minutes and costs nothing. Hunter reviews every application personally and follows up with you.",
+      "The people inside are already building. Don't let next month become next year.",
+    ],
+  },
+} as const;

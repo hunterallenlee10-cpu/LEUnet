@@ -8,6 +8,11 @@ export interface NavItem {
    * renders one level only.
    */
   subItems?: NavItem[];
+  /**
+   * "services": the item is the Services menu instead, a button opening the
+   * six service groups (components/layout/ServicesMenu.tsx).
+   */
+  menu?: "services";
 }
 
 // ---------------------------------------------------------------------------
