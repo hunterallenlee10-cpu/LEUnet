@@ -19,6 +19,8 @@ export function BmCta({
 }) {
   const alignClass =
     align === "start" ? "items-center lg:items-start" : "items-center";
+  const listAlign =
+    align === "start" ? "justify-center lg:justify-start" : "justify-center";
 
   return (
     <div className={`flex flex-col gap-4 ${alignClass}`}>
@@ -31,7 +33,7 @@ export function BmCta({
       {note ? (
         <p className="text-sm text-neutral-400">{note}</p>
       ) : (
-        <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-sm text-neutral-400">
+        <ul className={`flex flex-wrap ${listAlign} gap-x-4 gap-y-1.5 text-sm text-neutral-400`}>
           {bmHeroTrust.map((item) => (
             <li key={item} className="inline-flex items-center gap-1.5">
               <Check
