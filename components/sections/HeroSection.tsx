@@ -57,7 +57,7 @@ export function HeroSection() {
       // the space grows the page rather than being clipped by
       // `overflow-hidden`. `isolate` keeps the grain's `overlay` blend
       // resolving against the hero alone.
-      className="hero-split relative isolate flex flex-col overflow-hidden"
+      className="hero-split relative isolate flex flex-col overflow-clip"
     >
       <div className="hero-split-top">
         {/* The photo behind the headline (the owner's ask, 2026-10-17):
