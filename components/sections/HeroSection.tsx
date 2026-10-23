@@ -4,8 +4,6 @@ import { sectionIds } from "@/data/navigation";
 import { leeSystemsRoutes } from "@/data/lee-systems";
 import { site } from "@/data/site";
 import { BookCallLink } from "@/components/ui/BookCallLink";
-import { HeroStage } from "@/components/sections/HeroStage";
-import { HeroVsl } from "@/components/sections/HeroVsl";
 import { MissedRevenueCalculator } from "@/components/sections/MissedRevenueCalculator";
 
 /** The two halves of the offer, three points each. */
@@ -30,42 +28,50 @@ const offer = [
 
 /**
  * The homepage hero. First a full-screen headline, line and button over a
- * field of gold dots (the owner's design, 2026-09-28, which replaced the LEU
- * logo and the "Hire us to automate your business, or learn to build your
- * own." headline; the owner's headline "Never Miss Another Customer",
- * 2026-09-29, replaced "Elevate Your Business with AI"). A few seconds in,
- * "The Vault", a 3D film of what Lee Systems Co. sets up, plays over the
- * whole first screen in the headline's place, then hands back to it with a
- * "Replay animation" button (the owner's plan, 2026-09-29, and the owner's
- * pick of film, 2026-10-08: HeroVsl.tsx, and heroVslPlayer.ts for when it
- * plays). Then the Lee Systems offer: one big call to hire Lee Systems Co.
- * for websites and automations, beside the missed-revenue calculator
+ * photo of snowy mountains, at night in the dark theme and in the sun in the
+ * light one (the owner's ask, 2026-10-17, which replaced the field of gold
+ * dots of 2026-09-28; the dots had replaced the LEU logo and the "Hire us to
+ * automate your business, or learn to build your own." headline; the
+ * owner's headline "Never Miss Another Customer", 2026-09-29, replaced
+ * "Elevate Your Business with AI"). "The Vault", a 3D film that played in
+ * the headline's place, was taken out at the owner's ask (2026-10-17). Then
+ * the LEU offer: one big call to hire LEU for websites and automations, beside the missed-revenue calculator
  * (2026-10-06; it replaced "Split Ventures", the two halves for Lee Systems
  * Co. and Business Mastery), and the statistics ribbon along the bottom edge.
  *
  * The styling lives in app/globals.css as `.hero-split-*` and `.hero-ls-*`,
- * `.calc-*` for the calculator and, for the animation, `.hero-vsl` and
- * `.vt-*` (plus the shared `.leu-grain`); this file owns the markup and the
- * copy. Every movement in it stops under prefers-reduced-motion (the end of
- * that block), and the animation waits for its "Play animation" button
- * instead of starting by itself.
+ * and `.calc-*` for the calculator; this file owns the markup and the copy.
+ * Every movement in it stops under prefers-reduced-motion (the end of that
+ * block).
  */
+const heroPhotoPreload = `(function(){try{var t=document.documentElement.getAttribute("data-theme")==="light"?"day":"night";var w=matchMedia("(min-width: 1600px)").matches?"2560":matchMedia("(max-width: 799px)").matches?"1280":"1920";var l=document.createElement("link");l.rel="preload";l.as="image";l.href="/hero/"+t+"-"+w+".webp";l.setAttribute("fetchpriority","high");document.head.appendChild(l)}catch(e){}})()`;
+
 export function HeroSection() {
   return (
     <section
       id={sectionIds.hero}
       aria-labelledby="hero-title"
       // The header is `fixed`, so this section starts at y=0 underneath it;
-      // `.hero-split-copy` reserves the header's band in its padding, and the
-      // film (`.hero-vsl`) runs under the header but keeps its words below
-      // it. Heights are floors, never locks, so content too tall for
+      // `.hero-split-copy` reserves the header's band in its padding.
+      // Heights are floors, never locks, so content too tall for
       // the space grows the page rather than being clipped by
       // `overflow-hidden`. `isolate` keeps the grain's `overlay` blend
       // resolving against the hero alone.
       className="hero-split relative isolate flex flex-col overflow-hidden"
     >
-      <HeroStage>
-        <div className="hero-split-copy" data-hero-copy>
+      <div className="hero-split-top">
+        {/* The photo behind the headline (the owner's ask, 2026-10-17):
+            snowy mountains under the stars in the dark theme, sunny snowy
+            Alps in the light one. It is a CSS background (`.hero-scene` in
+            app/globals.css), so only the current theme's photo downloads. */}
+        <div className="hero-scene" aria-hidden="true" />
+        {/* Starts the photo downloading as soon as this markup arrives,
+            instead of when the stylesheet's background rule is applied:
+            it is the page's largest paint. It picks the same file the CSS
+            will (theme; 1280px under 800px wide, 2560px from 1600px), so
+            still only one photo downloads. */}
+        <script dangerouslySetInnerHTML={{ __html: heroPhotoPreload }} />
+        <div className="hero-split-copy">
           {/* The owner's headline, capitalized as they wrote it. The space
               before the accent is real text, so it reads "Another
               Customer". */}
@@ -84,53 +90,20 @@ export function HeroSection() {
           </p>
           <div className="hero-split-cta">
             <BookCallLink variant="hero" />
-            {/* Shown by the player: "Replay animation" once the animation
-                has played, or "Play animation" from the start for people
-                whose device asks for less motion. Without script it stays
-                hidden, since it could do nothing. */}
-            <button
-              type="button"
-              className="hero-replay"
-              data-hero-replay
-              data-kind="replay"
-              hidden
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path
-                  className="hero-replay-play"
-                  d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"
-                />
-                <g className="hero-replay-again">
-                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                  <path d="M3 3v5h5" />
-                </g>
-              </svg>
-              <span data-hero-replay-label>Replay animation</span>
-            </button>
           </div>
         </div>
-        <HeroVsl />
-      </HeroStage>
+      </div>
 
-      {/* The Lee Systems offer (the owner's ask, 2026-10-06): one big call
-          to hire Lee Systems Co. for websites and automations, beside the
+      {/* The LEU offer (the owner's ask, 2026-10-06): one big call
+          to hire LEU for websites and automations, beside the
           missed-revenue calculator. It replaced "Two ways to work with LEU",
-          the Lee Systems Co. and Business Mastery halves; Business Mastery is
+          the LEU and Business Mastery halves; Business Mastery is
           linked from the footer only now. The checklist points are the ones
-          /lee-systems already makes (LeeSystemsOfferingsSection.tsx). */}
+          /how-it-works already makes (LeeSystemsOfferingsSection.tsx). */}
       <div className="hero-ls" aria-labelledby="hero-ls-title" role="region">
         <div className="section-container hero-ls-grid">
           <div>
-            <p className="hero-ls-eyebrow">Lee Systems Co.</p>
+            <p className="hero-ls-eyebrow">Websites &amp; AI automation</p>
             <h2 id="hero-ls-title" className="hero-ls-title">
               A website that <em>brings customers in.</em> Automations that{" "}
               <em>never let one slip.</em>
@@ -165,6 +138,7 @@ export function HeroSection() {
 
           <MissedRevenueCalculator />
         </div>
+
       </div>
 
       {site.stats.length > 0 && (

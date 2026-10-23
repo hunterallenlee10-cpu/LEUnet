@@ -9,7 +9,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * Events we act on: the invoices Lee Systems Co. sends through
+ * Events we act on: the invoices LEU sends through
  * /api/stripe/invoice. Everything else is acknowledged with a 200 so Stripe
  * stops retrying, but is otherwise ignored. The checkout events went with the
  * Support Us page on 2026-09-28; if the Dashboard endpoint still sends them,

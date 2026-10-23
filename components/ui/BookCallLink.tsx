@@ -6,19 +6,19 @@ import { bookHref, bookLabel, bookLabelHero, isExternalHref } from "@/data/site"
 /**
  * Every "Book a free call" on the site. One component so the label and the
  * destination can only ever be the ones in data/site.ts: the booking page
- * once `bookingUrl` is set, the contact form with Lee Systems Co. picked until
+ * once `bookingUrl` is set, the contact form with LEU picked until
  * then.
  *
  * The one exception is `href`, for a page that carries its own form:
- * /lee-systems passes `#contact-form`, so the buttons in its body scroll down
+ * /how-it-works passes `#contact-form`, so the buttons in its body scroll down
  * to the form instead of leaving the page. The label never changes.
  *
- * Styled as the brass Lee Systems button by default, since booking a call is
- * Lee Systems Co.'s action wherever it appears; `variant="secondary"` is the
+ * Styled as the brass LEU button by default, since booking a call is
+ * LEU's action wherever it appears; `variant="secondary"` is the
  * outlined version for a section whose primary action is something else,
  * `variant="hero"` is the homepage hero's large gold button, which also
  * carries the hero's longer wording (`bookLabelHero`), and `variant="glow"`
- * is the lit gold button of the Lee Systems page's hero, "Two paths" and
+ * is the lit gold button of the How It Works page's hero, "Two paths" and
  * "The choice is yours" sections. `arrow` adds a trailing arrow that steps
  * forward on hover, for a button that stands alone.
  */

@@ -8,7 +8,7 @@ import { TalkNow } from "@/components/contact/TalkNow";
  * the id "contact" so old /#contact links still land here; the nav's Contact
  * goes to /contact, which carries the same form.
  *
- * Dressed like the Lee Systems offer at the top of the page (2026-10-06, the
+ * Dressed like the LEU offer at the top of the page (2026-10-06, the
  * owner's ask to make it "go with the rest of the site"): the same brass
  * eyebrow and headline, and a form card cut like the calculator's. The
  * headline is the owner's, "Every missed lead is lost money.", picking up
@@ -45,10 +45,11 @@ export function ContactSection() {
             >
               Every missed lead is{" "}
               {/* The owner's line (2026-10-06), with the weight on "lost
-                  money": its own line, a size up, in brass over a
-                  highlighter stripe of the same brass. */}
+                  money": its own line, a size up, in the accent over a
+                  highlighter stripe (platinum in dark; a gold stripe under
+                  navy in light). */}
               <span className="mt-1 block">
-                <span className="-ml-1 whitespace-nowrap bg-[linear-gradient(transparent_60%,rgb(212_168_87/0.22)_60%,rgb(212_168_87/0.22)_88%,transparent_88%)] px-1 text-[1.4em] leading-none text-brass-400">
+                <span className="-ml-1 whitespace-nowrap bg-[linear-gradient(transparent_60%,rgb(231_229_228/0.16)_60%,rgb(231_229_228/0.16)_88%,transparent_88%)] light:bg-[linear-gradient(transparent_60%,rgb(212_168_87/0.22)_60%,rgb(212_168_87/0.22)_88%,transparent_88%)] px-1 text-[1.4em] leading-none text-brass-400">
                   lost money.
                 </span>
               </span>

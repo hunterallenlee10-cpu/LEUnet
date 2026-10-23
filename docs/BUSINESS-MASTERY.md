@@ -3,6 +3,38 @@
 Execution plan and settled decisions for `/business-mastery`, the Business
 Mastery program page, plus its homepage presence.
 
+> **2026-10-18 The Real World sections — read this first.** At the owner's
+> request, eight sections modelled on The Real World's landing page joined
+> the page, in Business Mastery's own words. Page order now: Hero → The world
+> is about to change → **Master the skills / A modern approach**
+> (`BmIntroSection`) → **Is this you?** (`BmIsThisYouSection`) → What
+> Business Mastery actually is → **Dominate the new economy**
+> (`BmEconomySection`) → **Your way out**, ending on the proof figures
+> (`BmWayOutSection`; the figures were their own `BmProofSection` and are now
+> `BmProofRow`) → **What you'll learn** (`BmLearnSection`) → Our core tenets →
+> **New skills** (`BmNewSkillsSection`) → **The choice is yours / Or do
+> nothing** (`BmChoiceSection`) → the member offer and form. The glow layer
+> still alternates (every second section). Copy is build copy in
+> `data/business-mastery.ts` (`bmIntro` … `bmChoice`), and it keeps §6: the
+> reference's member counts, income claims, "millionaire mentors", "$99" and
+> "lock in your price before it increases" are not carried over. Under each
+> button the reference's member count is `bmHeroTrust` (`BmCta`); the choice
+> card shows `site.businessMastery.price` only once it is set. The
+> reference's photos are drawn panels (a skill stack, the old route against
+> this one, a chart, the network around the LEU mark), so real photos can
+> replace them later.
+
+> **2026-10-18 the .net site — read this first.** This repo is the .net
+> site (www.leeenterprisesunlimited.net), a separate copy of the .com site.
+> It now has its own Business Mastery at **mastery.leeenterprisesunlimited.net**
+> instead of linking to the .com's mastery.leeenterprisesunlimited.com.
+> `site.url`, `MAIN_SITE_URL` in `next.config.mjs` and the share-card domain
+> all name the .net. `BUSINESS_MASTERY_SITE_LIVE` is **on** since the
+> subdomain was attached to the .net Vercel project the same day (the
+> domain's DNS is on Vercel, so adding it there was the whole setup), so
+> links go to the subdomain and www /business-mastery 301s there. Where the 2026-10-06 note
+> below names the .com hosts, read the .net ones for this repo.
+
 > **2026-10-06 own subdomain — read this first.** Business Mastery has moved
 > to its own site at **mastery.leeenterprisesunlimited.com**, served by this
 > same project (the owner's call, after weighing a separate domain, keeping
@@ -376,9 +408,9 @@ at the owner's request:
 | Tell us your story (one open textarea; its hint asks where they are, what they're building, what's holding them back, and what they want from membership) | yes |
 | Honeypot | hidden |
 
-Env override pattern mirrors the other routes:
-`BM_TO_EMAIL || CONTACT_TO_EMAIL || "ceo@leeenterprisesunlimited.com"`, the
-last two through `DEFAULT_TO_EMAIL` in `lib/email.ts`.
+Delivers to ceo@leeenterprisesunlimited.com like every form on the site
+(`FORMS_TO_EMAIL` in `lib/email.ts`). Since 2026-10-19 no environment
+variable overrides it; `BM_TO_EMAIL` is no longer read.
 
 ---
 

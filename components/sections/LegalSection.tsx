@@ -18,11 +18,14 @@ import { GlassCard } from "@/components/cards/GlassCard";
  * The h3 stays inside the summary, which permits headings. `list-none` and the
  * WebKit marker rule remove the disclosure triangle; the chevron is the only
  * indicator.
+ *
+ * In light the items are white: a 5% ink wash on the pale page reads as
+ * grey rather than as a surface.
  */
 function AccordionItem({ title, content }: { title: string; content: string }) {
   return (
     <details name="legal" className="group/acc mb-4">
-      <summary className="w-full flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:border-amber-400/30 transition-all group cursor-default list-none [&::-webkit-details-marker]:hidden">
+      <summary className="w-full flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:border-amber-400/30 light:bg-neutral-900 light:hover:bg-[#eef1f6] transition-all group cursor-default list-none [&::-webkit-details-marker]:hidden">
         <h3 className="font-semibold text-white text-left group-hover:text-amber-400 transition-colors">
           {title}
         </h3>
@@ -30,7 +33,7 @@ function AccordionItem({ title, content }: { title: string; content: string }) {
           className="w-5 h-5 shrink-0 text-amber-400 transition-transform group-open/acc:rotate-180"
         />
       </summary>
-      <div className="p-4 bg-white/5 border border-t-0 border-white/10 rounded-b-lg text-neutral-300 text-sm leading-relaxed space-y-3">
+      <div className="p-4 bg-white/5 border border-t-0 border-white/10 rounded-b-lg light:bg-neutral-900 text-neutral-300 text-sm leading-relaxed space-y-3">
         {content}
       </div>
     </details>

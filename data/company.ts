@@ -13,7 +13,8 @@ export const companyInfo = {
   logoAlt: "Lee Enterprises Unlimited logo",
   /**
    * The LEU monogram without the name lettered under it, for the header,
-   * where the full name is set as text right beside it. 204x160.
+   * where the full name is set as text right beside it. 205x160, silver
+   * (the owner's logo, 2026-10-17, which replaced the gold one).
    */
   mark: "/logos/leu-mark.webp",
   contactEmail: site.email,

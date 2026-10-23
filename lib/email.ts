@@ -11,16 +11,31 @@ export function getResend(): Resend {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-/** The sender on every email the site sends. */
+/**
+ * The sender on every email the site sends. Resend's shared test sender by
+ * default, the one the .com site already sends from (2026-10-19): it works
+ * without a verified domain, but Resend only delivers it to the address the
+ * Resend account is registered under, which is the inbox the forms go to.
+ * Once leeenterprisesunlimited.com is verified in Resend, set
+ * CONTACT_FROM_EMAIL to e.g. noreply@leeenterprisesunlimited.com.
+ */
 export const FROM_EMAIL =
-  process.env.CONTACT_FROM_EMAIL || "noreply@leeenterprisesunlimited.com";
+  process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
 
 /**
- * Where site email lands. A route with its own variable (LEE_SYSTEMS_TO_EMAIL,
- * BM_TO_EMAIL and so on) checks that first and falls back to this.
+ * Where the invoice payment notifications land (app/api/stripe/webhook).
  */
 export const DEFAULT_TO_EMAIL =
   process.env.CONTACT_TO_EMAIL || companyInfo.contactEmail;
+
+/**
+ * Where every form on the site delivers: ceo@leeenterprisesunlimited.com,
+ * always (the owner's call, 2026-10-19). Deliberately not read from the
+ * environment, so a leftover variable such as CONTACT_TO_EMAIL,
+ * LEE_SYSTEMS_TO_EMAIL, WEBSITE_TO_EMAIL or BM_TO_EMAIL can never send leads
+ * to another inbox. The subject line tells the forms apart.
+ */
+export const FORMS_TO_EMAIL = companyInfo.contactEmail;
 
 interface LeadEmail {
   /** The route's log prefix, e.g. "contact" for "[contact] ...". */
@@ -48,6 +63,20 @@ export async function sendLeadEmail({
   subject,
   text,
 }: LeadEmail): Promise<NextResponse> {
+  // LEAD_EMAIL_DRY_RUN=1 logs the email instead of sending it, for testing
+  // the forms locally or on a preview without filling a real inbox. Never set
+  // it on Production: every lead would be logged and dropped.
+  if (process.env.LEAD_EMAIL_DRY_RUN === "1") {
+    console.info(
+      `[${tag}] Dry run (LEAD_EMAIL_DRY_RUN=1): the ${form} email was not sent.`,
+      JSON.stringify({ to, replyTo, subject, text })
+    );
+    return NextResponse.json(
+      { message: "Dry run: email not sent", dryRun: true },
+      { status: 200 }
+    );
+  }
+
   // Checked up front so a missing key is reported as itself rather than as a
   // generic failure: the Resend constructor throws on an absent key.
   if (!process.env.RESEND_API_KEY) {

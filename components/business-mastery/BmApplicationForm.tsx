@@ -10,6 +10,7 @@ import {
   isValidName,
   isValidPhone,
 } from "@/lib/validation";
+import { site } from "@/data/site";
 
 const emptyForm = {
   fullName: "",
@@ -153,7 +154,7 @@ export function BmApplicationForm() {
         else fieldRef.current?.focus();
       } else {
         setErrors({
-          form: `We couldn't send your application. Please try again. Reference: ${
+          form: `We couldn't send your application. Please try again, or email ${site.email}. Reference: ${
             data?.code || "unknown"
           }, http_${response.status}`,
         });
@@ -251,7 +252,7 @@ export function BmApplicationForm() {
       noValidate
       aria-labelledby="bm-form-title"
       aria-describedby="bm-form-description"
-      className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-white/10 bg-white/[0.04]"
+      className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] light:border-neutral-800 light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]"
     >
       {/* Progress: a segment per question, lit as each one is answered. */}
       <div className="flex gap-1.5 px-6 pt-6 md:px-10 md:pt-8" aria-hidden="true">

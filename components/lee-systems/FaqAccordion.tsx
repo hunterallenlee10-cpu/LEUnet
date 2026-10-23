@@ -12,7 +12,7 @@ interface FaqAccordionProps {
 }
 
 /**
- * The question list in the /lee-systems FAQ: one answer open at a time, the
+ * The question list in the /how-it-works FAQ: one answer open at a time, the
  * first open on load. Each question is an h3 wrapping a button, so it stays in
  * the heading outline while the button carries the expanded state. It is the
  * only client code in the FAQ section; the heading and copy around it are
@@ -22,7 +22,7 @@ export function FaqAccordion({ items, idPrefix, chevronClassName }: FaqAccordion
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="mx-auto max-w-3xl divide-y divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04]">
+    <div className="mx-auto max-w-3xl divide-y divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] light:bg-[#fff] light:shadow-[0_20px_50px_-24px_rgb(15_26_46/0.18)]">
       {items.map(({ question, answer }, index) => {
         const isOpen = openIndex === index;
         return (

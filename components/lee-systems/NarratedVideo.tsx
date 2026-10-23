@@ -19,7 +19,7 @@ import type {
 } from "@/data/narrated-video";
 
 /**
- * The player behind the narrated videos on /lee-systems: "Two paths"
+ * The player behind the narrated videos on /how-it-works: "Two paths"
  * (TwoPathsDemo) and the website video under it (WebsiteVideo), used as
  * `const { frame, mode, playRun } = useNarratedVideo(video, view)`. Each video
  * is two runs of one example, the worse way ("before") and then Lee Systems

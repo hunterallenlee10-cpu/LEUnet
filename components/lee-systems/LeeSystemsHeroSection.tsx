@@ -3,7 +3,7 @@ import { BookCallLink } from "@/components/ui/BookCallLink";
 import { leeSystems, leeSystemsAnchors } from "@/data/lee-systems";
 
 /**
- * The Lee Systems Co. main page hero, over a still of a laptop at night
+ * The LEU main page hero, over a still of a laptop at night
  * (HeroStill; the owner's pick, 2026-09-30, which replaced the Signal Routes
  * lines, was a loop of it until 2026-10-07). The copy answers "what's in it for me": the owner's
  * headline in three beats, the last in brass, then "Let AI make you money."
@@ -23,10 +23,9 @@ export function LeeSystemsHeroSection() {
       <div className="section-container relative z-10 flex flex-col pb-20 pt-60 sm:pt-80 md:min-h-[40rem] md:justify-center md:py-28 lg:min-h-[44rem]">
         <div className="max-w-xl">
           <div className="mb-8">
-            <p className="text-lg font-bold tracking-[0.2em] text-white">
-              LEE SYSTEMS CO.
+            <p className="text-lg font-bold tracking-[0.2em] text-white uppercase">
+              How it works
             </p>
-            <p className="text-xs text-neutral-400">{leeSystems.tagline}</p>
           </div>
 
           <h1 className="heading-xl mb-6 text-white">

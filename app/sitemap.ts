@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/data/company";
 import { businessMasteryPage, contactPage } from "@/data/navigation";
 import { leeSystemsRoutes } from "@/data/lee-systems";
+import { servicePath, serviceSlugs, servicesRoutes } from "@/data/services";
 
 /**
  * /sitemap.xml: every page worth finding in search, on the www host. /book is
@@ -9,7 +10,7 @@ import { leeSystemsRoutes } from "@/data/lee-systems";
  * (private client billing, docs/PAY.md), and so are the
  * removed /support and /partners, which redirect to the homepage, and the
  * Lee Systems automation, websites, law firm and home services pages, which
- * redirect to their sections and cards on /lee-systems.
+ * redirect to their sections and cards on /how-it-works.
  *
  * Business Mastery is listed by its full address once it is on its own
  * subdomain (config/business-mastery-site.mjs). One sitemap still covers
@@ -21,6 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "/",
     leeSystemsRoutes.home,
+    servicesRoutes.hub,
+    ...serviceSlugs.map(servicePath),
     businessMasteryPage,
     contactPage,
     "/legal",

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { inquiryIndustryOptions, inquiryNeeds } from "@/data/lee-systems";
+import { inquiryIndustryOptions } from "@/data/lee-systems";
+import { inquiryNeeds, legacyNeedLabels } from "@/data/services";
 import { site } from "@/data/site";
 import { readJsonBody, stringField, tooLongMessage } from "@/lib/api";
-import { DEFAULT_TO_EMAIL, sendLeadEmail } from "@/lib/email";
+import { FORMS_TO_EMAIL, sendLeadEmail } from "@/lib/email";
 import {
   FIELD_LIMITS,
   INVALID_NAME_MESSAGE,
@@ -12,26 +13,17 @@ import {
 } from "@/lib/validation";
 
 /*
- * The /lee-systems form (components/lee-systems/LeeSystemsInquiryForm.tsx),
+ * The /how-it-works form (components/lee-systems/LeeSystemsInquiryForm.tsx),
  * which replaced the automation consultation form (/api/automation-audit) and
  * the website quote form (/api/website-inquiry) on 2026-09-29. Each request
- * is delivered exactly where, and under exactly the subject, the old form for
- * that kind of request used, so the inbox and any filters on it see no
- * change: a website choice goes the way website quote requests did,
- * everything else the way consultation requests did.
+ * goes under exactly the subject the old form for that kind of request used,
+ * so inbox filters see no change: a website choice as a "New Website
+ * Request", everything else as a "New Consultation Request".
  *
- * Both default to the site-wide contact address, matching the contact form
- * and the payment notifications. LEE_SYSTEMS_TO_EMAIL splits Lee Systems
- * leads out if that is ever wanted, and WEBSITE_TO_EMAIL website requests on
- * their own. LMM_TO_EMAIL is still read so an environment configured before
- * the Lee Marketing Mastery rename keeps delivering where it did.
+ * Both deliver to FORMS_TO_EMAIL (ceo@leeenterprisesunlimited.com), like
+ * every other form; since 2026-10-19 no environment variable can redirect
+ * them (lib/email.ts).
  */
-const CONSULTATION_TO_EMAIL =
-  process.env.LEE_SYSTEMS_TO_EMAIL ||
-  process.env.LMM_TO_EMAIL ||
-  DEFAULT_TO_EMAIL;
-
-const WEBSITE_TO_EMAIL = process.env.WEBSITE_TO_EMAIL || CONSULTATION_TO_EMAIL;
 
 /** What the form posts. Typed `unknown` because a request can come from anywhere. */
 interface LeeSystemsInquiryRequest {
@@ -95,9 +87,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Checked against the form's own lists so the email never carries a value
-    // the form could not have sent.
-    const needLabel = stringField(body.need).trim();
-    const need = inquiryNeeds.find(({ label }) => label === needLabel);
+    // the form could not have sent. The form posts a service slug
+    // ("ai-calls"); a page loaded before the slugs went in posts the old
+    // label, which `legacyNeedLabels` maps on.
+    const postedNeed = stringField(body.need).trim();
+    const needValue = legacyNeedLabels[postedNeed] ?? postedNeed;
+    const need = inquiryNeeds.find(({ value }) => value === needValue);
     if (!need) {
       errors.need = "Please select what you are looking for";
     }
@@ -141,16 +136,16 @@ ${site.replyTime ? `Reply promised ${site.replyTime}, to set up their free consu
     // the same words the two old forms used.
     return await sendLeadEmail({
       tag: "lee-systems-inquiry",
-      form: "Lee Systems inquiry form",
-      to: need.website ? WEBSITE_TO_EMAIL : CONSULTATION_TO_EMAIL,
+      form: "LEU inquiry form",
+      to: FORMS_TO_EMAIL,
       replyTo: email,
       subject: need.website
-        ? `Lee Systems Co.: New Website Request from ${fullName}, ${businessName}`
-        : `Lee Systems Co.: New Consultation Request from ${fullName}, ${businessName}`,
+        ? `LEU: New Website Request from ${fullName}, ${businessName}`
+        : `LEU: New Consultation Request from ${fullName}, ${businessName}`,
       text: emailBody,
     });
   } catch (error) {
-    console.error("[lee-systems-inquiry] Lee Systems inquiry form error:", error);
+    console.error("[lee-systems-inquiry] LEU inquiry form error:", error);
     return NextResponse.json(
       { error: "An error occurred while processing your request" },
       { status: 500 }

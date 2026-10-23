@@ -32,7 +32,7 @@ const TAKE_ACTION_ID = "ls-take-action";
 /**
  * "The choice is yours", after The Real World's section of that name (the
  * owner's reference, 2026-09-29): a dim "Do nothing" card beside a lit
- * "Take action" card. It is the Lee Systems page's closing pitch, and its
+ * "Take action" card. It is the How It Works page's closing pitch, and its
  * button scrolls to the form that follows it. The fine print is
  * the owner's pricing promise (`pricingPromise`).
  *
@@ -72,14 +72,14 @@ export function LeeSystemsChoiceSection() {
           <div className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:gap-y-0 sm:p-8">
             <div>
               <Clock
-                className="mx-auto h-9 w-9 text-neutral-500"
+                className="mx-auto h-9 w-9 text-neutral-400"
                 strokeWidth={1.25}
                 aria-hidden="true"
               />
               <h3 className="mt-4 text-2xl font-semibold text-neutral-200">
                 Do nothing
               </h3>
-              <p className="mt-1 text-sm text-neutral-500">Keep doing it by hand</p>
+              <p className="mt-1 text-sm text-neutral-400">Keep doing it by hand</p>
             </div>
             <div className="mt-6 border-t border-white/10 pt-6">
               <p>
@@ -119,7 +119,7 @@ export function LeeSystemsChoiceSection() {
 
           <div
             id={TAKE_ACTION_ID}
-            className="flex flex-col rounded-2xl border border-brass-400/40 bg-[radial-gradient(120%_70%_at_50%_0%,rgba(212,168,87,0.14),transparent_65%)] p-6 text-center shadow-[0_0_80px_-30px_rgba(212,168,87,0.5)] sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:gap-y-0 sm:p-8"
+            className="flex flex-col rounded-2xl border border-brass-400/40 bg-[radial-gradient(120%_70%_at_50%_0%,rgb(var(--gold)/0.09),transparent_65%)] p-6 text-center shadow-[0_0_80px_-30px_rgb(var(--gold)/0.3)] light:bg-[#fff] light:bg-[radial-gradient(120%_70%_at_50%_0%,rgb(var(--gold)/0.07),transparent_65%)] light:shadow-[0_24px_60px_-28px_rgb(30_64_175/0.3)] sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:gap-y-0 sm:p-8"
           >
             <div>
               <Zap
