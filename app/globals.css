@@ -183,6 +183,13 @@
   transition: filter 0.2s ease;
 }
 
+/* On a 320px phone the full side padding wraps the label onto two lines. */
+@media (max-width: 359px) {
+  .btn-hero {
+    padding-inline: 1.25rem;
+  }
+}
+
 .btn-hero:hover {
   filter: brightness(1.08);
 }
@@ -1731,6 +1738,29 @@
 
   .tools-list[aria-hidden] {
     display: none;
+  }
+}
+
+/* On a phone the wrapped pills above stack one or two to a line, about 4,000px
+   of them, so with reduced motion each row becomes a strip to swipe instead. */
+@media (prefers-reduced-motion: reduce) and (max-width: 639px) {
+  .tools-row {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .tools-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tools-track {
+    width: max-content;
+    padding: 0 1.25rem;
+  }
+
+  .tools-list {
+    flex-wrap: nowrap;
   }
 }
 
@@ -3494,6 +3524,25 @@
 
   .bmh .bm-pill-badge {
     font-size: 0.75rem;
+  }
+}
+
+/* Under 360px (a 320px phone) the two names still run past the column, so
+   the type, gaps and badge padding come down once more and the sparkle goes. */
+@media (max-width: 359px) {
+  .bmh .bm-pill {
+    gap: 0.375rem;
+    max-width: 100%;
+    font-size: 0.75rem;
+  }
+
+  .bmh .bm-pill-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.6875rem;
+  }
+
+  .bmh .bm-pill-badge svg {
+    display: none;
   }
 }
 
