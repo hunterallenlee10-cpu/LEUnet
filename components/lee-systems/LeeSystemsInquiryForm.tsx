@@ -105,17 +105,17 @@ export function LeeSystemsInquiryForm({
   const validate = (): FieldErrors => {
     const next: FieldErrors = {};
     if (formData.fullName.trim().length < 2)
-      next.fullName = "Please enter your full name";
+      next.fullName = "Please enter your name.";
     else if (!isValidName(formData.fullName.trim()))
       next.fullName = INVALID_NAME_MESSAGE;
     if (!formData.businessName.trim())
-      next.businessName = "Please enter your business name";
+      next.businessName = "Please enter your business name.";
     if (!isValidEmail(formData.email.trim()))
-      next.email = "Please enter a valid email address";
+      next.email = "Please enter a valid email address, like name@example.com.";
     if (!isValidPhone(formData.phone.trim()))
-      next.phone = "Please enter a valid phone number";
-    if (!formData.need) next.need = "Please select what you are looking for";
-    if (!formData.industry) next.industry = "Please choose your industry";
+      next.phone = "Please enter a valid phone number, including the area code.";
+    if (!formData.need) next.need = "Please choose what you need.";
+    if (!formData.industry) next.industry = "Please choose your industry.";
     if (call.wanted && !call.day) next.call = CALL_DAY_ERROR;
     return next;
   };
@@ -330,11 +330,12 @@ export function LeeSystemsInquiryForm({
         <Field
           id="currentWebsite"
           label="Current website"
+          optional
           type="url"
           error={errors.currentWebsite}
           value={formData.currentWebsite}
           onChange={handleChange}
-          placeholder="https://yourcompany.com (optional, leave blank if you don't have one)"
+          placeholder="https://yourcompany.com"
           autoComplete="url"
           maxLength={FIELD_LIMITS.short}
         />
@@ -342,18 +343,19 @@ export function LeeSystemsInquiryForm({
 
       <div className="mt-5">
         <label htmlFor="message" className={labelClass}>
-          Message
+          Message <span className="font-normal text-neutral-400">(optional)</span>
         </label>
         <textarea
           id="message"
           name="message"
           rows={4}
+          placeholder="Anything else we should know?"
           value={formData.message}
           onChange={handleChange}
           maxLength={FIELD_LIMITS.long}
           aria-invalid={errors.message ? "true" : undefined}
           aria-describedby={errors.message ? "message-error" : undefined}
-          className={`${fieldClass} resize-none ${
+          className={`${fieldClass} resize-y ${
             errors.message ? "border-red-500/60" : "border-neutral-700"
           }`}
         />
@@ -407,6 +409,8 @@ interface FieldProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
+  /** Says "(optional)" after the label. */
+  optional?: boolean;
   error?: string;
   placeholder?: string;
   autoComplete?: string;
@@ -420,6 +424,7 @@ function Field({
   onChange,
   type = "text",
   required,
+  optional,
   error,
   placeholder,
   autoComplete,
@@ -430,6 +435,9 @@ function Field({
       <label htmlFor={id} className={labelClass}>
         {label}
         {required && <RequiredMark />}
+        {optional && (
+          <span className="font-normal text-neutral-400"> (optional)</span>
+        )}
       </label>
       <input
         id={id}
