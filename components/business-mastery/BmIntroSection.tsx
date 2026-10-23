@@ -26,7 +26,7 @@ export function BmIntroSection() {
               id="bm-intro-skills"
               className="text-4xl font-bold leading-[1.08] tracking-tight text-white md:text-5xl"
             >
-              <span className="block">{bmIntro.skills.headingLines[0]}</span>{" "}
+              <span className="block text-balance">{bmIntro.skills.headingLines[0]}</span>{" "}
               <span className="relative inline-block pb-3">
                 {bmIntro.skills.headingLines[1]}
                 <svg
