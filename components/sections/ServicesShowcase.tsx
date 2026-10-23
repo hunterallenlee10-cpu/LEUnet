@@ -34,7 +34,7 @@ export function ServicesShowcase() {
           </h2>
         </div>
 
-        <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           {serviceGroups.map((group) => {
             const Icon = serviceIcons[group.icon];
             const large = LARGE.has(group.slug);

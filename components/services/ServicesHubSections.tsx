@@ -91,7 +91,7 @@ export function ServiceRows() {
             key={group.slug}
             id={group.slug}
             aria-labelledby={`service-row-${group.slug}`}
-            className="scroll-mt-24 border-t border-white/[0.06] py-16 md:py-24"
+            className="border-t border-white/[0.06] py-16 md:py-24"
           >
             <div className="section-container grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
               <div className={flip ? "lg:order-2" : undefined}>
@@ -212,7 +212,7 @@ export function ServicesCtaBand({
           <BookCallLink href={href} variant="glow" arrow className="mt-8" />
           {/* The owner's offer terms (`pricingPromise`), right where the
               decision is made. */}
-          <ul className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-neutral-300">
+          <ul className="mx-auto mt-8 flex max-w-4xl flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-neutral-300">
             {pricingPromise.map((term) => (
               <li key={term} className="flex items-center gap-1.5">
                 <Check aria-hidden="true" className="h-4 w-4 text-brass-400" />

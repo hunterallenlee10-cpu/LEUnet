@@ -57,7 +57,7 @@ export function HeroSection() {
       // the space grows the page rather than being clipped by
       // `overflow-hidden`. `isolate` keeps the grain's `overlay` blend
       // resolving against the hero alone.
-      className="hero-split relative isolate flex flex-col overflow-hidden"
+      className="hero-split relative isolate flex flex-col overflow-clip"
     >
       <div className="hero-split-top">
         {/* The photo behind the headline (the owner's ask, 2026-10-17):
@@ -102,7 +102,9 @@ export function HeroSection() {
           /how-it-works already makes (LeeSystemsOfferingsSection.tsx). */}
       <div className="hero-ls" aria-labelledby="hero-ls-title" role="region">
         <div className="section-container hero-ls-grid">
-          <div>
+          {/* On a desktop the copy sits at the top and stays in view while the
+              calculator beside it opens up, instead of re-centring on it. */}
+          <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="hero-ls-eyebrow">Websites &amp; AI automation</p>
             <h2 id="hero-ls-title" className="hero-ls-title">
               A website that <em>brings customers in.</em> Automations that{" "}

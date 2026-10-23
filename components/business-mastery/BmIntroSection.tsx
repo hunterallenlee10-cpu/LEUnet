@@ -59,7 +59,7 @@ export function BmIntroSection() {
 
         <article
           aria-labelledby="bm-intro-modern"
-          className="bm-reveal grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
+          className="bm-reveal grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-10 xl:gap-16"
         >
           <div className="lg:order-2">
             <h2
@@ -130,7 +130,7 @@ function BmCompare() {
   const { old, bm } = bmIntro.compare;
   return (
     <div className="bm-shift-panel grid grid-cols-1 sm:grid-cols-2">
-      <div className="border-b border-white/10 px-6 py-7 sm:border-b-0 sm:border-r md:px-8 md:py-9">
+      <div className="border-b border-white/10 px-6 py-7 sm:border-b-0 sm:border-r md:px-8 md:py-9 lg:px-6 xl:px-8">
         <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-500">
           {old.label}
         </h3>
@@ -143,7 +143,7 @@ function BmCompare() {
           ))}
         </ul>
       </div>
-      <div className="px-6 py-7 md:px-8 md:py-9">
+      <div className="px-6 py-7 md:px-8 md:py-9 lg:px-6 xl:px-8">
         <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-400">
           {bm.label}
         </h3>

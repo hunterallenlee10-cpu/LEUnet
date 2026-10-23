@@ -73,7 +73,7 @@ export function BmProofRow() {
               <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-400/80 sm:order-2 sm:text-xs md:text-sm">
                 {point.label}
               </dt>
-              <dd className="shrink-0 text-right text-2xl font-bold tracking-tight text-white sm:order-1 sm:text-center sm:text-4xl md:text-5xl lg:text-6xl">
+              <dd className="shrink-0 text-right text-2xl font-bold tracking-tight text-white sm:order-1 sm:text-center sm:text-4xl md:text-5xl xl:text-6xl">
                 {point.value}
               </dd>
             </div>

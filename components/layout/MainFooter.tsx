@@ -34,7 +34,7 @@ export function MainFooter({
 
   return (
     <footer className="border-t border-neutral-800 bg-neutral-950">
-      <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
         <div
           className={`mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 md:gap-8 ${
             isBm ? "md:grid-cols-3" : "md:grid-cols-4"
@@ -111,7 +111,8 @@ export function MainFooter({
                   href={`mailto:${site.email}`}
                   className={`${footerLinkClass} [overflow-wrap:anywhere]`}
                 >
-                  {site.email}
+                  {/* A break, if one is needed, falls after the "@". */}
+                  {site.email.split("@")[0]}@<wbr />{site.email.split("@").slice(1).join("@")}
                 </a>
               </li>
               {site.instagramUrl && (
