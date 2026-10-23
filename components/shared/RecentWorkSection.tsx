@@ -1,6 +1,11 @@
 import Image from "next/image";
 import { ArrowUpRight, Globe } from "lucide-react";
-import { isExternalHref, site, type Project } from "@/data/site";
+import {
+  isExternalHref,
+  projectKindLabels,
+  site,
+  type Project,
+} from "@/data/site";
 import { ComingSoonSlot } from "@/components/shared/ComingSoonSlot";
 import { BuildsRing } from "@/components/shared/BuildsRing";
 
@@ -111,6 +116,10 @@ export function BuildBox({ project }: { project: Project }) {
         </div>
       )}
       <div className="flex flex-1 flex-col p-6">
+        {/* What it is: client work, a template or our own venture. */}
+        <span className="mb-3 inline-flex w-fit rounded-full border border-brass-300/40 bg-brass-400/10 px-2.5 py-0.5 text-xs font-semibold text-white">
+          {projectKindLabels[project.kind]}
+        </span>
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brass-300">
           {project.category}
         </p>
