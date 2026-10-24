@@ -21,7 +21,7 @@ import { getDemoAssets } from "@/lib/demo-assets";
  */
 
 const formAnchor = `#${servicesAnchors.form}`;
-const eyebrow = "text-xs font-semibold tracking-[0.2em] text-brass-300 uppercase";
+const eyebrow = "svc-eyebrow";
 
 export function ServicesHero() {
   return (
@@ -91,7 +91,7 @@ export function ServiceRows() {
             key={group.slug}
             id={group.slug}
             aria-labelledby={`service-row-${group.slug}`}
-            className="border-t border-white/[0.06] py-16 md:py-24"
+            className="scroll-mt-24 border-t border-white/[0.06] py-16 md:py-24"
           >
             <div className="section-container grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
               <div className={flip ? "lg:order-2" : undefined}>
@@ -145,6 +145,7 @@ export function ServiceRows() {
               </div>
               <div className={flip ? "lg:order-1" : undefined}>
                 <MiniPreview
+                  variant="ui"
                   slug={group.slug}
                   className="shadow-[0_30px_80px_-40px_rgb(var(--gold)/0.35)]"
                 />
@@ -200,7 +201,7 @@ export function ServicesCtaBand({
   return (
     <section aria-labelledby="services-cta-title" className="py-16 md:py-20">
       <div className="section-container">
-        <div className="relative isolate overflow-hidden rounded-2xl border border-brass-400/25 bg-[#17181b] px-6 py-12 text-center sm:px-12 md:py-16 light:bg-[#fff]">
+        <div className="relative isolate overflow-hidden rounded-2xl border border-brass-400/25 bg-[var(--svc-surface)] px-6 py-12 text-center sm:px-12 md:py-16 light:bg-[#fff]">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_90%_at_50%_0%,rgb(var(--gold)/0.14),transparent_70%)]"
