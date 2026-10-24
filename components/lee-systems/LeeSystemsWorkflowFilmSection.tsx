@@ -253,7 +253,7 @@ const DESCRIPTION =
  * nothing else on the site can collide with it.
  */
 const styles = `
-.lwf-wrap { container: lwf / inline-size; --b200: var(--color-brass-200, #ffffff); --b300: var(--color-brass-300, #f5f5f4); --b400: var(--color-brass-400, #e7e5e4); --wash: rgba(231,229,228,.09); --edge: rgba(231,229,228,.28); --line: rgba(255,255,255,.1); --raised: #1f2023; --muted: #a1a1aa; --text: #f4f4f5; --lwf-w: 255 255 255; --lwf-g: 231 229 228; --lwf-g2: 245 245 244; --stage: #17181b; --chrome: #121316; --canvas: #0e0f11; --node: #17181b; --port: #2a2c30; --toast: #1f2023; --ink2: #d4d4d8; --on-b: #0e0f11; --vignette: rgba(8,8,10,.75); --clockbg: rgba(14,15,17,.85); --shadow: none; }
+.lwf-wrap { container: lwf / inline-size; --b200: var(--color-brass-200, #ffffff); --b300: var(--color-brass-300, #f5f5f4); --b400: var(--color-brass-400, #e7e5e4); --wash: rgb(var(--gold) / .09); --edge: rgb(var(--gold) / .28); --line: rgba(255,255,255,.1); --raised: var(--svc-tile); --muted: #a1a1aa; --text: #f4f4f5; --lwf-w: 255 255 255; --lwf-g: 231 229 228; --lwf-g2: 245 245 244; --stage: var(--svc-surface); --chrome: #121316; --canvas: #0e0f11; --node: var(--svc-surface); --port: #2a2c30; --toast: var(--svc-tile); --ink2: #d4d4d8; --on-b: #0e0f11; --vignette: rgba(8,8,10,.75); --clockbg: rgba(14,15,17,.85); --shadow: none; }
 /* In the light theme it is the same editor in its daylight skin, the way n8n's
    own light mode looks: white chrome and nodes on a pale grey canvas, navy for
    what runs (the --b colours follow the theme's brass, which turns navy). */
@@ -485,8 +485,8 @@ export function LeeSystemsWorkflowFilmSection() {
 
       <div className="section-container">
         <div className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
-          <p className="mb-3 text-sm font-semibold text-brass-300">How it runs</p>
-          <h2 className="heading-lg text-white">Watch one system run your week</h2>
+          <p className="svc-kicker">How it runs</p>
+          <h2 className="heading-lg text-balance text-white">Watch one system run your week</h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-neutral-300">
             A late-night call, a new lead, a finished job and your morning report, each handled
             start to finish without you.
