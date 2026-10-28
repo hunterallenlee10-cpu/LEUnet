@@ -1,31 +1,30 @@
 /**
  * The "Hardest Worker in Maryland" page (/hardest-worker-in-maryland): every
- * string, date, image and schema value it uses. The page, its structured
- * data, its share image and the sitemap all read from here.
+ * string, date and schema value it uses. The page, its structured data, its
+ * share image and the sitemap all read from here.
  *
- * Why it exists: round two of the TRW Business Mastery "rank #1 for your own
- * phrase" play. Round one, "Leonardtown's sexiest man", went from no results
- * to #1 on Google on 2026-10-27 (its page lives on the .com site). Like that
- * page, this one is a sales page told for fun: the title is the flex, the
- * method is the offer, and every section points at "Book a free call"
+ * Why it exists: a TRW Business Mastery "rank #1 for your own phrase" page.
+ * It's a sales page told for fun: the title is the flex, the page itself is
+ * the demo, and the offer is getting businesses ranked higher on Google.
+ * Every section points at "Book a free call"
  * (implementation/HARDEST_WORKER_IN_MARYLAND.md).
  *
- * It ships in the "challenge" state: Google doesn't name Hunter for this
- * phrase yet, so the proof is round one's result. Once an incognito search
- * shows this page first, swap the hero and proof copy to the won state with
- * this page's own screenshots.
+ * The page talks about itself only: no other ranking pages, no other
+ * sites, no borrowed screenshots or results (the owner's call, 2026-10-28).
+ * Once an incognito quoted search shows this page first, add this page's
+ * own before/after screenshots and result.
  *
  * Rules for this file:
  * - The phrase is locked: "hardest worker in Maryland", word for word, in
- *   the URL, <title>, H1, description, first sentence, an H2 and the share
+ *   the URL, <title>, H1, description, first sentence, H2s and the share
  *   image's alt. Never reword it.
- * - The quoted search showed an AI Overview about Maryland as a hard-working
- *   state, so the page answers "who", not "which state".
- * - True facts only: the owner's list of 2026-10-28 and round one's verified
- *   timeline (the .com site's data/leonardtown.ts and its proof manifest).
- *   No city, GPA, work history, photo or verse on this page (the owner's
- *   call, 2026-10-28). No invented hours, awards, testimonials, prices,
- *   numbers or ranking guarantees. No WalletHub rank.
+ * - The quoted search showed no page that answered it, only an AI Overview
+ *   about Maryland as a hard-working state, so the page answers "who", not
+ *   "which state".
+ * - True facts only: the owner's list of 2026-10-28 and what this page
+ *   actually does. No city, GPA, work history, photo or verse on this page
+ *   (the owner's call, 2026-10-28). No invented hours, awards,
+ *   testimonials, prices, results or ranking guarantees. No WalletHub rank.
  * - Maryland is named on this page only. The rest of the site states no
  *   location.
  */
@@ -57,9 +56,9 @@ export const PUBLISHED = "2026-10-28";
 export const META = {
   /** 39 characters. Set as an absolute title, so no suffix is added. */
   title: "Hardest Worker in Maryland | Hunter Lee",
-  /** 154 characters. */
+  /** 151 characters. */
   description:
-    "Hunter Lee is the hardest worker in Maryland. Lee Enterprises Unlimited took one phrase from no results to #1 on Google in a day. Want your business next?",
+    "Hunter Lee is the hardest worker in Maryland. This page was built to rank #1 on Google for that search. Want your business ranked higher on Google too?",
   /** The share image's alt text. */
   imageAlt: "Hunter Lee, the hardest worker in Maryland",
 };
@@ -79,48 +78,6 @@ export const breadcrumbs = [
   { name: LINK_LABEL, href: PAGE_PATH },
 ] as const;
 
-/**
- * Round one: "Leonardtown's sexiest man", 2026-10-27, Eastern time. Every
- * figure is from the .com site's verified timeline and proof manifest: live
- * at 2:01 AM, crawled at 2:40 AM, indexed by 11:34 AM, PageSpeed 100 at
- * 12:26 PM, #1 at 8:19 PM (Google, exact phrase in quotes, not
- * personalized). 2:01 AM to 8:19 PM is 18h18m, so "under 19 hours".
- */
-export const ROUND_ONE = {
-  phrase: "Leonardtown's sexiest man",
-  url: "https://www.leeenterprisesunlimited.com/leonardtowns-sexiest-man",
-  hours: "Under 19 hours",
-};
-
-/** One screenshot: its file, its 2x copy (or null), its 1x size, alt and caption. */
-export interface ProofShot {
-  src: string;
-  src2x: string | null;
-  width: number;
-  height: number;
-  alt: string;
-  caption: string;
-}
-
-/** Round one's before and after, copied from the .com site's public/leonardtown. */
-export const BEFORE_SHOT: ProofShot = {
-  src: "/leonardtown/before.webp",
-  src2x: null,
-  width: 1210,
-  height: 275,
-  alt: "Google search for \"Leonardtown's sexiest man\" on October 27, 2026, before launch, showing no results",
-  caption: "Before: no results. Oct 27, 2026, before launch.",
-};
-
-export const AFTER_SHOT: ProofShot = {
-  src: "/leonardtown/after-google-1.webp",
-  src2x: "/leonardtown/after-google-1@2x.webp",
-  width: 1200,
-  height: 315,
-  alt: "Google search for \"Leonardtown's sexiest man\" on October 27, 2026 at 8:19 PM ET showing Hunter Lee's page as the #1 result",
-  caption: "After: #1 on Google. Oct 27, 2026, 8:19 PM ET.",
-};
-
 /** The owner's published figures (data/site.ts), word for word. */
 const receipts = site.stats.map((stat) => ({
   value: stat.value,
@@ -133,22 +90,41 @@ const instagramHandle = `@${site.instagramUrl.replace(/\/+$/, "").split("/").pop
 /** Where each "Book a free call" sits, for the click event in Vercel Analytics. */
 export type CtaLocation = "hero" | "offer" | "final" | "sticky";
 
-/** The anchor "See the proof" jumps to. */
-export const PROOF_ANCHOR = "proof";
+/** The anchor the hero's second button jumps to: how this page ranks. */
+export const HOW_ANCHOR = "how-it-ranks";
+
+/** The quoted Google search for the phrase. */
+const GOOGLE_URL = "https://www.google.com/search?q=%22hardest+worker+in+Maryland%22";
+
+/** One card in "How this page is built to rank". */
+export interface RankPart {
+  /** Picks the card's icon in HardestWorkerSections. */
+  icon: "words" | "answer" | "schema" | "speed" | "index" | "calls";
+  title: string;
+  body: string;
+}
+
+/** One row of the offer's checklist, tied to the service page that sells it. */
+interface OfferItem {
+  text: string;
+  service: string;
+  href: string;
+}
 
 export const COPY = {
   hero: {
-    eyebrow: "The Google challenge · Round two",
+    eyebrow: "The Google challenge",
     h1: "The Hardest Worker in Maryland",
     /** The first sentence of the body. Never reword it. */
     answer: "Hunter Lee is the hardest worker in Maryland.",
-    sub: "Google doesn't know that yet. Last time we taught it something like this, it took one page and under 19 hours.",
-    mark: "#1?",
-    markCaption: "Round two. The clock is running.",
-    markSrText: "Round two of the Google challenge is running.",
-    secondaryCta: "See round one",
+    sub: "Ask Google who that is and, until now, nobody had an answer. This page is built to be the one it shows first, and to show you how we rank businesses higher on Google.",
+    /** The big gold badge beside the copy (no photo on this page). */
+    mark: "#1",
+    markCaption: "The only spot this page is built for",
+    markSrText: "Built for one spot on Google: number one.",
+    secondaryCta: "See how it ranks",
     googleLabel: "Google it yourself",
-    googleUrl: "https://www.google.com/search?q=%22hardest+worker+in+Maryland%22",
+    googleUrl: GOOGLE_URL,
   },
   who: {
     eyebrow: "The answer",
@@ -195,46 +171,74 @@ export const COPY = {
       },
     ] as { title: string; body: string; link?: { label: string; href: string } }[],
   },
-  proof: {
-    eyebrow: "Round one",
-    h2: "We've done this before.",
-    lead: "October 27, 2026. Nobody on Google had answered \"Leonardtown's sexiest man.\" So we built one page that did.",
-    stats: [
-      { value: "39 min", label: "to Google's first crawl", source: "Search Console, 2:40 AM" },
-      { value: "Same day", label: "indexed", source: "Search Console, by 11:34 AM" },
-      { value: "#1", label: "for the exact phrase", source: "Google, 8:19 PM, not personalized" },
-      { value: "100", label: "PageSpeed, mobile and desktop", source: "PageSpeed Insights, 12:26 PM" },
-    ],
-    summary: "Under 19 hours from page live to #1 on Google.",
-    linkLabel: "See the full round one story",
+  how: {
+    eyebrow: "Under the hood",
+    h2: "How this page is built to rank #1 on Google",
+    lead: "Before this page, Google had no page that answered \"hardest worker in Maryland.\" It only offered a summary about Maryland being a hard-working state. An open question with no good answer is the easiest kind to win. Here's everything this page does to win it.",
+    parts: [
+      {
+        icon: "words",
+        title: "The exact words, in the right places",
+        body: "\"Hardest worker in Maryland\" sits in the web address, the title Google shows, the main headline and the very first sentence. Word for word.",
+      },
+      {
+        icon: "answer",
+        title: "The answer comes first",
+        body: "The first line answers the search outright: Hunter Lee. Google and AI search can lift it straight into their results.",
+      },
+      {
+        icon: "schema",
+        title: "Google is told who, in its own language",
+        body: "Structured data names the person, the company and every question on this page, so Google knows exactly what it's looking at.",
+      },
+      {
+        icon: "speed",
+        title: "Fast on every phone",
+        body: "No heavy scripts, no slow images, nothing that jumps around as it loads. Speed is part of how Google ranks a page.",
+      },
+      {
+        icon: "index",
+        title: "Search engines hear about it right away",
+        body: "A sitemap, Google Search Console and IndexNow, so search engines find the page fast instead of waiting to stumble on it.",
+      },
+      {
+        icon: "calls",
+        title: "Built to turn visits into calls",
+        body: "Every section ends in the same place: a free call. A ranking only matters if it brings in business.",
+      },
+    ] as RankPart[],
+    checkTitle: "Don't take our word for it.",
+    checkBody: "Search \"hardest worker in Maryland\" on Google and see who comes up.",
+    checkLabel: "Search it now",
+    checkUrl: GOOGLE_URL,
   },
   method: {
     eyebrow: "The point",
-    h2: "Ranking for a joke is easy. Ranking for your business is the job.",
-    body: "Every day your customers type questions into Google. The business with the best answer gets the call. Same method, pointed at the searches that make you money.",
+    h2: "Ranking a title is the warm-up. Ranking your business is the job.",
+    body: "Right now, people are searching Google for exactly what you sell. Most of them call one of the first businesses they see. Everything on this page works the same way for \"[your service] in [your town].\"",
     steps: [
       {
-        title: "Pick the search.",
-        body: "The exact words your customers type, like \"[service] in [town]\", where today's answers are weak.",
+        title: "Find the searches that pay.",
+        body: "The exact words your customers type, picked for what they're worth to you and how beatable today's results are.",
       },
       {
-        title: "Build the best answer.",
-        body: "One fast, focused page that answers that search better than anything else online.",
+        title: "Build a page for each one.",
+        body: "A fast, focused page that answers that search better than anyone else around you.",
       },
       {
-        title: "Get Google to see it.",
-        body: "Search Console, a sitemap, structured data and a clean technical setup, so it's found fast.",
+        title: "Make sure Google sees it.",
+        body: "Search Console, a sitemap, structured data, Google Maps and a clean technical setup.",
       },
       {
-        title: "Turn clicks into calls.",
-        body: "A clear offer, tap-to-call and follow-up that runs on its own. Our AI answers the phone and books the job.",
+        title: "Turn visitors into booked jobs.",
+        body: "Tap-to-call, quick forms and follow-up that runs on its own. Our AI answers the phone and books the job.",
       },
     ],
   },
   offer: {
-    eyebrow: "For business owners",
-    h2: "What that work ethic means for your business",
-    lead: "The same hours go into your business. You get the person who ranked a joke in a day, working on the searches that matter to you.",
+    eyebrow: "The offer",
+    h2: "Want your business ranked higher on Google?",
+    lead: "Same work ethic, same playbook as this page. Aimed at the searches that bring you customers.",
     includedTitle: "What you get",
     // Only services LEU already sells (data/services.ts), each linked to its page.
     included: [
@@ -258,7 +262,7 @@ export const COPY = {
         service: "Follow-Up & Booking Automation",
         href: servicePath("follow-up"),
       },
-    ],
+    ] as OfferItem[],
     pricing: "Flat upfront quote. No hidden fees.",
     builtFor: "Built personally for you.",
     receiptsTitle: "The numbers so far",
@@ -268,8 +272,23 @@ export const COPY = {
     eyebrow: "Fair warning",
     h2: "Real talk about rankings",
     body: [
-      "The hardest worker in Maryland has no competition on Google. \"[Your service] near me\" does.",
-      "We start with the searches you can win fast, then go after the bigger ones. Nobody can honestly promise #1, and we won't.",
+      "\"Hardest worker in Maryland\" had no real competition. \"[Your service] near me\" usually does.",
+      "So we start with the searches you can win soon, then climb toward the bigger ones. Nobody can honestly promise #1, and we won't. What we promise is the work.",
+    ],
+  },
+  forWho: {
+    eyebrow: "Who it's for",
+    h2: "Who hires the hardest worker in Maryland?",
+    lead: "Business owners whose customers search Google before they pick up the phone.",
+    examples: [
+      "Contractors",
+      "Roofers",
+      "HVAC and plumbing",
+      "Auto detailers",
+      "Salons and med spas",
+      "Gyms and trainers",
+      "Law firms",
+      "Restaurants",
     ],
   },
   faq: {
@@ -285,19 +304,24 @@ export const COPY = {
         a: "Maryland. Hunter Lee is based in Maryland, where he runs Lee Enterprises Unlimited, plays college baseball and coaches athletes.",
       },
       {
-        q: "What does Hunter Lee do?",
-        a: "He runs Lee Enterprises Unlimited, which builds websites and AI automation for business owners, including pages that rank on Google. He also runs Business Mastery, plays college baseball, coaches athletes privately and trains his own sales reps.",
+        q: "Why build a page like this?",
+        a: "To show the method in public. Pick a search nobody answers well, build the best answer to it, and make sure Google sees it. The same steps get businesses ranked higher for the searches their customers make.",
       },
       {
-        q: "What is Lee Enterprises Unlimited?",
-        a: `Lee Enterprises Unlimited is Hunter Lee's company. It builds websites that bring customers in and AI automation that answers calls, follows up with leads and books jobs. So far: ${receipts
-          .map((stat) => `${stat.value} ${stat.label}`)
-          .join(", ")
-          .replace(/, ([^,]*)$/, " and $1")}.`,
+        q: "How do you get a page to rank higher on Google?",
+        a: "Answer one search better than anyone else. Put the exact words in the web address, title, headline and first sentence. Answer the question in the first line. Add structured data, keep the page fast, and use a sitemap and Search Console so Google finds it quickly.",
       },
       {
-        q: "Can you get my business to #1 on Google?",
-        a: "Nobody can honestly promise that, and be wary of anyone who does. We start with the searches you can win, show you the plan on a free call, then go after the bigger ones.",
+        q: "Can you get my business ranked higher on Google?",
+        a: "That's the job. We start with the searches you can win soon, then work toward the bigger ones. Nobody can honestly promise #1, and be wary of anyone who does, but we'll show you the plan on a free call.",
+      },
+      {
+        q: "How long does it take?",
+        a: "It depends on the competition. A new page for a search nobody owns can be found by Google within days. Busy searches like \"[your service] near me\" take longer. We'll tell you which is which on the call.",
+      },
+      {
+        q: "What does it cost?",
+        a: "A flat upfront quote after a free call. No hidden fees. We quote once we know what you need.",
       },
       {
         q: "How do I work with Hunter Lee?",
@@ -306,11 +330,11 @@ export const COPY = {
     ],
   },
   cta: {
-    h2: "Google is about to learn my name twice. Let's teach it yours.",
+    h2: "I built a page to put my name at the top of Google. Let's put your business there next.",
     sub: "Flat upfront quote. No hidden fees. Built personally for you.",
   },
   sticky: {
-    label: "Your business next?",
+    label: "Rank higher on Google?",
   },
   lastUpdatedLabel: "Last updated",
 };
