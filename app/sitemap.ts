@@ -3,6 +3,7 @@ import { SITE_URL } from "@/data/company";
 import { businessMasteryPage, contactPage } from "@/data/navigation";
 import { leeSystemsRoutes } from "@/data/lee-systems";
 import { servicePath, serviceSlugs, servicesRoutes } from "@/data/services";
+import { LAST_UPDATED, PAGE_URL as HARDEST_WORKER_URL } from "@/data/hardest-worker";
 
 /**
  * /sitemap.xml: every page worth finding in search, on the www host. /book is
@@ -29,11 +30,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/legal",
   ];
 
-  return paths.map((path) => ({
-    url: /^https?:\/\//.test(path)
-      ? path
-      : path === "/"
-        ? SITE_URL
-        : `${SITE_URL}${path}`,
-  }));
+  return [
+    ...paths.map((path) => ({
+      url: /^https?:\/\//.test(path)
+        ? path
+        : path === "/"
+          ? SITE_URL
+          : `${SITE_URL}${path}`,
+    })),
+    // The Hardest Worker in Maryland page carries its real content date
+    // (data/hardest-worker.ts), not the build time.
+    { url: HARDEST_WORKER_URL, lastModified: LAST_UPDATED },
+  ];
 }
