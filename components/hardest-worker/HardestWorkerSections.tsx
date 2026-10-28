@@ -1,29 +1,36 @@
-import { getImageProps } from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Check, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Braces,
+  Check,
+  ChevronRight,
+  Gauge,
+  MessageSquareText,
+  PhoneCall,
+  Send,
+  TextCursorInput,
+  type LucideIcon,
+} from "lucide-react";
 import { BookCallLink } from "@/components/ui/BookCallLink";
 import { FaqAccordion } from "@/components/lee-systems/FaqAccordion";
 import { TrackCta } from "@/components/hardest-worker/TrackCta";
 import {
-  AFTER_SHOT,
-  BEFORE_SHOT,
   COPY,
   CTA_HREF,
-  PROOF_ANCHOR,
-  ROUND_ONE,
+  HOW_ANCHOR,
   breadcrumbs,
   faqItems,
   lastUpdatedText,
-  type ProofShot,
+  type RankPart,
 } from "@/data/hardest-worker";
 
 /**
  * The sections of /hardest-worker-in-maryland, in page order: the hero, who
- * the hardest worker in Maryland is, the receipts (why), round one's proof
- * (Leonardtown), the method, the offer ("What that work ethic means for your
- * business"), fair warning about rankings, the FAQ and the closing call.
- * Laid out like the .com site's Leonardtown page. Every word comes from
- * data/hardest-worker.ts.
+ * the hardest worker in Maryland is, the receipts (why), how this page is
+ * built to rank, the method, the offer ("Want your business ranked higher
+ * on Google?"), fair warning about rankings, who it's for, the FAQ and the
+ * closing call. Every word comes from data/hardest-worker.ts.
  *
  * Every "Book a free call" goes to CTA_HREF and is wrapped in <TrackCta> so
  * Vercel Analytics records where it was clicked.
@@ -114,7 +121,7 @@ export function HardestWorkerHero() {
               <BookCallLink href={CTA_HREF} variant="glow" arrow className="w-full sm:w-auto" />
             </TrackCta>
             <a
-              href={`#${PROOF_ANCHOR}`}
+              href={`#${HOW_ANCHOR}`}
               className="btn-ls-secondary inline-flex min-h-11 w-full items-center justify-center gap-2 sm:w-auto"
             >
               {hero.secondaryCta}
@@ -139,8 +146,8 @@ export function HardestWorkerHero() {
 }
 
 /**
- * The hero's badge (no photo on this page, the owner's call): a huge "#1?"
- * on a faint grid with the round-two line under it. Wide and short on phones,
+ * The hero's badge (no photo on this page, the owner's call): a huge "#1"
+ * on a faint grid with its caption under it. Wide and short on phones,
  * square from `sm` up, a fixed aspect ratio either way so nothing shifts.
  * Screen readers get the line in words.
  */
@@ -223,72 +230,52 @@ export function HardestWorkerWhy() {
   );
 }
 
-/**
- * One screenshot at its own size (so nothing shifts as it loads), lazy, with
- * its `@2x` copy as the 2x source. Images are served as-is
- * (next.config.mjs), so the 1x/2x pair is the srcSet.
- */
-function ProofImg({ shot, className }: { shot: ProofShot; className?: string }) {
-  const { props } = getImageProps({
-    src: shot.src,
-    alt: shot.alt,
-    width: shot.width,
-    height: shot.height,
-    loading: "lazy",
-    decoding: "async",
-    className,
-  });
-  return (
-    // getImageProps() supplies alt, size and loading; this only adds the 2x
-    // source.
-    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-    <img {...props} srcSet={shot.src2x ? `${shot.src} 1x, ${shot.src2x} 2x` : undefined} />
-  );
-}
+/** Each "How this page is built to rank" card's icon. */
+const RANK_ICONS: Record<RankPart["icon"], LucideIcon> = {
+  words: TextCursorInput,
+  answer: MessageSquareText,
+  schema: Braces,
+  speed: Gauge,
+  index: Send,
+  calls: PhoneCall,
+};
 
-function ShotFigure({ shot, light = false }: { shot: ProofShot; light?: boolean }) {
+export function HardestWorkerHow() {
+  const how = COPY.how;
   return (
-    <figure className={`flex flex-col overflow-hidden ${card}`}>
-      <div className={`flex flex-1 items-center ${light ? "bg-white" : "bg-[#1f1f1f]"}`}>
-        <ProofImg shot={shot} className="h-auto w-full" />
-      </div>
-      <figcaption className="border-t border-white/10 px-5 py-3 text-sm text-neutral-300">
-        {shot.caption}
-      </figcaption>
-    </figure>
-  );
-}
-
-export function HardestWorkerProof() {
-  const proof = COPY.proof;
-  return (
-    <section id={PROOF_ANCHOR} aria-labelledby="hw-proof-title" className={`${section} scroll-mt-24`}>
+    <section id={HOW_ANCHOR} aria-labelledby="hw-how-title" className={`${section} scroll-mt-24`}>
       <div className="section-container">
-        <SectionHeader id="hw-proof-title" kicker={proof.eyebrow} title={proof.h2} lead={proof.lead} />
+        <SectionHeader id="hw-how-title" kicker={how.eyebrow} title={how.h2} lead={how.lead} />
 
-        {/* Before and after: side by side from md up, stacked on phones. */}
-        <div className="grid items-stretch gap-5 md:grid-cols-2">
-          <ShotFigure shot={BEFORE_SHOT} light />
-          <ShotFigure shot={AFTER_SHOT} />
-        </div>
-
-        <ul className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {proof.stats.map((stat) => (
-            <li key={stat.label} className={`${card} p-5`}>
-              <span className="block text-3xl font-bold tracking-tight text-brass-300 md:text-4xl">
-                {stat.value}
-              </span>
-              <span className="mt-1 block font-semibold leading-snug text-white">{stat.label}</span>
-              <span className="mt-2 block text-xs leading-snug text-neutral-400">{stat.source}</span>
-            </li>
-          ))}
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {how.parts.map((part) => {
+            const Icon = RANK_ICONS[part.icon];
+            return (
+              <li key={part.title} className={`${card} flex flex-col p-6`}>
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-brass-400/30 bg-brass-400/10">
+                  <Icon aria-hidden="true" className="h-5 w-5 text-brass-300" />
+                </span>
+                <h3 className="mt-4 text-lg font-bold text-white">{part.title}</h3>
+                <p className="mt-2 leading-relaxed text-neutral-300">{part.body}</p>
+              </li>
+            );
+          })}
         </ul>
 
-        <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xl font-bold text-white">{proof.summary}</p>
-          <a href={ROUND_ONE.url} className={textLink}>
-            {proof.linkLabel}
+        <div className={`${card} mt-8 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between`}>
+          <div>
+            <p className="text-xl font-bold text-white">{how.checkTitle}</p>
+            <p className="mt-1 text-neutral-300">{how.checkBody}</p>
+          </div>
+          <a
+            href={how.checkUrl}
+            target="_blank"
+            rel="noopener nofollow"
+            className="btn-ls-secondary inline-flex min-h-11 shrink-0 items-center justify-center gap-2"
+          >
+            {how.checkLabel}
             <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </div>
       </div>
@@ -410,6 +397,27 @@ export function HardestWorkerExpectations() {
             </p>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+export function HardestWorkerForWho() {
+  const forWho = COPY.forWho;
+  return (
+    <section aria-labelledby="hw-for-title" className={section}>
+      <div className="section-container">
+        <SectionHeader id="hw-for-title" kicker={forWho.eyebrow} title={forWho.h2} lead={forWho.lead} />
+        <ul className="flex flex-wrap gap-3">
+          {forWho.examples.map((example) => (
+            <li
+              key={example}
+              className="rounded-full border border-white/15 bg-[var(--svc-surface)] px-4 py-2 font-semibold text-white light:bg-[#fff]"
+            >
+              {example}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

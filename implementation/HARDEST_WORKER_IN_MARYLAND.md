@@ -22,6 +22,26 @@ page answers **who** is the hardest worker in Maryland, not which state.
   proof is round one (Leonardtown, no results → #1 in under 19 hours on
   2026-10-27), with that page's before/after screenshots and figures.
 
+## Rewrite (Hunter, 2026-10-28, later the same day)
+
+The page now talks about itself only. Round one (Leonardtown) is gone: no
+before/after screenshots, no figures, no link to the `.com` page, and the
+copied images in `public/leonardtown/` are deleted. In their place:
+
+- **How this page is built to rank #1 on Google**: six cards on what this
+  page does (exact words in the right places, answer first, structured data,
+  speed, sitemap/Search Console/IndexNow, built for calls) and a "Search it
+  now" link so visitors check the result themselves.
+- The offer is "Want your business ranked higher on Google?", and a new
+  "Who hires the hardest worker in Maryland?" section lists the kinds of
+  businesses it's for, laid out like the Leonardtown page's "Who it's for".
+- The FAQ drops "What is Lee Enterprises Unlimited?" and adds why the page
+  exists, how a page ranks higher, whether we can rank your business, how
+  long it takes and what it costs.
+
+The order is now: hero, who, why, how it ranks, method, offer, fair warning,
+who it's for, FAQ, closing CTA.
+
 ## Recon findings
 
 1. **Two sites, two repos.** `LEUnet` is `www.leeenterprisesunlimited.net`

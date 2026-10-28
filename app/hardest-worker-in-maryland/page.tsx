@@ -7,16 +7,16 @@ import {
   HardestWorkerCta,
   HardestWorkerExpectations,
   HardestWorkerFaq,
+  HardestWorkerForWho,
   HardestWorkerHero,
+  HardestWorkerHow,
   HardestWorkerMethod,
   HardestWorkerOffer,
-  HardestWorkerProof,
   HardestWorkerWho,
   HardestWorkerWhy,
 } from "@/components/hardest-worker/HardestWorkerSections";
 import { StickyCta } from "@/components/hardest-worker/StickyCta";
 import {
-  AFTER_SHOT,
   COPY,
   CTA_HREF,
   LAST_UPDATED,
@@ -32,9 +32,9 @@ import {
 /**
  * /hardest-worker-in-maryland: one page built to rank first on Google for
  * the exact phrase "hardest worker in Maryland", and a fun sales page for
- * doing the same for a business (data/hardest-worker.ts says why and holds
- * every word). Laid out like the .com site's Leonardtown page. Linked from
- * the footer only, never the header nav. The share image is the route's
+ * getting a business ranked higher on Google (data/hardest-worker.ts says
+ * why and holds every word). It talks about itself only. Linked from the
+ * footer only, never the header nav. The share image is the route's
  * opengraph-image.tsx.
  */
 export const metadata: Metadata = {
@@ -80,13 +80,6 @@ const structuredData = {
       about: { "@id": personId },
       isPartOf: { "@type": "WebSite", url: SITE_URL, name: PERSON.org },
       breadcrumb: { "@id": `${PAGE_URL}#breadcrumb` },
-      primaryImageOfPage: {
-        "@type": "ImageObject",
-        url: `${SITE_URL}${AFTER_SHOT.src}`,
-        width: AFTER_SHOT.width,
-        height: AFTER_SHOT.height,
-        caption: AFTER_SHOT.alt,
-      },
     },
     {
       "@type": "Person",
@@ -141,10 +134,11 @@ export default function HardestWorkerPage() {
         <HardestWorkerHero />
         <HardestWorkerWho />
         <HardestWorkerWhy />
-        <HardestWorkerProof />
+        <HardestWorkerHow />
         <HardestWorkerMethod />
         <HardestWorkerOffer />
         <HardestWorkerExpectations />
+        <HardestWorkerForWho />
         <HardestWorkerFaq />
         <HardestWorkerCta />
       </main>
