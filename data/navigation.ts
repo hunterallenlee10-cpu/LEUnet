@@ -2,6 +2,10 @@ import { NavItem } from "@/types";
 import { leeSystemsRoutes } from "@/data/lee-systems";
 import { servicesRoutes } from "@/data/services";
 import {
+  LINK_LABEL as HARDEST_WORKER_LINK_LABEL,
+  PAGE_PATH as HARDEST_WORKER_PATH,
+} from "@/data/hardest-worker-route";
+import {
   BUSINESS_MASTERY_SITE_LIVE,
   BUSINESS_MASTERY_SITE_URL,
 } from "@/config/business-mastery-site.mjs";
@@ -57,6 +61,9 @@ export const footerPages = [
   { label: "Services", href: servicesRoutes.hub },
   { label: "Business Mastery", href: businessMasteryPage },
   { label: "Contact", href: contactPage },
+  // Last and low-key: the one link to the Hardest Worker in Maryland ranking
+  // page (2026-10-28). Never in the header nav.
+  { label: HARDEST_WORKER_LINK_LABEL, href: HARDEST_WORKER_PATH },
 ] as const;
 
 export const sectionIds = {
