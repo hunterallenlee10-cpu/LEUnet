@@ -64,6 +64,8 @@ export const footerPages = [
   // Last and low-key: the one link to the Hardest Worker in Maryland ranking
   // page (2026-10-28). Never in the header nav.
   { label: HARDEST_WORKER_LINK_LABEL, href: HARDEST_WORKER_PATH },
+  // The .org Maryland website design page (2026-11-02). Never in the header nav.
+  { label: "Best website designer in Maryland", href: "https://www.leeenterprisesunlimited.org/best-website-designer-in-maryland" },
 ] as const;
 
 export const sectionIds = {
