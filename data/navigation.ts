@@ -66,6 +66,8 @@ export const footerPages = [
   { label: HARDEST_WORKER_LINK_LABEL, href: HARDEST_WORKER_PATH },
   // The .org Maryland website design page (2026-11-02). Never in the header nav.
   { label: "Best website designer in Maryland", href: "https://www.leeenterprisesunlimited.org/best-website-designer-in-maryland" },
+  // The .com Best Marketer in Maryland page (2026-11-03). Never in the header nav.
+  { label: "Best marketer in Maryland", href: "https://www.leeenterprisesunlimited.com/best-marketer-in-maryland" },
 ] as const;
 
 export const sectionIds = {
