@@ -10,6 +10,7 @@ import { BmJourneyLocked } from "@/components/business-mastery/BmJourneyLocked";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { BookCallBand } from "@/components/ui/BookCallBand";
 import { site } from "@/data/site";
+import { primaryUrl } from "@/data/company";
 import { BM_JOURNEY_LOCKED } from "@/data/business-mastery";
 
 const title = "Lee Enterprises Unlimited | AI Automation & Websites";
@@ -18,12 +19,13 @@ const description =
 
 // The canonical and og:url live here rather than in the root layout, where
 // every page without its own would inherit them and point at the homepage.
+// The canonical names the .com twin (primaryUrl in data/company.ts).
 // The share image is app/opengraph-image.tsx.
 export const metadata: Metadata = {
   title: { absolute: title },
   description,
   alternates: {
-    canonical: "/",
+    canonical: primaryUrl("/"),
   },
   openGraph: {
     type: "website",
