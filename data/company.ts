@@ -9,20 +9,6 @@ import { bmTerms } from "@/data/business-mastery-terms";
  */
 export const SITE_URL = site.url;
 
-/**
- * The .com site's origins. leeenterprisesunlimited.com, .net and .org serve
- * the same shared pages, so those pages name their .com twin as canonical
- * and Google stops picking one for us ("Duplicate, Google chose different
- * canonical than user"). Pages only this site has stay canonical on .net.
- */
-export const PRIMARY_SITE_URL = "https://www.leeenterprisesunlimited.com";
-export const PRIMARY_BUSINESS_MASTERY_URL = "https://mastery.leeenterprisesunlimited.com";
-
-/** A shared page's canonical address on the .com site. */
-export function primaryUrl(path: string): string {
-  return path === "/" ? PRIMARY_SITE_URL : `${PRIMARY_SITE_URL}${path}`;
-}
-
 export const companyInfo = {
   name: site.name,
   logoAlt: "Lee Enterprises Unlimited logo",
